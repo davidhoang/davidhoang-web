@@ -1,0 +1,59 @@
+---
+const navItems = [
+  { path: '/', label: 'Home' },
+  { path: '/blog', label: 'Blog' },
+  { path: '/about', label: 'About' }
+];
+---
+
+<nav>
+  <div class="container nav-container">
+    <a href="/" class="logo">David Hoang</a>
+    <ul class="nav-links">
+      {navItems.map(item => (
+        <li>
+          <a href={item.path}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--background-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: var(--nav-height);
+    z-index: 1000;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .logo {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--primary-color);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--primary-color);
+  }
+
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+</style> 

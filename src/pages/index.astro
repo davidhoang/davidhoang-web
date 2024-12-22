@@ -1,11 +1,47 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MainLayout title="David Hoang">
+  <!-- Hero Section -->
+  <section class="hero-grid">
+    <div class="hero-content">
+      <h1>Hi, I'm David (DH)—designer, investor, and writer building tools that revolutionize the internet.</h1>
+      <p>This is where I share my thoughts and experiences.</p>
+    </div>
+    <div class="hero-image">
+      <img src="/path-to-your-photo.jpg" alt="David Hoang" />
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <h2>Subscribe to my newsletter</h2>
+    <p>Get the latest updates directly in your inbox.</p>
+    <!-- Replace with your newsletter embed code -->
+    <div class="newsletter-embed">
+      [Your newsletter embed code here]
+    </div>
+  </section>
+
+  <!-- Content Grid -->
+  <section class="content-grid">
+    <div class="quick-links">
+      <h2>Quick Links</h2>
+      <nav>
+        <a href="/about">About Me</a>
+        <a href="/speaking">Speaking</a>
+        <a href="/projects">Projects</a>
+        <a href="/writing">Writing</a>
+        <!-- Add more links as needed -->
+      </nav>
+    </div>
+
+    <div class="posts-list">
+      <h2>Latest Posts</h2>
+      
+    </div>
+  </section>
+</MainLayout> 

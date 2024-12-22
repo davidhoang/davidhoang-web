@@ -1,0 +1,49 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+---
+
+<MainLayout title="Blog | David Hoang">
+  <h1>Blog Posts</h1>
+  <ul class="posts-list">
+    {posts.map(post => (
+      <li>
+        <a href={`/blog/${post.slug}`}>
+          <h2>{post.data.title}</h2>
+          <time datetime={post.data.pubDate}>
+            {new Date(post.data.pubDate).toLocaleDateString()}
+          </time>
+          <p>{post.data.description}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</MainLayout>
+
+<style>
+  .posts-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .posts-list li {
+    margin-bottom: 2rem;
+  }
+
+  .posts-list a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .posts-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  time {
+    color: #666;
+    font-size: 0.9rem;
+  }
+</style> 
