@@ -1,35 +1,53 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
+import SidebarBlog from '../../components/SidebarBlog.astro';
 
 const posts = await getCollection('blog');
 ---
 
 <MainLayout title="Blog | David Hoang">
-  <h1>Blog Posts</h1>
-  <ul class="posts-list">
-    {posts.map(post => (
-      <li>
-        <a href={`/blog/${post.slug}`}>
-          <h2>{post.data.title}</h2>
-          <time datetime={post.data.pubDate}>
-            {new Date(post.data.pubDate).toLocaleDateString()}
-          </time>
-          <p>{post.data.description}</p>
-        </a>
-      </li>
-    ))}
-  </ul>
+  <div class="container">
+    <div class="content-grid">
+      <div class="posts-list">
+        <h1>Blog</h1>
+        <ul class="posts-list">
+          {posts.map(post => (
+            <li>
+              <a href={`/blog/${post.slug}`}>
+                <div class="post-row" style="display: flex; justify-content: space-between; align-items: center;">
+                  {post.data.title}
+                  <time datetime={post.data.pubDate}>
+                    {new Date(post.data.pubDate).toLocaleDateString()}
+                  </time>
+                </div>
+              </a>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <SidebarBlog />
+    </div>
+  </div>
+  
+  
 </MainLayout>
 
 <style>
+  .content-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 3rem;
+  }
+
   .posts-list {
     list-style: none;
     padding: 0;
   }
 
   .posts-list li {
-    margin-bottom: 2rem;
+    
   }
 
   .posts-list a {
@@ -45,5 +63,11 @@ const posts = await getCollection('blog');
   time {
     color: #666;
     font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style> 

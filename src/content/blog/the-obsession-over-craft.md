@@ -1,7 +1,7 @@
 ---
-title: "The obsession over craft"
-description: "This is my first blog post on my new Astro blog"
-pubDate: "2024-10-27"
+title: "The Obsession Over Craft"
+pubDate: 2024-03-24
+description: "Your description here"
 ---
 
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-obsession-over-craft)

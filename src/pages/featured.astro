@@ -1,0 +1,126 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Featured">
+  <div class="container">
+    <h1>Featured</h1>
+    A collection of conference talks, podcasts, and interviews. I try limiting to a few a year these days. Please reach out to me or I'm happy to refer other speakers.
+    <div class="featured-grid">
+      <div class="featured-item">
+        <div class="featured-content">
+          <h2>Speaking</h2>
+            <h3>2024</h3>
+            <ul>
+            <li>September - Hatch Conference</li>
+            </ul>
+
+            <h3>2022</h3>
+            <ul>
+            <li>October - Disco Conf by Maze: Prototyping towards outcomes</li>
+            <li>November - Front Utah: Leading and operating design orgs</li>
+            </ul>
+
+            <h3>2021</h3>
+            <ul>
+            <li>April - Figma Config: The Universal Challenges of Every Scaling Design Team</li>
+            <li>March - Design Career Network - From Designer to Manager</li>
+            <li>January - Product Hive: Lessons Learned in Prototyping</li>
+            </ul>
+
+            <h3>2020</h3>
+            <ul>
+            <li>December - Curiousity: The Product Development Superpower (Duke University)</li>
+            <li>November - Principles and Allegories (Hyper Island)</li>
+            </ul>
+
+            <h3>2019</h3>
+            <ul>
+            <li>November - No Code Conference</li>
+            <li>November - Productized in Lisbon, Portugal</li>
+            <li>April – A panel conversation on designing for healthcare</li>
+            </ul>
+
+            <h3>2018</h3>
+            <ul>
+            <li>October – UXDX in Dublin, Ireland</li>
+            <li>September – UX Cambridge in Cambridge, UK – An introduction to human-centred design leadership</li>
+            <li>June – UX Scotland in Edinburgh, Scotland – Play the part: an introduction to technology experience prototyping</li>
+            <li>June – UX Scotland in Edinburgh, Scotland – Human-Centered Design Leadership</li>
+            <li>March - try!Swift, Tokyo, Japan</li>
+            <li>February – Seattle Xcoders in Seattle, Washington</li>
+            </ul>
+
+            <h3>2017</h3>
+            <ul>
+            <li>September – UX Cambridge</li>
+            <li>September – SwiftConf in Cologne, Germany</li>
+            <li>June - Cocoa Conf Next Door in San Jose, California</li>
+            <li>March – Design for Healthcare: Designing For Doctors</li>
+            <li>March – Seattle Xcoders: Build Like a Kid</li>
+            </ul>
+
+            <h3>2016</h3>
+            <ul>
+            <li>September 29 – VanCocoa</li>
+            <li>September 14 to 16 – UX Cambridge</li>
+            <li>September 9 to 10 – CocoaConf Washington DC</li>
+            <li>May 6 to 7 – CocoaConf in Seattle, WA</li>
+            <li>April 14 – Seattle Xcoders: Me too! Designers working in Xcode</li>
+            <li>April 6 – Tradecraft: Fast With Intent—Learning Through Rapid Prototyping</li>
+            </ul>
+
+            <h3>2015</h3>
+            <ul>
+            <li>Seattle Prototyping for Designers – July 15</li>
+            <li>CocoaConf 2015 in Portland, Oregon – May 8 to 9: Designing For WATCH</li>
+            <li>Seattle Xcoders in Seattle, Washington – January 8: Designing for WATCH before it ships</li>
+            </ul>
+
+            <h3>2013</h3>
+            <ul>
+            <li>Seattle Ignite: Coast-To-Coast: How to live in two cities</li>
+            </ul>
+        </div>
+      </div>
+
+      <div class="featured-item">
+        <div class="featured-content">
+          <h2>Media and publications</h2>
+          <ul>
+            <li><a href="https://www.codenewbie.org/podcast/how-no-code-tools-can-help-your-coding" target="_blank">Code Newbie: How no-code tools can help your coding</a></li>
+            <li><a href="https://webflow.com/blog/from-no-code-to-know-code" target="_blank">From no-code to know code</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>  
+</MainLayout>
+
+<style>
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 0rem;
+    margin: 1rem 0rem;
+  }
+
+  .featured-item {
+    overflow: hidden;
+  }
+
+  .featured-content {
+    
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .read-more:hover {
+    text-decoration: underline;
+  }
+</style> 

@@ -1,48 +1,64 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
-
-
 ---
 
 <MainLayout title="David Hoang">
   <!-- Hero Section -->
   <section class="hero-grid">
     <div class="hero-content">
-      <h1>Hi, I'm David (DH)—designer, investor, and writer building tools that revolutionize the internet.</h1>
-      <p>This is where I share my thoughts and experiences.</p>
+      <h1>Investing and building tools that revolutionize the internet.</h1>
+      <p>I'm David (DH). I'm an investor, advisor, and designer.</p>
+      <p>Getting started:</p>
+      <ul>
+        <li>Subscribe to <a href="https://www.proofofconcept.pub" target="_blank">Proof of Concept</a>, my Newsletter</li>
+        <li>Buy the zine, <a href="#">Proof of Concept: The 000 Series</a></li>
+        <li><a href="https://github.com/davidhoang">Follow me on GitHub</a></li>
+        <li><a href="#">Watch my talk from Config 2021</a></li>
+        <li><a href="#">Listen to my interview on Dive Club</a></li>
+      </ul>
     </div>
     <div class="hero-image">
-      <img src="/images/img-dh.png" alt="Profile" width="500" />
+      <img src="/images/img-dh.png" alt="Photo of David" width="500" />
     </div>
   </section>
 
   <!-- Newsletter Section -->
   <section class="newsletter-section">
     <h2>Subscribe to my newsletter</h2>
-    <p>Get the latest updates directly in your inbox.</p>
-    <!-- Replace with your newsletter embed code -->
     <div class="newsletter-embed">
-      [Your newsletter embed code here]
+      <iframe src="https://www.proofofconcept.pub/embed" width="100%" height="150" frameborder="0" scrolling="no"></iframe>
     </div>
   </section>
 
-  <!-- Content Grid -->
-  <section class="content-grid">
-    <div class="quick-links">
-      <h2>Quick Links</h2>
-      <nav>
-        <a href="/about">About Me</a>
-        <a href="/speaking">Speaking</a>
-        <a href="/projects">Projects</a>
-        <a href="/writing">Writing</a>
-        <!-- Add more links as needed -->
-      </nav>
-    </div>
+  <style>
+    a {
+      text-decoration: none;
+      color: #333;
+      position: relative;
+      transition: color 0.3s ease;
+    }
 
-    <div class="posts-list">
-      <h2>Latest Posts</h2>
-      
-    </div>
-  </section>
-</MainLayout> 
+    a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #333;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+
+    a:hover {
+      color: #666;
+    }
+
+    a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+  </style>
+</MainLayout>
