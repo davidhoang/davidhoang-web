@@ -1,0 +1,69 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import SidebarWriting from '../../components/SidebarWriting.astro';
+
+const posts = await getCollection('writing');
+console.log('Posts:', posts);
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<MainLayout title="Writing | David Hoang">
+  <div class="container">
+    <div class="hero-title">
+      <h1>Writing</h1>
+    </div>
+    <div class="content-grid">
+      <div class="posts-list">
+        <ul class="posts-list">
+          {posts.map(post => (
+            <li>
+              <a href={`/writing/${post.slug}`}>
+                <div class="post-row" style="display: flex; justify-content: space-between; align-items: center;">
+                  {post.data.title}
+                  <time datetime={post.data.pubDate}>
+                    {new Date(post.data.pubDate).toLocaleDateString()}
+                  </time>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <SidebarWriting />
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .content-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 3rem;
+  }
+
+  .posts-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .posts-list a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .posts-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  time {
+    color: #444;
+  }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style> 
