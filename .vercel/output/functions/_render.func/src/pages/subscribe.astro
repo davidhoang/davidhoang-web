@@ -1,0 +1,76 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Subscribe">
+  
+  <div class="container">
+    <section class="hero-title">
+    <h1>Proof of Concept</h1>
+  </section>
+    <section>
+        <p>Proof of Concept is digital newsletter publication that explores experimentation and maximizing your creative output. You'll receive a free issue every Sunday. I appreciate your readership!<p>
+    </section
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <h2>Subscribe to my newsletter</h2>
+        <div class="newsletter-embed">
+        <iframe src="https://www.proofofconcept.pub/embed" width="100%" height="150" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </section>
+  </div>
+    
+</MainLayout>
+
+<style>
+  .subscribe-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .subscribe-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .subscribe-form {
+    margin-top: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .subscribe-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .subscribe-button:hover {
+    opacity: 0.9;
+  }
+</style> 
