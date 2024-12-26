@@ -4,6 +4,8 @@ import { getCollection } from 'astro:content';
 import SidebarWriting from '../../components/SidebarWriting.astro';
 
 const posts = await getCollection('writing');
+console.log('Posts:', posts);
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <MainLayout title="Writing | David Hoang">

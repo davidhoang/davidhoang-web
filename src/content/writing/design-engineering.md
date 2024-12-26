@@ -2,7 +2,7 @@
 title: "Design Engineering"
 pubDate: 2024-03-21
 description: "Thoughts on design engineering"
-image: "images/blog/2024-03-design-engineering.jpeg"
+image: "images/writing/2024-03-design-engineering.jpeg"
 ---
 In software, engineering and design are infantile in existence compared to other sectors: mechanical, electrical, aerospace, and environmental engineering. Engineering encompasses a broad range of disciplines and involves critical thinking, creativity, problem-solving, and collaboration. Many engineering disciplines have a role called a Design Engineer—a title that has been more popular in software in recent years. Design Engineers tend to work on products and systems that involve adapting and using complex scientific and mathematical techniques. In essence, they work on high technical challenges that requires strong design consideration. Today, we’re seeing Design Engineers become a popular role in software, and this isn’t the first time new roles/practices emerged.
 
@@ -10,7 +10,7 @@ In the early 2000s, the role of a Data Scientist became popular as data became i
 
 Data Science was transformative in tech in the 2010s. In the age of LLMs, multi-device interfaces, and everything seemingly being programming, Design Engineering will be the transformative practice in the 2020s.
 
-![Image of design engineering](/images/blog/2024-03-design-engineering.jpeg)
+![Image of design engineering](/images/writing/2024-03-design-engineering.jpeg)
 
 Design Engineering is not simply a re-brand of product design. Whether we like it or not, tech has a tendency to consolidate roles. Interaction Designers, UX Designers, UI Designers, and Visual Designers became Product Designers. Graphic Designers, Illustrators, Communications Designers, and Marketing Designers became Brand Designers.
 
@@ -19,7 +19,7 @@ To say Design Engineering is combining product design and front-end development 
 ## Role, responsibility, and impact
 There are three core areas Design Engineering is the top candidate for leading: product architecture, design infrastructure, and 0-1 R&D. These three areas do not encapsulate everything a Design Engineer might do, and the hope is to provide three concrete examples.
 
-###Product architecture
+### Product architecture
 It makes sense for a Design Engineer, a role which balances technical systems and end user experiences, to be close to product architecture. In products that are authoring tools (Figma for design, Replit for code, Webflow for websites) it's important to think beyond isolated features but the foundational capabilities of what your product can do. Design Engineers have the right skills to explore aspects such as information architecture of a product and also understand the technical logic of how such things function.
 
 ### Design infrastructure

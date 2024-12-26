@@ -9,7 +9,7 @@ const navItems = [
 
 <nav>
   <div class="container nav-container">
-    <a href="/" class="logo">David Hoang</a>
+    <a href="/" class="logo">DH</a>
     <ul class="nav-links">
       {navItems.map(item => (
         <li>
@@ -24,20 +24,27 @@ const navItems = [
 
   nav {
     position: fixed;
-    bottom: 16px;
-    right: 16px;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
     background: var(--background-color);
-    box-shadow: 0 -4px 6px rgba(0,0,0,0.05), 0 -1px 3px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.08);
     height: var(--nav-height);
     z-index: 1000;
-    background: #f7f7f7;
+    background: #1e1e1e;
     border-radius: 64px;
     max-width: 600px;
     width: auto;
+    padding: 0px 8px;
+    border: 1px solid #000;
+    font-size: 1rem;
+    opacity: 0.9;
+    color: #fff;
   }
 
   nav ul li {
     margin: 0;
+    font-size: 0.8rem;
   }
 
   .nav-container {
@@ -49,15 +56,16 @@ const navItems = [
   }
 
   .logo {
-    font-weight: bold;
+    font-weight: 800;
     text-decoration: none;
-    color: var(--primary-color);
-    margin-right: 16px;
+    color: #fff;
+    margin-right: 24px;
+    font-size: 0.9rem;
   }
 
   .nav-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.0rem;
     list-style: none;
     align-items: center;
     margin: 0;
@@ -68,7 +76,7 @@ const navItems = [
 
   .nav-links a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: #fff;
     text-decoration: none;
     border-bottom: none;
     line-height: 1;
