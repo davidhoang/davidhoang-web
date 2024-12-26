@@ -15,6 +15,7 @@ export default defineConfig({
     },
     includeFiles: ['**/*'],
     excludeFiles: [],
-    debug: true
+    debug: true,
+    forceBuild: true
   })
 }); 
