@@ -1,5 +1,5 @@
 ---
-title: "The Obsession Over Craft"
+title: "The obsession over craft"
 pubDate: 2024-03-24
 description: "Your description here"
 ---

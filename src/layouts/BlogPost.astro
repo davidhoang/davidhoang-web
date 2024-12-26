@@ -1,6 +1,7 @@
 ---
 import MainLayout from './MainLayout.astro';
 import { Image } from 'astro:assets';
+import SidebarWriting from '../components/SidebarWriting.astro';
 
 const { data, render } = Astro.props;
 const { title, description, pubDate } = data;
@@ -9,18 +10,29 @@ const { title, description, pubDate } = data;
 <MainLayout title={title}>
   <article class="blog-post">
     <div class="container">
-      <h1>{title}</h1>
-      <time datetime={pubDate}>
-        {new Date(pubDate).toLocaleDateString()}
-      </time>
-      <div class="prose-content">
-        <slot />
+      <div class="content-grid">
+        <div class="main-content">
+          <h1>{title}</h1>
+          <time datetime={pubDate}>
+            {new Date(pubDate).toLocaleDateString()}
+          </time>
+          <div class="prose-content">
+            <slot />
+          </div>
+        </div>
+        <SidebarWriting />
       </div>
     </div>
   </article>
 </MainLayout>
 
 <style>
+  .content-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 3rem;
+  }
+
   .post-image {
     margin: 2rem 0;
   }
@@ -36,5 +48,11 @@ const { title, description, pubDate } = data;
     font-size: 0.9rem;
     display: block;
     margin: 1rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
