@@ -1,7 +1,7 @@
-import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, b as addAttribute } from '../chunks/astro/server_I8Ip0lRh.mjs';
+import { c as createComponent, r as renderTemplate, a as renderComponent, m as maybeRenderHead, b as addAttribute } from '../chunks/astro/server_D6iAjd13.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_C6V99_L1.mjs';
-import { g as getCollection, $ as $$SidebarWriting } from '../chunks/SidebarWriting_nPTbrexD.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_BEGbyjIa.mjs';
+import { g as getCollection, $ as $$SidebarWriting } from '../chunks/SidebarWriting_Dg2p-G6j.mjs';
 /* empty css                                 */
 export { renderers } from '../renderers.mjs';
 
