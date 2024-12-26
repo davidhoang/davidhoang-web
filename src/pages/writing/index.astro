@@ -1,22 +1,22 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
-import SidebarBlog from '../../components/SidebarBlog.astro';
+import SidebarWriting from '../../components/SidebarWriting.astro';
 
-const posts = await getCollection('blog');
+const posts = await getCollection('writing');
 ---
 
-<MainLayout title="Blog | David Hoang">
+<MainLayout title="Writing | David Hoang">
   <div class="container">
     <div class="hero-title">
-      <h1>Blog</h1>
+      <h1>Writing</h1>
     </div>
     <div class="content-grid">
       <div class="posts-list">
         <ul class="posts-list">
           {posts.map(post => (
             <li>
-              <a href={`/blog/${post.slug}`}>
+              <a href={`/writing/${post.slug}`}>
                 <div class="post-row" style="display: flex; justify-content: space-between; align-items: center;">
                   {post.data.title}
                   <time datetime={post.data.pubDate}>
@@ -24,15 +24,13 @@ const posts = await getCollection('blog');
                   </time>
                 </div>
               </a>
-              </a>
             </li>
           ))}
         </ul>
       </div>
-      <SidebarBlog />
+      <SidebarWriting />
     </div>
   </div>
-  
 </MainLayout>
 
 <style>
@@ -45,10 +43,6 @@ const posts = await getCollection('blog');
   .posts-list {
     list-style: none;
     padding: 0;
-  }
-
-  .posts-list li {
-    
   }
 
   .posts-list a {

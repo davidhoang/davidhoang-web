@@ -1,7 +1,7 @@
 ---
 const navItems = [
   { path: '/about', label: 'About' },
-  { path: '/blog', label: 'Blog' },
+  { path: '/writing', label: 'Writing' },
   { path: '/featured', label: 'Featured' },
   { path: '/subscribe', label: 'Subscribe' }
 ];
@@ -21,13 +21,23 @@ const navItems = [
 </nav>
 
 <style>
+
   nav {
-    position: sticky;
-    top: 0;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
     background: var(--background-color);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 -4px 6px rgba(0,0,0,0.05), 0 -1px 3px rgba(0,0,0,0.08);
     height: var(--nav-height);
     z-index: 1000;
+    background: #f7f7f7;
+    border-radius: 64px;
+    max-width: 600px;
+    width: auto;
+  }
+
+  nav ul li {
+    margin: 0;
   }
 
   .nav-container {
@@ -35,26 +45,36 @@ const navItems = [
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    padding: 0 16px;
   }
 
   .logo {
     font-weight: bold;
     text-decoration: none;
     color: var(--primary-color);
+    margin-right: 16px;
   }
 
   .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    weight: 500;
   }
 
   .nav-links a {
     text-decoration: none;
     color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: none;
+    line-height: 1;
   }
 
   .nav-links a:hover {
     text-decoration: underline;
   }
-</style> 
+</style>
