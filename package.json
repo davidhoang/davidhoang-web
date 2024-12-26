@@ -1,11 +1,12 @@
 {
   "name": "davidhoang-dot-com",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "dev": "npx astro dev",
+    "start": "npx astro dev",
+    "build": "npx astro build",
+    "preview": "npx astro preview",
     "clean": "rm -rf dist .vercel node_modules",
     "rebuild": "npm run clean && npm install && npm run build"
   },
