@@ -1,18 +1,7 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro';
+import vercel from '@astrojs/vercel/static';
 
 export default defineConfig({
-  site: 'https://davidhoang.com',
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp'
-    }
-  },
-  vite: {
-    resolve: {
-      alias: {
-        '@': '/src',
-        '@assets': '/src/assets'
-      }
-    }
-  }
+  output: 'static',
+  adapter: vercel(),
 }); 
