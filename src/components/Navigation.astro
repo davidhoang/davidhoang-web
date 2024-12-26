@@ -21,7 +21,6 @@ const navItems = [
 </nav>
 
 <style>
-
   nav {
     position: fixed;
     top: 8px;
@@ -83,5 +82,29 @@ const navItems = [
 
   .nav-links a:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    nav {
+      top: 0;
+      left: 0;
+      transform: none;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0;
+      padding: 0 1rem;
+      margin: 0;
+      opacity: 1;
+    }
+
+    .logo,
+    .nav-links a {
+      font-size: 1.0rem;
+      gap: 1.0rem;
+    }
+
+    .nav-container {
+      padding: 0 8px;
+    }
   }
 </style>
