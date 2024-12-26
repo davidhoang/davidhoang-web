@@ -4,16 +4,26 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
+  return posts.map((post) => {
+    console.log('Post in getStaticPaths:', post); // Debug log
+    return {
+      params: { slug: post.slug },
+      props: { post }
+    };
+  });
 }
 
-const post = Astro.props;
+// Debug log
+console.log('Astro.props:', Astro.props);
+
+const { post } = Astro.props;
+if (!post) {
+  throw new Error('Post is undefined');
+}
+
 const { Content } = await post.render();
 ---
 
-<BlogPost {...post}>
+<BlogPost data={post.data}>
   <Content />
 </BlogPost> 
