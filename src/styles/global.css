@@ -26,11 +26,26 @@
 
 * {
   font-family: var(--font-primary);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 body {
   line-height: 1.6;
   color: var(--primary-color);
+  width: 100vw;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 p {
@@ -88,9 +103,9 @@ a:hover::after {
 /*Layouts*/
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
 }
 
 .layout-blog {
@@ -98,6 +113,7 @@ a:hover::after {
   flex-direction: column;
   align-items: left;
   background-color: red;
+  width: 100%;
 }
 
 .layout-blog ul{
@@ -107,6 +123,7 @@ a:hover::after {
 main {
   min-height: calc(100vh - var(--nav-height) - 100px);
   padding: 2rem 0;
+  width: 100%;
 }
 
 .hero-content ul {
@@ -118,6 +135,7 @@ main {
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   margin: 4rem 0rem 0rem 0rem;
+  width: 100%;
 }
 
 .newsletter-section {
@@ -127,6 +145,7 @@ main {
   margin: 2rem 0;
   border: 2px solid #f7f7f7;
   text-align: center;
+  width: 100%;
 }
 
 .hero {
@@ -136,6 +155,7 @@ main {
   font-size: 100px;
   text-align: center;;
   border-radius: 12px;
+  width: 100%;
 }
 
 .content-grid {
@@ -143,6 +163,7 @@ main {
   grid-template-columns: 3fr 1fr;
   gap: 3rem;
   margin: 4rem 0;
+  width: 100%;
 }
 
 .quick-links {
@@ -163,10 +184,76 @@ main {
   width: 240px;
 }
 
+@media (max-width: 480px) {
+  .container {
+    padding: 1.0rem;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  p, li {
+    font-size: 1.2rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0 0 0;
+  }
+
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero-image img {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .newsletter-section {
+    padding: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  .sidebar-blog {
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-grid,
   .content-grid {
     grid-template-columns: 1fr;
+  }
+  .footer-section-email {
+    font-size: clamp(0.875rem, 2vw, 5rem);
+  }
+  
+  .container,
+  .content-grid,
+  .hero-grid,
+  .newsletter-section,
+  .hero,
+  .sidebar-blog {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sidebar-blog {
+    margin-top: 2rem;
   }
 } 
 
@@ -203,29 +290,12 @@ h6 {
 }
 
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2.5rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.75rem;
-  }
-
-  h4 {
-    font-size: 1.5rem;
-  }
-
-  h5 {
-    font-size: 1.25rem;
-  }
-
-  h6 {
-    font-size: 1.1rem;
-  }
+  h1 {font-size: 2.5rem;}
+  h2 {font-size: 2rem;}
+  h3 {font-size: 1.75rem;}
+  h4 {font-size: 1.5rem;}
+  h5 {font-size: 1.25rem;}
+  h6 {font-size: 1.1rem;}
 } 
 
 blockquote {
@@ -273,7 +343,7 @@ blockquote cite {
 .footer-section-email {
   padding: 24px 0px;
   margin-bottom: 24px;
-  font-size: 3.0rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   font-weight: 600;
 }
 
@@ -284,6 +354,7 @@ footer {
   padding: 2rem 0 4rem 0;
   font-size: 1.0rem;
   min-height: 100px;
+  width: 100%;
 }
 
 .hero-title {
@@ -294,11 +365,21 @@ footer {
   align-items: center;
   border: 2px solid #f7f7f7;
   margin-bottom: 2rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .hero-title h1 {
-  font-size: 8rem;
+  font-size: clamp(4rem, 8vw, 8rem);
+  @media (max-width: 768px) {
+    font-size: clamp(3rem, 6vw, 6rem);
+  }
+  @media (max-width: 480px) {
+    font-size: clamp(2rem, 4vw, 4rem);
+  }
   font-weight: 800;
+  width: 100%;
+  text-align: center;
 }
 
 .hero-content h1 {
@@ -332,4 +413,43 @@ footer * {  /* This ensures all elements within footer use Geist */
 .footer-section-copyright {
   font-size: 0.8rem;
   margin-top: 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-col h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col li {
+  margin-bottom: 0.5rem;
+  font-size: 1.0rem;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  footer,
+  .footer-section-email,
+  .footer-content,
+  .footer-grid,
+  .footer-col {
+    width: 100%;
+    max-width: 100%;
+  }
 }
