@@ -16,8 +16,42 @@ const currentDate = new Date().toLocaleDateString('en-US', {
     </div>
     <div class="now-content">
       <h1>Now</h1>
-      <p>Last updated: Friday, August 1, 2024. Learn more about <a href="https://nownownow.com/" target="_blank">Now pages</a></p>
-      <div class="now-section">Add an image here</div>
+      <p>Last updated: Thursday, December 26, 2024. Learn more about <a href="https://nownownow.com/" target="_blank">Now pages</a></p>
+      <div class="now-section">
+        <div class="now-grid">
+          <div class="now-grid-item">
+            <img src="/images/img-david-sydney.jpeg" alt="Grid item 1" />
+          </div>
+          <div class="now-grid-item">
+            <img src="/images/img-david-now.jpeg" alt="Grid item 2" />
+          </div>
+          <div class="now-grid-item">
+            <img src="/images/img-david-hawaii.jpeg" alt="Grid item 3" />
+          </div>
+        </div>
+
+        <style>
+          .now-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+          }
+
+          .now-grid-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+          }
+
+          @media (max-width: 768px) {
+            .now-grid {
+              grid-template-columns: 1fr;
+              gap: 1rem;
+            }
+          }
+        </style>
+      </div>
       <div class="now-section">
         <h2>What I'm currently up to</h2>
         <ul>
