@@ -3,6 +3,8 @@ title: "Operator Mode"
 pubDate: 2024-09-15
 description: "Doing work as a non-founder and non professional management class"
 ---
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/operator-mode?utm_source=publication-search)
+
 I love Paul Graham’s writing. Hackers and Painters is one of my favorite books of all time. Graham’s thoughts on art and science resonates with me as a designer who studied fine art. The internet broke when the long-time Silicon Valley investor wrote about Founder Mode. There’s been a shift in tech’s factory reset moment during the past few years. The professional management class is getting slashed with the reduction in workforce and the advancement of AI capabilities. Graham’s essay references a talk Airbnb CEO Brian Chesky about Founder Mode vs. Manager Mode.
 
 As always, the internet had a lot of opinions that obviously have to be binary and polarizing towards one direction; classic Silicon Valley hopping on bandwagons. My critique is not Graham’s writing. In fact, he’s right. What’s wild to me is management somehow got conflated to professional management consulting. More accurately, it’s BCG Mode, not Manager Mode. Instead of picking sides, I’m going to propose a different mode.
@@ -36,7 +38,7 @@ When good operators join companies, they transform the culture for the positive.
 
 My belief is this doesn't mean to blindly execute without question. In fact, the best mission-driven operators will challenge founders on the hardest parts and hold them accountable.
 
-##Leading while in Operator Mode
+## Leading while in Operator Mode
 The goal of an experienced operator is to not be a professional manager. The purpose is to help the founder achieve the vision, hopefully with a desired outcome for everyone at the company. It's difficult to achieve both, but that should be the motivation. Let me share three areas I focus on to help founders and why I think they want me in the first place.
 
 ### Filling founder gaps
