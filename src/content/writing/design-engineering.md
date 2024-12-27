@@ -27,13 +27,13 @@ Design Engineers are naturals at design infrastructure—the underlying tools an
 
 In many cases, Design Engineers are brought in to prototype experiences that otherwise would be nearly impossible in static mockups in Figma. When you’re dealing with an interaction with a Language Server Protocol (LSP) or layout engine for a site builder, you have to build the prototype in code.
 
-0-1 R&D
+### 0-1 R&D
 Exploring new product directions can be a need for an early stage company needing to pivot in direction or an established company looking for new growth opportunities. These initiatives are usually not funded due to the perceived risk of pulling people off teams to do this unproven work. Due to the multi-disciplinary skillsets of Design Engineers, they're able to explore this space much quicker and more effective than other teams.
 
 ## Org structure
 My philosophy on org design is optimize for the desired results, not the existing org chart. I’ve been at places where Design Engineers reported to me (Design) and others where they report to Engineering. For the sake of Design Engineers, its important to have a clear reporting line. Creative Technologists (made popular at Airbnb and Uber) in the 2010s have never recovered from the trauma of having unclear expectations conflicting priorities of multiple orgs.
 
-##Design Engineering will revolutionize the 2020s
+## Design Engineering will revolutionize the 2020s
 As we navigate what seems to be a tech paradigm shift with LLMs, AI applications, and multi-device experiences, Design Engineers will be this decade’s Data Scientist. Expect talent to be rare and continued definition of the impact of the role.
 
 My hope is not for designers to simply change their title to Design Engineer on LinkedIn. It’s uncertain if every company needs a Design Engineer. However, I am confident authoring environments or work with complex interactions/ data need Design Engineers. Snap, Retool, Replit, Uber, Square, Open AI, and The Browser Company are a few examples of companies that have Design Engineers on their software teams.

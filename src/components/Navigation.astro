@@ -21,25 +21,24 @@ const navItems = [
 </nav>
 
 <style>
-
   nav {
     position: fixed;
     top: 8px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--background-color);
     box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.08);
     height: var(--nav-height);
     z-index: 1000;
-    background: #1e1e1e;
+    background: var(--color-nav-bg, #1e1e1e);
     border-radius: 64px;
     max-width: 600px;
     width: auto;
     padding: 0px 8px;
-    border: 1px solid #000;
+    border: 1px solid var(--color-border);
     font-size: 1rem;
     opacity: 0.9;
-    color: #fff;
+    color: var(--color-nav-text, #fff);
+    transition: all 0.3s ease;
   }
 
   nav ul li {
@@ -53,14 +52,19 @@ const navItems = [
     align-items: center;
     height: 100%;
     padding: 0 16px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    cursor: pointer;
   }
 
   .logo {
     font-weight: 800;
     text-decoration: none;
-    color: #fff;
+    color: var(--color-nav-text, #fff);
     margin-right: 24px;
     font-size: 0.9rem;
+    transition: color 0.3s ease;
   }
 
   .nav-links {
@@ -75,13 +79,40 @@ const navItems = [
 
   .nav-links a {
     text-decoration: none;
-    color: #fff;
+    color: var(--color-nav-text, #fff);
     text-decoration: none;
     border-bottom: none;
     line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
   }
 
   .nav-links a:hover {
-    text-decoration: underline;
+    opacity: 1;
+  }
+
+  @media (max-width: 480px) {
+    nav {
+      top: 0;
+      left: 0;
+      transform: none;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0;
+      padding: 0 1rem;
+      margin: 0;
+      opacity: 1;
+      background: var(--color-nav-bg, #1e1e1e);
+    }
+
+    .logo,
+    .nav-links a {
+      font-size: 1.0rem;
+      gap: 1.0rem;
+    }
+
+    .nav-container {
+      padding: 0 8px;
+    }
   }
 </style>

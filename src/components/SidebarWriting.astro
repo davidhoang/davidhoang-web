@@ -7,7 +7,7 @@ const currentYear = new Date().getFullYear();
 
 <aside class="sidebar">
   <div class="sidebar-section">
-    <img src="/images/img-dh.png" alt="Photo of David" width=100% />
+    <div class="theme-image" aria-label="Photo of David"></div>
   </div>  
   <div class="sidebar-section">
     <h2>About</h2>
@@ -36,7 +36,7 @@ const currentYear = new Date().getFullYear();
     top: calc(var(--nav-height) + 2rem);
     padding: 1.5rem;
     width: 250px;
-    background-color: #f7f7f7;
+    background-color: var(--color-sidebar-bg);
     border-radius: 8px;
     height: fit-content;
   }
@@ -48,11 +48,12 @@ const currentYear = new Date().getFullYear();
   .sidebar-section h2 {
     font-size: 1.2rem;
     margin-bottom: 0.75rem;
+    color: var(--color-text);
   }
 
   .sidebar-section p {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--color-muted);
     margin-bottom: 1rem;
   }
 
@@ -70,9 +71,10 @@ const currentYear = new Date().getFullYear();
 
   .category-list a,
   .social-links a {
-    color: var(--primary-color);
+    color: var(--color-link);
     text-decoration: none;
     font-size: 0.9rem;
+    border-bottom: none;
   }
 
   .category-list a:hover,
@@ -83,12 +85,13 @@ const currentYear = new Date().getFullYear();
   .sidebar-button {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--color-text);
+    color: var(--color-bg);
     text-decoration: none;
     border-radius: 4px;
     font-size: 0.9rem;
     transition: opacity 0.2s;
+    border-bottom: none;
   }
 
   .sidebar-button:hover {
@@ -100,5 +103,27 @@ const currentYear = new Date().getFullYear();
       position: static;
       margin-top: 2rem;
     }
+  }
+
+  @media (max-width: 480px) {
+    .sidebar {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+  }
+
+  .theme-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background-image: url('/images/img-dh.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    transition: background-image 0.3s ease;
+  }
+
+  :global([data-theme="dark"]) .theme-image {
+    background-image: url('/images/img-dh-dark.png');
   }
 </style> 
