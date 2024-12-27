@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -58,6 +59,7 @@ const canonicalURL = Astro.site
       type="font/woff2"
       crossorigin="anonymous"
     />
+    <ViewTransitions />
   </head>
   <body>
     <Navigation />
@@ -66,5 +68,12 @@ const canonicalURL = Astro.site
     </main>
     <Footer />
     <ThemeToggle />
+    <script>
+      // Persist theme during view transitions
+      document.addEventListener('astro:after-swap', () => {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      });
+    </script>
   </body>
 </html> 

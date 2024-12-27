@@ -38,7 +38,10 @@ const navItems = [
     font-size: 1rem;
     opacity: 0.9;
     color: var(--color-nav-text, #fff);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s ease;
   }
 
   nav ul li {
@@ -64,7 +67,12 @@ const navItems = [
     color: var(--color-nav-text, #fff);
     margin-right: 24px;
     font-size: 0.9rem;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+  }
+
+  .logo:hover {
+    opacity: 0.8;
   }
 
   .nav-links {
@@ -80,15 +88,23 @@ const navItems = [
   .nav-links a {
     text-decoration: none;
     color: var(--color-nav-text, #fff);
-    text-decoration: none;
     border-bottom: none;
     line-height: 1;
     opacity: 0.8;
-    transition: opacity 0.3s ease;
+    transition: color 0.3s ease,
+                opacity 0.3s ease,
+                transform 0.3s ease;
   }
 
   .nav-links a:hover {
     opacity: 1;
+    transform: translateY(-1px);
+  }
+
+  /* Add hover effect to the entire nav */
+  nav:hover {
+    transform: translateX(-50%) translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
   }
 
   @media (max-width: 480px) {

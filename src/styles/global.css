@@ -80,7 +80,9 @@ button,
 .footer-links a,
 blockquote,
 .theme-toggle button,
-.hero-title {
+.hero-title,
+nav,
+.nav-container {
   transition: all 0.3s ease;
 }
 
@@ -111,6 +113,17 @@ svg {
               box-shadow 0.3s ease;
 }
 
+/* Optional: Add a transition class for nav elements */
+.theme-transition nav,
+.theme-transition .nav-links a,
+.theme-transition .logo {
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease,
+              transform 0.3s ease;
+}
+
 p {
   margin-bottom: 16px;
   font-size: 1.1rem;
@@ -125,7 +138,7 @@ ul {
 li {
   margin-bottom: 8px;
   line-height: 1.5;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 a {
@@ -207,7 +220,7 @@ main {
   grid-template-columns: 1fr;
   padding: 1rem;
   margin: 2rem 0;
-  border: 2px solid #f7f7f7;
+  border: 2px solid var(--color-border);
   text-align: center;
   width: 100%;
 }
@@ -427,7 +440,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #f7f7f7;
+  border: 2px solid var(--color-border);
   margin-bottom: 2rem;
   width: 100%;
   max-width: 100%;
@@ -475,8 +488,9 @@ footer * {  /* This ensures all elements within footer use Geist */
 }
 
 .footer-section-copyright {
-  font-size: 0.8rem;
   margin-top: 2rem;
+  font-size: 1.0rem;
+  font-weight: 500;
 }
 
 .footer-grid {
