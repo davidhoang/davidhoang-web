@@ -557,3 +557,23 @@ time {
 .sidebar a::after {
   display: none;
 }
+
+/* Add after your other text element styles */
+strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] strong {
+  color: var(--color-text);
+  font-weight: 700;  /* Slightly bolder in dark mode for better visibility */
+}
+
+em {
+  font-style: italic;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] em {
+  color: var(--color-text);
+}
