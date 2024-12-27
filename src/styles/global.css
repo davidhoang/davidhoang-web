@@ -1,11 +1,32 @@
 @import url('https://fonts.vercel.com/css2?family=Geist:wght@100..900&display=swap');
 
 :root {
-  --primary-color: #333;
-  --background-color: #fff;
+  /* Light mode colors */
+  --color-text: #333;
+  --color-bg: #fff;
+  --color-link: #333;
+  --color-link-hover: #666;
+  --color-border: #eee;
+  --color-muted: #666;
+  --color-sidebar-bg: #f7f7f7;
+  --color-nav-bg: #1e1e1e;
+  --color-nav-text: #fff;
   --nav-height: 40px;
   --font-primary: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   --font-mono: 'Geist Mono', monospace;
+}
+
+/* Dark mode colors */
+[data-theme="dark"] {
+  --color-text: #e1e1e1;
+  --color-bg: #111;
+  --color-link: #8bb8ff;
+  --color-link-hover: #afd0ff;
+  --color-border: #333;
+  --color-muted: #888;
+  --color-sidebar-bg: #1a1a1a;
+  --color-nav-bg: #1e1e1e;
+  --color-nav-text: #fff;
 }
 
 @font-face {
@@ -41,16 +62,59 @@ html, body {
 
 body {
   line-height: 1.6;
-  color: var(--primary-color);
+  color: var(--color-text);
+  background-color: var(--color-bg);
   width: 100vw;
   min-width: 100%;
   display: flex;
   flex-direction: column;
+  transition: color 0.6s ease, background-color 0.6s ease;
+}
+
+/* Add smooth transitions to elements that change with theme */
+body,
+a,
+button,
+.sidebar,
+.nav-links a,
+.footer-links a,
+blockquote,
+.theme-toggle button,
+.hero-title {
+  transition: all 0.3s ease;
+}
+
+/* Ensure SVG icons also transition smoothly */
+svg {
+  transition: color 0.3s ease, stroke 0.3s ease;
+}
+
+/* Add transition to the theme toggle button */
+.theme-toggle button {
+  background: var(--color-sidebar-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s ease,
+              background-color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Optional: Add a transition class for elements that need it */
+.theme-transition {
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
 p {
   margin-bottom: 16px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  color: var(--color-text);
 }
 
 ul {
@@ -65,21 +129,21 @@ li {
 }
 
 a {
-  color: #333;
+  color: var(--color-link);
   text-decoration: none;
   position: relative;
   transition: color 0.3s ease;
-  border-bottom: 1px dotted #333;
+  border-bottom: 1px dotted var(--color-link);
 }
 
 a:visited {
-  color: #555;
-  border-bottom-color: #555;
+  color: var(--color-link);
+  border-bottom-color: var(--color-link);
 }
 
 a:hover {
-  color: #666;
-  border-bottom-color: #666;
+  color: var(--color-link-hover);
+  border-bottom-color: var(--color-link-hover);
 }
 
 a::after {
@@ -89,10 +153,10 @@ a::after {
   height: 2px;
   bottom: -1px; /* Align with bottom border */
   left: 0;
-  background-color: #444;
+  background-color: var(--color-link-hover);
   transform: scaleX(0);
   transform-origin: bottom right;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 a:hover::after {
@@ -301,15 +365,15 @@ h6 {
 blockquote {
   margin: 2rem 0;
   padding: 1.5rem 2rem;
-  border-left: 4px solid #333;
-  background-color: #f5f5f5;
+  border-left: 4px solid var(--color-text);
+  background-color: var(--color-sidebar-bg);
   font-style: italic;
   border-radius: 0 8px 8px 0;
 }
 
 blockquote p {
   margin: 0;
-  color: #444;
+  color: var(--color-text);
   font-size: 1.1rem;
   line-height: 1.6;
 }
@@ -318,7 +382,7 @@ blockquote cite {
   display: block;
   margin-top: 1rem;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-muted);
   font-style: normal;
 } 
 
@@ -348,9 +412,9 @@ blockquote cite {
 }
 
 footer {
-  background-image: url('/images/img-background.jpeg');
-  background-repeat: repeat;
-  background-color: #f5f5f5;
+  /*background-image: url('/images/img-background.jpeg');
+  background-repeat: repeat;*/
+  background-color: var(--color-sidebar-bg);
   padding: 2rem 0 4rem 0;
   font-size: 1.0rem;
   min-height: 100px;
@@ -452,4 +516,30 @@ footer * {  /* This ensures all elements within footer use Geist */
     width: 100%;
     max-width: 100%;
   }
+}
+
+/* Update sidebar styles */
+.sidebar {
+  background-color: var(--color-sidebar-bg);
+}
+
+.sidebar-section p {
+  color: var(--color-muted);
+}
+
+time {
+  color: var(--color-muted);
+}
+
+/* Navigation and footer links should not have underlines */
+.nav-links a,
+.footer-links a,
+.sidebar a {
+  border-bottom: none;
+}
+
+.nav-links a::after,
+.footer-links a::after,
+.sidebar a::after {
+  display: none;
 }

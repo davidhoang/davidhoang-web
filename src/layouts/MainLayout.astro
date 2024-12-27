@@ -3,6 +3,7 @@ import '../styles/reset.css';
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -64,5 +65,6 @@ const canonicalURL = Astro.site
       <slot />
     </main>
     <Footer />
+    <ThemeToggle />
   </body>
 </html> 
