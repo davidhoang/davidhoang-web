@@ -56,4 +56,4 @@ Building your designs makes you a better designer.
 
 Designers build.
 
-![Alt text](/images/blog/img-181-cover@2x.jpg)
+![Designer working on building and implementing designs](/images/blog/img-181-cover@2x.jpg)
