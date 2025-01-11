@@ -42,5 +42,5 @@ In the instance where Commercial or Boutique software might not meet your needs,
 The concept of a disposable object is interesting and can be a great design (if done right). There are disposable cameras, contact lenses, and many others. In fact, the sourdough clam chowder bowl and tostada shell are two of the best examples of great disposable design. What about software that destroys itself when a certain job is done? I see in the future there are certain types of software created by people (or an AI) for a certain purpose and will dispose of it.
 
 
-## Software is the new
+## Software is the new everyday thing
 The world is now eating up software evolving to be known as an everyday thing we interact with. I'm personally excited about this future. It offers more choice and optionality in what people want. If you want to use a web browser, you can use a major player like Google Chrome, or a more boutique experience like Arc from The Browser Company, perhaps making your own to fully customize. The Winampification1 of software seems to be making a comeback, and that's a good thing. I for one am excited about more personal software to make your own; a world where you can create what you consume and interact with.
