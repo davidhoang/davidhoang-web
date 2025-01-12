@@ -40,3 +40,45 @@ const currentYear = new Date().getFullYear();
   </div>
 </footer>
 
+<style>
+  footer {
+    padding: 2em 1em;
+    background: #f9f9f9;
+    margin-top: 4em;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .copyright {
+    color: #666;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1em;
+  }
+
+  .social-links a {
+    color: #444;
+    text-decoration: none;
+  }
+
+  .social-links a:hover {
+    color: #000;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      gap: 1em;
+      text-align: center;
+    }
+  }
+</style>
+

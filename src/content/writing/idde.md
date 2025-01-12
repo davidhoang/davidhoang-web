@@ -2,6 +2,7 @@
 title: "IDDE: The infusion of design and dev tools"
 pubDate: 2023-03-31
 description: "It's time to kill design handoff and create software differentlye"
+ogImage: "/images/blog/img-188-cover@2x.jpg"
 ---
 
 Many millennial designers grew up playing with Microsoft Paint—often the first UI drawing tool they used whether they knew it or not. This was also true for me, but there was another software that inspired me as a kid—Visual Basic 1.0. I thought the visual development environment for BASIC created by Alan Cooper was a design tool. From Visual Basic, to HyperCard, and to Macromedia Dreamweaver, I never cared (or knew) the difference between a design tool and development tool. It was about making something.

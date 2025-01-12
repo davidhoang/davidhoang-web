@@ -1,7 +1,8 @@
 ---
 title: "Tech is going through a factory reset moment"
-pubDate: 2023-04-30
-description: "Your description here"
+pubDate: 2023-12-31
+description: "The great tech reset of 2023"
+ogImage: "/images/img-dh.png"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/tech-is-going-through-a-factory-reset)
 

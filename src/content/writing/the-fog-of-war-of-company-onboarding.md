@@ -1,7 +1,8 @@
 ---
-title: "The Fog of War of company onboarding"
-pubDate: 2024-07-21
-description: "How a Real-Time Strategy game concept teaches you new hire onboarding"
+title: "The fog of war of company onboarding"
+pubDate: 2023-12-31
+description: "Navigating the first 90 days"
+ogImage: "/images/img-dh.png"
 ---
 Originally posted on [Proof of Concept(https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding?utm_source=publication-search))
 
