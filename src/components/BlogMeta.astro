@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  publishDate: Date;
+  url: string;
+}
+
+const { title, description, ogImage, publishDate, url } = Astro.props;
+const siteUrl = 'https://davidhoang.com';
+const defaultOgImage = '/images/img-dh.png';
+const imageUrl = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}${defaultOgImage}`;
+---
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+<meta property="og:url" content={`${siteUrl}${url}`} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="article:published_time" content={publishDate.toISOString()} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={`${siteUrl}${url}`} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageUrl} /> 

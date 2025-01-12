@@ -2,6 +2,7 @@
 title: "The four types of software in the future"
 pubDate: 2023-12-31
 description: "The different classes and classifications of what we use (and make)"
+ogImage: "/images/blog/2023-07-16-the-four-types-of-software.jpeg"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-four-types-of-software-in-the)
 

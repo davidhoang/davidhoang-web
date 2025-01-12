@@ -1,7 +1,8 @@
 ---
 title: "Email updates to career advisors"
-pubDate: 2022-06-12
-description: "Your description here"
+pubDate: 2023-12-31
+description: "A template to keep your mentors and advisors in the loop"
+ogImage: "/images/img-dh.png"
 ---
 
 ![Email updates to career advisors](/images/blog/img-2022-email-update-career-advisors.webp)
