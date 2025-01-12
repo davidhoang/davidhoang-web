@@ -2,6 +2,7 @@
 title: "Crafting a leadership portfolio"
 pubDate: 2023-01-08
 description: "How managers should position themselves for success"
+ogImage: "/images/default-social.png"
 ---
 
 One of the top questions I get asked is what a portfolio for a manager should look like. Unsurprisingly, the answer is like any design answer: it depends. The ultimate output of a portfolio looks different based on so many factors: whether you're in brand or product, the type of management role, and what you're optimizing for. In this session, we'll look at the goals of a manager’s portfolio, what you are optimizing for, and the core elements of a portfolio. There are a few common artifacts you'll have as a manager: resume/cv, portfolio deck, and website. The last two might be the combo of your portfolio.

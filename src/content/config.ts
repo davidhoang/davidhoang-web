@@ -5,6 +5,7 @@ const writing = defineCollection({
     title: z.string(),
     pubDate: z.date(),
     description: z.string(),
+    ogImage: z.string().optional(),
     // ... other fields
   })
 });

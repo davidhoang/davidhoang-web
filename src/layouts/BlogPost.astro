@@ -1,13 +1,21 @@
 ---
 import MainLayout from './MainLayout.astro';
+import BlogMeta from '../components/BlogMeta.astro';
 import { Image } from 'astro:assets';
 import SidebarWriting from '../components/SidebarWriting.astro';
 
-const { data, render } = Astro.props;
+const { data } = Astro.props;
 const { title, description, pubDate } = data;
 ---
 
 <MainLayout title={title}>
+  <BlogMeta 
+    title={title}
+    description={description}
+    ogImage={data.ogImage}
+    publishDate={pubDate}
+    url={Astro.url.pathname}
+  />
   <article class="blog-post">
     <div class="container">
       <div class="content-grid">

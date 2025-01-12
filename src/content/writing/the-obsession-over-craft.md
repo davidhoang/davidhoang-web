@@ -1,7 +1,8 @@
 ---
 title: "The obsession over craft"
-pubDate: 2024-03-24
-description: "Your description here"
+pubDate: 2023-12-31
+description: "Craft is defined by the worst behavior you tolerate"
+ogImage: "/images/img-dh.png"
 ---
 
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-obsession-over-craft)

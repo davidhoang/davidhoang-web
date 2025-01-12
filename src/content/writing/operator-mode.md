@@ -2,6 +2,7 @@
 title: "Operator Mode"
 pubDate: 2024-09-15
 description: "Doing work as a non-founder and non professional management class"
+ogImage: "/images/img-dh.png"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/operator-mode?utm_source=publication-search)
 
