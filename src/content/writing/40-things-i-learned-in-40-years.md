@@ -2,6 +2,7 @@
 title: "40 things I learned in 40 years"
 pubDate: 2023-12-31
 description: "Lessons from 40 years on this planet"
+ogImage: "/images/img-dh.png"
 ---
 
 Today, according to the Gregorian Calendar on Earth, I turned 40. I we were living on Mars, I’d be 21! Early in my career, I was always the youngest person on the team or at the company. I always gravitated proving that being young didn’t mean you could tag along with the big kids. In college, I took the advanced painting classes as a Freshman to prove this point. Now I find myself often the oldest person and working with colleagues who were born after my favorite films.
