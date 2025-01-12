@@ -36,8 +36,8 @@ I don't need amazing parallax scrolling and animations when trying to renew my d
 ### Boutique
 The Louis Vuitton of software is becoming more of a real thing. As software continues to get easier to build at scale, and with everyone being able to it, the age-old question arises...what happens to the craft? In a world of 3D-printed sculptures, Gianlorenzo Bernini's work at The Vatican lives on. As time passes, there will be Bernini's of software—having a devotion to the craft with incredible attention to detail on experiences. Be not afraid of commercial software getting rid of the craft of indie apps and high-end software. I believe in this future world, people will continue to pay for high-quality software and support the people who create it.
 
-### Personal software
-In the instance where Commercial or Boutique software might not meet your needs, you might make your own. Andrew Davison is an automation expert and certified Zapier partner. In June, Davison posted a tweet about how he built a RSS app with Replit. This is a prime example of personal software. It’s DIY like the hand-knitted sweater; a product achieved through your needs, passion, and own materials.
+### Personal
+In the instance where Commercial or Boutique software might not meet your needs, you might make your own. [Andrew Davison](https://andrewjdavison.com/) is an automation expert and certified Zapier partner. In June, Davison posted a tweet about how he built a [RSS app with Replit](https://x.com/AndrewJDavison/status/1664982442690609154). This is a prime example of personal software. It’s DIY like the hand-knitted sweater; a product achieved through your needs, passion, and own materials.
 
 ### Disposable
 The concept of a disposable object is interesting and can be a great design (if done right). There are disposable cameras, contact lenses, and many others. In fact, the sourdough clam chowder bowl and tostada shell are two of the best examples of great disposable design. What about software that destroys itself when a certain job is done? I see in the future there are certain types of software created by people (or an AI) for a certain purpose and will dispose of it.
