@@ -92,7 +92,7 @@ The section that includes details about you:
 
 ### Writing
 I recommend that managers have a blog, whether on their personal website, or Medium. Writing articulates what it’d be like to have you as a manager or your philosophy. A few examples of good ones:
-- https://www.paolamariselli.com/bloghttps://nlevin.medium.com/- inside-figma-the-product-design-teams-process-3897332d8565https://medium.com/one-medical-technology/- product-design-research-culture-at-one-medical-811a392ab0a3 or some other publishing platform
+- https://nlevin.medium.com/inside-figma-the-product-design-teams-process-3897332d8565
 
 ### Featured 
 Work: Case studies and portfolio pieces you might want to include online. Be mindful of the company metrics you share publicly in case it's confidential
@@ -126,9 +126,7 @@ Part of what people will expect from leadership portfolios is the lessons you le
 - Initiatives that you led
 - How you evaluate workHow you ensure design quality at scale
 
-## Resources
-Examples of portfolios
-- [Abdul Wahid Ovaice](https://www.ovaice.com/)
+## Website examples
 - [Wendy Johansson](https://www.wendyjohansson.com/index.html)
 - [Alissa Briggs](https://www.alissabriggs.com/)
 - [John Maeda](https://maedastudio.com/)
@@ -136,3 +134,5 @@ Examples of portfolios
 - [Andy Budd](https://andybudd.com/)
 - [Paola Mariselli](https://www.paolamariselli.com/)
 - [Kurt Varner](https://www.kurtvarner.com/)
+- [Jeremy Dodd](https://www.jeremyjdodd.com)
+- [Linda Eliasen](https://www.lindaeliasen.com/)
