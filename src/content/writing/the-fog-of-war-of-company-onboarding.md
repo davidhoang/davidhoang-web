@@ -2,9 +2,9 @@
 title: "The fog of war of company onboarding"
 pubDate: 2023-12-31
 description: "Navigating the first 90 days"
-ogImage: "/images/img-dh.png"
+ogImage: "/images/blog/img-204-cover.jpg"
 ---
-Originally posted on [Proof of Concept(https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding?utm_source=publication-search))
+Originally posted on [Proof of Concept]https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding)
 
 When you start a new company, onboarding is a crucial phase to get right. The previous three times I’ve onboarded to a new company has been in a leadership role at a company already established. Onboarding is not simply following the artifact your new employer gives you. It’s a two-way street. The higher role you enter at a new company, the more important it is to onboard to the company well, because you only have one first impression with your new employer and colleagues.
 
@@ -43,7 +43,7 @@ To understand the boundaries quickly, I navigate the most important parts of the
 - Meeting with people who understand the state of the business. Going directly to the CEO, founders, or execs might not be possible due to their schedule. Seek the data scientists, finance folks, and operations.
 - Advocates and skeptics of your org and what you might need to address
 
-![Alt text](/images/blog/img-204-cover.jpg)
+![Drawing of what the fog of war looks like](/images/blog/img-204-cover.jpg)
 
 There is likely a reason you were hired and it’s important to emphasize your external value immediately. We might feel cognizant of not wanting to step on toes and assimilate to the new company. However, you were hired to bring your external skill and perspective. Don’t forget that. Since it’s impossible to turn yourself into a tenured employee of the new company, you gain wins by bringing your external value to them immediately. This might be the institutional knowledge you have in an industry or craft. It could be your skill in building teams. Identify that and push hard in those areas.
 
