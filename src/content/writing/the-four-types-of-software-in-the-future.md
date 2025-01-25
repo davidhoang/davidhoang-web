@@ -4,7 +4,7 @@ pubDate: 2023-12-31
 description: "The different classes and classifications of what we use (and make)"
 ogImage: "/images/blog/2023-07-16-the-four-types-of-software.jpeg"
 ---
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-four-types-of-software-in-the)
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-four-types-of-software-in-the)_
 
 When you think of high-end or boutique design, the fashion industry likely comes to mind before software. Take something like a T-shirt. You can find a $10 version of it on a shelf at Target or spend hundreds (if not thousands) of dollars on one at a Louis Vuitton runway show. It might feel weird to think of software at first ponder, but this is where the world is heading. Could you imagine exclusive software? It's very possible in the future. What about software that gets thrown away like a daily-use contact lens? Also possible.
 
