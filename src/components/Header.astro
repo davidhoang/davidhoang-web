@@ -16,9 +16,9 @@
 <style>
   header {
     margin: 0;
-    padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    padding: 2rem 0 0 0;
+    background: var(--color-nav-bg);
+    box-shadow: 0 4px 16px rgba(0,0,0,.1);
   }
 
   .nav-content {
@@ -27,28 +27,50 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em 0;
+    padding: 2em 2em;
   }
 
   .site-title {
-    font-size: 1.5em;
+    font-size: 1.75em;
     font-weight: 700;
     text-decoration: none;
-    color: #111;
+    color: var(--color-nav-text);
   }
 
   .nav-links {
     display: flex;
-    gap: 1.5em;
+    gap: 2em;
   }
 
   .nav-links a {
     text-decoration: none;
-    color: #444;
+    color: var(--color-nav-text);
     font-weight: 500;
+    font-size: 1.1em;
+    padding: 0.5em 0.75em;
+    border-radius: 6px;
   }
 
   .nav-links a:hover {
-    color: #000;
+    background-color: var(--color-nav-hover);
+    color: var(--color-nav-text);
+  }
+
+  @media (max-width: 768px) {
+    header {
+      padding: 1.5rem 0 0 0;
+    }
+    
+    .nav-content {
+      padding: 1.5em 1.5em;
+    }
+    
+    .site-title {
+      font-size: 1.5em;
+    }
+    
+    .nav-links {
+      gap: 1.25em;
+    }
   }
 </style> 
