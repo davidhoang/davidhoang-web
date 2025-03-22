@@ -418,9 +418,11 @@ blockquote cite {
 }
 
 footer {
-  /*background-image: url('/images/img-background.jpeg');
-  background-repeat: repeat;*/
-  background-color: var(--color-sidebar-bg);
+  background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
+  filter: brightness(0.94) contrast(1.05);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+  opacity: 0.97;
   padding: 2rem 0 4rem 0;
   font-size: 1.0rem;
   min-height: 100px;
@@ -428,15 +430,20 @@ footer {
 }
 
 .hero-title {
-  margin-top: 2rem;
-  height: 240px;
+  margin-top: 1rem;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid var(--color-border);
   margin-bottom: 2rem;
   width: 100%;
   max-width: 100%;
+  background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
+  filter: brightness(0.94) contrast(1.05);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+  opacity: 0.97;
+  border-radius: 8px;
 }
 
 .hero-title h1 {
@@ -447,14 +454,14 @@ footer {
   @media (max-width: 480px) {
     font-size: clamp(4rem, 4vw, 4rem);
   }
-  font-weight: 800;
+  font-weight: 600;
   width: 100%;
   text-align: center;
 }
 
 .hero-content h1 {
   font-size: 2.0rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 /* Add this to ensure nav elements explicitly use Geist */
@@ -527,7 +534,11 @@ footer * {  /* This ensures all elements within footer use Geist */
 
 /* Update sidebar styles */
 .sidebar {
-  background-color: var(--color-sidebar-bg);
+  background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
+  filter: brightness(0.94) contrast(1.05);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+  opacity: 0.97;
 }
 
 .sidebar-section p {
