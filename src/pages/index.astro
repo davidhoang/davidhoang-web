@@ -22,29 +22,6 @@ import { getCollection } from 'astro:content';
       <div class="theme-image" aria-label="Photo of David"></div>
     </div>
   </section>
-  <section class="newsletter-section">
-    <div class="newsletter-container">
-      <h2>Proof of Concept</h2>
-      <p>I write a newsletter about design, software, and experimentation. Subscribe for a free issue every Sunday.</p>
-      
-      <form action="https://proofofconcept.substack.com/api/v1/free" method="post" target="_blank" class="subscribe-form">
-        <div class="input-group">
-          <input 
-            type="email" 
-            name="email" 
-            placeholder="Type your email..." 
-            required
-          />
-          <button type="submit">Subscribe</button>
-        </div>
-        <small class="disclaimer">
-          By subscribing you agree to <a href="https://substack.com/tos" target="_blank">Substack's Terms of Use</a>, 
-          <a href="https://substack.com/privacy" target="_blank">Privacy Policy</a> and 
-          <a href="https://substack.com/ccpa#personal-data-collected" target="_blank">Information Collection Notice</a>
-        </small>
-      </form>
-    </div>
-  </section>
   <style>
     .hero-content a {
       color: var(--color-link);
