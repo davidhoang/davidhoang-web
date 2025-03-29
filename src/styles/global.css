@@ -333,21 +333,26 @@ main {
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
+  margin-top: 1rem;
   font-weight: 600;
+  font-family: "Geist", var(--font-primary);
 }
 
 h1 {
   font-size: 2.75rem;
   font-weight: 700;
-  margin: 8px 0px;
+  margin: 16px 0px;
 }
 
 h2 {
   font-size: 2.25rem;
+  margin: 16px 0px;
 }
 
 h3 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  margin-top: 16px;
+  font-family: "Geist", var(--font-primary);
 }
 
 h4 {
@@ -363,9 +368,16 @@ h6 {
 }
 
 @media (max-width: 768px) {
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-family: "Geist", var(--font-primary);
+  }
   h1 {font-size: 2.5rem;}
   h2 {font-size: 2rem;}
-  h3 {font-size: 1.75rem;}
+  h3 {font-size: 1.6rem;}
   h4 {font-size: 1.5rem;}
   h5 {font-size: 1.25rem;}
   h6 {font-size: 1.1rem;}
