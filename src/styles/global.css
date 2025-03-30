@@ -1,4 +1,4 @@
-@import url('https://fonts.vercel.com/css2?family=Geist:wght@100..900&display=swap');
+/* @import url('https://fonts.vercel.com/css2?family=Geist:wght@100..900&display=swap'); */
 
 :root {
   /* Light mode colors */
@@ -85,7 +85,9 @@ blockquote,
 .hero-title,
 nav,
 .nav-container {
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
+  /* Only transition specific properties that need it */
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 /* Ensure SVG icons also transition smoothly */
@@ -109,10 +111,12 @@ svg {
 
 /* Optional: Add a transition class for elements that need it */
 .theme-transition {
-  transition: background-color 0.3s ease,
+  /* transition: background-color 0.3s ease,
               color 0.3s ease,
               border-color 0.3s ease,
-              box-shadow 0.3s ease;
+              box-shadow 0.3s ease; */
+  /* Simplify to only what's needed */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Optional: Add a transition class for nav elements */
@@ -147,7 +151,8 @@ a {
   color: var(--color-link);
   text-decoration: none;
   position: relative;
-  transition: color 0.3s ease;
+  /* Remove transition from here since it's already defined above */
+  /* transition: color 0.3s ease; */
   border-bottom: 1px dotted var(--color-link);
 }
 
@@ -162,6 +167,9 @@ a:hover {
 }
 
 a::after {
+  /* Optimize this transition to be more performant */
+  /* transition: transform 0.3s ease, background-color 0.3s ease; */
+  transition: transform 0.3s ease;
   content: '';
   position: absolute;
   width: calc(100% - 2px); /* Subtract border width */
@@ -171,7 +179,6 @@ a::after {
   background-color: var(--color-link-hover);
   transform: scaleX(0);
   transform-origin: bottom right;
-  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 a:hover::after {
@@ -350,7 +357,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   margin-top: 16px;
   font-family: "Geist", var(--font-primary);
 }
@@ -407,7 +414,6 @@ blockquote cite {
   font-style: normal;
 } 
 
-
 .prose-content li {
   margin-left: 1rem;
 }
@@ -430,11 +436,11 @@ blockquote cite {
 }
 
 footer {
-  background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
-  filter: brightness(0.94) contrast(1.05);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  opacity: 0.97;
+  background-image: url('/images/bg-linen.jpeg');
+  background-repeat: repeat;
+  background-color: color-mix(in srgb, var(--color-bg) 95%, black);
+  background-size: 200px;
+  opacity: 1;
   padding: 2rem 0 4rem 0;
   font-size: 1.0rem;
   min-height: 100px;
@@ -442,6 +448,9 @@ footer {
 }
 
 .hero-title {
+  background-image: url('/images/bg-linen.jpeg');
+  background-repeat: repeat;
+  background-color: color-mix(in srgb, var(--color-bg) 95%, black);
   margin-top: 1rem;
   height: 300px;
   display: flex;
@@ -450,11 +459,6 @@ footer {
   margin-bottom: 2rem;
   width: 100%;
   max-width: 100%;
-  background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
-  filter: brightness(0.94) contrast(1.05);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  opacity: 0.97;
   border-radius: 8px;
 }
 
@@ -471,10 +475,6 @@ footer {
   text-align: center;
 }
 
-.hero-content h1 {
-  font-size: 2.0rem;
-  font-weight: 600;
-}
 
 /* Add this to ensure nav elements explicitly use Geist */
 nav, 
@@ -546,11 +546,10 @@ footer * {  /* This ensures all elements within footer use Geist */
 
 /* Update sidebar styles */
 .sidebar {
-  background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
-  filter: brightness(0.94) contrast(1.05);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  opacity: 0.97;
+  /* Similarly, replace with simpler background */
+  background-color: var(--color-sidebar-bg);
+  /* filter: brightness(0.94) contrast(1.05);
+  opacity: 0.97; */
 }
 
 .sidebar-section p {
@@ -597,12 +596,6 @@ em {
 }
 
 /* Add these new nav-specific styles where your nav styles are */
-nav {
-  background-color: var(--color-nav-bg);
-  color: var(--color-nav-text);
-  border-bottom: 1px solid var(--color-border);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
 
 .nav-links a {
   color: var(--color-nav-text);
