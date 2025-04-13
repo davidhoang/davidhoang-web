@@ -36,7 +36,6 @@ import { getCollection } from 'astro:content';
       <div class="philosophy-item">
         <p><strong>Software is beautiful.</strong> It's not just about the code. It's about the experience.</p>
       </div>
-      
       <div class="philosophy-item" id="647f3a">
         <p><strong>Method makes magic.</strong> Design is not magic. It's a method—a rigorous process of exploration, iteration, and validation until you reach your outcome that feels like magic.</p>
       </div>
@@ -48,52 +47,45 @@ import { getCollection } from 'astro:content';
   </section>
   <!-- Portfolio Section -->
   <section class="portfolio-section">
-    <h2>Work</h2>
-    <!-- Full width portfolio item 
+    <h2>Highlights</h2>
     <div class="portfolio-grid">
-      <a href="#" class="portfolio-item full-width">
-        <div class="portfolio-content">
-          <img src="https://images.unsplash.com/photo-1481487196290-c152efe083f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Featured project image" style="width: 100%; height: 400px; object-fit: cover;">
-          <div class="portfolio-item-text">
-            Head of Design | Atlassian
-          </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>September 2024</h3>
+          <p><a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank">Keynote talk at Hatch Conference: Design & (Blank)</a></p>
         </div>
-      </a>
-    </div>-->
-    <!-- 2x2 portfolio grid -->
-    <div class="portfolio-grid two-by-two">
-      <a href="#" class="portfolio-item">
-        <div class="portfolio-content">
+        <div class="portfolio-images">
+          <img src="src/assets/highlights/img-highlights-hatch-conference.jpg" alt="Hatch Conference">
+        </div>
+      </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>April 2024</h3>
+          <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank">Replit Developer Day</a>. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <div class="portfolio-images">
           <img src="src/assets/portfolio/img-work-replit.jpeg" alt="Replit">
-          <div class="portfolio-item-text">
-            VP of Marketing and Design | Replit
-          </div>
         </div>
-      </a>
-      <a href="#" class="portfolio-item">
-        <div class="portfolio-content">
-          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Project three image" style="width: 100%; height: 300px; object-fit: cover;">
-          <div class="portfolio-item-text">
-            Head of Design | Webflow
-          </div>
+      </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>April 2023</h3>
+          <p>Joined Play as an Advisor</p>
         </div>
-      </a>
-      <a href="#" class="portfolio-item">
-        <div class="portfolio-content">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2426&q=80" alt="Project four image" style="width: 100%; height: 300px; object-fit: cover;">
-          <div class="portfolio-item-text">            
-            Head of Product Design | One&nbsp;Medical
-          </div>
+        <div class="portfolio-images">
+          <img src="src/assets/highlights/img-highlights-play.jpg" alt="Proof of Concept: The 000 Series">
         </div>
-      </a>
-      <a href="#" class="portfolio-item">
-        <div class="portfolio-content">
-          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" alt="Project five image" style="width: 100%; height: 300px; object-fit: cover;">
-          <div class="portfolio-item-text">
-            Director of Mobile Design | Black Pixel
-          </div>
+      </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>December 2019</h3>
+          <p>Launched Proof of Concept, a newsletter about design, technology, and entrepreneurship.</p>
         </div>
-      </a>
+        <div class="portfolio-images">
+          <img src="src/assets/highlights/img-highlights-proof-of-concept.jpg" alt="Proof of Concept: The 000 Series">
+        </div>
+      </div>
+      
     </div>
   </section>
   
@@ -112,10 +104,6 @@ import { getCollection } from 'astro:content';
       margin-bottom: 2rem;
     }
 
-    .two-by-two {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
     .portfolio-item {
       position: relative;
       border: 1px solid var(--color-border);
@@ -125,37 +113,38 @@ import { getCollection } from 'astro:content';
       transition: box-shadow 0.3s ease;
     }
 
-    .portfolio-item:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
 
     .portfolio-item img {
       width: 100%;
       height: auto;
       display: block;
-      height: 300px;
+      height: 200px;
       object-fit: cover;
       border-radius: 4px;
       margin-bottom: 0.5rem;
     }
 
-    .portfolio-item-text {
-      padding: 0.5rem;
+    .portfolio-item-text p {
+      
     }
 
+
     .portfolio-content {
-      padding: 0.5rem;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
     }
 
     .portfolio-content h3 {
       margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
     }
 
     @media (max-width: 768px) {
-      .two-by-two {
-        grid-template-columns: 1fr;
+      .portfolio-content {
+        max-width: 100%;
       }
     }
+
   </style>
   <style>
     .hero-content a {
@@ -173,7 +162,7 @@ import { getCollection } from 'astro:content';
     .theme-image {
       width: 400px;
       aspect-ratio: 3/4;
-      background-image: url('/images/img-dh.png');
+      background-image: url('/images/img-dh-web-light.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 8px;
@@ -181,7 +170,7 @@ import { getCollection } from 'astro:content';
     }
 
     :global([data-theme="dark"]) .theme-image {
-      background-image: url('/images/img-dh-dark.png');
+      background-image: url('/images/img-dh-web-dark.jpg');
     }
 
     :global([data-theme="dark"]) #substackEmbed {
@@ -237,6 +226,33 @@ import { getCollection } from 'astro:content';
     @media (max-width: 768px) {
       .philosophy-grid {
         grid-template-columns: 1fr;
+      }
+    }
+
+    .portfolio-images {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .portfolio-images img {
+      flex: 1;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      max-width: 75%;
+    }
+
+    @media (max-width: 768px) {
+      .portfolio-images {
+        flex-direction: column;
+      }
+      
+      .portfolio-images img {
+        width: 100%;
+        max-width: 100%;
       }
     }
   </style>
