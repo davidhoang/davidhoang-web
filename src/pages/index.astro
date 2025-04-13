@@ -7,8 +7,8 @@ import { getCollection } from 'astro:content';
   <!-- Hero Section -->
   <section class="hero-grid">
     <div class="hero-content">
-      <h1>David Hoang is a designer + investor</h1>
-      <p>I'm building and investing in tools that revolutionize the internet. Currently I am VP&nbsp;of&nbsp;Design,&nbsp;AI at <a href="https://atlassian.com" target="_blank">Atlassian</a> and Advisor for <a href="https://play.com" target="_blank">Play</a>. In my free time I advise startups, mentor a select few designers, and design/prototype ideas.</p>
+      <h1>Designer + Investor</h1>
+      <p>I'm building and investing in tools that revolutionize the internet. Currently I am VP&nbsp;of&nbsp;Design,&nbsp;AI at <a href="https://atlassian.com" target="_blank">Atlassian</a> and Advisor for <a href="https://play.com" target="_blank">Play</a>.</p>
       <p>Quick links:</p>
       <ul>
         <li>Subscribe to my newsletter, <a href="https://www.proofofconcept.pub" target="_blank">Proof of Concept</a></li>
@@ -22,6 +22,137 @@ import { getCollection } from 'astro:content';
       <div class="theme-image" aria-label="Photo of David"></div>
     </div>
   </section>
+  <section class="design-philosophy">
+    <h2>Design philosophy</h2>
+    <div class="philosophy-grid">
+      <div class="philosophy-item">
+        <p><strong>Seek paradigm shifts.</strong> Imagine the future and build it now. Those who can spot trends of shifts will have enduring success.</p>
+      </div>
+      
+      <div class="philosophy-item" id="e3d275">
+        <p><strong>Embrace the entrepreneurial spirit.</strong> Act like the owner of everything you do.</p>
+      </div>
+      
+      <div class="philosophy-item">
+        <p><strong>Software is beautiful.</strong> It's not just about the code. It's about the experience.</p>
+      </div>
+      <div class="philosophy-item" id="647f3a">
+        <p><strong>Method makes magic.</strong> Design is not magic. It's a method—a rigorous process of exploration, iteration, and validation until you reach your outcome that feels like magic.</p>
+      </div>
+      
+      <div class="philosophy-item">
+        <p><strong>Iteration over perfectionism</strong> The number one way to be more productive is to reduce the iteration cycle.</p>
+      </div>
+    </div>
+  </section>
+  <!-- Portfolio Section -->
+  <section class="portfolio-section">
+    <h2>Highlights</h2>
+    <p>A few recent moments and projects. For full work history, see <a href="http://linkedin.com/in/dhoang2" target="_blank">LinkedIn</a>.</p>
+    <div class="portfolio-grid">
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>September 2024</h3>
+          <p><a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank">Keynote talk at Hatch Conference: Design & (Blank)</a></p>
+        </div>
+        <div class="portfolio-images">
+          <img src="src/assets/highlights/img-highlights-hatch-conference.jpg" alt="Hatch Conference">
+        </div>
+      </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>April 2024</h3>
+          <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank">Replit Developer Day</a> and rebrand.</p>
+        </div>
+        <div class="portfolio-images">
+          <img src="src/assets/portfolio/img-work-replit.jpeg" alt="Replit">
+        </div>
+      </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>April 2023</h3>
+          <p>Joined <a href="https://createwithplay.com" target="_blank">Play</a> as Advisor.</p>
+        </div>
+        <div class="portfolio-images">
+          <img src="src/assets/highlights/img-highlights-play.jpg" alt="Proof of Concept: The 000 Series">
+        </div>
+      </div>
+      <div class="portfolio-content">
+        <div class="portfolio-item-text">
+          <h3>December 2019</h3>
+          <p>Launched <a href="https://www.proofofconcept.pub" target="_blank">Proof of Concept</a>, a newsletter about design, technology, and entrepreneurship.</p>
+        </div>
+        <div class="portfolio-images">
+          <img src="src/assets/highlights/img-highlights-proof-of-concept.jpg" alt="Proof of Concept: The 000 Series">
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  
+
+  <style>
+    .portfolio-section {
+      margin: 4rem 0;
+      border-top: 1px solid var(--color-border);
+      padding-top: 24px;
+    }
+
+
+    .portfolio-grid {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .portfolio-item {
+      position: relative;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--color-bg);
+      transition: box-shadow 0.3s ease;
+    }
+
+
+    .portfolio-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .portfolio-item-text p {
+      
+    }
+
+
+    .portfolio-content {
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+    }
+
+    .portfolio-content h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+    }
+
+    .portfolio-content a {
+      text-decoration: underline;
+      font-weight: 500;
+      color: var(--color-link);
+    }
+
+    @media (max-width: 768px) {
+      .portfolio-content {
+        max-width: 100%;
+      }
+    }
+
+  </style>
   <style>
     .hero-content a {
       color: var(--color-link);
@@ -38,7 +169,7 @@ import { getCollection } from 'astro:content';
     .theme-image {
       width: 400px;
       aspect-ratio: 3/4;
-      background-image: url('/images/img-dh.png');
+      background-image: url('/images/img-dh-web-light.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 8px;
@@ -46,7 +177,7 @@ import { getCollection } from 'astro:content';
     }
 
     :global([data-theme="dark"]) .theme-image {
-      background-image: url('/images/img-dh-dark.png');
+      background-image: url('/images/img-dh-web-dark.jpg');
     }
 
     :global([data-theme="dark"]) #substackEmbed {
@@ -77,68 +208,58 @@ import { getCollection } from 'astro:content';
       text-align: center;
     }
 
-    h2 {
-      font-size: 2.5rem;
-      margin: 0 0 1rem;
-      font-weight: 600;
-      color: var(--color-text);
+    .design-philosophy {
+      border-top: 1px solid var(--color-border);
+      padding-top: 24px;
     }
 
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      color: var(--color-text);
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      padding-right: 24px;
     }
 
-    .input-group {
+    .philosophy-item {
+      border-radius: 8px;
+    }
+
+    .philosophy-item h3 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .portfolio-images {
       display: flex;
-      gap: 8px;
+      gap: 1rem;
       margin-bottom: 1rem;
+      width: 100%;
+      overflow: hidden;
     }
 
-    input {
+    .portfolio-images img {
       flex: 1;
-      padding: 12px 16px;
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      background: var(--color-bg);
-      color: var(--color-text);
-      font-size: 1rem;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      max-width: 75%;
     }
 
-    input::placeholder {
-      color: var(--color-muted);
-    }
-
-    button {
-      padding: 12px 24px;
-      background: var(--color-text);
-      color: var(--color-bg);
-      border: none;
-      border-radius: 6px;
-      font-weight: 500;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .disclaimer {
-      font-size: 0.8rem;
-      color: var(--color-muted);
-    }
-
-    .disclaimer a {
-      color: var(--color-link);
-    }
-
-    /* Mobile styles */
-    @media (max-width: 480px) {
-      .input-group {
+    @media (max-width: 768px) {
+      .portfolio-images {
         flex-direction: column;
       }
-
-      button {
+      
+      .portfolio-images img {
         width: 100%;
+        max-width: 100%;
       }
     }
   </style>

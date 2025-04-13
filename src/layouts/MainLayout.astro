@@ -22,13 +22,16 @@ const {
 const canonicalURL = Astro.site 
   ? new URL(Astro.url.pathname, Astro.site)
   : Astro.url.pathname;
+
+// Add this to your layout component to make it persistent
+export const prerender = false;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for davidhoang.com" href="/rss.xml" />
     
@@ -53,14 +56,39 @@ const canonicalURL = Astro.site
 
     <meta name="generator" content={Astro.generator} />
 
-    <link
-      rel="preload"
-      href="https://fonts.vercel.com/geist/font.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.vercel.com" crossorigin>
+    <link rel="preload" href="https://fonts.vercel.com/geist/font.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.vercel.com/geist-mono/font.woff2" as="font" type="font/woff2" crossorigin>
     <ViewTransitions />
+
+    <!-- Inline critical CSS -->
+    <style is:inline>
+      /* Critical CSS that prevents layout shift */
+      :root {
+        --color-text: #333;
+        --color-bg: #fff;
+        --nav-height: 40px;
+        --font-primary: 'Geist', system-ui, sans-serif;
+      }
+      [data-theme="dark"] {
+        --color-text: #e1e1e1;
+        --color-bg: #111;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-primary);
+        color: var(--color-text);
+        background-color: var(--color-bg);
+      }
+      nav {
+        height: var(--nav-height);
+      }
+    </style>
+    
+    <!-- Load main CSS with highest priority but non-blocking -->
+    <link rel="stylesheet" href="/styles/global.css" precedence="high">
   </head>
   <body>
     <Navigation />
