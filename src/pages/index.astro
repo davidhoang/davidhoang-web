@@ -48,6 +48,7 @@ import { getCollection } from 'astro:content';
   <!-- Portfolio Section -->
   <section class="portfolio-section">
     <h2>Highlights</h2>
+    <p>A few recent moments and projects. For full work history, see <a href="http://linkedin.com/in/dhoang2" target="_blank">LinkedIn</a>.</p>
     <div class="portfolio-grid">
       <div class="portfolio-content">
         <div class="portfolio-item-text">
@@ -61,7 +62,7 @@ import { getCollection } from 'astro:content';
       <div class="portfolio-content">
         <div class="portfolio-item-text">
           <h3>April 2024</h3>
-          <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank">Replit Developer Day</a>. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank">Replit Developer Day</a> and rebrand.</p>
         </div>
         <div class="portfolio-images">
           <img src="src/assets/portfolio/img-work-replit.jpeg" alt="Replit">
@@ -70,7 +71,7 @@ import { getCollection } from 'astro:content';
       <div class="portfolio-content">
         <div class="portfolio-item-text">
           <h3>April 2023</h3>
-          <p>Joined Play as an Advisor</p>
+          <p>Joined <a href="https://createwithplay.com" target="_blank">Play</a> as Advisor.</p>
         </div>
         <div class="portfolio-images">
           <img src="src/assets/highlights/img-highlights-play.jpg" alt="Proof of Concept: The 000 Series">
@@ -79,7 +80,7 @@ import { getCollection } from 'astro:content';
       <div class="portfolio-content">
         <div class="portfolio-item-text">
           <h3>December 2019</h3>
-          <p>Launched Proof of Concept, a newsletter about design, technology, and entrepreneurship.</p>
+          <p>Launched <a href="https://www.proofofconcept.pub" target="_blank">Proof of Concept</a>, a newsletter about design, technology, and entrepreneurship.</p>
         </div>
         <div class="portfolio-images">
           <img src="src/assets/highlights/img-highlights-proof-of-concept.jpg" alt="Proof of Concept: The 000 Series">
@@ -137,6 +138,12 @@ import { getCollection } from 'astro:content';
     .portfolio-content h3 {
       margin: 0 0 0.5rem 0;
       font-size: 1.25rem;
+    }
+
+    .portfolio-content a {
+      text-decoration: underline;
+      font-weight: 500;
+      color: var(--color-link);
     }
 
     @media (max-width: 768px) {
