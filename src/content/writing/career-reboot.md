@@ -1,5 +1,5 @@
 ---
-title: "Career Reboot"
+title: "Career reboot"
 pubDate: 2025-04-21
 description: Rebooting with the AI Incursion
 ogImage: "/images/blog/img-2025-04-incursion@2x.jpg"
