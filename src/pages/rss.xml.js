@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 export async function GET(context) {
   const posts = await getCollection('writing');
+  posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return rss({
     title: 'David Hoang',
     description: 'Writing about design, technology, and building products.',
