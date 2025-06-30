@@ -7,21 +7,21 @@ const navItems = [
 ];
 ---
 
-<nav>
-  <canvas id="noiseCanvas" class="noise-canvas"></canvas>
+<nav role="navigation" aria-label="Main navigation">
+  <canvas id="noiseCanvas" class="noise-canvas" aria-hidden="true"></canvas>
   <div class="container nav-container">
-    <a href="/" class="logo no-transition">DH</a>
+    <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
     <!-- Desktop Navigation -->
-    <ul class="nav-links desktop-nav">
+    <ul class="nav-links desktop-nav" role="menubar" aria-label="Main menu">
       {navItems.map(item => (
-        <li>
-          <a href={item.path}>{item.label}</a>
+        <li role="none">
+          <a href={item.path} role="menuitem">{item.label}</a>
         </li>
       ))}
     </ul>
     <!-- Mobile Menu Button -->
-    <button id="menuButton" class="mobile-menu-button" aria-label="Menu">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button id="menuButton" class="mobile-menu-button" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -31,24 +31,27 @@ const navItems = [
 </nav>
 
 <!-- Mobile Modal Menu -->
-<div id="mobileMenu" class="mobile-menu">
+<div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title" aria-hidden="true">
   <div class="mobile-menu-header">
-    <a href="/" class="logo no-transition">DH</a>
-    <button id="closeButton" class="close-menu" aria-label="Close menu">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
+    <button id="closeButton" class="close-menu" aria-label="Close mobile menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </button>
   </div>
   <div class="mobile-menu-content">
-    <ul class="mobile-nav-links">
-      {navItems.map(item => (
-        <li>
-          <a href={item.path}>{item.label}</a>
-        </li>
-      ))}
-    </ul>
+    <nav aria-labelledby="mobile-menu-title">
+      <h2 id="mobile-menu-title" class="sr-only">Mobile navigation menu</h2>
+      <ul class="mobile-nav-links" role="menu">
+        {navItems.map(item => (
+          <li role="none">
+            <a href={item.path} role="menuitem">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </div>
 
@@ -408,6 +411,19 @@ const navItems = [
   .mobile-nav-links a {
     color: var(--color-nav-text);
   }
+
+  /* Screen reader only class for accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 </style>
 
 <script>
@@ -529,21 +545,43 @@ const navItems = [
       mobileMenu?.classList.remove('closing');
       mobileMenu?.classList.add('active');
       document.body.style.overflow = 'hidden';
+      
+      // Update ARIA states
+      menuButton?.setAttribute('aria-expanded', 'true');
+      mobileMenu?.setAttribute('aria-hidden', 'false');
+      
+      // Focus management
+      closeButton?.focus();
     }
 
     function closeMenu() {
       mobileMenu?.classList.add('closing');
       mobileMenu?.classList.remove('active');
       
+      // Update ARIA states
+      menuButton?.setAttribute('aria-expanded', 'false');
+      mobileMenu?.setAttribute('aria-hidden', 'true');
+      
       // Reset classes after animation completes
       setTimeout(() => {
         mobileMenu?.classList.remove('closing');
         document.body.style.overflow = '';
+        
+        // Return focus to menu button
+        menuButton?.focus();
       }, 300);
+    }
+
+    // Handle escape key to close menu
+    function handleEscape(event) {
+      if (event.key === 'Escape' && mobileMenu?.classList.contains('active')) {
+        closeMenu();
+      }
     }
 
     menuButton?.addEventListener('click', openMenu);
     closeButton?.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', handleEscape);
     
     mobileLinks?.forEach(link => {
       link.addEventListener('click', closeMenu);
