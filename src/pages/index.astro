@@ -5,83 +5,83 @@ import { getCollection } from 'astro:content';
 
 <MainLayout title="David Hoang">
   <!-- Hero Section -->
-  <section class="hero-grid">
+  <section class="hero-grid" aria-labelledby="hero-heading">
     <div class="hero-content">
-      <h1>Designer + Investor</h1>
-      <p>I'm building and investing in tools that revolutionize the internet. Currently I am VP&nbsp;of&nbsp;Design,&nbsp;AI at <a href="https://atlassian.com" target="_blank">Atlassian</a> and Advisor for <a href="https://play.com" target="_blank">Play</a>.</p>
-      <ul>
-        <li>Subscribe to my newsletter, <a href="https://www.proofofconcept.pub" target="_blank">Proof of Concept</a></li>
-        <li>Buy the zine, <a href="https://davidhoang.gumroad.com/l/proof-of-concept-000-series">Proof of Concept: The 000 Series</a></li>
-        <li><a href="https://github.com/davidhoang">Follow me on GitHub</a></li>
-        <li><a href="https://youtu.be/piGC-iFwmrk?si=RuQtmVtimws3npVM">Watch my talk from Config 2021</a></li>
-        <li><a href="https://www.youtube.com/watch?v=6Z88rLjF-lc">Listen to my interview on Dive Club</a></li>
-        <li>A few recommended pieces: <a href="https://www.davidhoang.com/writing/career-reboot" target="_blank">Career Reboot</a>, <a href="https://www.davidhoang.com/writing/design-engineering" target="_blank">Design Engineering</a>, and <a href="https://www.davidhoang.com/writing/the-four-types-of-software-in-the-future" target="_blank">The four types of software in the future</a>, </li>
+      <h1 id="hero-heading">Designer + Investor</h1>
+      <p>I'm building and investing in tools that revolutionize the internet. Currently I am VP&nbsp;of&nbsp;Design,&nbsp;AI at <a href="https://atlassian.com" target="_blank" rel="noopener noreferrer">Atlassian</a> and Advisor for <a href="https://play.com" target="_blank" rel="noopener noreferrer">Play</a>.</p>
+      <ul role="list" aria-label="Quick links and highlights">
+        <li>Subscribe to my newsletter, <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
+        <li>Buy the zine, <a href="https://davidhoang.gumroad.com/l/proof-of-concept-000-series" rel="noopener noreferrer">Proof of Concept: The 000 Series</a></li>
+        <li><a href="https://github.com/davidhoang" rel="noopener noreferrer">Follow me on GitHub</a></li>
+        <li><a href="https://youtu.be/piGC-iFwmrk?si=RuQtmVtimws3npVM" rel="noopener noreferrer">Watch my talk from Config 2021</a></li>
+        <li><a href="https://www.youtube.com/watch?v=6Z88rLjF-lc" rel="noopener noreferrer">Listen to my interview on Dive Club</a></li>
+        <li>A few recommended pieces: <a href="https://www.davidhoang.com/writing/career-reboot" target="_blank" rel="noopener noreferrer">Career Reboot</a>, <a href="https://www.davidhoang.com/writing/design-engineering" target="_blank" rel="noopener noreferrer">Design Engineering</a>, and <a href="https://www.davidhoang.com/writing/the-four-types-of-software-in-the-future" target="_blank" rel="noopener noreferrer">The four types of software in the future</a>, </li>
       </ul>
     </div>
     <div class="hero-image">
-      <div class="theme-image" aria-label="Photo of David"></div>
+      <div class="theme-image" role="img" aria-label="Professional headshot photo of David Hoang"></div>
     </div>
   </section>
-  <section class="design-philosophy">
-    <h2>Design philosophy</h2>
-    <div class="philosophy-grid">
-      <div class="philosophy-item">
+  <section class="design-philosophy" aria-labelledby="philosophy-heading">
+    <h2 id="philosophy-heading">Design philosophy</h2>
+    <div class="philosophy-grid" role="list" aria-label="Design philosophy principles">
+      <div class="philosophy-item" role="listitem">
         <p><strong>Seek paradigm shifts.</strong> Imagine the future and build it now. Those who can spot trends of shifts will have enduring success.</p>
       </div>
-      <div class="philosophy-item" id="e3d275">
+      <div class="philosophy-item" role="listitem" id="e3d275">
         <p><strong>Embrace the entrepreneurial spirit.</strong> Act like the owner of everything you do.</p>
       </div>
-      <div class="philosophy-item">
+      <div class="philosophy-item" role="listitem">
         <p><strong>Software is beautiful.</strong> Making high quality software is a calling and privileage to do so.</p>
       </div>
-      <div class="philosophy-item" id="647f3a">
+      <div class="philosophy-item" role="listitem" id="647f3a">
         <p><strong>Method makes magic.</strong> Design is not magic. It's a method—a rigorous process of exploration, iteration, and validation until you reach a result that feels magical.</p>
       </div>
       
-      <div class="philosophy-item">
+      <div class="philosophy-item" role="listitem">
         <p><strong>Iteration over perfectionism.</strong> The number one way to be more productive is to reduce the iteration cycle.</p>
       </div>
     </div>
   </section>
   <!-- Portfolio Section -->
-  <section class="portfolio-section">
-    <h2>Highlights</h2>
-    <p>A few recent moments and projects. For full work history, see <a href="http://linkedin.com/in/dhoang2" target="_blank">LinkedIn</a>.</p>
-    <div class="portfolio-grid">
-      <div class="portfolio-content">
+  <section class="portfolio-section" aria-labelledby="highlights-heading">
+    <h2 id="highlights-heading">Highlights</h2>
+    <p>A few recent moments and projects. For full work history, see <a href="http://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+    <div class="portfolio-grid" role="list" aria-label="Recent highlights and projects">
+      <div class="portfolio-content" role="listitem">
         <div class="portfolio-item-text">
           <h3>September 2024</h3>
-          <p><a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank">Keynote talk at Hatch Conference: Design & (Blank)</a></p>
+          <p><a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank" rel="noopener noreferrer">Keynote talk at Hatch Conference: Design & (Blank)</a></p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-hatch-conference.jpg" alt="Hatch Conference">
+          <img src="/images/highlights/img-highlights-hatch-conference.jpg" alt="David Hoang speaking at Hatch Conference 2024, presenting on stage">
         </div>
       </div>
-      <div class="portfolio-content">
+      <div class="portfolio-content" role="listitem">
         <div class="portfolio-item-text">
           <h3>April 2024</h3>
-          <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank">Replit Developer Day</a> and rebrand.</p>
+          <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank" rel="noopener noreferrer">Replit Developer Day</a> and rebrand.</p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-replit.jpg" alt="Replit">
+          <img src="/images/highlights/img-highlights-replit.jpg" alt="Replit Developer Day 2024 event branding and visual identity">
         </div>
       </div>
-      <div class="portfolio-content">
+      <div class="portfolio-content" role="listitem">
         <div class="portfolio-item-text">
           <h3>April 2023</h3>
-          <p>Joined <a href="https://createwithplay.com" target="_blank">Play</a> as Advisor.</p>
+          <p>Joined <a href="https://createwithplay.com" target="_blank" rel="noopener noreferrer">Play</a> as Advisor.</p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-play.jpg" alt="Proof of Concept: The 000 Series">
+          <img src="/images/highlights/img-highlights-play.jpg" alt="Play app interface and branding design">
         </div>
       </div>
-      <div class="portfolio-content">
+      <div class="portfolio-content" role="listitem">
         <div class="portfolio-item-text">
           <h3>December 2019</h3>
-          <p>Launched <a href="https://www.proofofconcept.pub" target="_blank">Proof of Concept</a>, a newsletter about design, technology, and entrepreneurship.</p>
+          <p>Launched <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">Proof of Concept</a>, a newsletter about design, technology, and entrepreneurship.</p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-proof-of-concept.jpg" alt="Proof of Concept: The 000 Series">
+          <img src="/images/highlights/img-highlights-proof-of-concept.jpg" alt="Proof of Concept newsletter branding and design layout">
         </div>
       </div>
       

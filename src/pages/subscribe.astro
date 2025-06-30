@@ -9,17 +9,19 @@ import MainLayout from '../layouts/MainLayout.astro';
     <h1>Proof of Concept</h1>
   </section>
     <section>
-        <p>Proof of Concept is digital newsletter publication that explores experimentation and maximizing your creative output. You'll receive a free issue every Sunday. I appreciate your readership!<p>
-    </section
+        <p>Proof of Concept is digital newsletter publication that explores experimentation and maximizing your creative output. You'll receive a free issue every Sunday. I appreciate your readership!</p>
+    </section>
     <!-- Newsletter Section -->
-    <section class="newsletter-section">
-        <h3>Subscribe to my newsletter</h3>
+    <section class="newsletter-section" aria-labelledby="newsletter-heading">
+        <h2 id="newsletter-heading">Subscribe to my newsletter</h2>
         <div class="newsletter-embed">
           <iframe 
             src="https://www.proofofconcept.pub/embed" 
             width="100%" 
             height="150" 
             style="background: transparent;"
+            title="Proof of Concept newsletter subscription form"
+            aria-label="Newsletter subscription form for Proof of Concept"
           ></iframe>
         </div>
     </section>
