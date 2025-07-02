@@ -5,7 +5,7 @@ const currentYear = new Date().getFullYear();
 // You can add more dynamic data here later if needed
 ---
 
-<aside class="sidebar">
+<aside class="sidebar" role="complementary" aria-label="Sidebar with additional information">
   <div class="sidebar-section">
     <h2>About</h2>
     <p>Writing about design, technology, and building products.</p>
@@ -14,16 +14,16 @@ const currentYear = new Date().getFullYear();
   <div class="sidebar-section">
     <h2>Newsletter</h2>
     <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
-    <a href="https://www.proofofconcept.pub/" target="_blank" class="sidebar-button">Subscribe →</a>
+    <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer" class="sidebar-button" aria-label="Subscribe to Proof of Concept newsletter">Subscribe →</a>
   </div>
 
   <div class="sidebar-section">
     <h2>Elsewhere</h2>
-    <ul class="social-links">
-      <li><a href="https://twitter.com/davidhoang" target="_blank">Twitter</a></li>
-      <li><a href="https://github.com/davidhoang" target="_blank">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/dhoang2" target="_blank">LinkedIn</a></li>
-      <li><a href="/rss.xml" target="_blank">RSS Feed</a></li>
+    <ul class="social-links" role="list" aria-label="Social media and other links">
+      <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="/rss.xml" target="_blank" aria-label="RSS feed for this website">RSS Feed</a></li>
     </ul>
   </div>
 </aside>
