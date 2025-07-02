@@ -2,43 +2,43 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer>
+<footer role="contentinfo" aria-label="Site footer">
   <div class="container">
     <section class="footer-section-email">
-      <a href="mailto:david[at]davidhoang.com">david[at]davidhoang.com</a>
+      <a href="mailto:david[at]davidhoang.com" aria-label="Email David Hoang">david[at]davidhoang.com</a>
     </section>
-    <section>
+    <section aria-label="Footer navigation">
       <div class="footer-grid">
         <div class="footer-col">
           <h4>Social</h4>
-          <ul>
-            <li><a href="https://twitter.com/davidhoang" target="_blank">Twitter</a></li>
-            <li><a href="https://github.com/davidhoang" target="_blank">GitHub</a></li>
-            <li><a href="https://linkedin.com/in/dhoang2" target="_blank">Letterboxd</a></li>
-            <li><a href="https://sublime.app/davidhoang" target="_blank">Sublime</a></li>
+          <ul role="list">
+            <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Twitter (opens in new tab)">Twitter</a></li>
+            <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on GitHub (opens in new tab)">GitHub</a></li>
+            <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on LinkedIn (opens in new tab)">LinkedIn</a></li>
+            <li><a href="https://sublime.app/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Sublime (opens in new tab)">Sublime</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Links</h4>
-          <ul>
-            <li><a href="http://blog.davidhoang.com" target="_blank">Personal&nbsp;Blog</a></li>
-            <li><a href="/rss.xml" type="application/rss+xml">RSS</a></li>
-            <li><a href="https://www.proofofconcept.pub" target="_blank">Newsletter</a></li>
-            <li><a href="https://curius.app/david-hoang" target="_blank">Curius</a></li>
-            <li><a href="https://substack.com/@davidhoang/notes" target="_blank">Substack Notes</a></li>
+          <ul role="list">
+            <li><a href="http://blog.davidhoang.com" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's personal blog (opens in new tab)">Personal&nbsp;Blog</a></li>
+            <li><a href="/rss.xml" type="application/rss+xml" aria-label="RSS feed for this website">RSS</a></li>
+            <li><a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer" aria-label="Proof of Concept newsletter (opens in new tab)">Newsletter</a></li>
+            <li><a href="https://curius.app/david-hoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Curius (opens in new tab)">Curius</a></li>
+            <li><a href="https://substack.com/@davidhoang/notes" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's Substack Notes (opens in new tab)">Substack Notes</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Resources</h4>
-          <ul>
-            <li><a href="/about">About</a></li>
-            <li><a href="/now">Now</a></li>
+          <ul role="list">
+            <li><a href="/about" aria-label="About David Hoang">About</a></li>
+            <li><a href="/now" aria-label="What David is doing now">Now</a></li>
           </ul>
         </div>
       </div>
     </section>
-    <section class="footer-section-copyright">
-      &copy; 2002-{currentYear} David Hoang. All rights reserved. "Sometimes to create, one must first destroy." —David, Prometheus
+    <section class="footer-section-copyright" role="contentinfo">
+      <p>&copy; 2002-{currentYear} David Hoang. All rights reserved. "Sometimes to create, one must first destroy." —David, Prometheus</p>
     </section>
   </div>
 </footer>
