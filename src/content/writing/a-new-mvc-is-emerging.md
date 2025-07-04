@@ -9,6 +9,9 @@ Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/a-new-m
 
 For makers of software, Model/View/Controller (MVC) is one of the first concepts you learn. MVC is a design pattern that separates an application into three parts to organize code and make it easier to maintain. The Model handles data and business logic, the View manages the user interface, and the Controller acts as a middleman that processes user input and coordinates between them.
 
+![A new MVC is emerging](/images/blog/2025/img-2025-06-15-mvc-cover.webp)
+
+
 Think of it like a restaurant: the kitchen (Model) prepares the food, the dining room (View) is where customers eat, and the waiter (Controller) takes orders and communicates between the two. This separation allows developers to modify one part without breaking the others.
 
 MVC has guided software architecture for decades—but AI is about to turn it on its head.
@@ -47,6 +50,8 @@ This is where it gets interesting. If LLMs are the new Models and apps are our V
 
 They're not just smarter waiters. They're like sous-chefs, sommeliers, and maître d's rolled into one—making judgment calls in real time.
 
+![A new MVC is emerging](/images/blog/2025/img-2025-06-15-mvc-cover.webp)
+
 ## Recap
 
 I won't force a new acronym like **LAA** (LLMs, Apps, Agents)—but the point is clear: MVC isn't gone, it's evolving.
@@ -59,16 +64,3 @@ In this emerging architecture:
 * AI interfaces act as meta-layers, sitting above and across traditional apps
 
 Software isn't collapsing—it's decoupling. We are moving from app-centric experiences to system-centric ones. And with that comes a chance to rethink how we make, control, and interact with the systems around us.
-
----
-
-## Hyperlinks + notes
-
-A collection of references for this post, updates, and weekly reads.
-
-* Rovo Dev agent, now available in the CLI → Congrats, team!
-* Congrats to The Browser Company on launching Dia (huge shoutout to Tara Feener)
-* Post-Chat UI by Allen Pike
-* Australia has the best Synthwave music
-* The Cat Distribution System at work
-* The last six months in LLMs, illustrated by pelicans on bicycles by Simon Willison
