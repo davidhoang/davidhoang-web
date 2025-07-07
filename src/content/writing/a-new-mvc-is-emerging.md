@@ -5,7 +5,7 @@ description: "Issue 250: AI is breaking the way we build (and it's exciting)"
 ogImage: "/images/img-dh.png"
 ---
 
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/a-new-mvc-is-emerging)
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/a-new-mvc-is-emerging)_
 
 For makers of software, Model/View/Controller (MVC) is one of the first concepts you learn. MVC is a design pattern that separates an application into three parts to organize code and make it easier to maintain. The Model handles data and business logic, the View manages the user interface, and the Controller acts as a middleman that processes user input and coordinates between them.
 
