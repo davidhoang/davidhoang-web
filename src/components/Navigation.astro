@@ -87,6 +87,25 @@ const navItems = [
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Prevent horizontal overflow on smaller screens */
+  @media (max-width: 520px) {
+    nav {
+      min-width: unset;
+      width: calc(100% - 32px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Large tablet adjustments - keep desktop nav but reduce size */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    nav {
+      min-width: 450px;
+      padding: 24px;
+      font-size: 1.2rem;
+    }
+  }
+
   nav:hover {
     top: 20px;
     padding: 30px;
@@ -272,7 +291,8 @@ const navItems = [
     font-weight: 500;
   }
 
-  @media (max-width: 480px) {
+  /* Tablet breakpoint - show mobile menu for smaller tablets */
+  @media (max-width: 768px) {
     nav {
       top: 0;
       left: 0;
@@ -281,6 +301,7 @@ const navItems = [
       border-radius: 0;
       padding: 0;
       height: 64px;
+      min-width: unset;
     }
 
     .nav-container {
@@ -344,6 +365,17 @@ const navItems = [
     /* Adjust mobile menu content padding */
     .mobile-menu-content {
       padding: 0 16px;
+    }
+  }
+
+  /* Mobile breakpoint - additional mobile-specific adjustments */
+  @media (max-width: 480px) {
+    .mobile-nav-links a {
+      font-size: 1.5rem;
+    }
+
+    .mobile-nav-links li {
+      margin: 2.5rem 0;
     }
   }
 
