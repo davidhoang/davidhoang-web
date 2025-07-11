@@ -106,13 +106,16 @@ const navItems = [
     }
   }
 
-  nav:hover {
-    top: 20px;
-    padding: 30px;
-    border: 2px solid var(--color-border);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12);
-    opacity: 0.9;
-    cursor: pointer;
+  /* Only apply hover effects on devices that support hover */
+  @media (hover: hover) {
+    nav:hover {
+      top: 20px;
+      padding: 30px;
+      border: 2px solid var(--color-border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12);
+      opacity: 0.9;
+      cursor: pointer;
+    }
   }
 
   .nav-container {
@@ -172,12 +175,15 @@ const navItems = [
     
   }
 
-  .nav-links a:hover {
-    text-decoration: underline;
-    background-color: var(--color-nav-hover);
-    color: var(--color-nav-text);
-    background-color: color-mix(in srgb, var(--color-nav-bg) 75%, transparent);
-    filter: brightness(0.94) contrast(1.05);
+  /* Only apply hover effects on devices that support hover */
+  @media (hover: hover) {
+    .nav-links a:hover {
+      text-decoration: underline;
+      background-color: var(--color-nav-hover);
+      color: var(--color-nav-text);
+      background-color: color-mix(in srgb, var(--color-nav-bg) 75%, transparent);
+      filter: brightness(0.94) contrast(1.05);
+    }
   }
 
   .nav-links a::after {
@@ -279,6 +285,8 @@ const navItems = [
 
   .mobile-nav-links li {
     margin: 1.5rem 0;
+    list-style: none;
+    padding: 0;
   }
 
   .mobile-nav-links a {
@@ -286,9 +294,12 @@ const navItems = [
     text-decoration: none;
     font-size: 1.5rem;
     display: block;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
     font-family: var(--font-primary);
     font-weight: 500;
+    border-radius: 8px;
+    transition: none; /* Remove transitions on mobile */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
   }
 
   /* Tablet breakpoint - show mobile menu for smaller tablets */
@@ -341,11 +352,15 @@ const navItems = [
 
     .mobile-nav-links li {
       margin: 2rem 0;
+      list-style: none;
+      padding: 0;
     }
 
     .mobile-nav-links a {
-      padding: 0.75rem 0;
+      padding: 1rem 0;
       font-size: 1.25rem;
+      transition: none; /* Ensure no transitions on mobile */
+      -webkit-tap-highlight-color: transparent;
     }
 
     .mobile-menu-header {
@@ -372,10 +387,15 @@ const navItems = [
   @media (max-width: 480px) {
     .mobile-nav-links a {
       font-size: 1.5rem;
+      padding: 1.25rem 0;
+      transition: none; /* Ensure no transitions on mobile */
+      -webkit-tap-highlight-color: transparent;
     }
 
     .mobile-nav-links li {
       margin: 2.5rem 0;
+      list-style: none;
+      padding: 0;
     }
   }
 
