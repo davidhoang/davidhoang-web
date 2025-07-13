@@ -205,45 +205,41 @@ const navItems = [
     left: 0;
     width: 100%;
     height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
     background: var(--color-nav-bg);
     z-index: 1500;
-    padding: 2rem;
+    padding: 0;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateY(-8px);
-    backdrop-filter: blur(0px);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    /* Remove backdrop-filter for better mobile compatibility */
+    /* Add subtle overlay */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02));
   }
 
   .mobile-menu.active {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
-    backdrop-filter: blur(8px);
   }
 
-  .mobile-menu.closing {
-    opacity: 0;
-    transform: translateY(8px);
-    backdrop-filter: blur(0px);
+  /* Ensure mobile menu is hidden by default on larger screens */
+  @media (min-width: 769px) {
+    .mobile-menu {
+      display: none;
+    }
   }
 
   .mobile-menu-content {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.1s;
-  }
-
-  .mobile-menu.active .mobile-menu-content {
     opacity: 1;
     transform: translateY(0);
-  }
-
-  .mobile-menu.closing .mobile-menu-content {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition-delay: 0s;
+    padding: 0 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Simplified - no complex animations */
   }
 
   .mobile-menu-header {
@@ -251,21 +247,13 @@ const navItems = [
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.05s;
-  }
-
-  .mobile-menu.active .mobile-menu-header {
     opacity: 1;
     transform: translateY(0);
-  }
-
-  .mobile-menu.closing .mobile-menu-header {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition-delay: 0s;
+    height: 64px;
+    padding: 0 1rem;
+    background: var(--color-nav-bg);
+    border-bottom: 1px solid var(--color-border);
+    /* Simplified - no complex animations */
   }
 
   .close-menu {
@@ -313,10 +301,13 @@ const navItems = [
       padding: 0;
       height: 64px;
       min-width: unset;
+      border: none; /* Remove border on mobile */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Simplified shadow */
     }
 
     .nav-container {
-      padding: 0 16px;
+      padding: 0 1rem;
+      height: 64px;
     }
 
     .desktop-nav {
@@ -324,26 +315,31 @@ const navItems = [
     }
 
     .mobile-menu-button {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 48px;
       width: 48px;
-      position: relative;
-      right: 0;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .mobile-menu-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
     }
 
     .close-menu {
       height: 48px;
       width: 48px;
-      position: relative;
-      right: 0;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .mobile-menu-button svg,
-    .close-menu svg {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .close-menu:hover {
+      background-color: rgba(0, 0, 0, 0.05);
     }
 
     .mobile-menu {
@@ -351,65 +347,78 @@ const navItems = [
     }
 
     .mobile-nav-links li {
-      margin: 2rem 0;
+      margin: 0;
       list-style: none;
       padding: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .mobile-nav-links li:last-child {
+      border-bottom: none;
     }
 
     .mobile-nav-links a {
-      padding: 1rem 0;
-      font-size: 1.25rem;
-      transition: none; /* Ensure no transitions on mobile */
+      padding: 1.5rem 0;
+      font-size: 1.2rem;
+      font-weight: 500;
+      transition: none;
       -webkit-tap-highlight-color: transparent;
+      display: block;
+      width: 100%;
     }
 
     .mobile-menu-header {
       height: 64px;
-      margin: 0 0 2rem 0;
-      padding: 0 16px;
-      position: relative;
-      display: flex;
-      align-items: center;
+      margin: 0;
+      padding: 0 1rem;
+      position: sticky;
+      top: 0;
+      background: var(--color-nav-bg);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 10;
     }
 
-    /* Ensure the mobile menu has consistent padding */
-    .mobile-menu {
-      padding: 0;
-    }
-
-    /* Adjust mobile menu content padding */
     .mobile-menu-content {
-      padding: 0 16px;
+      padding: 2rem 1rem;
+      flex: 1;
+      overflow-y: auto;
     }
   }
 
   /* Mobile breakpoint - additional mobile-specific adjustments */
   @media (max-width: 480px) {
     .mobile-nav-links a {
-      font-size: 1.5rem;
-      padding: 1.25rem 0;
-      transition: none; /* Ensure no transitions on mobile */
+      font-size: 1.3rem;
+      padding: 1.75rem 0;
+      transition: none;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .mobile-nav-links li {
-      margin: 2.5rem 0;
-      list-style: none;
-      padding: 0;
+    .mobile-menu-content {
+      padding: 1.5rem 1rem;
     }
   }
 
-  /* Add this to ensure nav elements explicitly use Geist */
+  /* Ensure nav elements use consistent font */
   nav, 
   .nav-link,
   .nav-item,
   .mobile-menu,
   .mobile-nav-links,
   .mobile-menu-header {
-    font-family: var(--font-primary) !important;
+    font-family: var(--font-primary), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 500;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent scrolling issues on mobile */
+  body.mobile-menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
   }
 
   .mobile-menu-header .logo {
@@ -594,9 +603,8 @@ const navItems = [
     const mobileLinks = mobileMenu?.querySelectorAll('a');
 
     function openMenu() {
-      mobileMenu?.classList.remove('closing');
       mobileMenu?.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('mobile-menu-open');
       
       // Update ARIA states
       menuButton?.setAttribute('aria-expanded', 'true');
@@ -607,21 +615,15 @@ const navItems = [
     }
 
     function closeMenu() {
-      mobileMenu?.classList.add('closing');
       mobileMenu?.classList.remove('active');
+      document.body.classList.remove('mobile-menu-open');
       
       // Update ARIA states
       menuButton?.setAttribute('aria-expanded', 'false');
       mobileMenu?.setAttribute('aria-hidden', 'true');
       
-      // Reset classes after animation completes
-      setTimeout(() => {
-        mobileMenu?.classList.remove('closing');
-        document.body.style.overflow = '';
-        
-        // Return focus to menu button
-        menuButton?.focus();
-      }, 300);
+      // Return focus to menu button
+      menuButton?.focus();
     }
 
     // Handle escape key to close menu
@@ -631,9 +633,19 @@ const navItems = [
       }
     }
 
+    // Handle click outside menu to close
+    function handleClickOutside(event) {
+      if (mobileMenu?.classList.contains('active') && 
+          !mobileMenu.contains(event.target) && 
+          !menuButton?.contains(event.target)) {
+        closeMenu();
+      }
+    }
+
     menuButton?.addEventListener('click', openMenu);
     closeButton?.addEventListener('click', closeMenu);
     document.addEventListener('keydown', handleEscape);
+    document.addEventListener('click', handleClickOutside);
     
     mobileLinks?.forEach(link => {
       link.addEventListener('click', closeMenu);
