@@ -1,0 +1,349 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Labs - David Hoang" description="Visual experiments and creative coding projects">
+  <div class="container">
+    <div class="hero-title">
+      <h1>Labs</h1>
+      <p>Visual experiments and creative coding projects. A place for exploration and experimentation.</p>
+    </div>
+
+    <div class="labs-grid">
+      <!-- Example Canvas Experiment -->
+      <div class="lab-item">
+        <div class="lab-header">
+          <h3>Particle System</h3>
+          <div class="lab-meta">
+            <span class="lab-tag">Canvas</span>
+            <span class="lab-tag">Animation</span>
+          </div>
+        </div>
+        <div class="lab-canvas-container">
+          <canvas id="particleCanvas" width="400" height="300"></canvas>
+        </div>
+        <div class="lab-description">
+          <p>An interactive particle system using HTML5 Canvas. Click and drag to create particles.</p>
+          <div class="lab-controls">
+            <button id="resetParticles">Reset</button>
+            <button id="toggleAnimation">Pause</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder for future experiments -->
+      <div class="lab-item">
+        <div class="lab-header">
+          <h3>Generative Art</h3>
+          <div class="lab-meta">
+            <span class="lab-tag">Canvas</span>
+            <span class="lab-tag">Generative</span>
+          </div>
+        </div>
+        <div class="lab-canvas-container">
+          <canvas id="generativeCanvas" width="400" height="300"></canvas>
+        </div>
+        <div class="lab-description">
+          <p>Algorithmic art generation using mathematical functions and randomness.</p>
+          <div class="lab-controls">
+            <button id="generateNew">Generate</button>
+            <button id="saveImage">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Visualization -->
+      <div class="lab-item">
+        <div class="lab-header">
+          <h3>Data Visualization</h3>
+          <div class="lab-meta">
+            <span class="lab-tag">D3.js</span>
+            <span class="lab-tag">Interactive</span>
+          </div>
+        </div>
+        <div class="lab-canvas-container">
+          <div id="dataViz" class="data-viz-container">
+            <svg width="400" height="300"></svg>
+          </div>
+        </div>
+        <div class="lab-description">
+          <p>Interactive data visualization with smooth animations and hover effects.</p>
+          <div class="lab-controls">
+            <button id="updateData">Update Data</button>
+            <button id="changeView">Change View</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WebGL Experiment -->
+      <div class="lab-item">
+        <div class="lab-header">
+          <h3>3D Rendering</h3>
+          <div class="lab-meta">
+            <span class="lab-tag">WebGL</span>
+            <span class="lab-tag">3D</span>
+          </div>
+        </div>
+        <div class="lab-canvas-container">
+          <canvas id="webglCanvas" width="400" height="300"></canvas>
+        </div>
+        <div class="lab-description">
+          <p>3D rendering experiments using WebGL for hardware-accelerated graphics.</p>
+          <div class="lab-controls">
+            <button id="rotateModel">Rotate</button>
+            <button id="changeShader">Change Shader</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .labs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .lab-item {
+    background: var(--color-sidebar-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .lab-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .lab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .lab-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .lab-meta {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .lab-tag {
+    font-size: 0.75rem;
+    background: var(--color-link);
+    color: var(--color-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .lab-canvas-container {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .lab-canvas-container canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .data-viz-container {
+    width: 100%;
+    height: 300px;
+    background: var(--color-bg);
+  }
+
+  .lab-description {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .lab-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .lab-controls button {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .lab-controls button:hover {
+    background: var(--color-sidebar-bg);
+  }
+
+  @media (max-width: 768px) {
+    .labs-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .lab-item {
+      padding: 1rem;
+    }
+    
+    .lab-header {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Particle System
+  const particleCanvas = document.getElementById('particleCanvas') as HTMLCanvasElement;
+  const particleCtx = particleCanvas.getContext('2d');
+  let particles: any[] = [];
+  let animationId: number;
+  let isAnimating = true;
+
+  class Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    life: number;
+    maxLife: number;
+    color: string;
+
+    constructor(x: number, y: number) {
+      this.x = x;
+      this.y = y;
+      this.vx = (Math.random() - 0.5) * 4;
+      this.vy = (Math.random() - 0.5) * 4;
+      this.life = 1;
+      this.maxLife = Math.random() * 60 + 20;
+      this.color = `hsl(${Math.random() * 360}, 70%, 50%)`;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life -= 1 / this.maxLife;
+      this.vx *= 0.99;
+      this.vy *= 0.99;
+    }
+
+    draw() {
+      if (!particleCtx) return;
+      particleCtx.save();
+      particleCtx.globalAlpha = this.life;
+      particleCtx.fillStyle = this.color;
+      particleCtx.beginPath();
+      particleCtx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+      particleCtx.fill();
+      particleCtx.restore();
+    }
+  }
+
+  function createParticles(x: number, y: number, count: number = 10) {
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle(x, y));
+    }
+  }
+
+  function animateParticles() {
+    if (!particleCtx || !particleCanvas) return;
+    
+    particleCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+    
+    particles = particles.filter(particle => {
+      particle.update();
+      particle.draw();
+      return particle.life > 0;
+    });
+
+    if (isAnimating) {
+      animationId = requestAnimationFrame(animateParticles);
+    }
+  }
+
+  // Event listeners for particle system
+  particleCanvas?.addEventListener('click', (e) => {
+    const rect = particleCanvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (particleCanvas.width / rect.width);
+    const y = (e.clientY - rect.top) * (particleCanvas.height / rect.height);
+    createParticles(x, y);
+  });
+
+  particleCanvas?.addEventListener('mousemove', (e) => {
+    if (e.buttons === 1) { // Left mouse button pressed
+      const rect = particleCanvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (particleCanvas.width / rect.width);
+      const y = (e.clientY - rect.top) * (particleCanvas.height / rect.height);
+      createParticles(x, y, 3);
+    }
+  });
+
+  document.getElementById('resetParticles')?.addEventListener('click', () => {
+    particles = [];
+  });
+
+  document.getElementById('toggleAnimation')?.addEventListener('click', (e) => {
+    isAnimating = !isAnimating;
+    const button = e.target as HTMLButtonElement;
+    button.textContent = isAnimating ? 'Pause' : 'Resume';
+    if (isAnimating) {
+      animateParticles();
+    }
+  });
+
+  // Generative Art
+  const generativeCanvas = document.getElementById('generativeCanvas') as HTMLCanvasElement;
+  const generativeCtx = generativeCanvas.getContext('2d');
+
+  function generateArt() {
+    if (!generativeCtx || !generativeCanvas) return;
+    
+    generativeCtx.clearRect(0, 0, generativeCanvas.width, generativeCanvas.height);
+    
+    const centerX = generativeCanvas.width / 2;
+    const centerY = generativeCanvas.height / 2;
+    
+    for (let i = 0; i < 100; i++) {
+      const angle = (i / 100) * Math.PI * 2;
+      const radius = Math.random() * 100 + 50;
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+      
+      generativeCtx.fillStyle = `hsl(${(i * 3.6) % 360}, 70%, 50%)`;
+      generativeCtx.beginPath();
+      generativeCtx.arc(x, y, Math.random() * 5 + 2, 0, Math.PI * 2);
+      generativeCtx.fill();
+    }
+  }
+
+  document.getElementById('generateNew')?.addEventListener('click', generateArt);
+
+  document.getElementById('saveImage')?.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'generative-art.png';
+    link.href = generativeCanvas.toDataURL();
+    link.click();
+  });
+
+  // Initialize
+  animateParticles();
+  generateArt();
+</script>
