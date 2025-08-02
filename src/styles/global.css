@@ -551,15 +551,17 @@ time {
 .nav-links a,
 .footer-links a,
 .sidebar a,
-.logo {
-  border-bottom: none;
+.logo,
+footer a {
+  border-bottom: none !important;
 }
 
 .nav-links a::after,
 .footer-links a::after,
 .sidebar a::after,
-.logo::after {
-  display: none;
+.logo::after,
+footer a::after {
+  display: none !important;
 }
 
 /* Add after your other text element styles */
