@@ -282,12 +282,17 @@ const navItems = [
     text-decoration: none;
     font-size: 1.5rem;
     display: block;
-    padding: 0.75rem 0;
+    padding: 1rem 1rem;
     font-family: var(--font-primary);
     font-weight: 500;
-    border-radius: 8px;
+    border-radius: 0;
+    border-bottom: none;
     transition: none; /* Remove transitions on mobile */
     -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+  }
+
+  .mobile-nav-links a::after {
+    display: none;
   }
 
   /* Tablet breakpoint - show mobile menu for smaller tablets */
@@ -358,13 +363,15 @@ const navItems = [
     }
 
     .mobile-nav-links a {
-      padding: 1.5rem 0;
+      padding: 1.25rem 1rem;
       font-size: 1.2rem;
       font-weight: 500;
       transition: none;
       -webkit-tap-highlight-color: transparent;
       display: block;
       width: 100%;
+      border-bottom: none;
+      border-radius: 0;
     }
 
     .mobile-menu-header {
@@ -389,9 +396,11 @@ const navItems = [
   @media (max-width: 480px) {
     .mobile-nav-links a {
       font-size: 1.3rem;
-      padding: 1.75rem 0;
+      padding: 1.25rem 1rem;
       transition: none;
       -webkit-tap-highlight-color: transparent;
+      border-bottom: none;
+      border-radius: 0;
     }
 
     .mobile-menu-content {
