@@ -5,17 +5,18 @@ const navItems = [
   { path: '/featured', label: 'Featured' },
   { path: '/subscribe', label: 'Subscribe' }
 ];
+const currentPath = Astro.url.pathname;
 ---
 
-<nav role="navigation" aria-label="Main navigation">
+<nav aria-label="Main navigation">
   <canvas id="noiseCanvas" class="noise-canvas" aria-hidden="true"></canvas>
   <div class="container nav-container">
     <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
     <!-- Desktop Navigation -->
-    <ul class="nav-links desktop-nav" role="menubar" aria-label="Main menu">
+    <ul class="nav-links desktop-nav" aria-label="Main menu">
       {navItems.map(item => (
-        <li role="none">
-          <a href={item.path} role="menuitem">{item.label}</a>
+        <li>
+          <a href={item.path} aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
         </li>
       ))}
     </ul>
@@ -44,10 +45,10 @@ const navItems = [
   <div class="mobile-menu-content">
     <nav aria-labelledby="mobile-menu-title">
       <h2 id="mobile-menu-title" class="sr-only">Mobile navigation menu</h2>
-      <ul class="mobile-nav-links" role="menu">
+      <ul class="mobile-nav-links">
         {navItems.map(item => (
-          <li role="none">
-            <a href={item.path} role="menuitem">{item.label}</a>
+          <li>
+            <a href={item.path} aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
           </li>
         ))}
       </ul>
@@ -113,7 +114,7 @@ const navItems = [
       padding: 30px;
       border: 2px solid var(--color-border);
       box-shadow: 0 8px 24px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12);
-      opacity: 0.9;
+      opacity: 0.95;
       cursor: pointer;
     }
   }
@@ -165,24 +166,25 @@ const navItems = [
     text-decoration: none;
     color: var(--color-nav-text);
     border-radius: 6px;
-    transition: all 0.3s ease;
+    transition: color 0.2s ease, background-color 0.2s ease, text-decoration-color 0.2s ease;
     font-size: 1rem;
     height: 100%;
     display: flex;
     align-items: center;
     margin: 0;
     position: relative;
-    
+  }
+  .nav-links a[aria-current="page"] {
+    text-decoration: underline;
+    font-weight: 600;
   }
 
   /* Only apply hover effects on devices that support hover */
   @media (hover: hover) {
     .nav-links a:hover {
       text-decoration: underline;
-      background-color: var(--color-nav-hover);
+      background-color: color-mix(in srgb, var(--color-nav-bg) 85%, transparent);
       color: var(--color-nav-text);
-      background-color: color-mix(in srgb, var(--color-nav-bg) 75%, transparent);
-      filter: brightness(0.94) contrast(1.05);
     }
   }
 
@@ -594,7 +596,7 @@ const navItems = [
     window.addEventListener('resize', resize);
     resize();
 
-    // Animation loop
+    // Animation loop (respect reduced motion)
     let startTime = Date.now();
     function animate() {
       const time = (Date.now() - startTime) * 0.001;
@@ -602,7 +604,10 @@ const navItems = [
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       requestAnimationFrame(animate);
     }
-    animate();
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      animate();
+    }
   }
 
   function initMobileMenu() {
@@ -610,6 +615,7 @@ const navItems = [
     const closeButton = document.getElementById('closeButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileLinks = mobileMenu?.querySelectorAll('a');
+    const focusableSelectors = 'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select';
 
     function openMenu() {
       mobileMenu?.classList.add('active');
@@ -621,6 +627,10 @@ const navItems = [
       
       // Focus management
       closeButton?.focus();
+      // Trap focus inside the dialog
+      document.addEventListener('keydown', trapFocus);
+      // Hide background for assistive tech
+      setSiblingsInert(mobileMenu, true);
     }
 
     function closeMenu() {
@@ -633,6 +643,8 @@ const navItems = [
       
       // Return focus to menu button
       menuButton?.focus();
+      document.removeEventListener('keydown', trapFocus);
+      setSiblingsInert(mobileMenu, false);
     }
 
     // Handle escape key to close menu
@@ -659,6 +671,37 @@ const navItems = [
     mobileLinks?.forEach(link => {
       link.addEventListener('click', closeMenu);
     });
+
+    function trapFocus(event) {
+      if (event.key !== 'Tab' || !mobileMenu?.classList.contains('active')) return;
+      const focusable = mobileMenu.querySelectorAll(focusableSelectors);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey) {
+        if (document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    function setSiblingsInert(element, inert) {
+      if (!element) return;
+      const siblings = Array.from(document.body.children).filter(el => el !== element);
+      siblings.forEach(el => {
+        if (inert) {
+          el.setAttribute('aria-hidden', 'true');
+        } else {
+          el.removeAttribute('aria-hidden');
+        }
+      });
+    }
   }
 
   // Initialize shader and existing mobile menu

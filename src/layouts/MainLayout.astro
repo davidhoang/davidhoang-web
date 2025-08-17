@@ -56,10 +56,7 @@ export const prerender = false;
 
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Preload critical fonts -->
-    <link rel="preconnect" href="https://fonts.vercel.com" crossorigin>
-    <link rel="preload" href="https://fonts.vercel.com/geist/font.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://fonts.vercel.com/geist-mono/font.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
     <ViewTransitions />
 
     <!-- Inline critical CSS -->
@@ -69,7 +66,7 @@ export const prerender = false;
         --color-text: #333;
         --color-bg: #fff;
         --nav-height: 40px;
-        --font-primary: 'Geist', system-ui, sans-serif;
+        --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
       }
       [data-theme="dark"] {
         --color-text: #e1e1e1;
@@ -103,17 +100,32 @@ export const prerender = false;
       }
     </style>
     
+    <!-- Apply theme before paint to avoid flash -->
+    <script>
+      (function(){
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch(e) {
+          // no-op
+        }
+      })();
+    </script>
+
     <!-- Load main CSS -->
     <link rel="stylesheet" href="/styles/global.css">
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Navigation />
-    <main id="main-content" class="container" role="main" aria-label="Main content">
+    <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
       <slot />
     </main>
     <Footer />
     <ThemeToggle />
+    <div id="theme-status" class="sr-only" aria-live="polite"></div>
     <script>
       // Persist theme during view transitions
       document.addEventListener('astro:after-swap', () => {

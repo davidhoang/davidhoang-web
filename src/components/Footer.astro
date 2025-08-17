@@ -37,7 +37,8 @@ const currentYear = new Date().getFullYear();
         </div>
       </div>
     </section>
-    <section class="footer-section-copyright" role="contentinfo">
+    <!-- Footer already has contentinfo role; remove redundant role from inner section -->
+    <section class="footer-section-copyright">
       <p>&copy; 2002-{currentYear} David Hoang. All rights reserved. "Sometimes to create, one must first destroy." —David, Prometheus</p>
     </section>
   </div>

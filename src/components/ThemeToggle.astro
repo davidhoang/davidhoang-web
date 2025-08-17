@@ -37,7 +37,7 @@
     border-radius: 50%;
     padding: 0.75rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
@@ -70,6 +70,12 @@
     .theme-toggle {
       bottom: 1rem;
       right: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    button, button:hover {
+      transform: none !important;
     }
   }
 </style>
@@ -137,6 +143,12 @@
       const toggleButton = document.getElementById('theme-toggle');
       if (toggleButton) {
         toggleButton.setAttribute('aria-pressed', newTheme === 'dark' ? 'true' : 'false');
+      }
+
+      // Announce theme change for assistive tech
+      const status = document.getElementById('theme-status');
+      if (status) {
+        status.textContent = newTheme === 'dark' ? 'Dark theme enabled' : 'Light theme enabled';
       }
 
       // Re-enable transitions after the next frame
