@@ -1,15 +1,15 @@
 ---
-title: "Choosing a company"
-pubDate: 2023-12-31
-description: "A framework for evaluating your next role"
-ogImage: "/images/img-dh.png"
+ title: "Choosing a company"
+ pubDate: 2023-12-31
+ description: "A framework for evaluating your next role"
+ ogImage: "/images/img-dh.png"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)
 
 This April, I made a big life change and switched companies after nearly four years at the previous one. Every time I say I’m taking a sabbatical, it never happens. One day, I’ll make sure it happens. I took about a week off before advising with Replit, then ultimately joining the company. Many people ask what made me choose the software creation platform over other opportunities I had, and I’ll share with you my framework for choosing.
 
 "What are you optimizing for?"
-I've asked this question to every person I've interviewed as a hiring manager for the past seven years. "What are you optimizing for?" helps candidates think bigger about what’s important to them in their next opportunity. Though title and comp are important factors, there are more underlying motivations, sometimes not realized by the candidate in conversations. Recruiter or hiring managers should understand candidate needs and work backwards from there.
+I've asked this question to every person I've interviewed as a hiring manager for the past seven years. "What are you optimizing for?" helps candidates think bigger about what’s important to them in their next opportunity. Though title and comp are important factors, there are more underlying motivations, sometimes not realized by the candidate in conversations. Recruiters or hiring managers should understand candidate needs and work backwards from there.
 
 Answers from candidates may be surprising. It might be a Software Engineer wanting to move into a Technical Product Manager (TPM) or a Product Designer with the desire to make impact in a different industry. Perhaps it is looking for a different pace/cadence in their work life. Take a look at my own notes of my optimization list.
 
@@ -24,7 +24,7 @@ Here’s the kicker—I wrote this list before I joined Webflow, not after I lef
 On the Design MBA Podcast, Lattice SVP of Design Jared Erondu spoke about the decision to join Lattice as a founding designer after doing High Resolution. He mentioned three P's for him: People, Purpose, and Pay. Inspired by Erondu (which we all are), I reflected on my own of what a post-Webflow world looked like for me. My stack ranked three P's were Purpose, Product, and People.
 
 Purpose
-Kimber Lockhart, my first manager and the person who hired me at One Medical, wrote, Don't create a sense of urgency, foster a sense of purpose. This mantra stuck with me everywhere else I’ve gone. For me, purpose is your life version of being mission-driven.
+Kimber Lockhart, my first manager and the person who hired me at One Medical, wrote, "Don't create a sense of urgency, foster a sense of purpose." This mantra stuck with me everywhere else I’ve gone. For me, purpose is your life version of being mission-driven.
 
 Work is a big aspect of my life, and it’s the best environment for me to contribute to something meaningful. Purpose in the workplace can be multi-fold. It could be helping build a product that has a positive impact on the world, helping the company scale effectively, or growing humans on the team. My hope is what I contribute to exceeds my own lifetime.
 
@@ -51,4 +51,3 @@ Identify what you're optimizing for
 Establish a priority framework (Note: they don't have to start with the letter P)
 Understand signals and anti-goals
 The reflection I ask people who are considering a job change is, "Are you running towards an opportunity or running away from one?" If the place you work at is a dumpster fire and you need to get a new job immediately, then GTFO. However, if what you're running towards isn't clear and the current role you're at is meeting your needs, then create more time. Having this rubric already established made it obvious what the right choice would be.
-

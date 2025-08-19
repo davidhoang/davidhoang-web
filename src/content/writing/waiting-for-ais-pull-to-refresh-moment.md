@@ -7,7 +7,7 @@ ogImage: "/images/img-dh.png"
 
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/waiting-for-ais-pull-to-refresh-moment)
 
-There is a gesture on the iPhone that long-time mobile users are familiar with that have non-native origins. If you open the official Mail app on the inbox view, you can "pull" the interface down and the app will refresh with more emails. This is known as "pull-to-refresh."
+There is a gesture on the iPhone that long-time mobile users are familiar with that has non-native origins. If you open the official Mail app on the inbox view, you can "pull" the interface down and the app will refresh with more emails. This is known as "pull-to-refresh."
 
 What not everyone may know is this interaction was made popular and invented by Loren Brichter, an independent developer who created Tweetie, a Twitter client that would later be acquired by Twitter in 2010. The pull-to-refresh gesture wasn't just a novel interaction—it was a paradigm shift that would become ubiquitous across mobile applications.
 
@@ -54,10 +54,10 @@ The current AI interface paradigm mirrors the early days of mobile apps: lots of
 We're seeing glimpses of what AI's interface evolution might look like:
 
 - **Voice interfaces** that make AI feel more conversational and immediate
-**Multimodal interactions** that combine text, voice, and visual inputs seamlessly.
-**Contextual triggers** that activate AI based on what you're doing or where you are.
-**Proactive assistance** that anticipates needs rather than waiting for explicit requests.
-**Gesture-based controls** that make AI feel more natural and less mechanical.
+- **Multimodal interactions** that combine text, voice, and visual inputs seamlessly.
+- **Contextual triggers** that activate AI based on what you're doing or where you are.
+- **Proactive assistance** that anticipates needs rather than waiting for explicit requests.
+- **Gesture-based controls** that make AI feel more natural and less mechanical.
 
 But we haven't yet seen the breakthrough that will make AI interactions feel as intuitive and delightful as pull-to-refresh made content refreshing.
 

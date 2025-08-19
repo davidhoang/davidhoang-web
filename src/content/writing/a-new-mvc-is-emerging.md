@@ -19,7 +19,7 @@ Instead of rigid relationships between data, interface, and logic, we're enterin
 
 So what happens when Model, View, and Controller all become intelligent?
 
-Before I share my thoughts, I must acknowledge and share Ruben Verborgh's, Paradigm shifts for the decentralized Web. Verborgh, a professor of Decentralized Web Technology, wrote this back in 2017 laid out three critical shifts:
+Before I share my thoughts, I must acknowledge and share Ruben Verborgh's “Paradigm shifts for the decentralized Web.” Verborgh, a professor of Decentralized Web Technology, wrote this back in 2017 and laid out three critical shifts:
 
 1. **End users become data controllers:** Users store their data where they want, improving privacy and control.
 2. **Apps become views:** Apps are no longer single gateways, but interchangeable UI layers over personal data stores.
@@ -29,7 +29,7 @@ Now, with AI in the loop, these shifts feel even more pressing—and they're con
 
 ## The emerging MVC
 
-The emerging MVC forces software makers think of system-centric product experiences instead of app-centric. Simply put, the containers are breaking and walled gardens are coming down. Let's look at the new constructs of MVC.
+The emerging MVC forces software makers to think of system-centric product experiences instead of app-centric. Simply put, the containers are breaking and walled gardens are coming down. Let's look at the new constructs of MVC.
 
 ### LLMs as Models
 
