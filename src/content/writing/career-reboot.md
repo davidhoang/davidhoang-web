@@ -1,8 +1,8 @@
 ---
-title: "Career reboot"
-pubDate: 2025-04-21
-description: Rebooting with the AI Incursion
-ogImage: "/images/blog/img-2025-04-incursion@2x.jpg"
+ title: "Career reboot"
+ pubDate: 2025-04-21
+ description: "Rebooting with the AI Incursion"
+ ogImage: "/images/blog/img-2025-04-incursion@2x.jpg"
 ---
 
 Every April I seem to take an unplanned creative spring break. It’s not a sabbatical or a formal PTO strategy—just a self-imposed ritual to step away from the chaos of work and reconnect with what inspires me. I’ve learned that if you’re not in a full-time IC role, making things—especially design—becomes a form of recovery from meeting fatigue and managerial overhead.
@@ -25,7 +25,7 @@ The hardest part of aging isn’t the number—it’s the creeping sense of irre
 
 We’re not just navigating a new wave of tech; we’re dealing with _two_ systemic shocks at once. The AI acceleration is colliding with what feels like the second Great Recession. Around 2023, tech hit a hard reset—blitzscaling gave way to layoffs, cautious capital, and a culture shift. And from that rubble, a new archetype emerged: the vibe coders. A term Andrej Karpathy used to describe the new generation building apps with generative AI—no traditional coding required, just vibes, vision, and a good prompt.
 
-Using generative AI, I had Chat GPT write a satire of Losing My Edge about vibe coders and a millennial trying to keep up with the gen z kids:
+Using generative AI, I had ChatGPT write a satire of Losing My Edge about vibe coders and a millennial trying to keep up with the gen z kids:
 
 >  I’m losing my edge…to the kids with ring lights and one-shot prompts, the ones who ship from Discord DMs and sleep in Notion.
 >
@@ -37,9 +37,9 @@ Using generative AI, I had Chat GPT write a satire of Losing My Edge about vibe 
 >  
 > I’m losing my edge…to the locked-in Gen Zs with Arc tabs like trading desks, shipping AI agents at 3AM while I’m still writing the brief.
 
-## Tech incursions equalize 
+## Tech incursions equalize
 
-Millennials, we’re losing our edge. The experience we once relied on—the war stories of scaling, shipping, and staying late to debug—no longer guarantees relevance. The Ruby on Rails apps we built with Twitter Bootstrap and deployed on Heroku? They can now be replicated in a single shot prompt with generative AI. Even Reid Hoffman, the founder of LinkedIn, used Replit to spin up a clone of the platform he originally built. Just because you can mimic something doesn’t mean you’ve matched its scale or impact—but using that as a reason to dismiss what’s happening is a mistake.
+Millennials, we’re losing our edge. The experience we once relied on—the war stories of scaling, shipping, and staying late to debug—no longer guarantees relevance. The Ruby on Rails apps we built with Twitter Bootstrap and deployed on Heroku? They can now be replicated in a single-shot prompt with generative AI. Even Reid Hoffman, the founder of LinkedIn, used Replit to spin up a clone of the platform he originally built. Just because you can mimic something doesn’t mean you’ve matched its scale or impact—but using that as a reason to dismiss what’s happening is a mistake.
 
 As General Eric Shinseki once said: _“If you don’t like change, you’re going to like irrelevance even less.”_
 

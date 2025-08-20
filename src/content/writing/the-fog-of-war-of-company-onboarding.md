@@ -6,18 +6,18 @@ ogImage: "/images/blog/img-204-cover.jpg"
 ---
 _Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding)_
 
-When you start a new company, onboarding is a crucial phase to get right. The previous three times I’ve onboarded to a new company has been in a leadership role at a company already established. Onboarding is not simply following the artifact your new employer gives you. It’s a two-way street. The higher role you enter at a new company, the more important it is to onboard to the company well, because you only have one first impression with your new employer and colleagues.
+When you start at a new company, onboarding is a crucial phase to get right. The previous three times I’ve onboarded to a new company have been in a leadership role at a company already established. Onboarding is not simply following the artifact your new employer gives you. It’s a two-way street. The higher the role you enter at a new company, the more important it is to onboard to the company well, because you only have one first impression with your new employer and colleagues.
 
 ## The Fog of War
 I describe onboarding as navigating the Fog of War—a game concept. The "Fog of War" in Real-Time Strategy (RTS) games is a game mechanic that conceals portions of the game map from the player until their units explore those areas. This creates an element of uncertainty and strategic depth, as players must scout and gather information about enemy positions and terrain. The concept was first introduced in the game Herzog Zwei, released in 1989. Notable examples of RTS games that have incorporated this mechanic include the Warcraft series, Starcraft, Age of Empires, and my favorite of all-time, Command & Conquer. These games use the Fog of War to enhance the strategic complexity by requiring players to balance exploration, defense, and offense without having complete information about their opponents' actions.
 
 ![Alt text](/images/blog/img-204-command-and-conquer.webp)
 
-The Fog of War is my metaphor to onboarding to a new company. You start at an empty point and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire fog of war first to get a full landscape of the map. Because you have not uncovered the Fog of War does not mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
+The Fog of War is my metaphor for onboarding to a new company. You start at an empty point, and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire Fog of War first to get a full landscape of the map. Because you have not uncovered the Fog of War does not mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
 
 **Capturing all the historical context is an impossible task**
 
-It’s important to build context as you a new company. I advise you to do the traditional listening tours, intro 1:1s, and scout the Fog of War to gain as much insight from the people who lived them directly. However, one mistake I see people make is trying to capture the historical context of the company before taking action. One of the reasons you were brought in is the ability to act quickly with precision.
+It’s important to build context as you join a new company. I advise you to do the traditional listening tours, intro 1:1s, and scout the Fog of War to gain as much insight from the people who lived them directly. However, one mistake I see people make is trying to capture the historical context of the company before taking action. One of the reasons you were brought in is the ability to act quickly with precision.
 
 **You are unproven regardless of your experience**
 
@@ -48,7 +48,7 @@ To understand the boundaries quickly, I navigate the most important parts of the
 There is likely a reason you were hired and it’s important to emphasize your external value immediately. We might feel cognizant of not wanting to step on toes and assimilate to the new company. However, you were hired to bring your external skill and perspective. Don’t forget that. Since it’s impossible to turn yourself into a tenured employee of the new company, you gain wins by bringing your external value to them immediately. This might be the institutional knowledge you have in an industry or craft. It could be your skill in building teams. Identify that and push hard in those areas.
 
 ## Successful onboarding is the company’s onboarding + yours
-To be abundantly clear, the onboarding your company provides is extremely valuable. Remember to think of it as the game instruction manual. Bring your own knowledge and experience to the table annd onboard yourself. For certain roles or company types, the ability to onboard fast and act is key. To recap, my onboarding method is:
+To be abundantly clear, the onboarding your company provides is extremely valuable. Remember to think of it as the game instruction manual. Bring your own knowledge and experience to the table and onboard yourself. For certain roles or company types, the ability to onboard fast and act is key. To recap, my onboarding method is:
 
 - Begin onboarding during the interview process
 - Speed run the Fog of War to build momentum

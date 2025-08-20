@@ -5,7 +5,7 @@ description: "Lessons from 40 years on this planet"
 ogImage: "/images/img-dh.png"
 ---
 
-Today, according to the Gregorian Calendar on Earth, I turned 40. I we were living on Mars, I’d be 21! Early in my career, I was always the youngest person on the team or at the company. I always gravitated proving that being young didn’t mean you could tag along with the big kids. In college, I took the advanced painting classes as a Freshman to prove this point. Now I find myself often the oldest person and working with colleagues who were born after my favorite films.
+Today, according to the Gregorian Calendar on Earth, I turned 40. If we were living on Mars, I’d be 21! Early in my career, I was always the youngest person on the team or at the company. I always gravitated toward proving that being young didn’t mean you couldn’t tag along with the big kids. In college, I took the advanced painting classes as a freshman to prove this point. Now I often find myself the oldest person and working with colleagues who were born after my favorite films.
 
 To celebrate, I’ll reflect on 40 things I learned in my years on Planet Earth. They’re a combination of professional and personal insights. Though the list is numbered, they are not ranked in a particular order—just as I thought of them. The ordered list helps with counting.
 
@@ -14,14 +14,14 @@ To celebrate, I’ll reflect on 40 things I learned in my years on Planet Earth.
 3. Don't worry about being single; enjoy it. What people say you'll find love when you're not looking for it is usually true.
 4. When working at fast growth startups, the people you couldn't stand or not get along with were likely under the same pressure you were—hence all the tension. Down the road, most of the people I conflicted with became friends once we were successful (winning cures all).
 5. Throughout my career, I've told every hiring manager that I don't want to have to think about money. This was true entry level to now. Not having to pay the bills and focus on the mission and vision of work is truly a blessing.
-6. Find the soundtrack to your lie—a song that follows you wherever you go—driving, traveling, at a coffee shop. Mine is, "Everybody Wants to Rule the World" by Tears For Fears.
+6. Find the soundtrack to your life—a song that follows you wherever you go—driving, traveling, at a coffee shop. Mine is, "Everybody Wants to Rule the World" by Tears for Fears.
 7. When applied correctly, Catholic Guilt is a feature, not a bug.
 8. Make room for serendipity in your life.
 9. Put your phone in another room or out of reach of your bedside. Get a proper analog alarm clock. You'll sleep better and stress less.
 10. Live in New York at some point in your life. It's one way to experience the whole world and have your friends come to you.
 11. Unless something unethical is happening, if you're considering leaving, stay a few months longer. The regret of staying longer and it continuing to not improve is much lower than if you leave too soon and things turn around. It can take multiple years to turn something around.
 12. You have only one body in this lifetime (for now), and it doesn't regenerate (for now). Take care of your body, especially your lower back. You'll get to the age where injury occurs because you slept in an awkward position!
-13. Don't cheat on your significant other. Not only is it the wrong thing to do, it also feels like a lot of work to manage it all. If you cheat on someone don't be surprised if someone does the same to you.
+13. Don't cheat on your significant other. Not only is it the wrong thing to do, it also feels like a lot of work to manage it all. If you cheat on someone, don't be surprised if someone does the same to you.
 14. The oppressed often become oppressors.
 15. The quarter life crisis is overrated. If you're worried about your life at 25…stop. Whatever you experience between age 25 to 32 probably does not matter at all.
 16. What annoys you about younger people are likely things that annoyed other people when you were young. Remember that.
@@ -34,11 +34,11 @@ To celebrate, I’ll reflect on 40 things I learned in my years on Planet Earth.
 23. There is no success without a successor. Share your knowledge and wisdom with the future generation. If you're successful, I believe it's your obligation to pay it forward to the ecosystem that made you successful. Mentor someone, fund their work, etc.
 24. The most important parts of work happen between the meetings.
 25. You're going to do something to mess with Gen Z, like how Boomers put razors in the walls of homes instead of having an actual solution. Think about what that is and don't do it.
-26. Book at one-way flight somewhere and figure it out later
+26. Book a one-way flight somewhere and figure it out later
 27. One of the most powerful sayings: Ichi Go Ichi E: One Encounter. One Opportunity. Keep this in mind in every breath you take in life.
 28. Walking conversations are the best activity in the world. Invite an old or new friend, grab coffee (or tea), and take a long walk. You'll get exercise and catch up.
 29. Don't be a creeper.
-30. "I used to be with 'it', but then they changed what 'it' was. Now what I'm with isn't 'it' anymore and what's 'it' seems weird and scary. It'll happen to you! —Grandpa Simpson from The Simpsons
+30. "I used to be with 'it', but then they changed what 'it' was. Now what I'm with isn't 'it' anymore and what's 'it' seems weird and scary. It'll happen to you!" —Grandpa Simpson from The Simpsons
 31. Listen to music the way the artist intended. Put your Spotify playlist aside, pick an album, and listen to it in sequential order. Don't do anything else and give the music your full attention.
 32. The two most boring conversations are about the weather and people talking about which cities are the best.
 33. "If you want to build a ship, don't drum up people to collect wood and don't assign them tasks and work, but rather teach them to long for the endless immensity of the sea."— Antoine de Saint Exupéry

@@ -7,7 +7,7 @@ ogImage: "/images/img-dh.png"
 
 ![Email updates to career advisors](/images/blog/img-2022-email-update-career-advisors.webp)
 
-The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of assembling a personal board of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.
+The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and they also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of assembling a personal board of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.
 
 I send updates twice a year to this group to keep them in the loop. In this issue, we’ll cover who is on your advisory, the benefits of sending updates, and ideas on how to write the content.
 
@@ -47,6 +47,6 @@ Though some advisors have become friends, I keep it professional. Here are a few
 - Personalize it: There may be instances where you want to add additional context for certain people.
 
 Write a quick update
-It takes 10 to 15 minutes to draft an email update, select the contacts, and send it. People are busy, and you might not get a reply from your recipients. I guarantee. you that they'll read it and hearing from you will put a smile on their face.
+It takes 10 to 15 minutes to draft an email update, select the contacts, and send it. People are busy, and you might not get a reply from your recipients. I guarantee you that they'll read it, and hearing from you will put a smile on their face.
 
 This action to send an update to your advisors might seem obvious to do, but it's often the obvious things we forget to prioritize in life. Send a quick update.

@@ -1,8 +1,8 @@
 ---
-title: "Tech is going through a factory reset moment"
-pubDate: 2023-12-31
-description: "The great tech reset of 2023"
-ogImage: "/images/img-dh.png"
+ title: "Tech is going through a factory reset moment"
+ pubDate: 2023-12-31
+ description: "The great tech reset of 2023"
+ ogImage: "/images/img-dh.png"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/tech-is-going-through-a-factory-reset)
 
@@ -14,14 +14,14 @@ There is never a single reason for this occurrence and multiple factors force te
 
 The first is all the massive layoffs happening at tech companies at various levels. According to layoffs.fyi, 629 tech companies have laid off 185,136 employees in 2023, and we’re not even halfway through the year. Companies are getting absolutely gutted so the market is saturated with talent (for better or worse). Every role I’ve seen posted has thousands of applicants.
 
-The rise of AI is the second force of nature. It seems everyone changed their web3 .yxz domains to .ai overnight. Time will tell how AI plays out in the industry, but right now, it looks like it’s here to stay. Unlike web3, AI has more understandable value props of application: generative content creation, GPTs, and LLMs. Chat GPT looks to be the first threat to search engines. In addition to continued layoffs, companies will continue looking at ways to reduce workforce size through AI.
+The rise of AI is the second force of nature. It seems everyone changed their web3 .xyz domains to .ai overnight. Time will tell how AI plays out in the industry, but right now, it looks like it’s here to stay. Unlike web3, AI has more understandable value props of application: generative content creation, GPTs, and LLMs. Chat GPT looks to be the first threat to search engines. In addition to continued layoffs, companies will continue looking at ways to reduce workforce size through AI.
 
 Finally, we are still recovering from the recession that started in 2020. As I reflect from the gut (I am not an expert), it seems like we are not quite out of it yet.
 
 What have we learned from all this? Though it's sad about people losing their job through a layoff, I do believe tech has become way too bloated. What started with lean teams, raising just enough money for the runway, we over-indexed on company size, growth, and valuations. The recession has been a humbling experience and that can disappear. 2020 and 2021 are what I like to call the Clubhouse Valuation phase in tech. We over-indexed on companies that showed high value in a pandemic without considering what would happen on the road to recovery—a reminder that long-term thinking is crucial. Clubhouse, Peloton, and other companies that optimized for staying at home then dropped in 2022.
 
 Looking at the new bloom
-At our Palm Springs house, we are lucky to have part of the San Janito Mountains be our next-door neighbor. Like many places in California, we saw much rain in February and March. We got a bit of snow light flooding too! I noticed on our walk how many flowers are on the side of the mountains in a landscape that's usually just rocks.
+At our Palm Springs house, we are lucky to have part of the San Jacinto Mountains be our next-door neighbor. Like many places in California, we saw much rain in February and March. We got a bit of snow and light flooding too! I noticed on our walk how many flowers are on the side of the mountains in a landscape that's usually just rocks.
 
 Going through storms are difficult, but it is also the substance that allows new life to bloom. I truly believe we'll see good coming from these challenges moving forward. In a world where you can get laid off from what you thought was a stable job, there is no difference in the risk of being a full-time employee or starting your own thing. It's a great time to be a contractor and startup founder.
 

@@ -1,8 +1,8 @@
 ---
-title: "Design's Seat at the (Cap) Table: Part I"
-pubDate: 2023-03-21
-description: "My journey as a design angel investor and why we need more"
-ogImage: "/images/img-dh.png"
+ title: "Design's Seat at the (Cap) Table: Part I"
+ pubDate: 2023-03-21
+ description: "My journey as a design angel investor and why we need more"
+ ogImage: "/images/img-dh.png"
 ---
 Until recently, angel investment felt out-of-reach due to my perception of what it took to get started—a lot of capital and deal flow. The vivid dream turned into a reality when [Paige Finn Doherty](https://paigefinndoherty.com/) inspired me to make it real by investing in a syndicate she led. The experience was so inclusive it was a rude awakening for me on what’s really needed to get started.
 
@@ -10,13 +10,13 @@ Alumni designers who found success early at Silicon Valley startups formed entit
 
 Design continues to struggle to find that proverbial seat at the table on the executive level. We hear about the importance of design, yet we don’t see much representation at the most crucial level. Designers may not have a seat at the table at companies until there are more seats occupied on the cap table of design angel investors to advocate for it from the other side. A design angel investor has a proven track record of what happens when Design is (or isn’t) represented in leadership and strategy.
 
-I’ve dipped my toes in many different roles, and I am a designer at heart. I love solving problems to create elegant software experiences for humans. In the investment world, you might call me an operator, which is a cool word for someone who works at a company. I work at Webflow as an operator leading Design, a practice I’ve done for almost as long as some of the founders I work with have been alive. I also have experience in scaling startups and been a part of product leadership teams which brought me closer to how a company operates.
+I’ve dipped my toes in many different roles, and I am a designer at heart. I love solving problems to create elegant software experiences for humans. In the investment world, you might call me an operator, which is a cool word for someone who works at a company. I work at Webflow as an operator leading Design, a practice I’ve done for almost as long as some of the founders I work with have been alive. I also have experience in scaling startups and have been a part of product leadership teams, which brought me closer to how a company operates.
 
 I’m still a neophyte when it comes to angel investing, and there are so many more qualified people who can tell you about angel investing than I can. What I can offer is a fresh perspective of a designer who wanted to invest in founders and startups. I’ll tell you what I tell all founders I invest in: you can get more money from other angel investors, but I can give you other forms of value if I’m on your cap table. I’m deliberately letting people carry me to be involved and gain experience. You won’t see me cutting big checks or leading rounds yet for two simple reasons:
 
-1. I’m not ready to write big checks based on how much I’m willing to allocate in angel investing
+1. I’m not ready to write big checks based on how much I’m willing to allocate to angel investing
 
-2. My primary commitment is as an operator and leading a round is time-consuming
+2. My primary commitment is as an operator, and leading a round is time-consuming
 
 This is what makes micro-investing so appealing. I get to take high risk while keeping it low-key. Let’s not pretend that you don’t need money to invest. What people might not realize is the size of the check, which ranges from $1,000 to $100,000 (or more). I have absolutely no shame in the size of the check I write at this moment.
 

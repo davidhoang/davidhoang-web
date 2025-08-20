@@ -7,7 +7,7 @@ ogImage: "/images/img-dh.png"
 
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-obsession-over-craft)
 
-In conversations about software design (brand, product, content, etc.), the word you constantly hear now is craft.  
+In conversations about software design (brand, product, content, etc.), the word you constantly hear now is craft.
 
 Recruiters will post they are looking for a designer with a high bar for craft. I empathize with those who feel frustrated about the discourse of a high bar for craft as they often are told it is important with no clear definition of the expectations.
 
@@ -24,7 +24,7 @@ Alastair Simpson, VP of Design at Dropbox, recently spoke at Leading Design Lond
 
 > I believe that design must be a strong cross-functional partner to any and every cross-functional discipline in order to have company and product wide impact. We have to also be product tinkers as well as designers. However, as designers, our number one priority must be our design craft and building products that solve our customers’ problems, and also delight them in moments that matter. We can’t lose sight or focus on the main thing that we are accountable for. The more passion we pour into our craft and creating outcomes we love, the more pride we have in our work. This feeds into the flywheel of culture and enabling a care for craft in everything that our company does.
 
-The saying is," Culture is defined by the worst behavior you tolerate." I wholeheartedly believe in this statement 100%. This applies to the culture of collaboration how we respect one another, and to the craft of our work. If junior designers look at the Figma file of a lead designer, and it’s hard to use, that reflects what the team is willing to tolerate. This isn't about using frames/groups or auto layout, its how what you create is valuable for others. It may sound pedantic until you look at engineering excellence. They would not tolerate inconsistent code or unclear comments.
+The saying is, "Culture is defined by the worst behavior you tolerate." I wholeheartedly believe in this statement 100%. This applies to the culture of collaboration, how we respect one another, and to the craft of our work. If junior designers look at the Figma file of a lead designer, and it’s hard to use, that reflects what the team is willing to tolerate. This isn't about using frames/groups or auto layout; it's how what you create is valuable for others. It may sound pedantic until you look at engineering excellence. They would not tolerate inconsistent code or unclear comments.
 
 Leading through the craft is caring about managing the work. Mistakes will happen and the culture of craft is putting the attention and care to fix them.
 
