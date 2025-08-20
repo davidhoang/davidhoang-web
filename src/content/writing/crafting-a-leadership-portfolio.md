@@ -1,14 +1,14 @@
 ---
-title: "Crafting a leadership portfolio"
-pubDate: 2023-01-08
-description: "How managers should position themselves for success"
-ogImage: "/images/default-social.png"
+ title: "Crafting a leadership portfolio"
+ pubDate: 2023-01-08
+ description: "How managers should position themselves for success"
+ ogImage: "/images/default-social.png"
 ---
 
-One of the top questions I get asked is what a portfolio for a manager should look like. Unsurprisingly, the answer is like any design answer: it depends. The ultimate output of a portfolio looks different based on so many factors: whether you're in brand or product, the type of management role, and what you're optimizing for. In this session, we'll look at the goals of a manager’s portfolio, what you are optimizing for, and the core elements of a portfolio. There are a few common artifacts you'll have as a manager: resume/cv, portfolio deck, and website. The last two might be the combo of your portfolio.
+One of the top questions I get asked is what a portfolio for a manager should look like. Unsurprisingly, the answer is like any design answer: it depends. The ultimate output of a portfolio looks different based on so many factors: whether you're in brand or product, the type of management role, and what you're optimizing for. In this session, we'll look at the goals of a manager’s portfolio, what you are optimizing for, and the core elements of a portfolio. There are a few common artifacts you'll have as a manager: résumé/CV, portfolio deck, and website. The last two might be the combo of your portfolio.
 
 ## Setting clear portfolio goals
-The truth is at some point in your management career you will not need a portfolio! You will be reached out by recruiters or apply based on your experience and credibility, which is a much harder thing to maintain than a portfolio!You might be optimizing your portfolio for different reasons than looking for a new career opportunity. For example, you might want to get into public speaking at meetups and conferences. The content you show there is going to be much different than what you show in a career portfolio.
+The truth is at some point in your management career you will not need a portfolio! You will be reached out to by recruiters or apply based on your experience and credibility, which is a much harder thing to maintain than a portfolio! You might be optimizing your portfolio for different reasons than looking for a new career opportunity. For example, you might want to get into public speaking at meetups and conferences. The content you show there is going to be much different than what you show in a career portfolio.
 
 A leadership portfolio might not be optimized for looking for work.
 
@@ -32,7 +32,7 @@ Depending on the level or the role, you may or may not show the work you directl
 ### Differences
 
 - Your case studies will be more focused on what you put in place to enable teams to do the work
-- You’ll showcase tools you’ve created, such as 1:1s docs, frameworks, and other
+- You’ll showcase tools you’ve created, such as 1:1 docs, frameworks, and others
 - Visualize your process of how you got work done
 - Though it’s good to show business outcomes as an IC, as a manager, this will be expected in your portfolio
 
@@ -46,7 +46,7 @@ Journal your experiences as you’re doing the work. It’ll help you keep track
 - [Hype Doc by David Hoang](https://medium.com/@davidhoang/your-career-hype-doc-74bfdd2ca87c) (inspired by CMD)
 
 ## Constructing the portfolio
-My portfolio is a keynote deck. You can use anything that can be exported as a PDF you can share. I also highly recommend building a website that will be your digital portfolio. The website can serve as general content and portfolio deck can be more details. You may not want to disclose every single detail of your portfolio online and that's where a website might serve better to speak at things for a high level. It's common for design managers to have absolutely no portfolio published online. 
+My portfolio is a Keynote deck. You can use anything that can be exported as a PDF you can share. I also highly recommend building a website that will be your digital portfolio. The website can serve as general content and portfolio deck can be more details. You may not want to disclose every single detail of your portfolio online and that's where a website might serve better to speak at things for a high level. It's common for design managers to have absolutely no portfolio published online. 
 
 ### Platform
 I recommend having a website and a presentation deck ready to go. The content does not have to match 1:1 but it’s nice to have a website where you can have a general overview and a deep dive slide portfolio.
@@ -116,7 +116,7 @@ It’s okay to show the work of your team. In fact, you should. However, make su
 Even as a manager, people want to know you used to be a good designer! I recommend including a few pieces of content around your work when you were an IC. No need to go in detail and include this as part of your overview.
 
 ### Share what you learned
-Part of what people will expect from leadership portfolios is the lessons you learned along the way. It will be more authentic if you talk about the lessons and address the “What would you have done differently?” 
+Part of what people will expect from leadership portfolios is the lessons you learned along the way. It will be more authentic if you talk about the lessons and address the “What would you have done differently?” 
 
 ## Example narratives you can tell
 - Organizational excellence: example of how you identified a gap in how your team worked and solved it
