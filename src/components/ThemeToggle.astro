@@ -145,12 +145,6 @@
         toggleButton.setAttribute('aria-pressed', newTheme === 'dark' ? 'true' : 'false');
       }
 
-      // Announce theme change for assistive tech
-      const status = document.getElementById('theme-status');
-      if (status) {
-        status.textContent = newTheme === 'dark' ? 'Dark theme enabled' : 'Light theme enabled';
-      }
-
       // Re-enable transitions after the next frame
       requestAnimationFrame(() => {
         document.documentElement.classList.add('theme-transition');
