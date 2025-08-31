@@ -1,0 +1,182 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Thesis">
+  <div class="container">
+    <div class="hero-title">
+      <h1>Conviction</h1>
+    </div>
+    <section><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p></section>
+    <section class="toc" aria-labelledby="toc-heading">
+      
+      <h2 id="toc-heading" class="toc-title">Table of contents</h2>
+      <nav aria-label="Table of contents">
+        <ul>
+          <li><a href="#future-of-software-design">The future of software design</a></li>
+          <li><a href="#ai-native-management">AI-native management</a></li>
+          <li><a href="#post-ide-world">Post-IDE world</a></li>
+          <li><a href="#human-x-ai-collaboration">Human x AI collaboration</a></li>
+        </ul>
+      </nav>
+    </section>
+    <div class="hero-grid">
+      <div class="containers">
+        <section id="future-of-software-design" class="thesis-section">
+          <h2>The future of software design</h2>
+          <p>Design is shifting from artifacts to outcomes. The work moves upstream: defining systems, interfaces, and constraints that enable software to be assembled, not just designed. AI accelerates this shift by compressing the distance between intent and implementation.</p>
+          <ul>
+            <li><strong>Systems over screens</strong>: Designers specify behaviors, contracts, and data models that span products and platforms.</li>
+            <li><strong>Proof over prototype</strong>: Real, runnable proofs replace static mockups; fidelity is functionality.</li>
+            <li><strong>Human-in-the-loop</strong>: Designers become editors and directors of AI-generated variants, curating toward taste and performance.</li>
+          </ul>
+          <p>Further reading: <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a> and selected writing on <a href="/writing" >design and engineering</a>.</p>
+        </section>
+
+        <section id="ai-native-management" class="thesis-section">
+          <h2>AI-native management</h2>
+          <p>Teams are evolving from maker-only to maker–model ensembles. Management shifts from headcount planning to capability planning—what combination of people, data, and models delivers outcomes reliably and safely.</p>
+          <ul>
+            <li><strong>Orchestration</strong>: Managers design workflows where agents handle repetitive work and people handle ambiguity.</li>
+            <li><strong>Quality as a product</strong>: Evaluation data, benchmarks, and red-teaming become first-class assets.</li>
+            <li><strong>Ethics and controls</strong>: Guardrails, consent, and attribution are operating requirements, not post-facto checks.</li>
+          </ul>
+          <p>Related essays on leadership and AI: <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a>.</p>
+        </section>
+
+        <section id="post-ide-world" class="thesis-section">
+          <h2>Post IDE world</h2>
+          <p>As coding shifts from manual keystrokes to conversational and agentic workflows, the IDE becomes a collaboration surface rather than the primary tool. The primitives are problems, tests, and contracts; the output is orchestrated by agents and reviewed by humans.</p>
+          <ul>
+            <li><strong>Intent-first</strong>: Problem decomposition, specs, and evaluation drive generation.</li>
+            <li><strong>Continuous verification</strong>: Tests, types, and instrumentation are the new UI.</li>
+            <li><strong>Composable agents</strong>: Tool-using agents coordinate across repos, clouds, and runtimes.</li>
+          </ul>
+          <p>See experiments and notes: <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a> and selected posts in <a href="/labs">Labs</a>.</p>
+        </section>
+
+        <section id="human-x-ai-collaboration" class="thesis-section">
+          <h2>Human x AI collaboration</h2>
+          <p>Great outcomes emerge when people and models play to their strengths. Humans set direction, define taste, and handle ambiguity; AI accelerates exploration, handles repetition, and scales evaluation.</p>
+          <ul>
+            <li><a href="https://davidhoang.substack.com/p/real-time-strategy-games-and-ai-interfaces" target="_blank">Real-time strategy and AI interfaces</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .hero-grid {
+    display: flex;
+    justify-content: left;
+    padding: 1rem 0;
+  }
+
+  .about-content {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .about-image {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .toc {
+    height: 200px;
+    margin: 0.75rem 0 2rem;
+    padding: 1rem 1rem 1rem;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.02);
+    display: flow-root;
+    overflow: visible;
+  }
+
+
+  .toc-title {
+    font-size: 0.9rem;
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+    color: var(--text-secondary, #555);
+  }
+
+  .toc ul {
+    display: block;
+    padding-left: 0;
+    margin: 0.25rem 0 0;
+    list-style: none;
+  }
+
+  .toc li {
+    margin: 0.35rem 0;
+  }
+
+  .toc a {
+    text-decoration: none;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    border-bottom: none;
+  }
+
+  .toc a::after {
+    display: none;
+  }
+
+  .lede {
+    margin-top: 0.5rem;
+    color: var(--text-secondary, #555);
+  }
+
+  .thesis-section {
+    scroll-margin-top: 72px;
+  }
+
+  .thesis-section + .thesis-section {
+    margin-top: 2rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  @keyframes sectionTarget {
+    0% { background-color: rgba(255, 223, 99, 0.28); }
+    100% { background-color: transparent; }
+  }
+
+  .thesis-section:target {
+    animation: sectionTarget 1000ms ease-out;
+  }
+
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid {
+      padding: 0 1rem;
+    }
+
+    .about-content {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-grid {
+      padding: 0 0.5rem;
+    }
+
+    .about-content {
+      max-width: 100%;
+    }
+  }
+
+  .about-image {
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<!-- no tabs script needed for anchor-based TOC -->
