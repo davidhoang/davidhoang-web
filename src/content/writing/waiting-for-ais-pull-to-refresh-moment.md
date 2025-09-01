@@ -13,9 +13,9 @@ What not everyone may know is this interaction was made popular and invented by 
 
 ![Waiting for AI's pull-to-refresh moment](/images/blog/2023/2023-09-03-pull-to-refresh.webp)
 
-## The story of Pull-to-Refresh
+## The story of pull-to-refresh
 
-In 2008, Loren Brichter was working on Tweetie, what many described as "the Twitter app Apple themselves would have made." The challenge was simple: how do you refresh a timeline of tweets in an elegant, intuitive way?
+In 2008, Loren Brichter was working on Tweetie, what many described as "the Twitter app Apple itself would have made." The challenge was simple: how do you refresh a timeline of tweets in an elegant, intuitive way?
 
 Traditional approaches involved tapping a refresh button, usually located at the top of the screen. But Brichter had a different vision. He noticed that when users scrolled to the top of a list, there was a natural elasticity—the interface would "bounce" back into place. What if that bounce could trigger an action?
 
@@ -49,11 +49,11 @@ Think about how we interact with AI today. Despite the sophisticated capabilitie
 
 The current AI interface paradigm mirrors the early days of mobile apps: lots of buttons, explicit actions, and rigid interaction patterns. Just as mobile apps initially mimicked desktop interfaces before finding their own voice, AI applications are still searching for their native interaction model.
 
-## The Race to the Interface
+## The race to the interface
 
 We're seeing glimpses of what AI's interface evolution might look like:
 
-- **Voice interfaces** that make AI feel more conversational and immediate
+- **Voice interfaces** that make AI feel more conversational and immediate.
 - **Multimodal interactions** that combine text, voice, and visual inputs seamlessly.
 - **Contextual triggers** that activate AI based on what you're doing or where you are.
 - **Proactive assistance** that anticipates needs rather than waiting for explicit requests.
@@ -61,17 +61,14 @@ We're seeing glimpses of what AI's interface evolution might look like:
 
 But we haven't yet seen the breakthrough that will make AI interactions feel as intuitive and delightful as pull-to-refresh made content refreshing.
 
-## What AI's Pull-to-Refresh moment might look like
+## What AI's pull-to-refresh moment might look like
 
 The breakthrough won't necessarily be a gesture—it will be a fundamental reimagining of how we interact with intelligent systems. It might be:
 
-A way to naturally "pull" context from your environment without explicitly describing it.
-
-An interaction that makes AI feel less like a chat session and more like thought partnership.
-
-A gesture or pattern that makes AI assistance feel as natural as scrolling through a timeline.
-
-A method that eliminates the cognitive overhead of crafting the perfect prompt.
+- A way to naturally "pull" context from your environment without explicitly describing it.
+- An interaction that makes AI feel less like a chat session and more like thought partnership.
+- A gesture or pattern that makes AI assistance feel as natural as scrolling through a timeline.
+- A method that eliminates the cognitive overhead of crafting the perfect prompt.
 
 Just as pull-to-refresh made refreshing content feel effortless, AI's interface breakthrough will make accessing intelligence feel seamless.
 
