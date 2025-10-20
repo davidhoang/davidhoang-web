@@ -1,0 +1,67 @@
+.container-single-page {
+  position: relative;
+
+  display: flex;
+  overflow: auto;
+  width: 100%;
+  max-width: 960px;
+  min-height: auto;
+  margin: 24px auto;
+  flex-direction: column;
+  align-self: flex-end;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+
+  background-color: transparent;
+
+  cursor: default;
+}
+
+@media screen and (min-width: 1280px) {
+  .container-single-page {
+    max-width: 1140px;
+    margin: 24px auto 0px;
+    padding: 0px 24px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .container-single-page {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 48px 24px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container-single-page {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px 16px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .container-single-page {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 24px 24px 0px;
+  }
+}
+
+.newsletter-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+}
+
+.html-embed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}

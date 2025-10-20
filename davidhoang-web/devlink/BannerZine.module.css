@@ -1,0 +1,30 @@
+.banner-zine {
+  display: flex;
+  padding: 8px 24px;
+  justify-content: center;
+
+  background-color: var(--black-defd3f29);
+
+  font-family: Alegreya;
+  color: var(--white-2b2d9368);
+  font-size: 1rem;
+}
+
+.banner-zine-lcta {
+  margin-left: 8px;
+  font-family: Alegreya;
+  color: var(--dhYellow-7a062667);
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 1920px) {
+  .banner-zine-lcta:visited {
+    color: var(--dhYellow-7a062667);
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .banner-zine-lcta {
+    font-size: 1rem;
+  }
+}

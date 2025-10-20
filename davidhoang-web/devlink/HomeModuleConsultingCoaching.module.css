@@ -1,0 +1,62 @@
+.homesectionright {
+  margin-top: 24px;
+  padding: 36px 24px;
+  border-radius: 0px;
+  background-color: var(--teal-469cc3c8);
+}
+
+@media screen and (min-width: 1280px) {
+  .homesectionright {
+    border-radius: 0px;
+    background-color: #e9f1ea;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .homesectionright {
+    padding: 16px;
+  }
+}
+
+.paragraph {
+  margin-top: 0px;
+  margin-bottom: 8px;
+
+  direction: ltr;
+  font-family: 'Hankengrotesk Variablefont Wght';
+  font-weight: 400;
+
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1280px) {
+  .paragraph {
+    cursor: auto;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .paragraph {
+    color: var(--gray-6b2f5d78);
+    line-height: 1.2;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .paragraph {
+    font-size: 1.2rem;
+  }
+}
+
+.imagefullwidth {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 0px;
+  text-align: left;
+}
+
+@media screen and (min-width: 1280px) {
+  .imagefullwidth {
+    width: 100%;
+  }
+}
