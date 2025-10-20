@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import SubstackSignup from '../components/SubstackSignup.astro';
 ---
 
 <MainLayout title="Subscribe">
@@ -13,23 +14,10 @@ import MainLayout from '../layouts/MainLayout.astro';
     </section>
     <!-- Newsletter Section -->
     <section class="newsletter-section" aria-labelledby="newsletter-heading">
-        <h2 id="newsletter-heading">Subscribe to my newsletter</h2>
-        <div class="newsletter-embed">
-          <iframe 
-            src="https://www.proofofconcept.pub/embed" 
-            width="100%" 
-            height="150" 
-            style="background: transparent;"
-            title="Proof of Concept newsletter subscription form"
-            aria-label="Newsletter subscription form for Proof of Concept"
-            loading="lazy"
-            decoding="async"
-            referrerpolicy="no-referrer"
-            sandbox="allow-scripts allow-forms allow-same-origin"
-          >
-            Subscribe to the Proof of Concept newsletter.
-          </iframe>
-        </div>
+        <SubstackSignup 
+          title="Subscribe to my newsletter"
+          description="Get a free issue every Sunday about design, technology, and entrepreneurship."
+        />
     </section>
   </div>
     

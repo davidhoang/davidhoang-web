@@ -1,0 +1,45 @@
+.hero-text {
+  display: flex;
+  height: 30vh;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--white-2b2d9368);
+}
+
+@media screen and (max-width: 991px) {
+  .hero-text {
+    justify-content: space-between;
+  }
+}
+
+.h1-giant-hero {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+
+  font-family: 'Hankengrotesk Variablefont Wght';
+  color: var(--gray-6b2f5d78);
+  font-size: 10rem;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 991px) {
+  .h1-giant-hero {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .h1-giant-hero {
+    font-size: 8rem;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .h1-giant-hero {
+    font-size: 5rem;
+  }
+}

@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import SubstackSignup from '../components/SubstackSignup.astro';
 import { getCollection } from 'astro:content';
 ---
 
@@ -90,7 +91,11 @@ import { getCollection } from 'astro:content';
       
     </div>
   </section>
-  
+
+  <!-- Newsletter Signup Section -->
+  <section class="newsletter-section" aria-labelledby="newsletter-heading">
+    <SubstackSignup />
+  </section>
 
   <style>
     .hero-grid {

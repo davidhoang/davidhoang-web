@@ -1,0 +1,221 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import SubstackSignup from '../components/SubstackSignup.astro';
+---
+
+<MainLayout title="Signup Form Examples">
+  <div class="container">
+    <section class="hero-title">
+      <h1>Signup Form Examples</h1>
+    </section>
+
+    <div class="examples-grid">
+      
+      <section class="example-section">
+        <h2>Default</h2>
+        <p class="example-description">Full featured with default title and description</p>
+        <SubstackSignup />
+      </section>
+
+      <section class="example-section">
+        <h2>Custom Title & Description</h2>
+        <p class="example-description">Personalized messaging</p>
+        <SubstackSignup 
+          title="Join the Community"
+          description="Get weekly insights delivered to your inbox every Sunday morning."
+        />
+      </section>
+
+      <section class="example-section">
+        <h2>Without Title</h2>
+        <p class="example-description">Perfect for sidebars when you have a heading above</p>
+        <SubstackSignup 
+          showTitle={false}
+          description="Weekly newsletter about design, technology, and entrepreneurship."
+        />
+      </section>
+
+      <section class="example-section">
+        <h2>Minimal (No Description)</h2>
+        <p class="example-description">Just the essentials</p>
+        <SubstackSignup 
+          showTitle={false}
+          description=""
+        />
+      </section>
+
+      <section class="example-section">
+        <h2>Custom Container</h2>
+        <p class="example-description">With custom wrapper styling</p>
+        <div class="custom-wrapper">
+          <SubstackSignup 
+            title="Stay in the Loop"
+            description="Join 10,000+ readers."
+          />
+        </div>
+      </section>
+
+      <section class="example-section">
+        <h2>Inline/Narrow Context</h2>
+        <p class="example-description">Works great in narrow containers</p>
+        <div class="narrow-container">
+          <SubstackSignup 
+            title="Subscribe"
+            description="Weekly updates."
+          />
+        </div>
+      </section>
+
+    </div>
+
+    <section class="comparison-section">
+      <h2>Old vs New Comparison</h2>
+      
+      <div class="comparison-grid">
+        <div class="comparison-item">
+          <h3>Old: iframe Embed</h3>
+          <div class="old-embed">
+            <iframe 
+              src="https://www.proofofconcept.pub/embed" 
+              width="480" 
+              height="150" 
+              style="border:1px solid #EEE; background:white;"
+              title="Old Substack embed"
+            ></iframe>
+          </div>
+          <ul class="pros-cons">
+            <li class="con">❌ Doesn't match site theme</li>
+            <li class="con">❌ No dark mode support</li>
+            <li class="con">❌ Fixed dimensions</li>
+            <li class="con">❌ iframe overhead</li>
+          </ul>
+        </div>
+
+        <div class="comparison-item">
+          <h3>New: Native Component</h3>
+          <SubstackSignup />
+          <ul class="pros-cons">
+            <li class="pro">✅ Matches site design</li>
+            <li class="pro">✅ Auto dark mode</li>
+            <li class="pro">✅ Fully responsive</li>
+            <li class="pro">✅ Better performance</li>
+            <li class="pro">✅ Accessible</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</MainLayout>
+
+<style>
+  .examples-grid {
+    display: grid;
+    gap: 4rem;
+    margin: 3rem 0;
+  }
+
+  .example-section {
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .example-section:last-child {
+    border-bottom: none;
+  }
+
+  .example-section h2 {
+    margin-top: 0;
+    color: var(--color-text);
+  }
+
+  .example-description {
+    color: var(--color-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .custom-wrapper {
+    background: var(--color-sidebar-bg);
+    padding: 2rem;
+    border-radius: 12px;
+  }
+
+  .narrow-container {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .comparison-section {
+    margin: 6rem 0 4rem;
+    padding-top: 3rem;
+    border-top: 2px solid var(--color-border);
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .comparison-item {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 2rem;
+    background: var(--color-bg);
+  }
+
+  .comparison-item h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .old-embed {
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .old-embed iframe {
+    max-width: 100%;
+  }
+
+  .pros-cons {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+  }
+
+  .pros-cons li {
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .pros-cons .pro {
+    color: #16a34a;
+  }
+
+  .pros-cons .con {
+    color: #dc2626;
+  }
+
+  [data-theme="dark"] .pros-cons .pro {
+    color: #4ade80;
+  }
+
+  [data-theme="dark"] .pros-cons .con {
+    color: #f87171;
+  }
+
+  @media (max-width: 768px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .narrow-container {
+      max-width: 100%;
+    }
+  }
+</style>
+
