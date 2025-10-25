@@ -57,8 +57,26 @@ function CommentsContent() {
 }
 
 export default function Comments({ roomId }: CommentsProps) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   console.log("Comments component rendering with roomId:", roomId);
   
+  if (!isClient) {
+    return (
+      <div className="comments-section">
+        <h3>Comments</h3>
+        <div className="comments-container">
+          <div className="comments-loading">
+            <p>Loading comments...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="comments-section">
       <h3>Comments</h3>
