@@ -34,6 +34,7 @@ if (!apiKey) {
 }
 export const client = createClient({
   publicApiKey: apiKey,
+  authEndpoint: "/api/liveblocks-auth",
 });
 
 // Create the room context with proper types
