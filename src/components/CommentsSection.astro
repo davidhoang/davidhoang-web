@@ -342,4 +342,33 @@ const { roomId } = Astro.props;
     color: #333;
     line-height: 1.5;
   }
+  
+  /* Moderation Features */
+  .comments-wrapper :global(.lb-comment-actions) {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .comments-wrapper :global(.lb-comment:hover .lb-comment-actions) {
+    opacity: 1;
+  }
+  
+  .comments-wrapper :global(.lb-comment-report) {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .comments-wrapper :global(.lb-comment-report:hover) {
+    background: #e9ecef;
+    color: #495057;
+  }
 </style>

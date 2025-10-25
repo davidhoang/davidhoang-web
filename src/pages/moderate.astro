@@ -1,0 +1,250 @@
+---
+import ModerationPanel from '../components/ModerationPanel.tsx';
+
+const adminToken = "admin123"; // In production, use proper authentication
+---
+
+<div class="moderation-page">
+  <h1>Comment Moderation</h1>
+  <p>Manage comments across all blog posts.</p>
+  
+  <div class="moderation-sections">
+    <div class="moderation-section">
+      <h2>All Comments</h2>
+      <ModerationPanel roomId="*" adminToken={adminToken} client:load />
+    </div>
+  </div>
+</div>
+
+<style>
+  .moderation-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .moderation-page h1 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .moderation-page p {
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  .moderation-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .moderation-section {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .moderation-section h2 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  /* Moderation Panel Styles */
+  .moderation-page :global(.moderation-panel) {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .moderation-page :global(.moderation-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .moderation-page :global(.moderation-header h3) {
+    margin: 0;
+    color: #333;
+  }
+  
+  .moderation-page :global(.refresh-button) {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .moderation-page :global(.refresh-button:hover:not(:disabled)) {
+    background: #0056b3;
+  }
+  
+  .moderation-page :global(.refresh-button:disabled) {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .moderation-page :global(.error-message) {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .moderation-page :global(.thread-item) {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+  }
+  
+  .moderation-page :global(.thread-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .moderation-page :global(.thread-header h4) {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  .moderation-page :global(.delete-thread-button) {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .moderation-page :global(.delete-thread-button:hover) {
+    background: #c82333;
+  }
+  
+  .moderation-page :global(.comment-item) {
+    background: white;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .moderation-page :global(.comment-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .moderation-page :global(.comment-content) {
+    margin-bottom: 1rem;
+  }
+  
+  .moderation-page :global(.comment-content p) {
+    margin: 0;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .moderation-page :global(.edit-form) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .moderation-page :global(.edit-textarea) {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+  }
+  
+  .moderation-page :global(.edit-actions) {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .moderation-page :global(.save-button) {
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .moderation-page :global(.save-button:hover) {
+    background: #218838;
+  }
+  
+  .moderation-page :global(.cancel-button) {
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .moderation-page :global(.cancel-button:hover) {
+    background: #5a6268;
+  }
+  
+  .moderation-page :global(.comment-actions) {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .moderation-page :global(.edit-button) {
+    background: #ffc107;
+    color: #212529;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .moderation-page :global(.edit-button:hover) {
+    background: #e0a800;
+  }
+  
+  .moderation-page :global(.delete-button) {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .moderation-page :global(.delete-button:hover) {
+    background: #c82333;
+  }
+</style>
