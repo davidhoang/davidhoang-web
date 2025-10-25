@@ -12,4 +12,8 @@ export default function LiveblocksWrapper({ children }: LiveblocksWrapperProps) 
       {children}
     </LiveblocksProvider>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bdcbb3e (added liveblocks module)
