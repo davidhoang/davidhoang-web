@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Thread, Composer } from "@liveblocks/react-ui";
-import { RoomProvider, useThreads } from "../../liveblocks.config";
+import { useThreads } from "../../liveblocks.config";
 import LiveblocksWrapper from "./LiveblocksWrapper";
 import "@liveblocks/react-ui/styles.css";
 
@@ -81,10 +81,8 @@ export default function Comments({ roomId }: CommentsProps) {
     <div className="comments-section">
       <h3>Comments</h3>
       <div className="comments-container">
-        <LiveblocksWrapper>
-          <RoomProvider id={roomId}>
-            <CommentsContent />
-          </RoomProvider>
+        <LiveblocksWrapper roomId={roomId}>
+          <CommentsContent />
         </LiveblocksWrapper>
       </div>
     </div>
