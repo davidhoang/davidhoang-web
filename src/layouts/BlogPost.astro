@@ -7,9 +7,6 @@ import CommentsSection from '../components/CommentsSection.astro';
 
 const { data } = Astro.props;
 const { title, description, pubDate } = data;
-
-// Generate a room ID based on the post title/slug
-const roomId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 ---
 
 <MainLayout title={title}>
@@ -31,7 +28,7 @@ const roomId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/
           <div class="prose-content">
             <slot />
           </div>
-          <CommentsSection roomId={roomId} />
+          <CommentsSection />
         </div>
         <SidebarWriting />
       </div>
