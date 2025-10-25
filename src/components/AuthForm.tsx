@@ -30,10 +30,20 @@ export default function AuthForm({ onAuthSuccess }: AuthFormProps) {
         throw new Error(data.error || 'Authentication failed');
       }
 
+      // Create user object from form data and store in localStorage
+      const user = {
+        id: email.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        info: {
+          name: name.trim(),
+          email: email.toLowerCase().trim(),
+          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name.trim())}&background=007bff&color=fff&size=40`
+        }
+      };
+
       // Store user info in localStorage for persistence
-      localStorage.setItem('liveblocks-user', JSON.stringify(data.user));
+      localStorage.setItem('liveblocks-user', JSON.stringify(user));
       
-      onAuthSuccess(data.user);
+      onAuthSuccess(user);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Authentication failed');
     } finally {
