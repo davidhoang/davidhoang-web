@@ -30,12 +30,161 @@ const { roomId } = Astro.props;
     color: #333;
   }
   
+  .comments-wrapper :global(.comments-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .comments-wrapper :global(.user-profile) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .comments-wrapper :global(.user-avatar) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+  }
+  
+  .comments-wrapper :global(.user-name) {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .comments-wrapper :global(.sign-out-button) {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .comments-wrapper :global(.sign-out-button:hover) {
+    background: #e9ecef;
+    color: #495057;
+  }
+  
   .comments-wrapper :global(.comments-container) {
     background: #f9f9f9;
     border-radius: 8px;
     padding: 1.5rem;
     min-height: 200px;
     border: 2px solid #e0e0e0;
+  }
+  
+  /* Authentication Form Styles */
+  .comments-wrapper :global(.auth-form) {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .comments-wrapper :global(.auth-form-header) {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .comments-wrapper :global(.auth-form-header h4) {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .comments-wrapper :global(.auth-form-header p) {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .comments-wrapper :global(.auth-form-content) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .comments-wrapper :global(.form-group) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .comments-wrapper :global(.form-group label) {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .comments-wrapper :global(.form-group input) {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  
+  .comments-wrapper :global(.form-group input:focus) {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  .comments-wrapper :global(.form-group input:disabled) {
+    background: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .comments-wrapper :global(.auth-submit-button) {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 0.5rem;
+  }
+  
+  .comments-wrapper :global(.auth-submit-button:hover:not(:disabled)) {
+    background: #0056b3;
+  }
+  
+  .comments-wrapper :global(.auth-submit-button:disabled) {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .comments-wrapper :global(.error-message) {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .comments-wrapper :global(.auth-privacy) {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .comments-wrapper :global(.auth-privacy small) {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.4;
   }
   
   .comments-wrapper :global(.comments-content) {

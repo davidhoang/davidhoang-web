@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Thread, Composer } from "@liveblocks/react-ui";
 import { useThreads } from "../../liveblocks.config";
 import LiveblocksWrapper from "./LiveblocksWrapper";
+import AuthForm from "./AuthForm";
 import "@liveblocks/react-ui/styles.css";
 
 interface CommentsProps {
@@ -58,10 +59,33 @@ function CommentsContent() {
 
 export default function Comments({ roomId }: CommentsProps) {
   const [isClient, setIsClient] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    
+    // Check if user is already authenticated
+    const savedUser = localStorage.getItem('liveblocks-user');
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error('Error parsing saved user:', error);
+        localStorage.removeItem('liveblocks-user');
+      }
+    }
   }, []);
+
+  const handleAuthSuccess = (userData: any) => {
+    setUser(userData);
+    setIsAuthenticating(false);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem('liveblocks-user');
+    setUser(null);
+  };
 
   console.log("Comments component rendering with roomId:", roomId);
   
@@ -77,11 +101,40 @@ export default function Comments({ roomId }: CommentsProps) {
       </div>
     );
   }
+
+  // Show authentication form if user is not logged in
+  if (!user) {
+    return (
+      <div className="comments-section">
+        <h3>Comments</h3>
+        <div className="comments-container">
+          <AuthForm onAuthSuccess={handleAuthSuccess} />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="comments-section">
-      <h3>Comments</h3>
+      <div className="comments-header">
+        <h3>Comments</h3>
+        <div className="user-profile">
+          <img 
+            src={user.info.avatar} 
+            alt={user.info.name}
+            className="user-avatar"
+          />
+          <span className="user-name">{user.info.name}</span>
+          <button 
+            onClick={handleSignOut}
+            className="sign-out-button"
+            title="Sign out"
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
       <div className="comments-container">
-        <LiveblocksWrapper roomId={roomId}>
+        <LiveblocksWrapper roomId={roomId} user={user}>
           <CommentsContent />
         </LiveblocksWrapper>
       </div>
