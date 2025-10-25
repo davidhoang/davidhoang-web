@@ -3,9 +3,13 @@ import MainLayout from './MainLayout.astro';
 import BlogMeta from '../components/BlogMeta.astro';
 import { Image } from 'astro:assets';
 import SidebarWriting from '../components/SidebarWriting.astro';
+import CommentsSection from '../components/CommentsSection.astro';
 
 const { data } = Astro.props;
 const { title, description, pubDate } = data;
+
+// Generate a room ID based on the post title/slug
+const roomId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 ---
 
 <MainLayout title={title}>
@@ -27,6 +31,7 @@ const { title, description, pubDate } = data;
           <div class="prose-content">
             <slot />
           </div>
+          <CommentsSection roomId={roomId} />
         </div>
         <SidebarWriting />
       </div>
