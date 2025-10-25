@@ -28,7 +28,7 @@ const { title, description, pubDate } = data;
           <div class="prose-content">
             <slot />
           </div>
-          <CommentsSection />
+          <CommentsSection title={title} url={Astro.url.pathname} />
         </div>
         <SidebarWriting />
       </div>
