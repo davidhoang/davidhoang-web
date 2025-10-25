@@ -1,15 +1,49 @@
 ---
-// Comments section removed - no longer using Liveblocks
+import Giscus from './Giscus.tsx';
+
+interface Props {
+  title: string;
+  url: string;
+}
+
+const { title, url } = Astro.props;
+
+// Giscus configuration
+const giscusConfig = {
+  repo: "davidhoang/davidhoang-web", // Replace with your GitHub repo
+  repoId: "R_kgDOKjQJHQ", // Replace with your repo ID from Giscus setup
+  category: "General",
+  categoryId: "DIC_kwDOKjQJHc4CbQYH", // Replace with your category ID
+  mapping: "pathname",
+  term: title,
+  reactionsEnabled: "1",
+  emitMetadata: "0",
+  inputPosition: "bottom",
+  theme: "preferred_color_scheme",
+  lang: "en",
+  loading: "lazy"
+};
 ---
 
 <div class="comments-wrapper">
   <div class="comments-section">
     <h3>Comments</h3>
     <div class="comments-container">
-      <div class="comments-placeholder">
-        <p>Comments are temporarily disabled.</p>
-        <p>We're working on a better commenting system.</p>
-      </div>
+      <Giscus 
+        repo={giscusConfig.repo}
+        repoId={giscusConfig.repoId}
+        category={giscusConfig.category}
+        categoryId={giscusConfig.categoryId}
+        mapping={giscusConfig.mapping}
+        term={giscusConfig.term}
+        reactionsEnabled={giscusConfig.reactionsEnabled}
+        emitMetadata={giscusConfig.emitMetadata}
+        inputPosition={giscusConfig.inputPosition}
+        theme={giscusConfig.theme}
+        lang={giscusConfig.lang}
+        loading={giscusConfig.loading}
+        client:load
+      />
     </div>
   </div>
 </div>
@@ -33,24 +67,18 @@
   }
   
   .comments-container {
-    background: #f9f9f9;
+    background: transparent;
     border-radius: 8px;
-    padding: 1.5rem;
-    min-height: 120px;
-    border: 2px solid #e0e0e0;
+    padding: 0;
+    min-height: 200px;
   }
   
-  .comments-placeholder {
-    text-align: center;
-    color: #666;
-    font-style: italic;
-    padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    border: 1px dashed #ccc;
+  /* Giscus styling */
+  .comments-container :global(.giscus) {
+    margin-top: 1rem;
   }
   
-  .comments-placeholder p {
-    margin: 0.5rem 0;
+  .comments-container :global(.giscus-frame) {
+    border-radius: 8px;
   }
 </style>
