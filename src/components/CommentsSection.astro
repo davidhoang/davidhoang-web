@@ -9,7 +9,7 @@ const { roomId } = Astro.props;
 ---
 
 <div class="comments-wrapper">
-  <Comments roomId={roomId} client:load />
+  <Comments roomId={roomId} client:only="react" />
 </div>
 
 <style>
@@ -34,5 +34,13 @@ const { roomId } = Astro.props;
     background: #f9f9f9;
     border-radius: 8px;
     padding: 1.5rem;
+    min-height: 200px;
+    border: 2px solid #e0e0e0;
+  }
+  
+  .comments-wrapper :global(.comments-section) {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin: 1rem 0;
   }
 </style>
