@@ -33,7 +33,6 @@ if (!apiKey) {
   throw new Error("Liveblocks API key is required. Please set PUBLIC_LIVEBLOCKS_PUBLIC_KEY in your environment variables.");
 }
 export const client = createClient({
-  publicApiKey: apiKey,
   authEndpoint: "/api/liveblocks-auth",
 });
 

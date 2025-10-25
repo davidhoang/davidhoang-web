@@ -1,4 +1,10 @@
 import type { APIRoute } from 'astro';
+import { Liveblocks } from "@liveblocks/node";
+
+// Initialize Liveblocks with your secret key
+const liveblocks = new Liveblocks({
+  secret: import.meta.env.LIVEBLOCKS_SECRET_KEY || "sk_prod_AYSG44fe_rqa58ry7eAipRHqAS9AxPT82wZLfE0MGHtAYVHpatyZFOuuBxo6adXk",
+});
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -24,23 +30,25 @@ export const POST: APIRoute = async ({ request }) => {
     const userId = email.toLowerCase().replace(/[^a-z0-9]/g, '');
     
     // Create user metadata
-    const user = {
-      id: userId,
-      info: {
-        name: name.trim(),
-        email: email.toLowerCase().trim(),
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name.trim())}&background=007bff&color=fff&size=40`
-      }
+    const userInfo = {
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name.trim())}&background=007bff&color=fff&size=40`
     };
 
-    // Generate a simple token (in production, use proper JWT or session management)
-    const token = Buffer.from(JSON.stringify(user)).toString('base64');
+    // Create a Liveblocks session
+    const session = liveblocks.prepareSession(userId, {
+      userInfo: userInfo,
+    });
 
-    return new Response(JSON.stringify({ 
-      token,
-      user 
-    }), {
-      status: 200,
+    // Allow access to all rooms (you can restrict this based on your needs)
+    session.allow("*", session.FULL_ACCESS);
+
+    // Authorize the session
+    const { status, body } = await session.authorize();
+
+    return new Response(JSON.stringify(body), {
+      status: status,
       headers: { 
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
