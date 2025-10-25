@@ -1,19 +1,15 @@
 import React from "react";
-import { LiveblocksProvider } from "@liveblocks/react";
-import { client } from "../../liveblocks.config";
+import { RoomProvider } from "../../liveblocks.config";
 
 interface LiveblocksWrapperProps {
   children: React.ReactNode;
+  roomId: string;
 }
 
-export default function LiveblocksWrapper({ children }: LiveblocksWrapperProps) {
+export default function LiveblocksWrapper({ children, roomId }: LiveblocksWrapperProps) {
   return (
-    <LiveblocksProvider client={client}>
+    <RoomProvider id={roomId}>
       {children}
-    </LiveblocksProvider>
+    </RoomProvider>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bdcbb3e (added liveblocks module)
