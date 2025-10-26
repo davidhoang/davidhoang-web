@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -57,7 +58,7 @@ export const prerender = false;
     <meta name="generator" content={Astro.generator} />
 
     <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
-    <ViewTransitions />
+    <ViewTransitions fallback="swap" />
 
     <!-- Inline critical CSS -->
     <style is:inline>
@@ -114,8 +115,6 @@ export const prerender = false;
       })();
     </script>
 
-    <!-- Load main CSS -->
-    <link rel="stylesheet" href="/styles/global.css">
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -125,6 +124,8 @@ export const prerender = false;
     </main>
     <Footer />
     <ThemeToggle />
+    
+    <MusicPlayer />
     <script>
       // Persist theme during view transitions
       document.addEventListener('astro:after-swap', () => {
