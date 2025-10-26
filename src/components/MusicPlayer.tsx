@@ -68,6 +68,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     const savedExpanded = localStorage.getItem('music-player-expanded');
     const savedVisible = localStorage.getItem('music-player-visible');
     const savedTrackIndex = localStorage.getItem('music-player-track-index');
+    const savedIsPlaying = localStorage.getItem('music-player-is-playing');
     
     if (savedExpanded !== null) {
       setIsExpanded(savedExpanded === 'true');
@@ -78,25 +79,49 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     if (savedTrackIndex !== null) {
       setCurrentTrackIndex(parseInt(savedTrackIndex));
     }
+    if (savedIsPlaying !== null) {
+      setIsPlaying(savedIsPlaying === 'true');
+    }
   }, []);
+
+  // Ensure audio state consistency
+  const ensureAudioStateConsistency = () => {
+    if (!audioRef.current) return;
+    
+    const audioPaused = audioRef.current.paused;
+    if (isPlaying && audioPaused) {
+      // State says playing but audio is paused - sync state
+      setIsPlaying(false);
+    } else if (!isPlaying && !audioPaused) {
+      // State says paused but audio is playing - sync state
+      setIsPlaying(true);
+    }
+  };
 
   // Save state to localStorage
   const toggleExpanded = () => {
     const newExpanded = !isExpanded;
     setIsExpanded(newExpanded);
     localStorage.setItem('music-player-expanded', newExpanded.toString());
+    ensureAudioStateConsistency();
   };
 
   const toggleVisible = () => {
     const newVisible = !isVisible;
     setIsVisible(newVisible);
     localStorage.setItem('music-player-visible', newVisible.toString());
+    ensureAudioStateConsistency();
   };
 
   const goToTrack = (index: number) => {
+    // Pause current audio if playing
+    if (audioRef.current && !audioRef.current.paused) {
+      audioRef.current.pause();
+    }
+    
     setCurrentTrackIndex(index);
-    localStorage.setItem('music-player-track-index', index.toString());
     setIsPlaying(false); // Stop current track
+    localStorage.setItem('music-player-track-index', index.toString());
   };
 
   const nextTrack = () => {
@@ -111,14 +136,18 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
 
   // Control music player
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch((error) => {
-          console.error('🎵 Play failed:', error);
-        });
-      }
+    if (!audioRef.current) return;
+    
+    // Ensure state consistency before toggling
+    ensureAudioStateConsistency();
+    
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch((error) => {
+        console.error('🎵 Play failed:', error);
+        setIsPlaying(false);
+      });
     }
   };
 
@@ -164,24 +193,68 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     }
   }, [currentTrack, isHydrated]);
 
+  // Sync audio element with playing state after restoration
+  useEffect(() => {
+    if (!isHydrated || !audioRef.current || !currentTrack) return;
+    
+    // Small delay to ensure audio is loaded
+    const timer = setTimeout(() => {
+      if (audioRef.current) {
+        if (isPlaying && audioRef.current.paused) {
+          audioRef.current.play().catch((error) => {
+            console.error('🎵 Auto-play failed:', error);
+            setIsPlaying(false);
+          });
+        } else if (!isPlaying && !audioRef.current.paused) {
+          audioRef.current.pause();
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isHydrated, isPlaying, currentTrack]);
+
   // Handle view transitions for persistent playback
   useEffect(() => {
     const handleBeforePreparation = () => {
       // Save current track and playing state
       localStorage.setItem('music-player-current-track', currentTrackIndex.toString());
       localStorage.setItem('music-player-is-playing', isPlaying.toString());
+      
+      // Also save the actual audio state
+      if (audioRef.current) {
+        localStorage.setItem('music-player-audio-paused', audioRef.current.paused.toString());
+        localStorage.setItem('music-player-audio-current-time', audioRef.current.currentTime.toString());
+      }
     };
 
     const handleAfterSwap = () => {
       // Restore track and playing state
       const savedTrackIndex = localStorage.getItem('music-player-current-track');
       const savedIsPlaying = localStorage.getItem('music-player-is-playing');
+      const savedAudioPaused = localStorage.getItem('music-player-audio-paused');
+      const savedCurrentTime = localStorage.getItem('music-player-audio-current-time');
       
       if (savedTrackIndex !== null) {
         setCurrentTrackIndex(parseInt(savedTrackIndex));
       }
       if (savedIsPlaying !== null) {
         setIsPlaying(savedIsPlaying === 'true');
+      }
+      
+      // Restore audio state after a short delay
+      if (audioRef.current && savedAudioPaused !== null && savedCurrentTime !== null) {
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = parseFloat(savedCurrentTime);
+            if (savedAudioPaused === 'false' && savedIsPlaying === 'true') {
+              audioRef.current.play().catch((error) => {
+                console.error('🎵 Resume failed:', error);
+                setIsPlaying(false);
+              });
+            }
+          }
+        }, 200);
       }
     };
 
