@@ -16,7 +16,7 @@ const currentPath = Astro.url.pathname;
     <ul class="nav-links desktop-nav" aria-label="Main menu">
       {navItems.map(item => (
         <li>
-          <a href={item.path} aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
+          <a href={item.path} data-astro-transition="swap" aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
         </li>
       ))}
     </ul>
@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname;
       <ul class="mobile-nav-links">
         {navItems.map(item => (
           <li>
-            <a href={item.path} aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
+            <a href={item.path} data-astro-transition="swap" aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
           </li>
         ))}
       </ul>
