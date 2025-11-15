@@ -9,12 +9,15 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
 <style is:global>
   .music-player {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: 0;
+    left: 0;
     z-index: 9999;
     background: var(--color-bg);
-    border: 2px solid var(--color-border);
-    border-radius: 12px;
+    border-top: 2px solid var(--color-border);
+    border-right: 2px solid var(--color-border);
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0 12px 0 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     font-family: var(--font-primary);
@@ -29,8 +32,8 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
 
   .music-player-minimized {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: 0;
+    left: 0;
     z-index: 9999;
   }
 
@@ -45,7 +48,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
     border-bottom: 1px solid var(--color-border) !important;
     flex-direction: row !important;
     width: 100% !important;
-    border-radius: 12px 12px 0 0 !important;
+    border-radius: 0 12px 0 0 !important;
     overflow: hidden !important;
   }
 
@@ -136,16 +139,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
     align-items: center !important;
     gap: 6px !important;
     flex: 1 !important;
-🎵 Toggle play clicked, current track: {id: '1', title: 'LAX', artist: 'Tom Rothrock', url: '/audio/Tom_Rothrock_-_LAX_(Rilds.com).mp3', type: 'local'}
-SoundCloudPlayer.tsx:245 🎵 Playing local MP3: /audio/Tom_Rothrock_-_LAX_(Rilds.com).mp3
-SoundCloudPlayer.tsx:247 🎵 Audio element: <audio preload=​"metadata" style=​"display:​ none;​">​</audio>​media
-SoundCloudPlayer.tsx:248 🎵 Audio src: 
-SoundCloudPlayer.tsx:249 🎵 Audio readyState: 0
-SoundCloudPlayer.tsx:231 🎵 Toggle play clicked, current track: {id: '1', title: 'LAX', artist: 'Tom Rothrock', url: '/audio/Tom_Rothrock_-_LAX_(Rilds.com).mp3', type: 'local'}
-SoundCloudPlayer.tsx:245 🎵 Playing local MP3: /audio/Tom_Rothrock_-_LAX_(Rilds.com).mp3
-SoundCloudPlayer.tsx:247 🎵 Audio element: <audio preload=​"metadata" style=​"display:​ none;​">​</audio>​media
-SoundCloudPlayer.tsx:248 🎵 Audio src: 
-S    min-width: 100px !important;
+    min-width: 100px !important;
     max-width: 140px !important;
   }
 
@@ -209,7 +203,7 @@ S    min-width: 100px !important;
     padding: 16px;
     background: var(--color-bg);
     border-top: 1px solid var(--color-border);
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 0 12px;
   }
 
   .music-player-track {
@@ -410,32 +404,44 @@ S    min-width: 100px !important;
     display: none;
   }
 
-  /* Minimized state */
+  /* Minimized state - subtle corner tab */
   .music-player-minimized .music-player-toggle-btn {
-    background: var(--color-sidebar-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    background: var(--color-bg);
+    border: none;
+    border-top: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    border-radius: 8px 0 0 0;
+    padding: 6px 10px;
+    min-width: 40px;
+    height: 32px;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin: 0;
   }
 
   .music-player-minimized .music-player-toggle-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: var(--color-nav-hover);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+  }
+
+  .music-player-minimized .music-player-toggle-btn:active {
+    transform: translateY(1px);
   }
 
   /* Music icon styling */
   .music-player-minimized .music-player-toggle-btn svg {
     color: var(--color-text);
-    width: 20px;
-    height: 20px;
+    opacity: 0.7;
+    width: 14px;
+    height: 14px;
+  }
+
+  .music-player-minimized .music-player-toggle-btn:hover svg {
+    opacity: 1;
   }
 
   /* Dark mode adjustments */
@@ -444,11 +450,11 @@ S    min-width: 100px !important;
   }
 
   [data-theme="dark"] .music-player-minimized .music-player-toggle-btn {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
   }
 
   [data-theme="dark"] .music-player-minimized .music-player-toggle-btn:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.3);
   }
 
   /* Reduced motion support */
@@ -460,9 +466,9 @@ S    min-width: 100px !important;
   }
   @media (max-width: 768px) {
     .music-player {
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
+      bottom: 0;
+      left: 0;
+      right: 0;
       max-width: none;
       min-width: auto;
     }
@@ -515,14 +521,19 @@ S    min-width: 100px !important;
     }
 
     .music-player-minimized {
-      bottom: 10px;
-      left: 10px;
+      bottom: 0;
+      left: 0;
     }
 
     .music-player-minimized .music-player-toggle-btn {
-      width: 48px;
-      height: 48px;
-      font-size: 20px;
+      height: 28px;
+      padding: 5px 8px;
+      min-width: 36px;
+    }
+
+    .music-player-minimized .music-player-toggle-btn svg {
+      width: 12px;
+      height: 12px;
     }
 
     .music-player-content {
