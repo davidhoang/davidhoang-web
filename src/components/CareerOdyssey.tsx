@@ -23,6 +23,7 @@ export interface CareerNodeInput {
 export interface CareerNode extends CareerNodeInput {
   x: number;
   y: number;
+  radius: number; // Dynamic radius based on text content
 }
 
 interface CareerOdysseyProps {
@@ -71,6 +72,40 @@ function parseDate(dateStr?: string): number {
     return 0;
   }
   return timestamp;
+}
+
+// Calculate node radius based on text content
+// Uses a canvas to measure text width and calculates appropriate circle size
+function calculateNodeRadius(label: string): number {
+  // Create a temporary canvas to measure text
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  if (!context) {
+    // Fallback if canvas not available
+    return 60; // Default radius
+  }
+  
+  // Set font to match the node label style (0.75rem, 500 weight)
+  context.font = '500 0.75rem -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  
+  // Measure text width
+  const textMetrics = context.measureText(label);
+  const textWidth = textMetrics.width;
+  
+  // Calculate radius: ensure minimum size, add padding, and account for circular shape
+  // For a circle, we need diameter = 2 * radius
+  // Text width should fit comfortably inside with padding
+  // Using: radius = (textWidth + padding) / 2, with minimum of 50px
+  const padding = 40; // Horizontal padding
+  const minRadius = 50;
+  const calculatedRadius = Math.max(minRadius, (textWidth + padding) / 2);
+  
+  // Also consider line breaks - if text is long, we might need more vertical space
+  // Estimate: if text is very long, increase radius
+  const maxRadius = 100; // Maximum radius to prevent huge nodes
+  const finalRadius = Math.min(maxRadius, calculatedRadius);
+  
+  return Math.ceil(finalRadius);
 }
 
 // Automatic layout algorithm - timeline-oriented with date clustering
@@ -267,10 +302,15 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
     positionedNodes.set(node.id, { ...node, x, y });
   });
   
-  // Collision detection and resolution
-  const NODE_RADIUS = 60; // Half of 120px circle
-  const MIN_DISTANCE = NODE_RADIUS * 2.5; // Minimum distance between node centers (with padding to prevent any overlap)
-  const positionedNodesArray = Array.from(positionedNodes.values());
+  // Calculate radii for all nodes and add to positioned nodes
+  const nodesWithRadii: CareerNode[] = [];
+  positionedNodes.forEach((node, id) => {
+    const radius = calculateNodeRadius(node.label);
+    nodesWithRadii.push({ ...node, radius });
+  });
+  
+  // Collision detection and resolution with variable node sizes
+  const positionedNodesArray = nodesWithRadii;
   const maxIterations = 100;
   let iterations = 0;
   
@@ -287,12 +327,15 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
         const dy = nodeB.y - nodeA.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
+        // Calculate minimum distance based on actual node radii
+        const minDistance = (nodeA.radius + nodeB.radius) * 1.5; // 1.5x padding between nodes
+        
         // Check for collision (distance less than minimum required)
-        if (distance < MIN_DISTANCE && distance > 0) {
+        if (distance < minDistance && distance > 0) {
           hasCollisions = true;
           
           // Calculate separation force - more aggressive
-          const overlap = MIN_DISTANCE - distance;
+          const overlap = minDistance - distance;
           const separationX = (dx / distance) * overlap;
           const separationY = (dy / distance) * overlap;
           
@@ -363,9 +406,10 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
       const dy = nodeB.y - nodeA.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      if (distance < MIN_DISTANCE && distance > 0) {
+      const minDistance = (nodeA.radius + nodeB.radius) * 1.5;
+      if (distance < minDistance && distance > 0) {
         // Force separation - push nodes apart more aggressively
-        const overlap = MIN_DISTANCE - distance;
+        const overlap = minDistance - distance;
         const separationX = (dx / distance) * overlap * 1.2;
         const separationY = (dy / distance) * overlap * 1.2;
         
@@ -385,7 +429,7 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
     if (clusterNodes.length > 1) {
       // Sort by x position
       const sorted = clusterNodes
-        .map(n => positionedNodes.get(n.id))
+        .map(n => positionedNodesArray.find(n2 => n2.id === n.id))
         .filter((n): n is CareerNode => n !== undefined)
         .sort((a, b) => a.x - b.x);
       
@@ -397,8 +441,9 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
         const dy = nodeB.y - nodeA.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < MIN_DISTANCE) {
-          const overlap = MIN_DISTANCE - distance;
+        const minDistance = (nodeA.radius + nodeB.radius) * 1.5;
+        if (distance < minDistance) {
+          const overlap = minDistance - distance;
           const adjustmentX = (dx / distance) * overlap;
           const adjustmentY = (dy / distance) * overlap;
           
@@ -415,7 +460,7 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
   });
   
   // Final verification pass: check all pairs one more time
-  const finalNodesArray = Array.from(positionedNodes.values());
+  const finalNodesArray = positionedNodesArray;
   for (let i = 0; i < finalNodesArray.length; i++) {
     for (let j = i + 1; j < finalNodesArray.length; j++) {
       const nodeA = finalNodesArray[i];
@@ -425,10 +470,11 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
       const dy = nodeB.y - nodeA.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      if (distance < MIN_DISTANCE && distance > 0) {
+      const minDistance = (nodeA.radius + nodeB.radius) * 1.5;
+      if (distance < minDistance && distance > 0) {
         // Last resort: force minimum distance (treat all nodes equally)
         const angle = Math.atan2(dy, dx);
-        const targetDistance = MIN_DISTANCE;
+        const targetDistance = minDistance;
         const midX = (nodeA.x + nodeB.x) / 2;
         const midY = (nodeA.y + nodeB.y) / 2;
         
@@ -445,7 +491,6 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
   
   // Check and resolve line-node intersections
   // For each connection, ensure the line doesn't pass through other nodes
-  const LINE_NODE_CLEARANCE = NODE_RADIUS + 10; // Extra clearance around nodes for lines
   let hasLineIntersections = true;
   let lineIterations = 0;
   const maxLineIterations = 30;
@@ -495,12 +540,15 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
           // Distance from other node to line
           const distToLine = Math.sqrt((x0 - closestX) ** 2 + (y0 - closestY) ** 2);
           
+          // Use variable radius for clearance
+          const lineNodeClearance = otherNode.radius + 10; // Extra clearance around nodes for lines
+          
           // Check if line passes too close to this node
-          if (distToLine < LINE_NODE_CLEARANCE) {
+          if (distToLine < lineNodeClearance) {
             hasLineIntersections = true;
             
             // Push the interfering node away from the line
-            const pushDistance = LINE_NODE_CLEARANCE - distToLine + 5; // Extra push
+            const pushDistance = lineNodeClearance - distToLine + 5; // Extra push
             const pushAngle = Math.atan2(y0 - closestY, x0 - closestX);
             
             // Determine which node to move (prefer moving the interfering node)
@@ -535,7 +583,13 @@ function calculateNodePositions(nodes: CareerNodeInput[]): CareerNode[] {
     lineIterations++;
   }
   
-  return Array.from(positionedNodes.values());
+  // Update final nodes array with latest positions
+  const finalNodesWithRadii = finalNodesArray.map(node => {
+    const updated = positionedNodes.get(node.id);
+    return updated || node;
+  });
+  
+  return finalNodesWithRadii;
 }
 
 export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps) {
@@ -564,6 +618,9 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
   const [nodePositions, setNodePositions] = useState<Map<string, { x: number; y: number }>>(new Map());
   const [isDraggingNode, setIsDraggingNode] = useState(false);
   const nodeDragStart = useRef({ x: 0, y: 0, nodeId: '' });
+  
+  // Click feedback state
+  const [clickedNodeId, setClickedNodeId] = useState<string | null>(null);
   
   // Initialize node positions map
   React.useEffect(() => {
@@ -689,6 +746,11 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
 
   const handleNodeClick = (e: React.MouseEvent, node: CareerNode) => {
     e.stopPropagation();
+    
+    // Trigger click feedback animation
+    setClickedNodeId(node.id);
+    setTimeout(() => setClickedNodeId(null), 300);
+    
     // Toggle if clicking the same node, otherwise select the new node
     if (selectedNode?.id === node.id) {
       setSelectedNode(null);
@@ -912,8 +974,9 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
                 const targetNode = careerNodes.find((n) => n.id === connectionId);
                 if (!targetNode) return null;
                 
-                // Node radius (half of 120px circle)
-                const nodeRadius = 60;
+                // Use actual node radii
+                const sourceRadius = node.radius;
+                const targetRadius = targetNode.radius;
                 
                 // Calculate direction vector from node to target
                 const dx = targetNode.x - node.x;
@@ -924,13 +987,13 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
                 const angle = Math.atan2(dy, dx);
                 
                 // Start point on the edge of the source node circle
-                const startX = node.x + Math.cos(angle) * nodeRadius;
-                const startY = node.y + Math.sin(angle) * nodeRadius;
+                const startX = node.x + Math.cos(angle) * sourceRadius;
+                const startY = node.y + Math.sin(angle) * sourceRadius;
                 
                 // End point on the edge of the target node circle
                 const endAngle = Math.atan2(node.y - targetNode.y, node.x - targetNode.x);
-                const endX = targetNode.x + Math.cos(endAngle) * nodeRadius;
-                const endY = targetNode.y + Math.sin(endAngle) * nodeRadius;
+                const endX = targetNode.x + Math.cos(endAngle) * targetRadius;
+                const endY = targetNode.y + Math.sin(endAngle) * targetRadius;
                 
                 // Create straight line path from edge to edge
                 const path = `M ${startX} ${startY} L ${endX} ${endY}`;
@@ -959,8 +1022,9 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
               const toNode = careerNodes.find((n) => n.id === to);
               if (!fromNode || !toNode) return null;
               
-              // Node radius (half of 120px circle)
-              const nodeRadius = 60;
+              // Use actual node radii
+              const sourceRadius = fromNode.radius;
+              const targetRadius = toNode.radius;
               
               // Calculate direction vector from node to target
               const dx = toNode.x - fromNode.x;
@@ -971,13 +1035,13 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
               const angle = Math.atan2(dy, dx);
               
               // Start point on the edge of the source node circle
-              const startX = fromNode.x + Math.cos(angle) * nodeRadius;
-              const startY = fromNode.y + Math.sin(angle) * nodeRadius;
+              const startX = fromNode.x + Math.cos(angle) * sourceRadius;
+              const startY = fromNode.y + Math.sin(angle) * sourceRadius;
               
               // End point on the edge of the target node circle
               const endAngle = Math.atan2(fromNode.y - toNode.y, fromNode.x - toNode.x);
-              const endX = toNode.x + Math.cos(endAngle) * nodeRadius;
-              const endY = toNode.y + Math.sin(endAngle) * nodeRadius;
+              const endX = toNode.x + Math.cos(endAngle) * targetRadius;
+              const endY = toNode.y + Math.sin(endAngle) * targetRadius;
               
               // Create straight line path from edge to edge
               const path = `M ${startX} ${startY} L ${endX} ${endY}`;
@@ -1005,7 +1069,7 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
                   selectedNode?.id === node.id ? 'career-node--selected' : ''
                 } ${node.pathTaken !== false ? 'career-node--path-taken' : 'career-node--branch'} ${
                   isDraggingNode && draggedNode?.id === node.id ? 'career-node--dragging' : ''
-                }`}
+                } ${clickedNodeId === node.id ? 'career-node--clicked' : ''}`}
                 style={{
                   left: `${node.x}px`,
                   top: `${node.y}px`,
@@ -1017,7 +1081,13 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
                 tabIndex={0}
                 aria-label={`${node.label}${node.description && typeof node.description === 'string' && node.description.trim() !== '' ? `: ${node.description}` : ''}`}
               >
-                <div className="career-node-content">
+                <div 
+                  className="career-node-content"
+                  style={{
+                    width: `${node.radius * 2}px`,
+                    height: `${node.radius * 2}px`,
+                  }}
+                >
                   <div className="career-node-label">{node.label}</div>
                 </div>
                 {node.pathTaken !== false && node.date && (

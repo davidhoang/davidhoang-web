@@ -1,11 +1,13 @@
 ---
 name: "Nordstrom"
-coverImage: "/images/img-dh.png"
+coverImage: "/images/work/nordstrom/davidhoang-portfolio-nordstrom-cover.jpg"
 year: 2013
 summary: "Design work for Nordstrom's digital experiences. Focused on creating elegant e-commerce interfaces that maintained the brand's reputation for quality and service."
 ---
 
 Nordstrom is known for exceptional customer service and curated selection. The challenge was translating that in-store experience to digital platforms while maintaining the brand's premium positioning.
+
+![Nordstrom Digital Experience](/images/work/nordstrom/davidhoang-portfolio-nordstrom_01.jpg)
 
 ## The Challenge
 
