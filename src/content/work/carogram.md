@@ -9,12 +9,6 @@ Carogram was one of my first forays into building apps that consumed APIs rather
 
 ![Carogram App Interface](/images/work/carogram/img_portfolio_carogram_04.png)
 
-## The Experiment
-
-At the time, Instagram was primarily a mobile app. Carogram explored what Instagram could look like on larger screens—taking advantage of the iPad's display and the web's flexibility. The app consumed Instagram's API to display photos, feeds, and user profiles.
-
-![Carogram iPad Experience](/images/work/carogram/img_portfolio_carogram_05.png)
-
 ## Technical Approach
 
 Built with Node.js, Carogram was an early example of what would become a common pattern: apps as interfaces over APIs. The app didn't store user data locally but instead fetched and rendered content from Instagram's service in real-time.

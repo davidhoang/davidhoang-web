@@ -9,12 +9,6 @@ The HTC One M8 was a flagship Android smartphone that represented HTC's commitme
 
 ![HTC One M8 Launch Campaign](/images/work/htc/htc-m8-01.jpg)
 
-## The Challenge
-
-Launching a flagship device in a competitive smartphone market required creating a campaign that would stand out. The M8 had distinctive features like its dual-camera system and premium metal construction that needed to be communicated effectively.
-
-![HTC One M8 Design Details](/images/work/htc/htc-m8-02.jpg)
-
 ## The Approach
 
 The design work focused on highlighting the device's craftsmanship and innovative features. The campaign emphasized the premium materials, thoughtful design details, and the user experience that set the M8 apart from competitors.
