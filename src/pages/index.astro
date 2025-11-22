@@ -8,8 +8,7 @@ import { getCollection } from 'astro:content';
   <!-- Hero Section -->
   <section class="hero-grid" aria-labelledby="hero-heading">
     <div class="hero-content">
-      <h1 id="hero-heading">David Hoang is a designer, operator, and investor</h1>
-      <p>Investing and building tools that revolutionize the internet. He is currently VP&nbsp;of&nbsp;Design,&nbsp;AI at <a href="https://atlassian.com" target="_blank" rel="noopener noreferrer">Atlassian</a> and an Advisor for <a href="https://createwithplay.com" target="_blank" rel="noopener noreferrer">Play</a>.</p>
+      <h1 id="hero-heading">David Hoang is making <a href="http://rovo.com" target="_blank">Rovo</a> and investing.</h1>
       <ul role="list" aria-label="Quick links and highlights">
         <li>Subscribe to my newsletter, <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
         <li>Buy the zine, <a href="https://davidhoang.gumroad.com/l/proof-of-concept-000-series" rel="noopener noreferrer">Proof of Concept: The 000 Series</a></li>
@@ -198,7 +197,7 @@ import { getCollection } from 'astro:content';
       width: 400px;
       height: auto;
       border-radius: 8px;
-      transition: opacity 0.4s ease-in-out;
+      transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     }
 
     .hero-image-fluted {
@@ -209,8 +208,14 @@ import { getCollection } from 'astro:content';
       pointer-events: none;
     }
 
+    .hero-image-wrapper:hover .hero-image-base {
+      opacity: 0;
+      transform: scale(1.05);
+    }
+
     .hero-image-wrapper:hover .hero-image-fluted {
       opacity: 1;
+      transform: scale(1.05);
     }
 
     @media (max-width: 480px) {
