@@ -11,8 +11,8 @@
   --color-nav-text: #333;   /* Dark text for light mode */
   --color-nav-hover: rgba(0, 0, 0, 0.05); /* More contrast for light mode hover */
   --nav-height: 40px;
-  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
+  --font-primary: 'Alegreya', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, serif;
   --font-mono: 'Courier New', Courier, monospace;
 }
 
@@ -448,6 +448,7 @@ footer {
 }
 
 .hero-title h1 {
+  font-family: 'EB Garamond', serif;
   font-size: clamp(5rem, 8vw, 8rem);
   @media (max-width: 768px) {
     font-size: clamp(3rem, 6vw, 6rem);
@@ -455,7 +456,7 @@ footer {
   @media (max-width: 480px) {
     font-size: clamp(4rem, 4vw, 4rem);
   }
-  font-weight: 600;
+  font-weight: 500;
   width: 100%;
   text-align: center;
 }
@@ -492,13 +493,13 @@ footer * {  /* This ensures all elements within footer use Alegreya */
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .footer-col h4 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer-col ul {
@@ -508,8 +509,15 @@ footer * {  /* This ensures all elements within footer use Alegreya */
 }
 
 .footer-col li {
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.footer-col a:hover {
+  text-decoration: underline !important;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
 @media (max-width: 768px) {
@@ -525,6 +533,16 @@ footer * {  /* This ensures all elements within footer use Alegreya */
   .footer-col {
     width: 100%;
     max-width: 100%;
+  }
+  
+  .footer-col h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .footer-col li {
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
   }
 }
 
