@@ -1,5 +1,9 @@
+/* ============================================
+   CSS Variables (Design Tokens)
+   ============================================ */
+
 :root {
-  /* Light mode colors */
+  /* Colors - Light mode */
   --color-text: #333;
   --color-bg: #fff;
   --color-link: #333;
@@ -7,10 +11,14 @@
   --color-border: #eee;
   --color-muted: #666;
   --color-sidebar-bg: #f7f7f7;
-  --color-nav-bg: #f5f5f5;  /* Lighter grey for light mode */
-  --color-nav-text: #333;   /* Dark text for light mode */
-  --color-nav-hover: rgba(0, 0, 0, 0.05); /* More contrast for light mode hover */
+  --color-nav-bg: #f5f5f5;
+  --color-nav-text: #333;
+  --color-nav-hover: rgba(0, 0, 0, 0.05);
+
+  /* Layout */
   --nav-height: 40px;
+
+  /* Typography */
   --font-primary: 'EB Garamond', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, serif;
   --font-mono: 'Courier New', Courier, monospace;
@@ -25,12 +33,14 @@
   --color-border: #333;
   --color-muted: #888;
   --color-sidebar-bg: #1a1a1a;
-  --color-nav-bg: #1a1a1a;    /* Darker grey for dark mode */
-  --color-nav-text: #e1e1e1;  /* Light text for dark mode */
-  --color-nav-hover: rgba(255, 255, 255, 0.1); /* More contrast for dark mode hover */
+  --color-nav-bg: #1a1a1a;
+  --color-nav-text: #e1e1e1;
+  --color-nav-hover: rgba(255, 255, 255, 0.1);
 }
 
-
+/* ============================================
+   Base / Reset Styles
+   ============================================ */
 
 * {
   font-family: var(--font-primary);
@@ -39,7 +49,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   min-height: 100%;
   margin: 0;
@@ -58,271 +69,22 @@ body {
   transition: color 0.6s ease, background-color 0.6s ease;
 }
 
-/* Add smooth transitions to elements that change with theme */
-body,
-a,
-button,
-.sidebar,
-.nav-links a,
-.footer-links a,
-blockquote,
-.theme-toggle button,
-.hero-title,
-nav,
-.nav-container {
-  /* transition: all 0.3s ease; */
-  /* Only transition specific properties that need it */
-  transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-/* Ensure SVG icons also transition smoothly */
-svg {
-  transition: color 0.3s ease, stroke 0.3s ease;
-}
-
-/* Add transition to the theme toggle button */
-.theme-toggle button {
-  background: var(--color-sidebar-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  padding: 0.75rem;
-  cursor: pointer;
-  transition: transform 0.2s ease,
-              background-color 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Optional: Add a transition class for elements that need it */
-.theme-transition {
-  /* transition: background-color 0.3s ease,
-              color 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease; */
-  /* Simplify to only what's needed */
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Optional: Add a transition class for nav elements */
-.theme-transition nav,
-.theme-transition .nav-links a,
-.theme-transition .logo {
-  transition: background-color 0.3s ease,
-              color 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease,
-              transform 0.3s ease;
-}
-
-p {
-  margin-bottom: 16px;
-  font-size: 1.2rem;
-  color: var(--color-text);
-}
-
-ul {
-  margin: 0;
-  list-style-type: disc;
-}
-
-li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-  font-size: 1.2rem;
-}
-
-a {
-  color: var(--color-link);
-  text-decoration: none;
-  position: relative;
-  /* Remove transition from here since it's already defined above */
-  /* transition: color 0.3s ease; */
-  border-bottom: 1px dotted var(--color-link);
-}
-
-a:visited {
-  color: var(--color-link);
-  border-bottom-color: var(--color-link);
-}
-
-a:hover {
-  color: var(--color-link-hover);
-  border-bottom-color: var(--color-link-hover);
-}
-
-a::after {
-  /* Optimize this transition to be more performant */
-  /* transition: transform 0.3s ease, background-color 0.3s ease; */
-  transition: transform 0.3s ease;
-  content: '';
-  position: absolute;
-  width: calc(100% - 2px); /* Subtract border width */
-  height: 2px;
-  bottom: -1px; /* Align with bottom border */
-  left: 0;
-  background-color: var(--color-link-hover);
-  transform: scaleX(0);
-  transform-origin: bottom right;
-}
-
-a:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-/*Layouts*/
-
-.container {
-  width: min(100% - 2rem, 1200px);
-  margin-inline: auto;
-  padding: 0 clamp(1rem, 3vw, 2rem);
-}
-
-.layout-blog {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  background-color: red;
-  width: 100%;
-}
-
-.layout-blog ul{
-  margin: 0;
-}
-
 main {
   min-height: calc(100vh - var(--nav-height) - 100px);
   padding: 4rem 0;
   width: 100%;
 }
 
+/* ============================================
+   Typography
+   ============================================ */
 
-.hero-content ul {
-  margin: 0px 0px 0px 24px;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 2rem;
-  width: 100%;
-}
-
-.newsletter-section {
-  display: grid;
-  grid-template-columns: 1fr;
-  padding: 0rem 8rem;
-  text-align: center;
-  width: 100%;
-  padding: 2rem 5rem;
-}
-
-.hero {
-  background: #f5f5f5;
-  padding: 3rem;
-  margin: 4rem 0;
-  font-size: 100px;
-  text-align: center;;
-  border-radius: 12px;
-  width: 100%;
-}
-
-.content-grid {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 3rem;
-  margin: 4rem 0;
-  width: 100%;
-}
-
-.quick-links {
-  display: grid;
-  gap: 1rem;
-}
-
-.posts-list {
-  gap: 0.25rem;
-  line-height: 1.5;
-}
-
-.blog-post {
-  margin: 0;
-}
-
-.sidebar-blog {
-  width: 240px;
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 1.0rem;
-    max-width: 100%;
-    width: 100%;
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-
-  p, li {
-    font-size: 1.2rem;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-  }
-
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin: 2rem 0 0 0;
-  }
-
-  .hero-content h1 {
-    font-size: 2.25rem;
-  }
-
-  .hero-image img {
-    width: 100%;
-    margin: 0 auto;
-    display: block;
-  }
-
-  .content-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    margin: 2rem 0;
-  }
-
-  .sidebar-blog {
-    width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-grid,
-  .content-grid {
-    grid-template-columns: 1fr;
-  }
-  .footer-section-email {
-    font-size: clamp(0.875rem, 2vw, 5rem);
-  }
-  
-  .container,
-  .content-grid,
-  .hero-grid,
-  .newsletter-section,
-  .hero,
-  .sidebar-blog {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .sidebar-blog {
-    margin-top: 2rem;
-  }
-} 
-
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
   margin-top: 1rem;
@@ -359,21 +121,106 @@ h6 {
   font-size: 1.25rem;
 }
 
-@media (max-width: 768px) {
-  h1, h2, h3, h4, h5, h6 {
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    font-weight: 600;
-    font-family: 'EB Garamond', var(--font-primary);
-  }
-  h1 {font-size: 2.5rem;}
-  h2 {font-size: 2rem;}
-  h3 {font-size: 1.6rem;}
-  h4 {font-size: 1.5rem;}
-  h5 {font-size: 1.25rem;}
-  h6 {font-size: 1.1rem;}
-} 
+p {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+ul {
+  margin: 0;
+  list-style-type: disc;
+}
+
+li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  font-size: 1.2rem;
+}
+
+strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] em {
+  color: var(--color-text);
+}
+
+time {
+  color: var(--color-muted);
+}
+
+/* ============================================
+   Links
+   ============================================ */
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  position: relative;
+  border-bottom: 1px dotted var(--color-link);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+a:visited {
+  color: var(--color-link);
+  border-bottom-color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  border-bottom-color: var(--color-link-hover);
+}
+
+a::after {
+  transition: transform 0.3s ease;
+  content: '';
+  position: absolute;
+  width: calc(100% - 2px);
+  height: 2px;
+  bottom: -1px;
+  left: 0;
+  background-color: var(--color-link-hover);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+}
+
+a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Navigation and footer links should not have underlines */
+.nav-links a,
+.footer-links a,
+.sidebar a,
+.logo,
+footer a {
+  border-bottom: none !important;
+}
+
+.nav-links a::after,
+.footer-links a::after,
+.sidebar a::after,
+.logo::after,
+footer a::after {
+  display: none !important;
+}
+
+/* ============================================
+   Blockquote
+   ============================================ */
 
 blockquote {
   margin: 2rem 0;
@@ -382,6 +229,7 @@ blockquote {
   background-color: var(--color-sidebar-bg);
   font-style: italic;
   border-radius: 0 8px 8px 0;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 blockquote p {
@@ -397,7 +245,21 @@ blockquote cite {
   font-size: 0.9rem;
   color: var(--color-muted);
   font-style: normal;
-} 
+}
+
+/* ============================================
+   Layout Utilities
+   ============================================ */
+
+.container {
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+/* ============================================
+   Prose Content (for markdown/blog posts)
+   ============================================ */
 
 .prose-content li {
   margin-left: 1rem;
@@ -411,28 +273,54 @@ blockquote cite {
   overflow: auto;
 }
 
-/* Footer */
+/* ============================================
+   Shared Component Styles
+   ============================================ */
 
-.footer-section-email {
-  padding: 24px 0px;
-  margin-bottom: 24px;
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  font-weight: 600;
+/* Sidebar */
+.sidebar {
+  background-color: var(--color-sidebar-bg);
 }
 
-footer {
-  background-image: url('/images/img-bg-noise.png');
-  background-repeat: repeat;
-  background-size: 200px;
-  opacity: 1;
-  padding: 2rem 0 4rem 0;
-  font-size: 1.0rem;
-  min-height: 100px;
-  width: 100%;
+.sidebar-section p {
+  color: var(--color-muted);
 }
 
+/* Theme transitions */
+body,
+a,
+button,
+.sidebar,
+.nav-links a,
+.footer-links a,
+blockquote,
+.theme-toggle button,
+.hero-title,
+nav,
+.nav-container {
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+svg {
+  transition: color 0.3s ease, stroke 0.3s ease;
+}
+
+.theme-toggle button {
+  background: var(--color-sidebar-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero title (shared across pages) */
 .hero-title {
-  background-image: url('/images/img-bg-noise.png');
+  background-image: var(--bg-noise-image, url('/images/img-bg-noise.png'));
   background-repeat: repeat;
   background-size: 200px;
   background-color: color-mix(in srgb, var(--color-bg) 95%, black);
@@ -450,39 +338,40 @@ footer {
 .hero-title h1 {
   font-family: 'EB Garamond', serif;
   font-size: clamp(5rem, 8vw, 8rem);
-  @media (max-width: 768px) {
-    font-size: clamp(3rem, 6vw, 6rem);
-  }
-  @media (max-width: 480px) {
-    font-size: clamp(4rem, 4vw, 4rem);
-  }
   font-weight: 500;
   width: 100%;
   text-align: center;
 }
 
-
-/* Add this to ensure nav elements explicitly use Alegreya */
-nav, 
-.nav-link,
-.nav-item {
-  font-family: var(--font-primary) !important;
-  font-weight: 800;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Footer (shared styles) */
+footer {
+  background-image: var(--bg-noise-image, url('/images/img-bg-noise.png'));
+  background-repeat: repeat;
+  background-size: 200px;
+  opacity: 1;
+  padding: 2rem 0 4rem 0;
+  font-size: 1.0rem;
+  min-height: 100px;
+  width: 100%;
 }
 
-/* Footer styles - ensure Alegreya is applied */
 footer,
 .footer-section-email,
 .footer-content,
 .footer-links,
 .footer-nav,
-footer * {  /* This ensures all elements within footer use Alegreya */
+footer * {
   font-family: var(--font-primary) !important;
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.footer-section-email {
+  padding: 24px 0px;
+  margin-bottom: 24px;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 600;
 }
 
 .footer-section-copyright {
@@ -520,84 +409,37 @@ footer * {  /* This ensures all elements within footer use Alegreya */
   text-underline-offset: 2px;
 }
 
-@media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  footer,
-  .footer-section-email,
-  .footer-content,
-  .footer-grid,
-  .footer-col {
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  .footer-col h4 {
-    font-size: 0.95rem;
-    margin-bottom: 0.4rem;
-  }
-  
-  .footer-col li {
-    font-size: 0.9rem;
-    margin-bottom: 0.2rem;
-  }
+/* Navigation (shared base styles) */
+nav,
+.nav-link,
+.nav-item {
+  font-family: var(--font-primary) !important;
+  font-weight: 800;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Update sidebar styles */
-.sidebar {
-  /* Similarly, replace with simpler background */
-  background-color: var(--color-sidebar-bg);
-  /* filter: brightness(0.94) contrast(1.05);
-  opacity: 0.97; */
+.nav-links a {
+  color: var(--color-nav-text);
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.sidebar-section p {
-  color: var(--color-muted);
+.nav-links a:hover {
+  background-color: var(--color-nav-hover);
+  color: var(--color-nav-text);
 }
 
-time {
-  color: var(--color-muted);
+nav {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Navigation and footer links should not have underlines */
-.nav-links a,
-.footer-links a,
-.sidebar a,
-.logo,
-footer a {
-  border-bottom: none !important;
+[data-theme="dark"] nav {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.nav-links a::after,
-.footer-links a::after,
-.sidebar a::after,
-.logo::after,
-footer a::after {
-  display: none !important;
-}
-
-/* Add after your other text element styles */
-strong {
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-[data-theme="dark"] strong {
-  color: var(--color-text);
-  font-weight: 700;  /* Slightly bolder in dark mode for better visibility */
-}
-
-em {
-  font-style: italic;
-  color: var(--color-text);
-}
-
-[data-theme="dark"] em {
-  color: var(--color-text);
-}
+/* ============================================
+   Accessibility
+   ============================================ */
 
 /* Accessible focus styles */
 :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
@@ -623,30 +465,99 @@ em {
     --color-link-hover: LinkText;
     --color-border: GrayText;
   }
-  a { text-decoration: underline; }
+  a {
+    text-decoration: underline;
+  }
   :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }
 }
 
-/* Add these new nav-specific styles where your nav styles are */
+/* ============================================
+   Responsive Design
+   ============================================ */
 
-.nav-links a {
-  color: var(--color-nav-text);
-  transition: color 0.3s ease, background-color 0.3s ease;
+@media (max-width: 768px) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-family: 'EB Garamond', var(--font-primary);
+  }
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.6rem;
+  }
+  h4 {
+    font-size: 1.5rem;
+  }
+  h5 {
+    font-size: 1.25rem;
+  }
+  h6 {
+    font-size: 1.1rem;
+  }
+
+  .hero-title h1 {
+    font-size: clamp(3rem, 6vw, 6rem);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  footer,
+  .footer-section-email,
+  .footer-content,
+  .footer-grid,
+  .footer-col {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .footer-col h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-col li {
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
 }
 
-.nav-links a:hover {
-  background-color: var(--color-nav-hover);
-  color: var(--color-nav-text);
-}
+@media (max-width: 480px) {
+  .container {
+    padding: 1.0rem;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
 
-/* Optional: Add subtle shadow to nav */
-nav {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+  p,
+  li {
+    font-size: 1.2rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
 
-[data-theme="dark"] nav {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  .hero-title h1 {
+    font-size: clamp(4rem, 4vw, 4rem);
+  }
 }

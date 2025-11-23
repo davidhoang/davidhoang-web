@@ -1,4 +1,7 @@
 ---
+import imgDh from '../assets/images/img-dh.png';
+import imgDhDark from '../assets/images/img-dh-dark.png';
+
 // Get current year for copyright
 const currentYear = new Date().getFullYear();
 
@@ -114,7 +117,7 @@ const currentYear = new Date().getFullYear();
   .theme-image {
     width: 100%;
     aspect-ratio: 3/4;
-    background-image: url('/images/img-dh.png');
+    background-image: url({imgDh.src});
     background-size: cover;
     background-position: center;
     border-radius: 8px;
@@ -122,6 +125,6 @@ const currentYear = new Date().getFullYear();
   }
 
   :global([data-theme="dark"]) .theme-image {
-    background-image: url('/images/img-dh-dark.png');
+    background-image: url({imgDhDark.src});
   }
 </style> 
