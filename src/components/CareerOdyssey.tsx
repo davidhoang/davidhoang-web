@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
+interface WorkedWithPerson {
+  name: string;
+  image: string;
+  url?: string;
+}
+
 interface Node {
   id: string;
   label: string;
@@ -16,6 +22,7 @@ interface Node {
   x?: number;
   y?: number;
   sequence?: number; // Optional sequence order for nodes with same/similar dates
+  workedWith?: WorkedWithPerson[];
 }
 
 interface PositionedNode extends Node {
@@ -2090,15 +2097,15 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const dotRadius = baseDotRadius * zoomLevel;
 
   // Calculate visible year range based on viewBox
-  const getVisibleYearRange = useCallback((): { startYear: number; endYear: number } => {
+  const getVisibleYearRange = useCallback((): { startYear: number; endYear: number; showNow: boolean } => {
     if (nodes.length === 0) {
-      return { startYear: 1993, endYear: 2024 };
+      return { startYear: 1993, endYear: 2024, showNow: false };
     }
 
     // Get all nodes with valid timestamps (including Present nodes for max year)
     const allNodes = nodes.filter(n => n.timestamp);
     if (allNodes.length === 0) {
-      return { startYear: 1993, endYear: 2024 };
+      return { startYear: 1993, endYear: 2024, showNow: false };
     }
 
     // Get non-Present nodes to calculate the date range for positioning
@@ -2108,7 +2115,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const timestamps = allNodes.map(n => n.timestamp);
       const minYear = Math.min(...timestamps.map(ts => new Date(ts).getFullYear()));
       const maxYear = Math.max(...timestamps.map(ts => new Date(ts).getFullYear()));
-      return { startYear: minYear, endYear: maxYear };
+      return { startYear: minYear, endYear: maxYear, showNow: true };
     }
 
     // Get timestamps for non-Present nodes
@@ -2139,11 +2146,28 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     let startYear = Math.floor(new Date(leftTimestamp).getFullYear());
     let endYear = Math.ceil(new Date(rightTimestamp).getFullYear());
 
-    // Handle Present nodes - if viewBox extends to the right edge, include Present year
+    // Check if Present nodes are visible in the viewBox
     const rightEdgeX = CANVAS_WIDTH - PADDING;
-    if (rightX >= rightEdgeX - 50) { // 50px threshold
-      const presentNodes = nodes.filter(n => isPresentNode(n) && n.timestamp);
-      if (presentNodes.length > 0) {
+    const presentNodes = nodes.filter(n => isPresentNode(n));
+    let showNow = false;
+    
+    if (presentNodes.length > 0 && rightX >= rightEdgeX - 50) { // 50px threshold
+      // Check if any Present nodes are actually visible in the viewBox
+      presentNodes.forEach(node => {
+        const nodeX = node.x || rightEdgeX;
+        const nodeY = node.y || 0;
+        const nodeRadius = node.radius || 0;
+        
+        // Check if node is within viewBox bounds (with some padding for radius)
+        if (nodeX - nodeRadius <= rightX && 
+            nodeX + nodeRadius >= leftX &&
+            nodeY - nodeRadius <= viewBox.y + viewBox.height &&
+            nodeY + nodeRadius >= viewBox.y) {
+          showNow = true;
+        }
+      });
+      
+      if (showNow) {
         // Get the latest year from Present nodes
         const presentTimestamps = presentNodes.map(n => n.timestamp);
         const latestPresentYear = Math.max(...presentTimestamps.map(ts => new Date(ts).getFullYear()));
@@ -2156,7 +2180,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       endYear = startYear;
     }
 
-    return { startYear, endYear };
+    return { startYear, endYear, showNow };
   }, [nodes, viewBox]);
 
   const visibleYearRange = getVisibleYearRange();
@@ -2312,8 +2336,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 // Check if this connection leads to a "Present" node
                 const isPresentNode = (n: Node): boolean => {
                   if (n.active === true) return true;
+                  if (n.id === 'now') return true;
                   if (n.dateRange && typeof n.dateRange === 'string') {
-                    return n.dateRange.includes('Present');
+                    return n.dateRange.includes('Present') || n.dateRange === 'Now';
                   }
                   return false;
                 };
@@ -2654,12 +2679,20 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       <div className="timeline">
         <div className="timeline-content">
           {visibleYearRange.startYear === visibleYearRange.endYear ? (
-            <span className="timeline-year">{visibleYearRange.startYear}</span>
+            visibleYearRange.showNow ? (
+              <a href="/now" className="timeline-year timeline-link">Now</a>
+            ) : (
+              <span className="timeline-year">{visibleYearRange.startYear}</span>
+            )
           ) : (
             <>
               <span className="timeline-year">{visibleYearRange.startYear}</span>
               <span className="timeline-separator">—</span>
-              <span className="timeline-year">{visibleYearRange.endYear}</span>
+              {visibleYearRange.showNow ? (
+                <a href="/now" className="timeline-year timeline-link">Now</a>
+              ) : (
+                <span className="timeline-year">{visibleYearRange.endYear}</span>
+              )}
             </>
           )}
         </div>
@@ -2734,6 +2767,38 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
               
               {selectedNode.description && (
                 <p className="node-card-description">{selectedNode.description}</p>
+              )}
+              
+              {selectedNode.workedWith && selectedNode.workedWith.length > 0 && (
+                <div className="node-card-worked-with">
+                  <h3 className="node-card-worked-with-title">Worked with</h3>
+                  <div className="node-card-worked-with-list">
+                    {selectedNode.workedWith.map((person, index) => (
+                      <div key={index} className="node-card-worked-with-person">
+                        {person.image && (
+                          <img
+                            src={person.image}
+                            alt={person.name}
+                            className="node-card-worked-with-avatar"
+                            loading="lazy"
+                          />
+                        )}
+                        {person.url ? (
+                          <a
+                            href={person.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="node-card-worked-with-name node-card-worked-with-link"
+                          >
+                            {person.name}
+                          </a>
+                        ) : (
+                          <span className="node-card-worked-with-name">{person.name}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
               
               {selectedNode.link && (
@@ -2921,6 +2986,59 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           line-height: 1.5;
           color: var(--color-text);
           margin-bottom: 1rem;
+        }
+
+        .node-card-worked-with {
+          margin-top: 1.5rem;
+          margin-bottom: 1rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--color-border);
+        }
+
+        .node-card-worked-with-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 0.75rem;
+        }
+
+        .node-card-worked-with-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .node-card-worked-with-person {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .node-card-worked-with-avatar {
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1px solid var(--color-border);
+        }
+
+        .node-card-worked-with-name {
+          font-size: 0.9rem;
+          color: var(--color-text);
+          font-weight: 500;
+        }
+
+        .node-card-worked-with-link {
+          color: var(--color-link);
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .node-card-worked-with-link:hover {
+          color: var(--color-link-hover);
+          text-decoration: underline;
         }
 
         .node-card-link {
@@ -3146,37 +3264,51 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
         .timeline {
           position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          bottom: 1.5rem;
+          left: 50%;
+          transform: translateX(-50%);
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 1rem 1.5rem;
-          border-top: 1px solid var(--color-border);
           z-index: 1000;
           pointer-events: none;
-          backdrop-filter: blur(10px);
-          background: rgba(250, 248, 245, 0.9);
-        }
-
-        [data-theme="dark"] .timeline {
-          background: rgba(26, 24, 22, 0.9);
         }
 
         .timeline-content {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          padding: 0.625rem 1.25rem;
           font-size: 0.875rem;
           font-weight: 500;
           color: var(--color-text);
           letter-spacing: 0.025em;
+          background: rgba(250, 248, 245, 0.5);
+          border: 1px solid var(--color-border);
+          border-radius: 9999px;
+          backdrop-filter: blur(10px);
+          pointer-events: auto;
+        }
+
+        [data-theme="dark"] .timeline-content {
+          background: rgba(26, 24, 22, 0.5);
         }
 
         .timeline-year {
           font-variant-numeric: tabular-nums;
           font-weight: 600;
+        }
+
+        .timeline-link {
+          color: var(--color-link);
+          text-decoration: none;
+          transition: color 0.2s ease;
+          cursor: pointer;
+        }
+
+        .timeline-link:hover {
+          color: var(--color-link-hover);
+          text-decoration: underline;
         }
 
         .timeline-separator {
@@ -3187,10 +3319,11 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         /* Mobile: < 640px */
         @media (max-width: 639px) {
           .timeline {
-            padding: 0.75rem 1rem;
+            bottom: 1rem;
           }
 
           .timeline-content {
+            padding: 0.5rem 1rem;
             font-size: 0.8125rem;
             gap: 0.5rem;
           }
@@ -3199,10 +3332,11 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         /* Tablet: 640px - 1023px */
         @media (min-width: 640px) and (max-width: 1023px) {
           .timeline {
-            padding: 0.875rem 1.25rem;
+            bottom: 1.25rem;
           }
 
           .timeline-content {
+            padding: 0.5625rem 1.125rem;
             font-size: 0.875rem;
           }
         }
