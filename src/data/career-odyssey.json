@@ -3,15 +3,16 @@
     {
       "id": "studied-art",
       "label": "Studied Art and Computer Science",
-      "description": "",
+      "description": "Graduated with a BFA in Drawing and Painting, with interdisciplinary studies in Computer Science, Art History, and the Humanities. Took a gap year to prepare for an MFA, but never went—instead designing app interfaces for a new device called the iPhone.",
       "type": "milestone",
-      "date": "2006",
+      "date": "2002",
+      "dateRange": "2002-2006",
       "pathTaken": true
     },
     {
       "id": "move-to-sf",
       "label": "Move to San Francisco",
-      "description": "",
+      "description": "A potential path that wasn't taken—exploring what might have happened with an earlier move to the Bay Area.",
       "type": "event",
       "date": "2007",
       "connections": ["studied-art"],
@@ -20,9 +21,10 @@
     {
       "id": "xhatch",
       "label": "Started Xhatch, my own company",
-      "description": "Building my own company",
+      "description": "Started my own company, learning firsthand what it means to build products, work with clients, and run a business. This experience shaped my understanding of entrepreneurship and the challenges of building something from scratch.",
       "type": "company",
       "date": "2011",
+      "dateRange": "2011-2015",
       "connections": ["studied-art"],
       "pathTaken": true
     },
@@ -31,7 +33,8 @@
       "label": "Watched Bret Victor's 'Inventing on Principle'",
       "description": "Fell in love with creative tools after watching this inspiring talk in the worst hotel conference room ever.",
       "type": "milestone",
-      "date": "2012-01",
+      "date": "2012",
+      "dateRange": "2012",
       "connections": ["xhatch"],
       "pathTaken": true,
       "image": "/images/odyssey/img-bret-victor.jpg",
@@ -40,38 +43,56 @@
     {
       "id": "one-medical",
       "label": "Joined One Medical",
-      "description": "",
+      "description": "Led product design during One Medical's critical transition to virtual care and eventual IPO. Designed experiences that transformed how primary care is delivered, making healthcare more accessible and human-centered. The work reinforced my belief that design can transform industries, even ones as complex and regulated as healthcare.",
       "type": "company",
       "date": "2015",
+      "dateRange": "2015-2019",
       "connections": ["bret-victor"],
       "pathTaken": true
     },
     {
       "id": "webflow",
       "label": "Joined Webflow",
-      "description": "",
+      "description": "Joined as the first Head of Design, building the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet. Built processes and systems that would support the company's long-term vision while shipping features that delighted users.",
       "type": "company",
       "date": "2019",
+      "dateRange": "2019-2023",
       "connections": ["one-medical"],
+      "pathTaken": true,
+      "image": "/images/odyssey/img-webflow.jpeg"
+    },
+    {
+      "id": "first-angel-investment",
+      "label": "Made first Angel Investment",
+      "description": "Made my first angel investment, beginning a journey that would lead to investing in over 30 companies by 2024. Focused on early-stage startups at the intersection of creativity, code, and community.",
+      "type": "milestone",
+      "date": "2020",
+      "dateRange": "2020",
+      "connections": ["webflow"],
       "pathTaken": true
     },
     {
       "id": "replit",
       "label": "Joined Replit",
-      "description": "",
+      "description": "Served as VP of Marketing and Design, leading the rebrand that repositioned Replit from a hobby app to a professional AI-native software development platform. Launched developer events and pushed forward new ways to ship AI-native products. The rebrand honored the history of software while embracing the future of AI.",
       "type": "company",
       "date": "2023",
+      "dateRange": "2023-2024",
       "connections": ["webflow"],
-      "pathTaken": true
+      "pathTaken": true,
+      "image": "/images/odyssey/img-replit.jpeg"
     },
     {
       "id": "atlassian",
       "label": "Joined Atlassian",
-      "description": "",
+      "description": "Currently serving as VP and Head of Design, AI, helping shape the future of work through generative AI and systems design. Leading design for Rovo, Atlassian's AI-powered knowledge assistant that breaks down silos by connecting teams, work, and applications across the entire SaaS ecosystem.",
       "type": "company",
       "date": "2024",
+      "dateRange": "2024-Present",
+      "active": true,
       "connections": ["replit"],
-      "pathTaken": true
+      "pathTaken": true,
+      "image": "/images/odyssey/img-rovo.jpg"
     }
   ]
 }

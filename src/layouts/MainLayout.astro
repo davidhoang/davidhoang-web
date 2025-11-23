@@ -11,12 +11,14 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  hideFooter?: boolean;
 }
 
 const { 
   title, 
   description = "Default site description", 
-  ogImage = "/public/default-og-image.jpg"
+  ogImage = "/public/default-og-image.jpg",
+  hideFooter = false
 } = Astro.props;
 
 // Get the canonical URL with fallback
@@ -125,7 +127,7 @@ export const prerender = false;
     <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
     <ThemeToggle />
     
     <MusicPlayer />
