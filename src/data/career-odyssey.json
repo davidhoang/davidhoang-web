@@ -1,12 +1,81 @@
 {
   "nodes": [
     {
+      "id": "streets-of-rage-2",
+      "label": "Streets of Rage 2",
+      "type": "event",
+      "date": "1993",
+      "dateRange": "1993",
+      "pathTaken": true,
+      "image": "/images/odyssey/img-sor-2.jpg",
+      "connections": ["maximum-carnage"]
+    },
+    {
+      "id": "maximum-carnage",
+      "label": "Maximum Carnage",
+      "description": "Bought the comic where Carnage first appears in Spider-Man; making me passionate about drawing comics.",
+      "type": "event",
+      "date": "1993",
+      "dateRange": "1993",
+      "pathTaken": true,
+      "image": "/images/odyssey/img-maximum-carnage.jpg",
+      "connections": ["command-and-conquer"]
+    },
+    {
+      "id": "visual-basic-design-tool",
+      "label": "Thought Visual Basic was a Design Tool",
+      "type": "event",
+      "date": "1993",
+      "dateRange": "1993",
+      "pathTaken": true,
+      "connections": ["command-and-conquer"]
+    },
+    {
+      "id": "command-and-conquer",
+      "label": "Command and Conquer",
+      "type": "event",
+      "date": "1995",
+      "dateRange": "1995",
+      "pathTaken": true,
+      "image": "/images/odyssey/img-command-and-conquer.jpg"
+    },
+    {
+      "id": "quake",
+      "label": "Quake and computing",
+      "description": "The game that got me into computing. This was the moment I realized cheat codes were just debug tools in the console; also discovered the Music of Nine\u00A0Inch\u00A0Nails.",
+      "type": "event",
+      "date": "1996",
+      "dateRange": "1996",
+      "pathTaken": true,
+      "image": "/images/odyssey/img-quake.jpg"
+    },
+    {
+      "id": "bought-ipod-classic",
+      "label": "Bought iPod Classic",
+      "type": "event",
+      "date": "2002",
+      "dateRange": "2002",
+      "connections": ["quake"],
+      "pathTaken": true
+    },
+    {
       "id": "studied-art",
-      "label": "Studied Art and Computer Science",
+      "label": "Studied Art",
       "description": "Graduated with a BFA in Drawing and Painting, with interdisciplinary studies in Computer Science, Art History, and the Humanities. Took a gap year to prepare for an MFA, but never went—instead designing app interfaces for a new device called the iPhone.",
-      "type": "milestone",
+      "type": "event",
       "date": "2002",
       "dateRange": "2002-2006",
+      "connections": ["quake"],
+      "pathTaken": true,
+      "image": "/images/odyssey/img-studied-art.jpeg"
+    },
+    {
+      "id": "created-myspace",
+      "label": "Created MySpace page",
+      "type": "spark",
+      "date": "2004",
+      "dateRange": "2004",
+      "connections": ["studied-art"],
       "pathTaken": true
     },
     {
@@ -17,6 +86,16 @@
       "date": "2007",
       "connections": ["studied-art"],
       "pathTaken": false
+    },
+    {
+      "id": "deployed-rails-heroku",
+      "label": "Deployed first Ruby on Rails app on Heroku",
+      "type": "event",
+      "date": "2010",
+      "dateRange": "2010",
+      "connections": ["xhatch"],
+      "pathTaken": true,
+      "image": "/images/odyssey/img-twote-it.png"
     },
     {
       "id": "xhatch",
@@ -32,7 +111,7 @@
       "id": "bret-victor",
       "label": "Watched Bret Victor's 'Inventing on Principle'",
       "description": "Fell in love with creative tools after watching this inspiring talk in the worst hotel conference room ever.",
-      "type": "milestone",
+      "type": "spark",
       "date": "2012",
       "dateRange": "2012",
       "connections": ["xhatch"],
@@ -41,9 +120,18 @@
       "link": "https://www.youtube.com/watch?v=PUv66718DII"
     },
     {
-      "id": "one-medical",
-      "label": "Joined One Medical",
-      "description": "Led product design during One Medical's critical transition to virtual care and eventual IPO. Designed experiences that transformed how primary care is delivered, making healthcare more accessible and human-centered. The work reinforced my belief that design can transform industries, even ones as complex and regulated as healthcare.",
+      "id": "moved-to-sf-2025",
+      "label": "Moved to San Francisco",
+      "type": "event",
+      "date": "2015",
+      "dateRange": "2015",
+      "connections": ["bret-victor"],
+      "pathTaken": true
+    },
+    {
+      "id": "black-pixel",
+      "label": "Black Pixel",
+      "description": "Joined as a designer, helping build the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet. Built processes and systems that would support the company's long-term vision while shipping features that delighted users.",
       "type": "company",
       "date": "2015",
       "dateRange": "2015-2019",
@@ -51,15 +139,48 @@
       "pathTaken": true
     },
     {
+      "id": "one-medical",
+      "label": "One Medical",
+      "description": "Led product design during One Medical's critical transition to virtual care and eventual IPO. Designed experiences that transformed how primary care is delivered, making healthcare more accessible and human-centered. The work reinforced my belief that design can transform industries, even ones as complex and regulated as healthcare.",
+      "type": "company",
+      "date": "2019-09",
+      "dateRange": "2015-2019",
+      "connections": ["black-pixel"],
+      "pathTaken": true,
+      "sequence": 1
+    },
+    {
+      "id": "explored-ios-developer",
+      "label": "Explored iOS Developer career path",
+      "description": "A potential path that wasn't taken—exploring what might have happened if I had pursued iOS development instead of product design.",
+      "type": "event",
+      "date": "2016",
+      "dateRange": "2016",
+      "connections": ["one-medical"],
+      "pathTaken": false,
+      "sequence": 2
+    },
+    {
       "id": "webflow",
-      "label": "Joined Webflow",
+      "label": "Webflow",
       "description": "Joined as the first Head of Design, building the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet. Built processes and systems that would support the company's long-term vision while shipping features that delighted users.",
       "type": "company",
-      "date": "2019",
-      "dateRange": "2019-2023",
+      "date": "2019-10",
+      "dateRange": "2019-10-2023",
       "connections": ["one-medical"],
       "pathTaken": true,
       "image": "/images/odyssey/img-webflow.jpeg"
+    },
+    {
+      "id": "config-talk",
+      "label": "Spoke at Config",
+      "description": "Gave a talk at Figma's Config conference titled 'The Universal Challenges of Every Scaling Design Team', sharing insights from experience leading design teams.",
+      "type": "milestone",
+      "date": "2021",
+      "dateRange": "2021",
+      "connections": ["webflow"],
+      "pathTaken": true,
+      "link": "https://www.youtube.com/watch?v=piGC-iFwmrk&t=1s"
     },
     {
       "id": "first-angel-investment",
@@ -72,8 +193,29 @@
       "pathTaken": true
     },
     {
+      "id": "proof-of-concept",
+      "label": "Proof of Concept Newsletter",
+      "description": "Started writing Proof of Concept, a newsletter about design, technology, and entrepreneurship. Weekly publication exploring the intersection of creativity, code, and community.",
+      "type": "milestone",
+      "date": "2020-08",
+      "dateRange": "2020-08-Present",
+      "connections": ["first-angel-investment"],
+      "pathTaken": true,
+      "link": "https://www.proofofconcept.pub"
+    },
+    {
+      "id": "angel-investing",
+      "label": "Angel Investing",
+      "type": "milestone",
+      "date": "2020",
+      "dateRange": "2020-Present",
+      "connections": ["first-angel-investment"],
+      "pathTaken": true,
+      "x": 2300
+    },
+    {
       "id": "replit",
-      "label": "Joined Replit",
+      "label": "Replit",
       "description": "Served as VP of Marketing and Design, leading the rebrand that repositioned Replit from a hobby app to a professional AI-native software development platform. Launched developer events and pushed forward new ways to ship AI-native products. The rebrand honored the history of software while embracing the future of AI.",
       "type": "company",
       "date": "2023",
@@ -81,6 +223,17 @@
       "connections": ["webflow"],
       "pathTaken": true,
       "image": "/images/odyssey/img-replit.jpeg"
+    },
+    {
+      "id": "play-advisor",
+      "label": "Play Advisor",
+      "description": "Started advising Play, contributing strategic guidance and insights to help shape the company's direction.",
+      "type": "milestone",
+      "date": "2023",
+      "dateRange": "2023-Present",
+      "connections": ["replit"],
+      "pathTaken": true,
+      "x": 2300
     },
     {
       "id": "atlassian",
@@ -92,7 +245,8 @@
       "active": true,
       "connections": ["replit"],
       "pathTaken": true,
-      "image": "/images/odyssey/img-rovo.jpg"
+      "image": "/images/odyssey/img-rovo.jpg",
+      "x": 2300
     }
   ]
 }
