@@ -29,6 +29,8 @@ Artifacts capture and memorialize certain moments. A danger is when artifacts be
 
 When someone can review and can clearly understand the context of an artifact, you know it's good. It should not require voiceover or verbal context. Otherwise, the artifact is pointless. Guiding artifacts have a nomenclature and visual language that's easy to understand. If you try to be too sophisticated, the barrier to comprehending makes it pointless.
 
+![](/images/blog/2022/img-2022-10-16-artifacts-cover.webp)
+
 ## Examples of artifacts
 
 There's no wrong way to make an artifact and there are multiple fidelities. The main purpose is you use them, share them with others, and have them guide you. I'll share a few I've made at One Medical as examples. Though I'd love to share some artifacts that I use today, it's too soon to share them in public!
@@ -36,6 +38,8 @@ There's no wrong way to make an artifact and there are multiple fidelities. The 
 ### Drawings
 
 At times, you don't want artifacts to be too prescriptive, especially when you're leading other people. Avoid making artifacts that feel too solution-oriented or prescriptive. I loved sharing low-fidelity sketches with the product designers and researchers on my team to generate ideas. This is a sketch of some of our initial ideas for our virtual therapy platform.
+
+![](/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp)
 
 This is one of the development points of my drawing style. Strive for high-fidelity conversation and low-fidelity production.
 
@@ -45,30 +49,18 @@ I love Alissa Briggs' talk Maps and Markers and refer to this often. Maps help p
 
 Mapping our One Medical Ecosystem (intentionally blurred)
 
+![](/images/blog/2022/img-2022-10-16-artifacts-sprint.webp)
+
 Maps encourage people to refine and build. The act of a map is to start the journey.
 
 ### Making a vision book
 
 One project I was most proud of at One Medical was a vision book we shared with our board and execs on where the future of the company could go. We created a pitch book, just like one in my agency days. It was really fun to put together and tell a story.
 
+![](/images/blog/2022/img-2022-10-16-artifacts-vision-board.webp)
+
 We printed out several copies and shared the narrative with our coworkers and stakeholders. This invited people to participate in a vision vs. it being handed down to them from the mountains. Their markups allowed us to infuse their perspectives in the vision and make it a part of the updated artifact.
 
 ## Try making artifacts
 
 Don't underestimate the power of making an artifact. If you don't know where to start, make a simple drawing or diagram. Share it with a colleague to see if it's helpful. As you build a conversation around it, it'll prove its value. Finally, making artifacts are fun. I wish you luck in your artifact-making.
-
-## Tweet of the week
-
-Huge congrats to Bryant (a man of many skills) on the premiere of this Linsanity short film!
-
-## Hype links
-
-I'm excited to see the On Deck careers program spinout as Coho!
-
-Digital Artifacts by Bryan J. Sajecki, MLS, and Nicole Thomas, MLS
-
-The Power of Work Friends
-
-Congrats Obsidian on launching 1.0!
-
-Three years at Webflow
