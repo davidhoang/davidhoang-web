@@ -7,6 +7,26 @@
   color: var(--color-text);
   overflow: hidden;
   position: relative;
+  transition: all 0.3s ease;
+}
+
+.career-odyssey--fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: #0a0a0a;
+}
+
+.career-odyssey--fullscreen .career-canvas {
+  height: 100vh;
+  border: none;
+}
+
+.fullscreen-toggle {
+  margin-top: 0.5rem;
 }
 
 .career-odyssey-header {
@@ -14,6 +34,11 @@
   border-bottom: 1px solid var(--color-border);
   background: var(--color-bg);
   z-index: 10;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.career-odyssey--fullscreen .career-odyssey-header {
+  display: none;
 }
 
 .career-odyssey-header h1 {

@@ -610,7 +610,9 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Node dragging state
   const [draggedNode, setDraggedNode] = useState<CareerNode | null>(null);
@@ -898,6 +900,10 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
     }
   };
 
+  const toggleFullscreen = React.useCallback(() => {
+    setIsFullscreen(prev => !prev);
+  }, []);
+
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) {
@@ -906,12 +912,26 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // F11 or Escape to toggle fullscreen
+      if (e.key === 'F11') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+
     const canvas = canvasRef.current;
     if (canvas) {
       canvas.addEventListener('wheel', handleWheel, { passive: false });
-      return () => canvas.removeEventListener('wheel', handleWheel);
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        canvas.removeEventListener('wheel', handleWheel);
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     }
-  }, []);
+  }, [isFullscreen, toggleFullscreen]);
 
   if (!inputNodes || inputNodes.length === 0 || careerNodes.length === 0) {
     return (
@@ -925,11 +945,13 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
   }
 
   return (
-    <div className="career-odyssey">
-      <div className="career-odyssey-header">
-        <h1>Career Odyssey</h1>
-        <p>Click on nodes to explore my career journey</p>
-      </div>
+    <div className={`career-odyssey ${isFullscreen ? 'career-odyssey--fullscreen' : ''}`} ref={containerRef}>
+      {!isFullscreen && (
+        <div className="career-odyssey-header">
+          <h1>Career Odyssey</h1>
+          <p>Click on nodes to explore my career journey</p>
+        </div>
+      )}
 
       <div
         className="career-canvas"
@@ -1111,6 +1133,9 @@ export default function CareerOdyssey({ nodes: inputNodes }: CareerOdysseyProps)
                 setZoom(0.6); 
                 setTimeout(() => centerOnNode('studied-art', 0.6), 0); 
               }}>Reset View</button>
+              <button onClick={toggleFullscreen} className="fullscreen-toggle">
+                {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+              </button>
             </div>
           </div>
           
