@@ -235,8 +235,8 @@
   padding: 0.75rem 1rem;
   border-radius: 8px;
   border: 3px solid var(--color-border);
-  background: var(--color-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   min-width: 100px;
   min-height: 100px;
   display: flex;
@@ -245,6 +245,7 @@
   text-align: center;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
+  backdrop-filter: blur(10px);
 }
 
 .career-node:hover .career-node-content {
@@ -306,23 +307,27 @@
 }
 
 .career-node--milestone .career-node-content {
-  background: rgba(188, 82, 238, 0.1);
-  border-color: rgba(188, 82, 238, 0.3);
+  background: rgba(188, 82, 238, 0.15);
+  border-color: rgba(188, 82, 238, 0.5);
+  color: rgba(188, 82, 238, 0.9);
 }
 
 .career-node--company .career-node-content {
-  background: rgba(50, 69, 255, 0.1);
-  border-color: rgba(50, 69, 255, 0.3);
+  background: rgba(50, 69, 255, 0.15);
+  border-color: rgba(50, 69, 255, 0.5);
+  color: rgba(50, 69, 255, 0.9);
 }
 
 .career-node--event .career-node-content {
-  background: rgba(255, 200, 0, 0.1);
-  border-color: rgba(255, 200, 0, 0.3);
+  background: rgba(255, 200, 0, 0.15);
+  border-color: rgba(255, 200, 0, 0.5);
+  color: rgba(255, 200, 0, 0.9);
 }
 
 .career-node--transition .career-node-content {
-  background: rgba(128, 128, 128, 0.1);
-  border-color: rgba(128, 128, 128, 0.3);
+  background: rgba(128, 128, 128, 0.15);
+  border-color: rgba(128, 128, 128, 0.5);
+  color: rgba(200, 200, 200, 0.9);
 }
 
 .career-node--path-taken .career-node-content {
