@@ -74,15 +74,15 @@ function parseDate(dateStr?: string): number {
   return timestamp;
 }
 
-// Calculate node radius based on text content
-// Uses a canvas to measure text width and calculates appropriate circle size
+// Calculate node size based on text content (for rectangular nodes)
+// Uses a canvas to measure text width and calculates appropriate rectangular size
 function calculateNodeRadius(label: string): number {
   // Create a temporary canvas to measure text
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   if (!context) {
     // Fallback if canvas not available
-    return 60; // Default radius
+    return 60; // Default size
   }
   
   // Set font to match the node label style (0.75rem, 500 weight)
@@ -92,20 +92,19 @@ function calculateNodeRadius(label: string): number {
   const textMetrics = context.measureText(label);
   const textWidth = textMetrics.width;
   
-  // Calculate radius: ensure minimum size, add padding, and account for circular shape
-  // For a circle, we need diameter = 2 * radius
+  // Calculate size: ensure minimum size, add padding for rectangular nodes
+  // For rectangles, we use this as half-width/height for consistent sizing
   // Text width should fit comfortably inside with padding
-  // Using: radius = (textWidth + padding) / 2, with minimum of 50px
   const padding = 40; // Horizontal padding
-  const minRadius = 50;
-  const calculatedRadius = Math.max(minRadius, (textWidth + padding) / 2);
+  const minSize = 50;
+  const calculatedSize = Math.max(minSize, (textWidth + padding) / 2);
   
   // Also consider line breaks - if text is long, we might need more vertical space
-  // Estimate: if text is very long, increase radius
-  const maxRadius = 100; // Maximum radius to prevent huge nodes
-  const finalRadius = Math.min(maxRadius, calculatedRadius);
+  // Estimate: if text is very long, increase size
+  const maxSize = 100; // Maximum size to prevent huge nodes
+  const finalSize = Math.min(maxSize, calculatedSize);
   
-  return Math.ceil(finalRadius);
+  return Math.ceil(finalSize);
 }
 
 // Automatic layout algorithm - timeline-oriented with date clustering
