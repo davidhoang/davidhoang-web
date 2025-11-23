@@ -1,11 +1,21 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import CareerOdysseyComponent from '../components/CareerOdyssey.tsx';
+import careerData from '../data/career-odyssey.json';
 ---
 
-<MainLayout title="Career Odyssey">
-  <div style="padding: 2rem; text-align: center;">
-    <h1>Career Odyssey</h1>
-    <p>This page is being rebuilt.</p>
-  </div>
+<MainLayout title="Career Odyssey" hideFooter={true}>
+  {/* @ts-ignore - JSON import types don't match exactly */}
+  <CareerOdysseyComponent client:load careerData={careerData} />
 </MainLayout>
+
+<style>
+  /* Remove container constraints for full viewport canvas */
+  #main-content.container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+</style>
 
