@@ -2,204 +2,76 @@
   "nodes": [
     {
       "id": "studied-art",
-      "label": "Studied art / Took Computer Science classes",
-      "description": "Explored digital art. Hello ActionScript.",
+      "label": "Studied Art and Computer Science",
+      "description": "",
       "type": "milestone",
       "date": "2006",
-      "pathTaken": true,
-      "next": "iphone-era"
-    },
-    {
-      "id": "mfa-cca",
-      "label": "MFA at CCA",
-      "description": "",
-      "type": "milestone",
-      "date": "2005-09",
-      "connections": ["studied-art"],
-      "pathTaken": false
-    },
-    {
-      "id": "move-sf",
-      "label": "Move to San Francisco",
-      "description": "",
-      "type": "transition",
-      "date": "2006-01",
-      "connections": ["mfa-cca", "studied-art"],
-      "pathTaken": false
-    },
-    {
-      "id": "got-cat",
-      "label": "Got a cat",
-      "description": "",
-      "type": "event",
-      "date": "2006-06",
-      "connections": ["move-sf"],
       "pathTaken": true
     },
     {
-      "id": "iphone-era",
-      "label": "Enter the iPhone / Started designing apps during iOS 2",
-      "description": "The beginning of mobile app design",
-      "type": "milestone",
-      "date": "2008-07",
-      "connections": ["move-sf"],
-      "pathTaken": true,
-      "next": "exacttarget"
-    },
-    {
-      "id": "recession-pivot",
-      "label": "Recession pivot",
+      "id": "move-to-sf",
+      "label": "Move to San Francisco",
       "description": "",
-      "type": "transition",
-      "date": "2008-09",
-      "connections": ["got-cat"],
+      "type": "event",
+      "date": "2007",
+      "connections": ["studied-art"],
       "pathTaken": false
-    },
-    {
-      "id": "exacttarget",
-      "label": "ExactTarget",
-      "description": "",
-      "type": "company",
-      "date": "2009-01",
-      "connections": ["iphone-era"],
-      "pathTaken": true,
-      "next": "xhatch"
     },
     {
       "id": "xhatch",
       "label": "Started Xhatch, my own company",
       "description": "Building my own company",
       "type": "company",
-      "date": "2009",
-      "connections": ["exacttarget"],
-      "pathTaken": true,
-      "next": "bret-victor"
+      "date": "2011",
+      "connections": ["studied-art"],
+      "pathTaken": true
     },
     {
       "id": "bret-victor",
       "label": "Watched Bret Victor's 'Inventing on Principle'",
-      "description": "Fell in love with creative tools",
+      "description": "Fell in love with creative tools after watching this inspiring talk in the worst hotel conference room ever.",
       "type": "milestone",
       "date": "2012-01",
       "connections": ["xhatch"],
       "pathTaken": true,
-      "next": "move-ny"
+      "image": "/images/odyssey/img-bret-victor.jpg",
+      "link": "https://www.youtube.com/watch?v=PUv66718DII"
     },
     {
-      "id": "move-ny",
-      "label": "Moved to New York",
-      "description": "",
-      "type": "transition",
-      "date": "2012-06",
-      "connections": ["xhatch"],
-      "pathTaken": true,
-      "next": "one-medical"
-    },
-    {
-      "id": "htc",
-      "label": "HTC",
+      "id": "one-medical",
+      "label": "Joined One Medical",
       "description": "",
       "type": "company",
-      "date": "2012-08",
+      "date": "2015",
       "connections": ["bret-victor"],
       "pathTaken": true
     },
     {
-      "id": "black-pixel",
-      "label": "Black Pixel",
+      "id": "webflow",
+      "label": "Joined Webflow",
       "description": "",
       "type": "company",
-      "date": "2014",
-      "connections": ["htc"],
+      "date": "2019",
+      "connections": ["one-medical"],
       "pathTaken": true
     },
     {
-      "id": "ios-engineering",
-      "label": "Pivot to iOS engineering",
-      "description": "",
-      "type": "transition",
-      "date": "2013-06",
-      "connections": ["black-pixel"],
-      "pathTaken": false
-    },
-    {
-      "id": "general-assembly",
-      "label": "Taught at General Assembly",
-      "description": "",
-      "type": "company",
-      "date": "2013-09",
-      "connections": ["black-pixel"],
-      "pathTaken": false,
-      "next": "one-medical"
-    },
-    {
-      "id": "one-medical",
-      "label": "One Medical",
-      "description": "Joined One Medical and moved to San Francisco",
-      "type": "company",
-      "date": "2014-01",
-      "connections": ["move-ny"],
-      "pathTaken": true,
-      "next": "webflow"
-    },
-    {
-      "id": "webflow",
-      "label": "Webflow",
-      "description": "Head of Design Role",
-      "type": "company",
-      "date": "2019-01",
-      "connections": ["one-medical"],
-      "pathTaken": true,
-      "next": "first-angel"
-    },
-    {
-      "id": "first-angel",
-      "label": "First Angel Investment",
-      "description": "",
-      "type": "milestone",
-      "date": "2018-06",
-      "connections": ["webflow"],
-      "pathTaken": true,
-      "next": "advising"
-    },
-    {
-      "id": "advising",
-      "label": "Advising",
-      "description": "",
-      "type": "milestone",
-      "date": "2019-01",
-      "connections": ["first-angel"],
-      "pathTaken": true,
-      "next": "replit"
-    },
-    {
-      "id": "venture-capital",
-      "label": "Venture Capital",
-      "description": "",
-      "type": "milestone",
-      "date": "2020-01",
-      "connections": ["advising"],
-      "pathTaken": false
-    },
-    {
       "id": "replit",
-      "label": "Replit",
-      "description": "VP of Marketing and Design",
+      "label": "Joined Replit",
+      "description": "",
       "type": "company",
-      "date": "2022-01",
-      "connections": ["advising"],
-      "pathTaken": true,
-      "next": "atlass"
+      "date": "2023",
+      "connections": ["webflow"],
+      "pathTaken": true
     },
     {
-      "id": "atlass",
-      "label": "Atlassian",
-      "description": "VP of Design, AI at Atlassian",
+      "id": "atlassian",
+      "label": "Joined Atlassian",
+      "description": "",
       "type": "company",
-      "date": "2024-01",
+      "date": "2024",
       "connections": ["replit"],
       "pathTaken": true
     }
   ]
 }
-

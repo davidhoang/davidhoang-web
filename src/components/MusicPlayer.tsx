@@ -49,6 +49,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const playerRef = useRef<HTMLDivElement>(null);
 
@@ -66,21 +67,46 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
   useEffect(() => {
     if (!audioRef.current || !isHydrated) return;
 
-    let audioContext: AudioContext | null = null;
-    let analyser: AnalyserNode | null = null;
+    // Reuse existing audio context if available
+    let audioContext = audioContextRef.current;
+    let analyser = analyserRef.current;
     let source: MediaElementAudioSourceNode | null = null;
 
     try {
-      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      analyser = audioContext.createAnalyser();
-      source = audioContext.createMediaElementSource(audioRef.current);
-      
-      analyser.fftSize = 64;
-      source.connect(analyser);
-      analyser.connect(audioContext.destination);
-      
-      audioContextRef.current = audioContext;
-      analyserRef.current = analyser;
+      // Create new audio context if needed
+      if (!audioContext || audioContext.state === 'closed') {
+        audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        audioContextRef.current = audioContext;
+      }
+
+      // Resume audio context if suspended (required by browser autoplay policies)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume().catch((err) => {
+          console.warn('Audio context resume failed:', err);
+        });
+      }
+
+      // Create analyser if needed
+      if (!analyser) {
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 64;
+        analyserRef.current = analyser;
+      }
+
+      // Create source only if we don't have one already
+      // Note: createMediaElementSource can only be called once per audio element
+      if (!sourceRef.current) {
+        try {
+          source = audioContext.createMediaElementSource(audioRef.current);
+          source.connect(analyser);
+          analyser.connect(audioContext.destination);
+          sourceRef.current = source;
+        } catch (sourceError: any) {
+          console.warn('Audio source creation failed:', sourceError);
+        }
+      } else {
+        source = sourceRef.current;
+      }
 
       // Update spectrum data
       const updateSpectrum = () => {
@@ -110,18 +136,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
         }
-        if (source) {
-          try {
-            source.disconnect();
-          } catch (e) {
-            // Ignore disconnect errors
-          }
-        }
-        if (audioContext) {
-          audioContext.close().catch(() => {
-            // Ignore close errors
-          });
-        }
+        // Don't disconnect source or close context here - reuse them
+        // Only cleanup on component unmount
       };
     } catch (error) {
       console.error('Audio context initialization failed:', error);
@@ -180,16 +196,42 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     localStorage.setItem('music-player-track-index', index.toString());
   };
 
-  const togglePlay = () => {
-    if (!audioRef.current) return;
+  const togglePlay = async () => {
+    if (!audioRef.current || !currentTrack) return;
     
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch((error) => {
-        console.error('🎵 Play failed:', error);
+    try {
+      if (isPlaying) {
+        audioRef.current.pause();
         setIsPlaying(false);
-      });
+      } else {
+        // Ensure audio is loaded before playing
+        if (!audioRef.current.src || audioRef.current.readyState < 2) {
+          audioRef.current.src = currentTrack.url;
+          audioRef.current.load();
+          await new Promise((resolve) => {
+            const handleCanPlay = () => {
+              audioRef.current?.removeEventListener('canplay', handleCanPlay);
+              resolve(undefined);
+            };
+            audioRef.current?.addEventListener('canplay', handleCanPlay);
+            // Fallback timeout
+            setTimeout(resolve, 1000);
+          });
+        }
+        
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          await playPromise;
+          setIsPlaying(true);
+        }
+      }
+    } catch (error) {
+      console.error('🎵 Playback error:', error);
+      setIsPlaying(false);
+      // If autoplay is blocked, show a message or handle gracefully
+      if ((error as any).name === 'NotAllowedError') {
+        console.warn('🎵 Autoplay blocked. User interaction required.');
+      }
     }
   };
 
@@ -296,34 +338,30 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
 
   // Initialize audio when track changes
   useEffect(() => {
-    if (!isHydrated) return;
-    
-    if (audioRef.current && currentTrack) {
-      audioRef.current.src = currentTrack.url;
-      audioRef.current.load();
-      audioRef.current.volume = 0.75; // Default volume
-    }
-  }, [currentTrack, isHydrated]);
-
-  // Sync audio element with playing state
-  useEffect(() => {
     if (!isHydrated || !audioRef.current || !currentTrack) return;
     
-    const timer = setTimeout(() => {
-      if (audioRef.current) {
-        if (isPlaying && audioRef.current.paused) {
-          audioRef.current.play().catch((error) => {
-            console.error('🎵 Auto-play failed:', error);
-            setIsPlaying(false);
-          });
-        } else if (!isPlaying && !audioRef.current.paused) {
-          audioRef.current.pause();
-        }
-      }
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [isHydrated, isPlaying, currentTrack]);
+    const audio = audioRef.current;
+    
+    // Set up audio element
+    audio.src = currentTrack.url;
+    audio.volume = 0.75; // Default volume
+    audio.preload = 'metadata';
+    
+    // Load the audio
+    audio.load();
+    
+    // Handle errors
+    const handleError = (e: Event) => {
+      console.error('🎵 Audio error:', e);
+      setIsPlaying(false);
+    };
+    
+    audio.addEventListener('error', handleError);
+    
+    return () => {
+      audio.removeEventListener('error', handleError);
+    };
+  }, [currentTrack, isHydrated]);
 
   if (!isHydrated) {
     return null;
