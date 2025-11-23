@@ -1,0 +1,91 @@
+---
+interface Props {
+  person: {
+    name: string;
+    image: string;
+    url?: string;
+    linkedin?: string;
+  };
+  size?: number; // Optional size override, defaults to 24px
+}
+
+const { person, size = 24 } = Astro.props;
+---
+
+{person.url ? (
+  <a 
+    href={person.url} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    class="person-avatar-link" 
+    aria-label={`Visit ${person.name}'s website`}
+    style={`--avatar-size: ${size}px;`}
+  >
+    <img 
+      src={person.image} 
+      alt={person.name} 
+      class="person-avatar-image" 
+      loading="lazy"
+    />
+    <span class="person-avatar-name">{person.name}</span>
+  </a>
+) : (
+  <div class="person-avatar-wrapper" style={`--avatar-size: ${size}px;`}>
+    <img 
+      src={person.image} 
+      alt={person.name} 
+      class="person-avatar-image" 
+      loading="lazy"
+    />
+    <span class="person-avatar-name">{person.name}</span>
+  </div>
+)}
+
+<style>
+  .person-avatar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .person-avatar-link:hover {
+    opacity: 0.8;
+  }
+
+  .person-avatar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .person-avatar-image {
+    width: var(--avatar-size, 24px);
+    height: var(--avatar-size, 24px);
+    min-width: var(--avatar-size, 24px);
+    min-height: var(--avatar-size, 24px);
+    max-width: var(--avatar-size, 24px);
+    max-height: var(--avatar-size, 24px);
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    background: var(--color-border);
+  }
+
+  .person-avatar-name {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  .person-avatar-link .person-avatar-name {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .person-avatar-link:hover .person-avatar-name {
+    color: var(--color-link-hover);
+  }
+</style>

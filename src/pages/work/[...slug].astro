@@ -1,6 +1,8 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
+import PeopleAvatars from '../../components/PeopleAvatars.astro';
+import peopleData from '../../data/people.json';
 
 export async function getStaticPaths() {
   const workItems = await getCollection('work');
@@ -18,6 +20,40 @@ if (!item) {
 }
 
 const { Content } = await item.render();
+
+// Resolve people data
+type Person = { name: string; image: string; url?: string; linkedin?: string };
+
+function resolvePeople(peopleData: { people: Array<{ id: string; name: string; image: string; url?: string; linkedin?: string }> }, peopleField: any): Person[] {
+  if (!peopleField || !Array.isArray(peopleField) || peopleField.length === 0) {
+    return [];
+  }
+
+  const peopleMap = new Map<string, { name: string; image: string; url?: string; linkedin?: string }>(
+    peopleData.people.map((p) => [p.id, { name: p.name, image: p.image, url: p.url, linkedin: p.linkedin }])
+  );
+  const resolved: Person[] = [];
+
+  for (const personRef of peopleField) {
+    if (typeof personRef === 'string') {
+      // It's a person ID, look it up
+      const person = peopleMap.get(personRef);
+      if (person && person.name && person.image) {
+        resolved.push(person);
+      }
+    } else if (typeof personRef === 'object' && personRef !== null && 'name' in personRef && 'image' in personRef) {
+      // It's a full person object
+      const person = personRef as Person;
+      if (person.name && person.image) {
+        resolved.push(person);
+      }
+    }
+  }
+
+  return resolved;
+}
+
+const resolvedPeople = resolvePeople(peopleData, item.data.people);
 ---
 
 <MainLayout title={`${item.data.name} | Work | David Hoang`}>
@@ -31,23 +67,34 @@ const { Content } = await item.render();
         <h1>{item.data.name}</h1>
         <div class="work-meta-header">
           <span class="work-year">{item.data.year}</span>
-          {item.data.workedWith && item.data.workedWith.length > 0 && (
-            <div class="worked-with">
-              <span class="worked-with-label">Worked with:</span>{' '}
-              {item.data.workedWith.map((collaborator, index) => (
-                <>
-                  {collaborator.url ? (
-                    <a href={collaborator.url} target="_blank" rel="noopener noreferrer" class="collaborator-link">
-                      {collaborator.name}
-                    </a>
-                  ) : (
-                    <span class="collaborator-name">{collaborator.name}</span>
-                  )}
-                  {index < item.data.workedWith.length - 1 && ', '}
-                </>
-              ))}
+          {resolvedPeople.length > 0 && (
+            <div class="people-section">
+              <span class="worked-with-label">Worked with:</span>
+              <div class="people-avatars-container">
+                <PeopleAvatars people={resolvedPeople} />
+              </div>
             </div>
           )}
+          {(() => {
+            const workedWith = !resolvedPeople.length && item.data.workedWith && item.data.workedWith.length > 0 ? item.data.workedWith : null;
+            return workedWith ? (
+              <div class="worked-with">
+                <span class="worked-with-label">Worked with:</span>{' '}
+                {workedWith.map((collaborator: { name: string; url?: string }, index: number) => (
+                  <>
+                    {collaborator.url ? (
+                      <a href={collaborator.url} target="_blank" rel="noopener noreferrer" class="collaborator-link">
+                        {collaborator.name}
+                      </a>
+                    ) : (
+                      <span class="collaborator-name">{collaborator.name}</span>
+                    )}
+                    {index < workedWith.length - 1 && ', '}
+                  </>
+                ))}
+              </div>
+            ) : null;
+          })()}
         </div>
       </div>
 
@@ -233,6 +280,17 @@ const { Content } = await item.render();
     border-radius: 8px;
     overflow: hidden;
     background: var(--color-sidebar-bg);
+  }
+
+  .people-section {
+    margin-top: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .people-avatars-container {
+    flex: 1;
   }
 
   @media (max-width: 768px) {

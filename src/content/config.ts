@@ -19,6 +19,27 @@ const work = defineCollection({
       name: z.string(),
       url: z.string().optional(),
     })).optional(),
+    people: z.union([
+      // Array of person IDs (strings)
+      z.array(z.string()),
+      // Array of full person objects
+      z.array(z.object({
+        name: z.string(),
+        image: z.string(),
+        url: z.string().optional(),
+        linkedin: z.string().optional(),
+      })),
+      // Mixed: person IDs and full objects
+      z.array(z.union([
+        z.string(),
+        z.object({
+          name: z.string(),
+          image: z.string(),
+          url: z.string().optional(),
+          linkedin: z.string().optional(),
+        })
+      ]))
+    ]).optional(),
     summary: z.string(),
   })
 });

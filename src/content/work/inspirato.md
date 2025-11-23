@@ -3,6 +3,10 @@ name: "Inspirato"
 coverImage: "/images/work/inspirato/img_portfolio_inspirato_01.jpg"
 year: 2015
 summary: "Design work for Inspirato, a luxury travel and vacation rental platform. Focused on creating elegant experiences for high-end travel booking and discovery."
+people:
+  - name: "Matilda Dackevall"
+    image: "/images/people/img-matilda-dackevall.jpeg"
+    url: "https://matilda.dackevall.com/"
 ---
 
 Inspirato was a luxury travel platform that reimagined how people discover and book premium vacation experiences. The work involved designing interfaces that matched the quality and sophistication of the travel experiences being offered.

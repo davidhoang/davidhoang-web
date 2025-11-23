@@ -1,0 +1,38 @@
+---
+import PeopleCard from './PeopleCard.astro';
+
+interface Props {
+  people: Array<{
+    name: string;
+    image: string;
+    url?: string;
+    linkedin?: string;
+  }>;
+}
+
+const { people } = Astro.props;
+---
+
+{people && people.length > 0 && (
+  <div class="people-grid">
+    {people.map((person) => (
+      <PeopleCard person={person} />
+    ))}
+  </div>
+)}
+
+<style>
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .people-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import PersonAvatar from './PersonAvatar.astro';
+
+interface Props {
+  people: Array<{
+    name: string;
+    image: string;
+    url?: string;
+    linkedin?: string;
+  }>;
+  avatarSize?: number; // Optional size override for all avatars
+}
+
+const { people, avatarSize = 24 } = Astro.props;
+---
+
+{people && people.length > 0 && (
+  <div class="people-avatars">
+    {people.map((person) => (
+      <div class="people-avatar-item">
+        <PersonAvatar person={person} size={avatarSize} />
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  .people-avatars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .people-avatar-item {
+    display: flex;
+    align-items: center;
+  }
+</style>
