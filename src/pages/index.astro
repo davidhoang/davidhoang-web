@@ -2,6 +2,13 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { getCollection } from 'astro:content';
+import imgDhWebLight from '../assets/images/img-dh-web-light.jpg';
+import imgDhWebDark from '../assets/images/img-dh-web-dark.jpg';
+import imgDhWebLightFluted from '../assets/images/img-dh-web-light-fluted-glass.jpg';
+import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
+import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.jpg';
+import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.jpg';
+import imgHighlightsPoc from '../assets/images/highlights/img-highlights-proof-of-concept.jpg';
 ---
 
 <MainLayout title="David Hoang">
@@ -22,10 +29,10 @@ import { getCollection } from 'astro:content';
     <div class="hero-image">
       <div class="hero-image-wrapper">
         <picture>
-          <source srcset="/images/img-dh-web-dark.jpg" media="(prefers-color-scheme: dark)">
-          <img src="/images/img-dh-web-light.jpg" alt="Professional headshot photo of David Hoang" width="400" height="533" fetchpriority="high" decoding="async" class="hero-image-base" />
+          <source srcset={imgDhWebDark.src} media="(prefers-color-scheme: dark)">
+          <img src={imgDhWebLight.src} alt="Professional headshot photo of David Hoang" width="400" height="533" fetchpriority="high" decoding="async" class="hero-image-base" />
         </picture>
-        <img src="/images/img-dh-web-light-fluted-glass.jpg" alt="" class="hero-image-fluted" width="400" height="533" decoding="async" aria-hidden="true" />
+        <img src={imgDhWebLightFluted.src} alt="" class="hero-image-fluted" width="400" height="533" decoding="async" aria-hidden="true" />
       </div>
     </div>
   </section>
@@ -61,7 +68,7 @@ import { getCollection } from 'astro:content';
           <p><a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank" rel="noopener noreferrer">Keynote talk at Hatch Conference: Design & (Blank)</a></p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-hatch-conference.jpg" alt="David Hoang speaking at Hatch Conference 2024, presenting on stage" loading="lazy" decoding="async" width="1200" height="800">
+          <img src={imgHighlightsHatch.src} alt="David Hoang speaking at Hatch Conference 2024, presenting on stage" loading="lazy" decoding="async" width="1200" height="800">
         </div>
       </div>
       <div class="portfolio-content" role="listitem">
@@ -70,7 +77,7 @@ import { getCollection } from 'astro:content';
           <p><a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank" rel="noopener noreferrer">Replit Developer Day</a> and rebrand.</p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-replit.jpg" alt="Replit Developer Day 2024 event branding and visual identity" loading="lazy" decoding="async" width="1200" height="800">
+          <img src={imgHighlightsReplit.src} alt="Replit Developer Day 2024 event branding and visual identity" loading="lazy" decoding="async" width="1200" height="800">
         </div>
       </div>
       <div class="portfolio-content" role="listitem">
@@ -79,7 +86,7 @@ import { getCollection } from 'astro:content';
           <p>Joined <a href="https://createwithplay.com" target="_blank" rel="noopener noreferrer">Play</a> as Advisor.</p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-play.jpg" alt="Play app interface and branding design" loading="lazy" decoding="async" width="1200" height="800">
+          <img src={imgHighlightsPlay.src} alt="Play app interface and branding design" loading="lazy" decoding="async" width="1200" height="800">
         </div>
       </div>
       <div class="portfolio-content" role="listitem">
@@ -88,7 +95,7 @@ import { getCollection } from 'astro:content';
           <p>Launched <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">Proof of Concept</a>, a newsletter about design, technology, and entrepreneurship.</p>
         </div>
         <div class="portfolio-images">
-          <img src="/images/highlights/img-highlights-proof-of-concept.jpg" alt="Proof of Concept newsletter branding and design layout" loading="lazy" decoding="async" width="1200" height="800">
+          <img src={imgHighlightsPoc.src} alt="Proof of Concept newsletter branding and design layout" loading="lazy" decoding="async" width="1200" height="800">
         </div>
       </div>
       
@@ -101,74 +108,16 @@ import { getCollection } from 'astro:content';
   </section>
 
   <style>
+    /* Hero Section */
     .hero-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      width: 100%;
       margin-top: 96px;
       padding: 48px 0;
     }
 
-    .portfolio-section {
-      margin: 4rem 0;
-      border-top: 1px solid var(--color-border);
-      padding-top: 24px;
-      content-visibility: auto;
-      contain-intrinsic-size: 800px 1000px;
-    }
-
-
-    .portfolio-grid {
-      display: grid;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .portfolio-item {
-      position: relative;
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--color-bg);
-      transition: box-shadow 0.3s ease;
-    }
-
-
-    .portfolio-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-bottom: 0.5rem;
-    }
-
-    .portfolio-item-text p {
-      
-    }
-
-
-    .portfolio-content {
-      margin-bottom: 1.5rem;
-      max-width: 800px;
-    }
-
-    .portfolio-content h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.25rem;
-    }
-
-    .portfolio-content a {
-      font-weight: 500;
-      color: var(--color-link);
-    }
-
-    @media (max-width: 768px) {
-      .portfolio-content {
-        max-width: 100%;
-      }
-    }
-
-  </style>
-  <style>
     .hero-content a {
       color: var(--color-link);
       text-decoration: none;
@@ -181,8 +130,8 @@ import { getCollection } from 'astro:content';
       border-bottom-color: var(--color-link-hover);
     }
 
-    :global([data-theme="dark"]) #substackEmbed {
-      filter: invert(1) hue-rotate(180deg);
+    .hero-content ul {
+      margin: 0px 0px 0px 24px;
     }
 
     .hero-image-wrapper {
@@ -219,33 +168,7 @@ import { getCollection } from 'astro:content';
       transform: scale(1.05);
     }
 
-    @media (max-width: 480px) {
-      .hero-image img,
-      .hero-image-base,
-      .hero-image-fluted { 
-        width: 100%; 
-        height: auto; 
-      }
-    }
-
-    .substack-embed-wrapper {
-      background-color: var(--color-bg);
-      padding: 1rem;
-      border-radius: 8px;
-    }
-
-    #substackEmbed {
-      background-color: var(--color-bg);
-    }
-
-    .newsletter-container {
-      background: var(--color-bg);
-      padding: 2rem;
-      border-radius: 12px;
-      border: 1px solid var(--color-border);
-      text-align: center;
-    }
-
+    /* Design Philosophy Section */
     .design-philosophy {
       border-top: 1px solid var(--color-border);
       padding-top: 24px;
@@ -268,10 +191,28 @@ import { getCollection } from 'astro:content';
       margin-bottom: 0.75rem;
     }
 
-    @media (max-width: 768px) {
-      .philosophy-grid {
-        grid-template-columns: 1fr;
-      }
+    /* Portfolio Section */
+    .portfolio-section {
+      margin: 4rem 0;
+      border-top: 1px solid var(--color-border);
+      padding-top: 24px;
+      content-visibility: auto;
+      contain-intrinsic-size: 800px 1000px;
+    }
+
+    .portfolio-content {
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+    }
+
+    .portfolio-content h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+    }
+
+    .portfolio-content a {
+      font-weight: 500;
+      color: var(--color-link);
     }
 
     .portfolio-images {
@@ -290,14 +231,69 @@ import { getCollection } from 'astro:content';
       max-width: 75%;
     }
 
+    /* Newsletter Section */
+    .newsletter-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 2rem 5rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .substack-embed-wrapper {
+      background-color: var(--color-bg);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    #substackEmbed {
+      background-color: var(--color-bg);
+    }
+
+    :global([data-theme="dark"]) #substackEmbed {
+      filter: invert(1) hue-rotate(180deg);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin: 2rem 0 0 0;
+      }
+
+      .hero-content h1 {
+        font-size: 2.25rem;
+      }
+
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-content {
+        max-width: 100%;
+      }
+
       .portfolio-images {
         flex-direction: column;
       }
-      
+
       .portfolio-images img {
         width: 100%;
         max-width: 100%;
+      }
+
+      .newsletter-section {
+        padding: 2rem 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-image img,
+      .hero-image-base,
+      .hero-image-fluted {
+        width: 100%;
+        height: auto;
       }
     }
   </style>

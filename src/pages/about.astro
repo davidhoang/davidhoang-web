@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import imgDavidSf from '../assets/images/img-david-sf.jpg';
 ---
 
 <MainLayout title="About">
@@ -11,7 +12,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       <div class="about-content">
         <p>David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. Known as “DH” at work, he’s also David to most. He jokes he’s early in his career—with 20 years of experience in the industry. His love for design and software began after graduating with a BFA in Drawing and Painting. Interdisciplinary studies led him to electives in Computer Science, Art History, and the Humanities. After matriculation, he took what’s now called a gap year to prepare for an MFA; he never went, instead designing app interfaces for a new device called the iPhone.</p>
         <div>
-          <img class="about-image" src="/images/img-david-sf.jpg" width="100%" alt="David Hoang in San Francisco" />
+          <img class="about-image" src={imgDavidSf.src} width="100%" alt="David Hoang in San Francisco" />
         </div>
         <p>Since then, he has spent his career building and scaling design teams at early-stage startups and high-growth companies. Today, he serves as VP and Head of Design, AI at <a href="http://atlassian.com" target="_blank">Atlassian</a>, where he’s helping shape the future of work through generative AI and systems design. Before that, he was VP of Marketing and Design at <a href="http://replit.com" target="_blank">Replit</a>, where he led rebranding, launched developer events, and pushed forward new ways to ship AI-native products. He was also the first Head of Design at <a href="http://webflow.com" target="_blank">Webflow</a>, where he helped scale both the team and the company’s vision for a more expressive, accessible internet. Prior to that, he led product design at <a href="http://onemedical.com" target="_blank">One Medical</a> during its transition to virtual care and eventual IPO.</p>
         <p>Alongside his full-time roles, he invests in and advises early-stage startups—especially those working at the intersection of creativity, code, and community. Since 2020, he has invested in over 30 companies. He also writes a weekly newsletter called <a href="http://www.proofofconcept.pub">Proof of Concept</a>, where he explores ideas around software, design, and entrepreneurship. It’s a space for him to reflect on the shifting landscape of technology and how we build within it.</p>
@@ -35,7 +36,8 @@ import MainLayout from '../layouts/MainLayout.astro';
 
   .about-image {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
   }
 
   .about-image img {
@@ -65,10 +67,5 @@ import MainLayout from '../layouts/MainLayout.astro';
     .about-content {
       max-width: 100%;
     }
-  }
-
-  .about-image {
-    border-radius: 8px;
-    margin-bottom: 1rem;
   }
 </style>

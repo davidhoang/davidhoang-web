@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import { ViewTransitions } from 'astro:transitions';
+import imgBgNoise from '../assets/images/img-bg-noise.png';
 
 interface Props {
   title: string;
@@ -73,6 +74,7 @@ export const prerender = false;
         --color-bg: #fff;
         --nav-height: 40px;
         --font-primary: 'EB Garamond', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, serif;
+        --bg-noise-image: url('{imgBgNoise.src}');
       }
       [data-theme="dark"] {
         --color-text: #e1e1e1;
