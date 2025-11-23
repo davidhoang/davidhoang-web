@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { PersonAvatar } from './PersonAvatar';
 
 interface WorkedWithPerson {
   name: string;
@@ -47,12 +48,15 @@ interface CareerOdysseyProps {
 
 const MIN_NODE_RADIUS = 40;
 const MAX_NODE_RADIUS = 120;
+const DEFAULT_NODE_RADIUS = 80; // Default node radius for grid calculation
+const GRID_DOTS_PER_NODE = 8; // Number of grid dots visible across default node diameter
+// For 8 dots across diameter, we need 7 intervals: spacing = diameter / 7
+const BASE_GRID_SPACING = (DEFAULT_NODE_RADIUS * 2) / (GRID_DOTS_PER_NODE - 1); // 8-dot grid: 160px diameter / 7 ≈ 22.86px spacing
 const MAIN_PATH_Y = 800; // Centered vertically to use more canvas space
 const BRANCH_SPACING = 320; // Increased for better vertical distribution
 const CANVAS_WIDTH = 3600; // Increased from 2400 for more horizontal space
 const CANVAS_HEIGHT = 2000; // Increased to use more vertical space
 const PADDING = 200; // Increased padding to allow nodes to spread to edges
-const BASE_GRID_SPACING = 20; // Set for exactly 8 dots per average node (avg node diameter ~160px, so 160/8 = 20px spacing) - tight grid
 const TEXT_FONT_SIZE = 12;
 const TEXT_PADDING = 16; // Padding around text inside node
 const TEXT_PADDING_NOT_TAKEN = 10; // Reduced padding for paths not taken
@@ -987,17 +991,22 @@ const getConnectionPath = (
     }
   }
   
-  // If no intersections, use simple bezier curve
+  // If no intersections, use simple smooth bezier curve
   if (intersectingNodes.length === 0) {
     const horizontalDistance = Math.abs(endX - startX);
     const verticalDistance = Math.abs(endY - startY);
     const totalDistance = Math.sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance);
-    const curveFactor = Math.min(0.4, Math.max(0.2, totalDistance / 500));
     
-    const cp1x = startX + (endX - startX) * curveFactor;
-    const cp1y = startY + (endY - startY) * curveFactor * 0.5;
-    const cp2x = endX - (endX - startX) * curveFactor;
-    const cp2y = endY - (endY - startY) * curveFactor * 0.5;
+    // Use consistent curve factors for smooth, flowing curves
+    // Ensure minimum distance to prevent sharp angles at start/end
+    const minCurveFactor = 0.2; // Minimum 20% of distance
+    const maxCurveFactor = 0.4; // Maximum 40% of distance
+    const adaptiveFactor = Math.min(maxCurveFactor, Math.max(minCurveFactor, totalDistance / 600));
+    
+    const cp1x = startX + (endX - startX) * adaptiveFactor;
+    const cp1y = startY + (endY - startY) * adaptiveFactor * 0.5;
+    const cp2x = endX - (endX - startX) * adaptiveFactor;
+    const cp2y = endY - (endY - startY) * adaptiveFactor * 0.5;
     
     return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   }
@@ -1119,50 +1128,69 @@ const getConnectionPath = (
     
     path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   } else {
-    // Calculate a smooth influence vector from waypoints
-    // Instead of passing through waypoints, we'll use them to create a smooth deflection
-    let influenceX = 0;
-    let influenceY = 0;
-    let totalWeight = 0;
+    // Calculate smooth control points that create flowing curves without sharp bends
+    // Use waypoints to influence curve direction, but ensure smooth S-curves
     
+    // Calculate average waypoint position for overall deflection
+    let avgWaypointX = 0;
+    let avgWaypointY = 0;
     for (const wp of waypoints) {
-      // Calculate perpendicular vector from the direct path to the waypoint
-      const pathToWpDx = wp.x - (startX + (endX - startX) * 0.5);
-      const pathToWpDy = wp.y - (startY + (endY - startY) * 0.5);
-      
-      // Project onto perpendicular to the path direction
-      const pathPerpDx = -startToEndDy / startToEndDist;
-      const pathPerpDy = startToEndDx / startToEndDist;
-      
-      const perpProjection = pathToWpDx * pathPerpDx + pathToWpDy * pathPerpDy;
-      
-      // Weight by distance from path center (closer obstacles have more influence)
-      const distFromPath = Math.abs(perpProjection);
-      const weight = 1 / (1 + distFromPath / 200); // Decay with distance
-      
-      influenceX += pathPerpDx * perpProjection * weight;
-      influenceY += pathPerpDy * perpProjection * weight;
-      totalWeight += weight;
+      avgWaypointX += wp.x;
+      avgWaypointY += wp.y;
     }
+    avgWaypointX /= waypoints.length;
+    avgWaypointY /= waypoints.length;
     
-    if (totalWeight > 0) {
-      influenceX /= totalWeight;
-      influenceY /= totalWeight;
+    // Calculate perpendicular vector from direct path to average waypoint
+    const midX = (startX + endX) / 2;
+    const midY = (startY + endY) / 2;
+    const pathPerpDx = -startToEndDy / startToEndDist;
+    const pathPerpDy = startToEndDx / startToEndDist;
+    
+    const waypointOffsetX = avgWaypointX - midX;
+    const waypointOffsetY = avgWaypointY - midY;
+    const perpProjection = waypointOffsetX * pathPerpDx + waypointOffsetY * pathPerpDy;
+    
+    // Calculate deflection amount - limit to prevent sharp bends
+    // Use a smooth, gradual deflection that creates S-curves
+    const maxDeflection = startToEndDist * 0.3; // Maximum 30% of distance for deflection
+    const deflectionAmount = Math.max(-maxDeflection, Math.min(maxDeflection, perpProjection * 0.5));
+    
+    // Calculate base curve factors - ensure minimum distance from start/end to prevent sharp angles
+    const minCurveDistance = startToEndDist * 0.15; // At least 15% of distance for smooth curves
+    const maxCurveDistance = startToEndDist * 0.45; // At most 45% for gentle curves
+    const baseCurveFactor1 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.3)) / startToEndDist;
+    const baseCurveFactor2 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.3)) / startToEndDist;
+    
+    // Calculate control points with smooth deflection
+    // First control point: positioned along path with perpendicular deflection
+    const cp1x = startX + startToEndDx * baseCurveFactor1 + pathPerpDx * deflectionAmount;
+    const cp1y = startY + startToEndDy * baseCurveFactor1 + pathPerpDy * deflectionAmount;
+    
+    // Second control point: mirror the deflection for smooth S-curve
+    const cp2x = endX - startToEndDx * baseCurveFactor2 - pathPerpDx * deflectionAmount;
+    const cp2y = endY - startToEndDy * baseCurveFactor2 - pathPerpDy * deflectionAmount;
+    
+    // Ensure control points create smooth curves by verifying they're not too close to start/end
+    // and that the angle between segments is not too sharp
+    const cp1Dist = Math.sqrt((cp1x - startX) ** 2 + (cp1y - startY) ** 2);
+    const cp2Dist = Math.sqrt((cp2x - endX) ** 2 + (cp2y - endY) ** 2);
+    
+    // If control points are too close, adjust them to maintain minimum curve radius
+    const minControlDistance = startToEndDist * 0.1;
+    if (cp1Dist < minControlDistance) {
+      const scale = minControlDistance / cp1Dist;
+      const adjustedCp1x = startX + (cp1x - startX) * scale;
+      const adjustedCp1y = startY + (cp1y - startY) * scale;
+      path += ` C ${adjustedCp1x} ${adjustedCp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
+    } else if (cp2Dist < minControlDistance) {
+      const scale = minControlDistance / cp2Dist;
+      const adjustedCp2x = endX + (cp2x - endX) * scale;
+      const adjustedCp2y = endY + (cp2y - endY) * scale;
+      path += ` C ${cp1x} ${cp1y}, ${adjustedCp2x} ${adjustedCp2y}, ${endX} ${endY}`;
+    } else {
+      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
     }
-    
-    // Create smooth control points that gently curve around obstacles
-    // Use a moderate curve factor that creates smooth, flowing curves
-    const baseCurveFactor = Math.min(0.5, Math.max(0.25, startToEndDist / 1000));
-    
-    // First control point: start with base curve, add gentle influence
-    const cp1x = startX + startToEndDx * baseCurveFactor + influenceX * 0.6;
-    const cp1y = startY + startToEndDy * baseCurveFactor * 0.5 + influenceY * 0.6;
-    
-    // Second control point: mirror the influence for smoothness
-    const cp2x = endX - startToEndDx * baseCurveFactor - influenceX * 0.6;
-    const cp2y = endY - startToEndDy * baseCurveFactor * 0.5 - influenceY * 0.6;
-    
-    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   }
   
   // Check for intersections with other connections and add line hops
@@ -1583,16 +1611,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       targetViewBox.x = startViewBoxX - svgDeltaX;
       targetViewBox.y = startViewBoxY - svgDeltaY;
       
-      // Use requestAnimationFrame for smooth updates
-      const now = performance.now();
-      if (now - lastUpdateTime >= 16) { // ~60fps
-        setViewBox(prev => ({
-          ...prev,
-          x: targetViewBox.x,
-          y: targetViewBox.y,
-        }));
-        lastUpdateTime = now;
-      } else if (!animationFrameId) {
+      // Use requestAnimationFrame for smooth updates - always batch through RAF
+      if (!animationFrameId) {
         animationFrameId = requestAnimationFrame(() => {
           setViewBox(prev => ({
             ...prev,
@@ -1602,6 +1622,10 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           animationFrameId = null;
           lastUpdateTime = performance.now();
         });
+      } else {
+        // Update target for next frame
+        targetViewBox.x = startViewBoxX - svgDeltaX;
+        targetViewBox.y = startViewBoxY - svgDeltaY;
       }
     };
 
@@ -2096,7 +2120,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const baseDotRadius = 0.4;
   const dotRadius = baseDotRadius * zoomLevel;
 
-  // Calculate visible year range based on viewBox
+  // Memoize visible year range calculation
   const getVisibleYearRange = useCallback((): { startYear: number; endYear: number; showNow: boolean } => {
     if (nodes.length === 0) {
       return { startYear: 1993, endYear: 2024, showNow: false };
@@ -2183,15 +2207,66 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return { startYear, endYear, showNow };
   }, [nodes, viewBox]);
 
-  const visibleYearRange = getVisibleYearRange();
+  // Memoize visible year range
+  const visibleYearRange = useMemo(() => getVisibleYearRange(), [getVisibleYearRange]);
 
-  // Generate grid dots
-  const gridDots: Array<{ x: number; y: number }> = [];
-  for (let x = gridStartX; x <= gridEndX; x += gridSpacing) {
-    for (let y = gridStartY; y <= gridEndY; y += gridSpacing) {
-      gridDots.push({ x, y });
+  // Memoize grid dots generation - only recalculate when viewBox or zoom changes
+  const gridDots = useMemo(() => {
+    const dots: Array<{ x: number; y: number }> = [];
+    for (let x = gridStartX; x <= gridEndX; x += gridSpacing) {
+      for (let y = gridStartY; y <= gridEndY; y += gridSpacing) {
+        dots.push({ x, y });
+      }
     }
-  }
+    return dots;
+  }, [gridStartX, gridStartY, gridEndX, gridEndY, gridSpacing]);
+
+  // Helper function to check if a node is visible in viewport (with padding for partial visibility)
+  const isNodeVisible = useCallback((node: PositionedNode, dragOffset: { x: number; y: number }): boolean => {
+    const displayX = node.x + dragOffset.x;
+    const displayY = node.y + dragOffset.y;
+    const padding = node.radius + 50; // Extra padding to account for node size
+    
+    return displayX + padding >= viewBox.x &&
+           displayX - padding <= viewBox.x + viewBox.width &&
+           displayY + padding >= viewBox.y &&
+           displayY - padding <= viewBox.y + viewBox.height;
+  }, [viewBox]);
+
+  // Helper function to check if a connection path is visible in viewport
+  const isConnectionVisible = useCallback((source: PositionedNode, target: PositionedNode, 
+    sourceOffset: { x: number; y: number }, targetOffset: { x: number; y: number }): boolean => {
+    const sourceX = source.x + sourceOffset.x;
+    const sourceY = source.y + sourceOffset.y;
+    const targetX = target.x + targetOffset.x;
+    const targetY = target.y + targetOffset.y;
+    
+    // Check if either endpoint is visible, or if the connection passes through viewport
+    const padding = 100; // Padding for bezier curves that extend beyond endpoints
+    
+    const sourceVisible = sourceX + padding >= viewBox.x && sourceX - padding <= viewBox.x + viewBox.width &&
+                          sourceY + padding >= viewBox.y && sourceY - padding <= viewBox.y + viewBox.height;
+    const targetVisible = targetX + padding >= viewBox.x && targetX - padding <= viewBox.x + viewBox.width &&
+                          targetY + padding >= viewBox.y && targetY - padding <= viewBox.y + viewBox.height;
+    
+    // If both endpoints are outside, check if connection might pass through viewport
+    if (!sourceVisible && !targetVisible) {
+      const midX = (sourceX + targetX) / 2;
+      const midY = (sourceY + targetY) / 2;
+      return midX + padding >= viewBox.x && midX - padding <= viewBox.x + viewBox.width &&
+             midY + padding >= viewBox.y && midY - padding <= viewBox.y + viewBox.height;
+    }
+    
+    return sourceVisible || targetVisible;
+  }, [viewBox]);
+
+  // Memoize visible nodes based on viewport
+  const visibleNodes = useMemo(() => {
+    return nodes.filter(node => {
+      const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+      return isNodeVisible(node, dragOffset);
+    });
+  }, [nodes, nodeDragOffsets, isNodeVisible]);
 
   return (
     <div className="career-odyssey-wrapper">
@@ -2266,8 +2341,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             >
               <polygon points="0 0, 10 3, 0 6" fill="var(--color-text)" opacity="0.3" />
             </marker>
-            {/* Clip paths for node images */}
-            {nodes.map(node => {
+            {/* Clip paths for node images - only for visible nodes */}
+            {visibleNodes.map(node => {
               const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
               const displayX = node.x + dragOffset.x;
               const displayY = node.y + dragOffset.y;
@@ -2279,8 +2354,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             })}
           </defs>
 
-          {/* Dot grid background */}
-          <g className="grid-layer" style={{ pointerEvents: 'none' }}>
+          {/* Dot grid background - memoized for performance */}
+          {/* Future optimization: Consider using CSS background pattern or canvas element for even better performance */}
+          <g className="grid-layer" style={{ pointerEvents: 'none', willChange: 'transform' }}>
             {gridDots.map((dot, i) => (
               <circle
                 key={`grid-${i}`}
@@ -2295,10 +2371,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
           {/* Connection lines - rendered before nodes so they appear behind */}
           <g className="connections-layer">
-            {(() => {
-              // First pass: collect all connections with their paths (without connection-to-connection avoidance)
-              const allConnections: Array<{ source: PositionedNode; target: PositionedNode; path: string }> = [];
+            {useMemo(() => {
+              // Memoized connection calculation - single pass with optimization
+              const allConnections: Array<{ 
+                source: PositionedNode; 
+                target: PositionedNode; 
+                sourceDisplay: PositionedNode;
+                targetDisplay: PositionedNode;
+                sourceOffset: { x: number; y: number };
+                targetOffset: { x: number; y: number };
+              }> = [];
               
+              // Collect all connections with their display positions
               nodes.forEach(node => {
                 if (!node.connections) return;
                 
@@ -2311,23 +2395,37 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                   const sourceDisplay = { ...sourceNode, x: sourceNode.x + sourceOffset.x, y: sourceNode.y + sourceOffset.y };
                   const targetDisplay = { ...node, x: node.x + targetOffset.x, y: node.y + targetOffset.y };
                   
-                  // Get initial path (without connection-to-connection avoidance)
-                  const initialPath = getConnectionPath(sourceDisplay, targetDisplay, nodes);
-                  allConnections.push({ source: sourceDisplay, target: targetDisplay, path: initialPath });
+                  // Only include if connection is visible
+                  if (isConnectionVisible(sourceNode, node, sourceOffset, targetOffset)) {
+                    allConnections.push({ 
+                      source: sourceNode, 
+                      target: node,
+                      sourceDisplay, 
+                      targetDisplay,
+                      sourceOffset,
+                      targetOffset
+                    });
+                  }
                 });
               });
               
+              // Calculate paths for all visible connections (first pass - initial paths)
+              const connectionsWithInitialPaths = allConnections.map(conn => ({
+                ...conn,
+                path: getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes)
+              }));
+              
               // Second pass: recalculate paths with connection-to-connection avoidance
-              const finalConnections = allConnections.map(conn => {
-                const finalPath = getConnectionPath(conn.source, conn.target, nodes, allConnections);
+              const finalConnections = connectionsWithInitialPaths.map(conn => {
+                const finalPath = getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes, connectionsWithInitialPaths);
                 return { ...conn, path: finalPath };
               });
               
-              // Third pass: render connections
-              return finalConnections.map((conn, index): React.ReactElement | null => {
-                const { source: sourceDisplay, target: targetDisplay, path } = conn;
-                const sourceNode = nodes.find(n => n.id === sourceDisplay.id);
-                const targetNode = nodes.find(n => n.id === targetDisplay.id);
+              return finalConnections;
+            }, [nodes, nodeDragOffsets, isConnectionVisible]).map((conn, index): React.ReactElement | null => {
+                const { source, target, path } = conn;
+                const sourceNode = source;
+                const targetNode = target;
                 if (!sourceNode || !targetNode) return null;
                 
                 // A path is "not taken" if the target node has pathTaken: false
@@ -2403,8 +2501,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         />
                       </path>
                     )}
-                    {/* Main path */}
-                    <motion.path
+                    {/* Main path - optimized with CSS transitions */}
+                    <path
                       d={path}
                       fill="none"
                       stroke={isActivePath ? 'url(#activePathStrokeGradient)' : (pathTaken ? 'var(--color-text)' : '#6b7280')}
@@ -2412,19 +2510,19 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                       strokeDasharray={pathTaken ? '0' : '8,4'}
                       strokeLinecap="round"
                       opacity={connectionOpacity}
-                      initial={{ opacity: connectionOpacity }}
-                      animate={{ opacity: connectionOpacity }}
-                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                      style={{
+                        transition: 'opacity 0.3s ease-out',
+                        willChange: 'opacity'
+                      }}
                     />
                   </g>
                 );
-              }).filter(Boolean);
-            })()}
+              }).filter(Boolean)}
           </g>
 
           {/* Nodes */}
           <g className="nodes-layer">
-            {nodes.map(node => {
+            {visibleNodes.map(node => {
               const isHovered = hoveredNode === node.id;
               const isSelected = selectedNode?.id === node.id;
               const nodeColor = getNodeColor(node.type, node.pathTaken !== false);
@@ -2460,30 +2558,26 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     />
                   )}
                   
-                  {/* Hover glow ring */}
-                  <motion.circle
+                  {/* Hover glow ring - optimized with CSS transitions */}
+                  <circle
                     cx={displayX}
                     cy={displayY}
                     r={node.radius + 8}
                     fill="none"
                     stroke={nodeColor}
                     strokeWidth={2}
-                    strokeOpacity={0}
-                    initial={{ strokeOpacity: 0, scale: 1 }}
-                    animate={{
-                      strokeOpacity: isHovered ? 0.4 : 0,
-                      scale: isHovered ? 1.2 : 1,
+                    strokeOpacity={isHovered ? 0.4 : 0}
+                    style={{ 
+                      pointerEvents: 'none',
+                      transform: `scale(${isHovered ? 1.2 : 1})`,
+                      transformOrigin: `${displayX}px ${displayY}px`,
+                      transition: 'stroke-opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      willChange: 'stroke-opacity, transform'
                     }}
-                    transition={{
-                      type: 'tween',
-                      duration: 0.3,
-                      ease: [0.4, 0, 0.2, 1],
-                    }}
-                    style={{ pointerEvents: 'none' }}
                   />
                   
-                  {/* Node circle */}
-                  <motion.circle
+                  {/* Node circle - optimized with CSS transitions */}
+                  <circle
                     cx={displayX}
                     cy={displayY}
                     r={node.radius}
@@ -2492,16 +2586,13 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     stroke="var(--color-border)"
                     strokeWidth={pathTaken ? 3 : 2}
                     strokeDasharray={pathTaken ? '0' : '5,5'}
-                    initial={{ scale: 1 }}
-                    animate={{
-                      scale: isHovered ? 1.2 : isSelected ? 1.05 : 1,
+                    style={{ 
+                      transform: `scale(${isHovered ? 1.2 : isSelected ? 1.05 : 1})`,
+                      transformOrigin: `${displayX}px ${displayY}px`,
+                      filter: isHovered ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' : 'none',
+                      transition: 'transform 0.2s ease-out, filter 0.2s ease-out',
+                      willChange: 'transform, filter'
                     }}
-                    transition={{
-                      type: 'tween',
-                      duration: 0.2,
-                      ease: 'easeOut',
-                    }}
-                    style={{ filter: isHovered ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' : 'none' }}
                   />
                   
                   {/* Node image background */}
@@ -2510,7 +2601,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     const imageSize = imageRadius * 2 * 1.3; // Make image larger to ensure full circle coverage
                     const imageOffset = (imageSize - imageRadius * 2) / 2;
                     return (
-                      <motion.image
+                      <image
                         href={node.image}
                         x={displayX - node.radius + 5 - imageOffset}
                         y={displayY - node.radius + 5 - imageOffset}
@@ -2518,12 +2609,13 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         height={imageSize}
                         clipPath={`url(#clip-${node.id})`}
                         preserveAspectRatio="xMidYMid slice"
-                        initial={{ opacity: 1, scale: 1 }}
-                        animate={{ 
-                          opacity: isHovered ? 0.7 : 1,
-                          scale: isHovered ? 1.2 : 1
+                        opacity={isHovered ? 0.7 : 1}
+                        style={{
+                          transform: `scale(${isHovered ? 1.2 : 1})`,
+                          transformOrigin: `${displayX}px ${displayY}px`,
+                          transition: 'opacity 0.2s ease-out, transform 0.2s ease-out',
+                          willChange: 'opacity, transform'
                         }}
-                        transition={{ duration: 0.2 }}
                         onError={(e) => {
                           // Hide image if it fails to load
                           (e.target as SVGImageElement).style.display = 'none';
@@ -2534,15 +2626,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                   
                   {/* Hover overlay with title and date for image nodes */}
                   {node.image && (
-                    <motion.foreignObject
+                    <foreignObject
                       x={displayX - node.radius}
                       y={displayY - node.radius}
                       width={node.radius * 2}
                       height={node.radius * 2}
-                      style={{ pointerEvents: 'none', overflow: 'hidden' }}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: isHovered ? 1 : 0 }}
-                      transition={{ duration: 0.2 }}
+                      style={{ 
+                        pointerEvents: 'none', 
+                        overflow: 'hidden',
+                        opacity: isHovered ? 1 : 0,
+                        transition: 'opacity 0.2s ease-out',
+                        willChange: 'opacity'
+                      }}
                     >
                       <div
                         style={{
@@ -2589,7 +2684,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                           )}
                         </div>
                       </div>
-                    </motion.foreignObject>
+                    </foreignObject>
                   )}
                   
                   {/* Node label - only show when no image */}
@@ -2611,7 +2706,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     const startY = displayY - (totalHeight / 2) + (lineHeight / 2);
                     
                     return (
-                      <motion.text
+                      <text
                         x={displayX}
                         y={startY}
                         textAnchor="middle"
@@ -2633,7 +2728,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             {line}
                           </tspan>
                         ))}
-                      </motion.text>
+                      </text>
                     );
                   })()}
                 </g>
@@ -2712,6 +2807,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             top: `${cardPosition.y}px`,
             zIndex: 1000,
             pointerEvents: 'auto',
+            willChange: 'opacity'
           }}
         >
           <div 
@@ -2775,26 +2871,11 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                   <div className="node-card-worked-with-list">
                     {selectedNode.workedWith.map((person, index) => (
                       <div key={index} className="node-card-worked-with-person">
-                        {person.image && (
-                          <img
-                            src={person.image}
-                            alt={person.name}
-                            className="node-card-worked-with-avatar"
-                            loading="lazy"
-                          />
-                        )}
-                        {person.url ? (
-                          <a
-                            href={person.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="node-card-worked-with-name node-card-worked-with-link"
-                          >
-                            {person.name}
-                          </a>
-                        ) : (
-                          <span className="node-card-worked-with-name">{person.name}</span>
-                        )}
+                        <PersonAvatar 
+                          person={person} 
+                          size={40}
+                          className="node-card-person-avatar"
+                        />
                       </div>
                     ))}
                   </div>
@@ -3016,29 +3097,48 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           gap: 0.75rem;
         }
 
-        .node-card-worked-with-avatar {
-          width: 2.5rem;
-          height: 2.5rem;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 1px solid var(--color-border);
+        /* PersonAvatar component styles */
+        .person-avatar-link,
+        .person-avatar-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          text-decoration: none;
+          transition: opacity 0.2s ease;
         }
 
-        .node-card-worked-with-name {
+        .person-avatar-link:hover {
+          opacity: 0.8;
+        }
+
+        .person-avatar-image {
+          width: var(--avatar-size, 24px);
+          height: var(--avatar-size, 24px);
+          min-width: var(--avatar-size, 24px);
+          min-height: var(--avatar-size, 24px);
+          max-width: var(--avatar-size, 24px);
+          max-height: var(--avatar-size, 24px);
+          border-radius: 50%;
+          object-fit: cover;
+          display: block;
+          flex-shrink: 0;
+          background: var(--color-border);
+        }
+
+        .person-avatar-name {
           font-size: 0.9rem;
           color: var(--color-text);
+          white-space: nowrap;
           font-weight: 500;
         }
 
-        .node-card-worked-with-link {
+        .person-avatar-link .person-avatar-name {
           color: var(--color-link);
           text-decoration: none;
-          transition: color 0.2s ease;
         }
 
-        .node-card-worked-with-link:hover {
+        .person-avatar-link:hover .person-avatar-name {
           color: var(--color-link-hover);
-          text-decoration: underline;
         }
 
         .node-card-link {
