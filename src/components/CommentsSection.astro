@@ -1,49 +1,32 @@
 ---
-import Giscus from './Giscus.tsx';
-
 interface Props {
   title: string;
   url: string;
 }
 
 const { title, url } = Astro.props;
-
-// Giscus configuration
-const giscusConfig = {
-  repo: "davidhoang/davidhoang-web",
-  repoId: "R_kgDOKjQJHQ", // Get this from giscus.app setup
-  category: "General",
-  categoryId: "DIC_kwDOKjQJHc4CbQYH", // Get this from giscus.app setup
-  mapping: "pathname",
-  term: title,
-  reactionsEnabled: "1",
-  emitMetadata: "0",
-  inputPosition: "bottom",
-  theme: "preferred_color_scheme",
-  lang: "en",
-  loading: "lazy"
-};
 ---
 
 <div class="comments-wrapper">
   <div class="comments-section">
     <h3>Comments</h3>
     <div class="comments-container">
-      <Giscus 
-        repo={giscusConfig.repo}
-        repoId={giscusConfig.repoId}
-        category={giscusConfig.category}
-        categoryId={giscusConfig.categoryId}
-        mapping={giscusConfig.mapping}
-        term={giscusConfig.term}
-        reactionsEnabled={giscusConfig.reactionsEnabled}
-        emitMetadata={giscusConfig.emitMetadata}
-        inputPosition={giscusConfig.inputPosition}
-        theme={giscusConfig.theme}
-        lang={giscusConfig.lang}
-        loading={giscusConfig.loading}
-        client:load
-      />
+      <script 
+        src="https://giscus.app/client.js"
+        data-repo="davidhoang/davidhoang-web"
+        data-repo-id="R_kgDONg0pTQ"
+        data-category="[ENTER CATEGORY NAME HERE]"
+        data-category-id="[ENTER CATEGORY ID HERE]"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async
+      ></script>
     </div>
   </div>
 </div>
