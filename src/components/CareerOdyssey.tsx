@@ -20,6 +20,7 @@ interface Node {
   connections?: string[];
   image?: string;
   link?: string;
+  iframe?: string; // URL for embedded iframe content (e.g., games)
   x?: number;
   y?: number;
   sequence?: number; // Optional sequence order for nodes with same/similar dates
@@ -2595,7 +2596,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     }}
                   />
                   
-                  {/* Node image background */}
+                  {/* Node image background - show image on canvas even if iframe exists */}
                   {node.image && (() => {
                     const imageRadius = node.radius - 5;
                     const imageSize = imageRadius * 2 * 1.3; // Make image larger to ensure full circle coverage
@@ -2842,7 +2843,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
               </div>
             )}
             
-            {!selectedNode.image && (
+            {!selectedNode.image && !selectedNode.iframe && (
               <button
                 className="node-card-close"
                 onClick={handleCloseModal}
@@ -2865,6 +2866,19 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 <p className="node-card-description">{selectedNode.description}</p>
               )}
               
+              {selectedNode.iframe && (
+                <div className="node-card-embed">
+                  <iframe
+                    src={selectedNode.iframe}
+                    title={selectedNode.label}
+                    className="node-card-embed-content"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              
               {selectedNode.workedWith && selectedNode.workedWith.length > 0 && (
                 <div className="node-card-worked-with">
                   <h3 className="node-card-worked-with-title">Worked with</h3>
@@ -2875,7 +2889,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                           person={person} 
                           size={40}
                           className="node-card-person-avatar"
-                        />
+                          />
                       </div>
                     ))}
                   </div>
@@ -3040,6 +3054,25 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           padding: 0;
         }
 
+        .node-card-embed {
+          width: 100%;
+          margin: 1.5rem 0;
+          border-radius: 12px;
+          overflow: hidden;
+          background: #000;
+          position: relative;
+          min-height: 400px;
+          max-height: 600px;
+          height: 500px;
+        }
+
+        .node-card-embed-content {
+          width: 100%;
+          height: 100%;
+          border: none;
+          display: block;
+        }
+
         .node-card-content {
           padding: 1.5rem;
           flex: 1;
@@ -3202,6 +3235,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             max-height: 180px;
           }
 
+          .node-card-embed {
+            min-height: 250px;
+            max-height: 350px;
+            height: 300px;
+          }
+
           .node-card-close {
             top: 0.5rem;
             right: 0.5rem;
@@ -3244,6 +3283,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           .node-card-image img {
             min-height: 150px;
             max-height: 220px;
+          }
+
+          .node-card-embed {
+            min-height: 300px;
+            max-height: 450px;
+            height: 400px;
           }
         }
 

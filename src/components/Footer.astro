@@ -12,19 +12,20 @@ const currentYear = new Date().getFullYear();
         <div class="footer-col">
           <h4>Social</h4>
           <ul role="list">
-            <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Twitter (opens in new tab)">Twitter</a></li>
             <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on GitHub (opens in new tab)">GitHub</a></li>
             <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on LinkedIn (opens in new tab)">LinkedIn</a></li>
             <li><a href="https://sublime.app/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Sublime (opens in new tab)">Sublime</a></li>
+            <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Twitter (opens in new tab)">Twitter</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Links</h4>
           <ul role="list">
+            <li><a href="/career-odyssey" aria-label="Career Odyssey">Career Odyssey</a></li>
+            <li><a href="https://curius.app/david-hoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Curius (opens in new tab)">Curius</a></li>
+            <li><a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer" aria-label="Proof of Concept newsletter (opens in new tab)">Newsletter</a></li>
             <li><a href="http://blog.davidhoang.com" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's personal blog (opens in new tab)">Personal&nbsp;Blog</a></li>
             <li><a href="/rss.xml" type="application/rss+xml" aria-label="RSS feed for this website">RSS</a></li>
-            <li><a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer" aria-label="Proof of Concept newsletter (opens in new tab)">Newsletter</a></li>
-            <li><a href="https://curius.app/david-hoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Curius (opens in new tab)">Curius</a></li>
             <li><a href="https://substack.com/@davidhoang/notes" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's Substack Notes (opens in new tab)">Substack Notes</a></li>
           </ul>
         </div>
@@ -54,13 +55,36 @@ const currentYear = new Date().getFullYear();
     font-size: 1.4em;
   }
 
+  :global(footer) {
+    background-image: url('/images/img-background.jpeg') !important;
+    background-repeat: repeat !important;
+    background-size: 100px 100px !important;
+    background-position: 0 0 !important;
+    background-color: transparent !important;
+  }
+
   @media (max-width: 768px) {
     .footer-grid {
       grid-template-columns: 1fr;
       gap: 1.5em;
     }
+    
+    :global(footer) {
+      background-image: url('/images/img-background.jpeg') !important;
+      background-repeat: repeat !important;
+      background-size: 100px 100px !important;
+      background-color: transparent !important;
+    }
   }
 
+  @media (max-width: 480px) {
+    :global(footer) {
+      background-image: url('/images/img-background.jpeg') !important;
+      background-repeat: repeat !important;
+      background-size: 100px 100px !important;
+      background-color: transparent !important;
+    }
+  }
 
 </style>
 
