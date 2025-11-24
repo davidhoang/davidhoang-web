@@ -47,7 +47,19 @@
       "date": "1996",
       "dateRange": "1996",
       "pathTaken": true,
-      "image": "/images/odyssey/img-quake.jpg"
+      "image": "/images/odyssey/img-quake.jpg",
+      "iframe": "https://playclassic.games/games/first-person-shooter-dos-games-online/play-quake-online/play/"
+    },
+    {
+      "id": "art-history",
+      "label": "Art History",
+      "description": "Studied Art History in a running start program and was introduced to, \"The Conversion of St. Paul\" by Caravaggio. This propeled me to learn art history and major in Studio Art when I went to college.",
+      "type": "event",
+      "date": "2001",
+      "dateRange": "2001",
+      "connections": ["quake"],
+      "pathTaken": true,
+      "image": "/images/odyssey/img-caravaggio.jpg"
     },
     {
       "id": "bought-ipod-classic",
@@ -55,7 +67,7 @@
       "type": "event",
       "date": "2002",
       "dateRange": "2002",
-      "connections": ["quake"],
+      "connections": ["art-history"],
       "pathTaken": true
     },
     {
@@ -65,7 +77,7 @@
       "type": "event",
       "date": "2002",
       "dateRange": "2002-2006",
-      "connections": ["quake"],
+      "connections": ["art-history"],
       "pathTaken": true,
       "image": "/images/odyssey/img-studied-art.jpeg"
     },
@@ -82,11 +94,13 @@
     {
       "id": "created-myspace",
       "label": "Created MySpace page",
+      "description": "Created a MySpace page and ushered in my first heavily used social media site in Web 2.0. I learned the z-index property as a way to overlay a custom layout on top of the MySpace page.",
       "type": "spark",
       "date": "2004",
       "dateRange": "2004",
       "connections": ["studied-art"],
-      "pathTaken": true
+      "pathTaken": true,
+      "image": "/images/odyssey/img-myspace-tom.webp"
     },
     {
       "id": "move-to-sf",
@@ -116,6 +130,16 @@
       "dateRange": "2011-2015",
       "connections": ["studied-art"],
       "pathTaken": true
+    },
+    {
+      "id": "continue-xhatch",
+      "label": "Continue Xhatch",
+      "description": "A potential path that wasn't taken—exploring what might have happened if I had continued building and growing Xhatch instead of moving on.",
+      "type": "company",
+      "date": "2015",
+      "dateRange": "2015",
+      "connections": ["xhatch"],
+      "pathTaken": false
     },
     {
       "id": "bret-victor",
@@ -216,6 +240,8 @@
       "dateRange": "2021",
       "connections": ["webflow"],
       "pathTaken": true,
+      "image": "/images/odyssey/img-david-hoang-config.avif",
+      "iframe": "https://www.youtube.com/embed/piGC-iFwmrk",
       "link": "https://www.youtube.com/watch?v=piGC-iFwmrk&t=1s"
     },
     {
@@ -262,7 +288,7 @@
     },
     {
       "id": "play-advisor",
-      "label": "Play Advisor",
+      "label": "Play",
       "description": "Started advising Play, contributing strategic guidance and insights to help shape the company's direction.",
       "type": "milestone",
       "date": "2023",

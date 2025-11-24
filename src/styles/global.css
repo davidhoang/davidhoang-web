@@ -345,9 +345,6 @@ svg {
 
 /* Footer (shared styles) */
 footer {
-  background-image: var(--bg-noise-image, url('/images/img-bg-noise.png'));
-  background-repeat: repeat;
-  background-size: 200px;
   opacity: 1;
   padding: 2rem 0 4rem 0;
   font-size: 1.0rem;
@@ -387,8 +384,13 @@ footer * {
 }
 
 .footer-col h4 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  margin-top: 0;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  opacity: 0.9;
 }
 
 .footer-col ul {

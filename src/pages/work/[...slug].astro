@@ -78,21 +78,21 @@ const resolvedPeople = resolvePeople(peopleData, item.data.people);
           {(() => {
             const workedWith = !resolvedPeople.length && item.data.workedWith && item.data.workedWith.length > 0 ? item.data.workedWith : null;
             return workedWith ? (
-              <div class="worked-with">
-                <span class="worked-with-label">Worked with:</span>{' '}
+            <div class="worked-with">
+              <span class="worked-with-label">Worked with:</span>{' '}
                 {workedWith.map((collaborator: { name: string; url?: string }, index: number) => (
-                  <>
-                    {collaborator.url ? (
-                      <a href={collaborator.url} target="_blank" rel="noopener noreferrer" class="collaborator-link">
-                        {collaborator.name}
-                      </a>
-                    ) : (
-                      <span class="collaborator-name">{collaborator.name}</span>
-                    )}
+                <>
+                  {collaborator.url ? (
+                    <a href={collaborator.url} target="_blank" rel="noopener noreferrer" class="collaborator-link">
+                      {collaborator.name}
+                    </a>
+                  ) : (
+                    <span class="collaborator-name">{collaborator.name}</span>
+                  )}
                     {index < workedWith.length - 1 && ', '}
-                  </>
-                ))}
-              </div>
+                </>
+              ))}
+            </div>
             ) : null;
           })()}
         </div>
