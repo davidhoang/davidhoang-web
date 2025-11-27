@@ -8,8 +8,6 @@ import CommentsSection from '../components/CommentsSection.astro';
 const { data } = Astro.props;
 const { title, description, pubDate } = data;
 const coverImage = data.coverImage || data.ogImage;
-// Extract slug from pathname (format: /writing/{slug})
-const slug = Astro.url.pathname.split('/').pop() || '';
 ---
 
 <MainLayout title={title}>
@@ -36,7 +34,7 @@ const slug = Astro.url.pathname.split('/').pop() || '';
           <div class="prose-content">
             <slot />
           </div>
-          <CommentsSection slug={slug} />
+          <CommentsSection />
         </div>
         <SidebarWriting />
       </div>
