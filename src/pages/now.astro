@@ -10,15 +10,25 @@ const currentDate = new Date().toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric'
 });
+
+// Get page name from the URL path
+const pageName = Astro.url.pathname
+  .split('/')
+  .filter(Boolean)
+  .pop() || 'Home';
+const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
 ---
 
 <MainLayout title="Now | David Hoang">
   <div class="container">
-    <div class="hero-title">
-      <h1>Now</h1>
+    <div class="now-image-container">
+      <img class="now-image" src={imgDavidNow.src} alt="David Hoang portrait photo, current headshot" />
+      <div class="image-overlay">
+        <h1 class="overlay-text">{pageTitle}</h1>
+      </div>
     </div>
     <div class="now-content">
-      <p>Last updated: Friday, January 17, 2025. Learn more about <a href="https://nownownow.com/" target="_blank">Now pages</a></p>
+      <p>Last updated: Thursday, November 27, 2025. Learn more about <a href="https://nownownow.com/" target="_blank">Now pages</a></p>
       <div class="now-section">
         <div class="now-grid">
           <div class="now-grid-item">
@@ -49,6 +59,53 @@ const currentDate = new Date().toLocaleDateString('en-US', {
 </MainLayout>
 
 <style>
+  .now-image-container {
+    width: 100vw;
+    max-width: 100vw;
+    aspect-ratio: 16 / 9;
+    margin-top: calc(0px - clamp(1rem, 3vw, 2rem));
+    margin-bottom: 2rem;
+    margin-left: calc(50% - 50vw - clamp(1rem, 3vw, 2rem));
+    margin-right: calc(50% - 50vw - clamp(1rem, 3vw, 2rem));
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .now-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .overlay-text {
+    color: white;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.02em;
+  }
+
   .now-content {
     max-width: 700px;
     margin: 0 auto;
