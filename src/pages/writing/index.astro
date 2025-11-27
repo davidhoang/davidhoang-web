@@ -18,10 +18,10 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
         <ul class="posts-list">
           {posts.map(post => (
             <li>
-              <a href={`/writing/${post.slug}`}>
-                <div class="post-row" style="display: flex; justify-content: space-between; align-items: center;">
-                  {post.data.title}
-                  <time datetime={post.data.pubDate}>
+              <a href={`/writing/${post.slug}`} class="post-link">
+                <div class="post-row">
+                  <span class="post-title">{post.data.title}</span>
+                  <time datetime={post.data.pubDate.toISOString()}>
                     {new Date(post.data.pubDate).toLocaleDateString()}
                   </time>
                 </div>
@@ -47,9 +47,36 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     padding: 0;
   }
 
-  .posts-list a {
+  .posts-list li {
+    margin-bottom: 0.75rem;
+  }
+
+  .post-link {
     text-decoration: none;
     color: inherit;
+    display: block;
+    border-bottom: none !important;
+  }
+
+  .post-link::after {
+    display: none !important;
+  }
+
+  .post-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .post-title {
+    position: relative;
+    border-bottom: 1px dotted transparent;
+    transition: border-bottom-color 0.3s ease;
+  }
+
+  .post-link:hover .post-title {
+    border-bottom-color: var(--color-link-hover, #0066cc);
   }
 
   .posts-list h2 {
@@ -59,6 +86,7 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   time {
     color: #444;
+    flex-shrink: 0;
   }
 
   @media (max-width: 768px) {

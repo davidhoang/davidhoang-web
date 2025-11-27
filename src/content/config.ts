@@ -6,6 +6,7 @@ const writing = defineCollection({
     pubDate: z.date(),
     description: z.string(),
     ogImage: z.string().optional(),
+    coverImage: z.string().optional(),
     // ... other fields
   })
 });
