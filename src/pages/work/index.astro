@@ -5,6 +5,10 @@ import { readFile } from 'fs/promises';
 import { join } from 'path';
 
 const workItems = await getCollection('work');
+
+// Page metadata
+const pageDescription = "Selected work from my career: design leadership at Atlassian, Replit, Webflow, and One Medical. Product design, team building, and scaling design organizations.";
+const ogImage = "/images/img-dh.png";
 // Sort by year, newest first (most recent chronologically)
 // For date ranges like "2019 to 2023", extract the end year for sorting
 workItems.sort((a, b) => {
@@ -44,7 +48,7 @@ const workItemsWithImages = await Promise.all(
 );
 ---
 
-<MainLayout title="Work | David Hoang">
+<MainLayout title="Work | David Hoang" description={pageDescription} ogImage={ogImage}>
   <div class="container">
     <div class="hero-title">
       <h1>Work</h1>

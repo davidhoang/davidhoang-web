@@ -17,9 +17,13 @@ const pageName = Astro.url.pathname
   .filter(Boolean)
   .pop() || 'Home';
 const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+
+// Page metadata
+const pageDescription = "What I'm currently up to: working on AI at Atlassian, taking care of a new kitten, vibe coding Tapestry, writing Proof of Concept newsletter, and more.";
+const ogImage = "/images/img-david-now.jpeg";
 ---
 
-<MainLayout title="Now | David Hoang">
+<MainLayout title="Now | David Hoang" description={pageDescription} ogImage={ogImage}>
   <div class="container">
     <div class="now-image-container">
       <img class="now-image" src={imgDavidNow.src} alt="David Hoang portrait photo, current headshot" />

@@ -1,8 +1,12 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+// Page metadata
+const pageDescription = "My convictions on the future of software design, AI-native management, the post-IDE world, and human x AI collaboration.";
+const ogImage = "/images/img-dh.png";
 ---
 
-<MainLayout title="Thesis">
+<MainLayout title="Thesis" description={pageDescription} ogImage={ogImage}>
   <div class="container">
     <div class="hero-title">
       <h1>Conviction</h1>

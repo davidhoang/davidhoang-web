@@ -8,9 +8,13 @@ const pageName = Astro.url.pathname
   .filter(Boolean)
   .pop() || 'Home';
 const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+
+// Page metadata
+const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
+const ogImage = "/images/img-david-sf.jpg";
 ---
 
-<MainLayout title="About">
+<MainLayout title="About" description={pageDescription} ogImage={ogImage}>
   <div class="container">
     <div class="about-image-container">
       <img class="about-image" src={imgDavidSf.src} alt="David Hoang in San Francisco" />
@@ -21,8 +25,8 @@ const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
     <div class="hero-grid">
       <div class="about-content">
         <p>I'm a designer, investor, and builder focused on tools that revolutionize the internet. My career has been an <a href="/career-odyssey">odyssey</a>—20 years in and still so much to learn and experience. My love for design and software began after graduating with a BFA in Drawing and Painting. Interdisciplinary studies led me to electives in Computer Science, Art History, and the Humanities. After matriculation, I took what's now called a gap year to prepare for an MFA; I never went, instead designing app interfaces for a new device called the iPhone.</p>
-        <p>Since then, I've spent my career building and scaling design teams at early-stage startups and high-growth companies. Today, I serve as VP and Head of Design, AI at <a href="http://atlassian.com" target="_blank">Atlassian</a>. Prior, I was VPof Marketing and Design at <a href="http://replit.com" target="_blank">Replit</a>, where I led rebranding, launched developer events, and pushed forward new ways to ship AI-native products. I was also the first Head of Design at <a href="http://webflow.com" target="_blank">Webflow</a>, where I helped scale both the team and the company's vision for a more expressive, accessible internet. Prior to that, I led product design at <a href="http://onemedical.com" target="_blank">One Medical</a> during its transition to virtual care and eventual IPO.</p>
-        <p>Alongside my current role, I invest in and advise early-stage startups, especially creative tools that empower people to express on the internet. I've invested in over 30 companies. I also write a weekly newsletter called <a href="http://www.proofofconcept.pub">Proof of Concept</a>, where I explore ideas around software, design, and entrepreneurship. It's a space for me to reflect on the shifting landscape of technology and how we build within it.</p>
+        <p>Since then, I've spent my career building and scaling design teams at early-stage startups and high-growth companies. I currently serve as VP of Design, Rovo & AI at <a href="http://atlassian.com" target="_blank">Atlassian</a>, where I hope AI to build AI experiences that will use Jira for me so I don't have to. Prior, I was VPof Marketing and Design at <a href="http://replit.com" target="_blank">Replit</a>, where I led rebranding, launched developer events, and pushed forward new ways to ship AI-native products. I was also the first Head of Design at <a href="http://webflow.com" target="_blank">Webflow</a>, where I helped scale both the team and the company's vision for a more expressive, accessible internet. Prior to that, I led product design at <a href="http://onemedical.com" target="_blank">One Medical</a> during its transition to virtual care and eventual IPO.</p>
+        <p>I invest in and advise early-stage startups, especially creative tools that empower people to express on the internet. I've invested in over 30 early-stage companies: <a href="https://sunflower.me/" target="_blank">Sunflower</a>, <a href="https://www.withdaydream.com/" target="_blank">Daydream</a>, <a href="https://explore.ozu.ai/" target="_blank">OZU</a>, <a href="https://stitch.withgoogle.com/" target="_blank">Galileo (aquired)</a>, <a href="https://www.tryflint.com/" target="_blank">Flint</a>, and <a href="https://paper.design/" target="_blank">Paper</a>, to name a few . I also write a weekly newsletter called <a href="http://www.proofofconcept.pub">Proof of Concept</a>, where I explore ideas around software, design, and entrepreneurship. It's a space for me to reflect on the shifting landscape of technology and how we build within it.</p>
         <p>See what I'm up to <a href="/now">now</a>.</p>
       </div>
     </div>

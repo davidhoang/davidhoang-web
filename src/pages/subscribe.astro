@@ -1,9 +1,13 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
+
+// Page metadata
+const pageDescription = "Subscribe to Proof of Concept, a digital newsletter publication that explores experimentation and maximizing your creative output. Free issue every Sunday.";
+const ogImage = "/images/img-dh.png";
 ---
 
-<MainLayout title="Subscribe">
+<MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
   
   <div class="container">
     <section class="hero-title">
