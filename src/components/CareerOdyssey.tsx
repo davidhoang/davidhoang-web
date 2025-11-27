@@ -25,7 +25,9 @@ const KONVA_CACHE_VERSION = '1.0.0';
 if (typeof window !== 'undefined') {
   (window as any).__clearKonvaCache = () => {
     konvaCache = null;
-    console.log('Konva cache cleared');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Konva cache cleared');
+    }
   };
 }
 
@@ -42,12 +44,16 @@ const loadKonva = async () => {
   
   // Clear old cache if version mismatch
   if (konvaCache && konvaCache.version !== KONVA_CACHE_VERSION) {
-    console.log('Clearing outdated Konva cache (version mismatch)');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Clearing outdated Konva cache (version mismatch)');
+    }
     konvaCache = null;
   }
   
   try {
-    console.log('Loading Konva...');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Loading Konva...');
+    }
     const [reactKonva, konvaLib] = await Promise.all([
       import('react-konva'),
       import('konva')
@@ -66,12 +72,14 @@ const loadKonva = async () => {
       LinearGradientClass = konvaLib.default.LinearGradient;
     }
     
-    console.log('Konva loaded, checking LinearGradient:', {
-      hasKonva: !!Konva,
-      hasLinearGradient: !!LinearGradientClass,
-      konvaKeys: Konva ? Object.keys(Konva).slice(0, 20) : [],
-      konvaLibKeys: konvaLib ? Object.keys(konvaLib).slice(0, 20) : []
-    });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Konva loaded, checking LinearGradient:', {
+        hasKonva: !!Konva,
+        hasLinearGradient: !!LinearGradientClass,
+        konvaKeys: Konva ? Object.keys(Konva).slice(0, 20) : [],
+        konvaLibKeys: konvaLib ? Object.keys(konvaLib).slice(0, 20) : []
+      });
+    }
     
     konvaCache = {
       Stage: reactKonva.Stage,
@@ -87,7 +95,9 @@ const loadKonva = async () => {
       version: KONVA_CACHE_VERSION,
     };
     
-    console.log('Konva loaded successfully', { version: KONVA_CACHE_VERSION });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Konva loaded successfully', { version: KONVA_CACHE_VERSION });
+    }
     return konvaCache;
   } catch (error) {
     console.error('Failed to load Konva:', error);
@@ -1693,7 +1703,9 @@ const AnimatedNodeGroup: React.FC<{
       cacheInitializedRef.current = true;
     } catch (error) {
       // Cache might fail if group has no children yet, that's okay
-      console.warn('Failed to cache node group:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Failed to cache node group:', error);
+      }
     }
   }, [Konva]);
   
@@ -2057,7 +2069,9 @@ const NodeImage: React.FC<{
 
 const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   try {
-    console.log('CareerOdyssey component rendering, careerData:', careerData ? 'present' : 'missing');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('CareerOdyssey component rendering, careerData:', careerData ? 'present' : 'missing');
+    }
   } catch (e) {
     console.error('Error in CareerOdyssey render:', e);
   }
@@ -2087,19 +2101,31 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const lastWheelTime = useRef<number>(0);
   const wheelEventCount = useRef<number>(0);
   const viewBoxRef = useRef<ViewBox>(viewBox); // Track current viewBox without triggering re-renders
-  const rafIdRef = useRef<number | null>(null); // Track requestAnimationFrame ID
+  const rafIdRef = useRef<number | null>(null); // Track requestAnimationFrame ID for panning
+  const activeRafIdsRef = useRef<Set<number>>(new Set()); // Track all active RAF IDs for cleanup
   const isDraggingRef = useRef<boolean>(false); // Track drag state without triggering re-renders
   const cardPositionUpdateTimeoutRef = useRef<number | null>(null); // Track card position update timeout
+  const animateViewBoxRafIdRef = useRef<number | null>(null); // Track RAF ID for viewBox animation
+  const nodeAnimationRafIdRef = useRef<number | null>(null); // Track RAF ID for node drag animation
+  const prevViewBoxRef = useRef<ViewBox>(viewBox); // Track previous viewBox to detect changes
   
   // Load Konva on client side only
   useEffect(() => {
-    console.log('CareerOdyssey useEffect running, window:', typeof window !== 'undefined');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('CareerOdyssey useEffect running, window:', typeof window !== 'undefined');
+    }
     if (typeof window !== 'undefined') {
-      console.log('Starting Konva load...');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Starting Konva load...');
+      }
       loadKonva().then((components) => {
-        console.log('Konva load completed, components:', components ? 'loaded' : 'failed');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Konva load completed, components:', components ? 'loaded' : 'failed');
+        }
         if (components) {
-          console.log('Setting konvaComponents state');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Setting konvaComponents state');
+          }
           setKonvaComponents(components);
         } else {
           console.error('Konva components failed to load');
@@ -2108,7 +2134,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         console.error('Error loading Konva:', error);
       });
     } else {
-      console.log('Window is undefined, skipping Konva load');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Window is undefined, skipping Konva load');
+      }
     }
   }, []);
   
@@ -2175,6 +2203,46 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     };
   }, [viewBox, stageSize, viewBoxToStageState, konvaComponents]);
 
+  // Cleanup effect: Cancel all RAFs, remove event listeners, and clear timeouts on unmount
+  useEffect(() => {
+    return () => {
+      // Cancel all active RAFs
+      activeRafIdsRef.current.forEach(rafId => {
+        cancelAnimationFrame(rafId);
+      });
+      activeRafIdsRef.current.clear();
+      
+      // Clear specific RAF refs
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+      if (animateViewBoxRafIdRef.current !== null) {
+        cancelAnimationFrame(animateViewBoxRafIdRef.current);
+        animateViewBoxRafIdRef.current = null;
+      }
+      if (nodeAnimationRafIdRef.current !== null) {
+        cancelAnimationFrame(nodeAnimationRafIdRef.current);
+        nodeAnimationRafIdRef.current = null;
+      }
+      
+      // Clear timeouts
+      if (syncStageTimeoutRef.current !== null) {
+        clearTimeout(syncStageTimeoutRef.current);
+        syncStageTimeoutRef.current = null;
+      }
+      if (cardPositionUpdateTimeoutRef.current !== null) {
+        clearTimeout(cardPositionUpdateTimeoutRef.current);
+        cardPositionUpdateTimeoutRef.current = null;
+      }
+      
+      // Reset dragging states
+      isDraggingRef.current = false;
+      touchStartRef.current = null;
+      nodeDragStartRef.current = null;
+    };
+  }, []);
+
   // Initialize nodes
   useEffect(() => {
     if (!careerData || !careerData.nodes || careerData.nodes.length === 0) {
@@ -2182,7 +2250,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       return;
     }
     
-    console.log('Initializing nodes, careerData.nodes length:', careerData.nodes.length);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Initializing nodes, careerData.nodes length:', careerData.nodes.length);
+    }
     try {
       const positionedNodes = calculateLayout(careerData.nodes as Node[]);
       
@@ -2192,9 +2262,11 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         return;
       }
       
-      console.log('Nodes initialized:', positionedNodes.length, 'nodes', {
-        firstNode: positionedNodes[0] ? { id: positionedNodes[0].id, x: positionedNodes[0].x, y: positionedNodes[0].y } : null
-      });
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Nodes initialized:', positionedNodes.length, 'nodes', {
+          firstNode: positionedNodes[0] ? { id: positionedNodes[0].id, x: positionedNodes[0].x, y: positionedNodes[0].y } : null
+        });
+      }
       setNodes(positionedNodes);
       
       // Center view on "Studied Art" node as the nexus point
@@ -2223,7 +2295,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             setInitialViewBox(defaultVB);
           } else {
             // Fallback to default viewBox if calculation fails
-            console.warn('Invalid viewBox calculated, using default');
+            if (process.env.NODE_ENV === 'development') {
+              console.warn('Invalid viewBox calculated, using default');
+            }
             const fallbackVB = {
               x: nexusNode.x - CANVAS_WIDTH * 0.16,
               y: nexusNode.y - CANVAS_HEIGHT * 0.16,
@@ -2235,7 +2309,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           }
         } else {
           // Fallback if nexus node not found
-          console.warn('Nexus node (studied-art) not found, using default view');
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Nexus node (studied-art) not found, using default view');
+          }
           const fallbackVB = {
             x: 0,
             y: 0,
@@ -2262,13 +2338,19 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         const rect = containerRef.current.getBoundingClientRect();
         const newSize = { width: rect.width, height: rect.height };
         if (newSize.width > 0 && newSize.height > 0) {
-          console.log('Updating stage size:', newSize);
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Updating stage size:', newSize);
+          }
           setStageSize(newSize);
         } else {
-          console.warn('Container has zero size:', rect);
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Container has zero size:', rect);
+          }
         }
       } else {
-        console.warn('containerRef.current is null, cannot update stage size');
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('containerRef.current is null, cannot update stage size');
+        }
       }
     };
     
@@ -2370,6 +2452,10 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       });
       
       // Throttle viewBox state update using requestAnimationFrame
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        activeRafIdsRef.current.delete(rafIdRef.current);
+      }
       rafIdRef.current = requestAnimationFrame(() => {
         if (!containerRef.current || !stageRef.current) return;
         
@@ -2385,7 +2471,15 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         
         // Only update state occasionally to reduce re-renders
         // This will be synced properly on mouse up
+        
+        // Remove from active set when completed
+        if (rafIdRef.current !== null) {
+          activeRafIdsRef.current.delete(rafIdRef.current);
+        }
       });
+      if (rafIdRef.current !== null) {
+        activeRafIdsRef.current.add(rafIdRef.current);
+      }
       
       // Force redraw for smooth animation
       stage.batchDraw();
@@ -2398,6 +2492,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       // Cancel any pending RAF
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
+        activeRafIdsRef.current.delete(rafIdRef.current);
         rafIdRef.current = null;
       }
       
@@ -2477,9 +2572,20 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     stage.batchDraw();
     
     // Throttle state update
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      activeRafIdsRef.current.delete(rafIdRef.current);
+    }
     rafIdRef.current = requestAnimationFrame(() => {
       setViewBox(newViewBox);
+      // Remove from active set when completed
+      if (rafIdRef.current !== null) {
+        activeRafIdsRef.current.delete(rafIdRef.current);
+      }
     });
+    if (rafIdRef.current !== null) {
+      activeRafIdsRef.current.add(rafIdRef.current);
+    }
   }, [viewBoxToStageState]);
 
   const handleStageTouchEnd = useCallback(() => {
@@ -2490,6 +2596,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     // Cancel any pending RAF
     if (rafIdRef.current !== null) {
       cancelAnimationFrame(rafIdRef.current);
+      activeRafIdsRef.current.delete(rafIdRef.current);
       rafIdRef.current = null;
     }
     
@@ -2669,14 +2776,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
   // Node drag handler (updated for Konva)
   const handleNodeMouseDown = useCallback((node: PositionedNode, e: MouseEvent) => {
-    console.log('handleNodeMouseDown called', { nodeId: node.id, button: e.button, metaKey: e.metaKey, ctrlKey: e.ctrlKey });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('handleNodeMouseDown called', { nodeId: node.id, button: e.button, metaKey: e.metaKey, ctrlKey: e.ctrlKey });
+    }
     
     e.stopPropagation(); // Prevent canvas panning
     
     if (e.button !== 0) return; // Only left mouse button
     if (e.metaKey || e.ctrlKey) return; // Don't drag with modifier keys
     
-    console.log('Starting node drag for:', node.id);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Starting node drag for:', node.id);
+    }
     setDraggingNodeId(node.id);
     const currentOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
     
@@ -2752,7 +2863,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     };
 
     const handleMouseUp = () => {
-      console.log('handleMouseUp for node drag', { nodeId: node.id, hasMoved });
+      if (process.env.NODE_ENV === 'development') {
+        console.log('handleMouseUp for node drag', { nodeId: node.id, hasMoved });
+      }
       
       // Use the offset from the ref (captured during drag) instead of state
       // This ensures we have the most up-to-date value, especially on first drag
@@ -2762,7 +2875,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       
       // Check if node is within bounds (60px radius)
       if (!containerRef.current) {
-        console.log('No container ref, clearing drag state');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('No container ref, clearing drag state');
+        }
         setDraggingNodeId(null);
         nodeDragStartRef.current = null;
         document.removeEventListener('mousemove', handleMouseMove);
@@ -2779,10 +2894,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const screenDistance = (distance / viewBox.width) * rect.width;
       const wasActualDrag = hasMoved || screenDistance > 3;
       
-      console.log('Drag vs click check', { hasMoved, screenDistance, wasActualDrag, distance, maxDistance });
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Drag vs click check', { hasMoved, screenDistance, wasActualDrag, distance, maxDistance });
+      }
       
       // If within bounds and was a drag, animate back to original position
       if (wasActualDrag && distance > 0 && distance <= maxDistance) {
+        // Cancel any existing node animation
+        if (nodeAnimationRafIdRef.current !== null) {
+          cancelAnimationFrame(nodeAnimationRafIdRef.current);
+          activeRafIdsRef.current.delete(nodeAnimationRafIdRef.current);
+        }
+        
         const startOffset = { ...currentOffset };
         const startTime = performance.now();
         const duration = 300; // 300ms animation
@@ -2804,7 +2927,10 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           });
           
           if (progress < 1) {
-            requestAnimationFrame(animate);
+            nodeAnimationRafIdRef.current = requestAnimationFrame(animate);
+            if (nodeAnimationRafIdRef.current !== null) {
+              activeRafIdsRef.current.add(nodeAnimationRafIdRef.current);
+            }
           } else {
             // Ensure we end at exactly 0,0
             setNodeDragOffsets(prev => {
@@ -2812,10 +2938,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
               newMap.set(node.id, { x: 0, y: 0 });
               return newMap;
             });
+            // Animation complete, clean up
+            if (nodeAnimationRafIdRef.current !== null) {
+              activeRafIdsRef.current.delete(nodeAnimationRafIdRef.current);
+            }
+            nodeAnimationRafIdRef.current = null;
           }
         };
         
-        requestAnimationFrame(animate);
+        nodeAnimationRafIdRef.current = requestAnimationFrame(animate);
+        if (nodeAnimationRafIdRef.current !== null) {
+          activeRafIdsRef.current.add(nodeAnimationRafIdRef.current);
+        }
       }
       
       // Store drag distance for click handler to check
@@ -2853,6 +2987,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const animateViewBox = useCallback((targetViewBox: ViewBox, duration: number = 600) => {
     if (!containerRef.current) return;
     
+    // Cancel any existing animation
+    if (animateViewBoxRafIdRef.current !== null) {
+      cancelAnimationFrame(animateViewBoxRafIdRef.current);
+      activeRafIdsRef.current.delete(animateViewBoxRafIdRef.current);
+    }
+    
     const startViewBox = { ...viewBox };
     const startTime = performance.now();
     
@@ -2874,11 +3014,23 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       });
       
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        animateViewBoxRafIdRef.current = requestAnimationFrame(animate);
+        if (animateViewBoxRafIdRef.current !== null) {
+          activeRafIdsRef.current.add(animateViewBoxRafIdRef.current);
+        }
+      } else {
+        // Animation complete, clean up
+        if (animateViewBoxRafIdRef.current !== null) {
+          activeRafIdsRef.current.delete(animateViewBoxRafIdRef.current);
+        }
+        animateViewBoxRafIdRef.current = null;
       }
     };
     
-    requestAnimationFrame(animate);
+    animateViewBoxRafIdRef.current = requestAnimationFrame(animate);
+    if (animateViewBoxRafIdRef.current !== null) {
+      activeRafIdsRef.current.add(animateViewBoxRafIdRef.current);
+    }
   }, [viewBox]);
 
   // Helper to find node at a point (for stage-level click detection)
@@ -2928,13 +3080,20 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
   // Simple, direct node click handler
   const handleNodeClick = useCallback((node: PositionedNode, e?: MouseEvent) => {
-    console.log('[CLICK] ===== NODE CLICKED =====', { 
-      nodeId: node.id, 
-      nodeLabel: node.label,
-      currentSelected: selectedNode?.id,
-      wasDragging: draggingNodeId === node.id,
-      dragDistance: nodeDragDistanceRef.current?.nodeId === node.id ? nodeDragDistanceRef.current.distance : 0
-    });
+    // CRITICAL: Clear all dragging states immediately to release cursor from grab/grabbing state
+    setIsDragging(false);
+    isDraggingRef.current = false;
+    setHoveredNode(null);
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[CLICK] ===== NODE CLICKED =====', { 
+        nodeId: node.id, 
+        nodeLabel: node.label,
+        currentSelected: selectedNode?.id,
+        wasDragging: draggingNodeId === node.id,
+        dragDistance: nodeDragDistanceRef.current?.nodeId === node.id ? nodeDragDistanceRef.current.distance : 0
+      });
+    }
     
     if (e) {
       e.stopPropagation();
@@ -2946,28 +3105,36 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                           nodeDragDistanceRef.current.distance > 5;
     
     if (wasActualDrag) {
-      console.log('[CLICK] Ignoring - was a drag, not a click');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[CLICK] Ignoring - was a drag, not a click');
+      }
       nodeDragDistanceRef.current = null;
       return;
     }
     
     // If clicking a different node while one is open, dismiss the current card immediately
     if (selectedNode && selectedNode.id !== node.id) {
-      console.log('[CLICK] Dismissing current card - different node clicked');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[CLICK] Dismissing current card - different node clicked');
+      }
       setSelectedNode(null);
       setCardPosition(null);
     }
     
     // Toggle selection - if clicking the same node, close it
     if (selectedNode?.id === node.id) {
-      console.log('[CLICK] Closing card - same node clicked');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[CLICK] Closing card - same node clicked');
+      }
       setSelectedNode(null);
       setCardPosition(null);
       nodeDragDistanceRef.current = null;
       return;
     }
     
-    console.log('[CLICK] Opening card for node:', node.id, node.label);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[CLICK] Opening card for node:', node.id, node.label);
+    }
     
     // First, center the node in the viewport with smooth animation
     // Then show the card only after the centering animation completes
@@ -2996,23 +3163,21 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       
       // Show card only after the centering animation completes
       setTimeout(() => {
+        // Batch state updates to reduce re-renders
+        // Use center-center positioning (50% with translate(-50%, -50%))
+        // This ensures perfect centering regardless of card size
         setSelectedNode(node);
+        setCardPosition({ x: 50, y: 50 }); // Use percentage for CSS transform centering
         
-        // Set a default position
-        const defaultPos = isMobile 
-          ? { x: window.innerWidth / 2 - 180, y: 100 }
-          : { x: window.innerWidth / 2 - 190, y: 100 };
-        setCardPosition(defaultPos);
-        
-        console.log('[CLICK] Card shown after centering animation completed:', { selectedNode: node.id, position: defaultPos });
+        if (process.env.NODE_ENV === 'development') {
+          console.log('[CLICK] Card shown after centering animation completed:', { selectedNode: node.id, position: 'center-center' });
+        }
       }, animationDuration);
     } else {
       // Fallback: if no container, show immediately
       setSelectedNode(node);
-      const defaultPos = isMobile 
-        ? { x: window.innerWidth / 2 - 180, y: 100 }
-        : { x: window.innerWidth / 2 - 190, y: 100 };
-      setCardPosition(defaultPos);
+      // Use center-center positioning (50% with translate(-50%, -50%))
+      setCardPosition({ x: 50, y: 50 }); // Use percentage for CSS transform centering
     }
     
     nodeDragDistanceRef.current = null;
@@ -3036,69 +3201,39 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return { x: screenX, y: screenY };
   }, [viewBox]);
 
-  // Update card position when selectedNode or viewBox changes
+  // Update card position when viewBox changes (user pans/zooms)
+  // Note: We don't update position on initial selection - that's handled in handleNodeClick
   useEffect(() => {
     if (!selectedNode) {
       setCardPosition(null);
+      prevViewBoxRef.current = viewBox;
       return;
     }
     
-    // Always ensure we have a position
+    // Always ensure we have a position on initial selection
     if (!cardPosition) {
-      const defaultPos = isMobile 
-        ? { x: window.innerWidth / 2 - 180, y: 100 }
-        : { x: window.innerWidth / 2 - 190, y: 100 };
-      setCardPosition(defaultPos);
+      // Use center-center positioning (50% with translate(-50%, -50%))
+      setCardPosition({ x: 50, y: 50 });
+      prevViewBoxRef.current = viewBox;
+      return;
     }
     
-    // Update position based on node location (debounced)
-    if (cardPositionUpdateTimeoutRef.current !== null) {
-      clearTimeout(cardPositionUpdateTimeoutRef.current);
+    // Only update position if viewBox actually changed (user panned/zoomed)
+    const viewBoxChanged = 
+      prevViewBoxRef.current.x !== viewBox.x ||
+      prevViewBoxRef.current.y !== viewBox.y ||
+      prevViewBoxRef.current.width !== viewBox.width ||
+      prevViewBoxRef.current.height !== viewBox.height;
+    
+    if (!viewBoxChanged) {
+      return;
     }
     
-    cardPositionUpdateTimeoutRef.current = window.setTimeout(() => {
-      if (!selectedNode || !containerRef.current) return;
-      
-      const nodeOffset = nodeDragOffsets.get(selectedNode.id) || { x: 0, y: 0 };
-      const nodeDisplayX = selectedNode.x + nodeOffset.x;
-      const nodeDisplayY = selectedNode.y + nodeOffset.y;
-      
-      const screenPos = svgToScreen(nodeDisplayX, nodeDisplayY);
-      
-      if (screenPos) {
-        if (isMobile) {
-          const cardWidth = window.innerWidth < 640 ? 320 : 360;
-          setCardPosition({
-            x: window.innerWidth / 2 - cardWidth / 2,
-            y: Math.max(20, screenPos.y - 150),
-          });
-        } else {
-          const cardWidth = 380;
-          const rightEdge = window.innerWidth - 20;
-          const leftEdge = 20;
-          let cardX = screenPos.x + selectedNode.radius + 20;
-          
-          if (cardX + cardWidth > rightEdge) {
-            cardX = screenPos.x - selectedNode.radius - cardWidth - 20;
-            if (cardX < leftEdge) {
-              cardX = (window.innerWidth - cardWidth) / 2;
-            }
-          }
-          
-          setCardPosition({
-            x: cardX,
-            y: Math.max(20, screenPos.y - 150),
-          });
-        }
-      }
-    }, 100);
+    prevViewBoxRef.current = viewBox;
     
-    return () => {
-      if (cardPositionUpdateTimeoutRef.current !== null) {
-        clearTimeout(cardPositionUpdateTimeoutRef.current);
-      }
-    };
-  }, [selectedNode, viewBox, nodeDragOffsets, isMobile, svgToScreen, cardPosition]);
+    // Keep card centered when viewBox changes (user pans/zooms)
+    // Position stays at center-center
+  }, [selectedNode, viewBox, isMobile, cardPosition]);
 
   // Close modal
   const handleCloseModal = useCallback(() => {
@@ -3363,15 +3498,17 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const isVisible = isNodeVisible(node, dragOffset);
       if (!isVisible && nodes.length > 0) {
         // Log first few non-visible nodes for debugging
-        const nodeIndex = nodes.indexOf(node);
-        if (nodeIndex < 3) {
-          console.log(`Node ${node.id} not visible:`, {
-            nodeX: node.x,
-            nodeY: node.y,
-            viewBox,
-            displayX: node.x + dragOffset.x,
-            displayY: node.y + dragOffset.y
-          });
+        if (process.env.NODE_ENV === 'development') {
+          const nodeIndex = nodes.indexOf(node);
+          if (nodeIndex < 3) {
+            console.log(`Node ${node.id} not visible:`, {
+              nodeX: node.x,
+              nodeY: node.y,
+              viewBox,
+              displayX: node.x + dragOffset.x,
+              displayY: node.y + dragOffset.y
+            });
+          }
         }
       }
       return isVisible;
@@ -3440,13 +3577,23 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const handleStageClick = useCallback((e: any) => {
     // Only handle if we're not dragging the stage
     if (isDragging) {
-      console.log('Stage click ignored - stage is being dragged');
+      // Clear dragging state even if we're ignoring the click
+      setIsDragging(false);
+      isDraggingRef.current = false;
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Stage click ignored - stage is being dragged');
+      }
       return;
     }
     
     // Don't handle if we just finished dragging a node
     if (draggingNodeId) {
-      console.log('Stage click ignored - node was being dragged');
+      // Clear dragging state
+      setIsDragging(false);
+      isDraggingRef.current = false;
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Stage click ignored - node was being dragged');
+      }
       return;
     }
     
@@ -3457,19 +3604,30 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     
     if (!pointerPos) return;
     
-    console.log('Stage clicked at:', pointerPos);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Stage clicked at:', pointerPos);
+    }
     
     // Find node at this position
     const clickedNode = findNodeAtPoint(pointerPos.x, pointerPos.y);
     
     if (clickedNode) {
-      console.log('Node found at click position:', clickedNode.id);
+      // CRITICAL: Clear dragging state when node is found
+      setIsDragging(false);
+      isDraggingRef.current = false;
+      setHoveredNode(null);
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Node found at click position:', clickedNode.id);
+      }
       // Use a small delay to ensure drag state is cleared
       setTimeout(() => {
         handleNodeClick(clickedNode);
       }, 10);
     } else {
-      console.log('No node found at click position');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('No node found at click position');
+      }
       // Click on empty space - close card if open
       if (selectedNode) {
         setSelectedNode(null);
@@ -3480,7 +3638,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
   // Don't render Konva components during SSR or before Konva is loaded
   if (typeof window === 'undefined' || !konvaComponents) {
-    console.log('Showing loading state:', { window: typeof window !== 'undefined', konvaComponents: !!konvaComponents });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Showing loading state:', { window: typeof window !== 'undefined', konvaComponents: !!konvaComponents });
+    }
     return (
       <div className="career-odyssey-wrapper" style={{ width: '100%', height: '100vh', position: 'relative' }}>
         <div 
@@ -3508,13 +3668,15 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const { Stage, Layer, Circle, Line, Text: KonvaText, Image: KonvaImage, Group, Path, Konva } = konvaComponents;
 
   // Debug logging
-  console.log('Rendering canvas:', {
-    nodes: nodes.length,
-    visibleNodes: visibleNodes.length,
-    stageSize,
-    viewBox,
-    konvaComponents: !!konvaComponents
-  });
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Rendering canvas:', {
+      nodes: nodes.length,
+      visibleNodes: visibleNodes.length,
+      stageSize,
+      viewBox,
+      konvaComponents: !!konvaComponents
+    });
+  }
 
   return (
     <div className="career-odyssey-wrapper">
@@ -3767,7 +3929,14 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         }
                       }}
                       onClick={(e) => {
-                        console.log('Konva Circle onClick fired', { nodeId: node.id, evt: e.evt });
+                        // CRITICAL: Clear dragging state before handling click to release cursor
+                        setIsDragging(false);
+                        isDraggingRef.current = false;
+                        setHoveredNode(null);
+                        
+                        if (process.env.NODE_ENV === 'development') {
+                          console.log('Konva Circle onClick fired', { nodeId: node.id, evt: e.evt });
+                        }
                         e.cancelBubble = true;
                         e.evt.stopPropagation();
                         e.evt.preventDefault();
@@ -3916,25 +4085,21 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           }
         });
         
-        // Always use a valid position - fallback to center if needed
-        const finalPosition = cardPosition || {
-          x: isMobile ? window.innerWidth / 2 : window.innerWidth / 2 - 190,
-          y: 100
-        };
+        // Use center-center positioning for all screen sizes
+        const finalPosition = cardPosition || { x: 50, y: 50 };
         
         return (
           <motion.div
             key={`card-${selectedNode.id}`}
             className={`node-card-wrapper ${isMobile ? 'node-card-mobile' : ''}`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
+            animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
+            exit={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
             transition={{ duration: 0.2 }}
             style={{
               position: 'fixed',
-              left: isMobile ? '50%' : `${finalPosition.x}px`,
-              top: `${finalPosition.y}px`,
-              transform: isMobile ? 'translateX(-50%) translateY(-50%)' : 'none',
+              left: `${finalPosition.x}%`,
+              top: `${finalPosition.y}%`,
               zIndex: 10000,
               pointerEvents: 'auto',
             }}
@@ -4170,6 +4335,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
         .node-card-wrapper {
           pointer-events: none;
+          max-width: 100vw;
+          max-height: 100vh;
+          overflow: visible;
         }
 
         .node-card {
@@ -4178,7 +4346,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           border-radius: 12px;
           width: 380px;
           min-height: 200px;
-          max-height: 580px;
+          max-height: 85vh;
           height: fit-content;
           overflow-y: auto;
           overflow-x: hidden;
@@ -4493,8 +4661,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           }
           
           .node-card-wrapper.node-card-mobile {
-            left: 50% !important;
-            transform: translateX(-50%);
+            /* Center-center positioning handled by inline styles */
           }
 
           .node-card-content {
@@ -4538,8 +4705,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           }
           
           .node-card-wrapper.node-card-mobile {
-            left: 50% !important;
-            transform: translateX(-50%);
+            /* Center-center positioning handled by inline styles */
           }
 
           .node-card-content {
@@ -4579,7 +4745,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
           .node-card {
             width: 380px;
-            max-height: 580px;
+            max-height: 85vh;
           }
         }
 
