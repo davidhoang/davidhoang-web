@@ -50,14 +50,18 @@ import imgDavidSf from '../assets/images/img-david-sf.jpg';
     margin-right: calc(50% - 50vw);
     overflow: hidden;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .about-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
+    object-position: center;
     display: block;
+    flex-shrink: 0;
   }
   
   /* Ensure other images in content stay in container */
