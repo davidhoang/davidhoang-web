@@ -6,9 +6,13 @@ import SidebarWriting from '../../components/SidebarWriting.astro';
 const posts = await getCollection('writing');
 console.log('Posts:', posts);
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Page metadata
+const pageDescription = "Essays and articles on design, engineering, AI, and entrepreneurship. Exploring the future of software design and building better products.";
+const ogImage = "/images/img-dh.png";
 ---
 
-<MainLayout title="Writing | David Hoang">
+<MainLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
   <div class="container">
     <div class="hero-title">
       <h1>Writing</h1>

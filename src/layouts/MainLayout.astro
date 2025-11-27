@@ -17,8 +17,8 @@ interface Props {
 
 const { 
   title, 
-  description = "Default site description", 
-  ogImage = "/public/default-og-image.jpg",
+  description = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian.", 
+  ogImage = "/images/img-dh.png",
   hideFooter = false
 } = Astro.props;
 
@@ -26,6 +26,12 @@ const {
 const canonicalURL = Astro.site 
   ? new URL(Astro.url.pathname, Astro.site)
   : Astro.url.pathname;
+
+// Construct full URL for ogImage
+const siteUrl = Astro.site || 'https://davidhoang.com';
+const ogImageUrl = ogImage.startsWith('http') 
+  ? ogImage 
+  : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 
 // Add this to your layout component to make it persistent
 export const prerender = false;
@@ -52,14 +58,15 @@ export const prerender = false;
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content="davidhoang.com" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={ogImage} />
+    <meta property="twitter:image" content={ogImageUrl} />
 
     <meta name="generator" content={Astro.generator} />
 

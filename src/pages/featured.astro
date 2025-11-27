@@ -1,8 +1,12 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+// Page metadata
+const pageDescription = "A collection of conference talks, podcasts, and interviews. Speaking engagements at Config, Hatch Conference, UX Cambridge, and more.";
+const ogImage = "/images/img-dh.png";
 ---
 
-<MainLayout title="Featured">
+<MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
   <div class="container"> 
     <div class="hero-title">
       <h1>Featured</h1>

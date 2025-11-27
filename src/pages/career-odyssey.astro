@@ -2,9 +2,13 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import CareerOdysseyComponent from '../components/CareerOdyssey.tsx';
 import careerData from '../data/career-odyssey.json';
+
+// Page metadata
+const pageDescription = "An interactive canvas exploring my 20-year career journey from art school to leading design teams at Atlassian, Replit, Webflow, and One Medical.";
+const ogImage = "/images/img-dh.png";
 ---
 
-<MainLayout title="Career Odyssey" hideFooter={true}>
+<MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true}>
   {/* @ts-ignore - JSON import types don't match exactly */}
   <CareerOdysseyComponent client:load careerData={careerData} />
 </MainLayout>
