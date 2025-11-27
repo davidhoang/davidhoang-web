@@ -10,13 +10,19 @@ import imgDavidSf from '../assets/images/img-david-sf.jpg';
     </div>
     <div class="hero-grid">
       <div class="about-content">
-        <p>David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. Known as “DH” at work, he’s also David to most. He jokes he’s early in his career—with 20 years of experience in the industry. His love for design and software began after graduating with a BFA in Drawing and Painting. Interdisciplinary studies led him to electives in Computer Science, Art History, and the Humanities. After matriculation, he took what’s now called a gap year to prepare for an MFA; he never went, instead designing app interfaces for a new device called the iPhone.</p>
-        <div>
-          <img class="about-image" src={imgDavidSf.src} width="100%" alt="David Hoang in San Francisco" />
-        </div>
-        <p>Since then, he has spent his career building and scaling design teams at early-stage startups and high-growth companies. Today, he serves as VP and Head of Design, AI at <a href="http://atlassian.com" target="_blank">Atlassian</a>, where he’s helping shape the future of work through generative AI and systems design. Before that, he was VP of Marketing and Design at <a href="http://replit.com" target="_blank">Replit</a>, where he led rebranding, launched developer events, and pushed forward new ways to ship AI-native products. He was also the first Head of Design at <a href="http://webflow.com" target="_blank">Webflow</a>, where he helped scale both the team and the company’s vision for a more expressive, accessible internet. Prior to that, he led product design at <a href="http://onemedical.com" target="_blank">One Medical</a> during its transition to virtual care and eventual IPO.</p>
-        <p>Alongside his full-time roles, he invests in and advises early-stage startups—especially those working at the intersection of creativity, code, and community. Since 2020, he has invested in over 30 companies. He also writes a weekly newsletter called <a href="http://www.proofofconcept.pub">Proof of Concept</a>, where he explores ideas around software, design, and entrepreneurship. It’s a space for him to reflect on the shifting landscape of technology and how we build within it.</p>
-        <p>He splits his time between Palm Springs and San Francisco, but his work tends to follow him wherever he goes. Mobility, constraint, and improvisation have always been part of how he works—whether that’s prototyping on an iPad mid-flight or rewriting product strategy in a notebook at a coffee shop.</p>
+        <p>I'm a designer, investor, and builder focused on tools that revolutionize the internet. I have 20 years experience in software and still have much to learn. My love for design and software began after graduating with a BFA in Drawing and Painting. Interdisciplinary studies led me to electives in Computer Science, Art History, and the Humanities. After matriculation, I took what's now called a gap year to prepare for an MFA; I never went, instead designing app interfaces for a new device called the iPhone.</p>
+      </div>
+    </div>
+  </div>
+  <div class="about-image-container">
+    <img class="about-image" src={imgDavidSf.src} alt="David Hoang in San Francisco" />
+  </div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="about-content">
+        <p>Since then, I've spent my career building and scaling design teams at early-stage startups and high-growth companies. Today, I serve as VP and Head of Design, AI at <a href="http://atlassian.com" target="_blank">Atlassian</a>, where I'm helping shape the future of work through generative AI and systems design. Before that, I was VP of Marketing and Design at <a href="http://replit.com" target="_blank">Replit</a>, where I led rebranding, launched developer events, and pushed forward new ways to ship AI-native products. I was also the first Head of Design at <a href="http://webflow.com" target="_blank">Webflow</a>, where I helped scale both the team and the company's vision for a more expressive, accessible internet. Prior to that, I led product design at <a href="http://onemedical.com" target="_blank">One Medical</a> during its transition to virtual care and eventual IPO.</p>
+        <p>Alongside my full-time roles, I invest in and advise early-stage startups—especially those working at the intersection of creativity, code, and community. Since 2020, I've invested in over 30 companies. I also write a weekly newsletter called <a href="http://www.proofofconcept.pub">Proof of Concept</a>, where I explore ideas around software, design, and entrepreneurship. It's a space for me to reflect on the shifting landscape of technology and how we build within it.</p>
+        <p>I split my time between Palm Springs and San Francisco, but my work tends to follow me wherever I go. Mobility, constraint, and improvisation have always been part of how I work—whether that's prototyping on an iPad mid-flight or rewriting product strategy in a notebook at a coffee shop.</p>
       </div>
     </div>
   </div>
@@ -34,18 +40,30 @@ import imgDavidSf from '../assets/images/img-david-sf.jpg';
     width: 100%;
   }
 
-  .about-image {
-    text-align: center;
-    margin-bottom: 1rem;
-    border-radius: 8px;
+  .about-image-container {
+    width: 100vw;
+    max-width: 100vw;
+    aspect-ratio: 16 / 9;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    overflow: hidden;
+    position: relative;
   }
 
-  .about-image img {
+  .about-image {
     width: 100%;
-    height: auto;
-    max-width: 300px;
+    height: 100%;
+    object-fit: cover;
     border-radius: 8px;
-    object-fit: contain;
+    display: block;
+  }
+  
+  /* Ensure other images in content stay in container */
+  .about-content img:not(.about-image) {
+    max-width: 100%;
+    height: auto;
   }
 
   @media (max-width: 768px) {
