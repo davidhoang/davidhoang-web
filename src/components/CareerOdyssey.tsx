@@ -1940,6 +1940,7 @@ const AnimatedNodeCircle: React.FC<{
 };
 
 // Node Image component with loading and smooth transitions
+// Uses a Group with a Circle mask to properly contain the image within the circular node
 const NodeImage: React.FC<{
   src: string;
   x: number;
@@ -1949,10 +1950,13 @@ const NodeImage: React.FC<{
   scale?: number;
   KonvaImage?: any;
   Konva?: any;
+  Group?: any;
+  Circle?: any;
   isHovered?: boolean;
-}> = ({ src, x, y, radius, opacity = 1, scale = 1, KonvaImage, Konva, isHovered = false }) => {
+}> = ({ src, x, y, radius, opacity = 1, scale = 1, KonvaImage, Konva, Group, Circle, isHovered = false }) => {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const imageRef = useRef<any>(null);
+  const groupRef = useRef<any>(null);
+  const circleRef = useRef<any>(null);
   const opacityTweenRef = useRef<any>(null);
   
   useEffect(() => {
@@ -1965,9 +1969,9 @@ const NodeImage: React.FC<{
   
   // Animate opacity on hover change
   useEffect(() => {
-    if (!imageRef.current || !Konva) return;
+    if (!groupRef.current || !Konva) return;
     
-    const img = imageRef.current;
+    const group = groupRef.current;
     const targetOpacity = isHovered ? 0.85 : opacity;
     
     if (opacityTweenRef.current) {
@@ -1981,7 +1985,7 @@ const NodeImage: React.FC<{
     }
     
     opacityTweenRef.current = new Konva.Tween({
-      node: img,
+      node: group,
       duration: 0.2,
       easing: Konva.Easings.EaseOut,
       opacity: targetOpacity,
@@ -2002,62 +2006,52 @@ const NodeImage: React.FC<{
     };
   }, [isHovered, opacity, Konva]);
   
-  if (!image || !KonvaImage) return null;
+  if (!image || !KonvaImage || !Group || !Circle) return null;
   
-  // Calculate dimensions to fill the circle (cover mode)
-  const clipRadius = radius - 5;
-  const clipDiameter = clipRadius * 2;
+  // Use the full radius for the mask circle
+  const maskRadius = radius - 2; // Slight padding to account for stroke
   
-  // Get original image dimensions
-  const imgWidth = image.width;
-  const imgHeight = image.height;
-  const imgAspectRatio = imgWidth / imgHeight;
-  const circleAspectRatio = 1; // Circle is 1:1
-  
-  // Calculate size to fill the circle (cover mode - image fills entire circle)
-  let displayWidth = clipDiameter;
-  let displayHeight = clipDiameter;
-  
-  if (imgAspectRatio > circleAspectRatio) {
-    // Image is wider than circle - fit to height, crop width
-    displayWidth = clipDiameter * imgAspectRatio;
-    displayHeight = clipDiameter;
-  } else {
-    // Image is taller than circle - fit to width, crop height
-    displayWidth = clipDiameter;
-    displayHeight = clipDiameter / imgAspectRatio;
-  }
-  
-  // Center the image within the circle
-  const imageX = x - displayWidth / 2;
-  const imageY = y - displayHeight / 2;
-  
-  // Clip center relative to image's top-left corner (0, 0)
-  // The image is centered at (displayWidth/2, displayHeight/2) relative to its own origin
-  const clipCenterX = displayWidth / 2;
-  const clipCenterY = displayHeight / 2;
-  
-  // Create clip function - coordinates are relative to the image's top-left corner (0, 0)
-  // The clip center is at the middle of the image (displayWidth/2, displayHeight/2)
+  // Create clip function for circular masking
   const clipFunc = (ctx: CanvasRenderingContext2D) => {
-    // Create circular clipping path relative to image's own coordinate system
     ctx.beginPath();
-    ctx.arc(clipCenterX, clipCenterY, clipRadius, 0, Math.PI * 2, false);
+    ctx.arc(0, 0, maskRadius, 0, Math.PI * 2, false);
     ctx.clip();
   };
   
+  // Calculate image scale to cover the circle (maintain aspect ratio)
+  const imgAspectRatio = image.width / image.height;
+  const scaleX = (maskRadius * 2) / image.width;
+  const scaleY = (maskRadius * 2) / image.height;
+  // Use the larger scale to ensure the image covers the entire circle
+  const patternScale = Math.max(scaleX, scaleY);
+  
+  // Center horizontally: pattern X should be at -image.width/2 (centered)
+  // Align to top: pattern Y should be at -maskRadius (top of circle)
+  const patternX = -image.width / 2;
+  const patternY = -maskRadius;
+  
   return (
-    <KonvaImage
-      ref={imageRef}
-      image={image}
-      x={imageX}
-      y={imageY}
-      width={displayWidth}
-      height={displayHeight}
+    <Group
+      ref={groupRef}
+      x={x}
+      y={y}
       opacity={opacity}
       clipFunc={clipFunc}
-      listening={false}
-    />
+    >
+      {/* Create a circle with the image as a fill pattern */}
+      <Circle
+        ref={circleRef}
+        x={0}
+        y={0}
+        radius={maskRadius}
+        fillPatternImage={image}
+        fillPatternX={patternX}
+        fillPatternY={patternY}
+        fillPatternScaleX={patternScale}
+        fillPatternScaleY={patternScale}
+        listening={false}
+      />
+    </Group>
   );
 };
 
@@ -2696,11 +2690,23 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       lastOffsetY: currentOffset.y,
     };
 
+    let hasMoved = false;
+    let maxDragDistance = 0;
+    
     const handleMouseMove = (moveEvent: MouseEvent) => {
       if (!nodeDragStartRef.current || nodeDragStartRef.current.nodeId !== node.id) return;
       
       const deltaX = moveEvent.clientX - nodeDragStartRef.current.startX;
       const deltaY = moveEvent.clientY - nodeDragStartRef.current.startY;
+      const dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      
+      // Track maximum drag distance
+      maxDragDistance = Math.max(maxDragDistance, dragDistance);
+      
+      // Track if mouse has moved significantly (more than 3px)
+      if (dragDistance > 3) {
+        hasMoved = true;
+      }
       
       // Convert screen pixels to SVG coordinates
       if (!containerRef.current) return;
@@ -2714,9 +2720,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       
       // Constrain to 60px radius from original position
       const maxDistance = (60 / rect.width) * viewBox.width; // Convert 60px to SVG units
-      const distance = Math.sqrt(newOffsetX * newOffsetX + newOffsetY * newOffsetY);
+      const offsetDistance = Math.sqrt(newOffsetX * newOffsetX + newOffsetY * newOffsetY);
       
-      if (distance <= maxDistance) {
+      if (offsetDistance <= maxDistance) {
         // Update the ref with the latest offset
         if (nodeDragStartRef.current && nodeDragStartRef.current.nodeId === node.id) {
           nodeDragStartRef.current.lastOffsetX = newOffsetX;
@@ -2746,7 +2752,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     };
 
     const handleMouseUp = () => {
-      console.log('handleMouseUp for node drag', { nodeId: node.id });
+      console.log('handleMouseUp for node drag', { nodeId: node.id, hasMoved });
       
       // Use the offset from the ref (captured during drag) instead of state
       // This ensures we have the most up-to-date value, especially on first drag
@@ -2768,16 +2774,14 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const maxDistance = (60 / rect.width) * viewBox.width;
       const distance = Math.sqrt(currentOffset.x * currentOffset.x + currentOffset.y * currentOffset.y);
       
-      console.log('Mouse up - checking if was drag or click', { distance, maxDistance, wasDrag: distance > 5 });
-      
-      // Only consider it a drag if the node moved more than 5px (in screen space)
-      // Convert distance back to screen pixels to check
+      // Only consider it a drag if mouse moved significantly (more than 3px screen space)
+      // or if the node offset is significant
       const screenDistance = (distance / viewBox.width) * rect.width;
-      const wasActualDrag = screenDistance > 5;
+      const wasActualDrag = hasMoved || screenDistance > 3;
       
-      console.log('Drag vs click check', { screenDistance, wasActualDrag, distance, maxDistance });
+      console.log('Drag vs click check', { hasMoved, screenDistance, wasActualDrag, distance, maxDistance });
       
-      // If within bounds, animate back to original position
+      // If within bounds and was a drag, animate back to original position
       if (wasActualDrag && distance > 0 && distance <= maxDistance) {
         const startOffset = { ...currentOffset };
         const startTime = performance.now();
@@ -2814,16 +2818,26 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         requestAnimationFrame(animate);
       }
       
-      // Clear dragging state - use a small delay to allow click handler to check draggingNodeId
-      // But only if it was an actual drag
-      if (wasActualDrag) {
-        // Small delay to prevent immediate click after drag
+      // Store drag distance for click handler to check
+      nodeDragDistanceRef.current = {
+        nodeId: node.id,
+        distance: maxDragDistance
+      };
+      
+      // Clear dragging state
+      setDraggingNodeId(null);
+      
+      // If it wasn't a drag, trigger click after a small delay
+      if (!wasActualDrag) {
+        // Small delay to ensure state is cleared, then trigger click
         setTimeout(() => {
-          setDraggingNodeId(null);
+          handleNodeClick(node);
         }, 50);
       } else {
-        // If it wasn't a drag, clear immediately so click can proceed
-        setDraggingNodeId(null);
+        // Clear the drag distance ref after a delay
+        setTimeout(() => {
+          nodeDragDistanceRef.current = null;
+        }, 100);
       }
       
       nodeDragStartRef.current = null;
@@ -2867,38 +2881,101 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     requestAnimationFrame(animate);
   }, [viewBox]);
 
-  // Node click handler (updated for Konva)
-  const handleNodeClick = useCallback((node: PositionedNode, e: MouseEvent) => {
-    console.log('handleNodeClick called', { nodeId: node.id, draggingNodeId, selectedNodeId: selectedNode?.id });
+  // Helper to find node at a point (for stage-level click detection)
+  const findNodeAtPoint = useCallback((stageX: number, stageY: number): PositionedNode | null => {
+    // Convert stage coordinates to SVG coordinates
+    if (!stageRef.current || !containerRef.current) return null;
     
-    // Only handle click if we didn't just drag
-    // Use a small delay to distinguish between drag and click
-    const wasDragging = draggingNodeId === node.id;
-    if (wasDragging) {
-      console.log('Ignoring click - node was being dragged');
+    const stage = stageRef.current;
+    const scale = stage.scaleX();
+    const stagePos = stage.position();
+    
+    // Convert stage coordinates to SVG coordinates
+    const svgX = (stageX - stagePos.x) / scale;
+    const svgY = (stageY - stagePos.y) / scale;
+    
+    // Find the node at this point (check all nodes in reverse order so top nodes are checked first)
+    // We need to check visibility inline since visibleNodes might not be available yet
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const node = nodes[i];
+      const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+      const nodeDisplayX = node.x + nodeOffset.x;
+      const nodeDisplayY = node.y + nodeOffset.y;
+      
+      // Quick visibility check
+      const padding = node.radius + 50;
+      const isVisible = nodeDisplayX + padding >= viewBox.x &&
+                       nodeDisplayX - padding <= viewBox.x + viewBox.width &&
+                       nodeDisplayY + padding >= viewBox.y &&
+                       nodeDisplayY - padding <= viewBox.y + viewBox.height;
+      
+      if (!isVisible) continue;
+      
+      const dx = svgX - nodeDisplayX;
+      const dy = svgY - nodeDisplayY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance <= node.radius) {
+        return node;
+      }
+    }
+    
+    return null;
+  }, [nodes, nodeDragOffsets, viewBox]);
+
+  // Track if we actually dragged (vs just clicked)
+  const nodeDragDistanceRef = useRef<{ nodeId: string; distance: number } | null>(null);
+
+  // Simple, direct node click handler
+  const handleNodeClick = useCallback((node: PositionedNode, e?: MouseEvent) => {
+    console.log('[CLICK] ===== NODE CLICKED =====', { 
+      nodeId: node.id, 
+      nodeLabel: node.label,
+      currentSelected: selectedNode?.id,
+      wasDragging: draggingNodeId === node.id,
+      dragDistance: nodeDragDistanceRef.current?.nodeId === node.id ? nodeDragDistanceRef.current.distance : 0
+    });
+    
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    
+    // Check if this was actually a drag (moved more than 5px)
+    const wasActualDrag = nodeDragDistanceRef.current?.nodeId === node.id && 
+                          nodeDragDistanceRef.current.distance > 5;
+    
+    if (wasActualDrag) {
+      console.log('[CLICK] Ignoring - was a drag, not a click');
+      nodeDragDistanceRef.current = null;
       return;
     }
     
-    e.stopPropagation();
-    e.preventDefault();
+    // If clicking a different node while one is open, dismiss the current card immediately
+    if (selectedNode && selectedNode.id !== node.id) {
+      console.log('[CLICK] Dismissing current card - different node clicked');
+      setSelectedNode(null);
+      setCardPosition(null);
+    }
     
     // Toggle selection - if clicking the same node, close it
     if (selectedNode?.id === node.id) {
-      console.log('Closing card - same node clicked');
+      console.log('[CLICK] Closing card - same node clicked');
       setSelectedNode(null);
       setCardPosition(null);
+      nodeDragDistanceRef.current = null;
       return;
     }
     
-    console.log('Opening card for node:', node.id);
+    console.log('[CLICK] Opening card for node:', node.id, node.label);
     
-    // Get the node's display position (with drag offset)
-    const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-    const nodeDisplayX = node.x + nodeOffset.x;
-    const nodeDisplayY = node.y + nodeOffset.y;
-    
-    // Center the node in the viewport with smooth animation
+    // First, center the node in the viewport with smooth animation
+    // Then show the card only after the centering animation completes
     if (containerRef.current) {
+      const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+      const nodeDisplayX = node.x + nodeOffset.x;
+      const nodeDisplayY = node.y + nodeOffset.y;
+      
       const rect = containerRef.current.getBoundingClientRect();
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
@@ -2907,17 +2984,39 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
       const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
       
-      // Animate to the new position
+      const animationDuration = 600; // ms
+      
+      // Start centering animation
       animateViewBox({
         x: newX,
         y: newY,
         width: viewBox.width,
         height: viewBox.height,
-      }, 600);
+      }, animationDuration);
+      
+      // Show card only after the centering animation completes
+      setTimeout(() => {
+        setSelectedNode(node);
+        
+        // Set a default position
+        const defaultPos = isMobile 
+          ? { x: window.innerWidth / 2 - 180, y: 100 }
+          : { x: window.innerWidth / 2 - 190, y: 100 };
+        setCardPosition(defaultPos);
+        
+        console.log('[CLICK] Card shown after centering animation completed:', { selectedNode: node.id, position: defaultPos });
+      }, animationDuration);
+    } else {
+      // Fallback: if no container, show immediately
+      setSelectedNode(node);
+      const defaultPos = isMobile 
+        ? { x: window.innerWidth / 2 - 180, y: 100 }
+        : { x: window.innerWidth / 2 - 190, y: 100 };
+      setCardPosition(defaultPos);
     }
     
-    setSelectedNode(node);
-  }, [selectedNode, draggingNodeId, nodeDragOffsets, viewBox, animateViewBox]);
+    nodeDragDistanceRef.current = null;
+  }, [selectedNode, draggingNodeId, nodeDragOffsets, viewBox, animateViewBox, isMobile]);
 
   // Convert SVG coordinates to screen coordinates (Konva)
   const svgToScreen = useCallback((svgX: number, svgY: number): { x: number; y: number } | null => {
@@ -2937,81 +3036,69 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return { x: screenX, y: screenY };
   }, [viewBox]);
 
-  // Update card position when selectedNode or viewBox changes (with smooth updates)
+  // Update card position when selectedNode or viewBox changes
   useEffect(() => {
-    console.log('Card position effect running', { selectedNode: selectedNode?.id, hasContainer: !!containerRef.current });
-    
-    if (!selectedNode || !containerRef.current) {
-      console.log('No selectedNode or container, clearing card position');
+    if (!selectedNode) {
       setCardPosition(null);
       return;
     }
     
-    // Debounce position updates to avoid jitter during panning
+    // Always ensure we have a position
+    if (!cardPosition) {
+      const defaultPos = isMobile 
+        ? { x: window.innerWidth / 2 - 180, y: 100 }
+        : { x: window.innerWidth / 2 - 190, y: 100 };
+      setCardPosition(defaultPos);
+    }
+    
+    // Update position based on node location (debounced)
     if (cardPositionUpdateTimeoutRef.current !== null) {
       clearTimeout(cardPositionUpdateTimeoutRef.current);
     }
     
     cardPositionUpdateTimeoutRef.current = window.setTimeout(() => {
+      if (!selectedNode || !containerRef.current) return;
+      
       const nodeOffset = nodeDragOffsets.get(selectedNode.id) || { x: 0, y: 0 };
       const nodeDisplayX = selectedNode.x + nodeOffset.x;
       const nodeDisplayY = selectedNode.y + nodeOffset.y;
       
-      console.log('Calculating card position', { 
-        nodeId: selectedNode.id, 
-        nodeX: selectedNode.x, 
-        nodeY: selectedNode.y,
-        displayX: nodeDisplayX,
-        displayY: nodeDisplayY
-      });
-      
       const screenPos = svgToScreen(nodeDisplayX, nodeDisplayY);
-      console.log('Screen position calculated', screenPos);
       
       if (screenPos) {
-        // Position card to the right of the node on desktop, centered on mobile/tablet
         if (isMobile) {
-          // Center the card horizontally on the screen
-          // Use appropriate width based on screen size
           const cardWidth = window.innerWidth < 640 ? 320 : 360;
           setCardPosition({
             x: window.innerWidth / 2 - cardWidth / 2,
-            y: Math.max(20, screenPos.y - 150), // Offset upward, but keep on screen
+            y: Math.max(20, screenPos.y - 150),
           });
         } else {
-          // Position to the right of the node on desktop, but keep on screen
           const cardWidth = 380;
-          const rightEdge = window.innerWidth - 20; // 20px margin
+          const rightEdge = window.innerWidth - 20;
           const leftEdge = 20;
           let cardX = screenPos.x + selectedNode.radius + 20;
           
-          // If card would go off right edge, position to the left instead
           if (cardX + cardWidth > rightEdge) {
             cardX = screenPos.x - selectedNode.radius - cardWidth - 20;
-            // If that's off the left edge, center it
             if (cardX < leftEdge) {
               cardX = (window.innerWidth - cardWidth) / 2;
             }
           }
           
-          const finalPosition = {
+          setCardPosition({
             x: cardX,
-            y: Math.max(20, screenPos.y - 150), // Offset upward, but keep on screen
-          };
-          console.log('Setting card position', finalPosition);
-          setCardPosition(finalPosition);
+            y: Math.max(20, screenPos.y - 150),
+          });
         }
-      } else {
-        console.warn('No screen position calculated');
       }
-    }, isDraggingRef.current ? 50 : 16); // Slower updates during drag
+    }, 100);
     
     return () => {
       if (cardPositionUpdateTimeoutRef.current !== null) {
         clearTimeout(cardPositionUpdateTimeoutRef.current);
       }
     };
-  }, [selectedNode, viewBox, nodeDragOffsets, isMobile, svgToScreen]);
+  }, [selectedNode, viewBox, nodeDragOffsets, isMobile, svgToScreen, cardPosition]);
 
   // Close modal
   const handleCloseModal = useCallback(() => {
@@ -3348,6 +3435,49 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return finalConnections;
   }, [nodes, nodeDragOffsets, isConnectionVisible]);
 
+  // Stage click handler - fallback for node clicks if shape events don't work
+  // Must be defined after findNodeAtPoint and handleNodeClick
+  const handleStageClick = useCallback((e: any) => {
+    // Only handle if we're not dragging the stage
+    if (isDragging) {
+      console.log('Stage click ignored - stage is being dragged');
+      return;
+    }
+    
+    // Don't handle if we just finished dragging a node
+    if (draggingNodeId) {
+      console.log('Stage click ignored - node was being dragged');
+      return;
+    }
+    
+    if (!stageRef.current || !konvaComponents) return;
+    
+    const stage = stageRef.current;
+    const pointerPos = stage.getPointerPosition();
+    
+    if (!pointerPos) return;
+    
+    console.log('Stage clicked at:', pointerPos);
+    
+    // Find node at this position
+    const clickedNode = findNodeAtPoint(pointerPos.x, pointerPos.y);
+    
+    if (clickedNode) {
+      console.log('Node found at click position:', clickedNode.id);
+      // Use a small delay to ensure drag state is cleared
+      setTimeout(() => {
+        handleNodeClick(clickedNode);
+      }, 10);
+    } else {
+      console.log('No node found at click position');
+      // Click on empty space - close card if open
+      if (selectedNode) {
+        setSelectedNode(null);
+        setCardPosition(null);
+      }
+    }
+  }, [isDragging, draggingNodeId, selectedNode, findNodeAtPoint, handleNodeClick, konvaComponents]);
+
   // Don't render Konva components during SSR or before Konva is loaded
   if (typeof window === 'undefined' || !konvaComponents) {
     console.log('Showing loading state:', { window: typeof window !== 'undefined', konvaComponents: !!konvaComponents });
@@ -3391,7 +3521,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       <div
         ref={containerRef}
         className={`career-odyssey-container ${isDragging ? 'is-dragging' : ''}`}
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        style={{ 
+          cursor: hoveredNode ? 'pointer' : (isDragging ? 'grabbing' : 'grab')
+        }}
         onWheel={handleWheel}
         onContextMenu={(e) => e.preventDefault()} // Prevent right-click menu
       >
@@ -3408,6 +3540,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             onTouchStart={handleStageTouchStart}
             onTouchMove={handleStageTouchMove}
             onTouchEnd={handleStageTouchEnd}
+            onClick={handleStageClick}
           >
             {/* Grid Layer - non-interactive for performance */}
             <Layer listening={false} perfectDrawEnabled={false}>
@@ -3485,6 +3618,15 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 }
                 const textColor = getThemeColor('--color-text', '#000000');
                 
+                // Get endpoint positions for dots
+                const sourceX = sourceNode.x + (nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 }).x;
+                const sourceY = sourceNode.y + (nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 }).y;
+                const targetX = targetNode.x + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).x;
+                const targetY = targetNode.y + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).y;
+                
+                const connectionColor = isActivePath ? activeGradient : (pathTaken ? textColor : '#6b7280');
+                const dotRadius = isActivePath ? 4 : (pathTaken ? 3 : 2.5);
+                
                 return (
                   <Group key={connectionKey} listening={false} perfectDrawEnabled={false}>
                     {/* Glowing background path for active (Present) connections only */}
@@ -3520,10 +3662,29 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     <Path
                       data={path}
                       fill=""
-                      stroke={isActivePath ? activeGradient : (pathTaken ? textColor : '#6b7280')}
+                      stroke={connectionColor}
                       strokeWidth={isActivePath ? 4 : (pathTaken ? 2 : 1.5)}
                       dash={pathTaken ? undefined : [8, 4]}
                       lineCap="round"
+                      opacity={connectionOpacity}
+                      listening={false}
+                      perfectDrawEnabled={false}
+                    />
+                    {/* Dot endpoints */}
+                    <Circle
+                      x={sourceX}
+                      y={sourceY}
+                      radius={dotRadius}
+                      fill={connectionColor}
+                      opacity={connectionOpacity}
+                      listening={false}
+                      perfectDrawEnabled={false}
+                    />
+                    <Circle
+                      x={targetX}
+                      y={targetY}
+                      radius={dotRadius}
+                      fill={connectionColor}
                       opacity={connectionOpacity}
                       listening={false}
                       perfectDrawEnabled={false}
@@ -3627,6 +3788,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         KonvaImage={KonvaImage}
                         scale={1}
                         Konva={Konva}
+                        Group={Group}
+                        Circle={Circle}
                         isHovered={isHovered}
                       />
                     )}
@@ -3732,13 +3895,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         </div>
       </div>
 
-      {/* Node card positioned using fixed CSS positioning */}
-      {selectedNode && cardPosition && (() => {
+      {/* Node card - ALWAYS render when selectedNode exists */}
+      {selectedNode && (() => {
         // Find connected nodes
         const connectedNodes: PositionedNode[] = [];
         const incomingNodes: PositionedNode[] = [];
         
-        // Find nodes that this node connects to (outgoing)
         if (selectedNode.connections) {
           selectedNode.connections.forEach(connId => {
             const connectedNode = nodes.find(n => n.id === connId);
@@ -3748,33 +3910,32 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           });
         }
         
-        // Find nodes that connect to this node (incoming)
         nodes.forEach(node => {
           if (node.connections && node.connections.includes(selectedNode.id)) {
             incomingNodes.push(node);
           }
         });
         
+        // Always use a valid position - fallback to center if needed
+        const finalPosition = cardPosition || {
+          x: isMobile ? window.innerWidth / 2 : window.innerWidth / 2 - 190,
+          y: 100
+        };
+        
         return (
           <motion.div
+            key={`card-${selectedNode.id}`}
             className={`node-card-wrapper ${isMobile ? 'node-card-mobile' : ''}`}
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
-              y: 0,
-            }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ 
-              type: 'tween',
-              duration: 0.2,
-              ease: 'easeOut'
-            }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
             style={{
               position: 'fixed',
-              left: isMobile ? undefined : `${cardPosition.x}px`,
-              top: `${cardPosition.y}px`,
-              zIndex: 1000,
+              left: isMobile ? '50%' : `${finalPosition.x}px`,
+              top: `${finalPosition.y}px`,
+              transform: isMobile ? 'translateX(-50%) translateY(-50%)' : 'none',
+              zIndex: 10000,
               pointerEvents: 'auto',
             }}
           >
@@ -3794,12 +3955,15 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             }}
           >
             {selectedNode.image && (
-              <div className="node-card-image">
-                <img
-                  src={selectedNode.image}
-                  alt={selectedNode.label}
-                  loading="lazy"
-                />
+              <div 
+                className="node-card-image"
+                style={{
+                  backgroundImage: `url(${selectedNode.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              >
                 <button
                   className="node-card-close"
                   onClick={handleCloseModal}
@@ -3863,90 +4027,88 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 </div>
               )}
               
-              {/* Connections section */}
+              {/* Connections section - compact text-based labels */}
               {(connectedNodes.length > 0 || incomingNodes.length > 0) && (
                 <div className="node-card-connections">
                   {incomingNodes.length > 0 && (
-                    <div className="node-card-connections-group">
-                      <h3 className="node-card-connections-title">From</h3>
-                      <div className="node-card-connections-list">
-                        {incomingNodes.map((node) => (
-                          <button
-                            key={node.id}
-                            className="node-card-connection-item"
-                            onClick={() => {
-                              // Center on the connected node
-                              const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-                              const nodeDisplayX = node.x + nodeOffset.x;
-                              const nodeDisplayY = node.y + nodeOffset.y;
-                              
-                              if (containerRef.current) {
-                                const rect = containerRef.current.getBoundingClientRect();
-                                const centerX = rect.width / 2;
-                                const centerY = rect.height / 2;
+                    <div className="node-card-connections-inline">
+                      <span className="node-card-connections-label">From:</span>
+                      <div className="node-card-connections-items">
+                        {incomingNodes.map((node, index) => (
+                          <React.Fragment key={node.id}>
+                            {index > 0 && <span className="node-card-connections-separator">, </span>}
+                            <button
+                              className="node-card-connection-link"
+                              onClick={() => {
+                                // Center on the connected node
+                                const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+                                const nodeDisplayX = node.x + nodeOffset.x;
+                                const nodeDisplayY = node.y + nodeOffset.y;
                                 
-                                const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
-                                const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
+                                if (containerRef.current) {
+                                  const rect = containerRef.current.getBoundingClientRect();
+                                  const centerX = rect.width / 2;
+                                  const centerY = rect.height / 2;
+                                  
+                                  const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
+                                  const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
+                                  
+                                  animateViewBox({
+                                    x: newX,
+                                    y: newY,
+                                    width: viewBox.width,
+                                    height: viewBox.height,
+                                  }, 600);
+                                }
                                 
-                                animateViewBox({
-                                  x: newX,
-                                  y: newY,
-                                  width: viewBox.width,
-                                  height: viewBox.height,
-                                }, 600);
-                              }
-                              
-                              setSelectedNode(node);
-                            }}
-                          >
-                            <span className="node-card-connection-label">{node.label}</span>
-                            {node.date && (
-                              <span className="node-card-connection-date">{formatDate(node.date)}</span>
-                            )}
-                          </button>
+                                setSelectedNode(node);
+                              }}
+                            >
+                              {node.label}
+                            </button>
+                          </React.Fragment>
                         ))}
                       </div>
                     </div>
                   )}
                   
                   {connectedNodes.length > 0 && (
-                    <div className="node-card-connections-group">
-                      <h3 className="node-card-connections-title">To</h3>
-                      <div className="node-card-connections-list">
-                        {connectedNodes.map((node) => (
-                          <button
-                            key={node.id}
-                            className="node-card-connection-item"
-                            onClick={() => {
-                              // Center on the connected node
-                              const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-                              const nodeDisplayX = node.x + nodeOffset.x;
-                              const nodeDisplayY = node.y + nodeOffset.y;
-                              
-                              if (containerRef.current) {
-                                const rect = containerRef.current.getBoundingClientRect();
-                                const centerX = rect.width / 2;
-                                const centerY = rect.height / 2;
+                    <div className="node-card-connections-inline">
+                      <span className="node-card-connections-label">To:</span>
+                      <div className="node-card-connections-items">
+                        {connectedNodes.map((node, index) => (
+                          <React.Fragment key={node.id}>
+                            {index > 0 && <span className="node-card-connections-separator">, </span>}
+                            <button
+                              className="node-card-connection-link"
+                              onClick={() => {
+                                // Center on the connected node
+                                const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+                                const nodeDisplayX = node.x + nodeOffset.x;
+                                const nodeDisplayY = node.y + nodeOffset.y;
                                 
-                                const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
-                                const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
+                                if (containerRef.current) {
+                                  const rect = containerRef.current.getBoundingClientRect();
+                                  const centerX = rect.width / 2;
+                                  const centerY = rect.height / 2;
+                                  
+                                  const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
+                                  const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
+                                  
+                                  animateViewBox({
+                                    x: newX,
+                                    y: newY,
+                                    width: viewBox.width,
+                                    height: viewBox.height,
+                                  }, 600);
+                                }
                                 
-                                animateViewBox({
-                                  x: newX,
-                                  y: newY,
-                                  width: viewBox.width,
-                                  height: viewBox.height,
-                                }, 600);
-                              }
-                              
-                              setSelectedNode(node);
-                            }}
-                          >
-                            <span className="node-card-connection-label">{node.label}</span>
-                            {node.date && (
-                              <span className="node-card-connection-date">{formatDate(node.date)}</span>
-                            )}
-                          </button>
+                                setSelectedNode(node);
+                              }}
+                            >
+                              {node.label}
+                            </button>
+                          </React.Fragment>
                         ))}
                       </div>
                     </div>
@@ -4092,15 +4254,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           position: relative;
           flex-shrink: 0;
           background: var(--color-border);
-        }
-
-        .node-card-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          margin: 0;
-          padding: 0;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
 
         .node-card-embed {
@@ -4253,81 +4409,66 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
 
         .node-card-connections {
-          margin-top: 1.5rem;
-          margin-bottom: 1rem;
-          padding-top: 1.5rem;
+          margin-top: 1rem;
+          margin-bottom: 0.5rem;
+          padding-top: 1rem;
           border-top: 1px solid var(--color-border);
-        }
-
-
-
-        .node-card-connections-group {
-          margin-bottom: 1.25rem;
-        }
-
-
-
-        .node-card-connections-group:last-child {
-          margin-bottom: 0;
-        }
-
-
-
-        .node-card-connections-title {
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: var(--color-muted);
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 0.75rem;
-        }
-
-
-
-        .node-card-connections-list {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
         }
 
-
-
-        .node-card-connection-item {
+        .node-card-connections-inline {
           display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.25rem;
-          padding: 0.75rem;
-          background: var(--color-sidebar-bg);
-          border: 1px solid var(--color-border);
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          text-align: left;
-          width: 100%;
+          align-items: baseline;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          line-height: 1.5;
         }
 
-
-
-        .node-card-connection-item:hover {
-          background: var(--color-bg);
-          border-color: var(--color-link);
-          transform: translateX(4px);
-        }
-
-
-
-        .node-card-connection-item:active {
-          transform: translateX(2px);
-        }
-
-
-
-        .node-card-connection-label {
-          font-size: 0.95rem;
+        .node-card-connections-label {
           font-weight: 500;
-          color: var(--color-text);
-          line-height: 1.3;
+          color: var(--color-muted);
+          flex-shrink: 0;
+        }
+
+        .node-card-connections-items {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: baseline;
+          gap: 0;
+        }
+
+        .node-card-connections-separator {
+          color: var(--color-muted);
+        }
+
+        .node-card-connection-link {
+          background: none;
+          border: none;
+          padding: 0;
+          margin: 0;
+          color: var(--color-link);
+          text-decoration: none;
+          font-size: 0.875rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: color 0.2s ease;
+          display: inline;
+          line-height: inherit;
+        }
+
+
+
+        .node-card-connection-link:hover {
+          color: var(--color-link-hover);
+          text-decoration: underline;
+        }
+
+        .node-card-connection-link:focus {
+          outline: 2px solid var(--color-link);
+          outline-offset: 2px;
+          border-radius: 2px;
         }
 
 
@@ -4365,11 +4506,6 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           }
 
           .node-card-image {
-            min-height: 120px;
-            max-height: 180px;
-          }
-          
-          .node-card-image img {
             min-height: 120px;
             max-height: 180px;
           }
@@ -4415,11 +4551,6 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           }
 
           .node-card-image {
-            min-height: 150px;
-            max-height: 220px;
-          }
-          
-          .node-card-image img {
             min-height: 150px;
             max-height: 220px;
           }
