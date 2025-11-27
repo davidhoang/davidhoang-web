@@ -21,4 +21,16 @@
   .comments {
     background: transparent;
   }
+  
+  /* Make Replit comments background transparent */
+  .comments :global(div) {
+    background-color: transparent !important;
+  }
+  
+  /* Keep input fields and buttons with their backgrounds */
+  .comments :global(input),
+  .comments :global(textarea),
+  .comments :global(button) {
+    background-color: revert !important;
+  }
 </style>
