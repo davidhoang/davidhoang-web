@@ -7,6 +7,9 @@ import CommentsSection from '../components/CommentsSection.astro';
 
 const { data } = Astro.props;
 const { title, description, pubDate } = data;
+const coverImage = data.coverImage || data.ogImage;
+// Extract slug from pathname (format: /writing/{slug})
+const slug = Astro.url.pathname.split('/').pop() || '';
 ---
 
 <MainLayout title={title}>
@@ -18,6 +21,11 @@ const { title, description, pubDate } = data;
     url={Astro.url.pathname}
   />
   <article class="blog-post">
+    {coverImage && (
+      <div class="hero-section">
+        <img src={coverImage} alt={title} />
+      </div>
+    )}
     <div class="container">
       <div class="content-grid">
         <div class="main-content">
@@ -28,7 +36,7 @@ const { title, description, pubDate } = data;
           <div class="prose-content">
             <slot />
           </div>
-          <CommentsSection title={title} url={Astro.url.pathname} />
+          <CommentsSection slug={slug} />
         </div>
         <SidebarWriting />
       </div>
@@ -37,6 +45,18 @@ const { title, description, pubDate } = data;
 </MainLayout>
 
 <style>
+  .hero-section {
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+
+  .hero-section img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
   .content-grid {
     display: grid;
     grid-template-columns: 3fr 1fr;

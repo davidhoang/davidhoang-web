@@ -1,33 +1,22 @@
 ---
 interface Props {
-  title: string;
-  url: string;
+  slug: string;
 }
 
-const { title, url } = Astro.props;
+const { slug } = Astro.props;
 ---
 
 <div class="comments-wrapper">
   <div class="comments-section">
     <h3>Comments</h3>
-    <div class="comments-container">
-      <script 
-        src="https://giscus.app/client.js"
-        data-repo="davidhoang/davidhoang-web"
-        data-repo-id="R_kgDONg0pTQ"
-        data-category="[ENTER CATEGORY NAME HERE]"
-        data-category-id="[ENTER CATEGORY ID HERE]"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async
-      ></script>
-    </div>
+    <section class="comments">
+      <div 
+        data-replit-comments
+        data-post-id={slug}
+        data-affiliate="https://replit.com/?ref=davidhoang"
+        data-base-url="https://davidhoang-dot-com-comments.replit.app"
+      ></div>
+    </section>
   </div>
 </div>
 
@@ -35,6 +24,7 @@ const { title, url } = Astro.props;
   .comments-wrapper {
     margin-top: 3rem;
     padding-top: 2rem;
+    padding-bottom: 3rem;
     border-top: 1px solid #e5e5e5;
   }
   
@@ -49,19 +39,10 @@ const { title, url } = Astro.props;
     color: #333;
   }
   
-  .comments-container {
+  .comments {
     background: transparent;
     border-radius: 8px;
     padding: 0;
     min-height: 200px;
-  }
-  
-  /* Giscus styling */
-  .comments-container :global(.giscus) {
-    margin-top: 1rem;
-  }
-  
-  .comments-container :global(.giscus-frame) {
-    border-radius: 8px;
   }
 </style>
