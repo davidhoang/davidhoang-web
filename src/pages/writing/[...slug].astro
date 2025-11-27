@@ -20,6 +20,6 @@ if (!post) {
 const { Content } = await post.render();
 ---
 
-<BlogPost data={post.data}>
+<BlogPost data={post.data} slug={post.slug}>
   <Content />
 </BlogPost> 

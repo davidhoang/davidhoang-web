@@ -5,11 +5,11 @@ import { Image } from 'astro:assets';
 import SidebarWriting from '../components/SidebarWriting.astro';
 import CommentsSection from '../components/CommentsSection.astro';
 
-const { data } = Astro.props;
+const { data, slug: slugProp } = Astro.props;
 const { title, description, pubDate } = data;
 const coverImage = data.coverImage || data.ogImage;
-// Extract slug from pathname (format: /writing/{slug})
-const slug = Astro.url.pathname.split('/').pop() || '';
+// Use slug from props, or fallback to extracting from pathname
+const slug = slugProp || Astro.url.pathname.split('/').filter(Boolean).pop() || '';
 ---
 
 <MainLayout title={title}>
