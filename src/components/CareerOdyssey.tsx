@@ -2,6 +2,99 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion';
 import { PersonAvatar } from './PersonAvatar';
 
+// Dynamic imports for Konva to avoid SSR issues
+// Store Konva components in module-level cache with versioning
+let konvaCache: {
+  Stage: any;
+  Layer: any;
+  Circle: any;
+  Line: any;
+  Text: any;
+  Image: any;
+  Group: any;
+  Path: any;
+  Konva: any;
+  LinearGradient: any;
+  version?: string;
+} | null = null;
+
+// Cache version - increment this to force cache refresh
+const KONVA_CACHE_VERSION = '1.0.0';
+
+// Function to clear Konva cache (useful for development/debugging)
+if (typeof window !== 'undefined') {
+  (window as any).__clearKonvaCache = () => {
+    konvaCache = null;
+    console.log('Konva cache cleared');
+  };
+}
+
+// Lazy load Konva only on client
+const loadKonva = async () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
+  // Check if cache exists and is valid version
+  if (konvaCache && konvaCache.version === KONVA_CACHE_VERSION) {
+    return konvaCache;
+  }
+  
+  // Clear old cache if version mismatch
+  if (konvaCache && konvaCache.version !== KONVA_CACHE_VERSION) {
+    console.log('Clearing outdated Konva cache (version mismatch)');
+    konvaCache = null;
+  }
+  
+  try {
+    console.log('Loading Konva...');
+    const [reactKonva, konvaLib] = await Promise.all([
+      import('react-konva'),
+      import('konva')
+    ]);
+    
+    // Handle both default and named exports for Konva
+    const Konva = konvaLib.default || konvaLib;
+    
+    // Check for LinearGradient - it might be in different locations
+    let LinearGradientClass = null;
+    if (Konva && Konva.LinearGradient) {
+      LinearGradientClass = Konva.LinearGradient;
+    } else if (konvaLib && konvaLib.LinearGradient) {
+      LinearGradientClass = konvaLib.LinearGradient;
+    } else if (konvaLib.default && konvaLib.default.LinearGradient) {
+      LinearGradientClass = konvaLib.default.LinearGradient;
+    }
+    
+    console.log('Konva loaded, checking LinearGradient:', {
+      hasKonva: !!Konva,
+      hasLinearGradient: !!LinearGradientClass,
+      konvaKeys: Konva ? Object.keys(Konva).slice(0, 20) : [],
+      konvaLibKeys: konvaLib ? Object.keys(konvaLib).slice(0, 20) : []
+    });
+    
+    konvaCache = {
+      Stage: reactKonva.Stage,
+      Layer: reactKonva.Layer,
+      Circle: reactKonva.Circle,
+      Line: reactKonva.Line,
+      Text: reactKonva.Text,
+      Image: reactKonva.Image,
+      Group: reactKonva.Group,
+      Path: reactKonva.Path,
+      Konva: Konva,
+      LinearGradient: LinearGradientClass,
+      version: KONVA_CACHE_VERSION,
+    };
+    
+    console.log('Konva loaded successfully', { version: KONVA_CACHE_VERSION });
+    return konvaCache;
+  } catch (error) {
+    console.error('Failed to load Konva:', error);
+    return null;
+  }
+};
+
 interface WorkedWithPerson {
   name: string;
   image: string;
@@ -39,6 +132,12 @@ interface ViewBox {
   y: number;
   width: number;
   height: number;
+}
+
+interface StageState {
+  scale: number;
+  x: number;
+  y: number;
 }
 
 interface CareerOdysseyProps {
@@ -713,6 +812,13 @@ const resolveCollisions = (nodes: PositionedNode[]): void => {
       }
     }
   }
+};
+
+// Helper to get CSS variable color (for theme support)
+const getThemeColor = (varName: string, fallback: string = '#000000'): string => {
+  if (typeof window === 'undefined') return fallback;
+  const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  return value || fallback;
 };
 
 // Get node color by type
@@ -1451,7 +1557,517 @@ const getArrowheadPoints = (source: PositionedNode, target: PositionedNode): str
   return `${x1},${y1} ${x2},${y2} ${x3},${y3}`;
 };
 
+// Helper to create Konva LinearGradient for active paths
+// Konva gradients use normalized coordinates (0-1) relative to shape bounding box
+const createActivePathGradient = (): any => {
+  // Try to get LinearGradient from cache
+  const LinearGradientClass = konvaCache?.LinearGradient;
+  
+  if (!LinearGradientClass) {
+    // Fallback: try to get it from Konva object
+    const Konva = konvaCache?.Konva;
+    if (Konva && Konva.LinearGradient) {
+      try {
+        const gradient = new Konva.LinearGradient({
+          start: { x: 0, y: 0 },
+          end: { x: 1, y: 0 },
+          colorStops: [
+            0, '#3b82f6',
+            0.3, '#f59e0b',
+            0.5, '#f97316',
+            0.7, '#f59e0b',
+            1, '#3b82f6',
+          ],
+        });
+        return gradient;
+      } catch (error) {
+        console.error('Error creating LinearGradient from Konva:', error);
+        return null;
+      }
+    }
+    // If still not available, return null (will use fallback color)
+    return null;
+  }
+  
+  try {
+    const gradient = new LinearGradientClass({
+      start: { x: 0, y: 0 },
+      end: { x: 1, y: 0 },
+      colorStops: [
+        0, '#3b82f6',
+        0.3, '#f59e0b',
+        0.5, '#f97316',
+        0.7, '#f59e0b',
+        1, '#3b82f6',
+      ],
+    });
+    return gradient;
+  } catch (error) {
+    console.error('Error creating LinearGradient:', error);
+    return null;
+  }
+};
+
+// Animated Path component for dash animation
+const AnimatedPath: React.FC<{
+  data: string;
+  fill?: string;
+  stroke?: string | any;
+  strokeWidth?: number;
+  lineCap?: 'round' | 'butt' | 'square';
+  dash?: number[];
+  opacity?: number;
+  Path?: any;
+  Konva?: any;
+}> = ({ data, fill, stroke, strokeWidth, lineCap, dash, opacity, Path, Konva }) => {
+  const pathRef = useRef<any>(null);
+  
+  useEffect(() => {
+    if (!pathRef.current || !dash || !Konva) return;
+    
+    const anim = new Konva.Animation((frame: any) => {
+      if (pathRef.current) {
+        const offset = -((frame?.time || 0) / 3) % 120;
+        pathRef.current.dashOffset(offset);
+      }
+    }, pathRef.current.getLayer());
+    
+    anim.start();
+    return () => anim.stop();
+  }, [dash, Konva]);
+  
+  if (!Path) return null;
+  
+  return (
+    <Path
+      ref={pathRef}
+      data={data}
+      fill={fill || ''}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      lineCap={lineCap}
+      dash={dash}
+      opacity={opacity}
+      listening={false}
+    />
+  );
+};
+
+// Animated Node Group component with smooth hover transitions and caching
+const AnimatedNodeGroup: React.FC<{
+  nodeId: string;
+  x: number;
+  y: number;
+  isHovered: boolean;
+  isSelected: boolean;
+  hasOtherSelected: boolean;
+  children: React.ReactNode;
+  Konva?: any;
+  Group?: any;
+}> = ({ nodeId, x, y, isHovered, isSelected, hasOtherSelected, children, Konva, Group }) => {
+  const groupRef = useRef<any>(null);
+  const hoverTweenRef = useRef<any>(null);
+  const scaleRef = useRef<number>(1);
+  const opacityRef = useRef<number>(1);
+  const cacheInitializedRef = useRef<boolean>(false);
+  
+  // Initialize cache on mount
+  useEffect(() => {
+    if (!groupRef.current || !Konva || cacheInitializedRef.current) return;
+    
+    const group = groupRef.current;
+    // Cache the group for better performance (only cache when not hovered/selected)
+    // We'll invalidate cache on hover/selection changes
+    try {
+      // Get the node's radius from children to calculate cache size
+      // Approximate cache size: 2x radius + padding for hover effects
+      const estimatedRadius = 120; // Max node radius
+      const cacheSize = (estimatedRadius * 2 + 50) * 2; // 2x for scale, + padding
+      group.cache({
+        x: -cacheSize / 2,
+        y: -cacheSize / 2,
+        width: cacheSize,
+        height: cacheSize,
+        pixelRatio: 2, // Higher quality cache
+      });
+      cacheInitializedRef.current = true;
+    } catch (error) {
+      // Cache might fail if group has no children yet, that's okay
+      console.warn('Failed to cache node group:', error);
+    }
+  }, [Konva]);
+  
+  useEffect(() => {
+    if (!groupRef.current || !Konva) return;
+    
+    const group = groupRef.current;
+    const targetScale = isHovered ? 1.15 : isSelected ? 1.05 : 1;
+    const targetOpacity = (hasOtherSelected === true) ? 0.3 : 1;
+    
+    // Invalidate cache when hover/selection state changes (will be recached after animation)
+    if (cacheInitializedRef.current) {
+      try {
+        group.clearCache();
+      } catch (error) {
+        // Ignore cache errors
+      }
+    }
+    
+    // Stop any existing animation safely
+    if (hoverTweenRef.current) {
+      try {
+        hoverTweenRef.current.stop();
+        hoverTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      hoverTweenRef.current = null;
+    }
+    
+    // Create smooth transition
+    hoverTweenRef.current = new Konva.Tween({
+      node: group,
+      duration: 0.2, // 200ms smooth transition
+      easing: Konva.Easings.EaseOut,
+      scaleX: targetScale,
+      scaleY: targetScale,
+      opacity: targetOpacity,
+      onUpdate: () => {
+        scaleRef.current = group.scaleX();
+        opacityRef.current = group.opacity();
+      },
+      onFinish: () => {
+        // Re-cache after animation completes for better performance
+        if (cacheInitializedRef.current && !isHovered && !isSelected) {
+          try {
+            const estimatedRadius = 120;
+            const cacheSize = (estimatedRadius * 2 + 50) * 2;
+            group.cache({
+              x: -cacheSize / 2,
+              y: -cacheSize / 2,
+              width: cacheSize,
+              height: cacheSize,
+              pixelRatio: 2,
+            });
+          } catch (error) {
+            // Ignore cache errors
+          }
+        }
+      },
+    });
+    
+    hoverTweenRef.current.play();
+    
+    return () => {
+      if (hoverTweenRef.current) {
+        try {
+          hoverTweenRef.current.stop();
+          hoverTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        hoverTweenRef.current = null;
+      }
+    };
+  }, [isHovered, isSelected, hasOtherSelected, Konva]);
+  
+  if (!Group) return null;
+  
+  return (
+    <Group
+      ref={groupRef}
+      x={x}
+      y={y}
+      scaleX={scaleRef.current}
+      scaleY={scaleRef.current}
+      opacity={opacityRef.current}
+      listening={true}
+    >
+      {children}
+    </Group>
+  );
+};
+
+// Animated Circle component for hover glow
+const AnimatedHoverGlow: React.FC<{
+  x: number;
+  y: number;
+  radius: number;
+  stroke: string;
+  isHovered: boolean;
+  Konva?: any;
+  Circle?: any;
+}> = ({ x, y, radius, stroke, isHovered, Konva, Circle }) => {
+  const circleRef = useRef<any>(null);
+  const opacityTweenRef = useRef<any>(null);
+  
+  useEffect(() => {
+    if (!circleRef.current || !Konva) return;
+    
+    const circle = circleRef.current;
+    const targetOpacity = isHovered ? 0.4 : 0;
+    
+    if (opacityTweenRef.current) {
+      try {
+        opacityTweenRef.current.stop();
+        opacityTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      opacityTweenRef.current = null;
+    }
+    
+    opacityTweenRef.current = new Konva.Tween({
+      node: circle,
+      duration: 0.2,
+      easing: Konva.Easings.EaseOut,
+      opacity: targetOpacity,
+    });
+    
+    opacityTweenRef.current.play();
+    
+    return () => {
+      if (opacityTweenRef.current) {
+        try {
+          opacityTweenRef.current.stop();
+          opacityTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        opacityTweenRef.current = null;
+      }
+    };
+  }, [isHovered, Konva]);
+  
+  if (!Circle) return null;
+  
+  return (
+    <Circle
+      ref={circleRef}
+      x={x}
+      y={y}
+      radius={radius}
+      fill=""
+      stroke={stroke}
+      strokeWidth={2}
+      opacity={0}
+      listening={false}
+    />
+  );
+};
+
+// Animated shadow for node circle
+const AnimatedNodeCircle: React.FC<{
+  x: number;
+  y: number;
+  radius: number;
+  fill: string;
+  opacity: number;
+  stroke: string;
+  strokeWidth: number;
+  dash?: number[];
+  isHovered: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onMouseDown: (e: any) => void;
+  onClick: (e: any) => void;
+  Konva?: any;
+  Circle?: any;
+}> = ({ x, y, radius, fill, opacity, stroke, strokeWidth, dash, isHovered, onMouseEnter, onMouseLeave, onMouseDown, onClick, Konva, Circle }) => {
+  const circleRef = useRef<any>(null);
+  const shadowTweenRef = useRef<any>(null);
+  
+  useEffect(() => {
+    if (!circleRef.current || !Konva) return;
+    
+    const circle = circleRef.current;
+    const targetShadowBlur = isHovered ? 8 : 0;
+    
+    if (shadowTweenRef.current) {
+      try {
+        shadowTweenRef.current.stop();
+        shadowTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      shadowTweenRef.current = null;
+    }
+    
+    shadowTweenRef.current = new Konva.Tween({
+      node: circle,
+      duration: 0.2,
+      easing: Konva.Easings.EaseOut,
+      shadowBlur: targetShadowBlur,
+    });
+    
+    shadowTweenRef.current.play();
+    
+    return () => {
+      if (shadowTweenRef.current) {
+        try {
+          shadowTweenRef.current.stop();
+          shadowTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        shadowTweenRef.current = null;
+      }
+    };
+  }, [isHovered, Konva]);
+  
+  if (!Circle) return null;
+  
+  return (
+    <Circle
+      ref={circleRef}
+      x={x}
+      y={y}
+      radius={radius}
+      fill={fill}
+      opacity={opacity}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      dash={dash}
+      shadowBlur={0}
+      shadowColor="rgba(0,0,0,0.2)"
+      listening={true}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onMouseDown={onMouseDown}
+      onClick={onClick}
+    />
+  );
+};
+
+// Node Image component with loading and smooth transitions
+const NodeImage: React.FC<{
+  src: string;
+  x: number;
+  y: number;
+  radius: number;
+  opacity?: number;
+  scale?: number;
+  KonvaImage?: any;
+  Konva?: any;
+  isHovered?: boolean;
+}> = ({ src, x, y, radius, opacity = 1, scale = 1, KonvaImage, Konva, isHovered = false }) => {
+  const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const imageRef = useRef<any>(null);
+  const opacityTweenRef = useRef<any>(null);
+  
+  useEffect(() => {
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => setImage(img);
+    img.onerror = () => setImage(null);
+    img.src = src;
+  }, [src]);
+  
+  // Animate opacity on hover change
+  useEffect(() => {
+    if (!imageRef.current || !Konva) return;
+    
+    const img = imageRef.current;
+    const targetOpacity = isHovered ? 0.85 : opacity;
+    
+    if (opacityTweenRef.current) {
+      try {
+        opacityTweenRef.current.stop();
+        opacityTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      opacityTweenRef.current = null;
+    }
+    
+    opacityTweenRef.current = new Konva.Tween({
+      node: img,
+      duration: 0.2,
+      easing: Konva.Easings.EaseOut,
+      opacity: targetOpacity,
+    });
+    
+    opacityTweenRef.current.play();
+    
+    return () => {
+      if (opacityTweenRef.current) {
+        try {
+          opacityTweenRef.current.stop();
+          opacityTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        opacityTweenRef.current = null;
+      }
+    };
+  }, [isHovered, opacity, Konva]);
+  
+  if (!image || !KonvaImage) return null;
+  
+  // Calculate dimensions to fill the circle (cover mode)
+  const clipRadius = radius - 5;
+  const clipDiameter = clipRadius * 2;
+  
+  // Get original image dimensions
+  const imgWidth = image.width;
+  const imgHeight = image.height;
+  const imgAspectRatio = imgWidth / imgHeight;
+  const circleAspectRatio = 1; // Circle is 1:1
+  
+  // Calculate size to fill the circle (cover mode - image fills entire circle)
+  let displayWidth = clipDiameter;
+  let displayHeight = clipDiameter;
+  
+  if (imgAspectRatio > circleAspectRatio) {
+    // Image is wider than circle - fit to height, crop width
+    displayWidth = clipDiameter * imgAspectRatio;
+    displayHeight = clipDiameter;
+  } else {
+    // Image is taller than circle - fit to width, crop height
+    displayWidth = clipDiameter;
+    displayHeight = clipDiameter / imgAspectRatio;
+  }
+  
+  // Center the image within the circle
+  const imageX = x - displayWidth / 2;
+  const imageY = y - displayHeight / 2;
+  
+  // Clip center relative to image's top-left corner (0, 0)
+  // The image is centered at (displayWidth/2, displayHeight/2) relative to its own origin
+  const clipCenterX = displayWidth / 2;
+  const clipCenterY = displayHeight / 2;
+  
+  // Create clip function - coordinates are relative to the image's top-left corner (0, 0)
+  // The clip center is at the middle of the image (displayWidth/2, displayHeight/2)
+  const clipFunc = (ctx: CanvasRenderingContext2D) => {
+    // Create circular clipping path relative to image's own coordinate system
+    ctx.beginPath();
+    ctx.arc(clipCenterX, clipCenterY, clipRadius, 0, Math.PI * 2, false);
+    ctx.clip();
+  };
+  
+  return (
+    <KonvaImage
+      ref={imageRef}
+      image={image}
+      x={imageX}
+      y={imageY}
+      width={displayWidth}
+      height={displayHeight}
+      opacity={opacity}
+      clipFunc={clipFunc}
+      listening={false}
+    />
+  );
+};
+
 const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
+  try {
+    console.log('CareerOdyssey component rendering, careerData:', careerData ? 'present' : 'missing');
+  } catch (e) {
+    console.error('Error in CareerOdyssey render:', e);
+  }
+  
   const [nodes, setNodes] = useState<PositionedNode[]>([]);
   const [selectedNode, setSelectedNode] = useState<PositionedNode | null>(null);
   const [viewBox, setViewBox] = useState<ViewBox>({
@@ -1467,96 +2083,249 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [cardPosition, setCardPosition] = useState<{ x: number; y: number } | null>(null);
+  const [konvaComponents, setKonvaComponents] = useState<typeof konvaCache>(null);
   const touchStartRef = useRef<{ x: number; y: number; viewBoxX: number; viewBoxY: number } | null>(null);
   const nodeDragStartRef = useRef<{ nodeId: string; startX: number; startY: number; originalX: number; originalY: number; lastOffsetX: number; lastOffsetY: number } | null>(null);
   const [initialViewBox, setInitialViewBox] = useState<ViewBox | null>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const stageRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastWheelTime = useRef<number>(0);
   const wheelEventCount = useRef<number>(0);
+  const viewBoxRef = useRef<ViewBox>(viewBox); // Track current viewBox without triggering re-renders
+  const rafIdRef = useRef<number | null>(null); // Track requestAnimationFrame ID
+  const isDraggingRef = useRef<boolean>(false); // Track drag state without triggering re-renders
+  const cardPositionUpdateTimeoutRef = useRef<number | null>(null); // Track card position update timeout
+  
+  // Load Konva on client side only
+  useEffect(() => {
+    console.log('CareerOdyssey useEffect running, window:', typeof window !== 'undefined');
+    if (typeof window !== 'undefined') {
+      console.log('Starting Konva load...');
+      loadKonva().then((components) => {
+        console.log('Konva load completed, components:', components ? 'loaded' : 'failed');
+        if (components) {
+          console.log('Setting konvaComponents state');
+          setKonvaComponents(components);
+        } else {
+          console.error('Konva components failed to load');
+        }
+      }).catch((error) => {
+        console.error('Error loading Konva:', error);
+      });
+    } else {
+      console.log('Window is undefined, skipping Konva load');
+    }
+  }, []);
+  
+  // Helper to convert viewBox to Konva stage state
+  const viewBoxToStageState = useCallback((vb: ViewBox, containerWidth: number, containerHeight: number): StageState => {
+    const scale = containerWidth / vb.width;
+    return {
+      scale,
+      x: -vb.x * scale,
+      y: -vb.y * scale,
+    };
+  }, []);
+  
+  // Helper to convert Konva stage state to viewBox
+  const stageStateToViewBox = useCallback((state: StageState, containerWidth: number, containerHeight: number): ViewBox => {
+    const width = containerWidth / state.scale;
+    const height = containerHeight / state.scale;
+    return {
+      x: -state.x / state.scale,
+      y: -state.y / state.scale,
+      width,
+      height,
+    };
+  }, []);
+  
+  // Get current stage state from viewBox
+  const stageState = useMemo(() => {
+    if (stageSize.width === 0 || stageSize.height === 0) {
+      return { scale: 1, x: 0, y: 0 };
+    }
+    return viewBoxToStageState(viewBox, stageSize.width, stageSize.height);
+  }, [viewBox, stageSize, viewBoxToStageState]);
+  
+  // Keep viewBoxRef in sync with viewBox state
+  useEffect(() => {
+    viewBoxRef.current = viewBox;
+  }, [viewBox]);
+
+  // Sync stage with viewBox changes (only when not dragging to avoid flicker)
+  // Use debouncing to reduce flicker during rapid updates
+  const syncStageTimeoutRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (konvaComponents && stageRef.current && stageSize.width > 0 && stageSize.height > 0 && konvaComponents.Konva && !isDraggingRef.current) {
+      // Clear any pending sync
+      if (syncStageTimeoutRef.current !== null) {
+        clearTimeout(syncStageTimeoutRef.current);
+      }
+      
+      // Debounce stage sync to reduce flicker (only sync after 16ms of no changes)
+      syncStageTimeoutRef.current = window.setTimeout(() => {
+        if (stageRef.current && !isDraggingRef.current) {
+          const state = viewBoxToStageState(viewBox, stageSize.width, stageSize.height);
+          stageRef.current.scale({ x: state.scale, y: state.scale });
+          stageRef.current.position({ x: state.x, y: state.y });
+          stageRef.current.batchDraw(); // Use batchDraw for better performance
+        }
+      }, 16); // ~60fps
+    }
+    
+    return () => {
+      if (syncStageTimeoutRef.current !== null) {
+        clearTimeout(syncStageTimeoutRef.current);
+      }
+    };
+  }, [viewBox, stageSize, viewBoxToStageState, konvaComponents]);
 
   // Initialize nodes
   useEffect(() => {
     if (!careerData || !careerData.nodes || careerData.nodes.length === 0) {
-      console.error('No career data provided or nodes array is empty');
+      console.error('No career data provided or nodes array is empty', { careerData: !!careerData });
       return;
     }
     
-    const positionedNodes = calculateLayout(careerData.nodes as Node[]);
-    
-    // Safety check: ensure nodes were created
-    if (!positionedNodes || positionedNodes.length === 0) {
-      console.error('No nodes were created from career data');
-      return;
-    }
-    
-    setNodes(positionedNodes);
-    
-    // Center view on "Studied Art" node as the nexus point
-    if (positionedNodes.length > 0) {
-      // Find the "Studied Art" node
-      const nexusNode = positionedNodes.find(n => n.id === 'studied-art');
+    console.log('Initializing nodes, careerData.nodes length:', careerData.nodes.length);
+    try {
+      const positionedNodes = calculateLayout(careerData.nodes as Node[]);
       
-      if (nexusNode) {
-        // Use a fixed zoom level centered on the nexus node
-        // This matches the "actual size" view shown in the image
-        // Adjusted to show the nexus node clearly with surrounding nodes visible
-        const defaultZoomWidth = CANVAS_WIDTH * 0.32; // Adjusted zoom level to match image
-        const defaultZoomHeight = CANVAS_HEIGHT * 0.32;
+      // Safety check: ensure nodes were created
+      if (!positionedNodes || positionedNodes.length === 0) {
+        console.error('No nodes were created from career data');
+        return;
+      }
+      
+      console.log('Nodes initialized:', positionedNodes.length, 'nodes', {
+        firstNode: positionedNodes[0] ? { id: positionedNodes[0].id, x: positionedNodes[0].x, y: positionedNodes[0].y } : null
+      });
+      setNodes(positionedNodes);
+      
+      // Center view on "Studied Art" node as the nexus point
+      if (positionedNodes.length > 0) {
+        // Find the "Studied Art" node
+        const nexusNode = positionedNodes.find(n => n.id === 'studied-art');
         
-        const defaultVB = {
-          x: nexusNode.x - defaultZoomWidth / 2,
-          y: nexusNode.y - defaultZoomHeight / 2,
-          width: defaultZoomWidth,
-          height: defaultZoomHeight,
-        };
-        
-        // Ensure viewBox has valid dimensions
-        if (defaultVB.width > 0 && defaultVB.height > 0) {
-          setViewBox(defaultVB);
-          // Store this as the "actual size" reference (for home button)
-          setInitialViewBox(defaultVB);
+        if (nexusNode) {
+          // Use a fixed zoom level centered on the nexus node
+          // This matches the "actual size" view shown in the image
+          // Adjusted to show the nexus node clearly with surrounding nodes visible
+          const defaultZoomWidth = CANVAS_WIDTH * 0.32; // Adjusted zoom level to match image
+          const defaultZoomHeight = CANVAS_HEIGHT * 0.32;
+          
+          const defaultVB = {
+            x: nexusNode.x - defaultZoomWidth / 2,
+            y: nexusNode.y - defaultZoomHeight / 2,
+            width: defaultZoomWidth,
+            height: defaultZoomHeight,
+          };
+          
+          // Ensure viewBox has valid dimensions
+          if (defaultVB.width > 0 && defaultVB.height > 0) {
+            setViewBox(defaultVB);
+            // Store this as the "actual size" reference (for home button)
+            setInitialViewBox(defaultVB);
+          } else {
+            // Fallback to default viewBox if calculation fails
+            console.warn('Invalid viewBox calculated, using default');
+            const fallbackVB = {
+              x: nexusNode.x - CANVAS_WIDTH * 0.16,
+              y: nexusNode.y - CANVAS_HEIGHT * 0.16,
+              width: CANVAS_WIDTH * 0.32,
+              height: CANVAS_HEIGHT * 0.32,
+            };
+            setViewBox(fallbackVB);
+            setInitialViewBox(fallbackVB);
+          }
         } else {
-          // Fallback to default viewBox if calculation fails
-          console.warn('Invalid viewBox calculated, using default');
+          // Fallback if nexus node not found
+          console.warn('Nexus node (studied-art) not found, using default view');
           const fallbackVB = {
-            x: nexusNode.x - CANVAS_WIDTH * 0.16,
-            y: nexusNode.y - CANVAS_HEIGHT * 0.16,
-            width: CANVAS_WIDTH * 0.32,
-            height: CANVAS_HEIGHT * 0.32,
+            x: 0,
+            y: 0,
+            width: CANVAS_WIDTH,
+            height: CANVAS_HEIGHT,
           };
           setViewBox(fallbackVB);
           setInitialViewBox(fallbackVB);
         }
-      } else {
-        // Fallback if nexus node not found
-        console.warn('Nexus node (studied-art) not found, using default view');
-        const fallbackVB = {
-          x: 0,
-          y: 0,
-          width: CANVAS_WIDTH,
-          height: CANVAS_HEIGHT,
-        };
-        setViewBox(fallbackVB);
-        setInitialViewBox(fallbackVB);
       }
+    } catch (error) {
+      console.error('Error initializing nodes:', error);
     }
   }, [careerData]);
 
-  // Track window size for responsive behavior
+  // Track window size for responsive behavior and update stage size
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 1024);
     };
     
+    const updateStageSize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const newSize = { width: rect.width, height: rect.height };
+        if (newSize.width > 0 && newSize.height > 0) {
+          console.log('Updating stage size:', newSize);
+          setStageSize(newSize);
+        } else {
+          console.warn('Container has zero size:', rect);
+        }
+      } else {
+        console.warn('containerRef.current is null, cannot update stage size');
+      }
+    };
+    
     // Check on mount
     checkIsMobile();
     
-    // Listen for resize events
-    window.addEventListener('resize', checkIsMobile);
+    // Use multiple attempts to ensure containerRef is set and has size
+    const attemptUpdate = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          updateStageSize();
+        } else {
+          // Retry if size is still zero
+          setTimeout(attemptUpdate, 50);
+        }
+      } else {
+        // Retry if ref is not set
+        setTimeout(attemptUpdate, 50);
+      }
+    };
+    
+    // Initial attempt
+    setTimeout(attemptUpdate, 0);
+    
+    // Use ResizeObserver for better size tracking
+    let resizeObserver: ResizeObserver | null = null;
+    if (containerRef.current && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const { width, height } = entry.contentRect;
+          if (width > 0 && height > 0) {
+            setStageSize({ width, height });
+          }
+        }
+      });
+      resizeObserver.observe(containerRef.current);
+    }
+    
+    // Listen for resize events as fallback
+    const handleResize = () => {
+      checkIsMobile();
+      updateStageSize();
+    };
+    window.addEventListener('resize', handleResize);
     
     return () => {
-      window.removeEventListener('resize', checkIsMobile);
+      window.removeEventListener('resize', handleResize);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
   }, []);
 
@@ -1575,67 +2344,81 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   }, [selectedNode]);
 
 
-  // Pan functionality with smooth animation (Figma-like)
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.button !== 0) return; // Only left mouse button
-    e.preventDefault(); // Prevent text selection and default behaviors
-    
-    // Prevent macOS swipe gestures
-    if (e.metaKey || e.ctrlKey) return;
+  // Pan functionality with Konva (optimized to reduce flicker)
+  const handleStageMouseDown = useCallback((e: any) => {
+    if (e.evt.button !== 0) return; // Only left mouse button
+    if (e.evt.metaKey || e.evt.ctrlKey) return; // Prevent macOS swipe gestures
     
     setIsDragging(true);
-    if (!containerRef.current) return;
+    isDraggingRef.current = true;
+    if (!stageRef.current || !containerRef.current) return;
     
-    const rect = containerRef.current.getBoundingClientRect();
-    const startX = e.clientX;
-    const startY = e.clientY;
-    const startViewBoxX = viewBox.x;
-    const startViewBoxY = viewBox.y;
+    const stage = stageRef.current;
+    const startX = e.evt.clientX;
+    const startY = e.evt.clientY;
+    const startPos = { x: stage.x(), y: stage.y() };
     
-    let animationFrameId: number | null = null;
-    let lastUpdateTime = performance.now();
-    const targetViewBox = { x: startViewBoxX, y: startViewBoxY };
-
     const handleMouseMove = (moveEvent: MouseEvent) => {
-      moveEvent.preventDefault(); // Prevent default behaviors
+      if (!stageRef.current || !containerRef.current) return;
       
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      // Cancel any pending RAF
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+      
       const deltaX = moveEvent.clientX - startX;
       const deltaY = moveEvent.clientY - startY;
       
-      // Convert pixel movement to SVG coordinate movement
-      const svgDeltaX = (deltaX / rect.width) * viewBox.width;
-      const svgDeltaY = (deltaY / rect.height) * viewBox.height;
+      // Update stage position directly (no React re-render)
+      stage.position({
+        x: startPos.x + deltaX,
+        y: startPos.y + deltaY,
+      });
       
-      // Update target position
-      targetViewBox.x = startViewBoxX - svgDeltaX;
-      targetViewBox.y = startViewBoxY - svgDeltaY;
+      // Throttle viewBox state update using requestAnimationFrame
+      rafIdRef.current = requestAnimationFrame(() => {
+        if (!containerRef.current || !stageRef.current) return;
+        
+        const rect = containerRef.current.getBoundingClientRect();
+        const newViewBox = stageStateToViewBox(
+          { scale: stage.scaleX(), x: stage.x(), y: stage.y() },
+          rect.width,
+          rect.height
+        );
+        
+        // Update ref immediately for calculations
+        viewBoxRef.current = newViewBox;
+        
+        // Only update state occasionally to reduce re-renders
+        // This will be synced properly on mouse up
+      });
       
-      // Use requestAnimationFrame for smooth updates - always batch through RAF
-      if (!animationFrameId) {
-        animationFrameId = requestAnimationFrame(() => {
-          setViewBox(prev => ({
-            ...prev,
-            x: targetViewBox.x,
-            y: targetViewBox.y,
-          }));
-          animationFrameId = null;
-          lastUpdateTime = performance.now();
-        });
-      } else {
-        // Update target for next frame
-        targetViewBox.x = startViewBoxX - svgDeltaX;
-        targetViewBox.y = startViewBoxY - svgDeltaY;
-      }
+      // Force redraw for smooth animation
+      stage.batchDraw();
     };
 
     const handleMouseUp = () => {
+      isDraggingRef.current = false;
       setIsDragging(false);
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
+      
+      // Cancel any pending RAF
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
       }
+      
+      // Final sync of viewBox state after drag ends
+      if (containerRef.current && stageRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const newViewBox = stageStateToViewBox(
+          { scale: stageRef.current.scaleX(), x: stageRef.current.x(), y: stageRef.current.y() },
+          rect.width,
+          rect.height
+        );
+        viewBoxRef.current = newViewBox;
+        setViewBox(newViewBox);
+      }
+      
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mouseleave', handleMouseUp);
@@ -1644,48 +2427,90 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     document.addEventListener('mousemove', handleMouseMove, { passive: false });
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mouseleave', handleMouseUp);
-  }, [viewBox]);
+  }, [stageStateToViewBox]);
 
-  // Touch support for mobile/trackpad
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length !== 1) return; // Only handle single touch for panning
-    e.preventDefault();
+  // Touch support for mobile/trackpad with Konva
+  const handleStageTouchStart = useCallback((e: any) => {
+    if (e.evt.touches.length !== 1) return; // Only handle single touch for panning
     
-    const touch = e.touches[0];
+    setIsDragging(true);
+    isDraggingRef.current = true;
+    if (!stageRef.current) return;
+    
+    const stage = stageRef.current;
+    const touch = e.evt.touches[0];
+    const currentViewBox = viewBoxRef.current;
     touchStartRef.current = {
       x: touch.clientX,
       y: touch.clientY,
-      viewBoxX: viewBox.x,
-      viewBoxY: viewBox.y,
+      viewBoxX: currentViewBox.x,
+      viewBoxY: currentViewBox.y,
     };
-    setIsDragging(true);
-  }, [viewBox]);
+  }, []);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!touchStartRef.current || e.touches.length !== 1) return;
-    e.preventDefault();
+  const handleStageTouchMove = useCallback((e: any) => {
+    if (!touchStartRef.current || e.evt.touches.length !== 1 || !stageRef.current) return;
     
-    const touch = e.touches[0];
+    const stage = stageRef.current;
+    const touch = e.evt.touches[0];
     if (!containerRef.current) return;
     
-    const rect = containerRef.current.getBoundingClientRect();
+    // Cancel any pending RAF
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
+    
     const deltaX = touch.clientX - touchStartRef.current.x;
     const deltaY = touch.clientY - touchStartRef.current.y;
     
-    const svgDeltaX = (deltaX / rect.width) * viewBox.width;
-    const svgDeltaY = (deltaY / rect.height) * viewBox.height;
+    const rect = containerRef.current.getBoundingClientRect();
+    const currentViewBox = viewBoxRef.current;
+    const svgDeltaX = (deltaX / rect.width) * currentViewBox.width;
+    const svgDeltaY = (deltaY / rect.height) * currentViewBox.height;
     
-    setViewBox({
-      ...viewBox,
+    const newViewBox = {
+      ...currentViewBox,
       x: touchStartRef.current.viewBoxX - svgDeltaX,
       y: touchStartRef.current.viewBoxY - svgDeltaY,
+    };
+    
+    // Update ref immediately
+    viewBoxRef.current = newViewBox;
+    
+    // Update stage position directly
+    const newState = viewBoxToStageState(newViewBox, rect.width, rect.height);
+    stage.position({ x: newState.x, y: newState.y });
+    stage.batchDraw();
+    
+    // Throttle state update
+    rafIdRef.current = requestAnimationFrame(() => {
+      setViewBox(newViewBox);
     });
-  }, [viewBox]);
+  }, [viewBoxToStageState]);
 
-  const handleTouchEnd = useCallback(() => {
+  const handleStageTouchEnd = useCallback(() => {
+    isDraggingRef.current = false;
     touchStartRef.current = null;
     setIsDragging(false);
-  }, []);
+    
+    // Cancel any pending RAF
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+    
+    // Final sync of viewBox state
+    if (containerRef.current && stageRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const newViewBox = stageStateToViewBox(
+        { scale: stageRef.current.scaleX(), x: stageRef.current.x(), y: stageRef.current.y() },
+        rect.width,
+        rect.height
+      );
+      viewBoxRef.current = newViewBox;
+      setViewBox(newViewBox);
+    }
+  }, [stageStateToViewBox]);
 
   // Trackpad vs mouse wheel detection
   const isTrackpadPan = useCallback((e: React.WheelEvent): boolean => {
@@ -1710,40 +2535,112 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return isLikelyTrackpad;
   }, []);
 
-  // Zoom functionality with trackpad panning support
+  // Zoom functionality with trackpad panning support (Konva) - optimized to reduce flicker
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
-    if (!svgRef.current || !containerRef.current) return;
+    if (!stageRef.current || !containerRef.current) return;
     
-    // Detect trackpad panning (two-finger scroll)
-    if (isTrackpadPan(e)) {
-      // Pan instead of zoom - smooth trackpad scrolling
-      const panSpeed = 0.8;
-      const svgDeltaX = (e.deltaX * panSpeed * viewBox.width) / containerRef.current.clientWidth;
-      const svgDeltaY = (e.deltaY * panSpeed * viewBox.height) / containerRef.current.clientHeight;
+    // Cancel any pending RAF
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
+    
+    const stage = stageRef.current;
+    const rect = containerRef.current.getBoundingClientRect();
+    const currentViewBox = viewBoxRef.current;
+    
+    // Check for Control/Cmd + scroll for zoom
+    const isZoomGesture = e.ctrlKey || e.metaKey;
+    
+    // If Control/Cmd is held, always zoom (ignore trackpad pan detection)
+    if (isZoomGesture) {
+      // Zoom functionality
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
       
-      setViewBox(prev => ({
-        ...prev,
-        x: prev.x - svgDeltaX,
-        y: prev.y - svgDeltaY,
-      }));
+      // Convert mouse position to SVG coordinates
+      const svgX = currentViewBox.x + (mouseX / rect.width) * currentViewBox.width;
+      const svgY = currentViewBox.y + (mouseY / rect.height) * currentViewBox.height;
+      
+      // Zoom factor (invert deltaY for natural zoom direction)
+      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      const newWidth = currentViewBox.width * zoomFactor;
+      const newHeight = currentViewBox.height * zoomFactor;
+      
+      // Clamp zoom
+      const minZoom = CANVAS_WIDTH / 4;
+      const maxZoom = CANVAS_WIDTH * 2;
+      if (newWidth < minZoom || newWidth > maxZoom) return;
+      
+      // Adjust viewBox to zoom towards mouse position
+      const newX = svgX - (mouseX / rect.width) * newWidth;
+      const newY = svgY - (mouseY / rect.height) * newHeight;
+      
+      const newViewBox = {
+        x: newX,
+        y: newY,
+        width: newWidth,
+        height: newHeight,
+      };
+      
+      // Update ref immediately
+      viewBoxRef.current = newViewBox;
+      
+      // Update stage position and scale directly
+      const newState = viewBoxToStageState(newViewBox, rect.width, rect.height);
+      stage.scale({ x: newState.scale, y: newState.scale });
+      stage.position({ x: newState.x, y: newState.y });
+      stage.batchDraw();
+      
+      // Throttle state update
+      rafIdRef.current = requestAnimationFrame(() => {
+        setViewBox(newViewBox);
+      });
+      
       return;
     }
     
-    const rect = containerRef.current.getBoundingClientRect();
+    // Detect trackpad panning (two-finger scroll) - only if not zooming
+    if (isTrackpadPan(e)) {
+      // Pan instead of zoom - smooth trackpad scrolling
+      const panSpeed = 0.8;
+      const svgDeltaX = (e.deltaX * panSpeed * currentViewBox.width) / rect.width;
+      const svgDeltaY = (e.deltaY * panSpeed * currentViewBox.height) / rect.height;
+      
+      const newViewBox = {
+        ...currentViewBox,
+        x: currentViewBox.x - svgDeltaX,
+        y: currentViewBox.y - svgDeltaY,
+      };
+      
+      // Update ref immediately
+      viewBoxRef.current = newViewBox;
+      
+      // Update stage position directly
+      const newState = viewBoxToStageState(newViewBox, rect.width, rect.height);
+      stage.position({ x: newState.x, y: newState.y });
+      stage.batchDraw();
+      
+      // Throttle state update
+      rafIdRef.current = requestAnimationFrame(() => {
+        setViewBox(newViewBox);
+      });
+      return;
+    }
+    
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
     
     // Convert mouse position to SVG coordinates
-    const svgX = viewBox.x + (mouseX / rect.width) * viewBox.width;
-    const svgY = viewBox.y + (mouseY / rect.height) * viewBox.height;
+    const svgX = currentViewBox.x + (mouseX / rect.width) * currentViewBox.width;
+    const svgY = currentViewBox.y + (mouseY / rect.height) * currentViewBox.height;
     
     // Calculate zoom
     const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
-    const newWidth = viewBox.width * zoomFactor;
-    const newHeight = viewBox.height * zoomFactor;
+    const newWidth = currentViewBox.width * zoomFactor;
+    const newHeight = currentViewBox.height * zoomFactor;
     
     // Clamp zoom
     const minZoom = CANVAS_WIDTH / 4;
@@ -1754,21 +2651,38 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     const newX = svgX - (mouseX / rect.width) * newWidth;
     const newY = svgY - (mouseY / rect.height) * newHeight;
     
-    setViewBox({
+    const newViewBox = {
       x: newX,
       y: newY,
       width: newWidth,
       height: newHeight,
+    };
+    
+    // Update ref immediately
+    viewBoxRef.current = newViewBox;
+    
+    // Update stage scale and position directly
+    const newState = viewBoxToStageState(newViewBox, rect.width, rect.height);
+    stage.scale({ x: newState.scale, y: newState.scale });
+    stage.position({ x: newState.x, y: newState.y });
+    stage.batchDraw();
+    
+    // Throttle state update
+    rafIdRef.current = requestAnimationFrame(() => {
+      setViewBox(newViewBox);
     });
-  }, [viewBox, isTrackpadPan]);
+  }, [isTrackpadPan, viewBoxToStageState]);
 
-  // Node drag handler
-  const handleNodeMouseDown = useCallback((node: PositionedNode, e: React.MouseEvent) => {
+  // Node drag handler (updated for Konva)
+  const handleNodeMouseDown = useCallback((node: PositionedNode, e: MouseEvent) => {
+    console.log('handleNodeMouseDown called', { nodeId: node.id, button: e.button, metaKey: e.metaKey, ctrlKey: e.ctrlKey });
+    
     e.stopPropagation(); // Prevent canvas panning
     
     if (e.button !== 0) return; // Only left mouse button
     if (e.metaKey || e.ctrlKey) return; // Don't drag with modifier keys
     
+    console.log('Starting node drag for:', node.id);
     setDraggingNodeId(node.id);
     const currentOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
     
@@ -1832,6 +2746,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     };
 
     const handleMouseUp = () => {
+      console.log('handleMouseUp for node drag', { nodeId: node.id });
+      
       // Use the offset from the ref (captured during drag) instead of state
       // This ensures we have the most up-to-date value, especially on first drag
       const currentOffset = nodeDragStartRef.current && nodeDragStartRef.current.nodeId === node.id
@@ -1840,6 +2756,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       
       // Check if node is within bounds (60px radius)
       if (!containerRef.current) {
+        console.log('No container ref, clearing drag state');
         setDraggingNodeId(null);
         nodeDragStartRef.current = null;
         document.removeEventListener('mousemove', handleMouseMove);
@@ -1851,8 +2768,17 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const maxDistance = (60 / rect.width) * viewBox.width;
       const distance = Math.sqrt(currentOffset.x * currentOffset.x + currentOffset.y * currentOffset.y);
       
+      console.log('Mouse up - checking if was drag or click', { distance, maxDistance, wasDrag: distance > 5 });
+      
+      // Only consider it a drag if the node moved more than 5px (in screen space)
+      // Convert distance back to screen pixels to check
+      const screenDistance = (distance / viewBox.width) * rect.width;
+      const wasActualDrag = screenDistance > 5;
+      
+      console.log('Drag vs click check', { screenDistance, wasActualDrag, distance, maxDistance });
+      
       // If within bounds, animate back to original position
-      if (distance > 0 && distance <= maxDistance) {
+      if (wasActualDrag && distance > 0 && distance <= maxDistance) {
         const startOffset = { ...currentOffset };
         const startTime = performance.now();
         const duration = 300; // 300ms animation
@@ -1888,7 +2814,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         requestAnimationFrame(animate);
       }
       
-      setDraggingNodeId(null);
+      // Clear dragging state - use a small delay to allow click handler to check draggingNodeId
+      // But only if it was an actual drag
+      if (wasActualDrag) {
+        // Small delay to prevent immediate click after drag
+        setTimeout(() => {
+          setDraggingNodeId(null);
+        }, 50);
+      } else {
+        // If it wasn't a drag, clear immediately so click can proceed
+        setDraggingNodeId(null);
+      }
+      
       nodeDragStartRef.current = null;
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
@@ -1930,19 +2867,30 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     requestAnimationFrame(animate);
   }, [viewBox]);
 
-  // Node click handler
-  const handleNodeClick = useCallback((node: PositionedNode, e: React.MouseEvent) => {
+  // Node click handler (updated for Konva)
+  const handleNodeClick = useCallback((node: PositionedNode, e: MouseEvent) => {
+    console.log('handleNodeClick called', { nodeId: node.id, draggingNodeId, selectedNodeId: selectedNode?.id });
+    
     // Only handle click if we didn't just drag
-    if (draggingNodeId === node.id) {
+    // Use a small delay to distinguish between drag and click
+    const wasDragging = draggingNodeId === node.id;
+    if (wasDragging) {
+      console.log('Ignoring click - node was being dragged');
       return;
     }
+    
     e.stopPropagation();
+    e.preventDefault();
     
     // Toggle selection - if clicking the same node, close it
     if (selectedNode?.id === node.id) {
+      console.log('Closing card - same node clicked');
       setSelectedNode(null);
+      setCardPosition(null);
       return;
     }
+    
+    console.log('Opening card for node:', node.id);
     
     // Get the node's display position (with drag offset)
     const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
@@ -1971,16 +2919,16 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     setSelectedNode(node);
   }, [selectedNode, draggingNodeId, nodeDragOffsets, viewBox, animateViewBox]);
 
-  // Convert SVG coordinates to screen coordinates
+  // Convert SVG coordinates to screen coordinates (Konva)
   const svgToScreen = useCallback((svgX: number, svgY: number): { x: number; y: number } | null => {
-    if (!containerRef.current || !svgRef.current) return null;
+    if (!containerRef.current || !stageRef.current) return null;
     
     const containerRect = containerRef.current.getBoundingClientRect();
-    const svgRect = svgRef.current.getBoundingClientRect();
+    const stage = stageRef.current;
     
     // Calculate the ratio between SVG viewBox and actual screen size
-    const scaleX = svgRect.width / viewBox.width;
-    const scaleY = svgRect.height / viewBox.height;
+    const scaleX = containerRect.width / viewBox.width;
+    const scaleY = containerRect.height / viewBox.height;
     
     // Convert SVG coordinates to screen coordinates
     const screenX = containerRect.left + (svgX - viewBox.x) * scaleX;
@@ -1989,36 +2937,80 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return { x: screenX, y: screenY };
   }, [viewBox]);
 
-  // Update card position when selectedNode or viewBox changes
+  // Update card position when selectedNode or viewBox changes (with smooth updates)
   useEffect(() => {
+    console.log('Card position effect running', { selectedNode: selectedNode?.id, hasContainer: !!containerRef.current });
+    
     if (!selectedNode || !containerRef.current) {
+      console.log('No selectedNode or container, clearing card position');
       setCardPosition(null);
       return;
     }
     
-    const nodeOffset = nodeDragOffsets.get(selectedNode.id) || { x: 0, y: 0 };
-    const nodeDisplayX = selectedNode.x + nodeOffset.x;
-    const nodeDisplayY = selectedNode.y + nodeOffset.y;
-    
-    const screenPos = svgToScreen(nodeDisplayX, nodeDisplayY);
-    if (screenPos) {
-      // Position card to the right of the node on desktop, centered on mobile/tablet
-      if (isMobile) {
-        // Center the card horizontally on the screen
-        // Use appropriate width based on screen size
-        const cardWidth = window.innerWidth < 640 ? 320 : 360;
-        setCardPosition({
-          x: window.innerWidth / 2 - cardWidth / 2,
-          y: screenPos.y - 200, // Offset upward
-        });
-      } else {
-        // Position to the right of the node on desktop
-        setCardPosition({
-          x: screenPos.x + selectedNode.radius + 20,
-          y: screenPos.y - 200, // Offset upward
-        });
-      }
+    // Debounce position updates to avoid jitter during panning
+    if (cardPositionUpdateTimeoutRef.current !== null) {
+      clearTimeout(cardPositionUpdateTimeoutRef.current);
     }
+    
+    cardPositionUpdateTimeoutRef.current = window.setTimeout(() => {
+      const nodeOffset = nodeDragOffsets.get(selectedNode.id) || { x: 0, y: 0 };
+      const nodeDisplayX = selectedNode.x + nodeOffset.x;
+      const nodeDisplayY = selectedNode.y + nodeOffset.y;
+      
+      console.log('Calculating card position', { 
+        nodeId: selectedNode.id, 
+        nodeX: selectedNode.x, 
+        nodeY: selectedNode.y,
+        displayX: nodeDisplayX,
+        displayY: nodeDisplayY
+      });
+      
+      const screenPos = svgToScreen(nodeDisplayX, nodeDisplayY);
+      console.log('Screen position calculated', screenPos);
+      
+      if (screenPos) {
+        // Position card to the right of the node on desktop, centered on mobile/tablet
+        if (isMobile) {
+          // Center the card horizontally on the screen
+          // Use appropriate width based on screen size
+          const cardWidth = window.innerWidth < 640 ? 320 : 360;
+          setCardPosition({
+            x: window.innerWidth / 2 - cardWidth / 2,
+            y: Math.max(20, screenPos.y - 150), // Offset upward, but keep on screen
+          });
+        } else {
+          // Position to the right of the node on desktop, but keep on screen
+          const cardWidth = 380;
+          const rightEdge = window.innerWidth - 20; // 20px margin
+          const leftEdge = 20;
+          let cardX = screenPos.x + selectedNode.radius + 20;
+          
+          // If card would go off right edge, position to the left instead
+          if (cardX + cardWidth > rightEdge) {
+            cardX = screenPos.x - selectedNode.radius - cardWidth - 20;
+            // If that's off the left edge, center it
+            if (cardX < leftEdge) {
+              cardX = (window.innerWidth - cardWidth) / 2;
+            }
+          }
+          
+          const finalPosition = {
+            x: cardX,
+            y: Math.max(20, screenPos.y - 150), // Offset upward, but keep on screen
+          };
+          console.log('Setting card position', finalPosition);
+          setCardPosition(finalPosition);
+        }
+      } else {
+        console.warn('No screen position calculated');
+      }
+    }, isDraggingRef.current ? 50 : 16); // Slower updates during drag
+    
+    return () => {
+      if (cardPositionUpdateTimeoutRef.current !== null) {
+        clearTimeout(cardPositionUpdateTimeoutRef.current);
+      }
+    };
   }, [selectedNode, viewBox, nodeDragOffsets, isMobile, svgToScreen]);
 
   // Close modal
@@ -2107,8 +3099,28 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   }, [nodes, nodeDragOffsets, initialViewBox, animateViewBox]);
 
   // Calculate grid spacing based on zoom
+  // Apple Freeform style: consistent visual spacing that scales with zoom
   const zoomLevel = CANVAS_WIDTH / viewBox.width;
-  const gridSpacing = BASE_GRID_SPACING * zoomLevel;
+  
+  // Freeform-style grid: ~20px visual spacing on screen (in canvas coordinates)
+  // Convert screen pixels to canvas coordinates based on current viewBox
+  let gridSpacing: number;
+  let dotRadius: number;
+  
+  if (!containerRef.current) {
+    // Fallback if container not ready
+    gridSpacing = 20 * zoomLevel;
+    dotRadius = 0.5 * zoomLevel;
+  } else {
+    const rect = containerRef.current.getBoundingClientRect();
+    // 20px on screen = (20 / rect.width) * viewBox.width in canvas coordinates
+    const screenSpacingPx = 20; // Freeform uses ~20px spacing on screen
+    gridSpacing = (screenSpacingPx / rect.width) * viewBox.width;
+    
+    // Dot size: ~0.75px on screen (Freeform style - very subtle)
+    const screenDotRadiusPx = 0.75;
+    dotRadius = (screenDotRadiusPx / rect.width) * viewBox.width;
+  }
   
   // Add padding to ensure full coverage of the view
   const padding = gridSpacing * 2;
@@ -2116,10 +3128,6 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const gridStartY = Math.floor((viewBox.y - padding) / gridSpacing) * gridSpacing;
   const gridEndX = viewBox.x + viewBox.width + padding;
   const gridEndY = viewBox.y + viewBox.height + padding;
-
-  // Calculate dot radius based on zoom (scale with zoom level) - very small, tight dots
-  const baseDotRadius = 0.4;
-  const dotRadius = baseDotRadius * zoomLevel;
 
   // Memoize visible year range calculation
   const getVisibleYearRange = useCallback((): { startYear: number; endYear: number; showNow: boolean } => {
@@ -2263,11 +3271,120 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
   // Memoize visible nodes based on viewport
   const visibleNodes = useMemo(() => {
-    return nodes.filter(node => {
+    const visible = nodes.filter(node => {
       const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-      return isNodeVisible(node, dragOffset);
+      const isVisible = isNodeVisible(node, dragOffset);
+      if (!isVisible && nodes.length > 0) {
+        // Log first few non-visible nodes for debugging
+        const nodeIndex = nodes.indexOf(node);
+        if (nodeIndex < 3) {
+          console.log(`Node ${node.id} not visible:`, {
+            nodeX: node.x,
+            nodeY: node.y,
+            viewBox,
+            displayX: node.x + dragOffset.x,
+            displayY: node.y + dragOffset.y
+          });
+        }
+      }
+      return isVisible;
     });
-  }, [nodes, nodeDragOffsets, isNodeVisible]);
+    return visible;
+  }, [nodes, nodeDragOffsets, isNodeVisible, viewBox]);
+
+  // Memoize connections - MUST be before early return to follow Rules of Hooks
+  const connectionsWithPaths = useMemo(() => {
+    if (!nodes.length) return [];
+    
+    // Memoized connection calculation - single pass with optimization
+    const allConnections: Array<{ 
+      source: PositionedNode; 
+      target: PositionedNode; 
+      sourceDisplay: PositionedNode;
+      targetDisplay: PositionedNode;
+      sourceOffset: { x: number; y: number };
+      targetOffset: { x: number; y: number };
+    }> = [];
+    
+    // Collect all connections with their display positions
+    nodes.forEach(node => {
+      if (!node.connections) return;
+      
+      node.connections.forEach(connectionId => {
+        const sourceNode = nodes.find(n => n.id === connectionId);
+        if (!sourceNode) return;
+        
+        const sourceOffset = nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 };
+        const targetOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+        const sourceDisplay = { ...sourceNode, x: sourceNode.x + sourceOffset.x, y: sourceNode.y + sourceOffset.y };
+        const targetDisplay = { ...node, x: node.x + targetOffset.x, y: node.y + targetOffset.y };
+        
+        // Only include if connection is visible
+        if (isConnectionVisible(sourceNode, node, sourceOffset, targetOffset)) {
+          allConnections.push({ 
+            source: sourceNode, 
+            target: node,
+            sourceDisplay, 
+            targetDisplay,
+            sourceOffset,
+            targetOffset
+          });
+        }
+      });
+    });
+    
+    // Calculate paths for all visible connections (first pass - initial paths)
+    const connectionsWithInitialPaths = allConnections.map(conn => ({
+      ...conn,
+      path: getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes)
+    }));
+    
+    // Second pass: recalculate paths with connection-to-connection avoidance
+    const finalConnections = connectionsWithInitialPaths.map(conn => {
+      const finalPath = getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes, connectionsWithInitialPaths);
+      return { ...conn, path: finalPath };
+    });
+    
+    return finalConnections;
+  }, [nodes, nodeDragOffsets, isConnectionVisible]);
+
+  // Don't render Konva components during SSR or before Konva is loaded
+  if (typeof window === 'undefined' || !konvaComponents) {
+    console.log('Showing loading state:', { window: typeof window !== 'undefined', konvaComponents: !!konvaComponents });
+    return (
+      <div className="career-odyssey-wrapper" style={{ width: '100%', height: '100vh', position: 'relative' }}>
+        <div 
+          className="career-odyssey-container" 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            width: '100%',
+            height: '100vh',
+            backgroundColor: '#ffffff',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: 1
+          }}
+        >
+          <div style={{ fontSize: '18px', color: '#000000' }}>Loading canvas...</div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Extract Konva components for easier use
+  const { Stage, Layer, Circle, Line, Text: KonvaText, Image: KonvaImage, Group, Path, Konva } = konvaComponents;
+
+  // Debug logging
+  console.log('Rendering canvas:', {
+    nodes: nodes.length,
+    visibleNodes: visibleNodes.length,
+    stageSize,
+    viewBox,
+    konvaComponents: !!konvaComponents
+  });
 
   return (
     <div className="career-odyssey-wrapper">
@@ -2275,159 +3392,49 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         ref={containerRef}
         className={`career-odyssey-container ${isDragging ? 'is-dragging' : ''}`}
         style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-        onMouseDown={handleMouseDown}
         onWheel={handleWheel}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
         onContextMenu={(e) => e.preventDefault()} // Prevent right-click menu
       >
-        <svg
-          ref={svgRef}
-          viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
-          className="career-odyssey-svg"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <defs>
-            {/* Glow filter for active timeline */}
-            <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            
-            {/* Glow gradient for active (Present) connections - blue and warm color blend */}
-            <linearGradient id="activePathGlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.2" />
-              <stop offset="30%" stopColor="#f59e0b" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="#f97316" stopOpacity="0.5" />
-              <stop offset="70%" stopColor="#f59e0b" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.2" />
-            </linearGradient>
-            
-            {/* Gradient for active path main stroke - blue to warm blend */}
-            <linearGradient id="activePathStrokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3b82f6" />
-              <stop offset="50%" stopColor="#f97316" />
-              <stop offset="100%" stopColor="#3b82f6" />
-            </linearGradient>
-            
-            {/* Glow gradient for regular pathTaken connections */}
-            <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="var(--color-text)" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="var(--color-text)" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="var(--color-text)" stopOpacity="0.1" />
-            </linearGradient>
-            
-            {/* Arrowhead marker */}
-            <marker
-              id="arrowhead-taken"
-              markerWidth="10"
-              markerHeight="10"
-              refX="9"
-              refY="3"
-              orient="auto"
-            >
-              <polygon points="0 0, 10 3, 0 6" fill="var(--color-text)" opacity="0.6" />
-            </marker>
-            <marker
-              id="arrowhead-untaken"
-              markerWidth="10"
-              markerHeight="10"
-              refX="9"
-              refY="3"
-              orient="auto"
-            >
-              <polygon points="0 0, 10 3, 0 6" fill="var(--color-text)" opacity="0.3" />
-            </marker>
-            {/* Clip paths for node images - only for visible nodes */}
-            {visibleNodes.map(node => {
-              const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-              const displayX = node.x + dragOffset.x;
-              const displayY = node.y + dragOffset.y;
-              return node.image && (
-                <clipPath key={`clip-${node.id}`} id={`clip-${node.id}`} clipPathUnits="userSpaceOnUse">
-                  <circle cx={displayX} cy={displayY} r={node.radius - 5} />
-                </clipPath>
-              );
-            })}
-          </defs>
+        {stageSize.width > 0 && stageSize.height > 0 && (
+          <Stage
+            ref={stageRef}
+            width={stageSize.width}
+            height={stageSize.height}
+            scaleX={stageState.scale}
+            scaleY={stageState.scale}
+            x={stageState.x}
+            y={stageState.y}
+            onMouseDown={handleStageMouseDown}
+            onTouchStart={handleStageTouchStart}
+            onTouchMove={handleStageTouchMove}
+            onTouchEnd={handleStageTouchEnd}
+          >
+            {/* Grid Layer - non-interactive for performance */}
+            <Layer listening={false} perfectDrawEnabled={false}>
+              {gridDots.map((dot, i) => (
+                <Circle
+                  key={`grid-${i}`}
+                  x={dot.x}
+                  y={dot.y}
+                  radius={dotRadius}
+                  fill="#000000"
+                  opacity={0.15}
+                  listening={false}
+                  perfectDrawEnabled={false}
+                />
+              ))}
+            </Layer>
 
-          {/* Dot grid background - memoized for performance */}
-          {/* Future optimization: Consider using CSS background pattern or canvas element for even better performance */}
-          <g className="grid-layer" style={{ pointerEvents: 'none', willChange: 'transform' }}>
-            {gridDots.map((dot, i) => (
-              <circle
-                key={`grid-${i}`}
-                cx={dot.x}
-                cy={dot.y}
-                r={dotRadius}
-                fill="var(--color-text)"
-                opacity="0.25"
-              />
-            ))}
-          </g>
-
-          {/* Connection lines - rendered before nodes so they appear behind */}
-          <g className="connections-layer">
-            {useMemo(() => {
-              // Memoized connection calculation - single pass with optimization
-              const allConnections: Array<{ 
-                source: PositionedNode; 
-                target: PositionedNode; 
-                sourceDisplay: PositionedNode;
-                targetDisplay: PositionedNode;
-                sourceOffset: { x: number; y: number };
-                targetOffset: { x: number; y: number };
-              }> = [];
-              
-              // Collect all connections with their display positions
-              nodes.forEach(node => {
-                if (!node.connections) return;
-                
-                node.connections.forEach(connectionId => {
-                  const sourceNode = nodes.find(n => n.id === connectionId);
-                  if (!sourceNode) return;
-                  
-                  const sourceOffset = nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 };
-                  const targetOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-                  const sourceDisplay = { ...sourceNode, x: sourceNode.x + sourceOffset.x, y: sourceNode.y + sourceOffset.y };
-                  const targetDisplay = { ...node, x: node.x + targetOffset.x, y: node.y + targetOffset.y };
-                  
-                  // Only include if connection is visible
-                  if (isConnectionVisible(sourceNode, node, sourceOffset, targetOffset)) {
-                    allConnections.push({ 
-                      source: sourceNode, 
-                      target: node,
-                      sourceDisplay, 
-                      targetDisplay,
-                      sourceOffset,
-                      targetOffset
-                    });
-                  }
-                });
-              });
-              
-              // Calculate paths for all visible connections (first pass - initial paths)
-              const connectionsWithInitialPaths = allConnections.map(conn => ({
-                ...conn,
-                path: getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes)
-              }));
-              
-              // Second pass: recalculate paths with connection-to-connection avoidance
-              const finalConnections = connectionsWithInitialPaths.map(conn => {
-                const finalPath = getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes, connectionsWithInitialPaths);
-                return { ...conn, path: finalPath };
-              });
-              
-              return finalConnections;
-            }, [nodes, nodeDragOffsets, isConnectionVisible]).map((conn, index): React.ReactElement | null => {
+            {/* Connections Layer - rendered before nodes so they appear behind */}
+            <Layer perfectDrawEnabled={false} listening={false}>
+              {connectionsWithPaths.map((conn, index): React.ReactElement | null => {
                 const { source, target, path } = conn;
                 const sourceNode = source;
                 const targetNode = target;
                 if (!sourceNode || !targetNode) return null;
+                
+                // Memoize connection rendering to avoid unnecessary re-renders
+                const connectionKey = `${sourceNode.id}-${targetNode.id}-${path}`;
                 
                 // A path is "not taken" if the target node has pathTaken: false
                 const pathTaken = targetNode.pathTaken !== false;
@@ -2467,277 +3474,208 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                   ? (isConnectionToSelected ? (pathTaken ? 0.6 : 0.4) : 0.15)
                   : (pathTaken ? 0.6 : 0.4);
                 
+                // Create gradient for active paths (fallback to solid color if gradient fails)
+                let activeGradient = null;
+                if (isActivePath) {
+                  activeGradient = createActivePathGradient();
+                  // If gradient creation fails, use a solid color instead
+                  if (!activeGradient) {
+                    activeGradient = '#3b82f6'; // Fallback to blue
+                  }
+                }
+                const textColor = getThemeColor('--color-text', '#000000');
+                
                 return (
-                  <g key={`${sourceNode.id}-${targetNode.id}-${index}`}>
+                  <Group key={connectionKey} listening={false} perfectDrawEnabled={false}>
                     {/* Glowing background path for active (Present) connections only */}
                     {isActivePath && (
-                      <path
-                        d={path}
-                        fill="none"
-                        stroke="url(#activePathGlowGradient)"
+                      <Path
+                        data={path}
+                        fill=""
+                        stroke={activeGradient}
                         strokeWidth={5}
-                        strokeLinecap="round"
+                        lineCap="round"
                         opacity={connectionOpacity * 0.4}
-                        filter="url(#glow-filter)"
-                        style={{ pointerEvents: 'none' }}
+                        shadowBlur={3}
+                        shadowColor="#3b82f6"
+                        listening={false}
+                        perfectDrawEnabled={false}
                       />
                     )}
                     {/* Animated highlight for active (Present) connections only */}
                     {isActivePath && (
-                      <path
-                        d={path}
-                        fill="none"
-                        stroke="url(#activePathStrokeGradient)"
+                      <AnimatedPath
+                        data={path}
+                        fill=""
+                        stroke={activeGradient}
                         strokeWidth={3}
-                        strokeLinecap="round"
-                        strokeDasharray="20 100"
+                        lineCap="round"
+                        dash={[20, 100]}
                         opacity={connectionOpacity * 0.8}
-                        style={{ pointerEvents: 'none' }}
-                      >
-                        <animate
-                          attributeName="stroke-dashoffset"
-                          values="0;-120"
-                          dur="3s"
-                          repeatCount="indefinite"
-                        />
-                      </path>
+                        Path={Path}
+                        Konva={Konva}
+                      />
                     )}
-                    {/* Main path - optimized with CSS transitions */}
-                    <path
-                      d={path}
-                      fill="none"
-                      stroke={isActivePath ? 'url(#activePathStrokeGradient)' : (pathTaken ? 'var(--color-text)' : '#6b7280')}
+                    {/* Main path */}
+                    <Path
+                      data={path}
+                      fill=""
+                      stroke={isActivePath ? activeGradient : (pathTaken ? textColor : '#6b7280')}
                       strokeWidth={isActivePath ? 4 : (pathTaken ? 2 : 1.5)}
-                      strokeDasharray={pathTaken ? '0' : '8,4'}
-                      strokeLinecap="round"
+                      dash={pathTaken ? undefined : [8, 4]}
+                      lineCap="round"
                       opacity={connectionOpacity}
-                      style={{
-                        transition: 'opacity 0.3s ease-out',
-                        willChange: 'opacity'
-                      }}
+                      listening={false}
+                      perfectDrawEnabled={false}
                     />
-                  </g>
+                  </Group>
                 );
               }).filter(Boolean)}
-          </g>
+            </Layer>
 
-          {/* Nodes */}
-          <g className="nodes-layer">
-            {visibleNodes.map(node => {
-              const isHovered = hoveredNode === node.id;
-              const isSelected = selectedNode?.id === node.id;
-              const nodeColor = getNodeColor(node.type, node.pathTaken !== false);
-              const pathTaken = node.pathTaken !== false;
-              
-              const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-              const displayX = node.x + dragOffset.x;
-              const displayY = node.y + dragOffset.y;
-              const isDraggingThisNode = draggingNodeId === node.id;
-              
-              return (
-                <g
-                  key={node.id}
-                  className="node-group"
-                  onMouseEnter={() => setHoveredNode(node.id)}
-                  onMouseLeave={() => setHoveredNode(null)}
-                  onMouseDown={(e) => handleNodeMouseDown(node, e)}
-                  onClick={(e) => handleNodeClick(node, e)}
-                  style={{ 
-                    cursor: isDraggingThisNode ? 'grabbing' : 'pointer',
-                    opacity: selectedNode && selectedNode.id !== node.id ? 0.3 : 1,
-                    transition: 'opacity 0.3s ease-out'
-                  }}
-                >
-                  {/* White background circle (when no image) */}
-                  {!node.image && (
-                    <circle
-                      cx={displayX}
-                      cy={displayY}
-                      r={node.radius - 2}
-                      fill="var(--color-bg)"
-                      stroke="none"
-                    />
-                  )}
-                  
-                  {/* Hover glow ring - optimized with CSS transitions */}
-                  <circle
-                    cx={displayX}
-                    cy={displayY}
-                    r={node.radius + 8}
-                    fill="none"
-                    stroke={nodeColor}
-                    strokeWidth={2}
-                    strokeOpacity={isHovered ? 0.4 : 0}
-                    style={{ 
-                      pointerEvents: 'none',
-                      transform: `scale(${isHovered ? 1.2 : 1})`,
-                      transformOrigin: `${displayX}px ${displayY}px`,
-                      transition: 'stroke-opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      willChange: 'stroke-opacity, transform'
-                    }}
-                  />
-                  
-                  {/* Node circle - optimized with CSS transitions */}
-                  <circle
-                    cx={displayX}
-                    cy={displayY}
-                    r={node.radius}
-                    fill={nodeColor}
-                    fillOpacity={pathTaken ? 0.2 : 0.1}
-                    stroke="var(--color-border)"
-                    strokeWidth={pathTaken ? 3 : 2}
-                    strokeDasharray={pathTaken ? '0' : '5,5'}
-                    style={{ 
-                      transform: `scale(${isHovered ? 1.2 : isSelected ? 1.05 : 1})`,
-                      transformOrigin: `${displayX}px ${displayY}px`,
-                      filter: isHovered ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' : 'none',
-                      transition: 'transform 0.2s ease-out, filter 0.2s ease-out',
-                      willChange: 'transform, filter'
-                    }}
-                  />
-                  
-                  {/* Node image background - show image on canvas even if iframe exists */}
-                  {node.image && (() => {
-                    const imageRadius = node.radius - 5;
-                    const imageSize = imageRadius * 2 * 1.3; // Make image larger to ensure full circle coverage
-                    const imageOffset = (imageSize - imageRadius * 2) / 2;
-                    return (
-                      <image
-                        href={node.image}
-                        x={displayX - node.radius + 5 - imageOffset}
-                        y={displayY - node.radius + 5 - imageOffset}
-                        width={imageSize}
-                        height={imageSize}
-                        clipPath={`url(#clip-${node.id})`}
-                        preserveAspectRatio="xMidYMid slice"
-                        opacity={isHovered ? 0.7 : 1}
-                        style={{
-                          transform: `scale(${isHovered ? 1.2 : 1})`,
-                          transformOrigin: `${displayX}px ${displayY}px`,
-                          transition: 'opacity 0.2s ease-out, transform 0.2s ease-out',
-                          willChange: 'opacity, transform'
-                        }}
-                        onError={(e) => {
-                          // Hide image if it fails to load
-                          (e.target as SVGImageElement).style.display = 'none';
-                        }}
+            {/* Nodes Layer */}
+            <Layer perfectDrawEnabled={false} listening={true}>
+              {visibleNodes.map(node => {
+                const isHovered = hoveredNode === node.id;
+                const isSelected = selectedNode?.id === node.id;
+                const nodeColor = getNodeColor(node.type, node.pathTaken !== false);
+                const pathTaken = node.pathTaken !== false;
+                
+                const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+                const displayX = node.x + dragOffset.x;
+                const displayY = node.y + dragOffset.y;
+                const isDraggingThisNode = draggingNodeId === node.id;
+                const bgColor = getThemeColor('--color-bg', '#ffffff');
+                const borderColor = getThemeColor('--color-border', '#e5e7eb');
+                const textColor = getThemeColor('--color-text', '#000000');
+                const hasOtherSelected = !!(selectedNode && selectedNode.id !== node.id);
+                
+                return (
+                  <AnimatedNodeGroup
+                    key={node.id}
+                    nodeId={node.id}
+                    x={displayX}
+                    y={displayY}
+                    isHovered={isHovered}
+                    isSelected={isSelected}
+                    hasOtherSelected={hasOtherSelected}
+                    Konva={Konva}
+                    Group={Group}
+                  >
+                    {/* White background circle (when no image) */}
+                    {!node.image && (
+                      <Circle
+                        x={0}
+                        y={0}
+                        radius={node.radius - 2}
+                        fill={bgColor}
+                        listening={false}
+                        perfectDrawEnabled={false}
                       />
-                    );
-                  })()}
-                  
-                  {/* Hover overlay with title and date for image nodes */}
-                  {node.image && (
-                    <foreignObject
-                      x={displayX - node.radius}
-                      y={displayY - node.radius}
-                      width={node.radius * 2}
-                      height={node.radius * 2}
-                      style={{ 
-                        pointerEvents: 'none', 
-                        overflow: 'hidden',
-                        opacity: isHovered ? 1 : 0,
-                        transition: 'opacity 0.2s ease-out',
-                        willChange: 'opacity'
+                    )}
+                    
+                    {/* Hover glow ring - animated */}
+                    <AnimatedHoverGlow
+                      x={0}
+                      y={0}
+                      radius={node.radius + 8}
+                      stroke={nodeColor}
+                      isHovered={isHovered}
+                      Konva={Konva}
+                      Circle={Circle}
+                    />
+                    
+                    {/* Node circle - animated shadow */}
+                    <AnimatedNodeCircle
+                      x={0}
+                      y={0}
+                      radius={node.radius}
+                      fill={nodeColor}
+                      opacity={pathTaken ? 0.2 : 0.1}
+                      stroke={borderColor}
+                      strokeWidth={pathTaken ? 3 : 2}
+                      dash={pathTaken ? undefined : [5, 5]}
+                      isHovered={isHovered}
+                      onMouseEnter={() => setHoveredNode(node.id)}
+                      onMouseLeave={() => setHoveredNode(null)}
+                      onMouseDown={(e) => {
+                        e.cancelBubble = true;
+                        e.evt.stopPropagation();
+                        if (e.evt.button === 0 && !e.evt.metaKey && !e.evt.ctrlKey) {
+                          handleNodeMouseDown(node, e.evt);
+                        }
                       }}
-                    >
-                      <div
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'flex-end',
-                          padding: '0.75rem',
-                          boxSizing: 'border-box',
-                          borderRadius: '50%',
-                          background: 'linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%)',
-                        }}
-                      >
-                        <div
-                          style={{
-                            color: '#fff',
-                            textAlign: 'center',
-                            width: '100%',
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontSize: '0.75rem',
-                              fontWeight: '600',
-                              lineHeight: '1.3',
-                              marginBottom: '0.25rem',
-                              textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
-                            }}
-                          >
-                            {node.label}
-                          </div>
-                          {(node.dateRange || node.date) && (
-                            <div
-                              style={{
-                                fontSize: '0.65rem',
-                                opacity: 0.9,
-                                textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
-                              }}
-                            >
-                              {node.dateRange || formatDate(node.date)}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </foreignObject>
-                  )}
+                      onClick={(e) => {
+                        console.log('Konva Circle onClick fired', { nodeId: node.id, evt: e.evt });
+                        e.cancelBubble = true;
+                        e.evt.stopPropagation();
+                        e.evt.preventDefault();
+                        handleNodeClick(node, e.evt);
+                      }}
+                      Konva={Konva}
+                      Circle={Circle}
+                    />
                   
-                  {/* Node label - only show when no image */}
-                  {!node.image && (() => {
-                    // Calculate available width for text (diameter minus padding)
-                    const diameter = node.radius * 2;
-                    const padding = pathTaken ? TEXT_PADDING : TEXT_PADDING_NOT_TAKEN;
-                    const availableWidth = diameter - (padding * 2);
+                    {/* Node image */}
+                    {node.image && (
+                      <NodeImage
+                        src={node.image}
+                        x={0}
+                        y={0}
+                        radius={node.radius}
+                        opacity={1}
+                        KonvaImage={KonvaImage}
+                        scale={1}
+                        Konva={Konva}
+                        isHovered={isHovered}
+                      />
+                    )}
                     
-                    // Wrap text to fit in max 3 lines
-                    const lines = wrapTextToLines(node.label, availableWidth, TEXT_FONT_SIZE);
-                    
-                    // Limit to 3 lines maximum
-                    const displayLines = lines.slice(0, 3);
-                    
-                    // Calculate line height for vertical centering
-                    const lineHeight = TEXT_FONT_SIZE * 1.2;
-                    const totalHeight = displayLines.length * lineHeight;
-                    const startY = displayY - (totalHeight / 2) + (lineHeight / 2);
-                    
-                    return (
-                      <text
-                        x={displayX}
-                        y={startY}
-                        textAnchor="middle"
-                        fill="var(--color-text)"
-                        fontSize={TEXT_FONT_SIZE}
-                        fontWeight={pathTaken ? 600 : 500}
-                        opacity={pathTaken ? 0.95 : 0.75}
-                        style={{
-                          pointerEvents: 'none',
-                          userSelect: 'none',
-                        }}
-                      >
-                        {displayLines.map((line, index) => (
-                          <tspan
-                            key={index}
-                            x={displayX}
-                            dy={index === 0 ? 0 : lineHeight}
-                          >
-                            {line}
-                          </tspan>
-                        ))}
-                      </text>
-                    );
-                  })()}
-                </g>
-              );
-            })}
-          </g>
-
-        </svg>
+                    {/* Node label - only show when no image */}
+                    {!node.image && (() => {
+                      // Calculate available width for text (diameter minus padding)
+                      const diameter = node.radius * 2;
+                      const padding = pathTaken ? TEXT_PADDING : TEXT_PADDING_NOT_TAKEN;
+                      const availableWidth = diameter - (padding * 2);
+                      
+                      // Wrap text to fit in max 3 lines
+                      const lines = wrapTextToLines(node.label, availableWidth, TEXT_FONT_SIZE);
+                      
+                      // Limit to 3 lines maximum
+                      const displayLines = lines.slice(0, 3);
+                      
+                      // Calculate line height for vertical centering
+                      const lineHeight = TEXT_FONT_SIZE * 1.2;
+                      const totalHeight = displayLines.length * lineHeight;
+                      
+                      // Calculate the maximum width of all lines for proper centering
+                      const maxLineWidth = Math.max(...displayLines.map(line => calculateTextWidth(line, TEXT_FONT_SIZE)));
+                      
+                      return (
+                        <KonvaText
+                          x={0}
+                          y={0}
+                          text={displayLines.join('\n')}
+                          align="center"
+                          fill={textColor}
+                          fontSize={TEXT_FONT_SIZE}
+                          fontStyle={pathTaken ? 'bold' : 'normal'}
+                          opacity={pathTaken ? 0.95 : 0.75}
+                          listening={false}
+                          perfectDrawEnabled={false}
+                          lineHeight={lineHeight / TEXT_FONT_SIZE}
+                          width={availableWidth}
+                          offsetX={maxLineWidth / 2}
+                          offsetY={totalHeight / 2}
+                        />
+                      );
+                    })()}
+                  </AnimatedNodeGroup>
+                );
+              })}
+            </Layer>
+          </Stage>
+        )}
       </div>
 
       {/* Zoom controls */}
@@ -2795,22 +3733,51 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       </div>
 
       {/* Node card positioned using fixed CSS positioning */}
-      {selectedNode && cardPosition && (
-        <motion.div
-          className={`node-card-wrapper ${isMobile ? 'node-card-mobile' : ''}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: 'tween', duration: 0.3, ease: 'easeOut', delay: 0.1 }}
-          style={{
-            position: 'fixed',
-            left: isMobile ? undefined : `${cardPosition.x}px`,
-            top: `${cardPosition.y}px`,
-            zIndex: 1000,
-            pointerEvents: 'auto',
-            willChange: 'opacity'
-          }}
-        >
+      {selectedNode && cardPosition && (() => {
+        // Find connected nodes
+        const connectedNodes: PositionedNode[] = [];
+        const incomingNodes: PositionedNode[] = [];
+        
+        // Find nodes that this node connects to (outgoing)
+        if (selectedNode.connections) {
+          selectedNode.connections.forEach(connId => {
+            const connectedNode = nodes.find(n => n.id === connId);
+            if (connectedNode) {
+              connectedNodes.push(connectedNode);
+            }
+          });
+        }
+        
+        // Find nodes that connect to this node (incoming)
+        nodes.forEach(node => {
+          if (node.connections && node.connections.includes(selectedNode.id)) {
+            incomingNodes.push(node);
+          }
+        });
+        
+        return (
+          <motion.div
+            className={`node-card-wrapper ${isMobile ? 'node-card-mobile' : ''}`}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              y: 0,
+            }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ 
+              type: 'tween',
+              duration: 0.2,
+              ease: 'easeOut'
+            }}
+            style={{
+              position: 'fixed',
+              left: isMobile ? undefined : `${cardPosition.x}px`,
+              top: `${cardPosition.y}px`,
+              zIndex: 1000,
+              pointerEvents: 'auto',
+            }}
+          >
           <div 
             className="node-card"
             onWheel={(e) => {
@@ -2896,6 +3863,97 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 </div>
               )}
               
+              {/* Connections section */}
+              {(connectedNodes.length > 0 || incomingNodes.length > 0) && (
+                <div className="node-card-connections">
+                  {incomingNodes.length > 0 && (
+                    <div className="node-card-connections-group">
+                      <h3 className="node-card-connections-title">From</h3>
+                      <div className="node-card-connections-list">
+                        {incomingNodes.map((node) => (
+                          <button
+                            key={node.id}
+                            className="node-card-connection-item"
+                            onClick={() => {
+                              // Center on the connected node
+                              const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+                              const nodeDisplayX = node.x + nodeOffset.x;
+                              const nodeDisplayY = node.y + nodeOffset.y;
+                              
+                              if (containerRef.current) {
+                                const rect = containerRef.current.getBoundingClientRect();
+                                const centerX = rect.width / 2;
+                                const centerY = rect.height / 2;
+                                
+                                const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
+                                const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
+                                
+                                animateViewBox({
+                                  x: newX,
+                                  y: newY,
+                                  width: viewBox.width,
+                                  height: viewBox.height,
+                                }, 600);
+                              }
+                              
+                              setSelectedNode(node);
+                            }}
+                          >
+                            <span className="node-card-connection-label">{node.label}</span>
+                            {node.date && (
+                              <span className="node-card-connection-date">{formatDate(node.date)}</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {connectedNodes.length > 0 && (
+                    <div className="node-card-connections-group">
+                      <h3 className="node-card-connections-title">To</h3>
+                      <div className="node-card-connections-list">
+                        {connectedNodes.map((node) => (
+                          <button
+                            key={node.id}
+                            className="node-card-connection-item"
+                            onClick={() => {
+                              // Center on the connected node
+                              const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
+                              const nodeDisplayX = node.x + nodeOffset.x;
+                              const nodeDisplayY = node.y + nodeOffset.y;
+                              
+                              if (containerRef.current) {
+                                const rect = containerRef.current.getBoundingClientRect();
+                                const centerX = rect.width / 2;
+                                const centerY = rect.height / 2;
+                                
+                                const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
+                                const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
+                                
+                                animateViewBox({
+                                  x: newX,
+                                  y: newY,
+                                  width: viewBox.width,
+                                  height: viewBox.height,
+                                }, 600);
+                              }
+                              
+                              setSelectedNode(node);
+                            }}
+                          >
+                            <span className="node-card-connection-label">{node.label}</span>
+                            {node.date && (
+                              <span className="node-card-connection-date">{formatDate(node.date)}</span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              
               {selectedNode.link && (
                 <a
                   href={selectedNode.link}
@@ -2909,7 +3967,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
             </div>
           </div>
         </motion.div>
-      )}
+        );
+      })()}
 
       <style>{`
         .career-odyssey-wrapper {
@@ -2946,17 +4005,6 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           cursor: grabbing;
         }
 
-        .career-odyssey-svg {
-          width: 100%;
-          height: 100%;
-          display: block;
-          transition: none;
-        }
-
-        .node-group {
-          transition: transform 0.2s ease, cursor 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
 
         .node-card-wrapper {
           pointer-events: none;
@@ -2975,13 +4023,13 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           position: relative;
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
           pointer-events: auto;
-          /* Ensure content can scroll without clipping */
           padding: 0;
-          padding-bottom: 1rem;
-          /* Allow content to extend beyond card bounds when scrolling */
-          clip-path: none;
           display: flex;
           flex-direction: column;
+        }
+
+        .node-card > *:last-child {
+          padding-bottom: 1.5rem;
         }
 
         .node-card::-webkit-scrollbar {
@@ -3043,6 +4091,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           padding: 0;
           position: relative;
           flex-shrink: 0;
+          background: var(--color-border);
         }
 
         .node-card-image img {
@@ -3079,19 +4128,21 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           display: flex;
           flex-direction: column;
           min-height: 0;
+          gap: 0;
         }
 
         .node-card-title {
           font-size: 1.5rem;
-          margin-bottom: 0.75rem;
+          margin: 0 0 0.75rem 0;
           color: var(--color-text);
           line-height: 1.3;
+          font-weight: 600;
         }
 
         .node-card-date {
           font-size: 1rem;
           color: var(--color-muted);
-          margin-bottom: 1rem;
+          margin: 0 0 1rem 0;
           font-weight: 500;
         }
 
@@ -3099,7 +4150,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           font-size: 0.95rem;
           line-height: 1.5;
           color: var(--color-text);
-          margin-bottom: 1rem;
+          margin: 0 0 1rem 0;
         }
 
         .node-card-worked-with {
@@ -3197,6 +4248,94 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         .node-card-link:visited {
           color: var(--color-link);
           text-decoration: none;
+        }
+
+
+
+        .node-card-connections {
+          margin-top: 1.5rem;
+          margin-bottom: 1rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--color-border);
+        }
+
+
+
+        .node-card-connections-group {
+          margin-bottom: 1.25rem;
+        }
+
+
+
+        .node-card-connections-group:last-child {
+          margin-bottom: 0;
+        }
+
+
+
+        .node-card-connections-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 0.75rem;
+        }
+
+
+
+        .node-card-connections-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+
+
+        .node-card-connection-item {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.25rem;
+          padding: 0.75rem;
+          background: var(--color-sidebar-bg);
+          border: 1px solid var(--color-border);
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-align: left;
+          width: 100%;
+        }
+
+
+
+        .node-card-connection-item:hover {
+          background: var(--color-bg);
+          border-color: var(--color-link);
+          transform: translateX(4px);
+        }
+
+
+
+        .node-card-connection-item:active {
+          transform: translateX(2px);
+        }
+
+
+
+        .node-card-connection-label {
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: var(--color-text);
+          line-height: 1.3;
+        }
+
+
+
+        .node-card-connection-date {
+          font-size: 0.8125rem;
+          color: var(--color-muted);
+          font-weight: 400;
         }
 
         /* Mobile: < 640px */

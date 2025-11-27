@@ -31,5 +31,21 @@ export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [copyAssetsPlugin()],
+    // Disable caching in development to prevent stale module issues
+    server: {
+      hmr: {
+        overlay: true,
+      },
+    },
+    build: {
+      // Add content hash to filenames for proper cache busting
+      rollupOptions: {
+        output: {
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[hash].[ext]',
+        },
+      },
+    },
   },
 }); 
