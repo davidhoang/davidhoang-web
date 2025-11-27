@@ -54,9 +54,13 @@ function resolvePeople(peopleData: { people: Array<{ id: string; name: string; i
 }
 
 const resolvedPeople = resolvePeople(peopleData, item.data.people);
+
+// Page metadata
+const pageDescription = item.data.summary || `${item.data.name} - ${item.data.year}. ${item.data.name} work by David Hoang.`;
+const ogImage = item.data.coverImage || "/images/img-dh.png";
 ---
 
-<MainLayout title={`${item.data.name} | Work | David Hoang`}>
+<MainLayout title={`${item.data.name} | Work | David Hoang`} description={pageDescription} ogImage={ogImage}>
   <article class="work-detail">
     <div class="container">
       <div class="work-header">
