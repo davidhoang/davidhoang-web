@@ -167,9 +167,20 @@ const BRANCH_SPACING = 320; // Increased for better vertical distribution
 const CANVAS_WIDTH = 3600; // Increased from 2400 for more horizontal space
 const CANVAS_HEIGHT = 2000; // Increased to use more vertical space
 const PADDING = 200; // Increased padding to allow nodes to spread to edges
-const TEXT_FONT_SIZE = 12;
+const BASE_FONT_SIZE = 12;
 const TEXT_PADDING = 16; // Padding around text inside node
 const TEXT_PADDING_NOT_TAKEN = 10; // Reduced padding for paths not taken
+
+// Calculate adaptive font size based on node radius
+const calculateFontSize = (radius: number): number => {
+  // Scale font size proportionally with node radius
+  // Base: 12px for 80px radius, scale linearly
+  const baseRadius = 80;
+  const minFontSize = 10;
+  const maxFontSize = 16;
+  const fontSize = (radius / baseRadius) * BASE_FONT_SIZE;
+  return Math.max(minFontSize, Math.min(maxFontSize, fontSize));
+};
 const MIN_NODE_SPACING = 80; // Significantly increased from 40 - Minimum space between node edges
 
 // Date parsing utility
@@ -1519,10 +1530,11 @@ const calculateNodeRadius = (node: Node): number => {
   
   // Start with an estimated width and refine
   // Estimate based on average characters per line for 3 lines
+  // Use a base font size for estimation (will be adjusted per node later)
   const words = node.label.split(/\s+/);
   const avgCharsPerWord = words.reduce((sum, w) => sum + w.length, 0) / words.length;
   const estimatedCharsPerLine = Math.ceil(words.length / 3) * (avgCharsPerWord + 1); // +1 for space
-  const estimatedLineWidth = calculateTextWidth('x'.repeat(estimatedCharsPerLine), TEXT_FONT_SIZE);
+  const estimatedLineWidth = calculateTextWidth('x'.repeat(estimatedCharsPerLine), BASE_FONT_SIZE);
   
   // Calculate required radius based on estimated line width
   const requiredWidth = estimatedLineWidth + (padding * 2);
@@ -1539,14 +1551,17 @@ const calculateNodeRadius = (node: Node): number => {
     const diameter = testRadius * 2;
     const availableWidth = diameter - (padding * 2);
     
-    // Wrap text to fit this width (max 3 lines)
-    const lines = wrapTextToLines(node.label, availableWidth, TEXT_FONT_SIZE);
+    // Calculate adaptive font size for this radius
+    const fontSize = calculateFontSize(testRadius);
+    
+    // Wrap text to fit this width (max 3 lines) with adaptive font size
+    const lines = wrapTextToLines(node.label, availableWidth, fontSize);
     
     // Check if all lines fit and we have <= 3 lines
     let allLinesFit = true;
     let maxLineWidth = 0;
     for (const line of lines) {
-      const lineWidth = calculateTextWidth(line, TEXT_FONT_SIZE);
+      const lineWidth = calculateTextWidth(line, fontSize);
       maxLineWidth = Math.max(maxLineWidth, lineWidth);
       if (lineWidth > availableWidth) {
         allLinesFit = false;
@@ -1978,6 +1993,51 @@ const AnimatedNodeCircle: React.FC<{
   );
 };
 
+// Image cache for preloading node images
+const imageCache = new Map<string, HTMLImageElement>();
+const imageLoadPromises = new Map<string, Promise<HTMLImageElement | null>>();
+
+// Preload an image and cache it
+const preloadImage = (src: string): Promise<HTMLImageElement | null> => {
+  // Return cached image if available
+  if (imageCache.has(src)) {
+    return Promise.resolve(imageCache.get(src)!);
+  }
+  
+  // Return existing promise if already loading
+  if (imageLoadPromises.has(src)) {
+    return imageLoadPromises.get(src)!;
+  }
+  
+  // Create new load promise
+  const promise = new Promise<HTMLImageElement | null>((resolve) => {
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      imageCache.set(src, img);
+      resolve(img);
+    };
+    img.onerror = () => {
+      resolve(null);
+    };
+    img.src = src;
+  });
+  
+  imageLoadPromises.set(src, promise);
+  return promise;
+};
+
+// Preload all images from nodes
+const preloadAllImages = (nodes: Node[]): Promise<void> => {
+  const imageSources = nodes
+    .filter(node => node.image)
+    .map(node => node.image!)
+    .filter((src, index, self) => self.indexOf(src) === index); // Unique sources only
+  
+  const promises = imageSources.map(src => preloadImage(src));
+  return Promise.all(promises).then(() => {});
+};
+
 // Node Image component with loading and smooth transitions
 // Uses a Group with a Circle mask to properly contain the image within the circular node
 const NodeImage: React.FC<{
@@ -1993,26 +2053,64 @@ const NodeImage: React.FC<{
   Circle?: any;
   isHovered?: boolean;
 }> = ({ src, x, y, radius, opacity = 1, scale = 1, KonvaImage, Konva, Group, Circle, isHovered = false }) => {
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
+  // Initialize with cached image if available
+  const [image, setImage] = useState<HTMLImageElement | null>(() => {
+    return imageCache.get(src) || null;
+  });
   const groupRef = useRef<any>(null);
   const circleRef = useRef<any>(null);
   const opacityTweenRef = useRef<any>(null);
+  const patternScaleTweenRef = useRef<any>(null);
+  const patternXTweenRef = useRef<any>(null);
+  const patternYTweenRef = useRef<any>(null);
   
   useEffect(() => {
-    const img = new window.Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => setImage(img);
-    img.onerror = () => setImage(null);
-    img.src = src;
+    // Check cache first (synchronous)
+    if (imageCache.has(src)) {
+      setImage(imageCache.get(src)!);
+      return;
+    }
+    
+    // Otherwise load it (should be preloaded, but fallback if not)
+    preloadImage(src).then(img => {
+      if (img) {
+        setImage(img);
+      }
+    });
   }, [src]);
   
-  // Animate opacity on hover change
+  // Animate opacity and image zoom on hover change
   useEffect(() => {
-    if (!groupRef.current || !Konva) return;
+    if (!groupRef.current || !Konva || !circleRef.current || !image) return;
     
     const group = groupRef.current;
+    const circle = circleRef.current;
     const targetOpacity = isHovered ? 0.85 : opacity;
     
+    // Calculate base pattern scale and position
+    const maskRadius = radius - 2;
+    const scaleX = (maskRadius * 2) / image.width;
+    const scaleY = (maskRadius * 2) / image.height;
+    const basePatternScale = Math.max(scaleX, scaleY);
+    
+    // On hover, zoom into the image (increase pattern scale and adjust position to center)
+    const zoomFactor = isHovered ? 1.2 : 1; // 20% zoom on hover
+    const targetPatternScale = basePatternScale * zoomFactor;
+    
+    // Adjust pattern position to center the zoomed image
+    // Base position centers the image horizontally and aligns to top
+    const basePatternX = -image.width / 2;
+    const basePatternY = -maskRadius;
+    
+    // When zoomed, we want to zoom into the center of the image
+    // The pattern position needs to shift to keep the center visible
+    // Since we're zooming by 20%, we need to shift the pattern to compensate
+    const zoomOffset = isHovered ? (image.width * 0.1) : 0; // Shift to keep center when zoomed
+    const targetPatternX = basePatternX - zoomOffset;
+    // For vertical, shift up slightly to focus on center-top area
+    const targetPatternY = isHovered ? basePatternY - (maskRadius * 0.15) : basePatternY;
+    
+    // Animate opacity
     if (opacityTweenRef.current) {
       try {
         opacityTweenRef.current.stop();
@@ -2032,6 +2130,67 @@ const NodeImage: React.FC<{
     
     opacityTweenRef.current.play();
     
+    // Animate pattern scale (zoom into image content)
+    if (patternScaleTweenRef.current) {
+      try {
+        patternScaleTweenRef.current.stop();
+        patternScaleTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      patternScaleTweenRef.current = null;
+    }
+    
+    patternScaleTweenRef.current = new Konva.Tween({
+      node: circle,
+      duration: 0.6,
+      easing: Konva.Easings.EaseOut,
+      fillPatternScaleX: targetPatternScale,
+      fillPatternScaleY: targetPatternScale,
+    });
+    
+    patternScaleTweenRef.current.play();
+    
+    // Animate pattern X position
+    if (patternXTweenRef.current) {
+      try {
+        patternXTweenRef.current.stop();
+        patternXTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      patternXTweenRef.current = null;
+    }
+    
+    patternXTweenRef.current = new Konva.Tween({
+      node: circle,
+      duration: 0.6,
+      easing: Konva.Easings.EaseOut,
+      fillPatternX: targetPatternX,
+    });
+    
+    patternXTweenRef.current.play();
+    
+    // Animate pattern Y position
+    if (patternYTweenRef.current) {
+      try {
+        patternYTweenRef.current.stop();
+        patternYTweenRef.current.destroy();
+      } catch (error) {
+        // Tween may already be destroyed, ignore
+      }
+      patternYTweenRef.current = null;
+    }
+    
+    patternYTweenRef.current = new Konva.Tween({
+      node: circle,
+      duration: 0.6,
+      easing: Konva.Easings.EaseOut,
+      fillPatternY: targetPatternY,
+    });
+    
+    patternYTweenRef.current.play();
+    
     return () => {
       if (opacityTweenRef.current) {
         try {
@@ -2042,8 +2201,35 @@ const NodeImage: React.FC<{
         }
         opacityTweenRef.current = null;
       }
+      if (patternScaleTweenRef.current) {
+        try {
+          patternScaleTweenRef.current.stop();
+          patternScaleTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        patternScaleTweenRef.current = null;
+      }
+      if (patternXTweenRef.current) {
+        try {
+          patternXTweenRef.current.stop();
+          patternXTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        patternXTweenRef.current = null;
+      }
+      if (patternYTweenRef.current) {
+        try {
+          patternYTweenRef.current.stop();
+          patternYTweenRef.current.destroy();
+        } catch (error) {
+          // Tween may already be destroyed, ignore
+        }
+        patternYTweenRef.current = null;
+      }
     };
-  }, [isHovered, opacity, Konva]);
+  }, [isHovered, opacity, Konva, image, radius]);
   
   if (!image || !KonvaImage || !Group || !Circle) return null;
   
@@ -2280,6 +2466,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     if (process.env.NODE_ENV === 'development') {
       console.log('Initializing nodes, careerData.nodes length:', careerData.nodes.length);
     }
+    
+    // Start preloading images immediately (don't wait for layout calculation)
+    preloadAllImages(careerData.nodes as Node[]).catch((error) => {
+      console.error('Error preloading images:', error);
+    });
+    
     try {
       const positionedNodes = calculateLayout(careerData.nodes as Node[]);
       
@@ -2294,6 +2486,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           firstNode: positionedNodes[0] ? { id: positionedNodes[0].id, x: positionedNodes[0].x, y: positionedNodes[0].y } : null
         });
       }
+      
+      // Set nodes immediately for faster rendering
       setNodes(positionedNodes);
       
       // Center view on "Studied Art" node as the nexus point
@@ -4005,23 +4199,33 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     
                     {/* Node label - only show when no image */}
                     {!node.image && (() => {
-                      // Calculate available width for text (diameter minus padding)
-                      const diameter = node.radius * 2;
-                      const padding = pathTaken ? TEXT_PADDING : TEXT_PADDING_NOT_TAKEN;
-                      const availableWidth = diameter - (padding * 2);
+                      // Calculate adaptive font size based on node radius
+                      const fontSize = calculateFontSize(node.radius);
                       
-                      // Wrap text to fit in max 3 lines
-                      const lines = wrapTextToLines(node.label, availableWidth, TEXT_FONT_SIZE);
+                      // Calculate available width for text (diameter - no padding for debugging)
+                      const diameter = node.radius * 2;
+                      const availableWidth = diameter; // Removed padding for debugging
+                      
+                      // Wrap text to fit in max 3 lines with adaptive font size
+                      const lines = wrapTextToLines(node.label, availableWidth, fontSize);
                       
                       // Limit to 3 lines maximum
                       const displayLines = lines.slice(0, 3);
                       
                       // Calculate line height for vertical centering
-                      const lineHeight = TEXT_FONT_SIZE * 1.2;
+                      const lineHeight = fontSize * 1.3; // Line height multiplier
                       const totalHeight = displayLines.length * lineHeight;
                       
-                      // Calculate the maximum width of all lines for proper centering
-                      const maxLineWidth = Math.max(...displayLines.map(line => calculateTextWidth(line, TEXT_FONT_SIZE)));
+                      // For horizontal centering in Konva:
+                      // When using align="center", offsetX should be half the width
+                      // This centers the text horizontally at x=0
+                      const horizontalOffset = availableWidth / 2;
+                      
+                      // For vertical centering in Konva:
+                      // Use verticalAlign="middle" to center text vertically within the height
+                      // Set height to totalHeight so verticalAlign can work properly
+                      // offsetY should be half the height to center at y=0
+                      const verticalOffset = totalHeight / 2;
                       
                       return (
                         <KonvaText
@@ -4029,18 +4233,20 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                           y={0}
                           text={displayLines.join('\n')}
                           align="center"
+                          verticalAlign="middle"
                           fill={textColor}
-                          fontSize={TEXT_FONT_SIZE}
+                          fontSize={fontSize}
                           fontFamily="'EB Garamond', serif"
                           fontStyle="normal"
                           fontWeight={500}
                           opacity={pathTaken ? 0.95 : 0.75}
                           listening={false}
                           perfectDrawEnabled={false}
-                          lineHeight={lineHeight / TEXT_FONT_SIZE}
+                          lineHeight={lineHeight / fontSize}
                           width={availableWidth}
-                          offsetX={maxLineWidth / 2}
-                          offsetY={totalHeight / 2}
+                          height={totalHeight}
+                          offsetX={horizontalOffset}
+                          offsetY={verticalOffset}
                         />
                       );
                     })()}
