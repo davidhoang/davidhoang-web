@@ -115,7 +115,7 @@ interface Node {
   id: string;
   label: string;
   description?: string;
-  type: 'milestone' | 'company' | 'event' | 'transition' | 'spark';
+  type: 'milestone' | 'company' | 'event' | 'transition' | 'spark' | 'future';
   date?: string;
   dateRange?: string;
   active?: boolean;
@@ -839,6 +839,7 @@ const getNodeColor = (type: string, pathTaken: boolean): string => {
     event: { main: '#eab308', branch: '#fde047' }, // Yellow
     transition: { main: '#6b7280', branch: '#9ca3af' }, // Gray
     spark: { main: '#f97316', branch: '#fb923c' }, // Orange - represents inspiration and new paths
+    future: { main: '#10b981', branch: '#34d399' }, // Green - represents future ambitions
   };
   
   const colorSet = colors[type] || colors.milestone;
@@ -3780,14 +3781,27 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 }
                 const textColor = getThemeColor('--color-text', '#000000');
                 
-                // Get endpoint positions for dots
-                const sourceX = sourceNode.x + (nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 }).x;
-                const sourceY = sourceNode.y + (nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 }).y;
-                const targetX = targetNode.x + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).x;
-                const targetY = targetNode.y + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).y;
+                // Get node center positions
+                const sourceCenterX = sourceNode.x + (nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 }).x;
+                const sourceCenterY = sourceNode.y + (nodeDragOffsets.get(sourceNode.id) || { x: 0, y: 0 }).y;
+                const targetCenterX = targetNode.x + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).x;
+                const targetCenterY = targetNode.y + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).y;
+                
+                // Calculate direction vector from source to target
+                const dx = targetCenterX - sourceCenterX;
+                const dy = targetCenterY - sourceCenterY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Calculate dot positions at the edge of nodes
+                // Source dot: move from source center toward target by source node radius
+                // Target dot: move from target center toward source by target node radius
+                const sourceDotX = sourceCenterX + (dx / distance) * sourceNode.radius;
+                const sourceDotY = sourceCenterY + (dy / distance) * sourceNode.radius;
+                const targetDotX = targetCenterX - (dx / distance) * targetNode.radius;
+                const targetDotY = targetCenterY - (dy / distance) * targetNode.radius;
                 
                 const connectionColor = isActivePath ? activeGradient : (pathTaken ? textColor : '#6b7280');
-                const dotRadius = isActivePath ? 4 : (pathTaken ? 3 : 2.5);
+                const dotRadius = isActivePath ? 2 : (pathTaken ? 2 : 1.5);
                 
                 return (
                   <Group key={connectionKey} listening={false} perfectDrawEnabled={false}>
@@ -3797,10 +3811,10 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         data={path}
                         fill=""
                         stroke={activeGradient}
-                        strokeWidth={5}
+                        strokeWidth={2.5}
                         lineCap="round"
                         opacity={connectionOpacity * 0.4}
-                        shadowBlur={3}
+                        shadowBlur={2}
                         shadowColor="#3b82f6"
                         listening={false}
                         perfectDrawEnabled={false}
@@ -3812,7 +3826,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         data={path}
                         fill=""
                         stroke={activeGradient}
-                        strokeWidth={3}
+                        strokeWidth={2}
                         lineCap="round"
                         dash={[20, 100]}
                         opacity={connectionOpacity * 0.8}
@@ -3825,17 +3839,17 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                       data={path}
                       fill=""
                       stroke={connectionColor}
-                      strokeWidth={isActivePath ? 4 : (pathTaken ? 2 : 1.5)}
+                      strokeWidth={isActivePath ? 2 : (pathTaken ? 2 : 1.5)}
                       dash={pathTaken ? undefined : [8, 4]}
                       lineCap="round"
                       opacity={connectionOpacity}
                       listening={false}
                       perfectDrawEnabled={false}
                     />
-                    {/* Dot endpoints */}
+                    {/* Dot endpoints at node edges */}
                     <Circle
-                      x={sourceX}
-                      y={sourceY}
+                      x={sourceDotX}
+                      y={sourceDotY}
                       radius={dotRadius}
                       fill={connectionColor}
                       opacity={connectionOpacity}
@@ -3843,8 +3857,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                       perfectDrawEnabled={false}
                     />
                     <Circle
-                      x={targetX}
-                      y={targetY}
+                      x={targetDotX}
+                      y={targetDotY}
                       radius={dotRadius}
                       fill={connectionColor}
                       opacity={connectionOpacity}
@@ -3991,7 +4005,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                           align="center"
                           fill={textColor}
                           fontSize={TEXT_FONT_SIZE}
-                          fontStyle={pathTaken ? 'bold' : 'normal'}
+                          fontFamily="'EB Garamond', serif"
+                          fontStyle="normal"
+                          fontWeight={500}
                           opacity={pathTaken ? 0.95 : 0.75}
                           listening={false}
                           perfectDrawEnabled={false}
@@ -4183,7 +4199,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                       <div key={index} className="node-card-worked-with-person">
                         <PersonAvatar 
                           person={person} 
-                          size={40}
+                          size={24}
                           className="node-card-person-avatar"
                           />
                       </div>
@@ -4461,6 +4477,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           color: var(--color-text);
           line-height: 1.3;
           font-weight: 600;
+          font-family: 'EB Garamond', var(--font-primary);
         }
 
         .node-card-date {

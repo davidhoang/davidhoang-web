@@ -120,7 +120,7 @@ The component is used in the CareerOdyssey React component (`src/components/Care
 }
 ```
 
-**Default size:** 40px (larger for better visibility in the interactive visualization)
+**Default size:** 24px (matches work pages for consistency)
 
 ## Styling
 
