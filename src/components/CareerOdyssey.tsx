@@ -193,6 +193,14 @@ const isPresentNode = (n: Node): boolean => {
   return false;
 };
 
+const isFutureNode = (n: Node): boolean => {
+  if (n.type === 'future') return true;
+  if (n.dateRange && typeof n.dateRange === 'string') {
+    return n.dateRange.includes('Future');
+  }
+  return false;
+};
+
 // Format date for display
 const formatDate = (dateStr?: string): string => {
   if (!dateStr) return '';
@@ -245,42 +253,59 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     }
   });
 
-  // Separate Present nodes from regular nodes
+  // Separate Present, Future, and regular nodes
   const presentNodes = positionedNodes.filter(n => isPresentNode(n));
-  const nonPresentNodes = positionedNodes.filter(n => !isPresentNode(n));
+  const futureNodes = positionedNodes.filter(n => isFutureNode(n));
+  const nonPresentOrFutureNodes = positionedNodes.filter(n => !isPresentNode(n) && !isFutureNode(n));
 
-  // Find date range (excluding Present nodes for timeline calculation)
-  const timestamps = nonPresentNodes.map(n => n.timestamp);
+  // Find date range (excluding Present and Future nodes for timeline calculation)
+  const timestamps = nonPresentOrFutureNodes.map(n => n.timestamp);
   const minTimestamp = timestamps.length > 0 ? Math.min(...timestamps) : Date.now();
   const maxTimestamp = timestamps.length > 0 ? Math.max(...timestamps) : Date.now();
   const dateRange = maxTimestamp - minTimestamp || 1;
 
-  // Calculate horizontal positions based on dates (for non-Present nodes)
+  // Calculate horizontal positions based on dates (for regular nodes)
   // Use more of the canvas width for better distribution
   const horizontalRange = CANVAS_WIDTH - (PADDING * 2);
   const leftEdge = PADDING;
   
-  nonPresentNodes.forEach(node => {
+  nonPresentOrFutureNodes.forEach(node => {
     if (!node.x) {
       const ratio = dateRange > 0 
         ? (node.timestamp - minTimestamp) / dateRange 
         : 0.5;
-      // Distribute nodes across the full horizontal range, leaving space for Present nodes on the right
-      // Reserve right edge for Present nodes (about 15% of canvas width)
-      const reservedRightSpace = CANVAS_WIDTH * 0.15;
+      // Distribute nodes across the horizontal range, leaving space for Present and Future nodes on the right
+      // Reserve right edge for Present and Future nodes (about 20% of canvas width)
+      const reservedRightSpace = CANVAS_WIDTH * 0.20;
       const availableWidth = horizontalRange - reservedRightSpace;
       node.x = leftEdge + (ratio * availableWidth);
     }
   });
 
-  // Position Present nodes on the far right of the canvas
-  // All Present nodes share the same X position (far right)
-  // Override any manual x positioning to ensure Present nodes are always on the right
+  // Find the rightmost position of all non-future nodes (including Present nodes)
+  const allNonFutureNodes = [...nonPresentOrFutureNodes, ...presentNodes];
+  const rightmostX = allNonFutureNodes.length > 0 
+    ? Math.max(...allNonFutureNodes.map(n => n.x + n.radius))
+    : CANVAS_WIDTH - PADDING;
+
+  // Position Present nodes on the far right of the canvas (before Future nodes)
+  // All Present nodes share the same X position (far right, but before Future)
   const rightEdgeX = CANVAS_WIDTH - PADDING;
   
   presentNodes.forEach((node) => {
     // Always position Present nodes at the far right, overriding any manual x values
     node.x = rightEdgeX;
+  });
+
+  // Position Future nodes to the right of all other nodes (including Present)
+  // Space them out horizontally to the right of the rightmost node
+  const futureNodeSpacing = 300; // Spacing between future nodes
+  const futureStartX = rightmostX + futureNodeSpacing;
+  
+  futureNodes.forEach((node, index) => {
+    // Position future nodes to the right of all other nodes
+    // Override any manual x positioning to ensure Future nodes are always on the right
+    node.x = futureStartX + (index * futureNodeSpacing);
   });
 
   // Separate spark nodes from regular nodes for special handling
@@ -363,11 +388,11 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   });
 
   // Group regular nodes by year and add spacing for same-year nodes
-  // Exclude Present nodes from year-grouping to keep them on the far right
+  // Exclude Present and Future nodes from year-grouping to keep them on the far right
   const yearGroups = new Map<string, PositionedNode[]>();
   regularNodes.forEach(node => {
-    // Skip Present nodes - they should stay on the far right
-    if (isPresentNode(node)) return;
+    // Skip Present and Future nodes - they should stay on the far right
+    if (isPresentNode(node) || isFutureNode(node)) return;
     
     const year = node.date || node.dateRange?.split('-')[0] || 'unknown';
     if (!yearGroups.has(year)) {
@@ -516,11 +541,11 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
 
   // Handle clustering - adjust nodes with same/similar dates (for proximity-based clustering)
   // Use larger cluster key to reduce aggressive clustering
-  // Exclude Present nodes from clustering to keep them on the far right
+  // Exclude Present and Future nodes from clustering to keep them on the far right
   const clusters = new Map<number, PositionedNode[]>();
   positionedNodes.forEach(node => {
-    // Skip Present nodes - they should stay on the far right
-    if (isPresentNode(node)) return;
+    // Skip Present and Future nodes - they should stay on the far right
+    if (isPresentNode(node) || isFutureNode(node)) return;
     
     const clusterKey = Math.floor(node.x / 200) * 200; // Increased from 100px to 200px for much less aggressive clustering
     if (!clusters.has(clusterKey)) {
@@ -556,14 +581,14 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
 
   // Final pass: ensure minimum spacing between all nodes
   // This helps catch any remaining tight spacing issues
-  // Preserve Present nodes' X position - only adjust Y if needed
+  // Preserve Present and Future nodes' X position - only adjust Y if needed
   for (let i = 0; i < positionedNodes.length; i++) {
     for (let j = i + 1; j < positionedNodes.length; j++) {
       const node1 = positionedNodes[i];
       const node2 = positionedNodes[j];
       
-      const isNode1Present = isPresentNode(node1);
-      const isNode2Present = isPresentNode(node2);
+      const isNode1Present = isPresentNode(node1) || isFutureNode(node1);
+      const isNode2Present = isPresentNode(node2) || isFutureNode(node2);
       
       const distance = getDistance(node1, node2);
       const minDistance = node1.radius + node2.radius + MIN_NODE_SPACING;
@@ -577,7 +602,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
         const overlap = minDistance - distance;
         const pushAmount = overlap * 0.5; // Gentle push
         
-        // Move nodes apart, but preserve Present nodes' X position
+        // Move nodes apart, but preserve Present and Future nodes' X position
         if (!isNode1Present) {
           node1.x -= Math.cos(angle) * pushAmount;
         }
@@ -686,8 +711,8 @@ const resolveCollisions = (nodes: PositionedNode[]): void => {
         const node1 = nodes[i];
         const node2 = nodes[j];
 
-        const isNode1Present = isPresentNode(node1);
-        const isNode2Present = isPresentNode(node2);
+        const isNode1Present = isPresentNode(node1) || isFutureNode(node1);
+        const isNode2Present = isPresentNode(node2) || isFutureNode(node2);
 
         if (areColliding(node1, node2)) {
           hasCollisions = true;
@@ -697,7 +722,7 @@ const resolveCollisions = (nodes: PositionedNode[]): void => {
           
           if (distance < 0.1) {
             // Nodes are on top of each other, separate them
-            // Don't move Present nodes horizontally
+            // Don't move Present or Future nodes horizontally
             if (!isNode2Present) {
               node2.x += 50;
             }
@@ -723,7 +748,7 @@ const resolveCollisions = (nodes: PositionedNode[]): void => {
           const move1 = (adjustedOverlap * node2.radius) / totalRadius;
           const move2 = (adjustedOverlap * node1.radius) / totalRadius;
           
-          // Preserve Present nodes' X position - only move them vertically
+          // Preserve Present and Future nodes' X position - only move them vertically
           // Preserve pathTaken nodes on main path when possible
           // If one is on main path and other isn't, move the branch node more
           if (node1.pathTaken && !node2.pathTaken) {
@@ -777,8 +802,8 @@ const resolveCollisions = (nodes: PositionedNode[]): void => {
           // Skip if this is the source or target of the connection
           if (otherNode.id === sourceNode.id || otherNode.id === node.id) continue;
 
-          const isOtherNodePresent = isPresentNode(otherNode);
-          const isNodePresent = isPresentNode(node);
+          const isOtherNodePresent = isPresentNode(otherNode) || isFutureNode(otherNode);
+          const isNodePresent = isPresentNode(node) || isFutureNode(node);
 
           if (doesConnectionIntersectNode(sourceNode, node, otherNode)) {
             hasCollisions = true;
@@ -954,8 +979,8 @@ const addLineHop = (
   hopSize: 'small' | 'medium' | 'large' = 'medium',
   hopDirection: 'up' | 'down' = 'up'
 ): string => {
-  // Calculate hop height based on size
-  const hopHeights = { small: 15, medium: 25, large: 40 };
+  // Calculate hop height based on size - make hops more visible
+  const hopHeights = { small: 20, medium: 30, large: 45 }; // Increased for better visibility
   const hopHeight = hopHeights[hopSize];
   
   // Determine hop direction (perpendicular to the curve at that point)
@@ -1115,16 +1140,16 @@ const getConnectionPath = (
     const verticalDistance = Math.abs(endY - startY);
     const totalDistance = Math.sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance);
     
-    // Use consistent curve factors for smooth, flowing curves
-    // Ensure minimum distance to prevent sharp angles at start/end
-    const minCurveFactor = 0.2; // Minimum 20% of distance
-    const maxCurveFactor = 0.4; // Maximum 40% of distance
-    const adaptiveFactor = Math.min(maxCurveFactor, Math.max(minCurveFactor, totalDistance / 600));
+    // Use much smaller curve factors for straighter lines with subtle curves
+    // Only add minimal curve for very long distances
+    const minCurveFactor = 0.05; // Minimum 5% of distance (much smaller)
+    const maxCurveFactor = 0.15; // Maximum 15% of distance (much smaller)
+    const adaptiveFactor = Math.min(maxCurveFactor, Math.max(minCurveFactor, totalDistance / 2000));
     
     const cp1x = startX + (endX - startX) * adaptiveFactor;
-    const cp1y = startY + (endY - startY) * adaptiveFactor * 0.5;
+    const cp1y = startY + (endY - startY) * adaptiveFactor * 0.3; // Reduced vertical curve
     const cp2x = endX - (endX - startX) * adaptiveFactor;
-    const cp2y = endY - (endY - startY) * adaptiveFactor * 0.5;
+    const cp2y = endY - (endY - startY) * adaptiveFactor * 0.3; // Reduced vertical curve
     
     return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   }
@@ -1184,20 +1209,20 @@ const getConnectionPath = (
     // Choose the side that gives more clearance and avoids other nodes
     const sideMultiplier = crossProduct > 0 ? 1 : -1;
     
-    // Calculate waypoint position - route around the node with safe clearance
-    // Use larger clearance to ensure path doesn't get too close and allows for smooth curves
-    const clearance = node.radius + MIN_NODE_SPACING + 120; // Increased clearance for smoother curves
+    // Calculate waypoint position - route around the node with minimal clearance
+    // Use smaller clearance to keep lines straighter
+    const clearance = node.radius + MIN_NODE_SPACING + 40; // Reduced clearance for straighter lines
     let waypointX = node.x + perpDx * clearance * sideMultiplier;
     let waypointY = node.y + perpDy * clearance * sideMultiplier;
     
-    // Adjust waypoint to be further from source/target line for smoother routing
-    // This helps create more gradual curves instead of sharp turns
+    // Adjust waypoint to be closer to source/target line for straighter routing
+    // This helps create straighter lines with minimal curves
     const lineLength = Math.sqrt(lineDx * lineDx + lineDy * lineDy);
     if (lineLength > 0) {
       const linePerpDx = -lineDy / lineLength;
       const linePerpDy = lineDx / lineLength;
-      // Add additional offset perpendicular to the line for smoother curves
-      const additionalOffset = clearance * 0.4; // Increased from 0.3 for smoother curves
+      // Add minimal additional offset perpendicular to the line
+      const additionalOffset = clearance * 0.2; // Reduced from 0.4 for straighter lines
       waypointX += linePerpDx * additionalOffset * sideMultiplier;
       waypointY += linePerpDy * additionalOffset * sideMultiplier;
     }
@@ -1216,9 +1241,9 @@ const getConnectionPath = (
       const wpDist = Math.sqrt(wpDx * wpDx + wpDy * wpDy);
       
       // If waypoint is too close to a node, push it further away
-      if (wpDist < node.radius + MIN_NODE_SPACING + 60) {
+      if (wpDist < node.radius + MIN_NODE_SPACING + 30) {
         const angle = Math.atan2(wpDy, wpDx);
-        const requiredDist = node.radius + MIN_NODE_SPACING + 100; // Increased to match new spacing
+        const requiredDist = node.radius + MIN_NODE_SPACING + 50; // Reduced for straighter lines
         waypoints[i] = {
           x: node.x + Math.cos(angle) * requiredDist,
           y: node.y + Math.sin(angle) * requiredDist
@@ -1236,18 +1261,18 @@ const getConnectionPath = (
   const startToEndDist = Math.sqrt(startToEndDx * startToEndDx + startToEndDy * startToEndDy);
   
   if (waypoints.length === 0) {
-    // No obstacles - use simple smooth bezier
-    const curveFactor = Math.min(0.4, Math.max(0.2, startToEndDist / 800));
+    // No obstacles - use simple smooth bezier with minimal curve
+    const curveFactor = Math.min(0.15, Math.max(0.05, startToEndDist / 2000));
     
     const cp1x = startX + startToEndDx * curveFactor;
-    const cp1y = startY + startToEndDy * curveFactor * 0.5;
+    const cp1y = startY + startToEndDy * curveFactor * 0.3; // Reduced vertical curve
     const cp2x = endX - startToEndDx * curveFactor;
-    const cp2y = endY - startToEndDy * curveFactor * 0.5;
+    const cp2y = endY - startToEndDy * curveFactor * 0.3; // Reduced vertical curve
     
     path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   } else {
-    // Calculate smooth control points that create flowing curves without sharp bends
-    // Use waypoints to influence curve direction, but ensure smooth S-curves
+    // Calculate smooth control points that create minimal curves
+    // Use waypoints to influence curve direction, but keep curves subtle
     
     // Calculate average waypoint position for overall deflection
     let avgWaypointX = 0;
@@ -1270,24 +1295,24 @@ const getConnectionPath = (
     const perpProjection = waypointOffsetX * pathPerpDx + waypointOffsetY * pathPerpDy;
     
     // Calculate deflection amount - limit to prevent sharp bends
-    // Use a smooth, gradual deflection that creates S-curves
-    const maxDeflection = startToEndDist * 0.3; // Maximum 30% of distance for deflection
-    const deflectionAmount = Math.max(-maxDeflection, Math.min(maxDeflection, perpProjection * 0.5));
+    // Use minimal deflection for straighter lines
+    const maxDeflection = startToEndDist * 0.15; // Maximum 15% of distance for deflection (reduced from 30%)
+    const deflectionAmount = Math.max(-maxDeflection, Math.min(maxDeflection, perpProjection * 0.3)); // Reduced from 0.5
     
-    // Calculate base curve factors - ensure minimum distance from start/end to prevent sharp angles
-    const minCurveDistance = startToEndDist * 0.15; // At least 15% of distance for smooth curves
-    const maxCurveDistance = startToEndDist * 0.45; // At most 45% for gentle curves
-    const baseCurveFactor1 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.3)) / startToEndDist;
-    const baseCurveFactor2 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.3)) / startToEndDist;
+    // Calculate base curve factors - much smaller for straighter lines
+    const minCurveDistance = startToEndDist * 0.05; // At least 5% of distance (reduced from 15%)
+    const maxCurveDistance = startToEndDist * 0.20; // At most 20% for gentle curves (reduced from 45%)
+    const baseCurveFactor1 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.1)) / startToEndDist; // Reduced from 0.3
+    const baseCurveFactor2 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.1)) / startToEndDist; // Reduced from 0.3
     
-    // Calculate control points with smooth deflection
-    // First control point: positioned along path with perpendicular deflection
+    // Calculate control points with minimal deflection
+    // First control point: positioned along path with small perpendicular deflection
     const cp1x = startX + startToEndDx * baseCurveFactor1 + pathPerpDx * deflectionAmount;
-    const cp1y = startY + startToEndDy * baseCurveFactor1 + pathPerpDy * deflectionAmount;
+    const cp1y = startY + startToEndDy * baseCurveFactor1 + pathPerpDy * deflectionAmount * 0.5; // Reduced vertical deflection
     
     // Second control point: mirror the deflection for smooth S-curve
     const cp2x = endX - startToEndDx * baseCurveFactor2 - pathPerpDx * deflectionAmount;
-    const cp2y = endY - startToEndDy * baseCurveFactor2 - pathPerpDy * deflectionAmount;
+    const cp2y = endY - startToEndDy * baseCurveFactor2 - pathPerpDy * deflectionAmount * 0.5; // Reduced vertical deflection
     
     // Ensure control points create smooth curves by verifying they're not too close to start/end
     // and that the angle between segments is not too sharp
@@ -1354,7 +1379,8 @@ const getConnectionPath = (
         const otherCurve = { startX: otherStartX, startY: otherStartY, cp1x: otherCp1x, cp1y: otherCp1y, cp2x: otherCp2x, cp2y: otherCp2y, endX: otherEndX, endY: otherEndY };
         
         // Find actual crossing/overlap (not just proximity)
-        const intersection = doCurvesCross(currentCurve, otherCurve, 8);
+        // Use a tighter threshold to detect more intersections and add hops
+        const intersection = doCurvesCross(currentCurve, otherCurve, 15); // Increased from 8 to catch more intersections
         if (intersection) {
           intersections.push({ intersection, otherConn });
         }
