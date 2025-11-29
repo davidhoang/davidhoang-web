@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import imgHatchConference from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
+import imgLinen from '../assets/images/bg-linen.jpeg';
 
 // Get page name from the URL path
 const pageName = Astro.url.pathname
@@ -17,6 +18,7 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
 <MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
   <div class="container">
     <div class="featured-image-container">
+      <div class="linen-background" style={`background-image: url(${imgLinen.src})`}></div>
       <img class="featured-image" src={imgHatchConference.src} alt="Hatch Conference" />
       <div class="image-overlay">
         <h1 class="overlay-text">{pageTitle}</h1>
@@ -144,6 +146,21 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
     justify-content: center;
   }
 
+  .linen-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 0;
+  }
+
   .featured-image {
     width: 100%;
     height: 100%;
@@ -152,6 +169,8 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
     display: block;
     flex-shrink: 0;
     will-change: transform;
+    position: relative;
+    z-index: 1;
   }
 
   .image-overlay {
@@ -234,6 +253,7 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
   function initParallax() {
     const imageContainer = document.querySelector('.featured-image-container');
     const image = document.querySelector('.featured-image');
+    const linenBackground = document.querySelector('.linen-background');
     
     if (!imageContainer || !image) return;
 
@@ -247,6 +267,10 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
     let animationFrameId = null;
     let isScrolling = false;
     let scrollTimeout = null;
+    let overscrollAmount = 0;
+    let currentOverscroll = 0;
+    let touchStartY = 0;
+    let isPulling = false;
 
     // Smooth interpolation with inertia
     function lerp(start, end, factor) {
@@ -257,10 +281,15 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
       const rect = imageContainer.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       const containerHeight = imageContainer.offsetHeight;
+      const scrolled = window.scrollY;
+      const containerTop = imageContainer.offsetTop;
+      
+      // If not actively pulling, reset overscroll
+      if (!isPulling) {
+        overscrollAmount = Math.max(0, overscrollAmount * 0.92); // Damping
+      }
       
       if (rect.bottom >= 0 && rect.top <= windowHeight) {
-        const scrolled = window.scrollY;
-        const containerTop = imageContainer.offsetTop;
         const scrollDistance = scrolled - containerTop;
         const parallaxSpeed = 0.3;
         const offset = scrollDistance * parallaxSpeed;
@@ -311,11 +340,24 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
         }
       }
 
+      // Smooth overscroll interpolation
+      currentOverscroll = lerp(currentOverscroll, overscrollAmount, 0.15);
+      
       // Apply transform with both translateY and scale
       image.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
+      
+      // Reveal linen background based on overscroll
+      if (linenBackground) {
+        const maxOverscroll = 200; // Maximum pull distance
+        const overscrollProgress = Math.min(currentOverscroll / maxOverscroll, 1);
+        const translateY = -100 + (overscrollProgress * 100); // Reveal from top
+        
+        linenBackground.style.opacity = overscrollProgress;
+        linenBackground.style.transform = `translateY(${translateY}%)`;
+      }
 
       // Continue animation if needed
-      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1) {
+      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1 || currentOverscroll > 0.1) {
         animationFrameId = requestAnimationFrame(animate);
       } else {
         animationFrameId = null;
@@ -352,7 +394,55 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
       }, 50);
     }
 
+    // Touch events for pull-to-reveal
+    function onTouchStart(e) {
+      if (window.scrollY <= 0 && imageContainer.getBoundingClientRect().top <= 0) {
+        touchStartY = e.touches[0].clientY;
+        isPulling = true;
+      }
+    }
+
+    function onTouchMove(e) {
+      if (!isPulling) return;
+      
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - touchStartY;
+      
+      if (deltaY > 0 && window.scrollY <= 0) {
+        // Pulling down at the top
+        overscrollAmount = deltaY;
+        e.preventDefault(); // Prevent default scroll
+      } else {
+        isPulling = false;
+        overscrollAmount = 0;
+      }
+    }
+
+    function onTouchEnd() {
+      isPulling = false;
+    }
+
+    // Wheel events for desktop pull-to-reveal
+    function onWheel(e) {
+      if (window.scrollY <= 0 && imageContainer.getBoundingClientRect().top <= 0) {
+        if (e.deltaY < 0) {
+          // Scrolling up at the top (pulling down)
+          isPulling = true;
+          overscrollAmount = Math.min(overscrollAmount + Math.abs(e.deltaY), 300);
+          e.preventDefault();
+        } else {
+          isPulling = false;
+        }
+      } else {
+        isPulling = false;
+      }
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onTouchEnd, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: false });
     
     // Initial setup
     const initialValues = calculateParallaxValues();

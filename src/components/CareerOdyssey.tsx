@@ -1624,11 +1624,13 @@ const createActivePathGradient = (): any => {
           start: { x: 0, y: 0 },
           end: { x: 1, y: 0 },
           colorStops: [
-            0, '#3b82f6',
-            0.3, '#f59e0b',
-            0.5, '#f97316',
-            0.7, '#f59e0b',
-            1, '#3b82f6',
+            0, '#3b82f6',      // Blue
+            0.2, '#f59e0b',    // Amber
+            0.4, '#eab308',    // Yellow
+            0.5, '#f97316',    // Orange
+            0.6, '#eab308',    // Yellow
+            0.8, '#f59e0b',    // Amber
+            1, '#3b82f6',      // Blue
           ],
         });
         return gradient;
@@ -1646,11 +1648,13 @@ const createActivePathGradient = (): any => {
       start: { x: 0, y: 0 },
       end: { x: 1, y: 0 },
       colorStops: [
-        0, '#3b82f6',
-        0.3, '#f59e0b',
-        0.5, '#f97316',
-        0.7, '#f59e0b',
-        1, '#3b82f6',
+        0, '#3b82f6',      // Blue
+        0.2, '#f59e0b',    // Amber
+        0.4, '#eab308',    // Yellow
+        0.5, '#f97316',    // Orange
+        0.6, '#eab308',    // Yellow
+        0.8, '#f59e0b',    // Amber
+        1, '#3b82f6',      // Blue
       ],
     });
     return gradient;
@@ -2063,6 +2067,9 @@ const NodeImage: React.FC<{
   const patternScaleTweenRef = useRef<any>(null);
   const patternXTweenRef = useRef<any>(null);
   const patternYTweenRef = useRef<any>(null);
+  const parallaxXTweenRef = useRef<any>(null);
+  const parallaxYTweenRef = useRef<any>(null);
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
   
   useEffect(() => {
     // Check cache first (synchronous)
@@ -2084,31 +2091,47 @@ const NodeImage: React.FC<{
     if (!groupRef.current || !Konva || !circleRef.current || !image) return;
     
     const group = groupRef.current;
-    const circle = circleRef.current;
+    const imageNode = circleRef.current;
     const targetOpacity = isHovered ? 0.85 : opacity;
     
-    // Calculate base pattern scale and position
+    // Calculate base image scale and position
     const maskRadius = radius - 2;
     const scaleX = (maskRadius * 2) / image.width;
     const scaleY = (maskRadius * 2) / image.height;
-    const basePatternScale = Math.max(scaleX, scaleY);
+    const baseImageScale = Math.max(scaleX, scaleY);
     
-    // On hover, zoom into the image (increase pattern scale and adjust position to center)
+    // On hover, zoom into the image (increase scale and adjust position to zoom from center)
     const zoomFactor = isHovered ? 1.2 : 1; // 20% zoom on hover
-    const targetPatternScale = basePatternScale * zoomFactor;
+    const targetImageScale = baseImageScale * zoomFactor;
     
-    // Adjust pattern position to center the zoomed image
-    // Base position centers the image horizontally and aligns to top
-    const basePatternX = -image.width / 2;
-    const basePatternY = -maskRadius;
+    // Calculate image position to zoom from center
+    // Base position: center horizontally, align to top
+    const scaledWidth = image.width * baseImageScale;
+    const baseImageX = -scaledWidth / 2;
+    const baseImageY = -maskRadius;
     
-    // When zoomed, we want to zoom into the center of the image
-    // The pattern position needs to shift to keep the center visible
-    // Since we're zooming by 20%, we need to shift the pattern to compensate
-    const zoomOffset = isHovered ? (image.width * 0.1) : 0; // Shift to keep center when zoomed
-    const targetPatternX = basePatternX - zoomOffset;
-    // For vertical, shift up slightly to focus on center-top area
-    const targetPatternY = isHovered ? basePatternY - (maskRadius * 0.15) : basePatternY;
+    // To zoom from center, we need to adjust position when scaling
+    // When we scale by zoomFactor, the image gets larger
+    // To keep the center visually fixed, we shift the position
+    // The center of the image in its local coordinates is at (image.width/2, image.height/2)
+    // After scaling, we need to shift to keep that point at the same visual position
+    const scaledWidthZoomed = image.width * targetImageScale;
+    const scaledHeightZoomed = image.height * targetImageScale;
+    
+    // Center horizontally: x = -scaledWidth/2
+    // To zoom from center, the center point (at image.width/2 in image coords) should stay fixed
+    // Visual center = imageX + (image.width/2) * scale
+    // We want this to equal 0 (center of circle), so: imageX = -(image.width/2) * scale
+    const targetImageX = -(image.width / 2) * targetImageScale;
+    
+    // For vertical, align to top but zoom from center
+    // Base aligns top of image to top of circle
+    // When zooming, we want to zoom from the center of the visible area
+    // The center of the circle is at y=0, so we want the image center at y=0
+    // Image center in image coords is at image.height/2
+    // Visual center = imageY + (image.height/2) * scale
+    // We want this to equal 0, so: imageY = -(image.height/2) * scale
+    const targetImageY = -(image.height / 2) * targetImageScale;
     
     // Animate opacity
     if (opacityTweenRef.current) {
@@ -2130,7 +2153,7 @@ const NodeImage: React.FC<{
     
     opacityTweenRef.current.play();
     
-    // Animate pattern scale (zoom into image content)
+    // Animate image scale (zoom into image content)
     if (patternScaleTweenRef.current) {
       try {
         patternScaleTweenRef.current.stop();
@@ -2142,16 +2165,16 @@ const NodeImage: React.FC<{
     }
     
     patternScaleTweenRef.current = new Konva.Tween({
-      node: circle,
+      node: imageNode,
       duration: 0.6,
       easing: Konva.Easings.EaseOut,
-      fillPatternScaleX: targetPatternScale,
-      fillPatternScaleY: targetPatternScale,
+      scaleX: targetImageScale,
+      scaleY: targetImageScale,
     });
     
     patternScaleTweenRef.current.play();
     
-    // Animate pattern X position
+    // Animate image X position
     if (patternXTweenRef.current) {
       try {
         patternXTweenRef.current.stop();
@@ -2163,15 +2186,15 @@ const NodeImage: React.FC<{
     }
     
     patternXTweenRef.current = new Konva.Tween({
-      node: circle,
+      node: imageNode,
       duration: 0.6,
       easing: Konva.Easings.EaseOut,
-      fillPatternX: targetPatternX,
+      x: targetImageX,
     });
     
     patternXTweenRef.current.play();
     
-    // Animate pattern Y position
+    // Animate image Y position
     if (patternYTweenRef.current) {
       try {
         patternYTweenRef.current.stop();
@@ -2183,10 +2206,10 @@ const NodeImage: React.FC<{
     }
     
     patternYTweenRef.current = new Konva.Tween({
-      node: circle,
+      node: imageNode,
       duration: 0.6,
       easing: Konva.Easings.EaseOut,
-      fillPatternY: targetPatternY,
+      y: targetImageY,
     });
     
     patternYTweenRef.current.play();
@@ -2231,7 +2254,173 @@ const NodeImage: React.FC<{
     };
   }, [isHovered, opacity, Konva, image, radius]);
   
-  if (!image || !KonvaImage || !Group || !Circle) return null;
+  // Handle parallax effect based on mouse position
+  useEffect(() => {
+    if (!groupRef.current || !Konva || !circleRef.current || !image || !isHovered) {
+      // Reset parallax when not hovered
+      if (parallaxXTweenRef.current) {
+        try {
+          parallaxXTweenRef.current.stop();
+          parallaxXTweenRef.current.destroy();
+        } catch (error) {}
+        parallaxXTweenRef.current = null;
+      }
+      if (parallaxYTweenRef.current) {
+        try {
+          parallaxYTweenRef.current.stop();
+          parallaxYTweenRef.current.destroy();
+        } catch (error) {}
+        parallaxYTweenRef.current = null;
+      }
+      return;
+    }
+    
+    const imageNode = circleRef.current;
+    const maskRadius = radius - 2;
+    const scaleX = (maskRadius * 2) / image.width;
+    const scaleY = (maskRadius * 2) / image.height;
+    const baseImageScale = Math.max(scaleX, scaleY);
+    const zoomFactor = 1.2;
+    const targetImageScale = baseImageScale * zoomFactor;
+    
+    if (!mousePosition) {
+      // No mouse position, center the image
+      const targetImageX = -(image.width / 2) * targetImageScale;
+      const targetImageY = -(image.height / 2) * targetImageScale;
+      
+      if (parallaxXTweenRef.current) {
+        try {
+          parallaxXTweenRef.current.stop();
+          parallaxXTweenRef.current.destroy();
+        } catch (error) {}
+        parallaxXTweenRef.current = null;
+      }
+      
+      parallaxXTweenRef.current = new Konva.Tween({
+        node: imageNode,
+        duration: 0.3,
+        easing: Konva.Easings.EaseOut,
+        x: targetImageX,
+      });
+      parallaxXTweenRef.current.play();
+      
+      if (parallaxYTweenRef.current) {
+        try {
+          parallaxYTweenRef.current.stop();
+          parallaxYTweenRef.current.destroy();
+        } catch (error) {}
+        parallaxYTweenRef.current = null;
+      }
+      
+      parallaxYTweenRef.current = new Konva.Tween({
+        node: imageNode,
+        duration: 0.3,
+        easing: Konva.Easings.EaseOut,
+        y: targetImageY,
+      });
+      parallaxYTweenRef.current.play();
+      
+      return;
+    }
+    
+    // Calculate parallax offset based on mouse position
+    // Mouse position is relative to the node center (0, 0 in group coordinates)
+    // Parallax intensity: how much the image moves relative to mouse movement
+    const parallaxIntensity = 0.15; // 15% movement
+    const maxOffset = maskRadius * parallaxIntensity;
+    
+    // Normalize mouse position to -1 to 1 range based on radius
+    const normalizedX = Math.max(-1, Math.min(1, mousePosition.x / maskRadius));
+    const normalizedY = Math.max(-1, Math.min(1, mousePosition.y / maskRadius));
+    
+    // Calculate parallax offset (opposite direction for depth effect)
+    const parallaxOffsetX = -normalizedX * maxOffset;
+    const parallaxOffsetY = -normalizedY * maxOffset;
+    
+    // Base centered position
+    const baseImageX = -(image.width / 2) * targetImageScale;
+    const baseImageY = -(image.height / 2) * targetImageScale;
+    
+    // Apply parallax offset
+    const targetImageX = baseImageX + parallaxOffsetX;
+    const targetImageY = baseImageY + parallaxOffsetY;
+    
+    // Animate to new position
+    if (parallaxXTweenRef.current) {
+      try {
+        parallaxXTweenRef.current.stop();
+        parallaxXTweenRef.current.destroy();
+      } catch (error) {}
+      parallaxXTweenRef.current = null;
+    }
+    
+    parallaxXTweenRef.current = new Konva.Tween({
+      node: imageNode,
+      duration: 0.15,
+      easing: Konva.Easings.EaseOut,
+      x: targetImageX,
+    });
+    parallaxXTweenRef.current.play();
+    
+    if (parallaxYTweenRef.current) {
+      try {
+        parallaxYTweenRef.current.stop();
+        parallaxYTweenRef.current.destroy();
+      } catch (error) {}
+      parallaxYTweenRef.current = null;
+    }
+    
+    parallaxYTweenRef.current = new Konva.Tween({
+      node: imageNode,
+      duration: 0.15,
+      easing: Konva.Easings.EaseOut,
+      y: targetImageY,
+    });
+    parallaxYTweenRef.current.play();
+    
+    return () => {
+      if (parallaxXTweenRef.current) {
+        try {
+          parallaxXTweenRef.current.stop();
+          parallaxXTweenRef.current.destroy();
+        } catch (error) {}
+        parallaxXTweenRef.current = null;
+      }
+      if (parallaxYTweenRef.current) {
+        try {
+          parallaxYTweenRef.current.stop();
+          parallaxYTweenRef.current.destroy();
+        } catch (error) {}
+        parallaxYTweenRef.current = null;
+      }
+    };
+  }, [mousePosition, isHovered, Konva, image, radius]);
+  
+  // Handle mouse move events for parallax
+  const handleMouseMove = (e: any) => {
+    if (!groupRef.current || !isHovered) return;
+    
+    // Get mouse position relative to the group (node center is at 0, 0)
+    const stage = e.target.getStage();
+    const group = groupRef.current;
+    
+    // Get mouse position in stage coordinates
+    const pointerPos = stage.getPointerPosition();
+    if (!pointerPos) return;
+    
+    // Convert stage coordinates to group-relative coordinates
+    // This accounts for any transforms (zoom, pan) on the stage
+    const transform = group.getAbsoluteTransform().copy().invert();
+    const groupRelativePos = transform.point(pointerPos);
+    
+    setMousePosition({ x: groupRelativePos.x, y: groupRelativePos.y });
+  };
+  
+  const handleMouseLeave = () => {
+    setMousePosition(null);
+  };
+  
+  if (!image || !KonvaImage || !Group) return null;
   
   // Use the full radius for the mask circle
   const maskRadius = radius - 2; // Slight padding to account for stroke
@@ -2244,16 +2433,19 @@ const NodeImage: React.FC<{
   };
   
   // Calculate image scale to cover the circle (maintain aspect ratio)
-  const imgAspectRatio = image.width / image.height;
   const scaleX = (maskRadius * 2) / image.width;
   const scaleY = (maskRadius * 2) / image.height;
   // Use the larger scale to ensure the image covers the entire circle
-  const patternScale = Math.max(scaleX, scaleY);
+  const imageScale = Math.max(scaleX, scaleY);
   
-  // Center horizontally: pattern X should be at -image.width/2 (centered)
-  // Align to top: pattern Y should be at -maskRadius (top of circle)
-  const patternX = -image.width / 2;
-  const patternY = -maskRadius;
+  // Calculate image position to center it horizontally and align to top
+  // Image width after scaling
+  const scaledWidth = image.width * imageScale;
+  const scaledHeight = image.height * imageScale;
+  // Center horizontally: x = -scaledWidth/2
+  // Align to top: y = -maskRadius
+  const imageX = -scaledWidth / 2;
+  const imageY = -maskRadius;
   
   return (
     <Group
@@ -2262,18 +2454,17 @@ const NodeImage: React.FC<{
       y={y}
       opacity={opacity}
       clipFunc={clipFunc}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
-      {/* Create a circle with the image as a fill pattern */}
-      <Circle
+      {/* Use Image component instead of fill pattern to avoid tiling */}
+      <KonvaImage
         ref={circleRef}
-        x={0}
-        y={0}
-        radius={maskRadius}
-        fillPatternImage={image}
-        fillPatternX={patternX}
-        fillPatternY={patternY}
-        fillPatternScaleX={patternScale}
-        fillPatternScaleY={patternScale}
+        image={image}
+        x={imageX}
+        y={imageY}
+        scaleX={imageScale}
+        scaleY={imageScale}
         listening={false}
       />
     </Group>
@@ -2304,6 +2495,11 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [cardPosition, setCardPosition] = useState<{ x: number; y: number } | null>(null);
+  
+  // Velocity tracking for momentum scrolling
+  const velocityRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const lastPositionRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const momentumAnimationRef = useRef<number | null>(null);
   const [konvaComponents, setKonvaComponents] = useState<typeof konvaCache>(null);
   const touchStartRef = useRef<{ x: number; y: number; viewBoxX: number; viewBoxY: number } | null>(null);
   const nodeDragStartRef = useRef<{ nodeId: string; startX: number; startY: number; originalX: number; originalY: number; lastOffsetX: number; lastOffsetY: number } | null>(null);
@@ -2453,6 +2649,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       isDraggingRef.current = false;
       touchStartRef.current = null;
       nodeDragStartRef.current = null;
+      
+      // Cleanup momentum animation
+      if (momentumAnimationRef.current !== null) {
+        cancelAnimationFrame(momentumAnimationRef.current);
+        momentumAnimationRef.current = null;
+      }
     };
   }, []);
 
@@ -2641,10 +2843,135 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   }, [selectedNode]);
 
 
+  // Apply momentum scrolling after drag ends
+  const applyMomentum = useCallback(() => {
+    if (!stageRef.current || !containerRef.current) return;
+    
+    const stage = stageRef.current;
+    const minVelocity = 0.5; // Stop when velocity is below this threshold
+    
+    // Calculate initial speed to determine dynamic friction
+    const initialSpeed = Math.sqrt(velocityRef.current.x ** 2 + velocityRef.current.y ** 2);
+    
+    // Dynamic friction based on initial velocity
+    // Faster pans = less friction (more momentum), slower pans = more friction (less momentum)
+    // Speed ranges: 0-2 = 0.92 friction, 2-5 = 0.94 friction, 5-10 = 0.96 friction, 10+ = 0.98 friction
+    // This makes fast pans "fly" more
+    let baseFriction: number;
+    if (initialSpeed < 2) {
+      baseFriction = 0.92; // Slower pans decelerate faster
+    } else if (initialSpeed < 5) {
+      baseFriction = 0.94;
+    } else if (initialSpeed < 10) {
+      baseFriction = 0.96;
+    } else {
+      baseFriction = 0.98; // Fast pans have very little friction initially
+    }
+    
+    // Boost velocity for very fast pans to make them "fly"
+    let velocityMultiplier = 1;
+    if (initialSpeed > 8) {
+      velocityMultiplier = 1.3; // 30% boost for very fast pans
+    } else if (initialSpeed > 5) {
+      velocityMultiplier = 1.15; // 15% boost for fast pans
+    }
+    
+    // Apply velocity multiplier
+    velocityRef.current = {
+      x: velocityRef.current.x * velocityMultiplier,
+      y: velocityRef.current.y * velocityMultiplier,
+    };
+    
+    // Progressive friction: start with less friction, gradually increase as speed decreases
+    // This creates a more natural deceleration curve
+    let frameCount = 0;
+    
+    const animate = () => {
+      if (!stageRef.current || !containerRef.current) {
+        momentumAnimationRef.current = null;
+        return;
+      }
+      
+      frameCount++;
+      
+      const vx = velocityRef.current.x;
+      const vy = velocityRef.current.y;
+      const currentSpeed = Math.sqrt(vx ** 2 + vy ** 2);
+      
+      // Stop if velocity is too low
+      if (currentSpeed < minVelocity) {
+        velocityRef.current = { x: 0, y: 0 };
+        momentumAnimationRef.current = null;
+        
+        // Final sync of viewBox state
+        const rect = containerRef.current.getBoundingClientRect();
+        const newViewBox = stageStateToViewBox(
+          { scale: stage.scaleX(), x: stage.x(), y: stage.y() },
+          rect.width,
+          rect.height
+        );
+        viewBoxRef.current = newViewBox;
+        setViewBox(newViewBox);
+        return;
+      }
+      
+      // Progressive friction: as speed decreases, friction increases (deceleration gets stronger)
+      // This creates a more natural feel - fast movement coasts longer, slow movement stops quicker
+      let dynamicFriction = baseFriction;
+      if (currentSpeed < initialSpeed * 0.3) {
+        // When speed drops below 30% of initial, increase friction significantly
+        dynamicFriction = baseFriction * 0.97; // More aggressive deceleration
+      } else if (currentSpeed < initialSpeed * 0.5) {
+        // When speed drops below 50% of initial, slightly increase friction
+        dynamicFriction = baseFriction * 0.99;
+      }
+      
+      // Apply velocity to stage position
+      const currentX = stage.x();
+      const currentY = stage.y();
+      stage.position({
+        x: currentX + vx,
+        y: currentY + vy,
+      });
+      
+      // Apply dynamic friction to velocity
+      velocityRef.current = {
+        x: vx * dynamicFriction,
+        y: vy * dynamicFriction,
+      };
+      
+      // Update viewBox
+      const rect = containerRef.current.getBoundingClientRect();
+      const newViewBox = stageStateToViewBox(
+        { scale: stage.scaleX(), x: stage.x(), y: stage.y() },
+        rect.width,
+        rect.height
+      );
+      viewBoxRef.current = newViewBox;
+      
+      // Force redraw
+      stage.batchDraw();
+      
+      // Continue animation
+      momentumAnimationRef.current = requestAnimationFrame(animate);
+    };
+    
+    // Start animation
+    momentumAnimationRef.current = requestAnimationFrame(animate);
+  }, [stageStateToViewBox]);
+
   // Pan functionality with Konva (optimized to reduce flicker)
   const handleStageMouseDown = useCallback((e: any) => {
     if (e.evt.button !== 0) return; // Only left mouse button
     if (e.evt.metaKey || e.evt.ctrlKey) return; // Prevent macOS swipe gestures
+    
+    // Cancel any ongoing momentum animation
+    if (momentumAnimationRef.current !== null) {
+      cancelAnimationFrame(momentumAnimationRef.current);
+      momentumAnimationRef.current = null;
+    }
+    velocityRef.current = { x: 0, y: 0 };
+    lastPositionRef.current = null;
     
     setIsDragging(true);
     isDraggingRef.current = true;
@@ -2654,17 +2981,43 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     const startX = e.evt.clientX;
     const startY = e.evt.clientY;
     const startPos = { x: stage.x(), y: stage.y() };
+    const startTime = performance.now();
     
     const handleMouseMove = (moveEvent: MouseEvent) => {
       if (!stageRef.current || !containerRef.current) return;
+      
+      const currentTime = performance.now();
+      const currentX = moveEvent.clientX;
+      const currentY = moveEvent.clientY;
+      
+      // Calculate velocity based on recent movement
+      if (lastPositionRef.current) {
+        const timeDelta = currentTime - lastPositionRef.current.time;
+        if (timeDelta > 0) {
+          const distanceX = currentX - lastPositionRef.current.x;
+          const distanceY = currentY - lastPositionRef.current.y;
+          // Velocity in pixels per millisecond, smoothed
+          velocityRef.current = {
+            x: distanceX / timeDelta,
+            y: distanceY / timeDelta,
+          };
+        }
+      }
+      
+      // Update last position for next velocity calculation
+      lastPositionRef.current = {
+        x: currentX,
+        y: currentY,
+        time: currentTime,
+      };
       
       // Cancel any pending RAF
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
       }
       
-      const deltaX = moveEvent.clientX - startX;
-      const deltaY = moveEvent.clientY - startY;
+      const deltaX = currentX - startX;
+      const deltaY = currentY - startY;
       
       // Update stage position directly (no React re-render)
       stage.position({
@@ -2689,9 +3042,6 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         
         // Update ref immediately for calculations
         viewBoxRef.current = newViewBox;
-        
-        // Only update state occasionally to reduce re-renders
-        // This will be synced properly on mouse up
         
         // Remove from active set when completed
         if (rafIdRef.current !== null) {
@@ -2729,19 +3079,44 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         setViewBox(newViewBox);
       }
       
+      // Apply momentum if there's significant velocity
+      const speed = Math.sqrt(velocityRef.current.x ** 2 + velocityRef.current.y ** 2);
+      if (speed > 0.1) {
+        applyMomentum();
+      } else {
+        velocityRef.current = { x: 0, y: 0 };
+      }
+      
+      lastPositionRef.current = null;
+      
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mouseleave', handleMouseUp);
     };
 
+    // Initialize last position
+    lastPositionRef.current = {
+      x: startX,
+      y: startY,
+      time: startTime,
+    };
+
     document.addEventListener('mousemove', handleMouseMove, { passive: false });
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mouseleave', handleMouseUp);
-  }, [stageStateToViewBox]);
+  }, [stageStateToViewBox, applyMomentum]);
 
   // Touch support for mobile/trackpad with Konva
   const handleStageTouchStart = useCallback((e: any) => {
     if (e.evt.touches.length !== 1) return; // Only handle single touch for panning
+    
+    // Cancel any ongoing momentum animation
+    if (momentumAnimationRef.current !== null) {
+      cancelAnimationFrame(momentumAnimationRef.current);
+      momentumAnimationRef.current = null;
+    }
+    velocityRef.current = { x: 0, y: 0 };
+    lastPositionRef.current = null;
     
     setIsDragging(true);
     isDraggingRef.current = true;
@@ -2750,11 +3125,20 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     const stage = stageRef.current;
     const touch = e.evt.touches[0];
     const currentViewBox = viewBoxRef.current;
+    const startTime = performance.now();
+    
     touchStartRef.current = {
       x: touch.clientX,
       y: touch.clientY,
       viewBoxX: currentViewBox.x,
       viewBoxY: currentViewBox.y,
+    };
+    
+    // Initialize last position for velocity tracking
+    lastPositionRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      time: startTime,
     };
   }, []);
 
@@ -2765,13 +3149,39 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     const touch = e.evt.touches[0];
     if (!containerRef.current) return;
     
+    const currentTime = performance.now();
+    const currentX = touch.clientX;
+    const currentY = touch.clientY;
+    
+    // Calculate velocity based on recent movement
+    if (lastPositionRef.current) {
+      const timeDelta = currentTime - lastPositionRef.current.time;
+      if (timeDelta > 0) {
+        const distanceX = currentX - lastPositionRef.current.x;
+        const distanceY = currentY - lastPositionRef.current.y;
+        // Velocity in screen pixels per millisecond (same as mouse handler)
+        // This will be applied directly to stage position
+        velocityRef.current = {
+          x: distanceX / timeDelta,
+          y: distanceY / timeDelta,
+        };
+      }
+    }
+    
+    // Update last position for next velocity calculation
+    lastPositionRef.current = {
+      x: currentX,
+      y: currentY,
+      time: currentTime,
+    };
+    
     // Cancel any pending RAF
     if (rafIdRef.current !== null) {
       cancelAnimationFrame(rafIdRef.current);
     }
     
-    const deltaX = touch.clientX - touchStartRef.current.x;
-    const deltaY = touch.clientY - touchStartRef.current.y;
+    const deltaX = currentX - touchStartRef.current.x;
+    const deltaY = currentY - touchStartRef.current.y;
     
     const rect = containerRef.current.getBoundingClientRect();
     const currentViewBox = viewBoxRef.current;
@@ -2811,7 +3221,6 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
   const handleStageTouchEnd = useCallback(() => {
     isDraggingRef.current = false;
-    touchStartRef.current = null;
     setIsDragging(false);
     
     // Cancel any pending RAF
@@ -2821,7 +3230,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       rafIdRef.current = null;
     }
     
-    // Final sync of viewBox state
+    // Final sync of viewBox state after drag ends
     if (containerRef.current && stageRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const newViewBox = stageStateToViewBox(
@@ -2832,7 +3241,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       viewBoxRef.current = newViewBox;
       setViewBox(newViewBox);
     }
-  }, [stageStateToViewBox]);
+    
+    // Apply momentum if there's significant velocity
+    const speed = Math.sqrt(velocityRef.current.x ** 2 + velocityRef.current.y ** 2);
+    if (speed > 0.1) {
+      applyMomentum();
+    } else {
+      velocityRef.current = { x: 0, y: 0 };
+    }
+    
+    touchStartRef.current = null;
+    lastPositionRef.current = null;
+  }, [stageStateToViewBox, applyMomentum]);
 
   // Trackpad vs mouse wheel detection
   const isTrackpadPan = useCallback((e: React.WheelEvent): boolean => {
@@ -3712,36 +4132,19 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     return sourceVisible || targetVisible;
   }, [viewBox]);
 
-  // Memoize visible nodes based on viewport
+  // Render all nodes upfront for snappy scrolling (pre-load optimization)
+  // Previously filtered by viewport, but now rendering all for better UX
   const visibleNodes = useMemo(() => {
-    const visible = nodes.filter(node => {
-      const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-      const isVisible = isNodeVisible(node, dragOffset);
-      if (!isVisible && nodes.length > 0) {
-        // Log first few non-visible nodes for debugging
-        if (process.env.NODE_ENV === 'development') {
-          const nodeIndex = nodes.indexOf(node);
-          if (nodeIndex < 3) {
-            console.log(`Node ${node.id} not visible:`, {
-              nodeX: node.x,
-              nodeY: node.y,
-              viewBox,
-              displayX: node.x + dragOffset.x,
-              displayY: node.y + dragOffset.y
-            });
-          }
-        }
-      }
-      return isVisible;
-    });
-    return visible;
-  }, [nodes, nodeDragOffsets, isNodeVisible, viewBox]);
+    // Return all nodes - no viewport filtering for pre-loaded experience
+    return nodes;
+  }, [nodes]);
 
-  // Memoize connections - MUST be before early return to follow Rules of Hooks
+  // Memoize connections - render all connections upfront for pre-loaded experience
+  // Previously filtered by viewport, but now rendering all for better UX
   const connectionsWithPaths = useMemo(() => {
     if (!nodes.length) return [];
     
-    // Memoized connection calculation - single pass with optimization
+    // Collect all connections with their display positions (no visibility filtering)
     const allConnections: Array<{ 
       source: PositionedNode; 
       target: PositionedNode; 
@@ -3764,21 +4167,19 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         const sourceDisplay = { ...sourceNode, x: sourceNode.x + sourceOffset.x, y: sourceNode.y + sourceOffset.y };
         const targetDisplay = { ...node, x: node.x + targetOffset.x, y: node.y + targetOffset.y };
         
-        // Only include if connection is visible
-        if (isConnectionVisible(sourceNode, node, sourceOffset, targetOffset)) {
-          allConnections.push({ 
-            source: sourceNode, 
-            target: node,
-            sourceDisplay, 
-            targetDisplay,
-            sourceOffset,
-            targetOffset
-          });
-        }
+        // Include all connections - no visibility filtering for pre-loaded experience
+        allConnections.push({ 
+          source: sourceNode, 
+          target: node,
+          sourceDisplay, 
+          targetDisplay,
+          sourceOffset,
+          targetOffset
+        });
       });
     });
     
-    // Calculate paths for all visible connections (first pass - initial paths)
+    // Calculate paths for all connections (first pass - initial paths)
     const connectionsWithInitialPaths = allConnections.map(conn => ({
       ...conn,
       path: getConnectionPath(conn.sourceDisplay, conn.targetDisplay, nodes)
@@ -3791,7 +4192,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     });
     
     return finalConnections;
-  }, [nodes, nodeDragOffsets, isConnectionVisible]);
+  }, [nodes, nodeDragOffsets]);
 
   // Stage click handler - fallback for node clicks if shape events don't work
   // Must be defined after findNodeAtPoint and handleNodeClick
