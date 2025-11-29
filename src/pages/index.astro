@@ -9,6 +9,7 @@ import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.jpg';
 import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.jpg';
 import imgHighlightsPoc from '../assets/images/highlights/img-highlights-proof-of-concept.jpg';
+import imgLinen from '../assets/images/bg-linen.jpeg';
 
 // Page metadata
 const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -32,6 +33,7 @@ const ogImage = "/images/img-dh-web-light.jpg";
     </div>
     <div class="hero-image">
       <div class="hero-image-wrapper">
+        <div class="linen-background" style={`background-image: url(${imgLinen.src})`}></div>
         <picture>
           <source srcset={imgDhWebDark.src} media="(prefers-color-scheme: dark)">
           <img src={imgDhWebLight.src} alt="Professional headshot photo of David Hoang" width="400" height="533" fetchpriority="high" decoding="async" class="hero-image-base" />
@@ -145,6 +147,22 @@ const ogImage = "/images/img-dh-web-light.jpg";
       overflow: hidden;
     }
 
+    .linen-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transform: translateY(-100%);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 0;
+      border-radius: 8px;
+    }
+
     .hero-image-base,
     .hero-image-fluted {
       display: block;
@@ -152,6 +170,9 @@ const ogImage = "/images/img-dh-web-light.jpg";
       height: auto;
       border-radius: 8px;
       transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+      position: relative;
+      z-index: 1;
+      will-change: transform;
     }
 
     .hero-image-fluted {
@@ -301,4 +322,215 @@ const ogImage = "/images/img-dh-web-light.jpg";
       }
     }
   </style>
+
+  <script>
+    // Parallax scroll effect with smooth inertia-based animation for hero portrait
+    function initParallax() {
+      const imageWrapper = document.querySelector('.hero-image-wrapper');
+      const imageBase = document.querySelector('.hero-image-base');
+      const imageFluted = document.querySelector('.hero-image-fluted');
+      const linenBackground = document.querySelector('.linen-background');
+      
+      if (!imageWrapper || !imageBase) return;
+
+      let currentOffset = 0;
+      let targetOffset = 0;
+      let currentScale = 1;
+      let targetScale = 1;
+      let velocity = 0;
+      let lastScrollY = window.scrollY;
+      let lastTime = performance.now();
+      let animationFrameId = null;
+      let isScrolling = false;
+      let scrollTimeout = null;
+      let overscrollAmount = 0;
+      let currentOverscroll = 0;
+      let touchStartY = 0;
+      let isPulling = false;
+
+      // Smooth interpolation with inertia
+      function lerp(start, end, factor) {
+        return start + (end - start) * factor;
+      }
+
+      function calculateParallaxValues() {
+        const rect = imageWrapper.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const containerHeight = rect.height;
+        const scrolled = window.scrollY;
+        const containerTop = imageWrapper.offsetTop;
+        
+        // If not actively pulling, reset overscroll
+        if (!isPulling) {
+          overscrollAmount = Math.max(0, overscrollAmount * 0.92); // Damping
+        }
+        
+        if (rect.bottom >= 0 && rect.top <= windowHeight) {
+          const scrollDistance = scrolled - containerTop;
+          const parallaxSpeed = 0.3;
+          const offset = scrollDistance * parallaxSpeed;
+          
+          // Calculate scroll progress (0 to 1) within the container viewport
+          // Scale from 1 to 1.1 as user scrolls down (more subtle for portrait)
+          const scrollProgress = Math.max(0, Math.min(1, 
+            (scrollDistance + windowHeight) / (containerHeight + windowHeight)
+          ));
+          const scale = 1 + (scrollProgress * 0.4); // 1 to 1.4
+          
+          return { offset, scale };
+        } else if (rect.top > windowHeight) {
+          return { offset: 0, scale: 1 };
+        }
+        return { offset: currentOffset, scale: currentScale };
+      }
+
+      function animate() {
+        const now = performance.now();
+        const deltaTime = Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+
+        // Calculate target offset and scale
+        const { offset, scale } = calculateParallaxValues();
+        targetOffset = offset;
+        targetScale = scale;
+
+        // Smooth interpolation with momentum
+        const lerpFactor = isScrolling ? 0.15 : 0.08;
+        currentOffset = lerp(currentOffset, targetOffset, lerpFactor);
+        currentScale = lerp(currentScale, targetScale, lerpFactor);
+
+        // Apply velocity for inertia effect
+        if (!isScrolling) {
+          const difference = targetOffset - currentOffset;
+          velocity = lerp(velocity, difference * 0.5, 0.1);
+          currentOffset += velocity;
+          
+          // Damping
+          velocity *= 0.92;
+          
+          if (Math.abs(targetOffset - currentOffset) < 0.1 && Math.abs(velocity) < 0.1) {
+            currentOffset = targetOffset;
+            currentScale = targetScale;
+            velocity = 0;
+          }
+        }
+
+        // Smooth overscroll interpolation
+        currentOverscroll = lerp(currentOverscroll, overscrollAmount, 0.15);
+        
+        // Apply transform with both translateY and scale
+        const baseTransform = `translateY(${currentOffset}px) scale(${currentScale})`;
+        imageBase.style.transform = baseTransform;
+        if (imageFluted) {
+          imageFluted.style.transform = baseTransform;
+        }
+        
+        // Reveal linen background based on overscroll
+        if (linenBackground) {
+          const maxOverscroll = 200;
+          const overscrollProgress = Math.min(currentOverscroll / maxOverscroll, 1);
+          const translateY = -100 + (overscrollProgress * 100);
+          
+          linenBackground.style.opacity = overscrollProgress;
+          linenBackground.style.transform = `translateY(${translateY}%)`;
+        }
+
+        // Continue animation if needed
+        if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1 || currentOverscroll > 0.1) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          animationFrameId = null;
+        }
+      }
+
+      function onScroll() {
+        const currentScrollY = window.scrollY;
+        const scrollDelta = currentScrollY - lastScrollY;
+        lastScrollY = currentScrollY;
+
+        isScrolling = true;
+        
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+
+        if (!animationFrameId) {
+          lastTime = performance.now();
+          animationFrameId = requestAnimationFrame(animate);
+        }
+
+        scrollTimeout = setTimeout(() => {
+          isScrolling = false;
+          if (!animationFrameId) {
+            lastTime = performance.now();
+            animationFrameId = requestAnimationFrame(animate);
+          }
+        }, 50);
+      }
+
+      // Touch events for pull-to-reveal
+      function onTouchStart(e) {
+        if (window.scrollY <= 0 && imageWrapper.getBoundingClientRect().top <= 0) {
+          touchStartY = e.touches[0].clientY;
+          isPulling = true;
+        }
+      }
+
+      function onTouchMove(e) {
+        if (!isPulling) return;
+        
+        const currentY = e.touches[0].clientY;
+        const deltaY = currentY - touchStartY;
+        
+        if (deltaY > 0 && window.scrollY <= 0) {
+          overscrollAmount = deltaY;
+          e.preventDefault();
+        } else {
+          isPulling = false;
+          overscrollAmount = 0;
+        }
+      }
+
+      function onTouchEnd() {
+        isPulling = false;
+      }
+
+      // Wheel events for desktop pull-to-reveal
+      function onWheel(e) {
+        if (window.scrollY <= 0 && imageWrapper.getBoundingClientRect().top <= 0) {
+          if (e.deltaY < 0) {
+            isPulling = true;
+            overscrollAmount = Math.min(overscrollAmount + Math.abs(e.deltaY), 300);
+            e.preventDefault();
+          } else {
+            isPulling = false;
+          }
+        } else {
+          isPulling = false;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('touchstart', onTouchStart, { passive: true });
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('touchend', onTouchEnd, { passive: true });
+      window.addEventListener('wheel', onWheel, { passive: false });
+      
+      // Initial setup
+      const initialValues = calculateParallaxValues();
+      targetOffset = initialValues.offset;
+      currentOffset = targetOffset;
+      targetScale = initialValues.scale;
+      currentScale = targetScale;
+      lastTime = performance.now();
+      animate();
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initParallax);
+    } else {
+      initParallax();
+    }
+  </script>
 </MainLayout>

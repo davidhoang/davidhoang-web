@@ -299,7 +299,7 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
         const scrollProgress = Math.max(0, Math.min(1, 
           (scrollDistance + windowHeight) / (containerHeight + windowHeight)
         ));
-        const scale = 1 + (scrollProgress * 0.2); // 1 to 1.2
+        const scale = 1 + (scrollProgress * 0.5); // 1 to 1.5
         
         return { offset, scale };
       } else if (rect.top > windowHeight) {
