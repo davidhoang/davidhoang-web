@@ -67,6 +67,7 @@ const ogImage = "/images/img-david-sf.jpg";
     object-position: center top;
     display: block;
     flex-shrink: 0;
+    will-change: transform;
   }
 
   .image-overlay {
@@ -99,6 +100,10 @@ const ogImage = "/images/img-david-sf.jpg";
   }
 
   @media (max-width: 768px) {
+    .about-image-container {
+      aspect-ratio: 3 / 4;
+    }
+
     .hero-grid {
       padding: 0 1rem;
     }
@@ -119,3 +124,146 @@ const ogImage = "/images/img-david-sf.jpg";
     }
   }
 </style>
+
+<script>
+  // Parallax scroll effect with smooth inertia-based animation
+  function initParallax() {
+    const imageContainer = document.querySelector('.about-image-container');
+    const image = document.querySelector('.about-image');
+    
+    if (!imageContainer || !image) return;
+
+    let currentOffset = 0;
+    let targetOffset = 0;
+    let currentScale = 1;
+    let targetScale = 1;
+    let velocity = 0;
+    let lastScrollY = window.scrollY;
+    let lastTime = performance.now();
+    let animationFrameId = null;
+    let isScrolling = false;
+    let scrollTimeout = null;
+
+    // Smooth interpolation with inertia
+    function lerp(start, end, factor) {
+      return start + (end - start) * factor;
+    }
+
+    function calculateParallaxValues() {
+      const rect = imageContainer.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const containerHeight = imageContainer.offsetHeight;
+      
+      if (rect.bottom >= 0 && rect.top <= windowHeight) {
+        const scrolled = window.scrollY;
+        const containerTop = imageContainer.offsetTop;
+        const scrollDistance = scrolled - containerTop;
+        const parallaxSpeed = 0.3;
+        const offset = scrollDistance * parallaxSpeed;
+        
+        // Calculate scroll progress (0 to 1) within the container viewport
+        // Scale from 1 to 1.2 as user scrolls down
+        const scrollProgress = Math.max(0, Math.min(1, 
+          (scrollDistance + windowHeight) / (containerHeight + windowHeight)
+        ));
+        const scale = 1 + (scrollProgress * 0.2); // 1 to 1.2
+        
+        return { offset, scale };
+      } else if (rect.top > windowHeight) {
+        return { offset: 0, scale: 1 };
+      }
+      return { offset: currentOffset, scale: currentScale };
+    }
+
+    function animate() {
+      const now = performance.now();
+      const deltaTime = Math.min((now - lastTime) / 1000, 0.1); // Cap at 100ms
+      lastTime = now;
+
+      // Calculate target offset and scale
+      const { offset, scale } = calculateParallaxValues();
+      targetOffset = offset;
+      targetScale = scale;
+
+      // Smooth interpolation with momentum
+      const lerpFactor = isScrolling ? 0.15 : 0.08; // Faster when scrolling, slower when settling
+      currentOffset = lerp(currentOffset, targetOffset, lerpFactor);
+      currentScale = lerp(currentScale, targetScale, lerpFactor);
+
+      // Apply velocity for inertia effect
+      if (!isScrolling) {
+        const difference = targetOffset - currentOffset;
+        velocity = lerp(velocity, difference * 0.5, 0.1);
+        currentOffset += velocity;
+        
+        // Damping - gradually reduce velocity
+        velocity *= 0.92;
+        
+        // Stop animation when very close to target
+        if (Math.abs(targetOffset - currentOffset) < 0.1 && Math.abs(velocity) < 0.1) {
+          currentOffset = targetOffset;
+          currentScale = targetScale;
+          velocity = 0;
+        }
+      }
+
+      // Apply transform with both translateY and scale
+      image.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
+
+      // Continue animation if needed
+      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        animationFrameId = null;
+      }
+    }
+
+    function onScroll() {
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+
+      // Mark as scrolling
+      isScrolling = true;
+      
+      // Clear existing timeout
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      // Start animation if not already running
+      if (!animationFrameId) {
+        lastTime = performance.now();
+        animationFrameId = requestAnimationFrame(animate);
+      }
+
+      // Detect when scrolling stops
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        // Continue animation for smooth deceleration
+        if (!animationFrameId) {
+          lastTime = performance.now();
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      }, 50);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Initial setup
+    const initialValues = calculateParallaxValues();
+    targetOffset = initialValues.offset;
+    currentOffset = targetOffset;
+    targetScale = initialValues.scale;
+    currentScale = targetScale;
+    lastTime = performance.now();
+    animate();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initParallax);
+  } else {
+    initParallax();
+  }
+</script>
