@@ -18,6 +18,10 @@
   /* Layout */
   --nav-height: 40px;
 
+  /* Animation - Inertia easing for smooth, natural motion */
+  --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-inertia-smooth: cubic-bezier(0.33, 1, 0.68, 1);
+
   /* Typography */
   --font-primary: 'EB Garamond', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, serif;
@@ -66,7 +70,7 @@ body {
   min-width: 100%;
   display: flex;
   flex-direction: column;
-  transition: color 0.6s ease, background-color 0.6s ease;
+  transition: color 0.6s var(--ease-inertia), background-color 0.6s var(--ease-inertia);
 }
 
 main {
@@ -170,7 +174,7 @@ a {
   text-decoration: none;
   position: relative;
   border-bottom: 1px dotted var(--color-link);
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
 }
 
 a:visited {
@@ -184,7 +188,7 @@ a:hover {
 }
 
 a::after {
-  transition: transform 0.3s ease;
+  transition: transform 0.4s var(--ease-inertia-smooth);
   content: '';
   position: absolute;
   width: calc(100% - 2px);
@@ -229,7 +233,7 @@ blockquote {
   background-color: var(--color-sidebar-bg);
   font-style: italic;
   border-radius: 0 8px 8px 0;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
 }
 
 blockquote p {
@@ -298,7 +302,7 @@ blockquote,
 .hero-title,
 nav,
 .nav-container {
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
 }
 
 svg {
@@ -311,10 +315,10 @@ svg {
   border-radius: 50%;
   padding: 0.75rem;
   cursor: pointer;
-  transition: transform 0.2s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.4s var(--ease-inertia-smooth),
+    background-color 0.4s var(--ease-inertia),
+    border-color 0.4s var(--ease-inertia),
+    box-shadow 0.4s var(--ease-inertia);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -423,7 +427,7 @@ nav,
 
 .nav-links a {
   color: var(--color-nav-text);
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
 }
 
 .nav-links a:hover {
