@@ -8,6 +8,7 @@ let konvaCache: {
   Stage: any;
   Layer: any;
   Circle: any;
+  Rect: any;
   Line: any;
   Text: any;
   Image: any;
@@ -85,6 +86,7 @@ const loadKonva = async () => {
       Stage: reactKonva.Stage,
       Layer: reactKonva.Layer,
       Circle: reactKonva.Circle,
+      Rect: reactKonva.Rect,
       Line: reactKonva.Line,
       Text: reactKonva.Text,
       Image: reactKonva.Image,
@@ -134,7 +136,9 @@ interface PositionedNode extends Node {
   x: number;
   y: number;
   timestamp: number;
-  radius: number;
+  radius: number; // Kept for backward compatibility during transition
+  width: number;
+  height: number;
 }
 
 interface ViewBox {
@@ -181,7 +185,7 @@ const calculateFontSize = (radius: number): number => {
   const fontSize = (radius / baseRadius) * BASE_FONT_SIZE;
   return Math.max(minFontSize, Math.min(maxFontSize, fontSize));
 };
-const MIN_NODE_SPACING = 80; // Significantly increased from 40 - Minimum space between node edges
+const MIN_NODE_SPACING = 50; // Reduced for tighter alignment - Minimum space between node edges
 
 // Date parsing utility
 const parseDate = (dateStr?: string): number => {
@@ -222,15 +226,21 @@ const formatDate = (dateStr?: string): string => {
 
 // Calculate node positions
 const calculateLayout = (nodes: Node[]): PositionedNode[] => {
-  // Parse dates and create positioned nodes with calculated radii
-  const positionedNodes: PositionedNode[] = nodes.map(node => ({
-    ...node,
-    timestamp: parseDate(node.date),
-    x: node.x || 0,
-    y: node.y || 0,
-    radius: calculateNodeRadius(node),
-    pathTaken: node.pathTaken !== false, // Default to true
-  }));
+  // Parse dates and create positioned nodes with calculated dimensions
+  // Pass all nodes to calculateNodeSize so it can determine port counts for dynamic height
+  const positionedNodes: PositionedNode[] = nodes.map(node => {
+    const { width, height, radius } = calculateNodeSize(node, nodes);
+    return {
+      ...node,
+      timestamp: parseDate(node.date),
+      x: node.x || 0,
+      y: node.y || 0,
+      radius, // Kept for backward compatibility
+      width,
+      height,
+      pathTaken: node.pathTaken !== false, // Default to true
+    };
+  });
 
   // Sort by date, then by pathTaken status (true first), then by sequence if dates are very close
   positionedNodes.sort((a, b) => {
@@ -276,22 +286,53 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   const dateRange = maxTimestamp - minTimestamp || 1;
 
   // Calculate horizontal positions based on dates (for regular nodes)
+  // STRICT chronological ordering: earlier dates = left, later dates = right
   // Use more of the canvas width for better distribution
   const horizontalRange = CANVAS_WIDTH - (PADDING * 2);
   const leftEdge = PADDING;
   
-  nonPresentOrFutureNodes.forEach(node => {
+  // Sort historical nodes by timestamp to ensure strict chronological order
+  const sortedHistoricalNodes = [...nonPresentOrFutureNodes].sort((a, b) => {
+    const timeDiff = a.timestamp - b.timestamp;
+    if (Math.abs(timeDiff) < 1000) {
+      // If timestamps are very close, maintain original order
+      return 0;
+    }
+    return timeDiff;
+  });
+  
+  // Calculate base positions strictly by chronological order
+  sortedHistoricalNodes.forEach((node, index) => {
     if (!node.x) {
       const ratio = dateRange > 0 
         ? (node.timestamp - minTimestamp) / dateRange 
-        : 0.5;
+        : index / Math.max(1, sortedHistoricalNodes.length - 1);
       // Distribute nodes across the horizontal range, leaving space for Present and Future nodes on the right
-      // Reserve right edge for Present and Future nodes (about 20% of canvas width)
-      const reservedRightSpace = CANVAS_WIDTH * 0.20;
+      // Reserve right edge for Present and Future nodes (about 25% of canvas width)
+      const reservedRightSpace = CANVAS_WIDTH * 0.25;
       const availableWidth = horizontalRange - reservedRightSpace;
       node.x = leftEdge + (ratio * availableWidth);
     }
   });
+  
+  // Ensure strict chronological order: no node should be to the right of a node with a later timestamp
+  for (let i = 0; i < sortedHistoricalNodes.length - 1; i++) {
+    const currentNode = sortedHistoricalNodes[i];
+    const nextNode = sortedHistoricalNodes[i + 1];
+    
+    if (currentNode.timestamp > nextNode.timestamp) {
+      // Current node is later in time but positioned earlier - swap if needed
+      const currentRight = currentNode.x + (currentNode.width || currentNode.radius * 2) / 2;
+      const nextLeft = nextNode.x - (nextNode.width || nextNode.radius * 2) / 2;
+      
+      if (currentRight > nextLeft) {
+        // Adjust positions to maintain chronological order
+        const minDistance = (currentNode.width || currentNode.radius * 2) / 2 + 
+                           (nextNode.width || nextNode.radius * 2) / 2 + MIN_NODE_SPACING;
+        nextNode.x = currentNode.x + minDistance;
+      }
+    }
+  }
 
   // Find the rightmost position of all non-future nodes (including Present nodes)
   const allNonFutureNodes = [...nonPresentOrFutureNodes, ...presentNodes];
@@ -633,6 +674,99 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     node.x = rightEdgeX;
   });
 
+  // Connection-based positioning: ensure inputs are on the left, outputs on the right
+  // Also bring connected nodes closer together for better visual grouping
+  // Iterate through nodes and adjust positions based on connections
+  // Nodes that connect TO a target should be to the LEFT of that target
+  // Nodes that a source connects TO should be to the RIGHT of that source
+  const connectionAdjustmentPasses = 5; // More passes for better convergence
+  const tightSpacing = MIN_NODE_SPACING * 0.6; // Tighter spacing for connected nodes (60% of normal)
+  
+  for (let pass = 0; pass < connectionAdjustmentPasses; pass++) {
+    positionedNodes.forEach(node => {
+      // Skip Present and Future nodes - they have fixed positions
+      if (isPresentNode(node) || isFutureNode(node)) return;
+      if (node.x === undefined) return; // Skip if no position set
+      
+      // Check all nodes that connect TO this node (inputs)
+      // These should be to the LEFT of this node, and closer together
+      positionedNodes.forEach(sourceNode => {
+        if (sourceNode.connections && sourceNode.connections.includes(node.id)) {
+          // Source node connects to this node - source should be to the left
+          // Use tighter spacing for connected nodes
+          const minDistance = (sourceNode.width || sourceNode.radius * 2) / 2 + (node.width || node.radius * 2) / 2 + tightSpacing;
+          
+          // Ensure chronological order: source must be before target in time
+          const sourceTimestamp = sourceNode.timestamp || 0;
+          const targetTimestamp = node.timestamp || 0;
+          const isChronologicallyValid = sourceTimestamp <= targetTimestamp;
+          
+          if (isChronologicallyValid) {
+            if (sourceNode.x >= node.x - minDistance) {
+              // Adjust source node to the left, but keep it close
+              sourceNode.x = node.x - minDistance;
+            }
+          } else {
+            // If chronologically invalid, force source to be left of target
+            sourceNode.x = node.x - minDistance;
+          }
+        }
+      });
+      
+      // Check all nodes that this node connects TO (outputs)
+      // These should be to the RIGHT of this node, and closer together
+      if (node.connections) {
+        node.connections.forEach(targetId => {
+          const targetNode = positionedNodes.find(n => n.id === targetId);
+          if (targetNode && !isPresentNode(targetNode) && !isFutureNode(targetNode)) {
+            // This node connects to target - target should be to the right
+            // Use tighter spacing for connected nodes
+            const minDistance = (node.width || node.radius * 2) / 2 + (targetNode.width || targetNode.radius * 2) / 2 + tightSpacing;
+            
+            // Ensure chronological order: source must be before target in time
+            const sourceTimestamp = node.timestamp || 0;
+            const targetTimestamp = targetNode.timestamp || 0;
+            const isChronologicallyValid = sourceTimestamp <= targetTimestamp;
+            
+            if (isChronologicallyValid) {
+              if (targetNode.x <= node.x + minDistance) {
+                // Adjust target node to the right, but keep it close
+                targetNode.x = node.x + minDistance;
+              }
+            } else {
+              // If chronologically invalid, force target to be right of source
+              targetNode.x = node.x + minDistance;
+            }
+          }
+        });
+      }
+    });
+  }
+  
+  // Strict chronological enforcement: ensure all nodes respect timeline order
+  // Present nodes must be to the right of all historical nodes
+  const maxHistoricalX = Math.max(...nonPresentOrFutureNodes.map(n => n.x + (n.width || n.radius * 2) / 2));
+  const presentMinX = maxHistoricalX + MIN_NODE_SPACING * 2;
+  
+  presentNodes.forEach(node => {
+    if (node.x < presentMinX) {
+      node.x = presentMinX;
+    }
+  });
+  
+  // Future nodes must be to the right of Present nodes
+  const maxPresentX = presentNodes.length > 0 
+    ? Math.max(...presentNodes.map(n => n.x + (n.width || n.radius * 2) / 2))
+    : presentMinX;
+  const futureMinX = maxPresentX + MIN_NODE_SPACING * 2;
+  
+  futureNodes.forEach((node, index) => {
+    const requiredX = futureMinX + (index * 300);
+    if (node.x < requiredX) {
+      node.x = requiredX;
+    }
+  });
+
   return positionedNodes;
 };
 
@@ -643,22 +777,37 @@ const getDistance = (node1: PositionedNode, node2: PositionedNode): number => {
   return Math.sqrt(dx * dx + dy * dy);
 };
 
-// Check if two nodes are colliding
+// Check if two nodes are colliding (rectangular bounding box collision)
 const areColliding = (node1: PositionedNode, node2: PositionedNode): boolean => {
-  const distance = getDistance(node1, node2);
-  const minDistance = node1.radius + node2.radius + MIN_NODE_SPACING;
-  return distance < minDistance;
+  // Calculate bounding boxes
+  const node1Left = node1.x - node1.width / 2;
+  const node1Right = node1.x + node1.width / 2;
+  const node1Top = node1.y - node1.height / 2;
+  const node1Bottom = node1.y + node1.height / 2;
+  
+  const node2Left = node2.x - node2.width / 2;
+  const node2Right = node2.x + node2.width / 2;
+  const node2Top = node2.y - node2.height / 2;
+  const node2Bottom = node2.y + node2.height / 2;
+  
+  // Check for overlap with spacing
+  return !(node1Right + MIN_NODE_SPACING < node2Left ||
+           node1Left - MIN_NODE_SPACING > node2Right ||
+           node1Bottom + MIN_NODE_SPACING < node2Top ||
+           node1Top - MIN_NODE_SPACING > node2Bottom);
 };
 
-// Check if a point is within a node's radius (with padding)
+// Check if a point is within a node's rectangular bounds (with padding)
 const isPointInNode = (point: { x: number; y: number }, node: PositionedNode, padding: number = 0): boolean => {
-  const dx = point.x - node.x;
-  const dy = point.y - node.y;
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  return distance < (node.radius + padding);
+  const left = node.x - node.width / 2 - padding;
+  const right = node.x + node.width / 2 + padding;
+  const top = node.y - node.height / 2 - padding;
+  const bottom = node.y + node.height / 2 + padding;
+  
+  return point.x >= left && point.x <= right && point.y >= top && point.y <= bottom;
 };
 
-// Check if a bezier curve segment intersects with a node
+// Check if a bezier curve segment intersects with a node (using rectangular bounds)
 const doesConnectionIntersectNode = (
   source: PositionedNode,
   target: PositionedNode,
@@ -669,15 +818,17 @@ const doesConnectionIntersectNode = (
     return false;
   }
 
-  // Calculate connection path points (same as getConnectionPath)
-  const dx = target.x - source.x;
-  const dy = target.y - source.y;
-  const angle = Math.atan2(dy, dx);
+  // Calculate connection path points using port positions (same as getConnectionPath)
+  const sourcePorts = calculateNodePorts(source, [source, target, node]);
+  const targetPorts = calculateNodePorts(target, [source, target, node]);
   
-  const startX = source.x + source.radius * Math.cos(angle);
-  const startY = source.y + source.radius * Math.sin(angle);
-  const endX = target.x - target.radius * Math.cos(angle);
-  const endY = target.y - target.radius * Math.sin(angle);
+  const outputPort = sourcePorts.outputs.find(p => p.connectionId === target.id);
+  const inputPort = targetPorts.inputs.find(p => p.connectionId === source.id);
+  
+  const startX = outputPort ? source.x + outputPort.x : source.x + source.width / 2;
+  const startY = outputPort ? source.y + outputPort.y : source.y;
+  const endX = inputPort ? target.x + inputPort.x : target.x - target.width / 2;
+  const endY = inputPort ? target.y + inputPort.y : target.y;
   
   const horizontalDistance = Math.abs(endX - startX);
   const verticalDistance = Math.abs(endY - startY);
@@ -1082,26 +1233,48 @@ const addLineHop = (
 };
 
 // Calculate connection path - routes around nodes and other connections to avoid intersections
+// Now uses port positions for patch node style
 const getConnectionPath = (
   source: PositionedNode, 
   target: PositionedNode, 
   allNodes: PositionedNode[],
   allConnections?: Array<{ source: PositionedNode; target: PositionedNode; path: string }>
 ): string => {
-  const dx = target.x - source.x;
-  const dy = target.y - source.y;
+  // Find the specific port positions for this connection
+  const sourcePorts = calculateNodePorts(source, allNodes);
+  const targetPorts = calculateNodePorts(target, allNodes);
+  
+  // Find the output port on source that connects to target
+  const outputPort = sourcePorts.outputs.find(p => p.connectionId === target.id);
+  // Find the input port on target that receives from source
+  const inputPort = targetPorts.inputs.find(p => p.connectionId === source.id);
+  
+  // Use port positions if available, otherwise fall back to edge positions
+  let startX: number, startY: number, endX: number, endY: number;
+  
+  if (outputPort) {
+    // Use output port position (right edge of source node)
+    startX = source.x + outputPort.x;
+    startY = source.y + outputPort.y;
+  } else {
+    // Fallback: use right edge center of source node
+    startX = source.x + source.width / 2;
+    startY = source.y;
+  }
+  
+  if (inputPort) {
+    // Use input port position (left edge of target node)
+    endX = target.x + inputPort.x;
+    endY = target.y + inputPort.y;
+  } else {
+    // Fallback: use left edge center of target node
+    endX = target.x - target.width / 2;
+    endY = target.y;
+  }
+  
+  const dx = endX - startX;
+  const dy = endY - startY;
   const distance = Math.sqrt(dx * dx + dy * dy);
-  
-  // Calculate angle between nodes
-  const angle = Math.atan2(dy, dx);
-  
-  // Calculate start point (on source node edge)
-  const startX = source.x + source.radius * Math.cos(angle);
-  const startY = source.y + source.radius * Math.sin(angle);
-  
-  // Calculate end point (on target node edge)
-  const endX = target.x - target.radius * Math.cos(angle);
-  const endY = target.y - target.radius * Math.sin(angle);
   
   // Find nodes that the direct path would intersect
   const intersectingNodes: Array<{ node: PositionedNode; t: number }> = [];
@@ -1126,9 +1299,14 @@ const getConnectionPath = (
       const nodeDy = y - node.y;
       const distToNode = Math.sqrt(nodeDx * nodeDx + nodeDy * nodeDy);
       
-      // Check if point is within node radius + padding (with extra margin for safety)
-      const requiredClearance = node.radius + MIN_NODE_SPACING + 10;
-      if (distToNode < requiredClearance) {
+      // Check if point is within node rectangular bounds + padding
+      const nodeHalfWidth = node.width / 2;
+      const nodeHalfHeight = node.height / 2;
+      const requiredClearanceX = nodeHalfWidth + MIN_NODE_SPACING + 10;
+      const requiredClearanceY = nodeHalfHeight + MIN_NODE_SPACING + 10;
+      const nodeDxAbs = Math.abs(nodeDx);
+      const nodeDyAbs = Math.abs(nodeDy);
+      if (nodeDxAbs < requiredClearanceX && nodeDyAbs < requiredClearanceY) {
         // Only add if we haven't seen this node yet, or if it's a significant distance away
         const existing = intersectingNodes.find(item => item.node.id === node.id);
         if (!existing) {
@@ -1146,21 +1324,22 @@ const getConnectionPath = (
   }
   
   // If no intersections, use simple smooth bezier curve
+  // Reduced connector space - tighter curves
   if (intersectingNodes.length === 0) {
     const horizontalDistance = Math.abs(endX - startX);
     const verticalDistance = Math.abs(endY - startY);
     const totalDistance = Math.sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance);
     
-    // Use much smaller curve factors for straighter lines with subtle curves
-    // Only add minimal curve for very long distances
-    const minCurveFactor = 0.05; // Minimum 5% of distance (much smaller)
-    const maxCurveFactor = 0.15; // Maximum 15% of distance (much smaller)
-    const adaptiveFactor = Math.min(maxCurveFactor, Math.max(minCurveFactor, totalDistance / 2000));
+    // Use much smaller curve factors for tighter, straighter lines
+    // Reduced connector space between nodes
+    const minCurveFactor = 0.02; // Minimum 2% of distance (reduced)
+    const maxCurveFactor = 0.08; // Maximum 8% of distance (reduced)
+    const adaptiveFactor = Math.min(maxCurveFactor, Math.max(minCurveFactor, totalDistance / 3000));
     
     const cp1x = startX + (endX - startX) * adaptiveFactor;
-    const cp1y = startY + (endY - startY) * adaptiveFactor * 0.3; // Reduced vertical curve
+    const cp1y = startY + (endY - startY) * adaptiveFactor * 0.2; // Reduced vertical curve
     const cp2x = endX - (endX - startX) * adaptiveFactor;
-    const cp2y = endY - (endY - startY) * adaptiveFactor * 0.3; // Reduced vertical curve
+    const cp2y = endY - (endY - startY) * adaptiveFactor * 0.2; // Reduced vertical curve
     
     return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   }
@@ -1222,7 +1401,9 @@ const getConnectionPath = (
     
     // Calculate waypoint position - route around the node with minimal clearance
     // Use smaller clearance to keep lines straighter
-    const clearance = node.radius + MIN_NODE_SPACING + 40; // Reduced clearance for straighter lines
+    const nodeHalfWidth = node.width / 2;
+    const nodeHalfHeight = node.height / 2;
+    const clearance = Math.max(nodeHalfWidth, nodeHalfHeight) + MIN_NODE_SPACING + 40; // Reduced clearance for straighter lines
     let waypointX = node.x + perpDx * clearance * sideMultiplier;
     let waypointY = node.y + perpDy * clearance * sideMultiplier;
     
@@ -1252,9 +1433,12 @@ const getConnectionPath = (
       const wpDist = Math.sqrt(wpDx * wpDx + wpDy * wpDy);
       
       // If waypoint is too close to a node, push it further away
-      if (wpDist < node.radius + MIN_NODE_SPACING + 30) {
+      const nodeHalfWidth = node.width / 2;
+      const nodeHalfHeight = node.height / 2;
+      const nodeMaxDimension = Math.max(nodeHalfWidth, nodeHalfHeight);
+      if (wpDist < nodeMaxDimension + MIN_NODE_SPACING + 30) {
         const angle = Math.atan2(wpDy, wpDx);
-        const requiredDist = node.radius + MIN_NODE_SPACING + 50; // Reduced for straighter lines
+        const requiredDist = nodeMaxDimension + MIN_NODE_SPACING + 50; // Reduced for straighter lines
         waypoints[i] = {
           x: node.x + Math.cos(angle) * requiredDist,
           y: node.y + Math.sin(angle) * requiredDist
@@ -1273,12 +1457,13 @@ const getConnectionPath = (
   
   if (waypoints.length === 0) {
     // No obstacles - use simple smooth bezier with minimal curve
-    const curveFactor = Math.min(0.15, Math.max(0.05, startToEndDist / 2000));
+    // Reduced connector space
+    const curveFactor = Math.min(0.08, Math.max(0.02, startToEndDist / 3000));
     
     const cp1x = startX + startToEndDx * curveFactor;
-    const cp1y = startY + startToEndDy * curveFactor * 0.3; // Reduced vertical curve
+    const cp1y = startY + startToEndDy * curveFactor * 0.2; // Reduced vertical curve
     const cp2x = endX - startToEndDx * curveFactor;
-    const cp2y = endY - startToEndDy * curveFactor * 0.3; // Reduced vertical curve
+    const cp2y = endY - startToEndDy * curveFactor * 0.2; // Reduced vertical curve
     
     path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
   } else {
@@ -1515,6 +1700,7 @@ const calculateWrappedTextWidth = (text: string, fontSize: number, maxLines: num
 };
 
 // Calculate node radius based on text width (accounting for multi-line wrapping)
+// This is kept for backward compatibility and used to calculate width/height
 const calculateNodeRadius = (node: Node): number => {
   const pathTaken = node.pathTaken !== false;
   const minRadius = pathTaken ? MIN_NODE_RADIUS : MIN_NODE_RADIUS * 0.75; // Smaller min for paths not taken
@@ -1589,6 +1775,135 @@ const calculateNodeRadius = (node: Node): number => {
   
   // Clamp between min and max (with different values for paths not taken)
   return Math.max(minRadius, Math.min(maxRadius, bestRadius));
+};
+
+// Calculate node dimensions for rectangular patch nodes
+// Height is dynamic based on number of input/output ports
+// Converts radius to width/height with appropriate aspect ratio
+// More horizontally oriented for better alignment
+const calculateNodeSize = (node: Node, allNodes: Node[] = []): { width: number; height: number; radius: number } => {
+  const radius = calculateNodeRadius(node);
+  
+  // Calculate number of input and output ports
+  let inputCount = 0;
+  let outputCount = 0;
+  
+  // Count input ports (nodes that connect TO this node)
+  allNodes.forEach(sourceNode => {
+    if (sourceNode.connections && sourceNode.connections.includes(node.id)) {
+      inputCount++;
+    }
+  });
+  
+  // Count output ports (nodes that this node connects TO)
+  if (node.connections) {
+    outputCount = node.connections.length;
+  }
+  
+  // Port spacing constants - small 4x4px ports inside nodes
+  const portSize = 4; // Port size (4x4px)
+  const portSpacing = 24; // Vertical spacing between ports (smaller since ports are tiny)
+  const edgePadding = 16; // Padding from top/bottom edges
+  const minContentHeight = 50; // Minimum height for node content (text/image)
+  
+  // Calculate required height based on ports
+  const maxPortCount = Math.max(inputCount, outputCount);
+  // Height needed: spacing between ports + padding (ports are tiny, so don't count their size)
+  const portsHeight = maxPortCount > 0 
+    ? (maxPortCount - 1) * portSpacing
+    : 0;
+  const calculatedHeight = portsHeight + (edgePadding * 2) + minContentHeight;
+  
+  // Use the larger of calculated height or minimum based on radius
+  const minHeight = radius * 1.2; // Minimum height based on content
+  const height = Math.max(calculatedHeight, minHeight);
+  
+  // Width: radius * 2.8 (more horizontal orientation)
+  const width = radius * 2.8;
+  
+  return { width, height, radius };
+};
+
+// Port interface for input/output ports
+interface Port {
+  x: number;
+  y: number;
+  label: string;
+  connectionId: string; // ID of the connected node
+  index: number; // Index in the port array
+}
+
+// Calculate input and output ports for a node
+// Input ports: nodes that connect TO this node
+// Output ports: nodes that this node connects TO
+const calculateNodePorts = (node: PositionedNode, allNodes: PositionedNode[]): { inputs: Port[]; outputs: Port[] } => {
+  const inputs: Port[] = [];
+  const outputs: Port[] = [];
+  
+  // Find input ports (nodes that connect to this node)
+  allNodes.forEach(sourceNode => {
+    if (sourceNode.connections && sourceNode.connections.includes(node.id)) {
+      inputs.push({
+        x: 0, // Will be calculated based on position on left edge
+        y: 0, // Will be calculated based on position on left edge
+        label: sourceNode.label,
+        connectionId: sourceNode.id,
+        index: inputs.length,
+      });
+    }
+  });
+  
+  // Find output ports (nodes that this node connects to)
+  if (node.connections) {
+    node.connections.forEach(targetId => {
+      const targetNode = allNodes.find(n => n.id === targetId);
+      if (targetNode) {
+        outputs.push({
+          x: 0, // Will be calculated based on position on right edge
+          y: 0, // Will be calculated based on position on right edge
+          label: targetNode.label,
+          connectionId: targetId,
+          index: outputs.length,
+        });
+      }
+    });
+  }
+  
+  // Calculate port positions inside the node
+  // Ports are small 4x4px squares positioned inside the node boundaries
+  // Input ports on the left side, output ports on the right side
+  const portSize = 4; // Size of port square (4x4px)
+  const portSpacing = 24; // Vertical spacing between ports
+  const edgePadding = 16; // Padding from top/bottom edges (matches calculateNodeSize)
+  const sidePadding = 12; // Horizontal padding from left/right edges (ports inside node)
+  
+  // Calculate input port positions (left side, inside node)
+  if (inputs.length > 0) {
+    // Distribute ports evenly within the node height, accounting for padding
+    const availableHeight = node.height - (edgePadding * 2);
+    const totalInputHeight = (inputs.length - 1) * portSpacing;
+    const startY = -totalInputHeight / 2; // Center the ports vertically
+    inputs.forEach((port, index) => {
+      // Position inside the left edge of the node
+      port.x = -node.width / 2 + sidePadding; // Inside left edge
+      port.y = startY + (index * portSpacing);
+    });
+  }
+  
+  // Calculate output port positions (right side, inside node)
+  if (outputs.length > 0) {
+    // Distribute ports evenly within the node height, accounting for padding
+    const availableHeight = node.height - (edgePadding * 2);
+    const totalOutputHeight = (outputs.length - 1) * portSpacing;
+    const startY = -totalOutputHeight / 2; // Center the ports vertically
+    outputs.forEach((port, index) => {
+      // Position inside the right edge of the node
+      port.x = node.width / 2 - sidePadding; // Inside right edge
+      port.y = startY + (index * portSpacing);
+    });
+  }
+  
+  return { inputs, outputs };
 };
 
 // Calculate arrowhead position
@@ -1846,23 +2161,25 @@ const AnimatedNodeGroup: React.FC<{
   );
 };
 
-// Animated Circle component for hover glow
+// Animated Rectangle component for hover glow (patch node style)
 const AnimatedHoverGlow: React.FC<{
   x: number;
   y: number;
-  radius: number;
+  width: number;
+  height: number;
+  cornerRadius: number;
   stroke: string;
   isHovered: boolean;
   Konva?: any;
-  Circle?: any;
-}> = ({ x, y, radius, stroke, isHovered, Konva, Circle }) => {
-  const circleRef = useRef<any>(null);
+  Rect?: any;
+}> = ({ x, y, width, height, cornerRadius, stroke, isHovered, Konva, Rect }) => {
+  const rectRef = useRef<any>(null);
   const opacityTweenRef = useRef<any>(null);
   
   useEffect(() => {
-    if (!circleRef.current || !Konva) return;
+    if (!rectRef.current || !Konva) return;
     
-    const circle = circleRef.current;
+    const rect = rectRef.current;
     const targetOpacity = isHovered ? 0.4 : 0;
     
     if (opacityTweenRef.current) {
@@ -1876,7 +2193,7 @@ const AnimatedHoverGlow: React.FC<{
     }
     
     opacityTweenRef.current = new Konva.Tween({
-      node: circle,
+      node: rect,
       duration: 0.2,
       easing: Konva.Easings.EaseOut,
       opacity: targetOpacity,
@@ -1897,14 +2214,16 @@ const AnimatedHoverGlow: React.FC<{
     };
   }, [isHovered, Konva]);
   
-  if (!Circle) return null;
+  if (!Rect) return null;
   
   return (
-    <Circle
-      ref={circleRef}
-      x={x}
-      y={y}
-      radius={radius}
+    <Rect
+      ref={rectRef}
+      x={x - width / 2 - 8}
+      y={y - height / 2 - 8}
+      width={width + 16}
+      height={height + 16}
+      cornerRadius={cornerRadius + 4}
       fill=""
       stroke={stroke}
       strokeWidth={2}
@@ -1914,11 +2233,13 @@ const AnimatedHoverGlow: React.FC<{
   );
 };
 
-// Animated shadow for node circle
-const AnimatedNodeCircle: React.FC<{
+// Animated shadow for node rectangle (patch node style)
+const AnimatedNodeRect: React.FC<{
   x: number;
   y: number;
-  radius: number;
+  width: number;
+  height: number;
+  cornerRadius: number;
   fill: string;
   opacity: number;
   stroke: string;
@@ -1930,15 +2251,15 @@ const AnimatedNodeCircle: React.FC<{
   onMouseDown: (e: any) => void;
   onClick: (e: any) => void;
   Konva?: any;
-  Circle?: any;
-}> = ({ x, y, radius, fill, opacity, stroke, strokeWidth, dash, isHovered, onMouseEnter, onMouseLeave, onMouseDown, onClick, Konva, Circle }) => {
-  const circleRef = useRef<any>(null);
+  Rect?: any;
+}> = ({ x, y, width, height, cornerRadius, fill, opacity, stroke, strokeWidth, dash, isHovered, onMouseEnter, onMouseLeave, onMouseDown, onClick, Konva, Rect }) => {
+  const rectRef = useRef<any>(null);
   const shadowTweenRef = useRef<any>(null);
   
   useEffect(() => {
-    if (!circleRef.current || !Konva) return;
+    if (!rectRef.current || !Konva) return;
     
-    const circle = circleRef.current;
+    const rect = rectRef.current;
     const targetShadowBlur = isHovered ? 8 : 0;
     
     if (shadowTweenRef.current) {
@@ -1952,7 +2273,7 @@ const AnimatedNodeCircle: React.FC<{
     }
     
     shadowTweenRef.current = new Konva.Tween({
-      node: circle,
+      node: rect,
       duration: 0.2,
       easing: Konva.Easings.EaseOut,
       shadowBlur: targetShadowBlur,
@@ -1973,14 +2294,16 @@ const AnimatedNodeCircle: React.FC<{
     };
   }, [isHovered, Konva]);
   
-  if (!Circle) return null;
+  if (!Rect) return null;
   
   return (
-    <Circle
-      ref={circleRef}
-      x={x}
-      y={y}
-      radius={radius}
+    <Rect
+      ref={rectRef}
+      x={x - width / 2}
+      y={y - height / 2}
+      width={width}
+      height={height}
+      cornerRadius={cornerRadius}
       fill={fill}
       opacity={opacity}
       stroke={stroke}
@@ -2043,33 +2366,28 @@ const preloadAllImages = (nodes: Node[]): Promise<void> => {
 };
 
 // Node Image component with loading and smooth transitions
-// Uses a Group with a Circle mask to properly contain the image within the circular node
+// Uses a Group with a Rect mask to properly contain the image within the rectangular node as a square thumbnail
 const NodeImage: React.FC<{
   src: string;
   x: number;
   y: number;
-  radius: number;
+  width: number;
+  height: number;
   opacity?: number;
   scale?: number;
   KonvaImage?: any;
   Konva?: any;
   Group?: any;
-  Circle?: any;
+  Rect?: any;
   isHovered?: boolean;
-}> = ({ src, x, y, radius, opacity = 1, scale = 1, KonvaImage, Konva, Group, Circle, isHovered = false }) => {
+}> = ({ src, x, y, width, height, opacity = 1, scale = 1, KonvaImage, Konva, Group, Rect, isHovered = false }) => {
   // Initialize with cached image if available
   const [image, setImage] = useState<HTMLImageElement | null>(() => {
     return imageCache.get(src) || null;
   });
   const groupRef = useRef<any>(null);
-  const circleRef = useRef<any>(null);
+  const imageRef = useRef<any>(null);
   const opacityTweenRef = useRef<any>(null);
-  const patternScaleTweenRef = useRef<any>(null);
-  const patternXTweenRef = useRef<any>(null);
-  const patternYTweenRef = useRef<any>(null);
-  const parallaxXTweenRef = useRef<any>(null);
-  const parallaxYTweenRef = useRef<any>(null);
-  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
   
   useEffect(() => {
     // Check cache first (synchronous)
@@ -2086,54 +2404,13 @@ const NodeImage: React.FC<{
     });
   }, [src]);
   
-  // Animate opacity and image zoom on hover change
+  // Animate opacity on hover change
   useEffect(() => {
-    if (!groupRef.current || !Konva || !circleRef.current || !image) return;
+    if (!groupRef.current || !Konva || !image) return;
     
     const group = groupRef.current;
-    const imageNode = circleRef.current;
     const targetOpacity = isHovered ? 0.85 : opacity;
     
-    // Calculate base image scale and position
-    const maskRadius = radius - 2;
-    const scaleX = (maskRadius * 2) / image.width;
-    const scaleY = (maskRadius * 2) / image.height;
-    const baseImageScale = Math.max(scaleX, scaleY);
-    
-    // On hover, zoom into the image (increase scale and adjust position to zoom from center)
-    const zoomFactor = isHovered ? 1.2 : 1; // 20% zoom on hover
-    const targetImageScale = baseImageScale * zoomFactor;
-    
-    // Calculate image position to zoom from center
-    // Base position: center horizontally, align to top
-    const scaledWidth = image.width * baseImageScale;
-    const baseImageX = -scaledWidth / 2;
-    const baseImageY = -maskRadius;
-    
-    // To zoom from center, we need to adjust position when scaling
-    // When we scale by zoomFactor, the image gets larger
-    // To keep the center visually fixed, we shift the position
-    // The center of the image in its local coordinates is at (image.width/2, image.height/2)
-    // After scaling, we need to shift to keep that point at the same visual position
-    const scaledWidthZoomed = image.width * targetImageScale;
-    const scaledHeightZoomed = image.height * targetImageScale;
-    
-    // Center horizontally: x = -scaledWidth/2
-    // To zoom from center, the center point (at image.width/2 in image coords) should stay fixed
-    // Visual center = imageX + (image.width/2) * scale
-    // We want this to equal 0 (center of circle), so: imageX = -(image.width/2) * scale
-    const targetImageX = -(image.width / 2) * targetImageScale;
-    
-    // For vertical, align to top but zoom from center
-    // Base aligns top of image to top of circle
-    // When zooming, we want to zoom from the center of the visible area
-    // The center of the circle is at y=0, so we want the image center at y=0
-    // Image center in image coords is at image.height/2
-    // Visual center = imageY + (image.height/2) * scale
-    // We want this to equal 0, so: imageY = -(image.height/2) * scale
-    const targetImageY = -(image.height / 2) * targetImageScale;
-    
-    // Animate opacity
     if (opacityTweenRef.current) {
       try {
         opacityTweenRef.current.stop();
@@ -2153,67 +2430,6 @@ const NodeImage: React.FC<{
     
     opacityTweenRef.current.play();
     
-    // Animate image scale (zoom into image content)
-    if (patternScaleTweenRef.current) {
-      try {
-        patternScaleTweenRef.current.stop();
-        patternScaleTweenRef.current.destroy();
-      } catch (error) {
-        // Tween may already be destroyed, ignore
-      }
-      patternScaleTweenRef.current = null;
-    }
-    
-    patternScaleTweenRef.current = new Konva.Tween({
-      node: imageNode,
-      duration: 0.6,
-      easing: Konva.Easings.EaseOut,
-      scaleX: targetImageScale,
-      scaleY: targetImageScale,
-    });
-    
-    patternScaleTweenRef.current.play();
-    
-    // Animate image X position
-    if (patternXTweenRef.current) {
-      try {
-        patternXTweenRef.current.stop();
-        patternXTweenRef.current.destroy();
-      } catch (error) {
-        // Tween may already be destroyed, ignore
-      }
-      patternXTweenRef.current = null;
-    }
-    
-    patternXTweenRef.current = new Konva.Tween({
-      node: imageNode,
-      duration: 0.6,
-      easing: Konva.Easings.EaseOut,
-      x: targetImageX,
-    });
-    
-    patternXTweenRef.current.play();
-    
-    // Animate image Y position
-    if (patternYTweenRef.current) {
-      try {
-        patternYTweenRef.current.stop();
-        patternYTweenRef.current.destroy();
-      } catch (error) {
-        // Tween may already be destroyed, ignore
-      }
-      patternYTweenRef.current = null;
-    }
-    
-    patternYTweenRef.current = new Konva.Tween({
-      node: imageNode,
-      duration: 0.6,
-      easing: Konva.Easings.EaseOut,
-      y: targetImageY,
-    });
-    
-    patternYTweenRef.current.play();
-    
     return () => {
       if (opacityTweenRef.current) {
         try {
@@ -2224,228 +2440,33 @@ const NodeImage: React.FC<{
         }
         opacityTweenRef.current = null;
       }
-      if (patternScaleTweenRef.current) {
-        try {
-          patternScaleTweenRef.current.stop();
-          patternScaleTweenRef.current.destroy();
-        } catch (error) {
-          // Tween may already be destroyed, ignore
-        }
-        patternScaleTweenRef.current = null;
-      }
-      if (patternXTweenRef.current) {
-        try {
-          patternXTweenRef.current.stop();
-          patternXTweenRef.current.destroy();
-        } catch (error) {
-          // Tween may already be destroyed, ignore
-        }
-        patternXTweenRef.current = null;
-      }
-      if (patternYTweenRef.current) {
-        try {
-          patternYTweenRef.current.stop();
-          patternYTweenRef.current.destroy();
-        } catch (error) {
-          // Tween may already be destroyed, ignore
-        }
-        patternYTweenRef.current = null;
-      }
     };
-  }, [isHovered, opacity, Konva, image, radius]);
+  }, [isHovered, opacity, Konva, image]);
   
-  // Handle parallax effect based on mouse position
-  useEffect(() => {
-    if (!groupRef.current || !Konva || !circleRef.current || !image || !isHovered) {
-      // Reset parallax when not hovered
-      if (parallaxXTweenRef.current) {
-        try {
-          parallaxXTweenRef.current.stop();
-          parallaxXTweenRef.current.destroy();
-        } catch (error) {}
-        parallaxXTweenRef.current = null;
-      }
-      if (parallaxYTweenRef.current) {
-        try {
-          parallaxYTweenRef.current.stop();
-          parallaxYTweenRef.current.destroy();
-        } catch (error) {}
-        parallaxYTweenRef.current = null;
-      }
-      return;
-    }
-    
-    const imageNode = circleRef.current;
-    const maskRadius = radius - 2;
-    const scaleX = (maskRadius * 2) / image.width;
-    const scaleY = (maskRadius * 2) / image.height;
-    const baseImageScale = Math.max(scaleX, scaleY);
-    const zoomFactor = 1.2;
-    const targetImageScale = baseImageScale * zoomFactor;
-    
-    if (!mousePosition) {
-      // No mouse position, center the image
-      const targetImageX = -(image.width / 2) * targetImageScale;
-      const targetImageY = -(image.height / 2) * targetImageScale;
-      
-      if (parallaxXTweenRef.current) {
-        try {
-          parallaxXTweenRef.current.stop();
-          parallaxXTweenRef.current.destroy();
-        } catch (error) {}
-        parallaxXTweenRef.current = null;
-      }
-      
-      parallaxXTweenRef.current = new Konva.Tween({
-        node: imageNode,
-        duration: 0.3,
-        easing: Konva.Easings.EaseOut,
-        x: targetImageX,
-      });
-      parallaxXTweenRef.current.play();
-      
-      if (parallaxYTweenRef.current) {
-        try {
-          parallaxYTweenRef.current.stop();
-          parallaxYTweenRef.current.destroy();
-        } catch (error) {}
-        parallaxYTweenRef.current = null;
-      }
-      
-      parallaxYTweenRef.current = new Konva.Tween({
-        node: imageNode,
-        duration: 0.3,
-        easing: Konva.Easings.EaseOut,
-        y: targetImageY,
-      });
-      parallaxYTweenRef.current.play();
-      
-      return;
-    }
-    
-    // Calculate parallax offset based on mouse position
-    // Mouse position is relative to the node center (0, 0 in group coordinates)
-    // Parallax intensity: how much the image moves relative to mouse movement
-    const parallaxIntensity = 0.15; // 15% movement
-    const maxOffset = maskRadius * parallaxIntensity;
-    
-    // Normalize mouse position to -1 to 1 range based on radius
-    const normalizedX = Math.max(-1, Math.min(1, mousePosition.x / maskRadius));
-    const normalizedY = Math.max(-1, Math.min(1, mousePosition.y / maskRadius));
-    
-    // Calculate parallax offset (opposite direction for depth effect)
-    const parallaxOffsetX = -normalizedX * maxOffset;
-    const parallaxOffsetY = -normalizedY * maxOffset;
-    
-    // Base centered position
-    const baseImageX = -(image.width / 2) * targetImageScale;
-    const baseImageY = -(image.height / 2) * targetImageScale;
-    
-    // Apply parallax offset
-    const targetImageX = baseImageX + parallaxOffsetX;
-    const targetImageY = baseImageY + parallaxOffsetY;
-    
-    // Animate to new position
-    if (parallaxXTweenRef.current) {
-      try {
-        parallaxXTweenRef.current.stop();
-        parallaxXTweenRef.current.destroy();
-      } catch (error) {}
-      parallaxXTweenRef.current = null;
-    }
-    
-    parallaxXTweenRef.current = new Konva.Tween({
-      node: imageNode,
-      duration: 0.15,
-      easing: Konva.Easings.EaseOut,
-      x: targetImageX,
-    });
-    parallaxXTweenRef.current.play();
-    
-    if (parallaxYTweenRef.current) {
-      try {
-        parallaxYTweenRef.current.stop();
-        parallaxYTweenRef.current.destroy();
-      } catch (error) {}
-      parallaxYTweenRef.current = null;
-    }
-    
-    parallaxYTweenRef.current = new Konva.Tween({
-      node: imageNode,
-      duration: 0.15,
-      easing: Konva.Easings.EaseOut,
-      y: targetImageY,
-    });
-    parallaxYTweenRef.current.play();
-    
-    return () => {
-      if (parallaxXTweenRef.current) {
-        try {
-          parallaxXTweenRef.current.stop();
-          parallaxXTweenRef.current.destroy();
-        } catch (error) {}
-        parallaxXTweenRef.current = null;
-      }
-      if (parallaxYTweenRef.current) {
-        try {
-          parallaxYTweenRef.current.stop();
-          parallaxYTweenRef.current.destroy();
-        } catch (error) {}
-        parallaxYTweenRef.current = null;
-      }
-    };
-  }, [mousePosition, isHovered, Konva, image, radius]);
+  if (!image || !Group || !KonvaImage || !Rect) return null;
   
-  // Handle mouse move events for parallax
-  const handleMouseMove = (e: any) => {
-    if (!groupRef.current || !isHovered) return;
-    
-    // Get mouse position relative to the group (node center is at 0, 0)
-    const stage = e.target.getStage();
-    const group = groupRef.current;
-    
-    // Get mouse position in stage coordinates
-    const pointerPos = stage.getPointerPosition();
-    if (!pointerPos) return;
-    
-    // Convert stage coordinates to group-relative coordinates
-    // This accounts for any transforms (zoom, pan) on the stage
-    const transform = group.getAbsoluteTransform().copy().invert();
-    const groupRelativePos = transform.point(pointerPos);
-    
-    setMousePosition({ x: groupRelativePos.x, y: groupRelativePos.y });
-  };
+  // Calculate square thumbnail size (small square, positioned at top-left of node)
+  const thumbnailSize = Math.min(width * 0.35, height * 0.5); // Small square thumbnail
+  const thumbnailX = -width / 2 + 8; // Left padding
+  const thumbnailY = -height / 2 + 8; // Top padding
   
-  const handleMouseLeave = () => {
-    setMousePosition(null);
-  };
+  // Calculate scale to fill square
+  const scaleX = thumbnailSize / image.width;
+  const scaleY = thumbnailSize / image.height;
+  const imageScale = Math.max(scaleX, scaleY); // Cover the square
   
-  if (!image || !KonvaImage || !Group) return null;
-  
-  // Use the full radius for the mask circle
-  const maskRadius = radius - 2; // Slight padding to account for stroke
-  
-  // Create clip function for circular masking
-  const clipFunc = (ctx: CanvasRenderingContext2D) => {
-    ctx.beginPath();
-    ctx.arc(0, 0, maskRadius, 0, Math.PI * 2, false);
-    ctx.clip();
-  };
-  
-  // Calculate image scale to cover the circle (maintain aspect ratio)
-  const scaleX = (maskRadius * 2) / image.width;
-  const scaleY = (maskRadius * 2) / image.height;
-  // Use the larger scale to ensure the image covers the entire circle
-  const imageScale = Math.max(scaleX, scaleY);
-  
-  // Calculate image position to center it horizontally and align to top
-  // Image width after scaling
+  // Calculate image position to center it in the square
   const scaledWidth = image.width * imageScale;
   const scaledHeight = image.height * imageScale;
-  // Center horizontally: x = -scaledWidth/2
-  // Align to top: y = -maskRadius
-  const imageX = -scaledWidth / 2;
-  const imageY = -maskRadius;
+  const imageX = thumbnailX + (thumbnailSize - scaledWidth) / 2;
+  const imageY = thumbnailY + (thumbnailSize - scaledHeight) / 2;
+  
+  // Create clip function for square masking
+  const clipFunc = (ctx: CanvasRenderingContext2D) => {
+    ctx.beginPath();
+    ctx.rect(thumbnailX, thumbnailY, thumbnailSize, thumbnailSize);
+    ctx.clip();
+  };
   
   return (
     <Group
@@ -2454,12 +2475,9 @@ const NodeImage: React.FC<{
       y={y}
       opacity={opacity}
       clipFunc={clipFunc}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
     >
-      {/* Use Image component instead of fill pattern to avoid tiling */}
       <KonvaImage
-        ref={circleRef}
+        ref={imageRef}
         image={image}
         x={imageX}
         y={imageY}
@@ -4287,7 +4305,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   }
   
   // Extract Konva components for easier use
-  const { Stage, Layer, Circle, Line, Text: KonvaText, Image: KonvaImage, Group, Path, Konva } = konvaComponents;
+  const { Stage, Layer, Circle, Rect, Line, Text: KonvaText, Image: KonvaImage, Group, Path, Konva } = konvaComponents;
 
   // Debug logging
   if (process.env.NODE_ENV === 'development') {
@@ -4408,21 +4426,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 const targetCenterX = targetNode.x + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).x;
                 const targetCenterY = targetNode.y + (nodeDragOffsets.get(targetNode.id) || { x: 0, y: 0 }).y;
                 
-                // Calculate direction vector from source to target
-                const dx = targetCenterX - sourceCenterX;
-                const dy = targetCenterY - sourceCenterY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                // Calculate dot positions at the edge of nodes
-                // Source dot: move from source center toward target by source node radius
-                // Target dot: move from target center toward source by target node radius
-                const sourceDotX = sourceCenterX + (dx / distance) * sourceNode.radius;
-                const sourceDotY = sourceCenterY + (dy / distance) * sourceNode.radius;
-                const targetDotX = targetCenterX - (dx / distance) * targetNode.radius;
-                const targetDotY = targetCenterY - (dy / distance) * targetNode.radius;
-                
                 const connectionColor = isActivePath ? activeGradient : (pathTaken ? textColor : '#6b7280');
-                const dotRadius = isActivePath ? 2 : (pathTaken ? 2 : 1.5);
                 
                 return (
                   <Group key={connectionKey} listening={false} perfectDrawEnabled={false}>
@@ -4432,10 +4436,10 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         data={path}
                         fill=""
                         stroke={activeGradient}
-                        strokeWidth={2.5}
+                        strokeWidth={3}
                         lineCap="round"
-                        opacity={connectionOpacity * 0.4}
-                        shadowBlur={2}
+                        opacity={connectionOpacity * 0.3}
+                        shadowBlur={4}
                         shadowColor="#3b82f6"
                         listening={false}
                         perfectDrawEnabled={false}
@@ -4447,45 +4451,27 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                         data={path}
                         fill=""
                         stroke={activeGradient}
-                        strokeWidth={2}
+                        strokeWidth={2.5}
                         lineCap="round"
                         dash={[20, 100]}
-                        opacity={connectionOpacity * 0.8}
+                        opacity={connectionOpacity * 0.9}
                         Path={Path}
                         Konva={Konva}
                       />
                     )}
-                    {/* Main path */}
+                    {/* Main path - cleaner styling for patch node connectors */}
                     <Path
                       data={path}
                       fill=""
                       stroke={connectionColor}
-                      strokeWidth={isActivePath ? 2 : (pathTaken ? 2 : 1.5)}
-                      dash={pathTaken ? undefined : [8, 4]}
+                      strokeWidth={isActivePath ? 2.5 : (pathTaken ? 2 : 1.5)}
+                      dash={pathTaken ? undefined : [6, 4]}
                       lineCap="round"
                       opacity={connectionOpacity}
                       listening={false}
                       perfectDrawEnabled={false}
                     />
-                    {/* Dot endpoints at node edges */}
-                    <Circle
-                      x={sourceDotX}
-                      y={sourceDotY}
-                      radius={dotRadius}
-                      fill={connectionColor}
-                      opacity={connectionOpacity}
-                      listening={false}
-                      perfectDrawEnabled={false}
-                    />
-                    <Circle
-                      x={targetDotX}
-                      y={targetDotY}
-                      radius={dotRadius}
-                      fill={connectionColor}
-                      opacity={connectionOpacity}
-                      listening={false}
-                      perfectDrawEnabled={false}
-                    />
+                    {/* Ports are now rendered on the nodes themselves, so no connector dots needed */}
                   </Group>
                 );
               }).filter(Boolean)}
@@ -4520,135 +4506,235 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     Konva={Konva}
                     Group={Group}
                   >
-                    {/* White background circle (when no image) */}
-                    {!node.image && (
-                      <Circle
-                        x={0}
-                        y={0}
-                        radius={node.radius - 2}
-                        fill={bgColor}
-                        listening={false}
-                        perfectDrawEnabled={false}
-                      />
-                    )}
-                    
-                    {/* Hover glow ring - animated */}
-                    <AnimatedHoverGlow
-                      x={0}
-                      y={0}
-                      radius={node.radius + 8}
-                      stroke={nodeColor}
-                      isHovered={isHovered}
-                      Konva={Konva}
-                      Circle={Circle}
-                    />
-                    
-                    {/* Node circle - animated shadow */}
-                    <AnimatedNodeCircle
-                      x={0}
-                      y={0}
-                      radius={node.radius}
-                      fill={nodeColor}
-                      opacity={pathTaken ? 0.2 : 0.1}
-                      stroke={borderColor}
-                      strokeWidth={pathTaken ? 3 : 2}
-                      dash={pathTaken ? undefined : [5, 5]}
-                      isHovered={isHovered}
-                      onMouseEnter={() => setHoveredNode(node.id)}
-                      onMouseLeave={() => setHoveredNode(null)}
-                      onMouseDown={(e) => {
-                        e.cancelBubble = true;
-                        e.evt.stopPropagation();
-                        if (e.evt.button === 0 && !e.evt.metaKey && !e.evt.ctrlKey) {
-                          handleNodeMouseDown(node, e.evt);
-                        }
-                      }}
-                      onClick={(e) => {
-                        // CRITICAL: Clear dragging state before handling click to release cursor
-                        setIsDragging(false);
-                        isDraggingRef.current = false;
-                        setHoveredNode(null);
-                        
-                        if (process.env.NODE_ENV === 'development') {
-                          console.log('Konva Circle onClick fired', { nodeId: node.id, evt: e.evt });
-                        }
-                        e.cancelBubble = true;
-                        e.evt.stopPropagation();
-                        e.evt.preventDefault();
-                        handleNodeClick(node, e.evt);
-                      }}
-                      Konva={Konva}
-                      Circle={Circle}
-                    />
-                  
-                    {/* Node image */}
-                    {node.image && (
-                      <NodeImage
-                        src={node.image}
-                        x={0}
-                        y={0}
-                        radius={node.radius}
-                        opacity={1}
-                        KonvaImage={KonvaImage}
-                        scale={1}
-                        Konva={Konva}
-                        Group={Group}
-                        Circle={Circle}
-                        isHovered={isHovered}
-                      />
-                    )}
-                    
-                    {/* Node label - only show when no image */}
-                    {!node.image && (() => {
-                      // Calculate adaptive font size based on node radius
-                      const fontSize = calculateFontSize(node.radius);
-                      
-                      // Calculate available width for text (diameter - no padding for debugging)
-                      const diameter = node.radius * 2;
-                      const availableWidth = diameter; // Removed padding for debugging
-                      
-                      // Wrap text to fit in max 3 lines with adaptive font size
-                      const lines = wrapTextToLines(node.label, availableWidth, fontSize);
-                      
-                      // Limit to 3 lines maximum
-                      const displayLines = lines.slice(0, 3);
-                      
-                      // Calculate line height for vertical centering
-                      const lineHeight = fontSize * 1.3; // Line height multiplier
-                      const totalHeight = displayLines.length * lineHeight;
-                      
-                      // For horizontal centering in Konva:
-                      // When using align="center", offsetX should be half the width
-                      // This centers the text horizontally at x=0
-                      const horizontalOffset = availableWidth / 2;
-                      
-                      // For vertical centering in Konva:
-                      // Use verticalAlign="middle" to center text vertically within the height
-                      // Set height to totalHeight so verticalAlign can work properly
-                      // offsetY should be half the height to center at y=0
-                      const verticalOffset = totalHeight / 2;
+                    {/* Calculate ports for this node */}
+                    {(() => {
+                      const { inputs, outputs } = calculateNodePorts(node, nodes);
+                      const cornerRadius = 12;
                       
                       return (
-                        <KonvaText
-                          x={0}
-                          y={0}
-                          text={displayLines.join('\n')}
-                          align="center"
-                          verticalAlign="middle"
-                          fill={textColor}
-                          fontSize={fontSize}
-                          fontFamily="'EB Garamond', serif"
-                          fontStyle="normal"
-                          fontWeight={500}
-                          opacity={pathTaken ? 0.95 : 0.75}
-                          listening={false}
-                          perfectDrawEnabled={false}
-                          lineHeight={lineHeight / fontSize}
-                          width={availableWidth}
-                          height={totalHeight}
-                          offsetX={horizontalOffset}
-                          offsetY={verticalOffset}
-                        />
+                        <>
+                          {/* White background rectangle (when no image) */}
+                          {!node.image && (
+                            <Rect
+                              x={-node.width / 2}
+                              y={-node.height / 2}
+                              width={node.width - 4}
+                              height={node.height - 4}
+                              cornerRadius={cornerRadius}
+                              fill={bgColor}
+                              listening={false}
+                              perfectDrawEnabled={false}
+                            />
+                          )}
+                          
+                          {/* Hover glow rectangle - animated */}
+                          <AnimatedHoverGlow
+                            x={0}
+                            y={0}
+                            width={node.width}
+                            height={node.height}
+                            cornerRadius={cornerRadius}
+                            stroke={nodeColor}
+                            isHovered={isHovered}
+                            Konva={Konva}
+                            Rect={Rect}
+                          />
+                          
+                          {/* Node rectangle - animated shadow */}
+                          <AnimatedNodeRect
+                            x={0}
+                            y={0}
+                            width={node.width}
+                            height={node.height}
+                            cornerRadius={cornerRadius}
+                            fill={nodeColor}
+                            opacity={pathTaken ? 0.2 : 0.1}
+                            stroke={borderColor}
+                            strokeWidth={pathTaken ? 3 : 2}
+                            dash={pathTaken ? undefined : [5, 5]}
+                            isHovered={isHovered}
+                            onMouseEnter={() => setHoveredNode(node.id)}
+                            onMouseLeave={() => setHoveredNode(null)}
+                            onMouseDown={(e) => {
+                              e.cancelBubble = true;
+                              e.evt.stopPropagation();
+                              if (e.evt.button === 0 && !e.evt.metaKey && !e.evt.ctrlKey) {
+                                handleNodeMouseDown(node, e.evt);
+                              }
+                            }}
+                            onClick={(e) => {
+                              // CRITICAL: Clear dragging state before handling click to release cursor
+                              setIsDragging(false);
+                              isDraggingRef.current = false;
+                              setHoveredNode(null);
+                              
+                              if (process.env.NODE_ENV === 'development') {
+                                console.log('Konva Rect onClick fired', { nodeId: node.id, evt: e.evt });
+                              }
+                              e.cancelBubble = true;
+                              e.evt.stopPropagation();
+                              e.evt.preventDefault();
+                              handleNodeClick(node, e.evt);
+                            }}
+                            Konva={Konva}
+                            Rect={Rect}
+                          />
+                        
+                          {/* Node image - square thumbnail */}
+                          {node.image && (
+                            <NodeImage
+                              src={node.image}
+                              x={0}
+                              y={0}
+                              width={node.width}
+                              height={node.height}
+                              opacity={1}
+                              KonvaImage={KonvaImage}
+                              scale={1}
+                              Konva={Konva}
+                              Group={Group}
+                              Rect={Rect}
+                              isHovered={isHovered}
+                            />
+                          )}
+                          
+                          {/* Node type label inside patch */}
+                          <KonvaText
+                            x={node.width / 2 - 8}
+                            y={-node.height / 2 + 6}
+                            text={node.type.charAt(0).toUpperCase() + node.type.slice(1)}
+                            fontSize={10}
+                            fontFamily="'EB Garamond', serif"
+                            fontStyle="italic"
+                            fill={textColor}
+                            opacity={0.6}
+                            align="right"
+                            listening={false}
+                            perfectDrawEnabled={false}
+                          />
+                          
+                          {/* Node label - only show when no image */}
+                          {!node.image && (() => {
+                            // Calculate adaptive font size based on node width
+                            const fontSize = calculateFontSize(node.radius);
+                            
+                            // Calculate available width for text (node width with padding)
+                            const textPadding = TEXT_PADDING;
+                            const availableWidth = node.width - (textPadding * 2);
+                            
+                            // Wrap text to fit in max 3 lines with adaptive font size
+                            const lines = wrapTextToLines(node.label, availableWidth, fontSize);
+                            
+                            // Limit to 3 lines maximum
+                            const displayLines = lines.slice(0, 3);
+                            
+                            // Calculate line height for vertical centering
+                            const lineHeight = fontSize * 1.3; // Line height multiplier
+                            const totalHeight = displayLines.length * lineHeight;
+                            
+                            // For horizontal centering in Konva:
+                            // When using align="center", offsetX should be half the width
+                            // This centers the text horizontally at x=0
+                            const horizontalOffset = availableWidth / 2;
+                            
+                            // For vertical centering in Konva:
+                            // Use verticalAlign="middle" to center text vertically within the height
+                            // Set height to totalHeight so verticalAlign can work properly
+                            // offsetY should be half the height to center at y=0
+                            const verticalOffset = totalHeight / 2;
+                            
+                            return (
+                              <KonvaText
+                                x={0}
+                                y={0}
+                                text={displayLines.join('\n')}
+                                align="center"
+                                verticalAlign="middle"
+                                fill={textColor}
+                                fontSize={fontSize}
+                                fontFamily="'EB Garamond', serif"
+                                fontStyle="normal"
+                                fontWeight={500}
+                                opacity={pathTaken ? 0.95 : 0.75}
+                                listening={false}
+                                perfectDrawEnabled={false}
+                                lineHeight={lineHeight / fontSize}
+                                width={availableWidth}
+                                height={totalHeight}
+                                offsetX={horizontalOffset}
+                                offsetY={verticalOffset}
+                              />
+                            );
+                          })()}
+                          
+                          {/* Input ports (left side) - 4x4px inside node */}
+                          {inputs.map((port, index) => {
+                            const portSize = 4; // Small 4x4px port
+                            return (
+                              <Group key={`input-${port.connectionId}`} listening={false}>
+                                <Rect
+                                  x={port.x - portSize / 2}
+                                  y={port.y - portSize / 2}
+                                  width={portSize}
+                                  height={portSize}
+                                  cornerRadius={1}
+                                  fill={nodeColor}
+                                  opacity={0.9}
+                                  stroke={borderColor}
+                                  strokeWidth={0.5}
+                                  listening={false}
+                                  perfectDrawEnabled={false}
+                                />
+                                <KonvaText
+                                  x={port.x + portSize / 2 + 6}
+                                  y={port.y}
+                                  text={port.label.length > 10 ? port.label.substring(0, 10) + '...' : port.label}
+                                  fontSize={9}
+                                  fill={textColor}
+                                  opacity={0.6}
+                                  align="left"
+                                  verticalAlign="middle"
+                                  listening={false}
+                                  perfectDrawEnabled={false}
+                                />
+                              </Group>
+                            );
+                          })}
+                          
+                          {/* Output ports (right side) - 4x4px inside node */}
+                          {outputs.map((port, index) => {
+                            const portSize = 4; // Small 4x4px port
+                            return (
+                              <Group key={`output-${port.connectionId}`} listening={false}>
+                                <Rect
+                                  x={port.x - portSize / 2}
+                                  y={port.y - portSize / 2}
+                                  width={portSize}
+                                  height={portSize}
+                                  cornerRadius={1}
+                                  fill={nodeColor}
+                                  opacity={0.9}
+                                  stroke={borderColor}
+                                  strokeWidth={0.5}
+                                  listening={false}
+                                  perfectDrawEnabled={false}
+                                />
+                                <KonvaText
+                                  x={port.x - portSize / 2 - 6}
+                                  y={port.y}
+                                  text={port.label.length > 10 ? port.label.substring(0, 10) + '...' : port.label}
+                                  fontSize={9}
+                                  fill={textColor}
+                                  opacity={0.6}
+                                  align="right"
+                                  verticalAlign="middle"
+                                  listening={false}
+                                  perfectDrawEnabled={false}
+                                />
+                              </Group>
+                            );
+                          })}
+                        </>
                       );
                     })()}
                   </AnimatedNodeGroup>
