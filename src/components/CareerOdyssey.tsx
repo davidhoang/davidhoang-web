@@ -161,31 +161,31 @@ interface CareerOdysseyProps {
 }
 
 const MIN_NODE_RADIUS = 40;
-const MAX_NODE_RADIUS = 120;
+// MAX_NODE_RADIUS removed - width is now calculated fluidly from text requirements
 const DEFAULT_NODE_RADIUS = 80; // Default node radius for grid calculation
 const GRID_DOTS_PER_NODE = 8; // Number of grid dots visible across default node diameter
 // For 8 dots across diameter, we need 7 intervals: spacing = diameter / 7
 const BASE_GRID_SPACING = (DEFAULT_NODE_RADIUS * 2) / (GRID_DOTS_PER_NODE - 1); // 8-dot grid: 160px diameter / 7 ≈ 22.86px spacing
 const MAIN_PATH_Y = 800; // Centered vertically to use more canvas space
-const BRANCH_SPACING = 320; // Increased for better vertical distribution
+const BRANCH_SPACING = 240; // Reduced for tighter vertical distribution
 const CANVAS_WIDTH = 3600; // Increased from 2400 for more horizontal space
 const CANVAS_HEIGHT = 2000; // Increased to use more vertical space
 const PADDING = 200; // Increased padding to allow nodes to spread to edges
 const BASE_FONT_SIZE = 12;
-const TEXT_PADDING = 16; // Padding around text inside node
-const TEXT_PADDING_NOT_TAKEN = 10; // Reduced padding for paths not taken
+const TEXT_PADDING = 12; // Padding around text inside node
+const TEXT_PADDING_NOT_TAKEN = 12; // Padding for paths not taken (same as regular padding)
 
 // Calculate adaptive font size based on node radius
-const calculateFontSize = (radius: number): number => {
-  // Scale font size proportionally with node radius
-  // Base: 12px for 80px radius, scale linearly
-  const baseRadius = 80;
+const calculateFontSize = (width: number): number => {
+  // Scale font size proportionally with node width
+  // Base: 14px for 250px width (minimum), scale linearly
+  const baseWidth = 250;
   const minFontSize = 10;
   const maxFontSize = 16;
-  const fontSize = (radius / baseRadius) * BASE_FONT_SIZE;
+  const fontSize = (width / baseWidth) * BASE_FONT_SIZE;
   return Math.max(minFontSize, Math.min(maxFontSize, fontSize));
 };
-const MIN_NODE_SPACING = 50; // Reduced for tighter alignment - Minimum space between node edges
+const MIN_NODE_SPACING = 30; // Reduced for tighter alignment - Minimum space between node edges
 
 // Date parsing utility
 const parseDate = (dateStr?: string): number => {
@@ -209,7 +209,6 @@ const isPresentNode = (n: Node): boolean => {
 };
 
 const isFutureNode = (n: Node): boolean => {
-  if (n.type === 'future') return true;
   if (n.dateRange && typeof n.dateRange === 'string') {
     return n.dateRange.includes('Future');
   }
@@ -301,17 +300,26 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     return timeDiff;
   });
   
-  // Calculate base positions strictly by chronological order
+  // Calculate base positions by chronological order, with manual x as a hint/offset
   sortedHistoricalNodes.forEach((node, index) => {
-    if (!node.x) {
-      const ratio = dateRange > 0 
-        ? (node.timestamp - minTimestamp) / dateRange 
-        : index / Math.max(1, sortedHistoricalNodes.length - 1);
-      // Distribute nodes across the horizontal range, leaving space for Present and Future nodes on the right
-      // Reserve right edge for Present and Future nodes (about 25% of canvas width)
-      const reservedRightSpace = CANVAS_WIDTH * 0.25;
-      const availableWidth = horizontalRange - reservedRightSpace;
-      node.x = leftEdge + (ratio * availableWidth);
+    const ratio = dateRange > 0 
+      ? (node.timestamp - minTimestamp) / dateRange 
+      : index / Math.max(1, sortedHistoricalNodes.length - 1);
+    // Distribute nodes across the horizontal range, leaving space for Present and Future nodes on the right
+    // Reserve right edge for Present and Future nodes (about 25% of canvas width)
+    const reservedRightSpace = CANVAS_WIDTH * 0.25;
+    const availableWidth = horizontalRange - reservedRightSpace;
+    const calculatedX = leftEdge + (ratio * availableWidth);
+    
+    // If manual x is provided, use it as a hint/offset rather than absolute position
+    // This allows fine-tuning while still respecting chronological order
+    if (node.x && node.x !== 0) {
+      // Use manual x as a target, but ensure it doesn't violate chronological order
+      // Blend manual position with calculated position (70% manual, 30% calculated)
+      // This gives flexibility while maintaining some structure
+      node.x = calculatedX * 0.3 + node.x * 0.7;
+    } else {
+      node.x = calculatedX;
     }
   });
   
@@ -351,7 +359,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
 
   // Position Future nodes to the right of all other nodes (including Present)
   // Space them out horizontally to the right of the rightmost node
-  const futureNodeSpacing = 300; // Spacing between future nodes
+  const futureNodeSpacing = 220; // Spacing between future nodes (reduced for tighter layout)
   const futureStartX = rightmostX + futureNodeSpacing;
   
   futureNodes.forEach((node, index) => {
@@ -384,10 +392,11 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   });
   
   // Second pass: assign positions for regular nodes
+  // Use manual y as a hint/offset rather than absolute override
   regularNodes.forEach(node => {
-    if (node.y) return; // Manual override
-    
     const connectionKey = node.connections?.[0] || 'root';
+    
+    let calculatedY: number;
     
     if (node.pathTaken) {
       // Check if this node shares a source with other main path nodes
@@ -400,7 +409,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
         
         // Alternate above/below, with first node on main path if odd number
         if (totalNodes === 1) {
-          node.y = MAIN_PATH_Y;
+          calculatedY = MAIN_PATH_Y;
         } else {
           // Calculate offset: center nodes around main path
           const centerIndex = (totalNodes - 1) / 2;
@@ -412,30 +421,47 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
           const spacing = hasAngelInvestment ? BRANCH_SPACING * 1.8 : BRANCH_SPACING; // 80% more space
           
           const offset = offsetIndex * spacing;
-          node.y = MAIN_PATH_Y + offset;
+          calculatedY = MAIN_PATH_Y + offset;
           
           // Ensure nodes don't go outside canvas bounds
           const minY = PADDING + node.radius;
           const maxY = CANVAS_HEIGHT - PADDING - node.radius;
-          node.y = Math.max(minY, Math.min(maxY, node.y));
+          calculatedY = Math.max(minY, Math.min(maxY, calculatedY));
         }
       } else {
         // Single node from this source - keep on main path
-        node.y = MAIN_PATH_Y;
+        calculatedY = MAIN_PATH_Y;
       }
     } else {
       // Branch nodes (pathTaken: false)
-      const branchIndex = branchCounts.get(connectionKey) || 0;
-      branchCounts.set(connectionKey, branchIndex + 1);
+      // Position them above or below the main path based on their connection source
+      const sourceNode = positionedNodes.find(n => n.connections && n.connections.includes(node.id));
       
-      // Alternate above/below with better vertical distribution
-      const offset = (branchIndex % 2 === 0 ? 1 : -1) * BRANCH_SPACING * Math.ceil((branchIndex + 1) / 2);
-      node.y = MAIN_PATH_Y + offset;
-      
-      // Ensure branch nodes don't go outside canvas bounds
-      const minY = PADDING + node.radius;
-      const maxY = CANVAS_HEIGHT - PADDING - node.radius;
-      node.y = Math.max(minY, Math.min(maxY, node.y));
+      if (sourceNode) {
+        // Position relative to source node, but offset vertically
+        const sourceY = sourceNode.y || MAIN_PATH_Y;
+        const offset = BRANCH_SPACING * 0.6; // Smaller offset for branch nodes
+        // Alternate above/below based on node id hash for consistency
+        const hash = node.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const direction = hash % 2 === 0 ? 1 : -1; // Alternate up/down
+        calculatedY = sourceY + (offset * direction);
+        
+        // Ensure nodes don't go outside canvas bounds
+        const minY = PADDING + node.radius;
+        const maxY = CANVAS_HEIGHT - PADDING - node.radius;
+        calculatedY = Math.max(minY, Math.min(maxY, calculatedY));
+      } else {
+        // No source found, use main path
+        calculatedY = MAIN_PATH_Y;
+      }
+    }
+    
+    // If manual y is provided, blend it with calculated position (60% manual, 40% calculated)
+    // This allows fine-tuning while maintaining connection-based structure
+    if (node.y && node.y !== 0) {
+      node.y = calculatedY * 0.4 + node.y * 0.6;
+    } else {
+      node.y = calculatedY;
     }
   });
 
@@ -478,7 +504,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
       });
       
       // Calculate spacing based on node sizes
-      const minSpacing = 250; // Minimum spacing between nodes of same year
+      const minSpacing = 180; // Minimum spacing between nodes of same year (reduced for tighter layout)
       let currentX = yearNodes[0]?.x || 0;
       
       yearNodes.forEach((node, index) => {
@@ -583,6 +609,80 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     const maxY = CANVAS_HEIGHT - PADDING - sparkNode.radius;
     sparkNode.x = Math.max(minX, Math.min(maxX, sparkNode.x));
     sparkNode.y = Math.max(minY, Math.min(maxY, sparkNode.y));
+  });
+
+  // Stack output nodes vertically to the right of their source node
+  // This creates the default arrangement where outputs are stacked vertically
+  const outputNodeGroups = new Map<string, PositionedNode[]>();
+  
+  // For each node, find all nodes that connect FROM it (its outputs)
+  positionedNodes.forEach(sourceNode => {
+    // Skip Present, Future, spark nodes, and nodes that aren't pathTaken
+    if (isPresentNode(sourceNode) || isFutureNode(sourceNode) || 
+        sourceNode.type === 'spark' || !sourceNode.pathTaken) return;
+    
+    // Find all nodes that have this node in their connections (outputs of this node)
+    const outputNodes = positionedNodes.filter(node => {
+      // Skip if it's the source node itself
+      if (node.id === sourceNode.id) return false;
+      
+      // Skip Present, Future, and spark nodes
+      if (isPresentNode(node) || isFutureNode(node) || node.type === 'spark') return false;
+      
+      // Only stack pathTaken output nodes (not possiblePath)
+      if (!node.pathTaken) return false;
+      
+      // Check if this node connects from the source node
+      return node.connections && node.connections.includes(sourceNode.id);
+    });
+    
+    // Only create a stack if there are multiple outputs
+    if (outputNodes.length > 0) {
+      outputNodeGroups.set(sourceNode.id, outputNodes);
+    }
+  });
+  
+  // Position output nodes in vertical stacks to the right of their source
+  outputNodeGroups.forEach((outputNodes, sourceNodeId) => {
+    if (outputNodes.length === 0) return;
+    
+    const sourceNode = positionedNodes.find(n => n.id === sourceNodeId);
+    if (!sourceNode) return;
+    
+    // Sort output nodes by their original timestamp to maintain some chronological order
+    outputNodes.sort((a, b) => a.timestamp - b.timestamp);
+    
+    // Calculate horizontal position: to the right of source node
+    const sourceNodeWidth = sourceNode.width || sourceNode.radius * 2;
+    const horizontalSpacing = 280; // Spacing between source and output stack
+    const outputStackX = sourceNode.x + sourceNodeWidth / 2 + horizontalSpacing;
+    
+    // Calculate vertical spacing between output nodes
+    const verticalSpacing = 200; // Vertical spacing between stacked output nodes
+    
+    // Calculate total height of the stack
+    const totalStackHeight = outputNodes.reduce((sum, node) => {
+      const nodeHeight = node.height || node.radius * 2;
+      return sum + nodeHeight + verticalSpacing;
+    }, -verticalSpacing); // Subtract last spacing
+    
+    // Center the stack vertically around the source node's Y position
+    const stackStartY = sourceNode.y - totalStackHeight / 2;
+    
+    // Position each output node in the stack
+    let currentY = stackStartY;
+    outputNodes.forEach((outputNode, index) => {
+      const nodeHeight = outputNode.height || outputNode.radius * 2;
+      
+      // Set X position to the right of source
+      outputNode.x = outputStackX;
+      
+      // Set Y position in the stack
+      outputNode.y = currentY + nodeHeight / 2;
+      
+      // Move to next position
+      currentY += nodeHeight + verticalSpacing;
+    });
   });
 
   // REMOVED: Clustering pass that could violate chronological order
@@ -696,10 +796,12 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     }
   }
   
-  // Connection-based positioning: bring connected nodes closer together
+  // Connection-based positioning: bring connected nodes closer together (50-300px range)
   // BUT: Only adjust if it doesn't violate chronological order
-  const connectionAdjustmentPasses = 3;
-  const tightSpacing = MIN_NODE_SPACING * 0.6; // Tighter spacing for connected nodes (60% of normal)
+  const connectionAdjustmentPasses = 5; // More passes for better convergence
+  const minConnectionDistance = 50; // Minimum edge-to-edge distance between connected nodes
+  const maxConnectionDistance = 300; // Maximum preferred edge-to-edge distance
+  const targetConnectionDistance = 150; // Target edge-to-edge distance
   
   for (let pass = 0; pass < connectionAdjustmentPasses; pass++) {
     positionedNodes.forEach(node => {
@@ -717,30 +819,56 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
           if (sourceTimestamp <= targetTimestamp) {
             const sourceWidth = sourceNode.width || sourceNode.radius * 2;
             const targetWidth = node.width || node.radius * 2;
-            const minDistance = sourceWidth / 2 + targetWidth / 2 + tightSpacing;
             const sourceRight = sourceNode.x + sourceWidth / 2;
             const targetLeft = node.x - targetWidth / 2;
+            const currentEdgeDistance = targetLeft - sourceRight; // Edge-to-edge distance
             
-            // Only move source left if it doesn't violate chronological order
-            if (sourceRight >= targetLeft) {
-              const newSourceX = node.x - minDistance;
-              // Verify this doesn't violate chronological order with other nodes
-              const sourceYear = sourceNode.date || sourceNode.dateRange?.split('-')[0] || '';
+            // If nodes are too far apart (>300px), bring them closer
+            if (currentEdgeDistance > maxConnectionDistance) {
+              // Calculate desired distance (gradually approach target)
+              const desiredDistance = Math.min(targetConnectionDistance, currentEdgeDistance * 0.7);
+              const newTargetX = sourceNode.x + sourceWidth / 2 + targetWidth / 2 + desiredDistance;
+              
+              // Verify this doesn't violate chronological order
               const canMove = allHistoricalNodes.every(otherNode => {
-                if (otherNode.id === sourceNode.id) return true;
-                const otherYear = otherNode.date || otherNode.dateRange?.split('-')[0] || '';
+                if (otherNode.id === node.id || otherNode.id === sourceNode.id) return true;
                 const otherTimestamp = otherNode.timestamp || 0;
                 
-                // If other node is from an earlier year, source shouldn't be to its left
-                if (otherTimestamp < sourceTimestamp) {
+                // If other node is from a later year, target shouldn't be to its right
+                if (otherTimestamp > targetTimestamp) {
+                  const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
+                  return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
+                }
+                // If other node is from an earlier year, target shouldn't be to its left
+                if (otherTimestamp < targetTimestamp) {
                   const otherRight = otherNode.x + (otherNode.width || otherNode.radius * 2) / 2;
-                  return newSourceX >= otherRight + MIN_NODE_SPACING;
+                  return newTargetX - targetWidth / 2 >= otherRight + MIN_NODE_SPACING;
                 }
                 return true;
               });
               
               if (canMove) {
-                sourceNode.x = newSourceX;
+                node.x = newTargetX;
+              }
+            } else if (currentEdgeDistance < minConnectionDistance) {
+              // Ensure minimum spacing
+              const minDistance = sourceWidth / 2 + targetWidth / 2 + minConnectionDistance;
+              const newTargetX = sourceNode.x + minDistance;
+              
+              // Verify this doesn't violate chronological order
+              const canMove = allHistoricalNodes.every(otherNode => {
+                if (otherNode.id === node.id || otherNode.id === sourceNode.id) return true;
+                const otherTimestamp = otherNode.timestamp || 0;
+                
+                if (otherTimestamp > targetTimestamp) {
+                  const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
+                  return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
+                }
+                return true;
+              });
+              
+              if (canMove) {
+                node.x = newTargetX;
               }
             }
           }
@@ -759,24 +887,50 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
             if (sourceTimestamp <= targetTimestamp) {
               const sourceWidth = node.width || node.radius * 2;
               const targetWidth = targetNode.width || targetNode.radius * 2;
-              const minDistance = sourceWidth / 2 + targetWidth / 2 + tightSpacing;
               const sourceRight = node.x + sourceWidth / 2;
               const targetLeft = targetNode.x - targetWidth / 2;
+              const currentEdgeDistance = targetLeft - sourceRight; // Edge-to-edge distance
               
-              // Only move target right if it doesn't violate chronological order
-              if (sourceRight >= targetLeft) {
-                const newTargetX = node.x + minDistance;
-                // Verify this doesn't violate chronological order with other nodes
-                const targetYear = targetNode.date || targetNode.dateRange?.split('-')[0] || '';
+              // If nodes are too far apart (>300px), bring them closer
+              if (currentEdgeDistance > maxConnectionDistance) {
+                // Calculate desired distance (gradually approach target)
+                const desiredDistance = Math.min(targetConnectionDistance, currentEdgeDistance * 0.7);
+                const newTargetX = node.x + sourceWidth / 2 + targetWidth / 2 + desiredDistance;
+                
+                // Verify this doesn't violate chronological order
                 const canMove = allHistoricalNodes.every(otherNode => {
-                  if (otherNode.id === targetNode.id) return true;
-                  const otherYear = otherNode.date || otherNode.dateRange?.split('-')[0] || '';
+                  if (otherNode.id === targetNode.id || otherNode.id === node.id) return true;
                   const otherTimestamp = otherNode.timestamp || 0;
                   
                   // If other node is from a later year, target shouldn't be to its right
                   if (otherTimestamp > targetTimestamp) {
                     const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
-                    return newTargetX <= otherLeft - MIN_NODE_SPACING;
+                    return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
+                  }
+                  // If other node is from an earlier year, target shouldn't be to its left
+                  if (otherTimestamp < targetTimestamp) {
+                    const otherRight = otherNode.x + (otherNode.width || otherNode.radius * 2) / 2;
+                    return newTargetX - targetWidth / 2 >= otherRight + MIN_NODE_SPACING;
+                  }
+                  return true;
+                });
+                
+                if (canMove) {
+                  targetNode.x = newTargetX;
+                }
+              } else if (currentEdgeDistance < minConnectionDistance) {
+                // Ensure minimum spacing
+                const minDistance = sourceWidth / 2 + targetWidth / 2 + minConnectionDistance;
+                const newTargetX = node.x + minDistance;
+                
+                // Verify this doesn't violate chronological order
+                const canMove = allHistoricalNodes.every(otherNode => {
+                  if (otherNode.id === targetNode.id || otherNode.id === node.id) return true;
+                  const otherTimestamp = otherNode.timestamp || 0;
+                  
+                  if (otherTimestamp > targetTimestamp) {
+                    const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
+                    return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
                   }
                   return true;
                 });
@@ -894,15 +1048,18 @@ const doesConnectionIntersectNode = (
   }
 
   // Calculate connection path points using port positions (same as getConnectionPath)
+  // Port squares are inside the node, but connections connect at the edge
+  const sidePadding = 8; // Must match the sidePadding in calculateNodePorts
   const sourcePorts = calculateNodePorts(source, [source, target, node]);
   const targetPorts = calculateNodePorts(target, [source, target, node]);
   
   const outputPort = sourcePorts.outputs.find(p => p.connectionId === target.id);
   const inputPort = targetPorts.inputs.find(p => p.connectionId === source.id);
   
-  const startX = outputPort ? source.x + outputPort.x : source.x + source.width / 2;
+  // Connections start/end at the edge, using port's Y position
+  const startX = outputPort ? source.x + source.width / 2 : source.x + source.width / 2;
   const startY = outputPort ? source.y + outputPort.y : source.y;
-  const endX = inputPort ? target.x + inputPort.x : target.x - target.width / 2;
+  const endX = inputPort ? target.x - target.width / 2 : target.x - target.width / 2;
   const endY = inputPort ? target.y + inputPort.y : target.y;
   
   const horizontalDistance = Math.abs(endX - startX);
@@ -1143,15 +1300,19 @@ const getThemeColor = (varName: string, fallback: string = '#000000'): string =>
 // Get node color by type
 const getNodeColor = (type: string, pathTaken: boolean): string => {
   const colors: Record<string, { main: string; branch: string }> = {
+    career: { main: '#3b82f6', branch: '#60a5fa' }, // Blue - full-time roles (biggest nodes)
+    event: { main: '#eab308', branch: '#fde047' }, // Yellow - something that happened
+    spark: { main: '#f97316', branch: '#fb923c' }, // Orange - inspiration
+    inspiration: { main: '#a855f7', branch: '#c084fc' }, // Purple - inspiration nodes (often orphaned)
+    possiblePath: { main: '#6b7280', branch: '#9ca3af' }, // Gray - paths not taken
+    // Legacy types for backward compatibility
     milestone: { main: '#9333ea', branch: '#c084fc' }, // Purple
     company: { main: '#3b82f6', branch: '#60a5fa' }, // Blue
-    event: { main: '#eab308', branch: '#fde047' }, // Yellow
     transition: { main: '#6b7280', branch: '#9ca3af' }, // Gray
-    spark: { main: '#f97316', branch: '#fb923c' }, // Orange - represents inspiration and new paths
-    future: { main: '#10b981', branch: '#34d399' }, // Green - represents future ambitions
+    future: { main: '#10b981', branch: '#34d399' }, // Green
   };
   
-  const colorSet = colors[type] || colors.milestone;
+  const colorSet = colors[type] || colors.event;
   return pathTaken ? colorSet.main : colorSet.branch;
 };
 
@@ -1354,8 +1515,8 @@ const addLineHop = (
   return `M ${startX} ${startY} C ${splitBefore.firstCp1x} ${splitBefore.firstCp1y}, ${splitBefore.firstCp2x} ${splitBefore.firstCp2y}, ${beforeHop.x} ${beforeHop.y} C ${hopCp1X} ${hopCp1Y}, ${hopCp2X} ${hopCp2Y}, ${afterHop.x} ${afterHop.y} C ${splitAfter.secondCp1x} ${splitAfter.secondCp1y}, ${splitAfter.secondCp2x} ${splitAfter.secondCp2y}, ${endX} ${endY}`;
 };
 
-// Calculate connection path - routes around nodes and other connections to avoid intersections
-// Now uses port positions for patch node style
+// Calculate connection path - simple bezier curve between ports
+// No hops, no waypoints - just a clean curve
 const getConnectionPath = (
   source: PositionedNode, 
   target: PositionedNode, 
@@ -1367,401 +1528,54 @@ const getConnectionPath = (
   const targetPorts = calculateNodePorts(target, allNodes);
   
   // Find the output port on source that connects to target
-  // The output port should exist because source.connections includes target.id
   const outputPort = sourcePorts.outputs.find(p => p.connectionId === target.id);
   // Find the input port on target that receives from source
-  // The input port should exist because source.connections includes target.id (meaning source connects TO target)
   const inputPort = targetPorts.inputs.find(p => p.connectionId === source.id);
   
-  // CRITICAL: Connections MUST connect to the exact center of the 4x4px port squares
-  // Port positions (port.x, port.y) are relative to the node center
-  // So we add them to the node's absolute position to get the port's absolute position
+  // Get port positions (relative to node center)
+  // Port squares are inside the node, but connections should connect at the edge
+  const sidePadding = 8; // Must match the sidePadding in calculateNodePorts
   let startX: number, startY: number, endX: number, endY: number;
   
-  // Connections MUST connect to the exact center of the 4x4px port squares
-  // Port positions (port.x, port.y) are relative to the node center
-  // Port squares are rendered at (port.x - 2, port.y - 2) with size 4x4
-  // So the center is at (port.x, port.y) relative to node center
-  
   if (outputPort) {
-    // Connect directly to the center of the output port square
-    startX = source.x + outputPort.x;
-    startY = source.y + outputPort.y;
+    // Port is positioned inside the node, but connection should start at the edge
+    // Output port is at: node.width / 2 - sidePadding
+    // Connection should be at: node.width / 2 (the edge)
+    startX = source.x + source.width / 2; // Right edge of source node
+    startY = source.y + outputPort.y; // Use port's Y position
   } else {
-    // Fallback: use right edge center (shouldn't happen if connections are properly defined)
+    // Fallback: use right edge center
     startX = source.x + source.width / 2;
     startY = source.y;
   }
   
   if (inputPort) {
-    // Connect directly to the center of the input port square
-    endX = target.x + inputPort.x;
-    endY = target.y + inputPort.y;
+    // Port is positioned inside the node, but connection should end at the edge
+    // Input port is at: -node.width / 2 + sidePadding
+    // Connection should be at: -node.width / 2 (the edge)
+    endX = target.x - target.width / 2; // Left edge of target node
+    endY = target.y + inputPort.y; // Use port's Y position
   } else {
-    // Fallback: use left edge center (shouldn't happen if connections are properly defined)
+    // Fallback: use left edge center
     endX = target.x - target.width / 2;
     endY = target.y;
   }
   
+  // Calculate simple bezier curve
   const dx = endX - startX;
   const dy = endY - startY;
   const distance = Math.sqrt(dx * dx + dy * dy);
   
-  // Find nodes that the direct path would intersect
-  const intersectingNodes: Array<{ node: PositionedNode; t: number }> = [];
+  // Simple curve factor based on distance
+  const curveFactor = Math.min(0.3, Math.max(0.1, distance / 1000));
   
-  // Sample points along the direct path to check for intersections
-  // Use more samples for better detection
-  const numSamples = Math.max(100, Math.ceil(distance / 5));
-  const seenNodes = new Set<string>();
+  // Control points for smooth bezier curve
+  const cp1x = startX + dx * curveFactor;
+  const cp1y = startY + dy * curveFactor * 0.3;
+  const cp2x = endX - dx * curveFactor;
+  const cp2y = endY - dy * curveFactor * 0.3;
   
-  for (let i = 0; i <= numSamples; i++) {
-    const t = i / numSamples;
-    // Linear interpolation along direct path
-    const x = startX + (endX - startX) * t;
-    const y = startY + (endY - startY) * t;
-    
-    // Check if this point is inside any node (excluding source and target)
-    for (const node of allNodes) {
-      if (node.id === source.id || node.id === target.id) continue;
-      if (seenNodes.has(node.id)) continue; // Skip if we already found this node
-      
-      const nodeDx = x - node.x;
-      const nodeDy = y - node.y;
-      const distToNode = Math.sqrt(nodeDx * nodeDx + nodeDy * nodeDy);
-      
-      // Check if point is within node rectangular bounds + padding
-      const nodeHalfWidth = node.width / 2;
-      const nodeHalfHeight = node.height / 2;
-      const requiredClearanceX = nodeHalfWidth + MIN_NODE_SPACING + 10;
-      const requiredClearanceY = nodeHalfHeight + MIN_NODE_SPACING + 10;
-      const nodeDxAbs = Math.abs(nodeDx);
-      const nodeDyAbs = Math.abs(nodeDy);
-      if (nodeDxAbs < requiredClearanceX && nodeDyAbs < requiredClearanceY) {
-        // Only add if we haven't seen this node yet, or if it's a significant distance away
-        const existing = intersectingNodes.find(item => item.node.id === node.id);
-        if (!existing) {
-          intersectingNodes.push({ node, t });
-          seenNodes.add(node.id);
-        } else if (Math.abs(existing.t - t) > 0.2) {
-          // Update t to the earliest intersection point
-          if (t < existing.t) {
-            existing.t = t;
-          }
-        }
-        break; // Only count each node once per sample
-      }
-    }
-  }
-  
-  // If no intersections, use simple smooth bezier curve
-  // Reduced connector space - tighter curves
-  if (intersectingNodes.length === 0) {
-    const horizontalDistance = Math.abs(endX - startX);
-    const verticalDistance = Math.abs(endY - startY);
-    const totalDistance = Math.sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance);
-    
-    // Use much smaller curve factors for tighter, straighter lines
-    // Reduced connector space between nodes
-    const minCurveFactor = 0.02; // Minimum 2% of distance (reduced)
-    const maxCurveFactor = 0.08; // Maximum 8% of distance (reduced)
-    const adaptiveFactor = Math.min(maxCurveFactor, Math.max(minCurveFactor, totalDistance / 3000));
-    
-    const cp1x = startX + (endX - startX) * adaptiveFactor;
-    const cp1y = startY + (endY - startY) * adaptiveFactor * 0.2; // Reduced vertical curve
-    const cp2x = endX - (endX - startX) * adaptiveFactor;
-    const cp2y = endY - (endY - startY) * adaptiveFactor * 0.2; // Reduced vertical curve
-    
-    return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
-  }
-  
-  // Sort intersecting nodes by their position along the path (by t value)
-  intersectingNodes.sort((a, b) => a.t - b.t);
-  
-  // Calculate waypoints to route around intersecting nodes
-  const waypoints: Array<{ x: number; y: number }> = [];
-  
-  // For each intersecting node, calculate a waypoint that routes around it
-  for (const { node, t } of intersectingNodes) {
-    // Calculate the point on the direct path where we encounter this node
-    const pathX = startX + (endX - startX) * t;
-    const pathY = startY + (endY - startY) * t;
-    
-    // Calculate direction from node center to path point
-    const nodeToPathDx = pathX - node.x;
-    const nodeToPathDy = pathY - node.y;
-    const nodeToPathDist = Math.sqrt(nodeToPathDx * nodeToPathDx + nodeToPathDy * nodeToPathDy);
-    
-    // If the path point is very close to or inside the node center, use a default direction
-    let normalizedDx: number;
-    let normalizedDy: number;
-    if (nodeToPathDist < 1) {
-      // Use perpendicular to the source-target line
-      const lineDx = endX - startX;
-      const lineDy = endY - startY;
-      const lineLength = Math.sqrt(lineDx * lineDx + lineDy * lineDy);
-      if (lineLength > 0) {
-        normalizedDx = -lineDy / lineLength;
-        normalizedDy = lineDx / lineLength;
-      } else {
-        normalizedDx = 1;
-        normalizedDy = 0;
-      }
-    } else {
-      // Normalize the direction vector
-      normalizedDx = nodeToPathDx / nodeToPathDist;
-      normalizedDy = nodeToPathDy / nodeToPathDist;
-    }
-    
-    // Calculate perpendicular direction (90 degrees rotated)
-    // Perpendicular to (dx, dy) is (-dy, dx)
-    const perpDx = -normalizedDy;
-    const perpDy = normalizedDx;
-    
-    // Determine which side to route around
-    // Check which side of the line from source to target the node is on
-    const lineDx = endX - startX;
-    const lineDy = endY - startY;
-    const nodeDx = node.x - startX;
-    const nodeDy = node.y - startY;
-    const crossProduct = lineDx * nodeDy - lineDy * nodeDx;
-    
-    // If cross product is positive, node is on one side; negative on the other
-    // Choose the side that gives more clearance and avoids other nodes
-    const sideMultiplier = crossProduct > 0 ? 1 : -1;
-    
-    // Calculate waypoint position - route around the node with minimal clearance
-    // Use smaller clearance to keep lines straighter
-    const nodeHalfWidth = node.width / 2;
-    const nodeHalfHeight = node.height / 2;
-    const clearance = Math.max(nodeHalfWidth, nodeHalfHeight) + MIN_NODE_SPACING + 40; // Reduced clearance for straighter lines
-    let waypointX = node.x + perpDx * clearance * sideMultiplier;
-    let waypointY = node.y + perpDy * clearance * sideMultiplier;
-    
-    // Adjust waypoint to be closer to source/target line for straighter routing
-    // This helps create straighter lines with minimal curves
-    const lineLength = Math.sqrt(lineDx * lineDx + lineDy * lineDy);
-    if (lineLength > 0) {
-      const linePerpDx = -lineDy / lineLength;
-      const linePerpDy = lineDx / lineLength;
-      // Add minimal additional offset perpendicular to the line
-      const additionalOffset = clearance * 0.2; // Reduced from 0.4 for straighter lines
-      waypointX += linePerpDx * additionalOffset * sideMultiplier;
-      waypointY += linePerpDy * additionalOffset * sideMultiplier;
-    }
-    
-    waypoints.push({ x: waypointX, y: waypointY });
-  }
-  
-  // Verify waypoints don't intersect nodes and adjust if needed
-  for (let i = 0; i < waypoints.length; i++) {
-    const wp = waypoints[i];
-    for (const node of allNodes) {
-      if (node.id === source.id || node.id === target.id) continue;
-      
-      const wpDx = wp.x - node.x;
-      const wpDy = wp.y - node.y;
-      const wpDist = Math.sqrt(wpDx * wpDx + wpDy * wpDy);
-      
-      // If waypoint is too close to a node, push it further away
-      const nodeHalfWidth = node.width / 2;
-      const nodeHalfHeight = node.height / 2;
-      const nodeMaxDimension = Math.max(nodeHalfWidth, nodeHalfHeight);
-      if (wpDist < nodeMaxDimension + MIN_NODE_SPACING + 30) {
-        const angle = Math.atan2(wpDy, wpDx);
-        const requiredDist = nodeMaxDimension + MIN_NODE_SPACING + 50; // Reduced for straighter lines
-        waypoints[i] = {
-          x: node.x + Math.cos(angle) * requiredDist,
-          y: node.y + Math.sin(angle) * requiredDist
-        };
-      }
-    }
-  }
-  
-  // Build smooth path - use a single bezier curve that naturally avoids obstacles
-  // Instead of routing through waypoints, we'll use them to influence the curve direction
-  let path = `M ${startX} ${startY}`;
-  
-  const startToEndDx = endX - startX;
-  const startToEndDy = endY - startY;
-  const startToEndDist = Math.sqrt(startToEndDx * startToEndDx + startToEndDy * startToEndDy);
-  
-  if (waypoints.length === 0) {
-    // No obstacles - use simple smooth bezier with minimal curve
-    // Reduced connector space
-    const curveFactor = Math.min(0.08, Math.max(0.02, startToEndDist / 3000));
-    
-    const cp1x = startX + startToEndDx * curveFactor;
-    const cp1y = startY + startToEndDy * curveFactor * 0.2; // Reduced vertical curve
-    const cp2x = endX - startToEndDx * curveFactor;
-    const cp2y = endY - startToEndDy * curveFactor * 0.2; // Reduced vertical curve
-    
-    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
-  } else {
-    // Calculate smooth control points that create minimal curves
-    // Use waypoints to influence curve direction, but keep curves subtle
-    
-    // Calculate average waypoint position for overall deflection
-    let avgWaypointX = 0;
-    let avgWaypointY = 0;
-    for (const wp of waypoints) {
-      avgWaypointX += wp.x;
-      avgWaypointY += wp.y;
-    }
-    avgWaypointX /= waypoints.length;
-    avgWaypointY /= waypoints.length;
-    
-    // Calculate perpendicular vector from direct path to average waypoint
-    const midX = (startX + endX) / 2;
-    const midY = (startY + endY) / 2;
-    const pathPerpDx = -startToEndDy / startToEndDist;
-    const pathPerpDy = startToEndDx / startToEndDist;
-    
-    const waypointOffsetX = avgWaypointX - midX;
-    const waypointOffsetY = avgWaypointY - midY;
-    const perpProjection = waypointOffsetX * pathPerpDx + waypointOffsetY * pathPerpDy;
-    
-    // Calculate deflection amount - limit to prevent sharp bends
-    // Use minimal deflection for straighter lines
-    const maxDeflection = startToEndDist * 0.15; // Maximum 15% of distance for deflection (reduced from 30%)
-    const deflectionAmount = Math.max(-maxDeflection, Math.min(maxDeflection, perpProjection * 0.3)); // Reduced from 0.5
-    
-    // Calculate base curve factors - much smaller for straighter lines
-    const minCurveDistance = startToEndDist * 0.05; // At least 5% of distance (reduced from 15%)
-    const maxCurveDistance = startToEndDist * 0.20; // At most 20% for gentle curves (reduced from 45%)
-    const baseCurveFactor1 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.1)) / startToEndDist; // Reduced from 0.3
-    const baseCurveFactor2 = Math.min(maxCurveDistance, Math.max(minCurveDistance, startToEndDist * 0.1)) / startToEndDist; // Reduced from 0.3
-    
-    // Calculate control points with minimal deflection
-    // First control point: positioned along path with small perpendicular deflection
-    const cp1x = startX + startToEndDx * baseCurveFactor1 + pathPerpDx * deflectionAmount;
-    const cp1y = startY + startToEndDy * baseCurveFactor1 + pathPerpDy * deflectionAmount * 0.5; // Reduced vertical deflection
-    
-    // Second control point: mirror the deflection for smooth S-curve
-    const cp2x = endX - startToEndDx * baseCurveFactor2 - pathPerpDx * deflectionAmount;
-    const cp2y = endY - startToEndDy * baseCurveFactor2 - pathPerpDy * deflectionAmount * 0.5; // Reduced vertical deflection
-    
-    // Ensure control points create smooth curves by verifying they're not too close to start/end
-    // and that the angle between segments is not too sharp
-    const cp1Dist = Math.sqrt((cp1x - startX) ** 2 + (cp1y - startY) ** 2);
-    const cp2Dist = Math.sqrt((cp2x - endX) ** 2 + (cp2y - endY) ** 2);
-    
-    // If control points are too close, adjust them to maintain minimum curve radius
-    const minControlDistance = startToEndDist * 0.1;
-    if (cp1Dist < minControlDistance) {
-      const scale = minControlDistance / cp1Dist;
-      const adjustedCp1x = startX + (cp1x - startX) * scale;
-      const adjustedCp1y = startY + (cp1y - startY) * scale;
-      path += ` C ${adjustedCp1x} ${adjustedCp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
-    } else if (cp2Dist < minControlDistance) {
-      const scale = minControlDistance / cp2Dist;
-      const adjustedCp2x = endX + (cp2x - endX) * scale;
-      const adjustedCp2y = endY + (cp2y - endY) * scale;
-      path += ` C ${cp1x} ${cp1y}, ${adjustedCp2x} ${adjustedCp2y}, ${endX} ${endY}`;
-    } else {
-      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
-    }
-  }
-  
-  // Check for intersections with other connections and add line hops
-  if (allConnections && allConnections.length > 0) {
-    // Parse the current path to get control points
-    const currentPathMatch = path.match(/C\s+([\d.]+)\s+([\d.]+),\s+([\d.]+)\s+([\d.]+),\s+([\d.]+)\s+([\d.]+)/);
-    if (currentPathMatch) {
-      const cp1x = parseFloat(currentPathMatch[1]);
-      const cp1y = parseFloat(currentPathMatch[2]);
-      const cp2x = parseFloat(currentPathMatch[3]);
-      const cp2y = parseFloat(currentPathMatch[4]);
-      const endX = parseFloat(currentPathMatch[5]);
-      const endY = parseFloat(currentPathMatch[6]);
-      
-      const currentCurve = { startX, startY, cp1x, cp1y, cp2x, cp2y, endX, endY };
-      
-      // Find all intersections with other connections
-      const intersections: Array<{ intersection: { t1: number; t2: number; point: { x: number; y: number } }; otherConn: typeof allConnections[0] }> = [];
-      
-      for (const otherConn of allConnections) {
-        // Skip if this is the same connection
-        if ((otherConn.source.id === source.id && otherConn.target.id === target.id) ||
-            (otherConn.source.id === target.id && otherConn.target.id === source.id)) {
-          continue;
-        }
-        
-        // Parse the other connection's path
-        const otherPathMatch = otherConn.path.match(/C\s+([\d.]+)\s+([\d.]+),\s+([\d.]+)\s+([\d.]+),\s+([\d.]+)\s+([\d.]+)/);
-        if (!otherPathMatch) continue;
-        
-        const otherStartMatch = otherConn.path.match(/M\s+([\d.]+)\s+([\d.]+)/);
-        if (!otherStartMatch) continue;
-        
-        const otherStartX = parseFloat(otherStartMatch[1]);
-        const otherStartY = parseFloat(otherStartMatch[2]);
-        const otherCp1x = parseFloat(otherPathMatch[1]);
-        const otherCp1y = parseFloat(otherPathMatch[2]);
-        const otherCp2x = parseFloat(otherPathMatch[3]);
-        const otherCp2y = parseFloat(otherPathMatch[4]);
-        const otherEndX = parseFloat(otherPathMatch[5]);
-        const otherEndY = parseFloat(otherPathMatch[6]);
-        
-        const otherCurve = { startX: otherStartX, startY: otherStartY, cp1x: otherCp1x, cp1y: otherCp1y, cp2x: otherCp2x, cp2y: otherCp2y, endX: otherEndX, endY: otherEndY };
-        
-        // Find actual crossing/overlap (not just proximity)
-        // Use a tighter threshold to detect more intersections and add hops
-        const intersection = doCurvesCross(currentCurve, otherCurve, 15); // Increased from 8 to catch more intersections
-        if (intersection) {
-          intersections.push({ intersection, otherConn });
-        }
-      }
-      
-      // If we have intersections, add line hops
-      // Use the first (closest) intersection for the hop
-      if (intersections.length > 0) {
-        // Sort by t1 (position along our curve) to get the first intersection
-        intersections.sort((a, b) => a.intersection.t1 - b.intersection.t1);
-        const firstIntersection = intersections[0];
-        
-        // Determine hop direction based on which side of the other line we're on
-        const otherConn = firstIntersection.otherConn;
-        const otherPathMatch = otherConn.path.match(/C\s+([\d.]+)\s+([\d.]+),\s+([\d.]+)\s+([\d.]+),\s+([\d.]+)\s+([\d.]+)/);
-        const otherStartMatch = otherConn.path.match(/M\s+([\d.]+)\s+([\d.]+)/);
-        
-        if (otherPathMatch && otherStartMatch) {
-          const otherStartX = parseFloat(otherStartMatch[1]);
-          const otherStartY = parseFloat(otherStartMatch[2]);
-          const otherEndX = parseFloat(otherPathMatch[5]);
-          const otherEndY = parseFloat(otherPathMatch[6]);
-          
-          // Calculate which side of the other line our midpoint is on
-          const otherDx = otherEndX - otherStartX;
-          const otherDy = otherEndY - otherStartY;
-          const ourMidX = (startX + endX) / 2;
-          const ourMidY = (startY + endY) / 2;
-          const toOtherStartDx = ourMidX - otherStartX;
-          const toOtherStartDy = ourMidY - otherStartY;
-          const crossProduct = otherDx * toOtherStartDy - otherDy * toOtherStartDx;
-          
-          // Determine hop direction (up if we're on one side, down if on the other)
-          // Also determine hop size based on how many intersections we have
-          const hopDirection: 'up' | 'down' = crossProduct > 0 ? 'up' : 'down';
-          const hopSize: 'small' | 'medium' | 'large' = intersections.length === 1 ? 'medium' : 'large';
-          
-          // Add the line hop
-          path = addLineHop(
-            startX, startY,
-            cp1x, cp1y,
-            cp2x, cp2y,
-            endX, endY,
-            firstIntersection.intersection.point,
-            firstIntersection.intersection.t1,
-            hopSize,
-            hopDirection
-          );
-        }
-      }
-    }
-  }
-  
-  return path;
+  return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
 };
 
 // Calculate text width (approximate)
@@ -1832,52 +1646,42 @@ const calculateWrappedTextWidth = (text: string, fontSize: number, maxLines: num
 
 // Calculate node radius based on text width (accounting for multi-line wrapping)
 // This is kept for backward compatibility and used to calculate width/height
-const calculateNodeRadius = (node: Node): number => {
+// Calculate required width directly from text requirements (more fluid approach)
+const calculateRequiredWidth = (node: Node): number => {
   const pathTaken = node.pathTaken !== false;
-  const minRadius = pathTaken ? MIN_NODE_RADIUS : MIN_NODE_RADIUS * 0.75; // Smaller min for paths not taken
-  const maxRadius = pathTaken ? MAX_NODE_RADIUS : MAX_NODE_RADIUS * 0.85; // Smaller max for paths not taken
-  
-  if (node.image) {
-    // If there's an image, use minimum radius (scaled for paths not taken)
-    return minRadius;
-  }
-  
-  // Use reduced padding for paths not taken
   const padding = pathTaken ? TEXT_PADDING : TEXT_PADDING_NOT_TAKEN;
   
-  // Start with an estimated width and refine
-  // Estimate based on average characters per line for 3 lines
-  // Use a base font size for estimation (will be adjusted per node later)
+  // Career nodes should be the biggest, Spark, Inspiration, and PossiblePath nodes should be smaller
+  const typeMultiplier = node.type === 'career' ? 1.4 : (node.type === 'spark' || node.type === 'inspiration' || node.type === 'possiblePath' ? 0.8 : 1.0);
+  const minWidth = node.type === 'career' ? 350 : (node.type === 'spark' || node.type === 'inspiration' || node.type === 'possiblePath' ? 200 : 250); // Career nodes have larger minimum width, Spark, Inspiration, and PossiblePath nodes smaller
+  const maxWidth = 480; // Max width to prevent nodes from getting too long
+  
+  // Start with an estimated width based on text
   const words = node.label.split(/\s+/);
   const avgCharsPerWord = words.reduce((sum, w) => sum + w.length, 0) / words.length;
-  const estimatedCharsPerLine = Math.ceil(words.length / 3) * (avgCharsPerWord + 1); // +1 for space
+  const estimatedCharsPerLine = Math.ceil(words.length / 2) * (avgCharsPerWord + 1); // Max 2 lines
   const estimatedLineWidth = calculateTextWidth('x'.repeat(estimatedCharsPerLine), BASE_FONT_SIZE);
   
-  // Calculate required radius based on estimated line width
-  const requiredWidth = estimatedLineWidth + (padding * 2);
-  let radius = requiredWidth / 2;
+  // Binary search for optimal width (respecting max width)
+  let low = minWidth;
+  let high = Math.min(maxWidth, Math.max(minWidth * 2, estimatedLineWidth + (padding * 2) * 2)); // Cap high at maxWidth
+  let bestWidth = Math.max(minWidth, Math.min(maxWidth, estimatedLineWidth + (padding * 2)));
   
-  // Refine by checking actual wrapped text
-  // Binary search for optimal radius
-  let low = minRadius;
-  let high = maxRadius;
-  let bestRadius = Math.max(minRadius, Math.min(maxRadius, radius));
-  
-  for (let iteration = 0; iteration < 10; iteration++) {
-    const testRadius = (low + high) / 2;
-    const diameter = testRadius * 2;
-    const availableWidth = diameter - (padding * 2);
+  for (let iteration = 0; iteration < 15; iteration++) {
+    const testWidth = Math.min(maxWidth, (low + high) / 2); // Ensure testWidth never exceeds maxWidth
+    const availableWidth = testWidth - (padding * 2);
     
-    // Calculate adaptive font size for this radius
-    const fontSize = calculateFontSize(testRadius);
+    // Calculate adaptive font size for this width
+    const fontSize = calculateFontSize(testWidth);
     
-    // Wrap text to fit this width (max 3 lines) with adaptive font size
+    // Wrap text to fit this width (max 2 lines)
     const lines = wrapTextToLines(node.label, availableWidth, fontSize);
+    const displayLines = lines.slice(0, 2); // Max 2 lines
     
-    // Check if all lines fit and we have <= 3 lines
+    // Check if all lines fit
     let allLinesFit = true;
     let maxLineWidth = 0;
-    for (const line of lines) {
+    for (const line of displayLines) {
       const lineWidth = calculateTextWidth(line, fontSize);
       maxLineWidth = Math.max(maxLineWidth, lineWidth);
       if (lineWidth > availableWidth) {
@@ -1886,34 +1690,47 @@ const calculateNodeRadius = (node: Node): number => {
       }
     }
     
-    if (allLinesFit && lines.length <= 3) {
-      bestRadius = testRadius;
+    if (allLinesFit && displayLines.length <= 2) {
+      bestWidth = testWidth;
       // Check if we can go smaller
       const requiredWidthForLines = maxLineWidth + (padding * 2);
-      const requiredRadiusForLines = requiredWidthForLines / 2;
-      if (requiredRadiusForLines < testRadius) {
-        high = testRadius;
+      if (requiredWidthForLines < testWidth && requiredWidthForLines >= minWidth) {
+        high = testWidth;
       } else {
-        // This radius works, use it
-        bestRadius = testRadius;
+        // This width works, use it
+        bestWidth = testWidth;
         break;
       }
     } else {
-      // Need larger radius
-      low = testRadius;
+      // Need larger width, but don't exceed maxWidth
+      low = testWidth;
+      if (high > maxWidth) {
+        high = maxWidth;
+      }
     }
   }
   
-  // Clamp between min and max (with different values for paths not taken)
-  return Math.max(minRadius, Math.min(maxRadius, bestRadius));
+  // Apply type multiplier to make career nodes bigger
+  const finalWidth = Math.max(minWidth, bestWidth * typeMultiplier);
+  
+  // Apply max width constraint to prevent nodes from getting too long
+  return Math.min(finalWidth, maxWidth);
+};
+
+// Keep calculateNodeRadius for backward compatibility (derived from width)
+const calculateNodeRadius = (node: Node): number => {
+  const width = calculateRequiredWidth(node);
+  // Radius is half the width for backward compatibility
+  // But we don't use radius for positioning anymore
+  return width / 2;
 };
 
 // Calculate node dimensions for rectangular patch nodes
+// Width is calculated fluidly from text requirements
 // Height is dynamic based on number of input/output ports
-// Converts radius to width/height with appropriate aspect ratio
-// More horizontally oriented for better alignment
 const calculateNodeSize = (node: Node, allNodes: Node[] = []): { width: number; height: number; radius: number } => {
-  const radius = calculateNodeRadius(node);
+  // Calculate width directly from text requirements (fluid, no fixed multiplier)
+  const width = calculateRequiredWidth(node);
   
   // Calculate number of input and output ports
   let inputCount = 0;
@@ -1933,27 +1750,48 @@ const calculateNodeSize = (node: Node, allNodes: Node[] = []): { width: number; 
   
   // Port spacing constants - small 4x4px ports inside nodes
   const portSize = 4; // Port size (4x4px)
-  const portSpacing = 24; // Vertical spacing between ports (smaller since ports are tiny)
-  const edgePadding = 16; // Padding from top/bottom edges
-  const minContentHeight = 50; // Minimum height for node content (text/image)
+  const portSpacing = 20; // Vertical spacing between ports (matches calculateNodePorts)
+  const bottomPadding = 12; // Padding from bottom edge
+  const topPadding = 8; // Padding from top edge
   
-  // Calculate required height based on ports
+  // Calculate image cover height if image exists (30% of width or 80px min)
+  const imageCoverHeight = node.image ? Math.max(width * 0.3, 80) : 0;
+  const imageGap = node.image ? 8 : 0; // Gap between image and title
+  
+  // Calculate title height using the actual width
+  const fontSize = calculateFontSize(width);
+  const textPadding = TEXT_PADDING;
+  const availableWidth = width - (textPadding * 2);
+  const lines = wrapTextToLines(node.label, availableWidth, fontSize);
+  const displayLines = lines.slice(0, 2); // Max 2 lines
+  const lineHeight = fontSize * 1.2;
+  const titleHeight = displayLines.length * lineHeight;
+  const typeLabelHeight = 14; // Approximate height for type label
+  const typeLabelGap = 4; // Gap after title
+  
+  // Calculate ports area height
   const maxPortCount = Math.max(inputCount, outputCount);
-  // Height needed: spacing between ports + padding (ports are tiny, so don't count their size)
   const portsHeight = maxPortCount > 0 
-    ? (maxPortCount - 1) * portSpacing
+    ? (maxPortCount - 1) * portSpacing + 8 // Add some padding for port area
     : 0;
-  const calculatedHeight = portsHeight + (edgePadding * 2) + minContentHeight;
   
-  // Use the larger of calculated height or minimum based on radius
-  const minHeight = radius * 1.2; // Minimum height based on content
-  const height = Math.max(calculatedHeight, minHeight);
+  // Calculate total required height: image + gap + title + type label + gap + ports + padding
+  const totalContentHeight = imageCoverHeight + 
+                            imageGap + 
+                            titleHeight + 
+                            typeLabelGap + 
+                            typeLabelHeight + 
+                            8 + // Gap after type label
+                            portsHeight + 
+                            topPadding + 
+                            bottomPadding;
   
-  // Width: radius * 2.8 (more horizontal orientation)
-  // But enforce minimum width of 250px for better readability
-  const calculatedWidth = radius * 2.8;
-  const minWidth = 250; // Minimum width to ensure text fits comfortably
-  const width = Math.max(calculatedWidth, minWidth);
+  // Minimum height based on content (no longer tied to radius)
+  const minHeight = 120; // Minimum height for readability
+  const height = Math.max(totalContentHeight, minHeight);
+  
+  // Radius is derived from width for backward compatibility only
+  const radius = width / 2;
   
   return { width, height, radius };
 };
@@ -1975,23 +1813,28 @@ const calculateNodePorts = (node: PositionedNode, allNodes: PositionedNode[]): {
   const outputs: Port[] = [];
   
   // Find input ports (nodes that connect to this node)
+  // Only include nodes where pathTaken is true
   allNodes.forEach(sourceNode => {
     if (sourceNode.connections && sourceNode.connections.includes(node.id)) {
-      inputs.push({
-        x: 0, // Will be calculated based on position on left edge
-        y: 0, // Will be calculated based on position on left edge
-        label: sourceNode.label,
-        connectionId: sourceNode.id,
-        index: inputs.length,
-      });
+      // Only add as input if the source node was actually taken
+      if (sourceNode.pathTaken !== false) {
+        inputs.push({
+          x: 0, // Will be calculated based on position on left edge
+          y: 0, // Will be calculated based on position on left edge
+          label: sourceNode.label,
+          connectionId: sourceNode.id,
+          index: inputs.length,
+        });
+      }
     }
   });
   
   // Find output ports (nodes that this node connects to)
+  // Only include nodes where pathTaken is true
   if (node.connections) {
     node.connections.forEach(targetId => {
       const targetNode = allNodes.find(n => n.id === targetId);
-      if (targetNode) {
+      if (targetNode && targetNode.pathTaken !== false) {
         outputs.push({
           x: 0, // Will be calculated based on position on right edge
           y: 0, // Will be calculated based on position on right edge
@@ -2011,40 +1854,57 @@ const calculateNodePorts = (node: PositionedNode, allNodes: PositionedNode[]): {
   const portSpacing = 20; // Vertical spacing between ports (reduced for tighter grouping)
   const topPadding = 8; // Padding from top edge (for title)
   const bottomPadding = 12; // Padding from bottom edge
-  const sidePadding = 12; // Horizontal padding from left/right edges (ports inside node)
+  const sidePadding = 8; // Horizontal padding from left/right edges (ports inside node) - MUST MATCH RENDERING CODE
   
   // Calculate title height to position ports below it
   // Use the same calculation as the rendering code
-  const fontSize = calculateFontSize(node.radius);
+  const fontSize = calculateFontSize(node.width);
   const textPadding = TEXT_PADDING;
   const availableWidth = node.width - (textPadding * 2);
   const lines = wrapTextToLines(node.label, availableWidth, fontSize);
   const displayLines = lines.slice(0, 2); // Max 2 lines for top placement
   const lineHeight = fontSize * 1.2;
   const titleHeight = displayLines.length * lineHeight;
-  const titleAreaHeight = topPadding + titleHeight + 8; // Title + 8px gap
+  const titleGap = 8; // Gap after title before ports
+  
+  // Account for image cover at top if image exists
+  // Check if node has image property (PositionedNode extends Node which has image)
+  const hasImage = (node as any).image !== undefined && (node as any).image !== null;
+  const imageCoverHeight = hasImage ? Math.max(node.width * 0.3, 80) : 0; // Use width-based calculation for consistency
+  const imageGap = hasImage ? 8 : 0; // Gap between image and title
+  
+  // Calculate title area height: image + gap + title + gap before ports
+  const titleAreaHeight = topPadding + imageCoverHeight + imageGap + titleHeight + titleGap;
   
   // Calculate input port positions (left side, below title)
+  // All ports positioned below title area, left-aligned
+  // Ports are positioned relative to node center (0,0)
+  // Port squares are positioned inside the node, but connections will use the edge
   if (inputs.length > 0) {
-    // Start ports below the title area
-    const startY = -node.height / 2 + titleAreaHeight;
-    // Distribute ports vertically below title
+    // Calculate where ports start (below title area)
+    const portsStartY = -node.height / 2 + titleAreaHeight;
+    
     inputs.forEach((port, index) => {
-      // Position inside the left edge of the node
-      port.x = -node.width / 2 + sidePadding; // Inside left edge
-      port.y = startY + (index * portSpacing);
+      // Position inside the left edge of the node (for port square display)
+      port.x = -node.width / 2 + sidePadding;
+      // Position below title, distributed vertically
+      port.y = portsStartY + (index * portSpacing);
     });
   }
   
   // Calculate output port positions (right side, below title)
+  // All ports positioned below title area, right-aligned
+  // Ports are positioned relative to node center (0,0)
+  // Port squares are positioned inside the node, but connections will use the edge
   if (outputs.length > 0) {
-    // Start ports below the title area
-    const startY = -node.height / 2 + titleAreaHeight;
-    // Distribute ports vertically below title
+    // Calculate where ports start (below title area)
+    const portsStartY = -node.height / 2 + titleAreaHeight;
+    
     outputs.forEach((port, index) => {
-      // Position inside the right edge of the node
-      port.x = node.width / 2 - sidePadding; // Inside right edge
-      port.y = startY + (index * portSpacing);
+      // Position inside the right edge of the node (for port square display)
+      port.x = node.width / 2 - sidePadding;
+      // Position below title, distributed vertically
+      port.y = portsStartY + (index * portSpacing);
     });
   }
   
@@ -2395,9 +2255,10 @@ const AnimatedNodeRect: React.FC<{
   onMouseLeave: () => void;
   onMouseDown: (e: any) => void;
   onClick: (e: any) => void;
+  onContextMenu?: (e: any) => void;
   Konva?: any;
   Rect?: any;
-}> = ({ x, y, width, height, cornerRadius, fill, opacity, stroke, strokeWidth, dash, isHovered, onMouseEnter, onMouseLeave, onMouseDown, onClick, Konva, Rect }) => {
+}> = ({ x, y, width, height, cornerRadius, fill, opacity, stroke, strokeWidth, dash, isHovered, onMouseEnter, onMouseLeave, onMouseDown, onClick, onContextMenu, Konva, Rect }) => {
   const rectRef = useRef<any>(null);
   const shadowTweenRef = useRef<any>(null);
   
@@ -2457,10 +2318,15 @@ const AnimatedNodeRect: React.FC<{
       shadowBlur={0}
       shadowColor="rgba(0,0,0,0.2)"
       listening={true}
+      perfectDrawEnabled={false}
+      strokeScaleEnabled={false}
+      lineJoin="miter"
+      lineCap="butt"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onMouseDown={onMouseDown}
       onClick={onClick}
+      onContextMenu={onContextMenu}
     />
   );
 };
@@ -2511,13 +2377,14 @@ const preloadAllImages = (nodes: Node[]): Promise<void> => {
 };
 
 // Node Image component with loading and smooth transitions
-// Uses a Group with a Rect mask to properly contain the image within the rectangular node as a square thumbnail
+// Full-width cover image positioned at the top of the node, above the title
 const NodeImage: React.FC<{
   src: string;
   x: number;
   y: number;
   width: number;
   height: number;
+  cornerRadius?: number;
   opacity?: number;
   scale?: number;
   KonvaImage?: any;
@@ -2525,7 +2392,7 @@ const NodeImage: React.FC<{
   Group?: any;
   Rect?: any;
   isHovered?: boolean;
-}> = ({ src, x, y, width, height, opacity = 1, scale = 1, KonvaImage, Konva, Group, Rect, isHovered = false }) => {
+}> = ({ src, x, y, width, height, cornerRadius = 12, opacity = 1, scale = 1, KonvaImage, Konva, Group, Rect, isHovered = false }) => {
   // Initialize with cached image if available
   const [image, setImage] = useState<HTMLImageElement | null>(() => {
     return imageCache.get(src) || null;
@@ -2534,6 +2401,7 @@ const NodeImage: React.FC<{
   const imageRef = useRef<any>(null);
   const opacityTweenRef = useRef<any>(null);
   
+  // Load image immediately on mount - don't wait for hover
   useEffect(() => {
     // Check cache first (synchronous)
     if (imageCache.has(src)) {
@@ -2541,7 +2409,8 @@ const NodeImage: React.FC<{
       return;
     }
     
-    // Otherwise load it (should be preloaded, but fallback if not)
+    // Start loading immediately - don't wait for hover
+    // This ensures images load automatically when nodes are rendered
     preloadImage(src).then(img => {
       if (img) {
         setImage(img);
@@ -2549,12 +2418,19 @@ const NodeImage: React.FC<{
     });
   }, [src]);
   
-  // Animate opacity on hover change
+  // Set initial opacity when image loads, then animate on hover change
   useEffect(() => {
     if (!groupRef.current || !Konva || !image) return;
     
     const group = groupRef.current;
     const targetOpacity = isHovered ? 0.85 : opacity;
+    
+    // Set initial opacity immediately when image first loads
+    // This ensures images appear right away without waiting for animation
+    const currentOpacity = group.opacity();
+    if (currentOpacity === 0 || currentOpacity === undefined || currentOpacity === null) {
+      group.opacity(targetOpacity);
+    }
     
     if (opacityTweenRef.current) {
       try {
@@ -2590,26 +2466,40 @@ const NodeImage: React.FC<{
   
   if (!image || !Group || !KonvaImage || !Rect) return null;
   
-  // Calculate square thumbnail size (small square, positioned at top-left of node)
-  const thumbnailSize = Math.min(width * 0.35, height * 0.5); // Small square thumbnail
-  const thumbnailX = -width / 2 + 8; // Left padding
-  const thumbnailY = -height / 2 + 8; // Top padding
+  // Full-width cover image at the top of the node
+  // Use calculated cover height: 30% of width or minimum 80px (matches calculateNodeSize)
+  // This ensures the image fits within the node without clipping
+  const coverHeight = Math.max(width * 0.3, 80);
+  const coverX = -width / 2; // Full width, starting from left edge
+  const coverY = -height / 2; // At the very top of the node
   
-  // Calculate scale to fill square
-  const scaleX = thumbnailSize / image.width;
-  const scaleY = thumbnailSize / image.height;
-  const imageScale = Math.max(scaleX, scaleY); // Cover the square
+  // Calculate scale to cover the rectangle (object-fit: cover behavior)
+  // Scale to fill the rectangle, cropping if needed
+  const scaleX = width / image.width;
+  const scaleY = coverHeight / image.height;
+  const imageScale = Math.max(scaleX, scaleY); // Cover: use larger scale to fill
   
-  // Calculate image position to center it in the square
+  // Calculate image position to fill the rectangle, top-center aligned
   const scaledWidth = image.width * imageScale;
   const scaledHeight = image.height * imageScale;
-  const imageX = thumbnailX + (thumbnailSize - scaledWidth) / 2;
-  const imageY = thumbnailY + (thumbnailSize - scaledHeight) / 2;
+  const imageX = coverX + (width - scaledWidth) / 2; // Center horizontally
+  const imageY = coverY; // Align to top (not centered vertically)
   
-  // Create clip function for square masking
+  // Create clip function for rounded corner masking to match node corners
+  // Only round the top corners since the image is at the top of the node
   const clipFunc = (ctx: CanvasRenderingContext2D) => {
     ctx.beginPath();
-    ctx.rect(thumbnailX, thumbnailY, thumbnailSize, thumbnailSize);
+    // Create rounded rectangle with corner radius matching the node
+    // Only round top-left and top-right corners since image is at top
+    const radius = cornerRadius;
+    ctx.moveTo(coverX + radius, coverY);
+    ctx.lineTo(coverX + width - radius, coverY);
+    ctx.quadraticCurveTo(coverX + width, coverY, coverX + width, coverY + radius);
+    ctx.lineTo(coverX + width, coverY + coverHeight);
+    ctx.lineTo(coverX, coverY + coverHeight);
+    ctx.lineTo(coverX, coverY + radius);
+    ctx.quadraticCurveTo(coverX, coverY, coverX + radius, coverY);
+    ctx.closePath();
     ctx.clip();
   };
   
@@ -2621,6 +2511,17 @@ const NodeImage: React.FC<{
       opacity={opacity}
       clipFunc={clipFunc}
     >
+      {/* Grey background to prevent white gaps while image loads */}
+      <Rect
+        x={coverX}
+        y={coverY}
+        width={width}
+        height={coverHeight}
+        cornerRadius={cornerRadius}
+        fill="#e5e7eb"
+        listening={false}
+        perfectDrawEnabled={false}
+      />
       <KonvaImage
         ref={imageRef}
         image={image}
@@ -2654,6 +2555,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [debugMode, setDebugMode] = useState(false);
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
   const [nodeDragOffsets, setNodeDragOffsets] = useState<Map<string, { x: number; y: number }>>(new Map());
   const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -2855,59 +2758,37 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       // Set nodes immediately for faster rendering
       setNodes(positionedNodes);
       
-      // Center view on "Studied Art" node as the nexus point
-      if (positionedNodes.length > 0) {
-        // Find the "Studied Art" node
-        const nexusNode = positionedNodes.find(n => n.id === 'studied-art');
-        
-        if (nexusNode) {
-          // Use a fixed zoom level centered on the nexus node
-          // This matches the "actual size" view shown in the image
-          // Adjusted to show the nexus node clearly with surrounding nodes visible
-          const defaultZoomWidth = CANVAS_WIDTH * 0.32; // Adjusted zoom level to match image
-          const defaultZoomHeight = CANVAS_HEIGHT * 0.32;
-          
-          const defaultVB = {
-            x: nexusNode.x - defaultZoomWidth / 2,
-            y: nexusNode.y - defaultZoomHeight / 2,
-            width: defaultZoomWidth,
-            height: defaultZoomHeight,
-          };
-          
-          // Ensure viewBox has valid dimensions
-          if (defaultVB.width > 0 && defaultVB.height > 0) {
-            setViewBox(defaultVB);
-            // Store this as the "actual size" reference (for home button)
-            setInitialViewBox(defaultVB);
-          } else {
-            // Fallback to default viewBox if calculation fails
-            if (process.env.NODE_ENV === 'development') {
-              console.warn('Invalid viewBox calculated, using default');
-            }
-            const fallbackVB = {
-              x: nexusNode.x - CANVAS_WIDTH * 0.16,
-              y: nexusNode.y - CANVAS_HEIGHT * 0.16,
-              width: CANVAS_WIDTH * 0.32,
-              height: CANVAS_HEIGHT * 0.32,
-            };
-            setViewBox(fallbackVB);
-            setInitialViewBox(fallbackVB);
-          }
-        } else {
-          // Fallback if nexus node not found
-          if (process.env.NODE_ENV === 'development') {
-            console.warn('Nexus node (studied-art) not found, using default view');
-          }
-          const fallbackVB = {
-            x: 0,
-            y: 0,
-            width: CANVAS_WIDTH,
-            height: CANVAS_HEIGHT,
-          };
-          setViewBox(fallbackVB);
-          setInitialViewBox(fallbackVB);
-        }
-      }
+      // Set actual size viewBox (1:1 scale, full canvas visible)
+      // This is the "actual size" reference for the home button
+      const actualSizeVB = {
+        x: 0,
+        y: 0,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT,
+      };
+      setInitialViewBox(actualSizeVB);
+      
+      // Default viewBox: zoomed out 3 times from actual size
+      // Zoom out 3 times: 1.2^3 = 1.728
+      const zoomFactor = 1.2;
+      const zoomOut3x = Math.pow(zoomFactor, 3); // 1.728
+      const defaultWidth = CANVAS_WIDTH * zoomOut3x;
+      const defaultHeight = CANVAS_HEIGHT * zoomOut3x;
+      
+      // Center the view on the canvas center
+      const canvasCenterX = CANVAS_WIDTH / 2;
+      const canvasCenterY = CANVAS_HEIGHT / 2;
+      
+      // Calculate viewBox to center on canvas (assuming container is centered)
+      // For now, we'll center on the canvas center point
+      const defaultVB = {
+        x: canvasCenterX - defaultWidth / 2,
+        y: canvasCenterY - defaultHeight / 2,
+        width: defaultWidth,
+        height: defaultHeight,
+      };
+      
+      setViewBox(defaultVB);
     } catch (error) {
       console.error('Error initializing nodes:', error);
     }
@@ -4472,7 +4353,21 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           cursor: hoveredNode ? 'pointer' : (isDragging ? 'grabbing' : 'grab')
         }}
         onWheel={handleWheel}
-        onContextMenu={(e) => e.preventDefault()} // Prevent right-click menu
+        onContextMenu={(e) => {
+          // Only prevent default if not hovering over a node (allow node inspection)
+          if (!hoveredNode) {
+            e.preventDefault();
+          }
+        }}
+        onMouseMove={(e) => {
+          if (debugMode && containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            setMousePosition({
+              x: e.clientX - rect.left,
+              y: e.clientY - rect.top
+            });
+          }
+        }}
       >
         {stageSize.width > 0 && stageSize.height > 0 && (
           <Stage
@@ -4605,12 +4500,13 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                       />
                     )}
                     {/* Main path - cleaner styling for patch node connectors */}
+                    {/* Use dotted line for pathTaken: false connections */}
                     <Path
                       data={path}
                       fill=""
                       stroke={connectionColor}
                       strokeWidth={isActivePath ? 2.5 : (pathTaken ? 2 : 1.5)}
-                      dash={pathTaken ? undefined : [6, 4]}
+                      dash={pathTaken ? undefined : [5, 5]}
                       lineCap="round"
                       opacity={connectionOpacity}
                       listening={false}
@@ -4635,8 +4531,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 const displayY = node.y + dragOffset.y;
                 const isDraggingThisNode = draggingNodeId === node.id;
                 const bgColor = getThemeColor('--color-bg', '#ffffff');
-                const borderColor = getThemeColor('--color-border', '#e5e7eb');
                 const textColor = getThemeColor('--color-text', '#000000');
+                // Use nodeColor for border instead of theme border color
+                const borderColor = nodeColor;
                 const hasOtherSelected = !!(selectedNode && selectedNode.id !== node.id);
                 
                 return (
@@ -4651,55 +4548,83 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     Konva={Konva}
                     Group={Group}
                   >
-                    {/* Calculate ports for this node */}
+                    {/* REFACTORED: Clean node structure from scratch */}
                     {(() => {
                       const { inputs, outputs } = calculateNodePorts(node, nodes);
                       const cornerRadius = 12;
                       
+                      // Calculate layout dimensions
+                      const imageCoverHeight = node.image ? Math.max(node.width * 0.3, 80) : 0;
+                      const imageGap = node.image ? 8 : 0;
+                      const topPadding = 8;
+                      const textPadding = TEXT_PADDING;
+                      const availableWidth = node.width - (textPadding * 2);
+                      
+                      // Calculate title dimensions
+                      let fontSize = calculateFontSize(node.width);
+                      let lines = wrapTextToLines(node.label, availableWidth, fontSize);
+                      let displayLines = lines.slice(0, 2);
+                      
+                      // Verify text fits
+                      let allLinesFit = true;
+                      for (const line of displayLines) {
+                        const lineWidth = calculateTextWidth(line, fontSize);
+                        if (lineWidth > availableWidth) {
+                          allLinesFit = false;
+                          break;
+                        }
+                      }
+                      if (!allLinesFit && fontSize > 10) {
+                        fontSize = Math.max(10, fontSize - 1);
+                        lines = wrapTextToLines(node.label, availableWidth, fontSize);
+                        displayLines = lines.slice(0, 2);
+                      }
+                      
+                      const lineHeight = fontSize * 1.2;
+                      const titleHeight = displayLines.length * lineHeight;
+                      const titleGap = 8; // Gap after title before ports
+                      
+                      // Calculate positions (relative to node center at 0,0)
+                      const imageTopY = -node.height / 2;
+                      const imageBottomY = imageTopY + imageCoverHeight;
+                      const titleTopY = imageBottomY + imageGap + topPadding;
+                      const titleCenterY = titleTopY + titleHeight / 2;
+                      const portsStartY = titleTopY + titleHeight + titleGap; // Start of ports area
+                      
+                      // Determine border style based on node type
+                      const isCareer = node.type === 'career';
+                      const isPossiblePath = node.type === 'possiblePath';
+                      const isSpark = node.type === 'spark';
+                      
+                      // Career: 4px thick border
+                      // PossiblePath: greyed out with dotted border
+                      // Others: default
+                      const borderStrokeWidth = isCareer ? 4 : (isPossiblePath ? 2 : (pathTaken ? 3 : 2));
+                      const borderStroke = isPossiblePath ? '#9ca3af' : (pathTaken ? nodeColor : '#9ca3af');
+                      const borderDash = isPossiblePath ? [8, 4] : undefined;
+                      const nodeOpacity = isPossiblePath ? 0.5 : 1.0;
+                      
                       return (
                         <>
-                          {/* White background rectangle (when no image) */}
-                          {!node.image && (
-                            <Rect
-                              x={-node.width / 2}
-                              y={-node.height / 2}
-                              width={node.width - 4}
-                              height={node.height - 4}
-                              cornerRadius={cornerRadius}
-                              fill={bgColor}
-                              listening={false}
-                              perfectDrawEnabled={false}
-                            />
-                          )}
-                          
-                          {/* Hover glow rectangle - animated */}
-                          <AnimatedHoverGlow
-                            x={0}
-                            y={0}
-                            width={node.width}
-                            height={node.height}
-                            cornerRadius={cornerRadius}
-                            stroke={nodeColor}
-                            isHovered={isHovered}
-                            Konva={Konva}
-                            Rect={Rect}
-                          />
-                          
-                          {/* Node rectangle - animated shadow */}
+                          {/* 1. Node Container - Background rectangle */}
                           <AnimatedNodeRect
                             x={0}
                             y={0}
                             width={node.width}
                             height={node.height}
                             cornerRadius={cornerRadius}
-                            fill={nodeColor}
-                            opacity={pathTaken ? 0.2 : 0.1}
-                            stroke={borderColor}
-                            strokeWidth={pathTaken ? 3 : 2}
-                            dash={pathTaken ? undefined : [5, 5]}
+                            fill="#ffffff"
+                            opacity={nodeOpacity}
+                            stroke={borderStroke}
+                            strokeWidth={borderStrokeWidth}
+                            dash={borderDash}
                             isHovered={isHovered}
                             onMouseEnter={() => setHoveredNode(node.id)}
-                            onMouseLeave={() => setHoveredNode(null)}
+                            onMouseLeave={(e) => {
+                              // Don't clear hover on right-click (button 2) to allow inspection
+                              if (e.evt.button === 2) return;
+                              setHoveredNode(null);
+                            }}
                             onMouseDown={(e) => {
                               e.cancelBubble = true;
                               e.evt.stopPropagation();
@@ -4708,24 +4633,62 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                               }
                             }}
                             onClick={(e) => {
-                              // CRITICAL: Clear dragging state before handling click to release cursor
                               setIsDragging(false);
                               isDraggingRef.current = false;
                               setHoveredNode(null);
-                              
-                              if (process.env.NODE_ENV === 'development') {
-                                console.log('Konva Rect onClick fired', { nodeId: node.id, evt: e.evt });
-                              }
                               e.cancelBubble = true;
                               e.evt.stopPropagation();
                               e.evt.preventDefault();
                               handleNodeClick(node, e.evt);
                             }}
+                            onContextMenu={(e) => {
+                              // Allow right-click inspection - stop propagation so canvas doesn't prevent default
+                              e.cancelBubble = true;
+                              e.evt.stopPropagation();
+                              // Keep the node hovered so it stays visible in inspector
+                              // Don't call setHoveredNode(null) here
+                              // Explicitly allow default behavior for browser context menu
+                              // Log node data for inspection
+                              console.group('🔍 Node Inspection');
+                              console.log('Node Data:', {
+                                id: node.id,
+                                label: node.label,
+                                type: node.type,
+                                date: node.date,
+                                dateRange: node.dateRange,
+                                connections: node.connections,
+                                pathTaken: node.pathTaken,
+                                image: node.image,
+                                position: { x: node.x, y: node.y },
+                                dimensions: { width: node.width, height: node.height }
+                              });
+                              console.log('Full Node Object:', node);
+                              console.log('Node in Console:', node);
+                              // Store node in window for easy access
+                              (window as any).__inspectedNode = node;
+                              console.log('💡 Tip: Access this node via window.__inspectedNode');
+                              console.groupEnd();
+                            }}
                             Konva={Konva}
                             Rect={Rect}
                           />
-                        
-                          {/* Node image - square thumbnail */}
+                          
+                          {/* Hover glow - hide for possiblePath nodes */}
+                          {!isPossiblePath && (
+                            <AnimatedHoverGlow
+                              x={0}
+                              y={0}
+                              width={node.width}
+                              height={node.height}
+                              cornerRadius={cornerRadius}
+                              stroke={nodeColor}
+                              isHovered={isHovered}
+                              Konva={Konva}
+                              Rect={Rect}
+                            />
+                          )}
+                          
+                          {/* 2. Cover Image - Top center if exists */}
                           {node.image && (
                             <NodeImage
                               src={node.image}
@@ -4733,7 +4696,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                               y={0}
                               width={node.width}
                               height={node.height}
-                              opacity={1}
+                              cornerRadius={cornerRadius}
+                              opacity={isPossiblePath ? 0.5 : 1}
                               KonvaImage={KonvaImage}
                               scale={1}
                               Konva={Konva}
@@ -4743,93 +4707,81 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             />
                           )}
                           
-                          {/* Node title/label at the very top */}
-                          {(() => {
-                            // Calculate adaptive font size based on node width
-                            const fontSize = calculateFontSize(node.radius);
-                            
-                            // Calculate available width for text (node width with padding)
-                            const textPadding = TEXT_PADDING;
-                            const availableWidth = node.width - (textPadding * 2);
-                            
-                            // Wrap text to fit in max 2 lines with adaptive font size (reduced from 3 for top placement)
-                            const lines = wrapTextToLines(node.label, availableWidth, fontSize);
-                            
-                            // Limit to 2 lines maximum for top placement
-                            const displayLines = lines.slice(0, 2);
-                            
-                            // Calculate line height
-                            const lineHeight = fontSize * 1.2; // Slightly tighter line height for top placement
-                            const totalHeight = displayLines.length * lineHeight;
-                            
-                            // Position at the very top of the node
-                            const topPadding = 8; // Padding from top edge
-                            const titleY = -node.height / 2 + topPadding + totalHeight / 2;
-                            
-                            // Horizontal centering
-                            const horizontalOffset = availableWidth / 2;
-                            
-                            return (
-                              <KonvaText
-                                x={0}
-                                y={titleY}
-                                text={displayLines.join('\n')}
-                                align="center"
-                                verticalAlign="middle"
-                                fill={textColor}
-                                fontSize={fontSize}
-                                fontFamily="'EB Garamond', serif"
-                                fontStyle="normal"
-                                fontWeight={500}
-                                opacity={pathTaken ? 0.95 : 0.75}
-                                listening={false}
-                                perfectDrawEnabled={false}
-                                lineHeight={lineHeight / fontSize}
-                                width={availableWidth}
-                                height={totalHeight}
-                                offsetX={horizontalOffset}
-                                offsetY={totalHeight / 2}
-                              />
-                            );
-                          })()}
+                          {/* 3. Title Container - Between image and ports, properly positioned */}
+                          <Group
+                            x={0}
+                            y={titleCenterY}
+                            listening={false}
+                          >
+                            <KonvaText
+                              x={-availableWidth / 2}
+                              y={-titleHeight / 2}
+                              text={displayLines.join('\n')}
+                              align="center"
+                              verticalAlign="middle"
+                              fill={textColor}
+                              fontSize={fontSize}
+                              fontFamily="'EB Garamond', serif"
+                              fontStyle="normal"
+                              fontWeight={500}
+                              opacity={isPossiblePath ? 0.5 : (pathTaken ? 0.95 : 0.75)}
+                              listening={false}
+                              perfectDrawEnabled={false}
+                              lineHeight={lineHeight / fontSize}
+                              width={availableWidth}
+                              height={titleHeight}
+                            />
+                          </Group>
                           
-                          {/* Node type label - positioned below title */}
-                          {(() => {
-                            const fontSize = calculateFontSize(node.radius);
-                            const textPadding = TEXT_PADDING;
-                            const availableWidth = node.width - (textPadding * 2);
-                            const lines = wrapTextToLines(node.label, availableWidth, fontSize);
-                            const displayLines = lines.slice(0, 2);
-                            const lineHeight = fontSize * 1.2;
-                            const titleHeight = displayLines.length * lineHeight;
-                            const topPadding = 8;
-                            const typeLabelY = -node.height / 2 + topPadding + titleHeight + 4; // 4px gap after title
+                          {/* 4. Input Ports - Left side, below title, each with its own square */}
+                          {/* Hide inputs/outputs for spark nodes */}
+                          {!isSpark && inputs.map((port, index) => {
+                            const portSize = 4;
+                            const sidePadding = 8; // Reduced padding - MUST MATCH calculateNodePorts
+                            const portSpacing = 20;
+                            const labelGap = 4; // Reduced gap between port and label
+                            // Use port positions from calculateNodePorts (already calculated)
+                            const portX = port.x; // Already calculated in calculateNodePorts
+                            const portY = port.y; // Already calculated in calculateNodePorts
                             
-                            return (
-                              <KonvaText
-                                x={node.width / 2 - 8}
-                                y={typeLabelY}
-                                text={node.type.charAt(0).toUpperCase() + node.type.slice(1)}
-                                fontSize={10}
-                                fontFamily="'EB Garamond', serif"
-                                fontStyle="italic"
-                                fill={textColor}
-                                opacity={0.6}
-                                align="right"
-                                listening={false}
-                                perfectDrawEnabled={false}
-                              />
-                            );
-                          })()}
-                          
-                          {/* Input ports (left side) - 4x4px inside node */}
-                          {inputs.map((port, index) => {
-                            const portSize = 4; // Small 4x4px port
+                            // Input section is 50% width (left half of node)
+                            const inputSectionLeft = -node.width / 2;
+                            const inputSectionRight = 0; // Center of node
+                            const inputSectionWidth = node.width / 2;
+                            const textPadding = 4; // Minimal padding around text
+                            
+                            // Container spans the full input section width (50%)
+                            const containerLeft = inputSectionLeft + sidePadding;
+                            const containerRight = inputSectionRight - sidePadding;
+                            const containerWidth = inputSectionWidth - sidePadding * 2;
+                            
+                            // Text area: from just after the port to container right edge
+                            const textAreaLeft = portX + portSize / 2 + labelGap;
+                            const textAreaRight = containerRight - textPadding;
+                            const textAreaWidth = Math.max(0, textAreaRight - textAreaLeft);
+                            
+                            // Truncate label text to fit within available width
+                            const labelText = port.label;
+                            const labelFontSize = 8; // Slightly smaller
+                            const maxChars = Math.floor(textAreaWidth / (labelFontSize * 0.65)); // Approximate chars that fit
+                            const truncatedLabel = labelText.length > maxChars 
+                              ? labelText.substring(0, Math.max(1, maxChars - 3)) + '...' 
+                              : labelText;
+                            
+                            // Calculate actual text dimensions
+                            const actualTextHeight = labelFontSize * 1.2; // Line height
+                            const containerHeight = actualTextHeight + textPadding * 2;
+                            
+                            // Text position: left edge of text area (for left alignment)
+                            // Vertically align with port square center
+                            const textX = textAreaLeft;
+                            
                             return (
                               <Group key={`input-${port.connectionId}`} listening={false}>
+                                {/* Input port square */}
                                 <Rect
-                                  x={port.x - portSize / 2}
-                                  y={port.y - portSize / 2}
+                                  x={portX - portSize / 2}
+                                  y={portY - portSize / 2}
                                   width={portSize}
                                   height={portSize}
                                   cornerRadius={1}
@@ -4840,15 +4792,18 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                                   listening={false}
                                   perfectDrawEnabled={false}
                                 />
+                                {/* Input label - left-aligned, vertically aligned with port square */}
                                 <KonvaText
-                                  x={port.x + portSize / 2 + 6}
-                                  y={port.y}
-                                  text={port.label.length > 10 ? port.label.substring(0, 10) + '...' : port.label}
-                                  fontSize={9}
-                                  fill={textColor}
-                                  opacity={0.6}
+                                  x={textX}
+                                  y={portY}
+                                  text={truncatedLabel}
+                                  fontSize={labelFontSize}
+                                  fontFamily="'EB Garamond', serif"
+                                  fill="#333333"
+                                  opacity={1}
                                   align="left"
                                   verticalAlign="middle"
+                                  width={textAreaWidth}
                                   listening={false}
                                   perfectDrawEnabled={false}
                                 />
@@ -4856,14 +4811,60 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             );
                           })}
                           
-                          {/* Output ports (right side) - 4x4px inside node */}
-                          {outputs.map((port, index) => {
-                            const portSize = 4; // Small 4x4px port
+                          {/* 5. Output Ports - Right side, below title, each with its own square */}
+                          {/* Hide inputs/outputs for spark nodes and outputs for possiblePath nodes */}
+                          {!isSpark && !isPossiblePath && outputs.map((port, index) => {
+                            const portSize = 4;
+                            const sidePadding = 8; // Reduced padding - MUST MATCH calculateNodePorts
+                            const portSpacing = 20;
+                            const labelGap = 4; // Reduced gap between port and label
+                            // Use port positions from calculateNodePorts (already calculated)
+                            const portX = port.x; // Already calculated in calculateNodePorts
+                            const portY = port.y; // Already calculated in calculateNodePorts
+                            
+                            // Output section is 50% width (right half of node)
+                            const outputSectionLeft = 0; // Center of node
+                            const outputSectionRight = node.width / 2;
+                            const outputSectionWidth = node.width / 2;
+                            const textPadding = 4; // Minimal padding around text
+                            
+                            // Container spans the full output section width (50%)
+                            const containerLeft = outputSectionLeft + sidePadding;
+                            const containerRight = outputSectionRight - sidePadding;
+                            const containerWidth = outputSectionWidth - sidePadding * 2;
+                            
+                            // Text area within container (with padding)
+                            const textAreaLeft = containerLeft + textPadding;
+                            const textAreaRight = containerRight - textPadding;
+                            const textAreaWidth = textAreaRight - textAreaLeft;
+                            
+                            // Truncate label text to fit within available width
+                            const labelText = port.label;
+                            const labelFontSize = 8; // Match input font size
+                            const maxChars = Math.floor(textAreaWidth / (labelFontSize * 0.65)); // Approximate chars that fit
+                            const truncatedLabel = labelText.length > maxChars 
+                              ? labelText.substring(0, Math.max(1, maxChars - 3)) + '...' 
+                              : labelText;
+                            
+                            // Calculate actual text dimensions
+                            const actualTextHeight = labelFontSize * 1.2; // Line height
+                            const containerHeight = actualTextHeight + textPadding * 2;
+                            
+                            // Container Y position - same as port Y (floats next to inputs)
+                            const containerY = portY - containerHeight / 2;
+                            
+                            // For left-aligned text in Konva:
+                            // x = left edge of text box (where text starts)
+                            // width = width of text box (text extends right from x)
+                            const textX = textAreaLeft; // Left edge of text area
+                            const textY = portY; // Same Y as port (centered vertically in container)
+                            
                             return (
                               <Group key={`output-${port.connectionId}`} listening={false}>
+                                {/* Output port square */}
                                 <Rect
-                                  x={port.x - portSize / 2}
-                                  y={port.y - portSize / 2}
+                                  x={portX - portSize / 2}
+                                  y={portY - portSize / 2}
                                   width={portSize}
                                   height={portSize}
                                   cornerRadius={1}
@@ -4874,15 +4875,19 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                                   listening={false}
                                   perfectDrawEnabled={false}
                                 />
+                                {/* Output label - left-aligned, each output item on its own line */}
+                                {/* For align="left": x is the LEFT edge, text extends rightward by width */}
                                 <KonvaText
-                                  x={port.x - portSize / 2 - 6}
-                                  y={port.y}
-                                  text={port.label.length > 10 ? port.label.substring(0, 10) + '...' : port.label}
-                                  fontSize={9}
-                                  fill={textColor}
-                                  opacity={0.6}
-                                  align="right"
+                                  x={textX}
+                                  y={textY}
+                                  text={truncatedLabel}
+                                  fontSize={labelFontSize}
+                                  fontFamily="'EB Garamond', serif"
+                                  fill="#333333"
+                                  opacity={1}
+                                  align="left"
                                   verticalAlign="middle"
+                                  width={textAreaWidth}
                                   listening={false}
                                   perfectDrawEnabled={false}
                                 />
@@ -4930,6 +4935,135 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           −
         </button>
       </div>
+
+      {/* Debug Overlay - DOM elements above canvas for easy inspection */}
+      {debugMode && hoveredNode && (() => {
+        const node = nodes.find(n => n.id === hoveredNode);
+        if (!node) return null;
+        
+        const { inputs, outputs } = calculateNodePorts(node, nodes);
+        
+        return (
+          <div
+            style={{
+              position: 'fixed',
+              top: mousePosition ? `${mousePosition.y + 20}px` : '20px',
+              left: mousePosition ? `${mousePosition.x + 20}px` : '20px',
+              background: 'white',
+              border: '2px solid #f97316',
+              borderRadius: '8px',
+              padding: '16px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              zIndex: 10001,
+              maxWidth: '400px',
+              fontFamily: 'monospace',
+              fontSize: '12px',
+              pointerEvents: 'auto',
+            }}
+            data-node-id={node.id}
+            data-node-type={node.type}
+            className="node-debug-overlay"
+          >
+            <div style={{ marginBottom: '12px', borderBottom: '1px solid #e5e7eb', paddingBottom: '8px' }}>
+              <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>🔍 Node Debug</div>
+              <div style={{ fontSize: '10px', color: '#6b7280' }}>
+                Right-click node to inspect in console
+              </div>
+            </div>
+            
+            <div style={{ marginBottom: '8px' }}>
+              <strong>ID:</strong> <code>{node.id}</code>
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Label:</strong> {node.label}
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Type:</strong> {node.type}
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Date:</strong> {node.date || node.dateRange || 'N/A'}
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Path Taken:</strong> {node.pathTaken !== false ? 'Yes' : 'No'}
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Position:</strong> x: {node.x?.toFixed(1)}, y: {node.y?.toFixed(1)}
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Dimensions:</strong> {node.width} × {node.height}
+            </div>
+            {node.image && (
+              <div style={{ marginBottom: '8px' }}>
+                <strong>Image:</strong> <code style={{ fontSize: '10px' }}>{node.image}</code>
+              </div>
+            )}
+            
+            <div style={{ marginTop: '12px', borderTop: '1px solid #e5e7eb', paddingTop: '8px' }}>
+              <div style={{ marginBottom: '4px' }}>
+                <strong>Inputs ({inputs.length}):</strong>
+              </div>
+              {inputs.length > 0 ? (
+                <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
+                  {inputs.map(port => (
+                    <li key={port.connectionId} style={{ fontSize: '11px' }}>
+                      <code>{port.connectionId}</code>: {port.label}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div style={{ fontSize: '11px', color: '#6b7280' }}>None</div>
+              )}
+            </div>
+            
+            <div style={{ marginTop: '8px' }}>
+              <div style={{ marginBottom: '4px' }}>
+                <strong>Outputs ({outputs.length}):</strong>
+              </div>
+              {outputs.length > 0 ? (
+                <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
+                  {outputs.map(port => (
+                    <li key={port.connectionId} style={{ fontSize: '11px' }}>
+                      <code>{port.connectionId}</code>: {port.label}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div style={{ fontSize: '11px', color: '#6b7280' }}>None</div>
+              )}
+            </div>
+            
+            <div style={{ marginTop: '12px', borderTop: '1px solid #e5e7eb', paddingTop: '8px', fontSize: '10px', color: '#6b7280' }}>
+              <div>💡 Tip: Inspect this element in DevTools</div>
+              <div style={{ marginTop: '4px' }}>
+                <code>window.__inspectedNode</code> contains full node data
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+      
+      {/* Debug Toggle Button */}
+      <button
+        onClick={() => setDebugMode(!debugMode)}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 10000,
+          padding: '8px 12px',
+          background: debugMode ? '#f97316' : '#6b7280',
+          color: 'white',
+          border: 'none',
+          borderRadius: '6px',
+          cursor: 'pointer',
+          fontSize: '12px',
+          fontFamily: 'monospace',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+        }}
+        title="Toggle debug mode to see node information on hover"
+      >
+        {debugMode ? '🔍 Debug ON' : '🔍 Debug OFF'}
+      </button>
 
       {/* Timeline */}
       <div className="timeline">
@@ -5082,94 +5216,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 </div>
               )}
               
-              {/* Connections section - compact text-based labels */}
-              {(connectedNodes.length > 0 || incomingNodes.length > 0) && (
-                <div className="node-card-connections">
-                  {incomingNodes.length > 0 && (
-                    <div className="node-card-connections-inline">
-                      <span className="node-card-connections-label">From:</span>
-                      <div className="node-card-connections-items">
-                        {incomingNodes.map((node, index) => (
-                          <React.Fragment key={node.id}>
-                            {index > 0 && <span className="node-card-connections-separator">, </span>}
-                            <button
-                              className="node-card-connection-link"
-                              onClick={() => {
-                                // Center on the connected node
-                                const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-                                const nodeDisplayX = node.x + nodeOffset.x;
-                                const nodeDisplayY = node.y + nodeOffset.y;
-                                
-                                if (containerRef.current) {
-                                  const rect = containerRef.current.getBoundingClientRect();
-                                  const centerX = rect.width / 2;
-                                  const centerY = rect.height / 2;
-                                  
-                                  const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
-                                  const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
-                                  
-                                  animateViewBox({
-                                    x: newX,
-                                    y: newY,
-                                    width: viewBox.width,
-                                    height: viewBox.height,
-                                  }, 600);
-                                }
-                                
-                                setSelectedNode(node);
-                              }}
-                            >
-                              {node.label}
-                            </button>
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {connectedNodes.length > 0 && (
-                    <div className="node-card-connections-inline">
-                      <span className="node-card-connections-label">To:</span>
-                      <div className="node-card-connections-items">
-                        {connectedNodes.map((node, index) => (
-                          <React.Fragment key={node.id}>
-                            {index > 0 && <span className="node-card-connections-separator">, </span>}
-                            <button
-                              className="node-card-connection-link"
-                              onClick={() => {
-                                // Center on the connected node
-                                const nodeOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
-                                const nodeDisplayX = node.x + nodeOffset.x;
-                                const nodeDisplayY = node.y + nodeOffset.y;
-                                
-                                if (containerRef.current) {
-                                  const rect = containerRef.current.getBoundingClientRect();
-                                  const centerX = rect.width / 2;
-                                  const centerY = rect.height / 2;
-                                  
-                                  const newX = nodeDisplayX - (centerX / rect.width) * viewBox.width;
-                                  const newY = nodeDisplayY - (centerY / rect.height) * viewBox.height;
-                                  
-                                  animateViewBox({
-                                    x: newX,
-                                    y: newY,
-                                    width: viewBox.width,
-                                    height: viewBox.height,
-                                  }, 600);
-                                }
-                                
-                                setSelectedNode(node);
-                              }}
-                            >
-                              {node.label}
-                            </button>
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+              {/* Connections section - hidden per user request */}
               
               {selectedNode.link && (
                 <a
