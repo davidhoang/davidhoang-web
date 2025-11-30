@@ -440,6 +440,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   });
 
   // Group regular nodes by year and add spacing for same-year nodes
+  // CRITICAL: Only adjust positions within the same year, never move nodes across year boundaries
   // Exclude Present and Future nodes from year-grouping to keep them on the far right
   const yearGroups = new Map<string, PositionedNode[]>();
   regularNodes.forEach(node => {
@@ -454,56 +455,49 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   });
 
   // Add spacing for regular nodes in the same year
+  // IMPORTANT: Only adjust X positions within the same year group
   yearGroups.forEach((yearNodes, year) => {
     if (yearNodes.length > 1) {
-      // Sort nodes: pathTaken nodes first (left), then pathNotTaken nodes (right)
-      // Within each group, sort by timestamp (chronological order), then by x position, then by sequence
+      // Sort nodes by timestamp first (strict chronological), then by pathTaken
       yearNodes.sort((a, b) => {
-        // First, separate pathTaken (false) from pathTaken (true)
-        // pathTaken: true should come first (left), pathTaken: false should come after (right)
-        if (a.pathTaken !== b.pathTaken) {
-          // If a is pathTaken and b is not, a comes first (left)
-          // If a is not pathTaken and b is, b comes first (left)
-          return a.pathTaken ? -1 : 1;
-        }
-        
-        // If both have same pathTaken status, sort by timestamp (chronological order)
+        // First, sort by timestamp (strict chronological order)
         const timeDiff = a.timestamp - b.timestamp;
         if (Math.abs(timeDiff) > 1000) { // More than 1 second difference
           return timeDiff;
         }
         
-        // If timestamps are very close, sort by x position
-        const xDiff = a.x - b.x;
-        // If x positions are very close (within 50px), use sequence
-        if (Math.abs(xDiff) < 50) {
-          const seqA = a.sequence ?? 0;
-          const seqB = b.sequence ?? 0;
-          if (seqA !== seqB) {
-            return seqA - seqB;
-          }
+        // If timestamps are very close (same year), prioritize pathTaken
+        if (a.pathTaken !== b.pathTaken) {
+          return a.pathTaken ? -1 : 1;
         }
-        return xDiff;
+        
+        // If same pathTaken status and very close timestamps, use sequence
+        const seqA = a.sequence ?? 0;
+        const seqB = b.sequence ?? 0;
+        return seqA - seqB;
       });
       
-      // Calculate spacing based on node sizes - significantly increased spacing for better readability
-      const minSpacing = 250; // Significantly increased from 150 - Minimum spacing between nodes of same year
+      // Calculate spacing based on node sizes
+      const minSpacing = 250; // Minimum spacing between nodes of same year
       let currentX = yearNodes[0]?.x || 0;
       
       yearNodes.forEach((node, index) => {
         if (index > 0) {
           // Ensure minimum spacing from previous node
           const prevNode = yearNodes[index - 1];
-          // Add extra spacing based on node sizes to prevent overlap
-          const spacing = Math.max(minSpacing, prevNode.radius + node.radius + minSpacing);
-          const requiredX = prevNode.x + prevNode.radius + spacing;
+          const nodeWidth = node.width || node.radius * 2;
+          const prevNodeWidth = prevNode.width || prevNode.radius * 2;
+          const spacing = Math.max(minSpacing, prevNodeWidth / 2 + nodeWidth / 2 + minSpacing);
+          const requiredX = prevNode.x + prevNodeWidth / 2 + spacing;
           if (currentX < requiredX) {
-            currentX = requiredX;
+            currentX = requiredX - nodeWidth / 2;
           }
         }
+        // Only adjust X if it doesn't violate chronological order with nodes from other years
+        const nodeWidth = node.width || node.radius * 2;
         node.x = currentX;
         // Calculate next position with proper spacing
-        currentX = node.x + node.radius + minSpacing;
+        currentX = node.x + nodeWidth / 2 + minSpacing;
       });
     }
   });
@@ -591,49 +585,16 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     sparkNode.y = Math.max(minY, Math.min(maxY, sparkNode.y));
   });
 
-  // Handle clustering - adjust nodes with same/similar dates (for proximity-based clustering)
-  // Use larger cluster key to reduce aggressive clustering
-  // Exclude Present and Future nodes from clustering to keep them on the far right
-  const clusters = new Map<number, PositionedNode[]>();
-  positionedNodes.forEach(node => {
-    // Skip Present and Future nodes - they should stay on the far right
-    if (isPresentNode(node) || isFutureNode(node)) return;
-    
-    const clusterKey = Math.floor(node.x / 200) * 200; // Increased from 100px to 200px for much less aggressive clustering
-    if (!clusters.has(clusterKey)) {
-      clusters.set(clusterKey, []);
-    }
-    clusters.get(clusterKey)!.push(node);
-  });
-
-  clusters.forEach((clusterNodes, key) => {
-    if (clusterNodes.length > 1) {
-      // Only apply clustering offset if nodes aren't already spaced by year
-      const hasSameYear = clusterNodes.some(node => {
-        const nodeYear = node.date || node.dateRange?.split('-')[0] || 'unknown';
-        return clusterNodes.some(other => 
-          other !== node && 
-          (other.date || other.dateRange?.split('-')[0] || 'unknown') === nodeYear
-        );
-      });
-      
-      if (!hasSameYear) {
-        // Only cluster if nodes don't share the same year
-        // Significantly increased offset spacing from 50 to 100
-        clusterNodes.forEach((node, index) => {
-          const offset = (index - (clusterNodes.length - 1) / 2) * 100;
-          node.x += offset;
-        });
-      }
-    }
-  });
+  // REMOVED: Clustering pass that could violate chronological order
+  // Nodes are now positioned strictly by date, with only same-year adjustments allowed
 
   // Collision detection and resolution
+  // CRITICAL: Only adjust Y positions to resolve collisions, never X positions
+  // This preserves strict chronological ordering
   resolveCollisions(positionedNodes);
 
   // Final pass: ensure minimum spacing between all nodes
-  // This helps catch any remaining tight spacing issues
-  // Preserve Present and Future nodes' X position - only adjust Y if needed
+  // CRITICAL: Only adjust Y positions, never X positions (to preserve chronological order)
   for (let i = 0; i < positionedNodes.length; i++) {
     for (let j = i + 1; j < positionedNodes.length; j++) {
       const node1 = positionedNodes[i];
@@ -642,28 +603,63 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
       const isNode1Present = isPresentNode(node1) || isFutureNode(node1);
       const isNode2Present = isPresentNode(node2) || isFutureNode(node2);
       
-      const distance = getDistance(node1, node2);
-      const minDistance = node1.radius + node2.radius + MIN_NODE_SPACING;
+      // Use rectangular bounds for collision detection
+      const node1Width = node1.width || node1.radius * 2;
+      const node1Height = node1.height || node1.radius * 2;
+      const node2Width = node2.width || node2.radius * 2;
+      const node2Height = node2.height || node2.radius * 2;
       
-      if (distance < minDistance) {
-        // Calculate direction to push nodes apart
-        const dx = node2.x - node1.x;
-        const dy = node2.y - node1.y;
-        const angle = Math.atan2(dy, dx);
+      const node1Left = node1.x - node1Width / 2;
+      const node1Right = node1.x + node1Width / 2;
+      const node1Top = node1.y - node1Height / 2;
+      const node1Bottom = node1.y + node1Height / 2;
+      
+      const node2Left = node2.x - node2Width / 2;
+      const node2Right = node2.x + node2Width / 2;
+      const node2Top = node2.y - node2Height / 2;
+      const node2Bottom = node2.y + node2Height / 2;
+      
+      // Check for overlap
+      const overlapX = Math.min(node1Right, node2Right) - Math.max(node1Left, node2Left);
+      const overlapY = Math.min(node1Bottom, node2Bottom) - Math.max(node1Top, node2Top);
+      
+      const minDistanceX = node1Width / 2 + node2Width / 2 + MIN_NODE_SPACING;
+      const minDistanceY = node1Height / 2 + node2Height / 2 + MIN_NODE_SPACING;
+      
+      if (overlapX > 0 && overlapY > 0) {
+        // Nodes are overlapping - separate them
+        const currentDistanceX = Math.abs(node2.x - node1.x);
+        const currentDistanceY = Math.abs(node2.y - node1.y);
         
-        const overlap = minDistance - distance;
-        const pushAmount = overlap * 0.5; // Gentle push
+        const neededSeparationX = minDistanceX - currentDistanceX;
+        const neededSeparationY = minDistanceY - currentDistanceY;
         
-        // Move nodes apart, but preserve Present and Future nodes' X position
-        if (!isNode1Present) {
-          node1.x -= Math.cos(angle) * pushAmount;
+        // ONLY adjust Y positions to resolve collisions
+        // NEVER adjust X positions - this would violate chronological order
+        const pushY = neededSeparationY * 0.5;
+        if (node1.y < node2.y) {
+          node1.y -= pushY;
+          node2.y += pushY;
+        } else {
+          node1.y += pushY;
+          node2.y -= pushY;
         }
-        node1.y -= Math.sin(angle) * pushAmount;
+      } else if (overlapX > 0 || overlapY > 0) {
+        // Nodes are very close - ensure minimum spacing
+        const currentDistanceX = Math.abs(node2.x - node1.x);
+        const currentDistanceY = Math.abs(node2.y - node1.y);
         
-        if (!isNode2Present) {
-          node2.x += Math.cos(angle) * pushAmount;
+        if (currentDistanceY < minDistanceY) {
+          const neededY = minDistanceY - currentDistanceY;
+          const pushY = neededY * 0.5;
+          if (node1.y < node2.y) {
+            node1.y -= pushY;
+            node2.y += pushY;
+          } else {
+            node1.y += pushY;
+            node2.y -= pushY;
+          }
         }
-        node2.y += Math.sin(angle) * pushAmount;
       }
     }
   }
@@ -674,77 +670,147 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     node.x = rightEdgeX;
   });
 
-  // Connection-based positioning: ensure inputs are on the left, outputs on the right
-  // Also bring connected nodes closer together for better visual grouping
-  // Iterate through nodes and adjust positions based on connections
-  // Nodes that connect TO a target should be to the LEFT of that target
-  // Nodes that a source connects TO should be to the RIGHT of that source
-  const connectionAdjustmentPasses = 5; // More passes for better convergence
+  // STRICT CHRONOLOGICAL ENFORCEMENT: Final pass to ensure no node violates timeline order
+  // This is the most important pass - it ensures that if you draw a vertical line,
+  // no node from an earlier year will be to the right of a node from a later year
+  const allHistoricalNodes = [...nonPresentOrFutureNodes].sort((a, b) => a.timestamp - b.timestamp);
+  
+  // Enforce strict left-to-right chronological ordering
+  for (let i = 0; i < allHistoricalNodes.length; i++) {
+    const currentNode = allHistoricalNodes[i];
+    const nodeWidth = currentNode.width || currentNode.radius * 2;
+    const currentNodeRight = currentNode.x + nodeWidth / 2;
+    
+    // Check all nodes that come AFTER this node chronologically
+    for (let j = i + 1; j < allHistoricalNodes.length; j++) {
+      const laterNode = allHistoricalNodes[j];
+      const laterNodeWidth = laterNode.width || laterNode.radius * 2;
+      const laterNodeLeft = laterNode.x - laterNodeWidth / 2;
+      
+      // If current node's right edge is to the right of a later node's left edge, fix it
+      if (currentNodeRight > laterNodeLeft) {
+        // Move the later node to the right to maintain chronological order
+        const minDistance = nodeWidth / 2 + laterNodeWidth / 2 + MIN_NODE_SPACING;
+        laterNode.x = currentNode.x + minDistance;
+      }
+    }
+  }
+  
+  // Connection-based positioning: bring connected nodes closer together
+  // BUT: Only adjust if it doesn't violate chronological order
+  const connectionAdjustmentPasses = 3;
   const tightSpacing = MIN_NODE_SPACING * 0.6; // Tighter spacing for connected nodes (60% of normal)
   
   for (let pass = 0; pass < connectionAdjustmentPasses; pass++) {
     positionedNodes.forEach(node => {
       // Skip Present and Future nodes - they have fixed positions
       if (isPresentNode(node) || isFutureNode(node)) return;
-      if (node.x === undefined) return; // Skip if no position set
+      if (node.x === undefined) return;
       
       // Check all nodes that connect TO this node (inputs)
-      // These should be to the LEFT of this node, and closer together
       positionedNodes.forEach(sourceNode => {
         if (sourceNode.connections && sourceNode.connections.includes(node.id)) {
-          // Source node connects to this node - source should be to the left
-          // Use tighter spacing for connected nodes
-          const minDistance = (sourceNode.width || sourceNode.radius * 2) / 2 + (node.width || node.radius * 2) / 2 + tightSpacing;
-          
-          // Ensure chronological order: source must be before target in time
           const sourceTimestamp = sourceNode.timestamp || 0;
           const targetTimestamp = node.timestamp || 0;
-          const isChronologicallyValid = sourceTimestamp <= targetTimestamp;
           
-          if (isChronologicallyValid) {
-            if (sourceNode.x >= node.x - minDistance) {
-              // Adjust source node to the left, but keep it close
-              sourceNode.x = node.x - minDistance;
+          // Only adjust if source is chronologically before target
+          if (sourceTimestamp <= targetTimestamp) {
+            const sourceWidth = sourceNode.width || sourceNode.radius * 2;
+            const targetWidth = node.width || node.radius * 2;
+            const minDistance = sourceWidth / 2 + targetWidth / 2 + tightSpacing;
+            const sourceRight = sourceNode.x + sourceWidth / 2;
+            const targetLeft = node.x - targetWidth / 2;
+            
+            // Only move source left if it doesn't violate chronological order
+            if (sourceRight >= targetLeft) {
+              const newSourceX = node.x - minDistance;
+              // Verify this doesn't violate chronological order with other nodes
+              const sourceYear = sourceNode.date || sourceNode.dateRange?.split('-')[0] || '';
+              const canMove = allHistoricalNodes.every(otherNode => {
+                if (otherNode.id === sourceNode.id) return true;
+                const otherYear = otherNode.date || otherNode.dateRange?.split('-')[0] || '';
+                const otherTimestamp = otherNode.timestamp || 0;
+                
+                // If other node is from an earlier year, source shouldn't be to its left
+                if (otherTimestamp < sourceTimestamp) {
+                  const otherRight = otherNode.x + (otherNode.width || otherNode.radius * 2) / 2;
+                  return newSourceX >= otherRight + MIN_NODE_SPACING;
+                }
+                return true;
+              });
+              
+              if (canMove) {
+                sourceNode.x = newSourceX;
+              }
             }
-          } else {
-            // If chronologically invalid, force source to be left of target
-            sourceNode.x = node.x - minDistance;
           }
         }
       });
       
       // Check all nodes that this node connects TO (outputs)
-      // These should be to the RIGHT of this node, and closer together
       if (node.connections) {
         node.connections.forEach(targetId => {
           const targetNode = positionedNodes.find(n => n.id === targetId);
           if (targetNode && !isPresentNode(targetNode) && !isFutureNode(targetNode)) {
-            // This node connects to target - target should be to the right
-            // Use tighter spacing for connected nodes
-            const minDistance = (node.width || node.radius * 2) / 2 + (targetNode.width || targetNode.radius * 2) / 2 + tightSpacing;
-            
-            // Ensure chronological order: source must be before target in time
             const sourceTimestamp = node.timestamp || 0;
             const targetTimestamp = targetNode.timestamp || 0;
-            const isChronologicallyValid = sourceTimestamp <= targetTimestamp;
             
-            if (isChronologicallyValid) {
-              if (targetNode.x <= node.x + minDistance) {
-                // Adjust target node to the right, but keep it close
-                targetNode.x = node.x + minDistance;
+            // Only adjust if source is chronologically before target
+            if (sourceTimestamp <= targetTimestamp) {
+              const sourceWidth = node.width || node.radius * 2;
+              const targetWidth = targetNode.width || targetNode.radius * 2;
+              const minDistance = sourceWidth / 2 + targetWidth / 2 + tightSpacing;
+              const sourceRight = node.x + sourceWidth / 2;
+              const targetLeft = targetNode.x - targetWidth / 2;
+              
+              // Only move target right if it doesn't violate chronological order
+              if (sourceRight >= targetLeft) {
+                const newTargetX = node.x + minDistance;
+                // Verify this doesn't violate chronological order with other nodes
+                const targetYear = targetNode.date || targetNode.dateRange?.split('-')[0] || '';
+                const canMove = allHistoricalNodes.every(otherNode => {
+                  if (otherNode.id === targetNode.id) return true;
+                  const otherYear = otherNode.date || otherNode.dateRange?.split('-')[0] || '';
+                  const otherTimestamp = otherNode.timestamp || 0;
+                  
+                  // If other node is from a later year, target shouldn't be to its right
+                  if (otherTimestamp > targetTimestamp) {
+                    const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
+                    return newTargetX <= otherLeft - MIN_NODE_SPACING;
+                  }
+                  return true;
+                });
+                
+                if (canMove) {
+                  targetNode.x = newTargetX;
+                }
               }
-            } else {
-              // If chronologically invalid, force target to be right of source
-              targetNode.x = node.x + minDistance;
             }
           }
         });
       }
     });
+    
+    // Re-enforce strict chronological order after each connection adjustment pass
+    for (let i = 0; i < allHistoricalNodes.length; i++) {
+      const currentNode = allHistoricalNodes[i];
+      const nodeWidth = currentNode.width || currentNode.radius * 2;
+      const currentNodeRight = currentNode.x + nodeWidth / 2;
+      
+      for (let j = i + 1; j < allHistoricalNodes.length; j++) {
+        const laterNode = allHistoricalNodes[j];
+        const laterNodeWidth = laterNode.width || laterNode.radius * 2;
+        const laterNodeLeft = laterNode.x - laterNodeWidth / 2;
+        
+        if (currentNodeRight > laterNodeLeft) {
+          const minDistance = nodeWidth / 2 + laterNodeWidth / 2 + MIN_NODE_SPACING;
+          laterNode.x = currentNode.x + minDistance;
+        }
+      }
+    }
   }
   
-  // Strict chronological enforcement: ensure all nodes respect timeline order
-  // Present nodes must be to the right of all historical nodes
+  // Final strict chronological enforcement: Present nodes must be to the right of all historical nodes
   const maxHistoricalX = Math.max(...nonPresentOrFutureNodes.map(n => n.x + (n.width || n.radius * 2) / 2));
   const presentMinX = maxHistoricalX + MIN_NODE_SPACING * 2;
   
@@ -779,18 +845,24 @@ const getDistance = (node1: PositionedNode, node2: PositionedNode): number => {
 
 // Check if two nodes are colliding (rectangular bounding box collision)
 const areColliding = (node1: PositionedNode, node2: PositionedNode): boolean => {
-  // Calculate bounding boxes
-  const node1Left = node1.x - node1.width / 2;
-  const node1Right = node1.x + node1.width / 2;
-  const node1Top = node1.y - node1.height / 2;
-  const node1Bottom = node1.y + node1.height / 2;
+  // Calculate bounding boxes using full width/height (outer edges)
+  const node1Width = node1.width || node1.radius * 2;
+  const node1Height = node1.height || node1.radius * 2;
+  const node2Width = node2.width || node2.radius * 2;
+  const node2Height = node2.height || node2.radius * 2;
   
-  const node2Left = node2.x - node2.width / 2;
-  const node2Right = node2.x + node2.width / 2;
-  const node2Top = node2.y - node2.height / 2;
-  const node2Bottom = node2.y + node2.height / 2;
+  const node1Left = node1.x - node1Width / 2;
+  const node1Right = node1.x + node1Width / 2;
+  const node1Top = node1.y - node1Height / 2;
+  const node1Bottom = node1.y + node1Height / 2;
   
-  // Check for overlap with spacing
+  const node2Left = node2.x - node2Width / 2;
+  const node2Right = node2.x + node2Width / 2;
+  const node2Top = node2.y - node2Height / 2;
+  const node2Bottom = node2.y + node2Height / 2;
+  
+  // Check for overlap with spacing - nodes should never overlap
+  // Return true if there's any overlap (even with spacing)
   return !(node1Right + MIN_NODE_SPACING < node2Left ||
            node1Left - MIN_NODE_SPACING > node2Right ||
            node1Bottom + MIN_NODE_SPACING < node2Top ||
@@ -799,10 +871,13 @@ const areColliding = (node1: PositionedNode, node2: PositionedNode): boolean => 
 
 // Check if a point is within a node's rectangular bounds (with padding)
 const isPointInNode = (point: { x: number; y: number }, node: PositionedNode, padding: number = 0): boolean => {
-  const left = node.x - node.width / 2 - padding;
-  const right = node.x + node.width / 2 + padding;
-  const top = node.y - node.height / 2 - padding;
-  const bottom = node.y + node.height / 2 + padding;
+  const nodeWidth = node.width || node.radius * 2;
+  const nodeHeight = node.height || node.radius * 2;
+  
+  const left = node.x - nodeWidth / 2 - padding;
+  const right = node.x + nodeWidth / 2 + padding;
+  const top = node.y - nodeHeight / 2 - padding;
+  const bottom = node.y + nodeHeight / 2 + padding;
   
   return point.x >= left && point.x <= right && point.y >= top && point.y <= bottom;
 };
@@ -879,70 +954,117 @@ const resolveCollisions = (nodes: PositionedNode[]): void => {
         if (areColliding(node1, node2)) {
           hasCollisions = true;
           
-          const distance = getDistance(node1, node2);
-          const minDistance = node1.radius + node2.radius + MIN_NODE_SPACING;
+          // Calculate rectangular bounds for both nodes
+          const node1Width = node1.width || node1.radius * 2;
+          const node1Height = node1.height || node1.radius * 2;
+          const node2Width = node2.width || node2.radius * 2;
+          const node2Height = node2.height || node2.radius * 2;
           
-          if (distance < 0.1) {
-            // Nodes are on top of each other, separate them
-            // Don't move Present or Future nodes horizontally
-            if (!isNode2Present) {
-              node2.x += 50;
-            }
-            node2.y += 50;
-            continue;
-          }
-
-          // Calculate the overlap
-          const overlap = minDistance - distance;
+          const node1Left = node1.x - node1Width / 2;
+          const node1Right = node1.x + node1Width / 2;
+          const node1Top = node1.y - node1Height / 2;
+          const node1Bottom = node1.y + node1Height / 2;
           
-          // Add extra push factor to ensure nodes separate more
-          const pushFactor = 1.3; // Push nodes 30% further apart than minimum
-          const adjustedOverlap = overlap * pushFactor;
+          const node2Left = node2.x - node2Width / 2;
+          const node2Right = node2.x + node2Width / 2;
+          const node2Top = node2.y - node2Height / 2;
+          const node2Bottom = node2.y + node2Height / 2;
           
-          // Calculate direction vector
-          const dx = node2.x - node1.x;
-          const dy = node2.y - node1.y;
-          const angle = Math.atan2(dy, dx);
+          // Calculate overlap in X and Y directions
+          const overlapX = Math.min(node1Right, node2Right) - Math.max(node1Left, node2Left);
+          const overlapY = Math.min(node1Bottom, node2Bottom) - Math.max(node1Top, node2Top);
           
-          // Calculate how much each node should move
-          // Larger nodes move less, smaller nodes move more
-          const totalRadius = node1.radius + node2.radius;
-          const move1 = (adjustedOverlap * node2.radius) / totalRadius;
-          const move2 = (adjustedOverlap * node1.radius) / totalRadius;
+          // Calculate minimum required distance (half width + half width + spacing)
+          const minDistanceX = node1Width / 2 + node2Width / 2 + MIN_NODE_SPACING;
+          const minDistanceY = node1Height / 2 + node2Height / 2 + MIN_NODE_SPACING;
           
-          // Preserve Present and Future nodes' X position - only move them vertically
-          // Preserve pathTaken nodes on main path when possible
-          // If one is on main path and other isn't, move the branch node more
-          if (node1.pathTaken && !node2.pathTaken) {
-            // Move branch node (node2) more
-            if (!isNode2Present) {
-              node2.x += Math.cos(angle) * (adjustedOverlap * 0.7);
+          if (overlapX > 0 && overlapY > 0) {
+            // Nodes are overlapping - calculate separation needed
+            const currentDistanceX = Math.abs(node2.x - node1.x);
+            const currentDistanceY = Math.abs(node2.y - node1.y);
+            
+            const neededSeparationX = minDistanceX - currentDistanceX;
+            const neededSeparationY = minDistanceY - currentDistanceY;
+            
+            // Add extra push factor to ensure nodes separate more
+            const pushFactor = 1.3; // Push nodes 30% further apart than minimum
+            const adjustedSeparationX = neededSeparationX * pushFactor;
+            const adjustedSeparationY = neededSeparationY * pushFactor;
+            
+            // Calculate direction vector
+            const dx = node2.x - node1.x;
+            const dy = node2.y - node1.y;
+            const angle = Math.atan2(dy, dx);
+            
+            // Calculate how much each node should move based on size
+            const totalSize = node1Width + node1Height + node2Width + node2Height;
+            const node1Size = node1Width + node1Height;
+            const node2Size = node2Width + node2Height;
+            
+            // Calculate movement amounts proportional to node sizes
+            const move1X = (adjustedSeparationX * node2Size) / totalSize;
+            const move2X = (adjustedSeparationX * node1Size) / totalSize;
+            const move1Y = (adjustedSeparationY * node2Size) / totalSize;
+            const move2Y = (adjustedSeparationY * node1Size) / totalSize;
+            
+            // Determine which direction to move based on relative positions
+            const moveX1 = node1.x < node2.x ? -move1X : move1X;
+            const moveX2 = node2.x < node1.x ? -move2X : move2X;
+            const moveY1 = node1.y < node2.y ? -move1Y : move1Y;
+            const moveY2 = node2.y < node1.y ? -move2Y : move2Y;
+            
+            // Preserve Present and Future nodes' X position - only move them vertically
+            // Preserve pathTaken nodes on main path when possible
+            // If one is on main path and other isn't, move the branch node more
+            if (node1.pathTaken && !node2.pathTaken) {
+              // Move branch node (node2) more
+              if (!isNode2Present) {
+                node2.x += moveX2 * 0.7;
+              }
+              node2.y += moveY2 * 0.7;
+              if (!isNode1Present) {
+                node1.x += moveX1 * 0.3;
+              }
+              node1.y += moveY1 * 0.3;
+            } else if (node2.pathTaken && !node1.pathTaken) {
+              // Move branch node (node1) more
+              if (!isNode1Present) {
+                node1.x += moveX1 * 0.7;
+              }
+              node1.y += moveY1 * 0.7;
+              if (!isNode2Present) {
+                node2.x += moveX2 * 0.3;
+              }
+              node2.y += moveY2 * 0.3;
+            } else {
+              // Both same type, move both proportionally
+              if (!isNode1Present) {
+                node1.x += moveX1;
+              }
+              node1.y += moveY1;
+              if (!isNode2Present) {
+                node2.x += moveX2;
+              }
+              node2.y += moveY2;
             }
-            node2.y += Math.sin(angle) * (adjustedOverlap * 0.7);
-            if (!isNode1Present) {
-              node1.x -= Math.cos(angle) * (adjustedOverlap * 0.3);
-            }
-            node1.y -= Math.sin(angle) * (adjustedOverlap * 0.3);
-          } else if (node2.pathTaken && !node1.pathTaken) {
-            // Move branch node (node1) more
-            if (!isNode1Present) {
-              node1.x -= Math.cos(angle) * (adjustedOverlap * 0.7);
-            }
-            node1.y -= Math.sin(angle) * (adjustedOverlap * 0.7);
-            if (!isNode2Present) {
-              node2.x += Math.cos(angle) * (adjustedOverlap * 0.3);
-            }
-            node2.y += Math.sin(angle) * (adjustedOverlap * 0.3);
           } else {
-            // Both same type, move both proportionally
-            if (!isNode1Present) {
-              node1.x -= Math.cos(angle) * move1;
+            // Nodes are very close but not overlapping - ensure minimum spacing
+            const currentDistanceX = Math.abs(node2.x - node1.x);
+            const currentDistanceY = Math.abs(node2.y - node1.y);
+            
+            if (currentDistanceX < minDistanceX) {
+              const neededX = minDistanceX - currentDistanceX;
+              const moveX = neededX / 2;
+              if (!isNode1Present) node1.x -= moveX;
+              if (!isNode2Present) node2.x += moveX;
             }
-            node1.y -= Math.sin(angle) * move1;
-            if (!isNode2Present) {
-              node2.x += Math.cos(angle) * move2;
+            
+            if (currentDistanceY < minDistanceY) {
+              const neededY = minDistanceY - currentDistanceY;
+              const moveY = neededY / 2;
+              node1.y -= moveY;
+              node2.y += moveY;
             }
-            node2.y += Math.sin(angle) * move2;
           }
         }
       }
@@ -1245,29 +1367,38 @@ const getConnectionPath = (
   const targetPorts = calculateNodePorts(target, allNodes);
   
   // Find the output port on source that connects to target
+  // The output port should exist because source.connections includes target.id
   const outputPort = sourcePorts.outputs.find(p => p.connectionId === target.id);
   // Find the input port on target that receives from source
+  // The input port should exist because source.connections includes target.id (meaning source connects TO target)
   const inputPort = targetPorts.inputs.find(p => p.connectionId === source.id);
   
-  // Use port positions if available, otherwise fall back to edge positions
+  // CRITICAL: Connections MUST connect to the exact center of the 4x4px port squares
+  // Port positions (port.x, port.y) are relative to the node center
+  // So we add them to the node's absolute position to get the port's absolute position
   let startX: number, startY: number, endX: number, endY: number;
   
+  // Connections MUST connect to the exact center of the 4x4px port squares
+  // Port positions (port.x, port.y) are relative to the node center
+  // Port squares are rendered at (port.x - 2, port.y - 2) with size 4x4
+  // So the center is at (port.x, port.y) relative to node center
+  
   if (outputPort) {
-    // Use output port position (right edge of source node)
+    // Connect directly to the center of the output port square
     startX = source.x + outputPort.x;
     startY = source.y + outputPort.y;
   } else {
-    // Fallback: use right edge center of source node
+    // Fallback: use right edge center (shouldn't happen if connections are properly defined)
     startX = source.x + source.width / 2;
     startY = source.y;
   }
   
   if (inputPort) {
-    // Use input port position (left edge of target node)
+    // Connect directly to the center of the input port square
     endX = target.x + inputPort.x;
     endY = target.y + inputPort.y;
   } else {
-    // Fallback: use left edge center of target node
+    // Fallback: use left edge center (shouldn't happen if connections are properly defined)
     endX = target.x - target.width / 2;
     endY = target.y;
   }
@@ -1819,7 +1950,10 @@ const calculateNodeSize = (node: Node, allNodes: Node[] = []): { width: number; 
   const height = Math.max(calculatedHeight, minHeight);
   
   // Width: radius * 2.8 (more horizontal orientation)
-  const width = radius * 2.8;
+  // But enforce minimum width of 250px for better readability
+  const calculatedWidth = radius * 2.8;
+  const minWidth = 250; // Minimum width to ensure text fits comfortably
+  const width = Math.max(calculatedWidth, minWidth);
   
   return { width, height, radius };
 };
@@ -1872,17 +2006,29 @@ const calculateNodePorts = (node: PositionedNode, allNodes: PositionedNode[]): {
   // Calculate port positions inside the node
   // Ports are small 4x4px squares positioned inside the node boundaries
   // Input ports on the left side, output ports on the right side
+  // Ports are positioned BELOW the title
   const portSize = 4; // Size of port square (4x4px)
-  const portSpacing = 24; // Vertical spacing between ports
-  const edgePadding = 16; // Padding from top/bottom edges (matches calculateNodeSize)
+  const portSpacing = 20; // Vertical spacing between ports (reduced for tighter grouping)
+  const topPadding = 8; // Padding from top edge (for title)
+  const bottomPadding = 12; // Padding from bottom edge
   const sidePadding = 12; // Horizontal padding from left/right edges (ports inside node)
   
-  // Calculate input port positions (left side, inside node)
+  // Calculate title height to position ports below it
+  // Use the same calculation as the rendering code
+  const fontSize = calculateFontSize(node.radius);
+  const textPadding = TEXT_PADDING;
+  const availableWidth = node.width - (textPadding * 2);
+  const lines = wrapTextToLines(node.label, availableWidth, fontSize);
+  const displayLines = lines.slice(0, 2); // Max 2 lines for top placement
+  const lineHeight = fontSize * 1.2;
+  const titleHeight = displayLines.length * lineHeight;
+  const titleAreaHeight = topPadding + titleHeight + 8; // Title + 8px gap
+  
+  // Calculate input port positions (left side, below title)
   if (inputs.length > 0) {
-    // Distribute ports evenly within the node height, accounting for padding
-    const availableHeight = node.height - (edgePadding * 2);
-    const totalInputHeight = (inputs.length - 1) * portSpacing;
-    const startY = -totalInputHeight / 2; // Center the ports vertically
+    // Start ports below the title area
+    const startY = -node.height / 2 + titleAreaHeight;
+    // Distribute ports vertically below title
     inputs.forEach((port, index) => {
       // Position inside the left edge of the node
       port.x = -node.width / 2 + sidePadding; // Inside left edge
@@ -1890,12 +2036,11 @@ const calculateNodePorts = (node: PositionedNode, allNodes: PositionedNode[]): {
     });
   }
   
-  // Calculate output port positions (right side, inside node)
+  // Calculate output port positions (right side, below title)
   if (outputs.length > 0) {
-    // Distribute ports evenly within the node height, accounting for padding
-    const availableHeight = node.height - (edgePadding * 2);
-    const totalOutputHeight = (outputs.length - 1) * portSpacing;
-    const startY = -totalOutputHeight / 2; // Center the ports vertically
+    // Start ports below the title area
+    const startY = -node.height / 2 + titleAreaHeight;
+    // Distribute ports vertically below title
     outputs.forEach((port, index) => {
       // Position inside the right edge of the node
       port.x = node.width / 2 - sidePadding; // Inside right edge
@@ -4598,23 +4743,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             />
                           )}
                           
-                          {/* Node type label inside patch */}
-                          <KonvaText
-                            x={node.width / 2 - 8}
-                            y={-node.height / 2 + 6}
-                            text={node.type.charAt(0).toUpperCase() + node.type.slice(1)}
-                            fontSize={10}
-                            fontFamily="'EB Garamond', serif"
-                            fontStyle="italic"
-                            fill={textColor}
-                            opacity={0.6}
-                            align="right"
-                            listening={false}
-                            perfectDrawEnabled={false}
-                          />
-                          
-                          {/* Node label - only show when no image */}
-                          {!node.image && (() => {
+                          {/* Node title/label at the very top */}
+                          {(() => {
                             // Calculate adaptive font size based on node width
                             const fontSize = calculateFontSize(node.radius);
                             
@@ -4622,31 +4752,27 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             const textPadding = TEXT_PADDING;
                             const availableWidth = node.width - (textPadding * 2);
                             
-                            // Wrap text to fit in max 3 lines with adaptive font size
+                            // Wrap text to fit in max 2 lines with adaptive font size (reduced from 3 for top placement)
                             const lines = wrapTextToLines(node.label, availableWidth, fontSize);
                             
-                            // Limit to 3 lines maximum
-                            const displayLines = lines.slice(0, 3);
+                            // Limit to 2 lines maximum for top placement
+                            const displayLines = lines.slice(0, 2);
                             
-                            // Calculate line height for vertical centering
-                            const lineHeight = fontSize * 1.3; // Line height multiplier
+                            // Calculate line height
+                            const lineHeight = fontSize * 1.2; // Slightly tighter line height for top placement
                             const totalHeight = displayLines.length * lineHeight;
                             
-                            // For horizontal centering in Konva:
-                            // When using align="center", offsetX should be half the width
-                            // This centers the text horizontally at x=0
-                            const horizontalOffset = availableWidth / 2;
+                            // Position at the very top of the node
+                            const topPadding = 8; // Padding from top edge
+                            const titleY = -node.height / 2 + topPadding + totalHeight / 2;
                             
-                            // For vertical centering in Konva:
-                            // Use verticalAlign="middle" to center text vertically within the height
-                            // Set height to totalHeight so verticalAlign can work properly
-                            // offsetY should be half the height to center at y=0
-                            const verticalOffset = totalHeight / 2;
+                            // Horizontal centering
+                            const horizontalOffset = availableWidth / 2;
                             
                             return (
                               <KonvaText
                                 x={0}
-                                y={0}
+                                y={titleY}
                                 text={displayLines.join('\n')}
                                 align="center"
                                 verticalAlign="middle"
@@ -4662,7 +4788,36 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                                 width={availableWidth}
                                 height={totalHeight}
                                 offsetX={horizontalOffset}
-                                offsetY={verticalOffset}
+                                offsetY={totalHeight / 2}
+                              />
+                            );
+                          })()}
+                          
+                          {/* Node type label - positioned below title */}
+                          {(() => {
+                            const fontSize = calculateFontSize(node.radius);
+                            const textPadding = TEXT_PADDING;
+                            const availableWidth = node.width - (textPadding * 2);
+                            const lines = wrapTextToLines(node.label, availableWidth, fontSize);
+                            const displayLines = lines.slice(0, 2);
+                            const lineHeight = fontSize * 1.2;
+                            const titleHeight = displayLines.length * lineHeight;
+                            const topPadding = 8;
+                            const typeLabelY = -node.height / 2 + topPadding + titleHeight + 4; // 4px gap after title
+                            
+                            return (
+                              <KonvaText
+                                x={node.width / 2 - 8}
+                                y={typeLabelY}
+                                text={node.type.charAt(0).toUpperCase() + node.type.slice(1)}
+                                fontSize={10}
+                                fontFamily="'EB Garamond', serif"
+                                fontStyle="italic"
+                                fill={textColor}
+                                opacity={0.6}
+                                align="right"
+                                listening={false}
+                                perfectDrawEnabled={false}
                               />
                             );
                           })()}
