@@ -1,9 +1,9 @@
 ---
- title: "Jodorowsky's Product Roadmap"
- pubDate: 2021-01-23
- description: "Your description here"
- ogImage: "/images/blog/img-2021-jodorowskysbacklog-01.jpg"
- 
+title: "Jodorowsky's Product Roadmap"
+pubDate: 2021-01-23
+description: "Your description here"
+ogImage: "/images/blog/img-2021-jodorowskysbacklog-01.jpg"
+
 ---
 
 I’ll share two stories you may not have heard of. These are stories of “the greatest film never made” and “the most important dead company in Silicon Valley.” This is a story about what happens when projects with uncompromising visions collide with the production process to make it happen (and keep it alive).

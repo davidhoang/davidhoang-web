@@ -1,8 +1,8 @@
 ---
- title: "Choosing a company"
- pubDate: 2023-12-31
- description: "A framework for evaluating your next role"
- ogImage: "/images/img-dh.png"
+title: "Choosing a company"
+pubDate: 2023-12-31
+description: "A framework for evaluating your next role"
+ogImage: "/images/img-dh.png"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)
 

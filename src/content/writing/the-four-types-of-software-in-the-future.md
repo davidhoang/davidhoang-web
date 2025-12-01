@@ -11,12 +11,12 @@ When you think of high-end or boutique design, the fashion industry likely comes
 There are forces of nature changing the landscape of software development that are going to change how we make software. With that, the type of software created will have a different shelf life, purpose, and level of quality. Let’s reflect on the forces of nature that are impacting this before covering what I think are four types of software in the future.
 
 ## Software barrier is lower
-I put "easier" in quotes because of the subjectivity (perhaps “approachable” is a more appropriate word). Whether it's no-code or writing lines of code, these two worlds are colliding—the same. This is one of the reasons I joined Replit. If you have an internet browser, you can build software.
+I put "easier" in quotes because of the subjectivity (perhaps “approachable” is a more appropriate word). Whether it's no-code or writing lines of code, these two worlds are colliding. This is one of the reasons I joined Replit. If you have an internet browser, you can build software.
 
 More people have access to creating and publishing software than ever, and that's a great thing. I believe the best ideas that will change the world might not come from "the best" developers, but from ambitious individuals who hack something together to take an idea and turn it into something tangible.
 
 ## Accessible endpoints and models
-It's not to say nobody is going to ever have a database in their software anymore, but there are more reasons to not need one. As the world of software creation shifts with more access to endpoints, APIs, and language models, this might result in more emphasis on client-side apps. Let's take Threads, an Instagram company (a Meta company), which launched this month. There seem to be plans to integrate the Twitter clone with ActivityPub, a decentralized protocol also used by Mastodon.
+It's not to say that nobody is ever going to have a database in their software anymore, but there are more reasons to not need one. As the world of software creation shifts with more access to endpoints, APIs, and language models, this might result in more emphasis on client-side apps. Let's take Threads, an Instagram company (a Meta company), which launched this month. There seem to be plans to integrate the Twitter clone with ActivityPub, a decentralized protocol also used by Mastodon.
 
 This essentially means you can weave federated experiences into one. There is a world where you experience the same content but through multiple apps. We are entering the Twitter clone saga with Bluesky, T2 (no relation to Terminator 2: Judgment Day, unfortunately), Posts, Substack Notes, and Threads. If all of these apps used ActivityPub, having unique client-side application experiences doesn't matter. "Apps" as we are accustomed to feel more like views.
 
