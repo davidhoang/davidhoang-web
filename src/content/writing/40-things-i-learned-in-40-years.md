@@ -34,7 +34,7 @@ To celebrate, I’ll reflect on 40 things I learned in my years on Planet Earth.
 23. There is no success without a successor. Share your knowledge and wisdom with the future generation. If you're successful, I believe it's your obligation to pay it forward to the ecosystem that made you successful. Mentor someone, fund their work, etc.
 24. The most important parts of work happen between the meetings.
 25. You're going to do something to mess with Gen Z, like how Boomers put razors in the walls of homes instead of having an actual solution. Think about what that is and don't do it.
-26. Book a one-way flight somewhere and figure it out later
+26. Book a one-way flight somewhere and figure it out later.
 27. One of the most powerful sayings: Ichi Go Ichi E: One Encounter. One Opportunity. Keep this in mind in every breath you take in life.
 28. Walking conversations are the best activity in the world. Invite an old or new friend, grab coffee (or tea), and take a long walk. You'll get exercise and catch up.
 29. Don't be a creeper.
