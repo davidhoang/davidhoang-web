@@ -1,8 +1,8 @@
 ---
- title: "Crafting a leadership portfolio"
- pubDate: 2023-01-08
- description: "How managers should position themselves for success"
- ogImage: "/images/default-social.png"
+title: "Crafting a leadership portfolio"
+pubDate: 2023-01-08
+description: "How managers should position themselves for success"
+ogImage: "/images/default-social.png"
 ---
 
 One of the top questions I get asked is what a portfolio for a manager should look like. Unsurprisingly, the answer is like any design answer: it depends. The ultimate output of a portfolio looks different based on so many factors: whether you're in brand or product, the type of management role, and what you're optimizing for. In this session, we'll look at the goals of a manager’s portfolio, what you are optimizing for, and the core elements of a portfolio. There are a few common artifacts you'll have as a manager: résumé/CV, portfolio deck, and website. The last two might be the combo of your portfolio.
@@ -75,7 +75,7 @@ Company and role overview
 
 Case studies are different for managers. Though you’ll show project work (presumably what you did leading your team), the story you tell is slightly different. The core elements are:
 
-- Executive summary: What were the business goal and customer opportunities?- What processes and frameworks do you put in place to drive outcomes for your team?
+- Executive summary: What were the business goal and customer opportunities? What processes and frameworks do you put in place to drive outcomes for your team?
 - How did you manage towards outcomes?
 - Success metrics you put in place for your team
 - What did people on your team do?
@@ -124,7 +124,8 @@ Part of what people will expect from leadership portfolios is the lessons you le
 - Creating effective processes
 - Teams you’ve built
 - Initiatives that you led
-- How you evaluate workHow you ensure design quality at scale
+- How you evaluate work
+- How you ensure design quality at scale
 
 ## Website examples
 - [Wendy Johansson](https://www.wendyjohansson.com/index.html)

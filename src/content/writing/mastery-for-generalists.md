@@ -8,11 +8,11 @@ coverImage: "/images/blog/2022/img-2022-mastery-for-generalists-cover.webp"
 
 [Originally posted on Proof of Concept](https://www.proofofconcept.pub/p/mastery-for-generalists)
 
-When I was the Product team at One Medical, our clinical and Ops teams were critical partners in how we shipped work. It was common to visit the offices to observe (going to gemba). During my four years at the health tech company, I learned about the various roles on clinical teams: primary care providers, registered nurses, care navigators, specialists, phlebotomists, and many more. In my research work, I spent the majority of the time with primary care providers (generalists).
+When I was on the Product team at One Medical, our clinical and Ops teams were critical partners in how we shipped work. It was common to visit the offices to observe (going to gemba). During my four years at the health tech company, I learned about the various roles on clinical teams: primary care providers, registered nurses, care navigators, specialists, phlebotomists, and many more. In my research work, I spent the majority of the time with primary care providers (generalists).
 
 ![Mastery for generalists](/images/blog/2022/img-2022-mastery-for-generalists-01.webp)
 
-"Why did you decide to be a generalist instead of a specialist?", I'd ask each provider. What compelled them to general care vs. being a specialist. Primary care physicians experience more burnout and specialists make more money. The truth is you make more money as a specialists, so what would compel someone to general care. The answer was consistent: to have a broader range to care for their patients' health.
+"Why did you decide to be a generalist instead of a specialist?", I'd ask each provider. What compelled them to general care vs. being a specialist? Primary care physicians experience more burnout and specialists make more money. The truth is you make more money as a specialist, so what would compel someone to general care? The answer was consistent: to have a broader range to care for their patients' health.
 
 The path for specialists is more clear than generalists. If one chooses the generalist path, what does mastery look like? The notion of mastery as a generalist sounds oxymoronic. Let's challenge that and identify how to grow in your craft in a generalist role. In order to master being a generalist, let's reflect on how to know if you are a generalist, the impact they make, and leveling up as generalist practitioners.
 
@@ -36,7 +36,7 @@ Generalists are people who love variety, connecting the dots, and curious. In co
 
 ## Why be a generalist?
 
-"Jack of all trades, master of none" can sound negative—almost implying one isn't good at anything. Do you ever feel like you don't fit into a specialty? Being a generalist allows flexibility and have broader range in what you can do. This is a great skill for early stage startups when wearing multiple hats is common. As the company grows, it'll specialize at scale, and it makes sense. You don't want your generalist co-founder to continue being responsible for people experience or finance and bring in the specialists. What happens to people who when they relinquish the said hats? You're able to freelance and move around more. There might be a new initiative that needs to get spun up. If you're interested in management, many people managers are generalists.
+"Jack of all trades, master of none" can sound negative—almost implying one isn't good at anything. Do you ever feel like you don't fit into a specialty? Being a generalist allows flexibility and has broader range in what you can do. This is a great skill for early stage startups when wearing multiple hats is common. As the company grows, it'll specialize at scale, and it makes sense. You don't want your generalist co-founder to continue being responsible for people experience or finance and bring in the specialists. What happens to people who when they relinquish the said hats? You're able to freelance and move around more. There might be a new initiative that needs to get spun up. If you're interested in management, many people managers are generalists.
 
 ## Generalists spark alchemy
 
