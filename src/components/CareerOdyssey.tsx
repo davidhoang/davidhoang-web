@@ -2473,17 +2473,17 @@ const NodeImage: React.FC<{
   const coverX = -width / 2; // Full width, starting from left edge
   const coverY = -height / 2; // At the very top of the node
   
-  // Calculate scale to cover the rectangle (object-fit: cover behavior)
-  // Scale to fill the rectangle, cropping if needed
+  // Calculate scale to fill the rectangle while maintaining aspect ratio
+  // Use cover behavior: scale to fill, cropping if needed, but preserve aspect ratio
   const scaleX = width / image.width;
   const scaleY = coverHeight / image.height;
-  const imageScale = Math.max(scaleX, scaleY); // Cover: use larger scale to fill
+  const imageScale = Math.max(scaleX, scaleY); // Cover: use larger scale to fill, maintaining aspect ratio
   
   // Calculate image position to fill the rectangle, top-center aligned
   const scaledWidth = image.width * imageScale;
   const scaledHeight = image.height * imageScale;
   const imageX = coverX + (width - scaledWidth) / 2; // Center horizontally
-  const imageY = coverY; // Align to top (not centered vertically)
+  const imageY = coverY; // Align to top
   
   // Create clip function for rounded corner masking to match node corners
   // Only round the top corners since the image is at the top of the node
