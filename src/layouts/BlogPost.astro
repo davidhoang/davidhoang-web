@@ -11,14 +11,14 @@ const coverImage = data.coverImage || data.ogImage;
 
 // Use the post description for MainLayout as well
 const pageDescription = description || "An article by David Hoang on design, engineering, AI, and entrepreneurship.";
-const ogImage = data.ogImage || coverImage || "/images/img-dh.png";
+const ogImage = data.ogImage || coverImage;
 ---
 
 <MainLayout title={title} description={pageDescription} ogImage={ogImage}>
   <BlogMeta 
     title={title}
     description={description}
-    ogImage={data.ogImage}
+    ogImage={data.ogImage || coverImage}
     publishDate={pubDate}
     url={Astro.url.pathname}
   />

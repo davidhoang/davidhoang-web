@@ -2,10 +2,9 @@
 title: "Email updates to career advisors"
 pubDate: 2023-12-31
 description: "A template to keep your mentors and advisors in the loop"
-ogImage: "/images/img-dh.png"
+ogImage: "/images/blog/img-2022-email-update-career-advisors.webp"
+coverImage: "/images/blog/img-2022-email-update-career-advisors.webp"
 ---
-
-![Email updates to career advisors](/images/blog/img-2022-email-update-career-advisors.webp)
 
 The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and they also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of assembling a personal board of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.
 
