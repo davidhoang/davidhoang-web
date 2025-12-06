@@ -1,24 +1,25 @@
 ---
-title: "Email updates to career advisors"
+title: "Keeping an advisory close"
 pubDate: 2023-12-31
-description: "A template to keep your mentors and advisors in the loop"
+description: "A modern approach to career updates"
 ogImage: "/images/blog/img-2022-email-update-career-advisors.webp"
 coverImage: "/images/blog/img-2022-email-update-career-advisors.webp"
 ---
 
-The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and they also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of assembling a personal board of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.
+The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and they also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of [assembling a personal board](https://medium.com/@davidhoang/assembling-your-personal-board-of-directors-f2a8ebdc1163) of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.
 
 I send updates twice a year to this group to keep them in the loop. In this issue, we’ll cover who is on your advisory, the benefits of sending updates, and ideas on how to write the content.
 
 ## The advisory roster
 Mentors and advisors are crucial supporting characters in your career journey. As you continue moving forward, it’s natural you won’t communicate with them as much as you did. You no longer work with them and people are busy. However, it’s important to foster these relationships along the way. Some ideas of people who might be on your group of advisors:
 
-## A former manager
-An investor in the startup you worked at
-The former colleague you used to work with who you’d like to work with again
-Instructors or teachers who made a big impact on your life
-Friends who hold you accountable and tell you like it is
-The value of sending updates
+- A former manager
+- An investor in the startup you worked at
+- The former colleague you used to work with who you’d like to work with again
+- Instructors or teachers who made a big impact on your life
+- Friends who hold you accountable and tell you like it is
+
+## The value of sending updates
 The best updates are relationship-based vs. not transactional. We've all experienced that icky feeling when someone comes out of the woodwork, wanting to catch up, only to reveal they need a favor from you. This doesn’t feel great. My rule-of-thumb is continually fostering relationships and if there is an ask, it naturally arises.
 
 Email updates to your advisors invoke serendipitous moments. People I’ve managed from years ago on occasion send updates to me when they’re looking for a change. Their message sparks more intention for me to be on the lookout to point them in a direction they might be interested in.

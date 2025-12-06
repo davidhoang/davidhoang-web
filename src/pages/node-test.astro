@@ -1,0 +1,25 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import NodeTestComponent from '../components/NodeTest.tsx';
+
+// Page metadata
+const pageDescription = "Test page for debugging node rendering";
+const ogImage = "/images/img-dh.png";
+---
+
+<MainLayout title="Node Test" description={pageDescription} ogImage={ogImage} hideFooter={true}>
+  <NodeTestComponent client:load />
+</MainLayout>
+
+<style>
+  #main-content.container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  
+  body {
+    background: #f5f5f0;
+  }
+</style>
