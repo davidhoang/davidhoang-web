@@ -26,9 +26,9 @@ const imageUrl = ogImage ? `${siteUrl}${ogImage}` : undefined;
 )}
 <meta property="article:published_time" content={publishDate.toISOString()} />
 
-<!-- Twitter - Override MainLayout for blog posts -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={`${siteUrl}${url}`} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-{imageUrl && <meta property="twitter:image" content={imageUrl} />} 
+<!-- Twitter - Override MainLayout for blog posts (Twitter uses name, not property) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={`${siteUrl}${url}`} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{imageUrl && <meta name="twitter:image" content={imageUrl} />} 
