@@ -2,7 +2,8 @@
 title: "Waiting for AI's pull-to-refresh moment"
 pubDate: 2023-09-03
 description: "The race to the interface"
-ogImage: "/images/img-dh.png"
+ogImage: "/images/blog/2023/2023-09-03-pull-to-refresh.webp"
+coverImage: "/images/blog/2023/2023-09-03-pull-to-refresh.webp"
 ---
 
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/waiting-for-ais-pull-to-refresh-moment)

@@ -9,8 +9,7 @@ interface Props {
 
 const { title, description, ogImage, publishDate, url } = Astro.props;
 const siteUrl = 'https://davidhoang.com';
-const defaultOgImage = '/images/img-dh.png';
-const imageUrl = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}${defaultOgImage}`;
+const imageUrl = ogImage ? `${siteUrl}${ogImage}` : undefined;
 ---
 
 <!-- Open Graph / Facebook -->
@@ -18,7 +17,7 @@ const imageUrl = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}${defaultOgImage}
 <meta property="og:url" content={`${siteUrl}${url}`} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={imageUrl} />
+{imageUrl && <meta property="og:image" content={imageUrl} />}
 <meta property="article:published_time" content={publishDate.toISOString()} />
 
 <!-- Twitter -->
@@ -26,4 +25,4 @@ const imageUrl = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}${defaultOgImage}
 <meta property="twitter:url" content={`${siteUrl}${url}`} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={imageUrl} /> 
+{imageUrl && <meta property="twitter:image" content={imageUrl} />} 

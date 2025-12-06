@@ -2,7 +2,8 @@
 title: "Creating value with artifacts"
 pubDate: 2022-10-16
 description: "Issue 114: Making memorable documents"
-ogImage: "/images/img-dh.png"
+ogImage: "/images/blog/2022/img-2022-10-16-artifacts-cover.webp"
+coverImage: "/images/blog/2022/img-2022-10-16-artifacts-cover.webp"
 ---
 
 _Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/creating-value-with-artifacts)_
