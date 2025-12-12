@@ -2,7 +2,6 @@
 title: "Keeping an advisory close"
 pubDate: 2023-12-31
 description: "A modern approach to career updates"
-ogImage: "/images/blog/img-2022-email-update-career-advisors.webp"
 coverImage: "/images/blog/img-2022-email-update-career-advisors.webp"
 ---
 

@@ -28,7 +28,7 @@ const canonicalURL = Astro.site
   : Astro.url.pathname;
 
 // Construct full URL for ogImage
-const siteUrl = Astro.site || 'https://davidhoang.com';
+const siteUrl = (Astro.site ? Astro.site.toString() : 'https://davidhoang.com').replace(/\/$/, '');
 const ogImageUrl = ogImage.startsWith('http') 
   ? ogImage 
   : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
