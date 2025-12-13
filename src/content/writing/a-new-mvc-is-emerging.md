@@ -2,7 +2,6 @@
 title: "A new MVC is emerging"
 pubDate: 2025-06-15
 description: "Issue 250: AI is breaking the way we build (and it's exciting)"
-ogImage: "/images/blog/2025/img-2025-06-15-mvc-cover.webp"
 coverImage: "/images/blog/2025/img-2025-06-15-mvc-cover.webp"
 ---
 

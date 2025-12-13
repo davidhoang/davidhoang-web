@@ -2,7 +2,6 @@
 title: "Design's Seat at the (Cap) Table: Part II"
 pubDate: 2023-03-30
 description: "Part 2: the value add design angel investors bring"
-ogImage: "/images/img-dh.png"
 ---
 In part one, we discussed the value of designers getting involved in angel investing. Let’s talk about the other side of the cap table—why it’s important for an investment round to have a designer be a part of it.
 

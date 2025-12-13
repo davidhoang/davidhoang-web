@@ -3,7 +3,6 @@ title: "Design Engineering"
 pubDate: 2024-03-21
 description: "Thoughts on design engineering"
 image: "/images/blog/2024-03-design-engineering.jpeg"
-ogImage: "/images/blog/2024-03-design-engineering.jpeg"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/design-engineering?utm_source=publication-search)
 

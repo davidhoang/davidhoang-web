@@ -2,7 +2,6 @@
 title: "Building your designs"
 pubDate: 2024-02-11
 description: "A better focus than, should designers code?"
-ogImage: "/images/blog/img-181-cover@2x.jpg"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/building-your-designs)
 

@@ -9,7 +9,21 @@ interface Props {
 
 const { title, description, ogImage, publishDate, url } = Astro.props;
 const siteUrl = 'https://davidhoang.com';
-const imageUrl = ogImage ? `${siteUrl}${ogImage}` : undefined;
+const imageUrl = ogImage
+  ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`)
+  : undefined;
+
+const imageType = (() => {
+  if (!imageUrl) return undefined;
+  // Strip query/hash before checking extension
+  const clean = imageUrl.split('#')[0].split('?')[0].toLowerCase();
+  if (clean.endsWith('.png')) return 'image/png';
+  if (clean.endsWith('.jpg') || clean.endsWith('.jpeg')) return 'image/jpeg';
+  if (clean.endsWith('.webp')) return 'image/webp';
+  if (clean.endsWith('.gif')) return 'image/gif';
+  if (clean.endsWith('.avif')) return 'image/avif';
+  return undefined;
+})();
 ---
 
 <!-- Open Graph / Facebook - Override MainLayout for blog posts -->
@@ -21,7 +35,7 @@ const imageUrl = ogImage ? `${siteUrl}${ogImage}` : undefined;
   <>
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
-    <meta property="og:image:type" content="image/webp" />
+    {imageType && <meta property="og:image:type" content={imageType} />}
   </>
 )}
 <meta property="article:published_time" content={publishDate.toISOString()} />
