@@ -28,7 +28,7 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
     publishDate={pubDate}
     url={Astro.url.pathname}
   />
-  <article class="blog-post">
+  <article class:list={['blog-post', !coverImage && 'blog-post--no-hero']}>
     {coverImage && (
       <div class="hero-section">
         <img src={coverImage} alt={title} />
@@ -53,6 +53,16 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
 </MainLayout>
 
 <style>
+  /*
+    The nav is `position: fixed` and visually tall (large padding + border),
+    which is fine when a cover image sits at the top, but causes text-only
+    posts to start "under" the menu. Add a little clearance only when there's
+    no hero image.
+  */
+  .blog-post--no-hero {
+    padding-top: 120px;
+  }
+
   .hero-section {
     width: 100%;
     margin-bottom: 3rem;
@@ -89,6 +99,10 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
   }
 
   @media (max-width: 768px) {
+    .blog-post--no-hero {
+      padding-top: 88px;
+    }
+
     .content-grid {
       grid-template-columns: 1fr;
     }
