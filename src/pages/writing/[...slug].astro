@@ -17,9 +17,49 @@ if (!post) {
   throw new Error('Post is undefined');
 }
 
+function extractFirstImageUrl(markdown: string): string | undefined {
+  if (!markdown) return undefined;
+
+  // Markdown image: ![alt](url "optional title")
+  const mdImageMatch = markdown.match(/!\[[^\]]*]\(([^)]+)\)/m);
+  if (mdImageMatch?.[1]) {
+    const inner = mdImageMatch[1].trim();
+    // Take the URL token before any optional title.
+    let url = inner.split(/\s+/)[0]?.trim();
+    if (url?.startsWith('<') && url.endsWith('>')) url = url.slice(1, -1).trim();
+    if (!url) return undefined;
+    if (/^https?:\/\//i.test(url)) return url;
+    if (url.startsWith('/')) return url;
+    if (url.startsWith('./')) return `/${url.slice(2)}`;
+    return `/${url}`;
+  }
+
+  // HTML image: <img src="...">
+  const htmlImageMatch = markdown.match(/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["'][^>]*>/i);
+  if (htmlImageMatch?.[1]) {
+    const url = htmlImageMatch[1].trim();
+    if (!url) return undefined;
+    if (/^https?:\/\//i.test(url)) return url;
+    if (url.startsWith('/')) return url;
+    if (url.startsWith('./')) return `/${url.slice(2)}`;
+    return `/${url}`;
+  }
+
+  return undefined;
+}
+
+// Prefer the first image a reader sees: the post cover image (if set),
+// otherwise the first image embedded in the markdown content.
+// Fall back to any legacy `ogImage` value if present.
+const inferredOgImage = post.data.coverImage || extractFirstImageUrl(post.body) || post.data.ogImage;
+const postData = {
+  ...post.data,
+  ogImage: inferredOgImage,
+};
+
 const { Content } = await post.render();
 ---
 
-<BlogPost data={post.data}>
+<BlogPost data={postData}>
   <Content />
 </BlogPost> 

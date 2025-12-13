@@ -2,7 +2,6 @@
 title: "Career reboot"
 pubDate: 2025-04-21
 description: "Rebooting with the AI Incursion"
-ogImage: "/images/blog/img-2025-04-incursion@2x.jpg"
 ---
 
 Every April I seem to take an unplanned creative spring break. It’s not a sabbatical or a formal PTO strategy—just a self-imposed ritual to step away from the chaos of work and reconnect with what inspires me. I’ve learned that if you’re not in a full-time IC role, making things—especially design—becomes a form of recovery from meeting fatigue and managerial overhead.

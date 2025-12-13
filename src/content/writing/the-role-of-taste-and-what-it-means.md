@@ -2,7 +2,6 @@
 title: "The role of taste (and what it means)"
 pubDate: 2023-02-12
 description: "A look at the most subjective skill and how to harness it"
-ogImage: "/images/blog/2023/2023-02-12-taste-cover.webp"
 ---
 
 Happy Sunday from Brooklyn, NY. This week, many new memories made were in familiar places in my former neighborhood of Brooklyn Heights. I lived in the neighborhood near the promenade overlooking the iconic bridge named after the borough and skyline of Manhattan for four years—a place that still feels like home every time I visit.

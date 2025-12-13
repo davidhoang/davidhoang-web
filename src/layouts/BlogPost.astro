@@ -7,18 +7,24 @@ import CommentsSection from '../components/CommentsSection.astro';
 
 const { data } = Astro.props;
 const { title, description, pubDate } = data;
-const coverImage = data.coverImage || data.ogImage;
+// Only render a hero image when explicitly provided.
+// Note: we intentionally do NOT fall back to `ogImage` here so that
+// default OG images (e.g. David's portrait) don't render on the page.
+const coverImage = data.coverImage;
 
 // Use the post description for MainLayout as well
 const pageDescription = description || "An article by David Hoang on design, engineering, AI, and entrepreneurship.";
-const ogImage = data.ogImage || coverImage;
+// For social previews, fall back to a default image when the post doesn't
+// provide an OG image. This fallback should NOT affect the rendered hero.
+const defaultOgImage = "/images/img-dh.png";
+const ogImage = data.ogImage || coverImage || defaultOgImage;
 ---
 
 <MainLayout title={title} description={pageDescription} ogImage={ogImage}>
   <BlogMeta 
     title={title}
     description={description}
-    ogImage={data.ogImage || coverImage}
+    ogImage={ogImage}
     publishDate={pubDate}
     url={Astro.url.pathname}
   />

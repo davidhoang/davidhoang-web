@@ -2,7 +2,6 @@
 title: "Jodorowsky's Product Roadmap"
 pubDate: 2021-01-23
 description: "Your description here"
-ogImage: "/images/blog/img-2021-jodorowskysbacklog-01.jpg"
 
 ---
 

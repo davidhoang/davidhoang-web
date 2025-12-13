@@ -2,7 +2,6 @@
 title: "Mastery for generalists"
 pubDate: 2022-06-19
 description: "Issue 097: Becoming good when you're interested in everything"
-ogImage: "/images/blog/2022/img-2022-mastery-for-generalists-cover.webp"
 coverImage: "/images/blog/2022/img-2022-mastery-for-generalists-cover.webp"
 ---
 

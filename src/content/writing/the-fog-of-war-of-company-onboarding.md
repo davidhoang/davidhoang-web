@@ -2,7 +2,6 @@
 title: "The fog of war of company onboarding"
 pubDate: 2023-12-31
 description: "Navigating the first 90 days"
-ogImage: "/images/blog/img-204-cover.jpg"
 ---
 _Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding)_
 

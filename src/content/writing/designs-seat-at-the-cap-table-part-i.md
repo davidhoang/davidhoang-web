@@ -2,7 +2,6 @@
 title: "Design's Seat at the (Cap) Table: Part I"
 pubDate: 2023-03-21
 description: "My journey as a design angel investor and why we need more"
-ogImage: "/images/img-dh.png"
 ---
 Until recently, angel investment felt out-of-reach due to my perception of what it took to get started—a lot of capital and deal flow. The vivid dream turned into a reality when [Paige Finn Doherty](https://paigefinndoherty.com/) inspired me to make it real by investing in a syndicate she led. The experience was so inclusive it was a rude awakening for me on what’s really needed to get started.
 
