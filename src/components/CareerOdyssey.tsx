@@ -117,7 +117,7 @@ interface Node {
   id: string;
   label: string;
   description?: string;
-  type: 'milestone' | 'company' | 'event' | 'transition' | 'spark' | 'future';
+  type: 'milestone' | 'company' | 'event' | 'transition' | 'spark' | 'future' | 'inspiration' | 'career' | 'possiblePath';
   date?: string;
   dateRange?: string;
   active?: boolean;
@@ -166,11 +166,11 @@ const DEFAULT_NODE_RADIUS = 80; // Default node radius for grid calculation
 const GRID_DOTS_PER_NODE = 8; // Number of grid dots visible across default node diameter
 // For 8 dots across diameter, we need 7 intervals: spacing = diameter / 7
 const BASE_GRID_SPACING = (DEFAULT_NODE_RADIUS * 2) / (GRID_DOTS_PER_NODE - 1); // 8-dot grid: 160px diameter / 7 ≈ 22.86px spacing
-const MAIN_PATH_Y = 800; // Centered vertically to use more canvas space
-const BRANCH_SPACING = 240; // Reduced for tighter vertical distribution
-const CANVAS_WIDTH = 3600; // Increased from 2400 for more horizontal space
-const CANVAS_HEIGHT = 2000; // Increased to use more vertical space
-const PADDING = 200; // Increased padding to allow nodes to spread to edges
+const MAIN_PATH_Y = 600; // Centered vertically in compact canvas
+const BRANCH_SPACING = 120; // Reduced for much tighter vertical distribution (was 240)
+const CANVAS_WIDTH = 2400; // Reduced from 3600 for more compact horizontal layout
+const CANVAS_HEIGHT = 1400; // Reduced from 2000 for more compact vertical layout
+const PADDING = 120; // Reduced padding to allow nodes to be closer to edges (was 200)
 const BASE_FONT_SIZE = 12;
 const TEXT_PADDING = 12; // Padding around text inside node
 const TEXT_PADDING_NOT_TAKEN = 12; // Padding for paths not taken (same as regular padding)
@@ -185,7 +185,7 @@ const calculateFontSize = (width: number): number => {
   const fontSize = (width / baseWidth) * BASE_FONT_SIZE;
   return Math.max(minFontSize, Math.min(maxFontSize, fontSize));
 };
-const MIN_NODE_SPACING = 30; // Reduced for tighter alignment - Minimum space between node edges
+const MIN_NODE_SPACING = 15; // Reduced for much tighter alignment - Minimum space between node edges (was 30)
 
 // Date parsing utility
 const parseDate = (dateStr?: string): number => {
@@ -260,16 +260,45 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     return dateDiff;
   });
 
-  // Auto-connect true nodes to the previous chronological true node if no connections specified
+  // Auto-connect ALL nodes to the previous chronological node
+  // This ensures every node (except the first one) is connected somewhere along the timeline
+  // Even if a node already has connections, ensure it connects to the previous chronological node
   positionedNodes.forEach((node, index) => {
-    if (node.pathTaken && (!node.connections || node.connections.length === 0)) {
-      // Find the previous true node in chronological order
-      for (let i = index - 1; i >= 0; i--) {
-        if (positionedNodes[i].pathTaken) {
-          node.connections = [positionedNodes[i].id];
-          break;
+    // Skip Present and Future nodes - they have special positioning
+    if (isPresentNode(node) || isFutureNode(node)) {
+      return;
+    }
+    
+    // Find the previous node in chronological order (any type, any pathTaken status)
+    let previousNode: PositionedNode | null = null;
+    for (let i = index - 1; i >= 0; i--) {
+      const candidate = positionedNodes[i];
+      // Skip Present and Future nodes as connection sources
+      if (!isPresentNode(candidate) && !isFutureNode(candidate)) {
+        previousNode = candidate;
+        break;
+      }
+    }
+    
+    // If we found a previous node, ensure this node connects to it
+    if (previousNode) {
+      // Initialize connections array if it doesn't exist
+      if (!node.connections) {
+        node.connections = [];
+      }
+      
+      // Check if previous node is already in connections
+      if (!node.connections.includes(previousNode.id)) {
+        // Add previous node as the first connection (primary chronological link)
+        node.connections.unshift(previousNode.id);
+        
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Auto-connected ${node.id} to ${previousNode.id} (previous chronological node)`);
         }
       }
+    } else if (index > 0 && process.env.NODE_ENV === 'development') {
+      // Log if we couldn't find a previous node (should only happen for first node)
+      console.warn(`No previous node found for ${node.id} at index ${index}`);
     }
   });
 
@@ -359,7 +388,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
 
   // Position Future nodes to the right of all other nodes (including Present)
   // Space them out horizontally to the right of the rightmost node
-  const futureNodeSpacing = 220; // Spacing between future nodes (reduced for tighter layout)
+  const futureNodeSpacing = 140; // Spacing between future nodes (reduced for tighter layout, was 220)
   const futureStartX = rightmostX + futureNodeSpacing;
   
   futureNodes.forEach((node, index) => {
@@ -2768,22 +2797,46 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       };
       setInitialViewBox(actualSizeVB);
       
-      // Default viewBox: zoomed out 3 times from actual size
-      // Zoom out 3 times: 1.2^3 = 1.728
+      // Calculate bounds of all nodes to fit them in the initial view
+      const nodeBounds = positionedNodes.reduce((bounds, node) => {
+        const nodeLeft = node.x - (node.width || node.radius * 2) / 2;
+        const nodeRight = node.x + (node.width || node.radius * 2) / 2;
+        const nodeTop = node.y - (node.height || node.radius * 2) / 2;
+        const nodeBottom = node.y + (node.height || node.radius * 2) / 2;
+        
+        return {
+          minX: Math.min(bounds.minX, nodeLeft),
+          maxX: Math.max(bounds.maxX, nodeRight),
+          minY: Math.min(bounds.minY, nodeTop),
+          maxY: Math.max(bounds.maxY, nodeBottom),
+        };
+      }, {
+        minX: Infinity,
+        maxX: -Infinity,
+        minY: Infinity,
+        maxY: -Infinity,
+      });
+      
+      // Add padding around nodes
+      const boundsPadding = 200;
+      const contentWidth = nodeBounds.maxX - nodeBounds.minX + (boundsPadding * 2);
+      const contentHeight = nodeBounds.maxY - nodeBounds.minY + (boundsPadding * 2);
+      const contentCenterX = (nodeBounds.minX + nodeBounds.maxX) / 2;
+      const contentCenterY = (nodeBounds.minY + nodeBounds.maxY) / 2;
+      
+      // Default viewBox: zoomed out 2 times from actual size (reduced from 3x for more compact view)
+      // Zoom out 2 times: 1.2^2 = 1.44
       const zoomFactor = 1.2;
-      const zoomOut3x = Math.pow(zoomFactor, 3); // 1.728
-      const defaultWidth = CANVAS_WIDTH * zoomOut3x;
-      const defaultHeight = CANVAS_HEIGHT * zoomOut3x;
+      const zoomOut2x = Math.pow(zoomFactor, 2); // 1.44 (reduced from 1.728)
       
-      // Center the view on the canvas center
-      const canvasCenterX = CANVAS_WIDTH / 2;
-      const canvasCenterY = CANVAS_HEIGHT / 2;
+      // Calculate viewBox to fit all nodes with some padding
+      const defaultWidth = Math.max(contentWidth * zoomOut2x, CANVAS_WIDTH * 0.8);
+      const defaultHeight = Math.max(contentHeight * zoomOut2x, CANVAS_HEIGHT * 0.8);
       
-      // Calculate viewBox to center on canvas (assuming container is centered)
-      // For now, we'll center on the canvas center point
+      // Center the view on the content (nodes), not the canvas center
       const defaultVB = {
-        x: canvasCenterX - defaultWidth / 2,
-        y: canvasCenterY - defaultHeight / 2,
+        x: contentCenterX - defaultWidth / 2,
+        y: contentCenterY - defaultHeight / 2,
         width: defaultWidth,
         height: defaultHeight,
       };
