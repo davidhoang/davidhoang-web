@@ -46,35 +46,90 @@ const currentYear = new Date().getFullYear();
 </footer>
 
 <style>
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
+  footer {
+    opacity: 1;
+    padding: 2rem 0 4rem 0;
+    font-size: 1rem;
+    min-height: 100px;
+    width: 100%;
+  }
+
+  /* Footer links should not use the global "fancy underline" treatment */
+  a {
+    border-bottom: none;
+    text-decoration: none;
+  }
+
+  a::after {
+    display: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .footer-section-email {
+    padding: 24px 0px;
+    margin-bottom: 24px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 600;
   }
 
   .footer-section-email a {
     font-size: 1.4em;
   }
 
-  :global(footer) {
-    background-color: transparent !important;
+  .footer-section-copyright {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-col h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    margin-top: 0;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    opacity: 0.9;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-col li {
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 
   @media (max-width: 768px) {
     .footer-grid {
       grid-template-columns: 1fr;
-      gap: 1.5em;
+      gap: 1rem;
     }
-    
-    :global(footer) {
-      background-color: transparent !important;
+
+    .footer-col h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-col li {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
     }
   }
-
-  @media (max-width: 480px) {
-    :global(footer) {
-      background-color: transparent !important;
-    }
-  }
-
 </style>
 
