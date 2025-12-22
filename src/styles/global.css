@@ -53,6 +53,11 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Let the UA render form controls appropriately for the theme */
+  color-scheme: light dark;
+}
+
 html,
 body {
   width: 100%;
@@ -205,23 +210,6 @@ a:hover::after {
   transform-origin: bottom left;
 }
 
-/* Navigation and footer links should not have underlines */
-.nav-links a,
-.footer-links a,
-.sidebar a,
-.logo,
-footer a {
-  border-bottom: none !important;
-}
-
-.nav-links a::after,
-.footer-links a::after,
-.sidebar a::after,
-.logo::after,
-footer a::after {
-  display: none !important;
-}
-
 /* ============================================
    Blockquote
    ============================================ */
@@ -281,45 +269,17 @@ blockquote cite {
    Shared Component Styles
    ============================================ */
 
-/* Sidebar */
-.sidebar {
-  background-color: var(--color-sidebar-bg);
-}
-
-.sidebar-section p {
-  color: var(--color-muted);
-}
-
 /* Theme transitions */
 body,
 a,
 button,
-.sidebar,
-.nav-links a,
-.footer-links a,
 blockquote,
-.theme-toggle button,
-.hero-title,
-nav,
-.nav-container {
+.hero-title {
   transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
 }
 
 svg {
   transition: color 0.3s ease, stroke 0.3s ease;
-}
-
-.theme-toggle button {
-  background: var(--color-sidebar-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  padding: 0.75rem;
-  cursor: pointer;
-  transition: transform 0.4s var(--ease-inertia-smooth),
-    background-color 0.4s var(--ease-inertia),
-    border-color 0.4s var(--ease-inertia),
-    box-shadow 0.4s var(--ease-inertia);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Hero title (shared across pages) */
@@ -347,105 +307,36 @@ svg {
   text-align: center;
 }
 
-/* Footer (shared styles) */
-footer {
-  opacity: 1;
-  padding: 2rem 0 4rem 0;
-  font-size: 1.0rem;
-  min-height: 100px;
+/* Lock scroll when the mobile menu dialog is open */
+body.mobile-menu-open {
+  overflow: hidden;
+  position: fixed;
   width: 100%;
-}
-
-footer,
-.footer-section-email,
-.footer-content,
-.footer-links,
-.footer-nav,
-footer * {
-  font-family: 'EB Garamond', serif !important;
-  font-weight: 600;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.footer-section-email {
-  padding: 24px 0px;
-  margin-bottom: 24px;
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  font-weight: 600;
-}
-
-.footer-section-copyright {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.footer-col h4 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  margin-top: 0;
-  letter-spacing: 0.05em;
-  color: var(--color-text);
-  opacity: 0.9;
-}
-
-.footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-col li {
-  margin-bottom: 0.25rem;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-.footer-col a:hover {
-  text-decoration: underline !important;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-
-/* Navigation (shared base styles) */
-nav,
-.nav-link,
-.nav-item {
-  font-family: var(--font-primary) !important;
-  font-weight: 800;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.nav-links a {
-  color: var(--color-nav-text);
-  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
-}
-
-.nav-links a:hover {
-  background-color: var(--color-nav-hover);
-  color: var(--color-nav-text);
-}
-
-nav {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] nav {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  height: 100vh;
+  height: 100dvh;
 }
 
 /* ============================================
    Accessibility
    ============================================ */
+
+/* Screen-reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Account for fixed nav when jumping to anchors */
+:where(:target) {
+  scroll-margin-top: calc(var(--nav-height) + 3rem);
+}
 
 /* Accessible focus styles */
 :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
@@ -518,30 +409,6 @@ nav {
 
   .hero-title h1 {
     font-size: clamp(3rem, 6vw, 6rem);
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  footer,
-  .footer-section-email,
-  .footer-content,
-  .footer-grid,
-  .footer-col {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .footer-col h4 {
-    font-size: 0.95rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .footer-col li {
-    font-size: 0.9rem;
-    margin-bottom: 0.2rem;
   }
 }
 
