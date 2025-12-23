@@ -495,7 +495,7 @@ const currentPath = Astro.url.pathname;
   `;
 
   function initShader() {
-    const canvas = document.getElementById('noiseCanvas');
+    const canvas = document.getElementById('noiseCanvas') as HTMLCanvasElement | null;
     if (!canvas) return;
 
     const gl = canvas.getContext('webgl');
@@ -506,11 +506,16 @@ const currentPath = Astro.url.pathname;
     const vShader = gl.createShader(gl.VERTEX_SHADER);
     const fShader = gl.createShader(gl.FRAGMENT_SHADER);
 
+    if (!program || !vShader || !fShader) {
+      console.error('Failed to create shader program or shaders');
+      return;
+    }
+
     gl.shaderSource(vShader, vertexShader);
     gl.shaderSource(fShader, fragmentShader);
     gl.compileShader(vShader);
     gl.compileShader(fShader);
-    
+
     // Check for compilation errors
     if (!gl.getShaderParameter(vShader, gl.COMPILE_STATUS)) {
       console.error('Vertex shader compilation error:', gl.getShaderInfoLog(vShader));
@@ -520,7 +525,7 @@ const currentPath = Astro.url.pathname;
       console.error('Fragment shader compilation error:', gl.getShaderInfoLog(fShader));
       return;
     }
-    
+
     gl.attachShader(program, vShader);
     gl.attachShader(program, fShader);
     gl.linkProgram(program);
@@ -557,6 +562,7 @@ const currentPath = Astro.url.pathname;
     }
 
     function resize() {
+      if (!canvas || !gl) return;
       canvas.width = canvas.clientWidth * window.devicePixelRatio;
       canvas.height = canvas.clientHeight * window.devicePixelRatio;
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -569,6 +575,7 @@ const currentPath = Astro.url.pathname;
     // Animation loop (respect reduced motion)
     let startTime = Date.now();
     function animate() {
+      if (!gl) return;
       const time = (Date.now() - startTime) * 0.001;
       gl.uniform1f(timeLocation, time);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -618,17 +625,17 @@ const currentPath = Astro.url.pathname;
     }
 
     // Handle escape key to close menu
-    function handleEscape(event) {
+    function handleEscape(event: KeyboardEvent) {
       if (event.key === 'Escape' && mobileMenu?.classList.contains('active')) {
         closeMenu();
       }
     }
 
     // Handle click outside menu to close
-    function handleClickOutside(event) {
-      if (mobileMenu?.classList.contains('active') && 
-          !mobileMenu.contains(event.target) && 
-          !menuButton?.contains(event.target)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (mobileMenu?.classList.contains('active') &&
+          !mobileMenu.contains(event.target as Node) &&
+          !menuButton?.contains(event.target as Node)) {
         closeMenu();
       }
     }
@@ -642,12 +649,12 @@ const currentPath = Astro.url.pathname;
       link.addEventListener('click', closeMenu);
     });
 
-    function trapFocus(event) {
+    function trapFocus(event: KeyboardEvent) {
       if (event.key !== 'Tab' || !mobileMenu?.classList.contains('active')) return;
       const focusable = mobileMenu.querySelectorAll(focusableSelectors);
       if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const first = focusable[0] as HTMLElement;
+      const last = focusable[focusable.length - 1] as HTMLElement;
       if (event.shiftKey) {
         if (document.activeElement === first) {
           event.preventDefault();
@@ -661,7 +668,7 @@ const currentPath = Astro.url.pathname;
       }
     }
 
-    function setSiblingsInert(element, inert) {
+    function setSiblingsInert(element: HTMLElement | null, inert: boolean) {
       if (!element) return;
       const siblings = Array.from(document.body.children).filter(el => el !== element);
       siblings.forEach(el => {
