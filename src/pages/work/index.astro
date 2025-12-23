@@ -217,31 +217,31 @@ const workItemsWithImages = await Promise.all(
       if (images.length <= 1) return; // Skip if only one image
       
       let currentIndex = 0;
-      let rotationInterval = null;
-      
+      let rotationInterval: number | null = null;
+
       const rotateImages = () => {
         if (images.length <= 1) return;
-        
+
         // Fade out current image
         const currentImg = images[currentIndex];
         if (currentImg) {
           currentImg.classList.remove('active');
         }
-        
+
         // Move to next image
         currentIndex = (currentIndex + 1) % images.length;
-        
+
         // Fade in next image
         const nextImg = images[currentIndex];
         if (nextImg) {
           nextImg.classList.add('active');
         }
       };
-      
+
       item.addEventListener('mouseenter', () => {
         if (images.length > 1) {
           // Start rotation every 2 seconds
-          rotationInterval = setInterval(rotateImages, 2000);
+          rotationInterval = setInterval(rotateImages, 2000) as unknown as number;
         }
       });
       

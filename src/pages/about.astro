@@ -147,10 +147,10 @@ const ogImage = "/images/img-david-sf.jpg";
 <script>
   // Parallax scroll effect with smooth inertia-based animation
   function initParallax() {
-    const imageContainer = document.querySelector('.about-image-container');
-    const image = document.querySelector('.about-image');
-    const linenBackground = document.querySelector('.linen-background');
-    
+    const imageContainer = document.querySelector('.about-image-container') as HTMLElement | null;
+    const image = document.querySelector('.about-image') as HTMLElement | null;
+    const linenBackground = document.querySelector('.linen-background') as HTMLElement | null;
+
     if (!imageContainer || !image) return;
 
     let currentOffset = 0;
@@ -160,20 +160,22 @@ const ogImage = "/images/img-david-sf.jpg";
     let velocity = 0;
     let lastScrollY = window.scrollY;
     let lastTime = performance.now();
-    let animationFrameId = null;
+    let animationFrameId: number | null = null;
     let isScrolling = false;
-    let scrollTimeout = null;
+    let scrollTimeout: number | null = null;
     let overscrollAmount = 0;
     let currentOverscroll = 0;
     let touchStartY = 0;
     let isPulling = false;
 
     // Smooth interpolation with inertia
-    function lerp(start, end, factor) {
+    function lerp(start: number, end: number, factor: number) {
       return start + (end - start) * factor;
     }
 
     function calculateParallaxValues() {
+      if (!imageContainer) return { offset: 0, scale: 1 };
+
       const rect = imageContainer.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       const containerHeight = imageContainer.offsetHeight;
@@ -242,17 +244,19 @@ const ogImage = "/images/img-david-sf.jpg";
 
       // Smooth overscroll interpolation
       currentOverscroll = lerp(currentOverscroll, overscrollAmount, 0.15);
-      
+
       // Apply transform with both translateY and scale
-      image.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
-      
+      if (image) {
+        image.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
+      }
+
       // Reveal linen background based on overscroll
       if (linenBackground) {
         const maxOverscroll = 200; // Maximum pull distance
         const overscrollProgress = Math.min(currentOverscroll / maxOverscroll, 1);
         const translateY = -100 + (overscrollProgress * 100); // Reveal from top
-        
-        linenBackground.style.opacity = overscrollProgress;
+
+        linenBackground.style.opacity = String(overscrollProgress);
         linenBackground.style.transform = `translateY(${translateY}%)`;
       }
 
@@ -291,23 +295,23 @@ const ogImage = "/images/img-david-sf.jpg";
           lastTime = performance.now();
           animationFrameId = requestAnimationFrame(animate);
         }
-      }, 50);
+      }, 50) as unknown as number;
     }
 
     // Touch events for pull-to-reveal
-    function onTouchStart(e) {
-      if (window.scrollY <= 0 && imageContainer.getBoundingClientRect().top <= 0) {
+    function onTouchStart(e: TouchEvent) {
+      if (window.scrollY <= 0 && imageContainer && imageContainer.getBoundingClientRect().top <= 0) {
         touchStartY = e.touches[0].clientY;
         isPulling = true;
       }
     }
 
-    function onTouchMove(e) {
+    function onTouchMove(e: TouchEvent) {
       if (!isPulling) return;
-      
+
       const currentY = e.touches[0].clientY;
       const deltaY = currentY - touchStartY;
-      
+
       if (deltaY > 0 && window.scrollY <= 0) {
         // Pulling down at the top
         overscrollAmount = deltaY;
@@ -323,8 +327,8 @@ const ogImage = "/images/img-david-sf.jpg";
     }
 
     // Wheel events for desktop pull-to-reveal
-    function onWheel(e) {
-      if (window.scrollY <= 0 && imageContainer.getBoundingClientRect().top <= 0) {
+    function onWheel(e: WheelEvent) {
+      if (window.scrollY <= 0 && imageContainer && imageContainer.getBoundingClientRect().top <= 0) {
         if (e.deltaY < 0) {
           // Scrolling up at the top (pulling down)
           isPulling = true;

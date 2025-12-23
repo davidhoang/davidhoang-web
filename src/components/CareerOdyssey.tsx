@@ -65,12 +65,12 @@ const loadKonva = async () => {
     
     // Check for LinearGradient - it might be in different locations
     let LinearGradientClass = null;
-    if (Konva && Konva.LinearGradient) {
-      LinearGradientClass = Konva.LinearGradient;
-    } else if (konvaLib && konvaLib.LinearGradient) {
-      LinearGradientClass = konvaLib.LinearGradient;
-    } else if (konvaLib.default && konvaLib.default.LinearGradient) {
-      LinearGradientClass = konvaLib.default.LinearGradient;
+    if (Konva && (Konva as any).LinearGradient) {
+      LinearGradientClass = (Konva as any).LinearGradient;
+    } else if (konvaLib && (konvaLib as any).LinearGradient) {
+      LinearGradientClass = (konvaLib as any).LinearGradient;
+    } else if (konvaLib.default && (konvaLib.default as any).LinearGradient) {
+      LinearGradientClass = (konvaLib.default as any).LinearGradient;
     }
     
     if (process.env.NODE_ENV === 'development') {
@@ -4673,9 +4673,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             dash={borderDash}
                             isHovered={isHovered}
                             onMouseEnter={() => setHoveredNode(node.id)}
-                            onMouseLeave={(e) => {
-                              // Don't clear hover on right-click (button 2) to allow inspection
-                              if (e.evt.button === 2) return;
+                            onMouseLeave={() => {
                               setHoveredNode(null);
                             }}
                             onMouseDown={(e) => {

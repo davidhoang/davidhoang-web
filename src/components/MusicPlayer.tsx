@@ -527,7 +527,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
                   value={preamp}
                   onChange={(e) => setPreamp(parseInt(e.target.value))}
                   className="winamp-eq-slider"
-                  orient="vertical"
+                  data-orient="vertical"
                 />
               </div>
               {freqLabels.map((label, index) => (
@@ -540,7 +540,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
                     value={frequencies[index]}
                     onChange={(e) => handleFrequencyChange(index, parseInt(e.target.value))}
                     className="winamp-eq-slider"
-                    orient="vertical"
+                    data-orient="vertical"
                   />
                 </div>
               ))}

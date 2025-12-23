@@ -281,12 +281,12 @@ const NodeTestComponent: React.FC = () => {
               stroke={borderColor}
               strokeWidth={3}
               onMouseEnter={() => setHovered(true)}
-              onMouseLeave={(e) => {
+              onMouseLeave={(e: any) => {
                 // Don't clear hover on right-click to allow inspection
                 if (e.evt.button === 2) return;
                 setHovered(false);
               }}
-              onContextMenu={(e) => {
+              onContextMenu={(e: any) => {
                 // Keep hovered state for inspection
                 e.cancelBubble = true;
                 e.evt.stopPropagation();
