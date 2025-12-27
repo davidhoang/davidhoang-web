@@ -46,6 +46,11 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
   const [position, setPosition] = useState({ left: 0, bottom: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [volume, setVolume] = useState(75);
+  const [balance, setBalance] = useState(0);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [seekPosition, setSeekPosition] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -61,6 +66,114 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Playback handler functions
+  const handlePlay = async () => {
+    if (!audioRef.current || !currentTrack) return;
+
+    try {
+      if (!audioRef.current.src || audioRef.current.readyState < 2) {
+        audioRef.current.src = currentTrack.url;
+        audioRef.current.load();
+        await new Promise((resolve) => {
+          const handleCanPlay = () => {
+            audioRef.current?.removeEventListener('canplay', handleCanPlay);
+            resolve(undefined);
+          };
+          audioRef.current?.addEventListener('canplay', handleCanPlay);
+          setTimeout(resolve, 1000);
+        });
+      }
+
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        await playPromise;
+        setIsPlaying(true);
+        setIsPaused(false);
+      }
+    } catch (error) {
+      console.error('🎵 Playback error:', error);
+      setIsPlaying(false);
+      if ((error as any).name === 'NotAllowedError') {
+        console.warn('🎵 Autoplay blocked. User interaction required.');
+      }
+    }
+  };
+
+  const handlePause = () => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setIsPaused(true);
+    }
+  };
+
+  const handleStop = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setIsPaused(false);
+    }
+  };
+
+  // Navigation handler functions
+  const handlePrevious = () => {
+    if (currentTrackIndex > 0) {
+      goToTrack(currentTrackIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentTrackIndex < playlist.length - 1) {
+      goToTrack(currentTrackIndex + 1);
+    }
+  };
+
+  const handleEject = () => {
+    setShowPlaylist(!showPlaylist);
+    localStorage.setItem('music-player-show-pl', (!showPlaylist).toString());
+  };
+
+  // Seek slider handlers
+  const handleSeekStart = () => {
+    setIsSeeking(true);
+  };
+
+  const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setSeekPosition(value);
+  };
+
+  const handleSeekEnd = () => {
+    if (!audioRef.current || !duration) {
+      setIsSeeking(false);
+      return;
+    }
+
+    const newTime = (seekPosition / 100) * duration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+    setIsSeeking(false);
+  };
+
+  // Volume and balance handlers
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseInt(e.target.value);
+    setVolume(newVolume);
+
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume / 100;
+    }
+
+    localStorage.setItem('music-player-volume', newVolume.toString());
+  };
+
+  const handleBalanceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newBalance = parseInt(e.target.value);
+    setBalance(newBalance);
+    localStorage.setItem('music-player-balance', newBalance.toString());
   };
 
   // Initialize audio context and analyser for spectrum
@@ -147,17 +260,19 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
   // Handle hydration
   useEffect(() => {
     setIsHydrated(true);
-    
+
     // Don't restore visibility - always start collapsed by default
     const savedTrackIndex = localStorage.getItem('music-player-track-index');
     const savedIsPlaying = localStorage.getItem('music-player-is-playing');
     const savedShowEqualizer = localStorage.getItem('music-player-show-eq');
     const savedShowPlaylist = localStorage.getItem('music-player-show-pl');
     const savedPosition = localStorage.getItem('music-player-position');
-    
+    const savedVolume = localStorage.getItem('music-player-volume');
+    const savedBalance = localStorage.getItem('music-player-balance');
+
     // Always start collapsed - don't restore visibility state
     setIsVisible(false);
-    
+
     if (savedTrackIndex !== null) {
       setCurrentTrackIndex(parseInt(savedTrackIndex));
     }
@@ -177,6 +292,12 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
       } catch (e) {
         // Use default position
       }
+    }
+    if (savedVolume !== null) {
+      setVolume(parseInt(savedVolume));
+    }
+    if (savedBalance !== null) {
+      setBalance(parseInt(savedBalance));
     }
   }, []);
 
@@ -305,6 +426,45 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     };
   }, [isDragging, dragOffset]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    if (!isHydrated || !isVisible) return;
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Only handle if player is visible and no input is focused
+      if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
+
+      switch(e.key.toLowerCase()) {
+        case 'x':
+          handlePlay();
+          break;
+        case 'c':
+          handlePause();
+          break;
+        case 'v':
+          handleStop();
+          break;
+        case 'b':
+          handleNext();
+          break;
+        case 'z':
+          handlePrevious();
+          break;
+        case 'l':
+          setShowPlaylist(!showPlaylist);
+          localStorage.setItem('music-player-show-pl', (!showPlaylist).toString());
+          break;
+        case 'g':
+          setShowEqualizer(!showEqualizer);
+          localStorage.setItem('music-player-show-eq', (!showEqualizer).toString());
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isHydrated, isVisible, isPlaying, currentTrackIndex, showPlaylist, showEqualizer]);
+
   // Handle audio events
   useEffect(() => {
     if (!isHydrated) return;
@@ -318,7 +478,26 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     const handleLoadedMetadata = () => setDuration(audio.duration);
     const handleEnded = () => {
       setIsPlaying(false);
-      // Simply stop when track ends
+
+      // Auto-advance to next track if available
+      if (currentTrackIndex < playlist.length - 1) {
+        const nextIndex = currentTrackIndex + 1;
+        setCurrentTrackIndex(nextIndex);
+        localStorage.setItem('music-player-track-index', nextIndex.toString());
+
+        // Auto-play next track
+        setTimeout(() => {
+          if (audioRef.current && playlist[nextIndex]) {
+            audioRef.current.src = playlist[nextIndex].url;
+            audioRef.current.load();
+            audioRef.current.play().then(() => {
+              setIsPlaying(true);
+            }).catch(err => {
+              console.error('Auto-play failed:', err);
+            });
+          }
+        }, 100);
+      }
     };
 
     audio.addEventListener('play', handlePlay);
@@ -344,7 +523,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
     
     // Set up audio element
     audio.src = currentTrack.url;
-    audio.volume = 0.75; // Default volume
+    audio.volume = volume / 100; // Use state volume
     audio.preload = 'metadata';
     
     // Load the audio
@@ -423,10 +602,55 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
         </div>
 
         <div className="winamp-display">
-          <div className="winamp-time-display">{formatTime(currentTime)}</div>
-          <div className="winamp-track-info">
-            {currentTrackIndex + 1}. {currentTrack?.artist || 'Unknown'} - {currentTrack?.title || 'No track'} &lt;{formatTime(duration)}&gt;
+          {/* Enhanced Time Display with LED styling */}
+          <div className="winamp-time-container">
+            <div className="winamp-time-display">
+              {formatTime(currentTime).split('').map((char, i) => (
+                <span key={i} className={`winamp-digit ${char === ':' ? 'colon' : ''}`}>
+                  {char}
+                </span>
+              ))}
+            </div>
+            <div className="winamp-time-remaining">
+              -{formatTime(duration - currentTime)}
+            </div>
           </div>
+
+          {/* Seek/Position Slider */}
+          <div className="winamp-seek-container">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={isSeeking ? seekPosition : (duration > 0 ? (currentTime / duration) * 100 : 0)}
+              onChange={handleSeekChange}
+              onMouseDown={handleSeekStart}
+              onMouseUp={handleSeekEnd}
+              onTouchStart={handleSeekStart}
+              onTouchEnd={handleSeekEnd}
+              className="winamp-seek-slider"
+              disabled={!currentTrack || duration === 0}
+            />
+            <div
+              className="winamp-seek-progress"
+              style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+            />
+          </div>
+
+          {/* Track Info with Marquee */}
+          <div className="winamp-track-info-container">
+            <div className="winamp-track-info">
+              <span className="winamp-track-scrolling">
+                {currentTrackIndex + 1}. {currentTrack?.artist || 'Unknown'} - {currentTrack?.title || 'No track'}
+              </span>
+            </div>
+            <div className="winamp-bitrate-display">
+              <span className="winamp-bitrate">128</span>
+              <span className="winamp-khz">48</span>
+            </div>
+          </div>
+
+          {/* Spectrum Analyzer */}
           <div className="winamp-spectrum">
             {spectrumData.map((value, i) => (
               <div
@@ -439,26 +663,58 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
               />
             ))}
           </div>
-          <div className="winamp-audio-info">
-            <span>128 kbps</span>
-            <span>48 kHz</span>
+
+          {/* Volume and Balance Controls */}
+          <div className="winamp-volume-balance-container">
+            <div className="winamp-volume-control">
+              <label className="winamp-label">VOL</label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={volume}
+                onChange={handleVolumeChange}
+                className="winamp-volume-slider"
+                orient="vertical"
+              />
+              <span className="winamp-volume-display">{volume}</span>
+            </div>
+
+            <div className="winamp-balance-control">
+              <label className="winamp-label">BAL</label>
+              <input
+                type="range"
+                min="-100"
+                max="100"
+                value={balance}
+                onChange={handleBalanceChange}
+                className="winamp-balance-slider"
+              />
+              <span className="winamp-balance-display">
+                {balance === 0 ? 'C' : balance < 0 ? `L${Math.abs(balance)}` : `R${balance}`}
+              </span>
+            </div>
           </div>
+
+          {/* Mode Buttons */}
           <div className="winamp-mode-buttons">
-            <button 
+            <button
               className={`winamp-mode-btn ${!isStereo ? 'active' : ''}`}
               onClick={() => setIsStereo(false)}
             >
               mono
             </button>
-            <button 
+            <button
               className={`winamp-mode-btn ${isStereo ? 'active' : ''}`}
               onClick={() => setIsStereo(true)}
             >
               stereo
             </button>
           </div>
+
+          {/* Toggle Buttons */}
           <div className="winamp-toggle-buttons">
-            <button 
+            <button
               className={`winamp-toggle-btn ${showEqualizer ? 'active' : ''}`}
               onClick={() => {
                 setShowEqualizer(!showEqualizer);
@@ -467,7 +723,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             >
               EQ
             </button>
-            <button 
+            <button
               className={`winamp-toggle-btn ${showPlaylist ? 'active' : ''}`}
               onClick={() => {
                 setShowPlaylist(!showPlaylist);
@@ -480,17 +736,55 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
         </div>
 
         <div className="winamp-controls">
-          <button className="winamp-control-btn" onClick={togglePlay} title={isPlaying ? "Pause" : "Play"}>
-            {isPlaying ? '||' : '▶'}
+          <button
+            className="winamp-control-btn"
+            onClick={handlePrevious}
+            title="Previous Track (Z)"
+            disabled={currentTrackIndex === 0}
+          >
+            ⏮
           </button>
-          <button className="winamp-control-btn" onClick={() => {
-            if (audioRef.current) {
-              audioRef.current.pause();
-              audioRef.current.currentTime = 0;
-              setIsPlaying(false);
-            }
-          }} title="Stop">
+
+          <button
+            className="winamp-control-btn"
+            onClick={handlePlay}
+            title="Play (X)"
+          >
+            ▶
+          </button>
+
+          <button
+            className="winamp-control-btn"
+            onClick={handlePause}
+            title="Pause (C)"
+            disabled={!isPlaying}
+          >
+            ⏸
+          </button>
+
+          <button
+            className="winamp-control-btn"
+            onClick={handleStop}
+            title="Stop (V)"
+          >
             ■
+          </button>
+
+          <button
+            className="winamp-control-btn"
+            onClick={handleNext}
+            title="Next Track (B)"
+            disabled={currentTrackIndex >= playlist.length - 1}
+          >
+            ⏭
+          </button>
+
+          <button
+            className="winamp-control-btn"
+            onClick={handleEject}
+            title="Eject / Toggle Playlist (L)"
+          >
+            ⏏
           </button>
         </div>
       </div>

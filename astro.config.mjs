@@ -36,6 +36,10 @@ export default defineConfig({
       hmr: {
         overlay: true,
       },
+      allowedHosts: [
+        '.vibepocket.link',
+        'localhost',
+      ],
     },
     build: {
       // Add content hash to filenames for proper cache busting
