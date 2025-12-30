@@ -52,6 +52,33 @@ const currentYear = new Date().getFullYear();
     font-size: 1rem;
     min-height: 100px;
     width: 100%;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Ensure footer container matches main content container constraints */
+  footer .container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+  }
+
+  /* Large breakpoint - 1920px container */
+  @media (min-width: 1920px) {
+    footer .container {
+      max-width: 1920px;
+    }
+  }
+
+  /* Mobile breakpoint - 480px */
+  @media (max-width: 480px) {
+    footer .container {
+      padding: 0 1.0rem;
+      max-width: 100%;
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
   }
 
   /* Footer links should not use the global "fancy underline" treatment */
@@ -129,6 +156,33 @@ const currentYear = new Date().getFullYear();
     .footer-col li {
       font-size: 0.9rem;
       margin-bottom: 0.2rem;
+    }
+  }
+
+  /* Extra-large breakpoint - 1920px - increased typography */
+  @media (min-width: 1920px) {
+    footer {
+      font-size: 1.2rem;
+    }
+
+    .footer-section-email {
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    }
+
+    .footer-section-email a {
+      font-size: 1.4em;
+    }
+
+    .footer-section-copyright {
+      font-size: 1.1rem;
+    }
+
+    .footer-col h4 {
+      font-size: 1.4rem;
+    }
+
+    .footer-col li {
+      font-size: 1.2rem;
     }
   }
 </style>
