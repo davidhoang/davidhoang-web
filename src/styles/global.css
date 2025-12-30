@@ -17,6 +17,13 @@
 
   /* Layout */
   --nav-height: 40px;
+  
+  /* Breakpoints */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-large: 1440px;
+  --breakpoint-desktop-extra-large: 1920px;
 
   /* Animation - Inertia easing for smooth, natural motion */
   --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -268,9 +275,17 @@ blockquote cite {
    ============================================ */
 
 .container {
-  width: min(100% - 2rem, 1200px);
+  width: 100%;
+  max-width: 1200px;
   margin-inline: auto;
   padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+/* Large breakpoint - 1920px container */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1920px;
+  }
 }
 
 /* ============================================
@@ -840,5 +855,48 @@ body.mobile-menu-open {
 
   .hero-title h1 {
     font-size: clamp(4rem, 4vw, 4rem);
+  }
+}
+
+/* Extra-large breakpoint - 1920px - increased typography */
+@media (min-width: 1920px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+
+  h2 {
+    font-size: 2.875rem;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+  }
+
+  h4 {
+    font-size: 2.25rem;
+  }
+
+  h5 {
+    font-size: 1.875rem;
+  }
+
+  h6 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1.4rem;
+  }
+
+  li {
+    font-size: 1.4rem;
+  }
+
+  blockquote p {
+    font-size: 1.4rem;
+  }
+
+  .hero-title h1 {
+    font-size: clamp(6rem, 10vw, 10rem);
   }
 }

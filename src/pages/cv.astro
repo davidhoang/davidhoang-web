@@ -1,0 +1,171 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const pageDescription = "David Hoang - CV";
+---
+
+<MainLayout title="CV" description={pageDescription} hideFooter={true}>
+  <div class="cv-container">
+    <h1 class="cv-name">David Hoang</h1>
+    <p class="cv-title">Designer, Investor, Builder</p>
+    
+    <div class="cv-section">
+      <div class="cv-item">
+        <span class="cv-company">Atlassian</span>
+        <span class="cv-years">2024 →</span>
+        <a href="https://atlassian.com" target="_blank" class="cv-link">[↗]</a>
+      </div>
+      <div class="cv-role">VP of Design, Rovo & AI</div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-item">
+        <span class="cv-company">Replit</span>
+        <span class="cv-years">2022 → 2024</span>
+        <a href="https://replit.com" target="_blank" class="cv-link">[↗]</a>
+      </div>
+      <div class="cv-role">VP of Marketing and Design</div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-item">
+        <span class="cv-company">Webflow</span>
+        <span class="cv-years">2018 → 2022</span>
+        <a href="https://webflow.com" target="_blank" class="cv-link">[↗]</a>
+      </div>
+      <div class="cv-role">Head of Design</div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-item">
+        <span class="cv-company">One Medical</span>
+        <span class="cv-years">2015 → 2018</span>
+        <a href="https://onemedical.com" target="_blank" class="cv-link">[↗]</a>
+      </div>
+      <div class="cv-role">Product Design</div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-item">
+        <span class="cv-company">Misc</span>
+        <span class="cv-years">2010 → 2015</span>
+        <span class="cv-link">[−]</span>
+      </div>
+    </div>
+
+    <div class="cv-links">
+      <a href="https://www.linkedin.com/in/dhoang2/" target="_blank">LinkedIn</a>
+      <a href="https://twitter.com/davidhoang" target="_blank">Twitter</a>
+      <a href="https://www.proofofconcept.pub" target="_blank">Newsletter</a>
+      <a href="mailto:hello@davidhoang.com">Email</a>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .cv-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    padding-top: calc(var(--nav-height) + 4rem);
+  }
+
+  .cv-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .cv-title {
+    font-size: 1.2rem;
+    color: var(--color-muted);
+    margin-bottom: 3rem;
+  }
+
+  .cv-section {
+    margin-bottom: 2rem;
+  }
+
+  .cv-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .cv-company {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .cv-years {
+    color: var(--color-muted);
+    font-size: 1rem;
+  }
+
+  .cv-link {
+    color: var(--color-muted);
+    text-decoration: none;
+    border-bottom: none;
+    font-size: 1rem;
+  }
+
+  .cv-link:hover {
+    color: var(--color-text);
+  }
+
+  .cv-link::after {
+    display: none;
+  }
+
+  .cv-role {
+    color: var(--color-muted);
+    font-size: 1rem;
+    margin-left: 0;
+  }
+
+  .cv-links {
+    margin-top: 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .cv-links a {
+    font-size: 1rem;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--color-link);
+  }
+
+  .cv-links a:hover {
+    color: var(--color-link-hover);
+    border-bottom-color: var(--color-link-hover);
+  }
+
+  @media (max-width: 768px) {
+    .cv-container {
+      padding: 1.5rem 1rem;
+      padding-top: calc(var(--nav-height) + 3rem);
+    }
+
+    .cv-name {
+      font-size: 2rem;
+    }
+
+    .cv-title {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .cv-company {
+      font-size: 1.1rem;
+    }
+
+    .cv-links {
+      margin-top: 3rem;
+      gap: 1rem;
+    }
+  }
+</style>
