@@ -1,0 +1,503 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+// Artwork data
+interface Artwork {
+  id: string;
+  title: string;
+  artist: string;
+  description: string;
+  image: string;
+  size: string;
+  medium: string;
+  year?: string;
+}
+
+const artworks: Artwork[] = [
+  {
+    id: 'to-the-finish-line',
+    title: 'To the Finish Line',
+    artist: 'Sarah J. Schwartz',
+    description: `sometimes we run and run and get 'there' and forget that it's not really about the end result, but how it felt *while* getting 'there.' that's honestly why I love creating and painting for myself because the journey is completely up to me—I can start, stop, pause, and finish whenever I feel like and really listen to what my brain and heart are saying. now, my challenge is how to apply that to every other aspect of my life…`,
+    image: '/images/art-collection/img-art-to-the-finish-line.webp',
+    size: '18" x 24"',
+    medium: 'Acrylic and oil pastel on canvas, frame included',
+  }
+];
+
+const pageDescription = "A curated collection of artwork that inspires and moves me.";
+---
+
+<MainLayout title="Art Collection | David Hoang" description={pageDescription}>
+  <div class="art-collection-page">
+    <header class="art-collection-header">
+      <h1>Art Collection</h1>
+      <p class="art-collection-intro">A curated collection of artwork that inspires and moves me.</p>
+    </header>
+
+    <div class="art-collection-masonry" id="art-masonry">
+      {artworks.map((artwork) => (
+        <article class="artwork-card" data-artwork-id={artwork.id}>
+          <button 
+            class="artwork-thumbnail"
+            aria-label={`View details for ${artwork.title} by ${artwork.artist}`}
+            data-artwork-id={artwork.id}
+          >
+            <img 
+              src={artwork.image} 
+              alt={`${artwork.title} by ${artwork.artist}`}
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="artwork-overlay">
+              <div class="artwork-info-preview">
+                <h3 class="artwork-title">{artwork.title}</h3>
+                <p class="artwork-artist">{artwork.artist}</p>
+              </div>
+            </div>
+          </button>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <!-- Modal for artwork details -->
+  <div class="artwork-modal" id="artwork-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="artwork-modal-backdrop" id="modal-backdrop"></div>
+    <div class="artwork-modal-content">
+      <button 
+        class="artwork-modal-close" 
+        id="modal-close"
+        aria-label="Close artwork details"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+      <div class="artwork-modal-body" id="modal-body">
+        <!-- Content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .art-collection-page {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--spacing-xl) var(--spacing-lg);
+    }
+
+    .art-collection-header {
+      margin-bottom: var(--spacing-2xl);
+      text-align: center;
+    }
+
+    .art-collection-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+      color: var(--color-text);
+    }
+
+    .art-collection-intro {
+      font-size: 1.25rem;
+      color: var(--color-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Masonry Layout using CSS Columns */
+    .art-collection-masonry {
+      column-count: 3;
+      column-gap: var(--spacing-lg);
+      column-fill: balance;
+    }
+
+    .artwork-card {
+      break-inside: avoid;
+      margin-bottom: var(--spacing-lg);
+      page-break-inside: avoid;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .artwork-thumbnail {
+      position: relative;
+      width: 100%;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.3s var(--ease-inertia), box-shadow 0.3s ease;
+    }
+
+    .artwork-thumbnail:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme="dark"] .artwork-thumbnail:hover {
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+    }
+
+    .artwork-thumbnail img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-md);
+    }
+
+    .artwork-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+    }
+
+    .artwork-thumbnail:hover .artwork-overlay {
+      opacity: 1;
+    }
+
+    .artwork-info-preview {
+      color: white;
+      width: 100%;
+    }
+
+    .artwork-info-preview .artwork-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .artwork-info-preview .artwork-artist {
+      font-size: 1rem;
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    /* Modal Styles */
+    .artwork-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-lg);
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      overflow: hidden;
+    }
+
+    .artwork-modal[aria-hidden="false"] {
+      display: flex;
+      opacity: 1;
+    }
+
+    .artwork-modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .artwork-modal-content {
+      position: relative;
+      background: var(--color-bg);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      max-width: min(900px, calc(100vw - 2 * var(--spacing-lg)));
+      width: 100%;
+      max-height: calc(100vh - 2 * var(--spacing-lg));
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+      animation: modalSlideIn 0.3s var(--ease-inertia);
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .artwork-modal-close {
+      position: absolute;
+      top: var(--spacing-md);
+      right: var(--spacing-md);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--color-bg);
+      border: 2px solid var(--color-border);
+      color: var(--color-text);
+      font-size: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .artwork-modal-close:hover {
+      background: var(--color-sidebar-bg);
+      transform: scale(1.1);
+    }
+
+    .artwork-modal-close:focus-visible {
+      outline: 3px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    .artwork-modal-body {
+      padding: var(--spacing-xl);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .artwork-modal-image {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: calc(100vh - 350px);
+      object-fit: contain;
+      object-position: center;
+      border-radius: var(--radius-md);
+      margin: 0 auto var(--spacing-xl) auto;
+      display: block;
+      box-sizing: border-box;
+    }
+
+    .artwork-modal-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0 0 var(--spacing-sm) 0;
+      color: var(--color-text);
+    }
+
+    .artwork-modal-artist {
+      font-size: 1.5rem;
+      color: var(--color-muted);
+      margin: 0 0 var(--spacing-lg) 0;
+      font-weight: 500;
+    }
+
+    .artwork-modal-description {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-xl);
+      white-space: pre-line;
+    }
+
+    .artwork-modal-details {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .artwork-modal-detail-item {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+
+    .artwork-modal-detail-label {
+      font-weight: 600;
+      color: var(--color-text);
+      min-width: 100px;
+    }
+
+    .artwork-modal-detail-value {
+      color: var(--color-muted);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .art-collection-masonry {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .art-collection-page {
+        padding: var(--spacing-lg) var(--spacing-md);
+      }
+
+      .art-collection-header h1 {
+        font-size: 2rem;
+      }
+
+      .art-collection-intro {
+        font-size: 1.1rem;
+      }
+
+      .art-collection-masonry {
+        column-count: 1;
+        column-gap: var(--spacing-md);
+      }
+
+      .artwork-modal {
+        padding: var(--spacing-md);
+      }
+
+      .artwork-modal-content {
+        max-width: calc(100vw - 2 * var(--spacing-md));
+        max-height: calc(100vh - 2 * var(--spacing-md));
+      }
+
+      .artwork-modal-body {
+        padding: var(--spacing-lg);
+      }
+
+      .artwork-modal-title {
+        font-size: 2rem;
+      }
+
+      .artwork-modal-artist {
+        font-size: 1.25rem;
+      }
+
+      .artwork-modal-image {
+        max-height: calc(100vh - 300px);
+        width: 100%;
+      }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .artwork-thumbnail,
+      .artwork-overlay,
+      .artwork-modal,
+      .artwork-modal-content,
+      .artwork-modal-close {
+        transition: none;
+        animation: none;
+      }
+
+      .artwork-thumbnail:hover {
+        transform: none;
+      }
+    }
+  </style>
+
+  <script>
+    // Modal functionality
+    const modal = document.getElementById('artwork-modal') as HTMLElement;
+    const modalBody = document.getElementById('modal-body') as HTMLElement;
+    const modalBackdrop = document.getElementById('modal-backdrop') as HTMLElement;
+    const modalClose = document.getElementById('modal-close') as HTMLElement;
+    const artworkThumbnails = document.querySelectorAll('.artwork-thumbnail') as NodeListOf<HTMLElement>;
+
+    const artworks = [
+      {
+        id: 'to-the-finish-line',
+        title: 'To the Finish Line',
+        artist: 'Sarah J. Schwartz',
+        description: `sometimes we run and run and get 'there' and forget that it's not really about the end result, but how it felt *while* getting 'there.' that's honestly why I love creating and painting for myself because the journey is completely up to me—I can start, stop, pause, and finish whenever I feel like and really listen to what my brain and heart are saying. now, my challenge is how to apply that to every other aspect of my life…`,
+        image: '/images/art-collection/img-art-to-the-finish-line.webp',
+        size: '18" x 24"',
+        medium: 'Acrylic and oil pastel on canvas, frame included',
+      }
+    ];
+
+    function openModal(artworkId: string) {
+      const artwork = artworks.find(a => a.id === artworkId);
+      if (!artwork) return;
+
+      modalBody.innerHTML = `
+        <div style="width: 100%; max-width: 100%; box-sizing: border-box;">
+          <img 
+            src="${artwork.image}" 
+            alt="${artwork.title} by ${artwork.artist}"
+            class="artwork-modal-image"
+          />
+        </div>
+        <h2 class="artwork-modal-title" id="modal-title">${artwork.title}</h2>
+        <p class="artwork-modal-artist">${artwork.artist}</p>
+        <p class="artwork-modal-description">${artwork.description}</p>
+        <div class="artwork-modal-details">
+          <div class="artwork-modal-detail-item">
+            <span class="artwork-modal-detail-label">Size:</span>
+            <span class="artwork-modal-detail-value">${artwork.size}</span>
+          </div>
+          <div class="artwork-modal-detail-item">
+            <span class="artwork-modal-detail-label">Medium:</span>
+            <span class="artwork-modal-detail-value">${artwork.medium}</span>
+          </div>
+        </div>
+      `;
+
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Focus management
+      modalClose.focus();
+    }
+
+    function closeModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    artworkThumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', () => {
+        const artworkId = thumbnail.getAttribute('data-artwork-id');
+        if (artworkId) {
+          openModal(artworkId);
+        }
+      });
+    });
+
+    modalBackdrop.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+        closeModal();
+      }
+    });
+
+    // Prevent body scroll when modal is open
+    modal.addEventListener('transitionend', () => {
+      if (modal.getAttribute('aria-hidden') === 'true') {
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</MainLayout>
+
