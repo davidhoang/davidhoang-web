@@ -226,14 +226,36 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       border-radius: var(--radius-lg);
       max-width: min(900px, calc(100vw - 2 * var(--spacing-lg)));
       width: 100%;
+      min-width: 0;
       max-height: calc(100vh - 2 * var(--spacing-lg));
       overflow-y: auto;
+      overflow-x: hidden;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       z-index: 1;
       animation: modalSlideIn 0.3s var(--ease-inertia);
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
+      contain: layout style;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Custom scrollbar styling */
+    .artwork-modal-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .artwork-modal-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .artwork-modal-content::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 4px;
+    }
+    
+    .artwork-modal-content::-webkit-scrollbar-thumb:hover {
+      background: var(--color-muted);
     }
 
     @keyframes modalSlideIn {
@@ -283,20 +305,51 @@ const pageDescription = "A curated collection of artwork that inspires and moves
     .artwork-modal-body {
       padding: var(--spacing-xl);
       width: 100%;
+      min-width: 0;
+      max-width: 100%;
       box-sizing: border-box;
+      flex-shrink: 1;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .artwork-modal-image-wrapper {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+      margin-bottom: var(--spacing-xl);
+      display: block;
+      flex-shrink: 1;
+    }
+    
+    /* Ensure wrapper respects modal width */
+    .artwork-modal-body .artwork-modal-image-wrapper {
+      max-width: min(900px, calc(100vw - 2 * var(--spacing-lg) - 2 * var(--spacing-xl)));
     }
 
     .artwork-modal-image {
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      max-height: calc(100vh - 350px);
-      object-fit: contain;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      max-height: calc(100vh - 400px) !important;
+      object-fit: contain !important;
       object-position: center;
       border-radius: var(--radius-md);
-      margin: 0 auto var(--spacing-xl) auto;
       display: block;
       box-sizing: border-box;
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    
+    /* Ensure image never exceeds container */
+    .artwork-modal-image-wrapper .artwork-modal-image {
+      width: 100%;
+      max-width: 100%;
     }
 
     .artwork-modal-title {
@@ -438,11 +491,12 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       if (!artwork) return;
 
       modalBody.innerHTML = `
-        <div style="width: 100%; max-width: 100%; box-sizing: border-box;">
+        <div class="artwork-modal-image-wrapper">
           <img 
             src="${artwork.image}" 
             alt="${artwork.title} by ${artwork.artist}"
             class="artwork-modal-image"
+            style="width: 100%; max-width: 100%; height: auto; object-fit: contain;"
           />
         </div>
         <h2 class="artwork-modal-title" id="modal-title">${artwork.title}</h2>
