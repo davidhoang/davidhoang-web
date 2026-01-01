@@ -38,9 +38,14 @@ function markdownToHtml(markdown: string): string {
 
 // Parse bio markdown file
 async function parseBioMarkdown() {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const bioPath = join(__dirname, '../content/bio.md');
+  // Resolve path relative to project root (works in both dev and build)
+  const currentFileUrl = import.meta.url;
+  const currentFilePath = fileURLToPath(new URL('.', currentFileUrl));
+  // Go up from dist/server/pages to project root
+  const projectRoot = currentFilePath.includes('dist') 
+    ? join(currentFilePath, '../../../')
+    : join(currentFilePath, '../../');
+  const bioPath = join(projectRoot, 'src/content/bio.md');
   const bioContent = await readFile(bioPath, 'utf-8');
   
   // Split by H2 headings (##)
@@ -82,9 +87,14 @@ async function parseBioMarkdown() {
 // Load AI Summary if available
 async function loadAISummary() {
   try {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-    const aiSummaryPath = join(__dirname, '../data/bio-ai-summary.json');
+    // Resolve path relative to project root (works in both dev and build)
+    const currentFileUrl = import.meta.url;
+    const currentFilePath = fileURLToPath(new URL('.', currentFileUrl));
+    // Go up from dist/server/pages to project root
+    const projectRoot = currentFilePath.includes('dist') 
+      ? join(currentFilePath, '../../../')
+      : join(currentFilePath, '../../');
+    const aiSummaryPath = join(projectRoot, 'src/data/bio-ai-summary.json');
     const aiSummaryContent = await readFile(aiSummaryPath, 'utf-8');
     const aiSummary = JSON.parse(aiSummaryContent);
     
