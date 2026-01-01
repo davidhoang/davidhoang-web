@@ -5840,8 +5840,11 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 1000;
+          z-index: 1002;
           pointer-events: none;
+          height: auto;
+          width: auto;
+          max-height: 3rem;
         }
 
         .timeline-content {
@@ -5858,6 +5861,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           border-radius: 9999px;
           backdrop-filter: blur(10px);
           pointer-events: auto;
+          height: auto;
+          width: auto;
+          white-space: nowrap;
         }
 
         [data-theme="dark"] .timeline-content {
