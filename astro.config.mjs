@@ -26,7 +26,7 @@ function copyAssetsPlugin() {
 export default defineConfig({
   output: 'static',
   adapter: vercel(),
-  site: 'https://davidhoang.com',
+  site: 'https://www.davidhoang.com',
   viewTransitions: true,
   integrations: [react()],
   vite: {
