@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx astro dev",
     "start": "npx astro dev",
-    "build": "npx astro build && node scripts/copy-css.js",
+    "build": "npx astro build && node scripts/copy-assets.js",
     "preview": "npx astro preview",
     "clean": "rm -rf dist .vercel node_modules",
     "rebuild": "npm run clean && npm install && npm run build",
