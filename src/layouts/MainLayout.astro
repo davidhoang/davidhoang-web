@@ -28,13 +28,10 @@ const canonicalURL = Astro.site
   : Astro.url.pathname;
 
 // Construct full URL for ogImage
-const siteUrl = (Astro.site ? Astro.site.toString() : 'https://davidhoang.com').replace(/\/$/, '');
+const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.com').replace(/\/$/, '');
 const ogImageUrl = ogImage.startsWith('http') 
   ? ogImage 
   : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
-
-// Add this to your layout component to make it persistent
-export const prerender = false;
 ---
 
 <!DOCTYPE html>
