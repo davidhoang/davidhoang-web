@@ -19,7 +19,7 @@ function copyAssetsPlugin() {
         // This allows markdown files to continue using /images/ paths
         cpSync(srcDir, publicDir, { recursive: true, force: true });
       }
-    }
+    },
   };
 }
 
