@@ -2,6 +2,9 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import imgDavidSf from '../assets/images/img-david-sf.jpg';
 import imgLinen from '../assets/images/bg-linen.jpeg';
+import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 // Get page name from the URL path
 const pageName = Astro.url.pathname
@@ -13,6 +16,103 @@ const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
 // Page metadata
 const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
 const ogImage = "/images/img-david-sf.jpg";
+
+// Simple markdown to HTML converter (handles links and paragraphs)
+function markdownToHtml(markdown: string): string {
+  let html = markdown.trim();
+  
+  // Convert markdown links [text](url) to HTML links
+  // Add target="_blank" for external URLs
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+    const isExternal = url.startsWith('http://') || url.startsWith('https://');
+    const target = isExternal ? ' target="_blank"' : '';
+    return `<a href="${url}"${target}>${text}</a>`;
+  });
+  
+  // Split into paragraphs (double newline or single newline followed by content)
+  const paragraphs = html.split(/\n\n+/).filter(p => p.trim());
+  
+  // Wrap each paragraph in <p> tags
+  return paragraphs.map(p => `<p>${p.trim()}</p>`).join('\n');
+}
+
+// Parse bio markdown file
+async function parseBioMarkdown() {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const bioPath = join(__dirname, '../content/bio.md');
+  const bioContent = await readFile(bioPath, 'utf-8');
+  
+  // Split by H2 headings (##)
+  const lines = bioContent.split('\n');
+  const bios: Array<{ title: string; content: string }> = [];
+  let currentTitle = '';
+  let currentContent: string[] = [];
+  
+  for (const line of lines) {
+    // Check if this is an H2 heading
+    if (line.startsWith('## ')) {
+      // Save previous section if it exists
+      if (currentTitle && currentContent.length > 0) {
+        bios.push({
+          title: currentTitle,
+          content: markdownToHtml(currentContent.join('\n'))
+        });
+      }
+      // Start new section
+      currentTitle = line.substring(3).trim();
+      currentContent = [];
+    } else {
+      // Add to current content
+      currentContent.push(line);
+    }
+  }
+  
+  // Don't forget the last section
+  if (currentTitle && currentContent.length > 0) {
+    bios.push({
+      title: currentTitle,
+      content: markdownToHtml(currentContent.join('\n'))
+    });
+  }
+  
+  return bios;
+}
+
+// Load AI Summary if available
+async function loadAISummary() {
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const aiSummaryPath = join(__dirname, '../data/bio-ai-summary.json');
+    const aiSummaryContent = await readFile(aiSummaryPath, 'utf-8');
+    const aiSummary = JSON.parse(aiSummaryContent);
+    
+    if (aiSummary.content && aiSummary.content.trim()) {
+      return {
+        title: 'AI Summary',
+        content: markdownToHtml(aiSummary.content),
+        isAI: true
+      };
+    }
+  } catch (error) {
+    // File doesn't exist or is empty, that's okay
+    console.log('AI Summary not available:', error);
+  }
+  return null;
+}
+
+const bioSections = await parseBioMarkdown();
+const aiSummary = await loadAISummary();
+
+// Add AI Summary at the end if available
+if (aiSummary) {
+  bioSections.push(aiSummary);
+}
+
+const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'medium') >= 0 
+  ? bioSections.findIndex(b => b.title.toLowerCase() === 'medium')
+  : Math.floor(bioSections.length / 2);
 ---
 
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
@@ -26,11 +126,43 @@ const ogImage = "/images/img-david-sf.jpg";
     </div>
     <div class="hero-grid">
       <div class="about-content">
-        <p>I'm a designer, investor, and builder focused on tools that revolutionize the internet. My career has been an <a href="/career-odyssey">odyssey</a>—20 years in and still so much to learn and experience. My love for design and software began after graduating with a BFA in Drawing and Painting. Interdisciplinary studies led me to electives in Computer Science, Art History, and the Humanities. After matriculation, I took what's now called a gap year to prepare for an MFA; I never went, instead designing app interfaces for a new device called the iPhone.</p>
-        <p>Since then, I've spent my career building and scaling design teams at early-stage startups and high-growth companies. I currently serve as VP of Design, Rovo & AI at <a href="http://atlassian.com" target="_blank">Atlassian</a>, building AI experiences that will use Jira for me so I never have to. Prior, I was VP of Marketing and Design at <a href="http://replit.com" target="_blank">Replit</a>, where I led rebranding, launched developer events, and pushed forward new ways to ship AI-native products. I was also the first Head of Design at <a href="http://webflow.com" target="_blank">Webflow</a>, where I helped scale both the team and the company's vision for a more expressive, accessible internet. Prior to that, I led product design at <a href="http://onemedical.com" target="_blank">One Medical</a> during its transition to virtual care and eventual IPO.</p>
-        <p>I invest in and advise early-stage startups, especially creative tools that empower people to express on the internet. I've invested in over 30 early-stage companies: <a href="https://sunflower.me/" target="_blank">Sunflower</a>, <a href="https://www.withdaydream.com/" target="_blank">Daydream</a>, <a href="https://explore.ozu.ai/" target="_blank">OZU</a>, <a href="https://stitch.withgoogle.com/" target="_blank">Galileo (aquired)</a>, <a href="https://www.tryflint.com/" target="_blank">Flint</a>, and <a href="https://paper.design/" target="_blank">Paper</a>, to name a few . I also write a weekly newsletter called <a href="http://www.proofofconcept.pub">Proof of Concept</a>, where I explore ideas around software, design, and entrepreneurship. It's a space for me to reflect on the shifting landscape of technology and how we build within it.</p>
-        <p>I'm particularly interested in how AI is reshaping software architecture and the way we build. I explore ideas like <a href="/writing/a-new-mvc-is-emerging">the emerging MVC</a>—where LLMs become models, apps become views, and agents become controllers—and how we're moving from app-centric to system-centric experiences. I think deeply about <a href="/writing/design-engineering">design engineering</a> as the transformative practice of the 2020s, the intersection of technical systems and interface quality. I'm fascinated by <a href="/writing/the-four-types-of-software-in-the-future">the future of software</a>—from boutique experiences to personal and disposable software—and how the lowering barriers to creation are democratizing who can build. I also reflect on the role of craft and taste in design, how tech goes through factory reset moments, and what it means to build creative tools that empower expression on the internet.</p>
-        <p>See what I'm up to <a href="/now">now</a>.</p>
+        <div class="bio-controls glass-border">
+          <div class="bio-slider-container">
+            <div class="bio-slider-label-wrapper">
+              <span class="bio-slider-current-label" id="bio-slider-current-label">{bioSections[defaultIndex]?.title || 'Medium'}</span>
+            </div>
+            <input 
+              type="range" 
+              id="bio-length-slider" 
+              class="bio-slider" 
+              min="0" 
+              max={bioSections.length - 1} 
+              value={defaultIndex} 
+              step="0.01"
+              aria-label="Select bio length"
+              data-bio-count={bioSections.length}
+            />
+          </div>
+        </div>
+        
+        <div class="bio-content-wrapper">
+          {bioSections.map((bio, index) => (
+            <div 
+              class={`bio-content ${index === defaultIndex ? 'active' : ''}`}
+              data-version={index}
+              data-label={bio.title}
+            >
+              {bio.isAI && (
+                <div class="ai-warning">
+                  <span class="ai-warning-icon">⚠️</span>
+                  <span class="ai-warning-text">AI generated, verify results</span>
+                </div>
+              )}
+              <h2 class="bio-section-title">{bio.title}</h2>
+              <div set:html={bio.content}></div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </div>
@@ -46,6 +178,157 @@ const ogImage = "/images/img-david-sf.jpg";
   .about-content {
     max-width: 800px;
     width: 100%;
+  }
+
+  .bio-controls {
+    margin-bottom: 2rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-sidebar-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: background-color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
+  }
+
+  .bio-slider-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bio-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: background-color 0.4s var(--ease-inertia);
+    margin: 0.25rem 0;
+  }
+
+  .bio-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-full);
+    background: var(--color-text);
+    border: 2px solid var(--color-bg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .bio-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .bio-slider:focus-visible::-webkit-slider-thumb {
+    outline: 3px solid var(--color-link);
+    outline-offset: 2px;
+  }
+
+  .bio-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-full);
+    background: var(--color-text);
+    border: 2px solid var(--color-bg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .bio-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .bio-slider:focus-visible::-moz-range-thumb {
+    outline: 3px solid var(--color-link);
+    outline-offset: 2px;
+  }
+
+  .bio-slider::-moz-range-track {
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+  }
+
+  .bio-slider-label-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .bio-slider-current-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-link);
+    transition: color 0.3s ease;
+    text-align: center;
+  }
+
+  .bio-content-wrapper {
+    position: relative;
+    min-height: 200px;
+  }
+
+  .bio-content {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s var(--ease-inertia), transform 0.4s var(--ease-inertia);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .bio-content.active {
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+    pointer-events: auto;
+  }
+
+  .bio-section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  .ai-warning {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+
+  .ai-warning-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .ai-warning-text {
+    font-weight: 500;
+  }
+
+  [data-theme="dark"] .ai-warning {
+    background: rgba(255, 193, 7, 0.15);
+    border-color: rgba(255, 193, 7, 0.4);
   }
 
   .about-image-container {
@@ -130,6 +413,19 @@ const ogImage = "/images/img-david-sf.jpg";
 
     .about-content {
       max-width: 100%;
+    }
+
+    .bio-controls {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .bio-slider-current-label {
+      font-size: 0.9rem;
+    }
+
+    .bio-section-title {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
     }
   }
 
@@ -364,5 +660,103 @@ const ogImage = "/images/img-david-sf.jpg";
     document.addEventListener('DOMContentLoaded', initParallax);
   } else {
     initParallax();
+  }
+
+  // Bio length slider functionality - smooth draggable spectrum
+  function initBioSlider() {
+    const slider = document.getElementById('bio-length-slider') as HTMLInputElement | null;
+    const currentLabel = document.getElementById('bio-slider-current-label');
+    const bioContents = document.querySelectorAll('.bio-content');
+
+    if (!slider) return;
+
+    // Get number of versions dynamically
+    const numVersions = bioContents.length;
+    const maxValue = numVersions - 1;
+    
+    // Extract labels from data attributes or use index as fallback
+    const versionLabels: string[] = [];
+    bioContents.forEach((content) => {
+      const label = (content as HTMLElement).getAttribute('data-label') || 
+                    (content as HTMLElement).getAttribute('data-version') || 
+                    '';
+      versionLabels.push(label);
+    });
+
+    // Update slider max if needed
+    if (slider.max !== String(maxValue)) {
+      slider.max = String(maxValue);
+    }
+
+    function getClosestVersion(value: number): number {
+      // Snap to nearest version
+      return Math.round(Math.max(0, Math.min(maxValue, value)));
+    }
+
+    function updateBioContent(value: number) {
+      const version = getClosestVersion(value);
+      const label = versionLabels[version] || `Version ${version + 1}`;
+
+      // Update label
+      if (currentLabel) {
+        currentLabel.textContent = label;
+      }
+
+      // Update active content with smooth transitions
+      bioContents.forEach((content) => {
+        const bioContent = content as HTMLElement;
+        const contentVersion = parseInt(bioContent.getAttribute('data-version') || '0');
+        
+        if (contentVersion === version) {
+          bioContent.classList.add('active');
+        } else {
+          bioContent.classList.remove('active');
+        }
+      });
+    }
+
+    // Get initial value from slider
+    const initialValue = parseFloat(slider.value) || Math.floor(numVersions / 2);
+    updateBioContent(initialValue);
+
+    // Handle slider input - smooth dragging
+    slider.addEventListener('input', (e) => {
+      const value = parseFloat((e.target as HTMLInputElement).value);
+      updateBioContent(value);
+    });
+
+    // Snap to nearest position when user releases
+    slider.addEventListener('change', (e) => {
+      const value = parseFloat((e.target as HTMLInputElement).value);
+      const snappedValue = getClosestVersion(value);
+      slider.value = String(snappedValue);
+      updateBioContent(snappedValue);
+    });
+
+    // Handle keyboard navigation
+    slider.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const currentValue = parseFloat(slider.value);
+        const step = 0.25; // Smaller steps for smoother keyboard navigation
+        
+        if (e.key === 'ArrowLeft' && currentValue > 0) {
+          const newValue = Math.max(0, currentValue - step);
+          slider.value = String(newValue);
+          updateBioContent(newValue);
+        } else if (e.key === 'ArrowRight' && currentValue < maxValue) {
+          const newValue = Math.min(maxValue, currentValue + step);
+          slider.value = String(newValue);
+          updateBioContent(newValue);
+        }
+      }
+    });
+  }
+
+  // Initialize bio slider when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBioSlider);
+  } else {
+    initBioSlider();
   }
 </script>

@@ -3,5 +3,11 @@
   "buildCommand": "npx astro build",
   "outputDirectory": "dist",
   "framework": "astro",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/generate-bio-summary",
+      "schedule": "0 0 * * *"
+    }
+  ]
 } 

@@ -8,7 +8,9 @@
     "build": "npx astro build",
     "preview": "npx astro preview",
     "clean": "rm -rf dist .vercel node_modules",
-    "rebuild": "npm run clean && npm install && npm run build"
+    "rebuild": "npm run clean && npm install && npm run build",
+    "bio:status": "node scripts/test-bio-summary.js status",
+    "bio:generate": "node scripts/test-bio-summary.js generate"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.9",
