@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title, description, ogImage, publishDate, url } = Astro.props;
-const siteUrl = 'https://davidhoang.com';
+const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.com').replace(/\/$/, '');
 const imageUrl = ogImage
   ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`)
   : undefined;
