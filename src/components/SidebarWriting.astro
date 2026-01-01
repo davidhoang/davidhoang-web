@@ -5,7 +5,7 @@ const currentYear = new Date().getFullYear();
 // You can add more dynamic data here later if needed
 ---
 
-<aside class="sidebar" role="complementary" aria-label="Sidebar with additional information">
+<aside class="sidebar glass-border" role="complementary" aria-label="Sidebar with additional information">
   <div class="sidebar-section">
     <h2>About</h2>
     <p>Writing about design, technology, and building products.</p>
@@ -14,7 +14,7 @@ const currentYear = new Date().getFullYear();
   <div class="sidebar-section">
     <h2>Newsletter</h2>
     <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
-    <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer" class="sidebar-button" aria-label="Subscribe to Proof of Concept newsletter">Subscribe →</a>
+    <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer" class="sidebar-button glass-border-button" aria-label="Subscribe to Proof of Concept newsletter">Subscribe →</a>
   </div>
 
   <div class="sidebar-section">
@@ -35,8 +35,9 @@ const currentYear = new Date().getFullYear();
     padding: 1.5rem;
     padding-left: 2rem;
     width: 250px;
-    background-color: transparent;
-    border-left: 1px solid var(--color-border);
+    background-color: var(--color-sidebar-bg);
+    border: var(--border-default);
+    border-radius: var(--radius-lg);
     height: fit-content;
   }
 
@@ -87,22 +88,28 @@ const currentYear = new Date().getFullYear();
     background-color: var(--color-text);
     color: var(--color-bg);
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: var(--radius-md);
     font-size: 0.9rem;
-    transition: opacity 0.2s;
+    font-weight: 500;
     border-bottom: none;
   }
 
-  .sidebar-button:hover {
-    opacity: 0.9;
+  .sidebar-button::after {
+    display: none; /* Disable global link underline */
+  }
+
+  /* Hover state handled by glass-border-button class */
+  @media (hover: hover) {
+    .sidebar-button:hover {
+      color: var(--color-bg);
+      text-decoration: none;
+    }
   }
 
   @media (max-width: 768px) {
     .sidebar {
       position: static;
       margin-top: 2rem;
-      border-left: none;
-      border-top: 1px solid var(--color-border);
       padding-left: 1.5rem;
       padding-top: 2rem;
       padding-bottom: 2rem;

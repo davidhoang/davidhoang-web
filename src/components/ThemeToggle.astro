@@ -33,12 +33,12 @@
 
   button {
     background: var(--color-sidebar-bg);
-    border: 1px solid var(--color-border);
+    border: var(--border-default);
     border-radius: 50%;
     padding: 0.75rem;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-default);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,8 +46,13 @@
     height: 48px;
   }
 
-  button:hover {
-    transform: scale(1.1);
+  /* Only apply hover effects on devices that support hover */
+  @media (hover: hover) {
+    button:hover {
+      border: var(--border-hover);
+      box-shadow: var(--shadow-hover);
+      transform: scale(1.05);
+    }
   }
 
   .sun-icon,
