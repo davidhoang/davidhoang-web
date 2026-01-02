@@ -4,8 +4,12 @@ import { getCollection } from 'astro:content';
 import SidebarWriting from '../../components/SidebarWriting.astro';
 import imgProofOfConcept from '../../assets/images/highlights/img-highlights-proof-of-concept.jpg';
 
-const posts = await getCollection('writing');
-posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = await getCollection('writing');
+// Filter out drafts in production, but show them in development
+const posts = (import.meta.env.PROD 
+  ? allPosts.filter((post) => !post.data.draft)
+  : allPosts
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Get page name from the URL path
 const pageName = Astro.url.pathname

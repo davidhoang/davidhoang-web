@@ -7,6 +7,7 @@ const writing = defineCollection({
     description: z.string(),
     ogImage: z.string().optional(),
     coverImage: z.string().optional(),
+    draft: z.boolean().optional().default(false),
     // ... other fields
   })
 });
