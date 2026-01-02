@@ -2,7 +2,6 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import imgProofOfConcept from '../assets/images/highlights/img-highlights-proof-of-concept.jpg';
-import imgLinen from '../assets/images/bg-linen.jpeg';
 
 // Get page name from the URL path
 const pageName = Astro.url.pathname
@@ -17,14 +16,11 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
 ---
 
 <MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
+  <div class="hero-image-container" style={`background-image: url(${imgProofOfConcept.src})`} role="img" aria-label="Proof of Concept">
+    <div class="hero-image-bg" style={`background-image: url(${imgProofOfConcept.src})`}></div>
+    <h1>{pageTitle}</h1>
+  </div>
   <div class="container">
-    <div class="subscribe-image-container">
-      <div class="linen-background" style={`background-image: url(${imgLinen.src})`}></div>
-      <img class="subscribe-image" src={imgProofOfConcept.src} alt="Proof of Concept" />
-      <div class="image-overlay">
-        <h1 class="overlay-text">{pageTitle}</h1>
-      </div>
-    </div>
     <div class="hero-grid">
       <div class="subscribe-content-intro">
         <p>Proof of Concept is digital newsletter publication that explores experimentation and maximizing your creative output. You'll receive a free issue every Sunday. I appreciate your readership!</p>
@@ -36,87 +32,19 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
           title="Subscribe to my newsletter"
           description="Get a free issue every Sunday about design, technology, and entrepreneurship."
         />
-    </section>
+      </section>
+    </div>
   </div>
     
 </MainLayout>
 
 <style>
-  .hero-grid {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-  }
 
   .subscribe-content-intro {
     max-width: 800px;
     width: 100%;
   }
 
-  .subscribe-image-container {
-    width: 100vw;
-    max-width: 100vw;
-    aspect-ratio: 16 / 9;
-    margin-top: calc(0px - clamp(1rem, 3vw, 2rem));
-    margin-bottom: 2rem;
-    margin-left: calc(50% - 50vw - clamp(1rem, 3vw, 2rem));
-    margin-right: calc(50% - 50vw - clamp(1rem, 3vw, 2rem));
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .linen-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transform: translateY(-100%);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 0;
-  }
-
-  .subscribe-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
-    flex-shrink: 0;
-    will-change: transform;
-    position: relative;
-    z-index: 1;
-  }
-
-  .image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-  }
-
-  .overlay-text {
-    color: white;
-    font-size: clamp(3rem, 8vw, 8rem);
-    font-weight: 700;
-    text-align: center;
-    margin: 0;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-    letter-spacing: -0.02em;
-  }
 
   .subscribe-wrapper {
     max-width: 600px;
@@ -170,10 +98,6 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
   }
 
   @media (max-width: 768px) {
-    .subscribe-image-container {
-      aspect-ratio: 3 / 4;
-    }
-
     .hero-grid {
       padding: 0 1rem;
     }
@@ -184,11 +108,6 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
   }
 
   @media (max-width: 480px) {
-    .hero-grid {
-      padding: 0 0.5rem;
-      margin: 1rem 0;
-    }
-
     .subscribe-content-intro {
       max-width: 100%;
     }
@@ -198,9 +117,8 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
 <script>
   // Parallax scroll effect with smooth inertia-based animation
   function initParallax() {
-    const imageContainer = document.querySelector('.subscribe-image-container') as HTMLElement | null;
-    const image = document.querySelector('.subscribe-image') as HTMLElement | null;
-    const linenBackground = document.querySelector('.linen-background') as HTMLElement | null;
+    const imageContainer = document.querySelector('.hero-image-container') as HTMLElement | null;
+    const image = document.querySelector('.hero-image-bg') as HTMLElement | null;
 
     if (!imageContainer || !image) return;
 
@@ -214,10 +132,6 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
     let animationFrameId: number | null = null;
     let isScrolling = false;
     let scrollTimeout: number | null = null;
-    let overscrollAmount = 0;
-    let currentOverscroll = 0;
-    let touchStartY = 0;
-    let isPulling = false;
 
     // Smooth interpolation with inertia
     function lerp(start: number, end: number, factor: number) {
@@ -232,11 +146,6 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
       const containerHeight = imageContainer.offsetHeight;
       const scrolled = window.scrollY;
       const containerTop = imageContainer.offsetTop;
-      
-      // If not actively pulling, reset overscroll
-      if (!isPulling) {
-        overscrollAmount = Math.max(0, overscrollAmount * 0.92); // Damping
-      }
       
       if (rect.bottom >= 0 && rect.top <= windowHeight) {
         const scrollDistance = scrolled - containerTop;
@@ -289,26 +198,13 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
         }
       }
 
-      // Smooth overscroll interpolation
-      currentOverscroll = lerp(currentOverscroll, overscrollAmount, 0.15);
-
       // Apply transform with both translateY and scale
       if (image) {
         image.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
       }
 
-      // Reveal linen background based on overscroll
-      if (linenBackground) {
-        const maxOverscroll = 200; // Maximum pull distance
-        const overscrollProgress = Math.min(currentOverscroll / maxOverscroll, 1);
-        const translateY = -100 + (overscrollProgress * 100); // Reveal from top
-
-        linenBackground.style.opacity = String(overscrollProgress);
-        linenBackground.style.transform = `translateY(${translateY}%)`;
-      }
-
       // Continue animation if needed
-      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1 || currentOverscroll > 0.1) {
+      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1) {
         animationFrameId = requestAnimationFrame(animate);
       } else {
         animationFrameId = null;
@@ -345,55 +241,7 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
       }, 50) as unknown as number;
     }
 
-    // Touch events for pull-to-reveal
-    function onTouchStart(e: TouchEvent) {
-      if (window.scrollY <= 0 && imageContainer && imageContainer.getBoundingClientRect().top <= 0) {
-        touchStartY = e.touches[0].clientY;
-        isPulling = true;
-      }
-    }
-
-    function onTouchMove(e: TouchEvent) {
-      if (!isPulling) return;
-
-      const currentY = e.touches[0].clientY;
-      const deltaY = currentY - touchStartY;
-      
-      if (deltaY > 0 && window.scrollY <= 0) {
-        // Pulling down at the top
-        overscrollAmount = deltaY;
-        e.preventDefault(); // Prevent default scroll
-      } else {
-        isPulling = false;
-        overscrollAmount = 0;
-      }
-    }
-
-    function onTouchEnd() {
-      isPulling = false;
-    }
-
-    // Wheel events for desktop pull-to-reveal
-    function onWheel(e: WheelEvent) {
-      if (window.scrollY <= 0 && imageContainer && imageContainer.getBoundingClientRect().top <= 0) {
-        if (e.deltaY < 0) {
-          // Scrolling up at the top (pulling down)
-          isPulling = true;
-          overscrollAmount = Math.min(overscrollAmount + Math.abs(e.deltaY), 300);
-          e.preventDefault();
-        } else {
-          isPulling = false;
-        }
-      } else {
-        isPulling = false;
-      }
-    }
-
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: false });
     
     // Initial setup
     const initialValues = calculateParallaxValues();
