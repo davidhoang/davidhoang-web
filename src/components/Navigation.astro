@@ -91,8 +91,8 @@ const currentPath = Astro.url.pathname;
     box-sizing: border-box;
   }
 
-  /* Prevent horizontal overflow on smaller screens */
-  @media (max-width: 520px) {
+  /* Prevent horizontal overflow on smaller screens (between 520px and 768px) */
+  @media (min-width: 521px) and (max-width: 768px) {
     nav {
       min-width: unset;
       width: calc(100% - 32px);
@@ -110,7 +110,7 @@ const currentPath = Astro.url.pathname;
       font-size: 1.2rem;
     }
     
-    @media (hover: hover) {
+    @media (hover: hover) and (min-width: 769px) {
       nav:hover {
         min-width: 450px;
         max-width: 450px;
@@ -124,8 +124,8 @@ const currentPath = Astro.url.pathname;
     box-shadow: var(--shadow-scrolling);
   }
 
-  /* Only apply hover effects on devices that support hover */
-  @media (hover: hover) {
+  /* Only apply hover effects on devices that support hover AND are not mobile */
+  @media (hover: hover) and (min-width: 769px) {
     nav:hover {
       top: 20px;
       min-width: 500px;
@@ -330,19 +330,38 @@ const currentPath = Astro.url.pathname;
     nav {
       top: 0;
       left: 0;
+      right: 0;
       transform: none;
       width: 100%;
+      max-width: 100%;
       border-radius: 0;
       padding: 0;
       height: 64px;
       min-width: unset;
       border: none; /* Remove border on mobile */
       box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Simplified shadow */
+      transition: none !important; /* Remove all transitions on mobile */
+    }
+
+    /* Completely disable all hover effects on mobile */
+    nav:hover {
+      top: 0 !important;
+      min-width: unset !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+      transform: none !important;
+    }
+
+    nav:hover .nav-container {
+      gap: 0.5rem !important;
     }
 
     .nav-container {
       padding: 0 1rem;
       height: 64px;
+      transition: none !important; /* Remove transitions on mobile */
     }
 
     .desktop-nav {
@@ -356,25 +375,31 @@ const currentPath = Astro.url.pathname;
       height: 48px;
       width: 48px;
       border-radius: 8px;
-      transition: background-color 0.2s ease;
+      transition: none !important; /* Remove transitions on mobile */
     }
 
-    .mobile-menu-button:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+    /* Completely disable hover effects on mobile buttons */
+    .mobile-menu-button:hover,
+    .mobile-menu-button:active,
+    .mobile-menu-button:focus {
+      background-color: transparent !important;
     }
 
     .close-menu {
       height: 48px;
       width: 48px;
       border-radius: 8px;
-      transition: background-color 0.2s ease;
+      transition: none !important; /* Remove transitions on mobile */
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .close-menu:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+    /* Completely disable hover effects on mobile close button */
+    .close-menu:hover,
+    .close-menu:active,
+    .close-menu:focus {
+      background-color: transparent !important;
     }
 
     .mobile-menu {
@@ -419,6 +444,19 @@ const currentPath = Astro.url.pathname;
       padding: 2rem 1rem;
       flex: 1;
       overflow-y: auto;
+    }
+
+    /* Disable all hover effects on mobile for logo and links */
+    .logo:hover,
+    .logo:active,
+    .logo:focus {
+      transform: none !important;
+      opacity: 1 !important;
+    }
+
+    /* Ensure no transitions on any nav children on mobile */
+    nav * {
+      transition: none !important;
     }
   }
 
