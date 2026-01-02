@@ -487,20 +487,17 @@ svg {
 .hero-image-container {
   width: 100vw;
   max-width: 100vw;
-  height: 60vh;
+  height: 75vh;
   min-height: 200px;
   margin-top: calc(0px - var(--container-padding));
   margin-bottom: 2rem;
-  margin-left: calc(50% - 50vw - var(--container-padding));
-  margin-right: calc(50% - 50vw - var(--container-padding));
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
 }
 
 /* Background image layer for parallax effect */
@@ -511,7 +508,7 @@ svg {
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   background-repeat: no-repeat;
   will-change: transform;
   z-index: 0;
@@ -942,7 +939,7 @@ body.mobile-menu-open {
   }
 
   .hero-image-container {
-    height: 40vh;
+    height: 50vh;
     min-height: 250px;
   }
 
