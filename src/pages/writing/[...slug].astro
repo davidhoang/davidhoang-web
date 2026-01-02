@@ -4,7 +4,11 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
-  return posts.map((post) => {
+  // Filter out drafts in production, but show them in development
+  const filteredPosts = import.meta.env.PROD 
+    ? posts.filter((post) => !post.data.draft)
+    : posts;
+  return filteredPosts.map((post) => {
     return {
       params: { slug: post.slug },
       props: { post }
