@@ -17,6 +17,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
+import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFIERS } from './lib/inspiration.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -266,7 +267,7 @@ EXAMPLE DRAMATIC THEMES:
 
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 
-async function generateTheme() {
+async function generateTheme(options = {}) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
@@ -276,7 +277,21 @@ async function generateTheme() {
 
   const client = new Anthropic({ apiKey });
 
-  console.log('Generating daily theme with Claude...\n');
+  // Generate inspiration from design feeds + time-of-day
+  const { inspirationName, userPrompt } = options;
+  const inspiration = generateInspirationPrompt({
+    inspirationName,
+    userPrompt,
+    hour: new Date().getHours(),
+    includeTimeModifier: true
+  });
+
+  console.log('Generating daily theme with Claude...');
+  console.log(`Inspiration: ${inspiration.inspirationName}`);
+  console.log(`Time period: ${inspiration.timePeriod}\n`);
+
+  // Combine inspiration with base theme prompt
+  const fullPrompt = `${inspiration.fullPrompt}\n\n${THEME_PROMPT}`;
 
   const message = await client.messages.create({
     model: 'claude-sonnet-4-20250514',
@@ -284,7 +299,7 @@ async function generateTheme() {
     messages: [
       {
         role: 'user',
-        content: THEME_PROMPT
+        content: fullPrompt
       }
     ]
   });
@@ -435,10 +450,39 @@ function updateBuildLog(theme, status = 'success') {
   console.log(`Updated ${logPath}`);
 }
 
+// Parse CLI arguments
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const options = {};
+
+  // Check for --list flag to show available inspirations
+  if (args.includes('--list')) {
+    console.log('Available inspirations:\n');
+    listInspirations().forEach(name => console.log(`  - ${name}`));
+    console.log('\nUsage: node generate-daily-theme.mjs [--inspiration "Name"] [--prompt "custom text"]');
+    process.exit(0);
+  }
+
+  // Parse --inspiration flag
+  const inspIdx = args.indexOf('--inspiration');
+  if (inspIdx !== -1 && args[inspIdx + 1]) {
+    options.inspirationName = args[inspIdx + 1];
+  }
+
+  // Parse --prompt flag for additional user direction
+  const promptIdx = args.indexOf('--prompt');
+  if (promptIdx !== -1 && args[promptIdx + 1]) {
+    options.userPrompt = args[promptIdx + 1];
+  }
+
+  return options;
+}
+
 // Main
 async function main() {
   try {
-    const theme = await generateTheme();
+    const options = parseArgs();
+    const theme = await generateTheme(options);
 
     console.log(`Generated theme: "${theme.name}"`);
     console.log(`Description: ${theme.description}`);
