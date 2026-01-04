@@ -1,0 +1,710 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Design Guide | David Hoang">
+  <div class="design-guide">
+    <header class="guide-header">
+      <h1 class="text-heading">Design System Guide</h1>
+      <p class="text-body text-muted">Visual reference for theme-responsive primitives. Toggle the daily theme to see how components adapt.</p>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="guide-toc card card-filled">
+      <h2 class="text-heading text-lg">Contents</h2>
+      <div class="toc-grid">
+        <a href="#colors" class="link">Colors</a>
+        <a href="#typography" class="link">Typography</a>
+        <a href="#buttons" class="link">Buttons</a>
+        <a href="#cards" class="link">Cards</a>
+        <a href="#surfaces" class="link">Surfaces</a>
+        <a href="#images" class="link">Images</a>
+        <a href="#badges" class="link">Badges</a>
+        <a href="#links" class="link">Links</a>
+        <a href="#inputs" class="link">Inputs</a>
+        <a href="#dividers" class="link">Dividers</a>
+        <a href="#spacing" class="link">Spacing</a>
+        <a href="#layout" class="link">Layout</a>
+      </div>
+    </nav>
+
+    <!-- Colors -->
+    <section id="colors" class="guide-section">
+      <h2 class="text-heading">Colors</h2>
+      <p class="text-body mb-lg">Core color tokens that adapt to light/dark mode and daily themes.</p>
+
+      <div class="color-grid">
+        <div class="color-swatch" style="background: var(--color-bg); border: 1px solid var(--color-border);">
+          <span class="color-label">--color-bg</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-text);">
+          <span class="color-label" style="color: var(--color-bg);">--color-text</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-link);">
+          <span class="color-label" style="color: var(--color-bg);">--color-link</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-link-hover);">
+          <span class="color-label" style="color: var(--color-bg);">--color-link-hover</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-border);">
+          <span class="color-label">--color-border</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-muted);">
+          <span class="color-label" style="color: var(--color-bg);">--color-muted</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-sidebar-bg); border: 1px solid var(--color-border);">
+          <span class="color-label">--color-sidebar-bg</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-nav-bg); border: 1px solid var(--color-border);">
+          <span class="color-label">--color-nav-bg</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section id="typography" class="guide-section">
+      <h2 class="text-heading">Typography</h2>
+      <p class="text-body mb-lg">Text styles that respond to theme font pairings and weights.</p>
+
+      <div class="type-samples">
+        <div class="type-sample">
+          <span class="text-caption">.text-heading</span>
+          <h3 class="text-heading text-3xl">The quick brown fox</h3>
+        </div>
+
+        <div class="type-sample">
+          <span class="text-caption">.text-body</span>
+          <p class="text-body">The quick brown fox jumps over the lazy dog. This paragraph demonstrates the body text style with proper line height and letter spacing.</p>
+        </div>
+
+        <div class="type-sample">
+          <span class="text-caption">.text-caption</span>
+          <p class="text-caption">Caption text for metadata and secondary information</p>
+        </div>
+
+        <div class="type-sample">
+          <span class="text-caption">.text-mono</span>
+          <p><code class="text-mono">const theme = 'dynamic';</code></p>
+        </div>
+
+        <div class="type-sample">
+          <span class="text-caption">.text-muted</span>
+          <p class="text-muted">Muted text for less prominent content</p>
+        </div>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">Size Scale</h3>
+      <div class="size-samples">
+        <p class="text-xs">.text-xs - Extra small text</p>
+        <p class="text-sm">.text-sm - Small text</p>
+        <p class="text-base">.text-base - Base text</p>
+        <p class="text-lg">.text-lg - Large text</p>
+        <p class="text-xl">.text-xl - Extra large text</p>
+        <p class="text-2xl">.text-2xl - 2X large text</p>
+        <p class="text-3xl">.text-3xl - 3X large text</p>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section id="buttons" class="guide-section">
+      <h2 class="text-heading">Buttons</h2>
+      <p class="text-body mb-lg">Button variants that adapt to theme colors and border radius.</p>
+
+      <div class="button-grid">
+        <div class="button-sample">
+          <span class="text-caption">.btn-primary</span>
+          <button class="btn btn-primary">Primary Button</button>
+        </div>
+
+        <div class="button-sample">
+          <span class="text-caption">.btn-secondary</span>
+          <button class="btn btn-secondary">Secondary Button</button>
+        </div>
+
+        <div class="button-sample">
+          <span class="text-caption">.btn-ghost</span>
+          <button class="btn btn-ghost">Ghost Button</button>
+        </div>
+
+        <div class="button-sample">
+          <span class="text-caption">.btn-link</span>
+          <button class="btn btn-link">Link Button</button>
+        </div>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">Sizes</h3>
+      <div class="flex gap-md items-center flex-wrap">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">States</h3>
+      <div class="flex gap-md items-center flex-wrap">
+        <button class="btn btn-primary">Normal</button>
+        <button class="btn btn-primary" disabled>Disabled</button>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section id="cards" class="guide-section">
+      <h2 class="text-heading">Cards</h2>
+      <p class="text-body mb-lg">Card variants respond to <code class="text-mono">[data-card-style]</code> theme attribute.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <span class="badge badge-muted mb-sm">.card</span>
+          <h3 class="text-heading text-lg">Default Card</h3>
+          <p class="text-body text-sm">Standard card with border and background.</p>
+        </div>
+
+        <div class="card card-elevated">
+          <span class="badge badge-muted mb-sm">.card-elevated</span>
+          <h3 class="text-heading text-lg">Elevated Card</h3>
+          <p class="text-body text-sm">Card with shadow, no border.</p>
+        </div>
+
+        <div class="card card-outlined">
+          <span class="badge badge-muted mb-sm">.card-outlined</span>
+          <h3 class="text-heading text-lg">Outlined Card</h3>
+          <p class="text-body text-sm">Strong border, transparent background.</p>
+        </div>
+
+        <div class="card card-glass">
+          <span class="badge badge-muted mb-sm">.card-glass</span>
+          <h3 class="text-heading text-lg">Glass Card</h3>
+          <p class="text-body text-sm">Glassmorphism with blur effect.</p>
+        </div>
+
+        <div class="card card-filled">
+          <span class="badge badge-muted mb-sm">.card-filled</span>
+          <h3 class="text-heading text-lg">Filled Card</h3>
+          <p class="text-body text-sm">Solid background, no border.</p>
+        </div>
+
+        <div class="card card-interactive">
+          <span class="badge badge-muted mb-sm">.card-interactive</span>
+          <h3 class="text-heading text-lg">Interactive Card</h3>
+          <p class="text-body text-sm">Hover to see lift effect.</p>
+        </div>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">Card with Header/Footer</h3>
+      <div class="card" style="max-width: 400px;">
+        <div class="card-header">
+          <h3 class="text-heading text-lg" style="margin: 0;">Card Header</h3>
+        </div>
+        <p class="text-body">This is the card body content with proper spacing.</p>
+        <div class="card-footer">
+          <span class="text-caption">Card Footer</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Surfaces -->
+    <section id="surfaces" class="guide-section">
+      <h2 class="text-heading">Surfaces</h2>
+      <p class="text-body mb-lg">Background surfaces with different elevation levels.</p>
+
+      <div class="surface-grid">
+        <div class="surface surface-demo">
+          <span class="text-caption">.surface</span>
+          <p class="text-sm">Default surface</p>
+        </div>
+
+        <div class="surface-raised surface-demo">
+          <span class="text-caption">.surface-raised</span>
+          <p class="text-sm">Elevated surface</p>
+        </div>
+
+        <div class="surface-sunken surface-demo">
+          <span class="text-caption">.surface-sunken</span>
+          <p class="text-sm">Recessed surface</p>
+        </div>
+
+        <div class="surface-glass surface-demo">
+          <span class="text-caption">.surface-glass</span>
+          <p class="text-sm">Glass blur surface</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Images -->
+    <section id="images" class="guide-section">
+      <h2 class="text-heading">Images</h2>
+      <p class="text-body mb-lg">Image styles respond to <code class="text-mono">[data-image-style]</code> and <code class="text-mono">[data-image-hover]</code> attributes.</p>
+
+      <div class="image-grid">
+        <div class="image-sample">
+          <span class="text-caption">.img-themed</span>
+          <img class="img-themed" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop" alt="Sample themed image" />
+        </div>
+
+        <div class="image-sample">
+          <span class="text-caption">.img-thumbnail</span>
+          <img class="img-thumbnail" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop" alt="Sample thumbnail" />
+        </div>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">Avatars</h3>
+      <div class="flex gap-md items-center">
+        <div class="flex flex-col items-center gap-xs">
+          <img class="img-avatar img-avatar-sm" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Small avatar" />
+          <span class="text-caption">.img-avatar-sm</span>
+        </div>
+        <div class="flex flex-col items-center gap-xs">
+          <img class="img-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Default avatar" />
+          <span class="text-caption">.img-avatar</span>
+        </div>
+        <div class="flex flex-col items-center gap-xs">
+          <img class="img-avatar img-avatar-lg" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Large avatar" />
+          <span class="text-caption">.img-avatar-lg</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section id="badges" class="guide-section">
+      <h2 class="text-heading">Badges</h2>
+      <p class="text-body mb-lg">Small labels for status, categories, or counts.</p>
+
+      <div class="flex gap-md items-center flex-wrap">
+        <div class="flex flex-col items-center gap-xs">
+          <span class="badge">Default</span>
+          <span class="text-caption">.badge</span>
+        </div>
+        <div class="flex flex-col items-center gap-xs">
+          <span class="badge badge-primary">Primary</span>
+          <span class="text-caption">.badge-primary</span>
+        </div>
+        <div class="flex flex-col items-center gap-xs">
+          <span class="badge badge-muted">Muted</span>
+          <span class="text-caption">.badge-muted</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Links -->
+    <section id="links" class="guide-section">
+      <h2 class="text-heading">Links</h2>
+      <p class="text-body mb-lg">Link styles respond to <code class="text-mono">[data-link-style]</code> theme attribute.</p>
+
+      <div class="link-samples">
+        <div class="link-sample">
+          <span class="text-caption">.link</span>
+          <a class="link" href="#">Standard link style</a>
+        </div>
+        <div class="link-sample">
+          <span class="text-caption">.link-muted</span>
+          <a class="link-muted" href="#">Muted link style</a>
+        </div>
+        <div class="link-sample">
+          <span class="text-caption">.link-nav</span>
+          <a class="link-nav" href="#">Navigation link</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section id="inputs" class="guide-section">
+      <h2 class="text-heading">Inputs</h2>
+      <p class="text-body mb-lg">Form elements that adapt to theme colors.</p>
+
+      <div class="input-samples">
+        <div class="input-sample">
+          <label class="text-caption">.input</label>
+          <input class="input" type="text" placeholder="Default input..." />
+        </div>
+
+        <div class="input-sample">
+          <label class="text-caption">.input-lg</label>
+          <input class="input input-lg" type="text" placeholder="Large input..." />
+        </div>
+
+        <div class="input-sample">
+          <label class="text-caption">.textarea</label>
+          <textarea class="input textarea" placeholder="Textarea input..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dividers -->
+    <section id="dividers" class="guide-section">
+      <h2 class="text-heading">Dividers</h2>
+      <p class="text-body mb-lg">Horizontal rules for separating content.</p>
+
+      <div class="divider-samples">
+        <span class="text-caption">.divider</span>
+        <hr class="divider" />
+
+        <span class="text-caption">.divider-subtle</span>
+        <hr class="divider divider-subtle" />
+
+        <span class="text-caption">.divider-thick</span>
+        <hr class="divider divider-thick" />
+      </div>
+    </section>
+
+    <!-- Spacing -->
+    <section id="spacing" class="guide-section">
+      <h2 class="text-heading">Spacing</h2>
+      <p class="text-body mb-lg">Spacing utilities using the spacing scale.</p>
+
+      <div class="spacing-demo">
+        <div class="spacing-item" style="width: var(--spacing-xs); height: var(--spacing-xs);"></div>
+        <span class="text-caption">xs (4px)</span>
+
+        <div class="spacing-item" style="width: var(--spacing-sm); height: var(--spacing-sm);"></div>
+        <span class="text-caption">sm (8px)</span>
+
+        <div class="spacing-item" style="width: var(--spacing-md); height: var(--spacing-md);"></div>
+        <span class="text-caption">md (16px)</span>
+
+        <div class="spacing-item" style="width: var(--spacing-lg); height: var(--spacing-lg);"></div>
+        <span class="text-caption">lg (24px)</span>
+
+        <div class="spacing-item" style="width: var(--spacing-xl); height: var(--spacing-xl);"></div>
+        <span class="text-caption">xl (32px)</span>
+
+        <div class="spacing-item" style="width: var(--spacing-2xl); height: var(--spacing-2xl);"></div>
+        <span class="text-caption">2xl (48px)</span>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">Border Radius</h3>
+      <div class="radius-demo">
+        <div class="radius-item" style="border-radius: var(--radius-sm);">sm</div>
+        <div class="radius-item" style="border-radius: var(--radius-md);">md</div>
+        <div class="radius-item" style="border-radius: var(--radius-lg);">lg</div>
+        <div class="radius-item" style="border-radius: var(--radius-xl);">xl</div>
+        <div class="radius-item" style="border-radius: var(--radius-full);">full</div>
+      </div>
+    </section>
+
+    <!-- Layout -->
+    <section id="layout" class="guide-section">
+      <h2 class="text-heading">Layout</h2>
+      <p class="text-body mb-lg">Grid and flexbox utilities.</p>
+
+      <h3 class="text-heading text-lg mb-md">Grid</h3>
+      <div class="grid grid-cols-3 gap-md mb-xl">
+        <div class="card card-filled"><span class="text-caption">Col 1</span></div>
+        <div class="card card-filled"><span class="text-caption">Col 2</span></div>
+        <div class="card card-filled"><span class="text-caption">Col 3</span></div>
+      </div>
+
+      <h3 class="text-heading text-lg mb-md">Flexbox</h3>
+      <div class="flex gap-md mb-md">
+        <div class="card card-filled flex-1"><span class="text-caption">Flex 1</span></div>
+        <div class="card card-filled flex-1"><span class="text-caption">Flex 1</span></div>
+        <div class="card card-filled flex-1"><span class="text-caption">Flex 1</span></div>
+      </div>
+
+      <div class="flex justify-between gap-md">
+        <div class="card card-filled"><span class="text-caption">Start</span></div>
+        <div class="card card-filled"><span class="text-caption">End</span></div>
+      </div>
+    </section>
+
+    <!-- Theme Info -->
+    <section id="theme-info" class="guide-section">
+      <h2 class="text-heading">Current Theme</h2>
+      <p class="text-body mb-lg">Information about the currently active theme.</p>
+
+      <div class="card card-outlined" id="theme-details">
+        <div class="grid grid-cols-2 gap-md">
+          <div>
+            <span class="text-caption">Theme Active</span>
+            <p class="text-body" id="theme-active">Checking...</p>
+          </div>
+          <div>
+            <span class="text-caption">Nav Style</span>
+            <p class="text-body" id="theme-nav">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Card Style</span>
+            <p class="text-body" id="theme-card">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Link Style</span>
+            <p class="text-body" id="theme-link">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Hero Layout</span>
+            <p class="text-body" id="theme-hero">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Image Style</span>
+            <p class="text-body" id="theme-image">—</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>
+
+<style>
+  .design-guide {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--container-padding);
+  }
+
+  .guide-header {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .guide-header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .guide-toc {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .guide-toc h2 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .toc-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm) var(--spacing-lg);
+  }
+
+  .guide-section {
+    margin-bottom: var(--spacing-3xl);
+    padding-bottom: var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .guide-section:last-child {
+    border-bottom: none;
+  }
+
+  .guide-section > h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Color swatches */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .color-swatch {
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: flex-end;
+    padding: var(--spacing-sm);
+  }
+
+  .color-label {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    background: var(--color-bg);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Type samples */
+  .type-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .type-sample {
+    padding: var(--spacing-md);
+    background: var(--color-sidebar-bg);
+    border-radius: var(--radius-md);
+  }
+
+  .type-sample .text-caption {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .size-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  /* Button grid */
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .button-sample {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  /* Card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  /* Surface grid */
+  .surface-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .surface-demo {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    min-height: 100px;
+  }
+
+  /* Image grid */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .image-sample {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .image-sample img {
+    width: 100%;
+  }
+
+  /* Link samples */
+  .link-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .link-sample {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .link-sample .text-caption {
+    min-width: 100px;
+  }
+
+  /* Input samples */
+  .input-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    max-width: 400px;
+  }
+
+  .input-sample {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  /* Divider samples */
+  .divider-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .divider-samples .divider {
+    margin: var(--spacing-sm) 0;
+  }
+
+  /* Spacing demo */
+  .spacing-demo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .spacing-item {
+    background: var(--color-link);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Radius demo */
+  .radius-demo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .radius-item {
+    width: 80px;
+    height: 80px;
+    background: var(--color-sidebar-bg);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  /* Utility for flex-1 */
+  .flex-1 {
+    flex: 1;
+  }
+
+  @media (max-width: 768px) {
+    .color-grid,
+    .card-grid,
+    .surface-grid,
+    .image-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .link-sample {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-xs);
+    }
+  }
+</style>
+
+<script>
+  function updateThemeInfo() {
+    const root = document.documentElement;
+
+    const themeActive = root.hasAttribute('data-daily-theme');
+    const navStyle = root.getAttribute('data-nav-style') || 'default';
+    const cardStyle = root.getAttribute('data-card-style') || 'default';
+    const linkStyle = root.getAttribute('data-link-style') || 'default';
+    const heroLayout = root.getAttribute('data-hero-layout') || 'default';
+    const imageStyle = root.getAttribute('data-image-style') || 'default';
+
+    document.getElementById('theme-active').textContent = themeActive ? 'Yes (' + root.getAttribute('data-daily-theme') + ')' : 'No (using default)';
+    document.getElementById('theme-nav').textContent = navStyle;
+    document.getElementById('theme-card').textContent = cardStyle;
+    document.getElementById('theme-link').textContent = linkStyle;
+    document.getElementById('theme-hero').textContent = heroLayout;
+    document.getElementById('theme-image').textContent = imageStyle;
+  }
+
+  // Update on load
+  updateThemeInfo();
+
+  // Update when theme changes
+  const observer = new MutationObserver(updateThemeInfo);
+  observer.observe(document.documentElement, { attributes: true });
+
+  // Update on Astro navigation
+  document.addEventListener('astro:page-load', updateThemeInfo);
+</script>
