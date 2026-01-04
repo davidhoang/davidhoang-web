@@ -80,19 +80,23 @@
     }
   }
 
-  /* Footer links should not use the global "fancy underline" treatment */
-  a {
+  /* Footer links - override global styles */
+  footer a,
+  footer a:visited,
+  footer a:link {
     border-bottom: none;
     text-decoration: none;
     color: var(--color-link);
     transition: color 0.3s ease;
   }
 
-  a::after {
+  footer a::after {
     display: none;
+    content: none;
   }
 
-  a:hover {
+  footer a:hover,
+  footer a:visited:hover {
     color: var(--color-link-hover);
     text-decoration: underline;
     text-decoration-thickness: 1px;

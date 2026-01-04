@@ -33,7 +33,30 @@
   /* Typography */
   --font-primary: 'EB Garamond', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, serif;
+  --font-heading: var(--font-primary);
+  --font-body: var(--font-primary);
   --font-mono: 'Courier New', Courier, monospace;
+
+  /* Typography weights and transforms */
+  --heading-weight: 600;
+  --heading-letter-spacing: 0;
+  --heading-transform: none;
+  --body-weight: 400;
+  --body-line-height: 1.6;
+  --letter-spacing: 0;
+
+  /* Navigation */
+  --nav-padding: 0.5rem 1rem;
+
+  /* Cards */
+  --color-card-bg: var(--color-sidebar-bg);
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --card-border-width: 1px;
+  --card-padding: 1.5rem;
+
+  /* Section spacing (for daily themes) */
+  --section-spacing: 4rem;
+  --content-padding: 2rem;
 
   /* Spacing scale */
   --spacing-xs: 0.25rem;   /* 4px */
@@ -90,7 +113,7 @@
    ============================================ */
 
 * {
-  font-family: var(--font-primary);
+  font-family: var(--font-body);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -141,9 +164,10 @@ h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  font-weight: var(--heading-weight, 600);
-  letter-spacing: var(--heading-letter-spacing, 0);
-  font-family: var(--font-primary);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-letter-spacing);
+  font-family: var(--font-heading);
+  text-transform: var(--heading-transform);
 }
 
 h1 {
@@ -189,6 +213,7 @@ li {
   margin-bottom: 8px;
   line-height: 1.5;
   font-size: 1.2rem;
+  color: var(--color-text);
 }
 
 strong {
@@ -252,6 +277,29 @@ a::after {
 a:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+/* Footer links - simpler styling without fancy underline */
+footer a,
+footer a:link,
+footer a:visited {
+  color: var(--color-link);
+  border-bottom: none;
+  text-decoration: none;
+  transition: color 0.4s var(--ease-inertia);
+}
+
+footer a:hover,
+footer a:visited:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+footer a::after {
+  display: none;
+  content: none;
 }
 
 /* ============================================
@@ -842,6 +890,97 @@ body.mobile-menu-open {
 
 .node-card-link::after {
   display: none; /* Disable global link underline */
+}
+
+/* ============================================
+   Daily Theme: Navigation Style Variations
+   ============================================ */
+
+/* Full-width navigation */
+[data-nav-style="full-width"] nav {
+  width: 100vw;
+  max-width: 100vw;
+  left: 0;
+  right: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: var(--nav-padding);
+}
+
+/* Minimal navigation */
+[data-nav-style="minimal"] nav {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* Bold bar navigation */
+[data-nav-style="bold-bar"] nav {
+  background: var(--color-nav-bg);
+  min-height: var(--nav-height, 60px);
+  padding: var(--nav-padding);
+  border-width: 0 0 3px 0;
+  border-radius: 0;
+}
+
+/* ============================================
+   Daily Theme: Card Style Variations
+   ============================================ */
+
+/* Flat cards - no shadow, border only */
+[data-card-style="flat"] .card,
+[data-card-style="flat"] .node-card,
+[data-card-style="flat"] .portfolio-card,
+[data-card-style="flat"] .project-card {
+  box-shadow: none;
+  border: var(--card-border-width, 1px) solid var(--color-border);
+}
+
+/* Outlined cards - strong border, no shadow */
+[data-card-style="outlined"] .card,
+[data-card-style="outlined"] .node-card,
+[data-card-style="outlined"] .portfolio-card,
+[data-card-style="outlined"] .project-card {
+  box-shadow: none;
+  border: var(--card-border-width, 2px) solid var(--color-text);
+}
+
+/* Glass cards - blur + transparency */
+[data-card-style="glass"] .card,
+[data-card-style="glass"] .node-card,
+[data-card-style="glass"] .portfolio-card,
+[data-card-style="glass"] .project-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"][data-card-style="glass"] .card,
+[data-theme="dark"][data-card-style="glass"] .node-card,
+[data-theme="dark"][data-card-style="glass"] .portfolio-card,
+[data-theme="dark"][data-card-style="glass"] .project-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Elevated cards - shadows */
+[data-card-style="elevated"] .card,
+[data-card-style="elevated"] .node-card,
+[data-card-style="elevated"] .portfolio-card,
+[data-card-style="elevated"] .project-card {
+  box-shadow: var(--card-shadow, 0 4px 16px rgba(0,0,0,0.1));
+  border: none;
+}
+
+/* Filled cards - solid background */
+[data-card-style="filled"] .card,
+[data-card-style="filled"] .node-card,
+[data-card-style="filled"] .portfolio-card,
+[data-card-style="filled"] .project-card {
+  background: var(--color-card-bg, var(--color-sidebar-bg));
+  border: none;
+  box-shadow: none;
 }
 
 /* ============================================
