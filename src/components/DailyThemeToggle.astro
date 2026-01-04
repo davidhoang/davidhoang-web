@@ -440,27 +440,37 @@ const hasThemes = themes.length > 0;
       root.style.setProperty(key, value);
     });
 
-    // Apply font
-    if (themeData.font) {
-      root.style.setProperty('--font-primary', themeData.font.stack);
+    // Apply font pairings (new structure) or single font (legacy)
+    if (themeData.fonts) {
+      // New font pairing structure
+      const headingFont = themeData.fonts.heading;
+      const bodyFont = themeData.fonts.body;
 
-      // Load font if not already loaded
-      const fontLink = document.getElementById('daily-theme-font');
-      if (!fontLink) {
-        const link = document.createElement('link');
-        link.id = 'daily-theme-font';
-        link.rel = 'stylesheet';
-        link.href = themeData.font.url;
-        document.head.appendChild(link);
-      } else {
-        fontLink.href = themeData.font.url;
+      if (headingFont) {
+        root.style.setProperty('--font-heading', headingFont.stack);
       }
+      if (bodyFont) {
+        root.style.setProperty('--font-body', bodyFont.stack);
+        root.style.setProperty('--font-primary', bodyFont.stack); // Backward compat
+      }
+
+      // Load both fonts
+      loadFonts([headingFont, bodyFont].filter(Boolean));
+    } else if (themeData.font) {
+      // Legacy single font
+      root.style.setProperty('--font-primary', themeData.font.stack);
+      root.style.setProperty('--font-heading', themeData.font.stack);
+      root.style.setProperty('--font-body', themeData.font.stack);
+      loadFonts([themeData.font]);
     }
 
     // Apply typography variations
     if (themeData.typography) {
       if (themeData.typography.headingWeight) {
         root.style.setProperty('--heading-weight', themeData.typography.headingWeight);
+      }
+      if (themeData.typography.bodyWeight) {
+        root.style.setProperty('--body-weight', themeData.typography.bodyWeight);
       }
       if (themeData.typography.bodyLineHeight) {
         root.style.setProperty('--body-line-height', themeData.typography.bodyLineHeight);
@@ -470,6 +480,36 @@ const hasThemes = themes.length > 0;
       }
       if (themeData.typography.headingLetterSpacing) {
         root.style.setProperty('--heading-letter-spacing', themeData.typography.headingLetterSpacing);
+      }
+      if (themeData.typography.headingTransform) {
+        root.style.setProperty('--heading-transform', themeData.typography.headingTransform);
+      }
+    }
+
+    // Apply navigation styles
+    if (themeData.navigation) {
+      root.setAttribute('data-nav-style', themeData.navigation.style || 'floating');
+      if (themeData.navigation.height) {
+        root.style.setProperty('--nav-height', themeData.navigation.height);
+      }
+      if (themeData.navigation.padding) {
+        root.style.setProperty('--nav-padding', themeData.navigation.padding);
+      }
+    }
+
+    // Apply card styles
+    if (themeData.cards) {
+      root.setAttribute('data-card-style', themeData.cards.style || 'elevated');
+      if (themeData.cards.shadow && themeData.cards.shadow !== 'none') {
+        root.style.setProperty('--card-shadow', themeData.cards.shadow);
+      } else {
+        root.style.setProperty('--card-shadow', 'none');
+      }
+      if (themeData.cards.borderWidth) {
+        root.style.setProperty('--card-border-width', themeData.cards.borderWidth);
+      }
+      if (themeData.cards.padding) {
+        root.style.setProperty('--card-padding', themeData.cards.padding);
       }
     }
 
@@ -496,6 +536,21 @@ const hasThemes = themes.length > 0;
     root.setAttribute('data-daily-theme', date);
   }
 
+  function loadFonts(fonts) {
+    // Remove old font links
+    document.querySelectorAll('link[id^="daily-theme-font"]').forEach(el => el.remove());
+
+    // Add new font links
+    fonts.forEach((font, index) => {
+      if (!font || !font.url) return;
+      const link = document.createElement('link');
+      link.id = `daily-theme-font-${index}`;
+      link.rel = 'stylesheet';
+      link.href = font.url;
+      document.head.appendChild(link);
+    });
+  }
+
   function removeDailyTheme() {
     const root = document.documentElement;
 
@@ -504,11 +559,16 @@ const hasThemes = themes.length > 0;
       // Colors
       '--color-text', '--color-bg', '--color-link', '--color-link-hover',
       '--color-border', '--color-muted', '--color-sidebar-bg',
-      '--color-nav-bg', '--color-nav-text',
-      // Font
-      '--font-primary',
+      '--color-nav-bg', '--color-nav-text', '--color-card-bg',
+      // Fonts
+      '--font-primary', '--font-heading', '--font-body',
       // Typography
-      '--heading-weight', '--body-line-height', '--letter-spacing', '--heading-letter-spacing',
+      '--heading-weight', '--body-weight', '--body-line-height',
+      '--letter-spacing', '--heading-letter-spacing', '--heading-transform',
+      // Navigation
+      '--nav-height', '--nav-padding',
+      // Cards
+      '--card-shadow', '--card-border-width', '--card-padding',
       // Layout
       '--radius-sm', '--radius-md', '--radius-lg', '--radius-xl',
       '--container-max-width', '--section-spacing', '--content-padding'
@@ -518,14 +578,13 @@ const hasThemes = themes.length > 0;
       root.style.removeProperty(prop);
     });
 
-    // Remove font link
-    const fontLink = document.getElementById('daily-theme-font');
-    if (fontLink) {
-      fontLink.remove();
-    }
+    // Remove font links
+    document.querySelectorAll('link[id^="daily-theme-font"]').forEach(el => el.remove());
 
-    // Remove marker
+    // Remove data attributes
     root.removeAttribute('data-daily-theme');
+    root.removeAttribute('data-nav-style');
+    root.removeAttribute('data-card-style');
   }
 
   // Listen for theme toggle changes to update daily theme colors
