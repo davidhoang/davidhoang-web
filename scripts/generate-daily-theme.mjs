@@ -150,6 +150,36 @@ Mix up these dramatically:
 - contentPadding: "0.5rem" (edge-to-edge) vs "3rem" (cushioned)
 - containerMaxWidth: "640px" (narrow/focused) to "1200px" (wide/expansive)
 
+## HERO LAYOUT - SET THE TONE!
+The hero section is the first thing visitors see - make it count:
+- "centered": Classic centered text, balanced and formal
+- "left-aligned": Editorial style, text aligned left with asymmetry
+- "minimal": Just the essentials, lots of whitespace
+- "bold": Large dramatic text, high impact
+
+## LINK STYLES - PERSONALITY IN INTERACTIONS!
+How links look and behave says a lot about the design:
+- "underline": Classic underline, timeless
+- "highlight": Background highlight on hover (like a highlighter)
+- "animated-underline": Underline grows/animates on hover
+- "color-only": No underline, just color change
+- "bracket": Decorative brackets appear on hover
+
+## BACKGROUND TEXTURE - ADD DEPTH!
+Subtle CSS-based textures (no images):
+- "none": Clean, solid color
+- "grain": Subtle film grain noise effect
+- "dots": Polka dot pattern
+- "grid": Faint grid lines
+- "gradient": Subtle gradient overlay
+
+## IMAGE TREATMENTS - PORTFOLIO PERSONALITY!
+How images appear affects the whole feel:
+- imageStyle: "vivid" (full color, punchy) | "muted" (slightly desaturated) | "grayscale" (B&W) | "duotone" (tinted)
+- imageHover: "zoom" (scale up) | "lift" (shadow + translate) | "colorize" (grayscale to color) | "glow" (subtle glow) | "none"
+- imageOpacity: "1" (full) | "0.9" | "0.85" (slightly faded for texture)
+- imageBorderRadius: "0px" to "24px" (match or contrast with layout radius)
+
 Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
 {
   "name": "Theme Name (2-3 words, evocative)",
@@ -208,16 +238,31 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "containerMaxWidth": "640px-1200px",
     "sectionSpacing": "2rem-8rem",
     "contentPadding": "0.5rem-3rem"
+  },
+  "hero": {
+    "layout": "centered|left-aligned|minimal|bold"
+  },
+  "links": {
+    "style": "underline|highlight|animated-underline|color-only|bracket"
+  },
+  "background": {
+    "texture": "none|grain|dots|grid|gradient"
+  },
+  "images": {
+    "style": "vivid|muted|grayscale|duotone",
+    "hover": "zoom|lift|colorize|glow|none",
+    "opacity": "0.85-1",
+    "borderRadius": "0px-24px"
   }
 }
 
 EXAMPLE DRAMATIC THEMES:
-1. "Brutalist Manifesto" - Gray bg, black text, RED links, 0px radius, Bebas Neue headings (uppercase, 900 weight) + IBM Plex Sans body, full-width nav, flat cards with 3px borders
-2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings (400 weight) + Inter body, floating nav, elevated cards with soft shadows
-3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings (700 weight, tight spacing) + DM Sans body, minimal nav, outlined cards
-4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings (300 weight, airy) + Literata body, floating nav, glass cards
-5. "Swiss Precision" - Clean cream bg, blue links, Outfit headings (600 weight, uppercase) + Work Sans body, bold-bar nav, flat cards
-6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings (400 weight, wide spacing) + Crimson Text body, minimal nav, elevated cards with dramatic shadows
+1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, left-aligned hero, underline links, grid texture, grayscale images with colorize hover
+2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, centered hero, animated-underline links, none texture, vivid images with lift hover
+3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, minimal nav, outlined cards, minimal hero, color-only links, grain texture, muted images with glow hover
+4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, floating nav, glass cards, centered hero, highlight links, gradient texture, muted images with zoom hover
+5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, bold-bar nav, flat cards, bold hero, bracket links, dots texture, vivid images with lift hover
+6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, minimal nav, elevated cards, minimal hero, underline links, grain texture, grayscale images with colorize hover
 
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 
@@ -375,7 +420,12 @@ function updateBuildLog(theme, status = 'success') {
       body: theme.fonts?.body?.name || theme.font?.name
     },
     navStyle: theme.navigation?.style,
-    cardStyle: theme.cards?.style
+    cardStyle: theme.cards?.style,
+    heroLayout: theme.hero?.layout,
+    linkStyle: theme.links?.style,
+    texture: theme.background?.texture,
+    imageStyle: theme.images?.style,
+    imageHover: theme.images?.hover
   });
 
   // Keep 30 days of build history
@@ -397,7 +447,11 @@ async function main() {
     console.log(`Light bg: ${theme.colors.light['--color-bg']}`);
     console.log(`Dark bg: ${theme.colors.dark['--color-bg']}`);
     console.log(`Nav style: ${theme.navigation?.style || 'default'}`);
-    console.log(`Card style: ${theme.cards?.style || 'default'}\n`);
+    console.log(`Card style: ${theme.cards?.style || 'default'}`);
+    console.log(`Hero: ${theme.hero?.layout || 'centered'}`);
+    console.log(`Links: ${theme.links?.style || 'underline'}`);
+    console.log(`Texture: ${theme.background?.texture || 'none'}`);
+    console.log(`Images: ${theme.images?.style || 'vivid'} / hover: ${theme.images?.hover || 'zoom'}\n`);
 
     updateThemeHistory(theme);
     updateBuildLog(theme);

@@ -1,78 +1,93 @@
 {
   "themes": [
     {
-      "name": "Sunday Study",
-      "description": "A contemplative academic atmosphere inspired by quiet library corners and scholarly pursuits.",
+      "name": "Midnight Bazaar",
+      "description": "A mysterious marketplace where electric neon cuts through deep purple shadows.",
       "colors": {
         "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#B02A2F",
-          "--color-border": "#E8D5C4",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#FEF3E2",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FDEDEC"
+          "--color-text": "#2D132C",
+          "--color-bg": "#F4ECF7",
+          "--color-link": "#FF1493",
+          "--color-link-hover": "#FF69B4",
+          "--color-border": "#D4C5E8",
+          "--color-muted": "#8B6F9B",
+          "--color-sidebar-bg": "#EADDF3",
+          "--color-nav-bg": "#E8DAEF",
+          "--color-nav-text": "#2D132C",
+          "--color-card-bg": "#FFFFFF"
         },
         "dark": {
-          "--color-text": "#F4E4D6",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A5B",
-          "--color-border": "#3D2F1F",
-          "--color-muted": "#A18B6B",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F4E4D6",
-          "--color-card-bg": "#2C1810"
+          "--color-text": "#E8DAEF",
+          "--color-bg": "#2D132C",
+          "--color-link": "#00D4AA",
+          "--color-link-hover": "#40E0D0",
+          "--color-border": "#5D4B6B",
+          "--color-muted": "#9B8AAB",
+          "--color-sidebar-bg": "#3A1E39",
+          "--color-nav-bg": "#1B1B3A",
+          "--color-nav-text": "#E8DAEF",
+          "--color-card-bg": "#3D2B3C"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         },
         "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }
       },
       "typography": {
-        "headingWeight": "400",
+        "headingWeight": "700",
         "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
+        "bodyLineHeight": "1.7",
         "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
         "headingTransform": "none"
       },
       "navigation": {
-        "style": "minimal",
-        "height": "60px",
+        "style": "floating",
+        "height": "64px",
         "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 16px rgba(44, 24, 16, 0.08)",
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(255, 20, 147, 0.1)",
         "borderWidth": "1px",
-        "padding": "2.5rem"
+        "padding": "2rem"
       },
       "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "800px",
+        "borderRadius": "16px",
+        "containerMaxWidth": "1000px",
         "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "12px"
       },
       "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "date": "2026-01-04"
     },

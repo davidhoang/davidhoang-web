@@ -984,6 +984,244 @@ body.mobile-menu-open {
 }
 
 /* ============================================
+   Daily Theme: Hero Layout Variations
+   ============================================ */
+
+[data-hero-layout="centered"] .hero-title,
+[data-hero-layout="centered"] .hero-grid {
+  text-align: center;
+  justify-content: center;
+}
+
+[data-hero-layout="left-aligned"] .hero-title,
+[data-hero-layout="left-aligned"] .hero-grid {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+[data-hero-layout="left-aligned"] .hero-title h1 {
+  text-align: left;
+}
+
+[data-hero-layout="minimal"] .hero-title h1 {
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+[data-hero-layout="minimal"] .hero-grid {
+  margin: 1rem 0;
+}
+
+[data-hero-layout="bold"] .hero-title h1 {
+  font-size: clamp(6rem, 12vw, 12rem);
+  line-height: 0.9;
+}
+
+/* ============================================
+   Daily Theme: Link Style Variations
+   ============================================ */
+
+/* Underline (default) */
+[data-link-style="underline"] a:not(.nav-link):not(.footer-link) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Highlight - background highlight on hover */
+[data-link-style="highlight"] a:not(.nav-link):not(.footer-link) {
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+[data-link-style="highlight"] a:not(.nav-link):not(.footer-link):hover {
+  background-color: var(--color-link);
+  color: var(--color-bg);
+  padding: 0.1em 0.2em;
+  margin: -0.1em -0.2em;
+  border-radius: 2px;
+}
+
+/* Animated underline - grows on hover */
+[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link) {
+  text-decoration: none;
+  position: relative;
+}
+
+[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link)::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-link);
+  transition: width 0.3s ease;
+}
+
+[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link):hover::after {
+  width: 100%;
+}
+
+/* Color only - no underline */
+[data-link-style="color-only"] a:not(.nav-link):not(.footer-link) {
+  text-decoration: none;
+}
+
+[data-link-style="color-only"] a:not(.nav-link):not(.footer-link):hover {
+  opacity: 0.8;
+}
+
+/* Bracket - decorative brackets on hover */
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link) {
+  text-decoration: none;
+  position: relative;
+}
+
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::before,
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::after {
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::before {
+  content: '[';
+  transform: translateX(5px);
+}
+
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::after {
+  content: ']';
+  transform: translateX(-5px);
+}
+
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):hover::before,
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   Daily Theme: Background Texture Variations
+   ============================================ */
+
+/* Grain texture - film grain effect */
+[data-bg-texture="grain"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Dots texture - polka dot pattern */
+[data-bg-texture="dots"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Grid texture - faint grid lines */
+[data-bg-texture="grid"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Gradient texture - subtle gradient overlay */
+[data-bg-texture="gradient"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(ellipse at top, var(--color-sidebar-bg) 0%, transparent 70%);
+}
+
+/* ============================================
+   Daily Theme: Image Treatment Variations
+   ============================================ */
+
+/* Base image styles */
+[data-daily-theme] img:not(.avatar):not(.icon) {
+  opacity: var(--image-opacity, 1);
+  border-radius: var(--image-border-radius, var(--radius-md));
+  transition: all 0.4s ease;
+}
+
+/* Vivid - full color, punchy (default) */
+[data-image-style="vivid"] img:not(.avatar):not(.icon) {
+  filter: saturate(1.1) contrast(1.05);
+}
+
+/* Muted - slightly desaturated */
+[data-image-style="muted"] img:not(.avatar):not(.icon) {
+  filter: saturate(0.8) contrast(0.95);
+}
+
+/* Grayscale - black and white */
+[data-image-style="grayscale"] img:not(.avatar):not(.icon) {
+  filter: grayscale(1);
+}
+
+/* Duotone - tinted with link color */
+[data-image-style="duotone"] img:not(.avatar):not(.icon) {
+  filter: grayscale(1) sepia(0.2);
+  mix-blend-mode: multiply;
+}
+
+/* Image hover effects */
+
+/* Zoom - scale up */
+[data-image-hover="zoom"] img:not(.avatar):not(.icon):hover {
+  transform: scale(1.05);
+}
+
+/* Lift - shadow + translate */
+[data-image-hover="lift"] img:not(.avatar):not(.icon):hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Colorize - grayscale to color */
+[data-image-hover="colorize"] img:not(.avatar):not(.icon) {
+  filter: grayscale(1);
+}
+
+[data-image-hover="colorize"] img:not(.avatar):not(.icon):hover {
+  filter: grayscale(0);
+}
+
+/* Glow - subtle glow effect */
+[data-image-hover="glow"] img:not(.avatar):not(.icon):hover {
+  box-shadow: 0 0 30px var(--color-link);
+}
+
+/* ============================================
    Accessibility
    ============================================ */
 

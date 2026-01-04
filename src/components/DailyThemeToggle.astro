@@ -532,6 +532,33 @@ const hasThemes = themes.length > 0;
       }
     }
 
+    // Apply hero layout
+    if (themeData.hero) {
+      root.setAttribute('data-hero-layout', themeData.hero.layout || 'centered');
+    }
+
+    // Apply link styles
+    if (themeData.links) {
+      root.setAttribute('data-link-style', themeData.links.style || 'underline');
+    }
+
+    // Apply background texture
+    if (themeData.background) {
+      root.setAttribute('data-bg-texture', themeData.background.texture || 'none');
+    }
+
+    // Apply image treatments
+    if (themeData.images) {
+      root.setAttribute('data-image-style', themeData.images.style || 'vivid');
+      root.setAttribute('data-image-hover', themeData.images.hover || 'zoom');
+      if (themeData.images.opacity) {
+        root.style.setProperty('--image-opacity', themeData.images.opacity);
+      }
+      if (themeData.images.borderRadius) {
+        root.style.setProperty('--image-border-radius', themeData.images.borderRadius);
+      }
+    }
+
     // Mark as using daily theme
     root.setAttribute('data-daily-theme', date);
   }
@@ -571,7 +598,9 @@ const hasThemes = themes.length > 0;
       '--card-shadow', '--card-border-width', '--card-padding',
       // Layout
       '--radius-sm', '--radius-md', '--radius-lg', '--radius-xl',
-      '--container-max-width', '--section-spacing', '--content-padding'
+      '--container-max-width', '--section-spacing', '--content-padding',
+      // Images
+      '--image-opacity', '--image-border-radius'
     ];
 
     dailyProps.forEach(prop => {
@@ -585,6 +614,11 @@ const hasThemes = themes.length > 0;
     root.removeAttribute('data-daily-theme');
     root.removeAttribute('data-nav-style');
     root.removeAttribute('data-card-style');
+    root.removeAttribute('data-hero-layout');
+    root.removeAttribute('data-link-style');
+    root.removeAttribute('data-bg-texture');
+    root.removeAttribute('data-image-style');
+    root.removeAttribute('data-image-hover');
   }
 
   // Listen for theme toggle changes to update daily theme colors
