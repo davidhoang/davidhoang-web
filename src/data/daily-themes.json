@@ -1,49 +1,78 @@
 {
   "themes": [
     {
-      "name": "Arctic Oracle",
-      "description": "A mystical winter sanctuary with crystalline clarity and ethereal wisdom.",
+      "name": "Sunday Study",
+      "description": "A contemplative academic atmosphere inspired by quiet library corners and scholarly pursuits.",
       "colors": {
         "light": {
-          "--color-text": "#1A2B3D",
-          "--color-bg": "#E8F6F3",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00B894",
-          "--color-border": "#B8E6E1",
-          "--color-muted": "#5A7C8A",
-          "--color-sidebar-bg": "#DCF2EE",
-          "--color-nav-bg": "#D0EDE8",
-          "--color-nav-text": "#2D4A52"
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#B02A2F",
+          "--color-border": "#E8D5C4",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#FDEBD0",
+          "--color-nav-bg": "#FEF3E2",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FDEDEC"
         },
         "dark": {
-          "--color-text": "#E3F2FD",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#00BFFF",
-          "--color-link-hover": "#1E90FF",
-          "--color-border": "#2A4A4F",
-          "--color-muted": "#8BB4C1",
-          "--color-sidebar-bg": "#0F2529",
-          "--color-nav-bg": "#112B2F",
-          "--color-nav-text": "#C7E9F1"
+          "--color-text": "#F4E4D6",
+          "--color-bg": "#1C1410",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8A5B",
+          "--color-border": "#3D2F1F",
+          "--color-muted": "#A18B6B",
+          "--color-sidebar-bg": "#261A11",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F4E4D6",
+          "--color-card-bg": "#2C1810"
         }
       },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
       },
       "typography": {
         "headingWeight": "400",
-        "bodyLineHeight": "1.9",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.01em"
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "60px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(44, 24, 16, 0.08)",
+        "borderWidth": "1px",
+        "padding": "2.5rem"
       },
       "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "720px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2.5rem"
+        "borderRadius": "8px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-04"
     }
