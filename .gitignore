@@ -16,10 +16,36 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
 
 # macOS-specific files
 .DS_Store
+**/.DS_Store
 
 # jetbrains setting folder
 .idea/
-.vercel
+
+# Vercel
+.vercel/
+
+# IDE/Editor configs
+.vscode/
+.cursor/
+.claude/settings.local.json
+
+# Temporary files
+.tmp/
+.wrangler/
+temp_*.png
+**/CleanShot*.png
+
+# Internal documentation (dev notes, not user-facing)
+ACCESSIBILITY_IMPROVEMENTS.md
+BIO_AI_SUMMARY_SETUP.md
+QUICK_START_AI_SUMMARY.md
+SETUP_ANTHROPIC.md
+LABS_README.md
+SUBSTACK_SIGNUP_USAGE.md
+blog-post-a-new-mvc-is-emerging.md
+src/components/*-IMPLEMENTATION.md
+src/components/*_README.md
