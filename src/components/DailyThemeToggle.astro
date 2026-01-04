@@ -336,6 +336,19 @@ const hasThemes = themes.length > 0;
       if (defaultBtn) defaultBtn.classList.add('active');
     }
 
+    // Mark currently selected day
+    if (isDailyMode && selectedDate) {
+      const selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
+      if (selectedBtn) {
+        selectedBtn.classList.add('selected');
+      }
+      if (defaultBtn) defaultBtn.classList.remove('active');
+    }
+
+    // Check if already initialized using data attribute
+    if (toggleBtn.dataset.initialized === 'true') return;
+    toggleBtn.dataset.initialized = 'true';
+
     // Toggle calendar visibility
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -351,11 +364,14 @@ const hasThemes = themes.length > 0;
     }
 
     // Close when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!calendar.contains(e.target) && !toggleBtn.contains(e.target)) {
-        calendar.classList.remove('open');
+    documentClickHandler = (e) => {
+      const cal = document.getElementById('theme-calendar');
+      const btn = document.getElementById('daily-theme-toggle');
+      if (cal && btn && !cal.contains(e.target) && !btn.contains(e.target)) {
+        cal.classList.remove('open');
       }
-    });
+    };
+    document.addEventListener('click', documentClickHandler);
 
     // Default theme button
     if (defaultBtn) {
@@ -364,16 +380,20 @@ const hasThemes = themes.length > 0;
 
         // Remove daily theme
         localStorage.setItem('daily-theme-mode', 'false');
-        toggleBtn.setAttribute('aria-pressed', 'false');
+        const btn = document.getElementById('daily-theme-toggle');
+        if (btn) btn.setAttribute('aria-pressed', 'false');
         removeDailyTheme();
 
         // Update UI
-        defaultBtn.classList.add('active');
-        const dayButtons = calendar.querySelectorAll('.calendar-day');
-        dayButtons.forEach(b => b.classList.remove('selected'));
-
-        // Close calendar
-        setTimeout(() => calendar.classList.remove('open'), 300);
+        const defBtn = document.getElementById('default-theme-btn');
+        if (defBtn) defBtn.classList.add('active');
+        const cal = document.getElementById('theme-calendar');
+        if (cal) {
+          const dayButtons = cal.querySelectorAll('.calendar-day');
+          dayButtons.forEach(b => b.classList.remove('selected'));
+          // Close calendar
+          setTimeout(() => cal.classList.remove('open'), 300);
+        }
       });
     }
 
@@ -385,30 +405,26 @@ const hasThemes = themes.length > 0;
         const date = btn.getAttribute('data-date');
 
         // Update selection state
-        dayButtons.forEach(b => b.classList.remove('selected'));
+        const cal = document.getElementById('theme-calendar');
+        if (cal) {
+          cal.querySelectorAll('.calendar-day').forEach(b => b.classList.remove('selected'));
+        }
         btn.classList.add('selected');
-        if (defaultBtn) defaultBtn.classList.remove('active');
+        const defBtn = document.getElementById('default-theme-btn');
+        if (defBtn) defBtn.classList.remove('active');
 
         // Enable daily mode and apply theme
         localStorage.setItem('daily-theme-mode', 'true');
         localStorage.setItem('daily-theme-date', date);
-        toggleBtn.setAttribute('aria-pressed', 'true');
+        const toggleBtn = document.getElementById('daily-theme-toggle');
+        if (toggleBtn) toggleBtn.setAttribute('aria-pressed', 'true');
 
         applyDailyTheme(date);
 
         // Close calendar after selection
-        setTimeout(() => calendar.classList.remove('open'), 300);
+        if (cal) setTimeout(() => cal.classList.remove('open'), 300);
       });
     });
-
-    // Mark currently selected day
-    if (isDailyMode && selectedDate) {
-      const selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
-      if (selectedBtn) {
-        selectedBtn.classList.add('selected');
-      }
-      if (defaultBtn) defaultBtn.classList.remove('active');
-    }
   }
 
   function applyDailyTheme(date) {
