@@ -2,9 +2,6 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { getCollection } from 'astro:content';
-import imgDhWebLight from '../assets/images/img-dh-web-light.jpg';
-import imgDhWebDark from '../assets/images/img-dh-web-dark.jpg';
-import imgDhWebLightFluted from '../assets/images/img-dh-web-light-fluted-glass.jpg';
 import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.jpg';
 import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.jpg';
@@ -30,13 +27,15 @@ const ogImage = "/images/img-dh-web-light.jpg";
       </ul>
     </div>
     <div class="hero-image">
-      <div class="hero-image-wrapper">
-        <picture>
-          <source srcset={imgDhWebDark.src} media="(prefers-color-scheme: dark)">
-          <img src={imgDhWebLight.src} alt="Professional headshot photo of David Hoang" width="400" height="533" fetchpriority="high" decoding="async" class="hero-image-base" />
-        </picture>
-        <img src={imgDhWebLightFluted.src} alt="" class="hero-image-fluted" width="400" height="533" decoding="async" aria-hidden="true" />
-      </div>
+      <img
+        src="/images/img-dh-web-light.jpg"
+        alt="Professional headshot photo of David Hoang"
+        width="400"
+        height="533"
+        fetchpriority="high"
+        decoding="async"
+        class="img-themed hero-portrait"
+      />
     </div>
   </section>
   <section class="design-philosophy" aria-labelledby="philosophy-heading">
@@ -132,38 +131,11 @@ const ogImage = "/images/img-dh-web-light.jpg";
       margin: 0px 0px 0px 24px;
     }
 
-    .hero-image-wrapper {
-      position: relative;
-      display: inline-block;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .hero-image-base,
-    .hero-image-fluted {
+    .hero-portrait {
       display: block;
       width: 400px;
       height: auto;
-      border-radius: 8px;
-      transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-    }
-
-    .hero-image-fluted {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .hero-image-wrapper:hover .hero-image-base {
-      opacity: 0;
-      transform: scale(1.05);
-    }
-
-    .hero-image-wrapper:hover .hero-image-fluted {
-      opacity: 1;
-      transform: scale(1.05);
+      border-radius: var(--radius-md, 8px);
     }
 
     /* Design Philosophy Section */
@@ -293,9 +265,7 @@ const ogImage = "/images/img-dh-web-light.jpg";
     }
 
     @media (max-width: 480px) {
-      .hero-image img,
-      .hero-image-base,
-      .hero-image-fluted {
+      .hero-portrait {
         width: 100%;
         height: auto;
       }
