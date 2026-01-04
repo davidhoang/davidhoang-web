@@ -321,25 +321,21 @@ const hasThemes = themes.length > 0;
 
     if (!toggleBtn || !calendar) return;
 
-    // Check if daily theme mode is enabled
-    const isDailyMode = localStorage.getItem('daily-theme-mode') === 'true';
+    // Daily theme is ON by default (only off if explicitly set to 'false')
+    const isDailyMode = localStorage.getItem('daily-theme-mode') !== 'false';
     const selectedDate = localStorage.getItem('daily-theme-date') || currentDate;
 
     if (isDailyMode) {
       toggleBtn.setAttribute('aria-pressed', 'true');
       applyDailyTheme(selectedDate);
-    } else {
-      // Mark default as active when not in daily mode
-      if (defaultBtn) defaultBtn.classList.add('active');
-    }
-
-    // Mark currently selected day
-    if (isDailyMode && selectedDate) {
+      // Mark currently selected day
       const selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
       if (selectedBtn) {
         selectedBtn.classList.add('selected');
       }
-      if (defaultBtn) defaultBtn.classList.remove('active');
+    } else {
+      // Mark default as active when not in daily mode
+      if (defaultBtn) defaultBtn.classList.add('active');
     }
 
     // Check if already initialized using data attribute
