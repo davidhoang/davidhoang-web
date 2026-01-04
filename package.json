@@ -10,9 +10,11 @@
     "clean": "rm -rf dist .vercel node_modules",
     "rebuild": "npm run clean && npm install && npm run build",
     "bio:status": "node scripts/test-bio-summary.js status",
-    "bio:generate": "node scripts/test-bio-summary.js generate"
+    "bio:generate": "node scripts/test-bio-summary.js generate",
+    "generate-theme": "node scripts/generate-daily-theme.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
     "@astrojs/cloudflare": "^12.6.9",
     "@astrojs/mdx": "^4.3.6",
     "@astrojs/react": "^4.4.0",
