@@ -132,7 +132,8 @@ const hasThemes = themes.length > 0;
     border-radius: 12px;
     box-shadow: var(--shadow-hover);
     padding: 1.25rem;
-    min-width: 460px;
+    width: max-content;
+    max-width: 90vw;
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
@@ -195,22 +196,22 @@ const hasThemes = themes.length > 0;
   }
 
   .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .calendar-day {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0.5rem 0.5rem;
+    padding: 0.625rem 0.75rem;
     background: var(--color-sidebar-bg);
     border: 1px solid transparent;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-width: 56px;
+    min-width: 72px;
   }
 
   .calendar-day:hover {
@@ -296,8 +297,8 @@ const hasThemes = themes.length > 0;
     }
 
     .theme-calendar {
-      right: -3rem;
-      min-width: 340px;
+      right: -1rem;
+      max-width: 95vw;
     }
   }
 
