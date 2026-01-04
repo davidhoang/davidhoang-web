@@ -111,7 +111,8 @@ body {
 }
 
 body {
-  line-height: 1.6;
+  line-height: var(--body-line-height, 1.6);
+  letter-spacing: var(--letter-spacing, 0);
   color: var(--color-text);
   background-color: var(--color-bg);
   width: 100vw;
@@ -140,8 +141,9 @@ h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  font-weight: 600;
-  font-family: 'EB Garamond', var(--font-primary);
+  font-weight: var(--heading-weight, 600);
+  letter-spacing: var(--heading-letter-spacing, 0);
+  font-family: var(--font-primary);
 }
 
 h1 {
@@ -158,7 +160,6 @@ h2 {
 h3 {
   font-size: 1.4rem;
   margin-top: 16px;
-  font-family: 'EB Garamond', var(--font-primary);
 }
 
 h4 {
