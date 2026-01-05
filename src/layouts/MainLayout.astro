@@ -5,6 +5,7 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
+import SoundToggle from '../components/SoundToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import { ViewTransitions } from 'astro:transitions';
 import imgBgNoise from '../assets/images/img-bg-noise.png';
@@ -135,9 +136,10 @@ const ogImageUrl = ogImage.startsWith('http')
       <slot />
     </main>
     {!hideFooter && <Footer />}
+    <SoundToggle />
     <DailyThemeToggle />
     <ThemeToggle />
-    
+
     <MusicPlayer />
     <script>
       // Persist theme during view transitions
