@@ -1,0 +1,293 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allNotes = await getCollection('notes');
+// Filter out drafts in production, show in dev
+const notes = (import.meta.env.PROD
+  ? allNotes.filter((note) => !note.data.draft)
+  : allNotes
+).sort((a, b) => {
+  // Sort by updatedDate if available, otherwise pubDate
+  const dateA = a.data.updatedDate || a.data.pubDate;
+  const dateB = b.data.updatedDate || b.data.pubDate;
+  return dateB.valueOf() - dateA.valueOf();
+});
+
+// Get unique tags for filtering
+const allTags = [...new Set(notes.flatMap(note => note.data.tags || []))].sort();
+
+// Helper to get relative time
+function getRelativeTime(date: Date): string {
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return 'today';
+  if (diffDays === 1) return 'yesterday';
+  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+  return `${Math.floor(diffDays / 365)} years ago`;
+}
+
+// Stage info
+const stageInfo = {
+  seedling: { emoji: '🌱', label: 'Seedling', description: 'Just planted, rough ideas' },
+  budding: { emoji: '🌿', label: 'Budding', description: 'Growing, needs more work' },
+  evergreen: { emoji: '🌳', label: 'Evergreen', description: 'Mature and stable' },
+};
+
+const pageDescription = "Evergreen notes from my digital garden. Ideas I come back to, tend, and grow over time.";
+---
+
+<MainLayout title="Notes | David Hoang" description={pageDescription}>
+  <div class="notes-header">
+    <h1>Notes</h1>
+    <p class="notes-intro">
+      Welcome to my digital garden. These are evergreen notes—ideas I plant, tend, and revisit over time.
+      Unlike blog posts, they grow and evolve.
+    </p>
+    <div class="stage-legend">
+      {Object.entries(stageInfo).map(([key, info]) => (
+        <span class="stage-item">
+          <span class="stage-emoji">{info.emoji}</span>
+          <span class="stage-label">{info.label}</span>
+        </span>
+      ))}
+    </div>
+  </div>
+
+  {allTags.length > 0 && (
+    <div class="tags-filter">
+      <button class="tag-btn active" data-tag="all">All</button>
+      {allTags.map(tag => (
+        <button class="tag-btn" data-tag={tag}>{tag}</button>
+      ))}
+    </div>
+  )}
+
+  <div class="notes-grid">
+    {notes.length === 0 ? (
+      <p class="empty-state">No notes yet. Check back soon!</p>
+    ) : (
+      notes.map(note => {
+        const stage = stageInfo[note.data.stage || 'seedling'];
+        const displayDate = note.data.updatedDate || note.data.pubDate;
+        const tags = note.data.tags || [];
+
+        return (
+          <a href={`/notes/${note.slug}`} class="note-card" data-tags={tags.join(',')}>
+            <div class="note-header">
+              <span class="note-stage" title={stage.description}>
+                {stage.emoji}
+              </span>
+              <span class="note-date">{getRelativeTime(displayDate)}</span>
+            </div>
+            <h2 class="note-title">{note.data.title}</h2>
+            {note.data.description && (
+              <p class="note-description">{note.data.description}</p>
+            )}
+            {tags.length > 0 && (
+              <div class="note-tags">
+                {tags.map(tag => (
+                  <span class="note-tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </a>
+        );
+      })
+    )}
+  </div>
+</MainLayout>
+
+<style>
+  .notes-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .notes-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .notes-intro {
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+
+  .stage-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stage-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .stage-emoji {
+    font-size: 1rem;
+  }
+
+  .stage-label {
+    font-weight: 500;
+  }
+
+  .tags-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .tag-btn {
+    background: var(--color-sidebar-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm, 4px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+  }
+
+  .tag-btn:hover {
+    border-color: var(--color-link);
+  }
+
+  .tag-btn.active {
+    background: var(--color-link);
+    color: var(--color-bg);
+    border-color: var(--color-link);
+  }
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .note-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    background: var(--color-card-bg, var(--color-sidebar-bg));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-link);
+  }
+
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .note-stage {
+    font-size: 1.25rem;
+    cursor: help;
+  }
+
+  .note-date {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    text-transform: lowercase;
+  }
+
+  .note-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+  }
+
+  .note-description {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .note-tags {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .note-tag {
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm, 4px);
+    color: var(--color-muted);
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--color-muted);
+    padding: 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .notes-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stage-legend {
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  function initTagFilter() {
+    const tagBtns = document.querySelectorAll('.tag-btn');
+    const noteCards = document.querySelectorAll('.note-card');
+
+    tagBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.getAttribute('data-tag');
+
+        // Update active state
+        tagBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter cards
+        noteCards.forEach(card => {
+          const cardTags = card.getAttribute('data-tags') || '';
+          if (tag === 'all' || cardTags.split(',').includes(tag)) {
+            (card as HTMLElement).style.display = '';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  initTagFilter();
+  document.addEventListener('astro:page-load', initTagFilter);
+</script>
