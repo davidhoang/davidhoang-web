@@ -1,0 +1,94 @@
+---
+title: "AI Interface Systems"
+description: "Exploring how AI is reshaping interface design and interaction patterns"
+pubDate: 2025-01-15
+stage: seedling
+tags: ["ai", "interface-design", "systems"]
+---
+
+Early thoughts on how AI is fundamentally changing interface design...
+
+**Terminal / Command Line**
+    - **Traditional OS:** CLI (bash, zsh)
+    - **AI OS:** LLMs (text, voice)
+    - **What’s changing:**
+        - Language becomes the universal command surface
+        - Power shifts from syntax → intent interpretation
+        - Prompting evolves into command composition and reuse
+- **Process Manager**
+    - **Traditional OS:** init, schedulers, background processes
+    - **AI OS:** Agents
+    - **What’s changing:**
+        - Execution becomes continuous, not request/response
+        - Agents decide _when_ to act, not just _how_
+        - Orchestration over time becomes the core capability
+- **Kernel**
+    - **Traditional OS:** Resource coordination, system rules
+    - **AI OS:** Plans (and logs)
+    - **What’s changing:**
+        - Plans are no longer documents; they are coordination primitives
+        - They constrain execution across humans + machines
+        - Planning shifts from prediction to alignment and constraint
+- **Filesystem**
+    - **Traditional OS:** Files, directories, permissions
+    - **AI OS:** Information in files (not apps)
+    - **What’s changing:**
+        - “File over app” becomes foundational (Kepano’s philosophy)
+        - Apps stop being the source of truth; files do
+        - Memory moves from opaque storage → inspectable structure
+- **File Formats**
+    - **Traditional OS:** Fixed formats (.doc, .jpg, .mp3)
+    - **AI OS:** Multimodal, metadata-rich files that can mutate and change based on context while retaining the original form
+    - **What’s changing:**
+        - A “file” becomes a bundle of structured data + intent
+        - Content can transform across text, audio, image, summary, plan
+        - Format is no longer presentation-specific, but capability-specific
+- **RAM / Working Memory**
+    - **Traditional OS:** Volatile memory
+    - **AI OS:** Context windows
+    - **What’s changing:**
+        - Context is abundant but fragile
+        - Systems confuse recall with understanding
+        - Long-term value comes from promoting context → files → plans
+- **Device Drivers**
+    - **Traditional OS:** Hardware drivers
+    - **AI OS:** Tools, APIs, system actions
+    - **What’s changing:**
+        - Models don’t act directly; drivers translate intent into execution
+        - Tool reliability becomes system stability
+        - Permissions and scope become first-order concerns
+- **Window Manager / Views**
+    - **Traditional OS:** Desktop environment   
+    - **AI OS:** Apps as Views
+    - **What’s changing:**
+        - MVC decouples: models ≠ views ≠ controllers
+        - Apps stop being “systems” and become projections of state
+        - The same underlying data can render across many surfaces
+- **Interface Layer**
+    - **Traditional OS:** GUI, input devices
+    - **AI OS:** Dynamic, state-aware interfaces
+    - **What’s changing:**
+        - Interfaces respond to what the system _knows_, not just user input
+        - Chat is a bootstrap UI, not the end state
+        - IDEs and OSes evolve toward adaptive, context-revealing surfaces   
+- **Interoperability Layer**
+    - **Traditional OS:** IPC, system calls
+    - **AI OS:** Interoperability (not integrations)
+    - **What’s changing:**
+        - Systems coordinate through shared primitives, not brittle glue code
+        - IDEs and OSes become peers in a larger execution environment
+        - Data, plans, and actions flow across boundaries by default
+- **Security & Permissions**
+    - **Traditional OS:** Users, roles, sandboxing
+    - **AI OS:** Identity, consent, memory access
+    - **What’s changing:**
+        - Personalization requires explicit permission models
+        - Memory access becomes as sensitive as file access
+        - Without this, intelligence defaults to surveillance
+- **Logs & Observability**
+    - **Traditional OS:** Logs, stack traces, system monitors
+    - **AI OS:** Decision traces, plan diffs, tool histories
+    - **What’s changing:**
+        - Trust comes from inspectability, not confidence scores
+        - Systems must explain _what happened_, not just answer
+        - Debugging intelligence becomes a core UX problem
