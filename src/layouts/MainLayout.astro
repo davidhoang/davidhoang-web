@@ -5,8 +5,8 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
-import SoundToggle from '../components/SoundToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
+import ShaderBackground from '../components/ShaderBackground';
 import { ViewTransitions } from 'astro:transitions';
 import imgBgNoise from '../assets/images/img-bg-noise.png';
 
@@ -130,13 +130,13 @@ const ogImageUrl = ogImage.startsWith('http')
 
   </head>
   <body>
+    <ShaderBackground client:load />
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Navigation />
     <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
       <slot />
     </main>
     {!hideFooter && <Footer />}
-    <SoundToggle />
     <DailyThemeToggle />
     <ThemeToggle />
 

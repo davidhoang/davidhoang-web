@@ -13,11 +13,11 @@ export async function getStaticPaths() {
 const { note } = Astro.props;
 const { Content } = await note.render();
 
-// Stage info
+// Stage info - using dots instead of emoji
 const stageInfo = {
-  seedling: { emoji: '🌱', label: 'Seedling', description: 'Just planted—rough ideas and early thoughts' },
-  budding: { emoji: '🌿', label: 'Budding', description: 'Growing and developing, but not yet complete' },
-  evergreen: { emoji: '🌳', label: 'Evergreen', description: 'Mature, stable, and regularly maintained' },
+  seedling: { icon: '○', label: 'Seedling', description: 'Just planted—rough ideas and early thoughts' },
+  budding: { icon: '◐', label: 'Budding', description: 'Growing and developing, but not yet complete' },
+  evergreen: { icon: '●', label: 'Evergreen', description: 'Mature, stable, and regularly maintained' },
 };
 
 const stage = stageInfo[note.data.stage || 'seedling'];
@@ -47,7 +47,7 @@ const pageDescription = note.data.description || `A ${stage.label.toLowerCase()}
       <div class="note-meta">
         <a href="/notes" class="back-link">&larr; All Notes</a>
         <div class="note-stage-badge" title={stage.description}>
-          <span class="stage-emoji">{stage.emoji}</span>
+          <span class="stage-icon">{stage.icon}</span>
           <span class="stage-label">{stage.label}</span>
         </div>
       </div>
@@ -86,7 +86,7 @@ const pageDescription = note.data.description || `A ${stage.label.toLowerCase()}
 
     <footer class="note-footer">
       <div class="growth-notice">
-        <span class="growth-icon">{stage.emoji}</span>
+        <span class="growth-icon">{stage.icon}</span>
         <p>
           This is a <strong>{stage.label.toLowerCase()}</strong> note—{stage.description.toLowerCase()}.
           Notes in my digital garden are meant to be tended over time.
@@ -139,8 +139,9 @@ const pageDescription = note.data.description || `A ${stage.label.toLowerCase()}
     cursor: help;
   }
 
-  .stage-emoji {
-    font-size: 1rem;
+  .stage-icon {
+    font-size: 0.875rem;
+    color: var(--color-muted);
   }
 
   .stage-label {
@@ -267,8 +268,9 @@ const pageDescription = note.data.description || `A ${stage.label.toLowerCase()}
   }
 
   .growth-icon {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     flex-shrink: 0;
+    color: var(--color-muted);
   }
 
   .growth-notice p {

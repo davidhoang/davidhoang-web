@@ -109,9 +109,10 @@
     if (toggleBtn.dataset.initialized === 'true') return;
     toggleBtn.dataset.initialized = 'true';
 
-    // Check saved preference (default is off)
-    const savedPref = localStorage.getItem('ambient-sound-enabled');
-    const isEnabled = savedPref === 'true';
+    // Always start with sound OFF on page load/refresh
+    // (Browser autoplay restrictions prevent auto-starting audio anyway)
+    toggleBtn.setAttribute('aria-pressed', 'false');
+    localStorage.setItem('ambient-sound-enabled', 'false');
 
     // Get current theme mood
     const getCurrentMood = () => {
@@ -146,13 +147,6 @@
 
       return 'calm';
     };
-
-    // If user had sound enabled, start it (requires click due to autoplay policy)
-    if (isEnabled) {
-      toggleBtn.setAttribute('aria-pressed', 'true');
-      // Note: Can't auto-start due to browser autoplay restrictions
-      // User will need to click to re-enable
-    }
 
     // Toggle handler
     toggleBtn.addEventListener('click', () => {

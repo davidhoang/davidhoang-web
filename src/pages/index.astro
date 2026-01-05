@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
+import HeroImageWithTexture from '../components/HeroImageWithTexture';
 import { getCollection } from 'astro:content';
 import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.jpg';
@@ -26,15 +27,13 @@ const ogImage = "/images/img-dh-web-light.jpg";
         <li><a href="/career-odyssey" rel="noopener noreferrer">Explore the Career Odyssey</a> — an interactive canvas of the career journey</li>
       </ul>
     </div>
-    <div class="hero-image">
-      <img
+    <div class="hero-image portrait-container">
+      <HeroImageWithTexture
+        client:load
         src="/images/img-dh-web-light.jpg"
         alt="Professional headshot photo of David Hoang"
-        width="400"
-        height="533"
-        fetchpriority="high"
-        decoding="async"
-        class="img-themed hero-portrait"
+        width={400}
+        height={533}
       />
     </div>
   </section>
@@ -129,6 +128,10 @@ const ogImage = "/images/img-dh-web-light.jpg";
 
     .hero-content ul {
       margin: 0px 0px 0px 24px;
+    }
+
+    .hero-image {
+      position: relative;
     }
 
     .hero-portrait {
