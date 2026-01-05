@@ -1,6 +1,97 @@
 {
   "themes": [
     {
+      "name": "Dawn Whisper",
+      "description": "A gentle awakening with soft pastels and nurturing warmth that embraces you like morning light through gauze curtains.",
+      "colors": {
+        "light": {
+          "--color-text": "#4A5568",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#FF6B9D",
+          "--color-link-hover": "#E91E63",
+          "--color-border": "#E2E8F0",
+          "--color-muted": "#A0AEC0",
+          "--color-sidebar-bg": "#FAE5D3",
+          "--color-nav-bg": "rgba(253, 242, 233, 0.85)",
+          "--color-nav-text": "#4A5568",
+          "--color-card-bg": "#FEFAF7"
+        },
+        "dark": {
+          "--color-text": "#E2E8F0",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF9EC7",
+          "--color-link-hover": "#FFB6D1",
+          "--color-border": "#2D3748",
+          "--color-muted": "#718096",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "rgba(26, 15, 10, 0.9)",
+          "--color-nav-text": "#E2E8F0",
+          "--color-card-bg": "#261A11"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "350",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(255, 107, 157, 0.06)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "20px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "centered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "gradient"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "20px"
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-01-05"
+    },
+    {
       "name": "Precision Grid",
       "description": "Mathematical clarity meets confident afternoon energy with Swiss-inspired systematic design",
       "colors": {
@@ -274,5 +365,5 @@
       "date": "2026-01-02"
     }
   ],
-  "currentDate": "2026-01-04"
+  "currentDate": "2026-01-05"
 }
