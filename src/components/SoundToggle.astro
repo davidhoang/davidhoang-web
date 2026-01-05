@@ -1,0 +1,196 @@
+---
+/**
+ * Sound Toggle Component
+ *
+ * Toggles ambient soundscape that matches the current theme mood.
+ * Sound is OFF by default (respects autoplay restrictions).
+ */
+---
+
+<div class="sound-toggle">
+  <button
+    id="sound-toggle"
+    aria-label="Toggle ambient sound"
+    aria-pressed="false"
+    title="Toggle ambient sound"
+  >
+    <svg class="sound-icon sound-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <line x1="23" y1="9" x2="17" y2="15"></line>
+      <line x1="17" y1="9" x2="23" y2="15"></line>
+    </svg>
+    <svg class="sound-icon sound-on" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .sound-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 9.5rem;
+    z-index: 1000;
+  }
+
+  button#sound-toggle {
+    background: var(--color-sidebar-bg);
+    border: var(--border-default);
+    border-radius: 50%;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: var(--color-text);
+  }
+
+  button#sound-toggle[aria-pressed="true"] {
+    background: var(--color-link);
+    color: var(--color-bg);
+    border-color: var(--color-link);
+  }
+
+  @media (hover: hover) {
+    button#sound-toggle:hover {
+      border: var(--border-hover);
+      box-shadow: var(--shadow-hover);
+      transform: scale(1.05);
+    }
+  }
+
+  .sound-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .sound-on {
+    display: none;
+  }
+
+  button#sound-toggle[aria-pressed="true"] .sound-off {
+    display: none;
+  }
+
+  button#sound-toggle[aria-pressed="true"] .sound-on {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .sound-toggle {
+      bottom: 1rem;
+      right: 8.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    button#sound-toggle {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script>
+  import { ambientSound, AmbientSound } from '../scripts/ambient-sound.js';
+
+  function initSoundToggle() {
+    const toggleBtn = document.getElementById('sound-toggle');
+    if (!toggleBtn) return;
+
+    // Check if already initialized
+    if (toggleBtn.dataset.initialized === 'true') return;
+    toggleBtn.dataset.initialized = 'true';
+
+    // Check saved preference (default is off)
+    const savedPref = localStorage.getItem('ambient-sound-enabled');
+    const isEnabled = savedPref === 'true';
+
+    // Get current theme mood
+    const getCurrentMood = () => {
+      const root = document.documentElement;
+      const themeDate = root.getAttribute('data-daily-theme');
+
+      if (!themeDate) return 'calm';
+
+      // Try to get theme data from the page
+      try {
+        const themeDataEl = document.querySelector(`[data-date="${themeDate}"]`);
+        if (themeDataEl) {
+          const themeData = JSON.parse(themeDataEl.getAttribute('data-theme-data') || '{}');
+          return AmbientSound.getThemeMood(themeData);
+        }
+      } catch (e) {
+        // Fall back to inferring from attributes
+      }
+
+      // Infer mood from current attributes
+      const linkStyle = root.getAttribute('data-link-style');
+      const cardStyle = root.getAttribute('data-card-style');
+      const texture = root.getAttribute('data-bg-texture');
+      const imageStyle = root.getAttribute('data-image-style');
+
+      // Simple mood inference
+      if (texture === 'grain') return 'warm';
+      if (cardStyle === 'glass') return 'dreamy';
+      if (linkStyle === 'bracket') return 'minimal';
+      if (imageStyle === 'duotone') return 'mysterious';
+      if (imageStyle === 'grayscale') return 'minimal';
+
+      return 'calm';
+    };
+
+    // If user had sound enabled, start it (requires click due to autoplay policy)
+    if (isEnabled) {
+      toggleBtn.setAttribute('aria-pressed', 'true');
+      // Note: Can't auto-start due to browser autoplay restrictions
+      // User will need to click to re-enable
+    }
+
+    // Toggle handler
+    toggleBtn.addEventListener('click', () => {
+      const isPlaying = toggleBtn.getAttribute('aria-pressed') === 'true';
+
+      if (isPlaying) {
+        // Stop sound
+        ambientSound.stop();
+        toggleBtn.setAttribute('aria-pressed', 'false');
+        localStorage.setItem('ambient-sound-enabled', 'false');
+      } else {
+        // Start sound with current theme mood
+        const mood = getCurrentMood();
+        ambientSound.play(mood);
+        toggleBtn.setAttribute('aria-pressed', 'true');
+        localStorage.setItem('ambient-sound-enabled', 'true');
+      }
+    });
+
+    // Listen for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-daily-theme') {
+          const isPlaying = toggleBtn.getAttribute('aria-pressed') === 'true';
+          if (isPlaying) {
+            const mood = getCurrentMood();
+            ambientSound.changeMood(mood);
+          }
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+  }
+
+  // Initialize
+  initSoundToggle();
+
+  // Re-initialize after navigation
+  document.addEventListener('astro:page-load', initSoundToggle);
+</script>
