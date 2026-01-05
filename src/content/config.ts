@@ -8,10 +8,22 @@ const writing = defineCollection({
     ogImage: z.string().optional(),
     coverImage: z.string().optional(),
     draft: z.boolean().optional().default(false),
-    // ... other fields
+  })
+});
+
+const notes = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    pubDate: z.date(),                    // First planted
+    updatedDate: z.date().optional(),     // Last tended
+    stage: z.enum(['seedling', 'budding', 'evergreen']).default('seedling'),
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().optional().default(false),
   })
 });
 
 export const collections = {
-  'writing': writing
+  'writing': writing,
+  'notes': notes,
 }; 
