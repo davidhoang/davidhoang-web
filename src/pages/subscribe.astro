@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
-import imgProofOfConcept from '../assets/images/highlights/img-highlights-proof-of-concept.jpg';
+import HeroImageShader from '../components/HeroImageShader';
 
 // Get page name from the URL path
 const pageName = Astro.url.pathname
@@ -16,8 +16,8 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.jpg";
 ---
 
 <MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
-  <div class="hero-image-container" role="img" aria-label="Proof of Concept">
-    <div class="hero-image-bg" style={`background-image: url(${imgProofOfConcept.src})`}></div>
+  <div class="hero-image-container portrait-container">
+    <HeroImageShader client:load src="/images/header-images/img-header-subscribe.jpg" alt="Subscribe to Proof of Concept" />
     <h1>{pageTitle}</h1>
   </div>
   <div class="container">

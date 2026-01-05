@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import imgHatchConference from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
+import HeroImageShader from '../components/HeroImageShader';
 
 // Get page name from the URL path
 const pageName = Astro.url.pathname
@@ -15,8 +15,8 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
 ---
 
 <MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
-  <div class="hero-image-container" role="img" aria-label="Hatch Conference">
-    <div class="hero-image-bg" style={`background-image: url(${imgHatchConference.src})`}></div>
+  <div class="hero-image-container portrait-container">
+    <HeroImageShader client:load src="/images/header-images/img-highlights-featured.jpg" alt="Featured speaking and media" />
     <h1>{pageTitle}</h1>
   </div>
   <div class="container">

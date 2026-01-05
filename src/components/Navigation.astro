@@ -2,8 +2,7 @@
 const navItems = [
   { path: '/about', label: 'About' },
   { path: '/writing', label: 'Writing' },
-  // { path: '/notes', label: 'Notes' }, // Hidden until notes are cleaned up
-  // { path: '/work', label: 'Work' }, // Hidden until portfolio pieces are finished
+  { path: '/notes', label: 'Notes' },
   { path: '/featured', label: 'Featured' },
   { path: '/subscribe', label: 'Subscribe' }
 ];
@@ -82,8 +81,8 @@ const currentPath = Astro.url.pathname;
     -webkit-backdrop-filter: none;
     border-radius: 36px;
     width: auto;
-    min-width: 420px;
-    max-width: 420px;
+    min-width: 480px;
+    max-width: 480px;
     padding: 24px 32px;
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-default);
@@ -107,16 +106,16 @@ const currentPath = Astro.url.pathname;
   /* Large tablet adjustments - keep desktop nav but reduce size */
   @media (min-width: 769px) and (max-width: 1024px) {
     nav {
-      min-width: 380px;
-      max-width: 380px;
+      min-width: 440px;
+      max-width: 440px;
       padding: 24px 32px;
       font-size: 1.2rem;
     }
-    
+
     @media (hover: hover) and (min-width: 769px) {
       nav:hover {
-        min-width: 450px;
-        max-width: 450px;
+        min-width: 520px;
+        max-width: 520px;
         padding: 24px 32px;
       }
     }
@@ -131,8 +130,8 @@ const currentPath = Astro.url.pathname;
   @media (hover: hover) and (min-width: 769px) {
     nav:hover {
       top: 20px;
-      min-width: 500px;
-      max-width: 500px;
+      min-width: 560px;
+      max-width: 560px;
       padding: 24px 32px;
       /* Use box-shadow to create thicker border effect without layout shift */
       /* The box-shadow creates a 3px additional border (total 4px) */

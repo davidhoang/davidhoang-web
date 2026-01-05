@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import imgDavidSf from '../assets/images/img-david-sf.jpg';
+import HeroImageShader from '../components/HeroImageShader';
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -125,8 +125,8 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 ---
 
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
-  <div class="hero-image-container" role="img" aria-label="David Hoang in San Francisco">
-    <div class="hero-image-bg" style={`background-image: url(${imgDavidSf.src})`}></div>
+  <div class="hero-image-container portrait-container">
+    <HeroImageShader client:load src="/images/header-images/img-about.jpg" alt="David Hoang" />
     <h1>{pageTitle}</h1>
   </div>
   <div class="container">
