@@ -62,6 +62,13 @@ const hasThemes = themes.length > 0;
         ))}
       </div>
       <div class="calendar-footer">
+        <div class="sound-row">
+          <span class="sound-label">Ambient sound</span>
+          <button id="sound-toggle-inline" class="sound-toggle-btn" aria-label="Toggle ambient sound" aria-pressed="false">
+            <span class="sound-status">Off</span>
+            <span class="sound-switch"></span>
+          </button>
+        </div>
         <span class="footer-text">AI-generated daily <span class="separator">|</span> <a href="https://arnaud.ai/" target="_blank" rel="noopener noreferrer" class="credit-link">Inspired by arnaud.ai</a></span>
       </div>
     </div>
@@ -280,6 +287,72 @@ const hasThemes = themes.length > 0;
     text-decoration: underline;
   }
 
+  .sound-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sound-label {
+    font-size: 0.75rem;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .sound-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .sound-status {
+    font-size: 0.6875rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .sound-switch {
+    width: 36px;
+    height: 20px;
+    background: var(--color-border);
+    border-radius: 10px;
+    position: relative;
+    transition: background 0.2s ease;
+  }
+
+  .sound-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: var(--color-bg);
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .sound-toggle-btn[aria-pressed="true"] .sound-switch {
+    background: var(--color-link);
+  }
+
+  .sound-toggle-btn[aria-pressed="true"] .sound-switch::after {
+    transform: translateX(16px);
+  }
+
+  .sound-toggle-btn[aria-pressed="true"] .sound-status {
+    color: var(--color-link);
+  }
+
   @media (max-width: 768px) {
     .daily-theme-toggle {
       bottom: 1rem;
@@ -328,8 +401,14 @@ const hasThemes = themes.length > 0;
     if (isDailyMode) {
       toggleBtn.setAttribute('aria-pressed', 'true');
       applyDailyTheme(selectedDate);
-      // Mark currently selected day
-      const selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
+
+      // Mark currently selected day in the calendar
+      // First try exact match, then fall back to most recent theme
+      let selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
+      if (!selectedBtn && themes.length > 0) {
+        // Fall back to the most recent theme button
+        selectedBtn = calendar.querySelector(`[data-date="${themes[0].date}"]`);
+      }
       if (selectedBtn) {
         selectedBtn.classList.add('selected');
       }
@@ -422,7 +501,15 @@ const hasThemes = themes.length > 0;
   }
 
   function applyDailyTheme(date) {
-    const themeData = themes.find(t => t.date === date);
+    // Try to find theme for the specific date
+    let themeData = themes.find(t => t.date === date);
+
+    // If no theme for this date, fall back to the most recent theme
+    if (!themeData && themes.length > 0) {
+      // Themes are sorted by date descending, so first one is most recent
+      themeData = themes[0];
+    }
+
     if (!themeData) return;
 
     const root = document.documentElement;
@@ -553,6 +640,21 @@ const hasThemes = themes.length > 0;
       }
     }
 
+    // Apply footer styles
+    if (themeData.footer) {
+      root.setAttribute('data-footer-style', themeData.footer.style || 'classic');
+    }
+
+    // Apply shader background
+    if (themeData.shader) {
+      root.setAttribute('data-shader', themeData.shader.type || 'none');
+      if (themeData.shader.colors) {
+        root.setAttribute('data-shader-colors', JSON.stringify(themeData.shader.colors));
+      }
+    } else {
+      root.setAttribute('data-shader', 'none');
+    }
+
     // Mark as using daily theme
     root.setAttribute('data-daily-theme', date);
   }
@@ -613,6 +715,9 @@ const hasThemes = themes.length > 0;
     root.removeAttribute('data-bg-texture');
     root.removeAttribute('data-image-style');
     root.removeAttribute('data-image-hover');
+    root.removeAttribute('data-footer-style');
+    root.removeAttribute('data-shader');
+    root.removeAttribute('data-shader-colors');
   }
 
   // Listen for theme toggle changes to update daily theme colors
@@ -635,4 +740,83 @@ const hasThemes = themes.length > 0;
 
   // Re-initialize after navigation
   document.addEventListener('astro:page-load', initDailyTheme);
+</script>
+
+<script>
+  import { ambientSound, AmbientSound } from '../scripts/ambient-sound.js';
+
+  function initSoundToggle() {
+    const toggleBtn = document.getElementById('sound-toggle-inline');
+    if (!toggleBtn) return;
+
+    // Check if already initialized
+    if (toggleBtn.dataset.initialized === 'true') return;
+    toggleBtn.dataset.initialized = 'true';
+
+    const statusText = toggleBtn.querySelector('.sound-status');
+
+    // Always start with sound OFF on page load/refresh
+    // (Browser autoplay restrictions prevent auto-starting audio anyway)
+    toggleBtn.setAttribute('aria-pressed', 'false');
+    if (statusText) statusText.textContent = 'Off';
+    localStorage.setItem('ambient-sound-enabled', 'false');
+
+    // Get current theme mood
+    const getCurrentMood = () => {
+      const root = document.documentElement;
+      const themeDate = root.getAttribute('data-daily-theme');
+
+      if (!themeDate) return 'calm';
+
+      try {
+        const themeDataEl = document.querySelector(`[data-date="${themeDate}"]`);
+        if (themeDataEl) {
+          const themeData = JSON.parse(themeDataEl.getAttribute('data-theme-data') || '{}');
+          return AmbientSound.getThemeMood(themeData);
+        }
+      } catch (e) {
+        // Fall back to calm
+      }
+
+      return 'calm';
+    };
+
+    // Toggle handler
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isPlaying = toggleBtn.getAttribute('aria-pressed') === 'true';
+
+      if (isPlaying) {
+        ambientSound.stop();
+        toggleBtn.setAttribute('aria-pressed', 'false');
+        if (statusText) statusText.textContent = 'Off';
+        localStorage.setItem('ambient-sound-enabled', 'false');
+      } else {
+        const mood = getCurrentMood();
+        ambientSound.play(mood);
+        toggleBtn.setAttribute('aria-pressed', 'true');
+        if (statusText) statusText.textContent = 'On';
+        localStorage.setItem('ambient-sound-enabled', 'true');
+      }
+    });
+
+    // Listen for theme changes to update mood
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-daily-theme') {
+          const isPlaying = toggleBtn.getAttribute('aria-pressed') === 'true';
+          if (isPlaying) {
+            const mood = getCurrentMood();
+            ambientSound.changeMood(mood);
+          }
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+  }
+
+  // Initialize
+  initSoundToggle();
+  document.addEventListener('astro:page-load', initSoundToggle);
 </script>

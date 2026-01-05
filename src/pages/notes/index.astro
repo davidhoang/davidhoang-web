@@ -31,11 +31,11 @@ function getRelativeTime(date: Date): string {
   return `${Math.floor(diffDays / 365)} years ago`;
 }
 
-// Stage info
+// Stage info - using dots instead of emoji
 const stageInfo = {
-  seedling: { emoji: '🌱', label: 'Seedling', description: 'Just planted, rough ideas' },
-  budding: { emoji: '🌿', label: 'Budding', description: 'Growing, needs more work' },
-  evergreen: { emoji: '🌳', label: 'Evergreen', description: 'Mature and stable' },
+  seedling: { icon: '○', label: 'Seedling', description: 'Just planted, rough ideas' },
+  budding: { icon: '◐', label: 'Budding', description: 'Growing, needs more work' },
+  evergreen: { icon: '●', label: 'Evergreen', description: 'Mature and stable' },
 };
 
 const pageDescription = "Evergreen notes from my digital garden. Ideas I come back to, tend, and grow over time.";
@@ -51,7 +51,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     <div class="stage-legend">
       {Object.entries(stageInfo).map(([key, info]) => (
         <span class="stage-item">
-          <span class="stage-emoji">{info.emoji}</span>
+          <span class="stage-icon">{info.icon}</span>
           <span class="stage-label">{info.label}</span>
         </span>
       ))}
@@ -78,9 +78,10 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 
         return (
           <a href={`/notes/${note.slug}`} class="note-card" data-tags={tags.join(',')}>
+
             <div class="note-header">
               <span class="note-stage" title={stage.description}>
-                {stage.emoji}
+                {stage.icon}
               </span>
               <span class="note-date">{getRelativeTime(displayDate)}</span>
             </div>
@@ -107,6 +108,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
   }
 
   .notes-header h1 {
@@ -135,8 +137,9 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     color: var(--color-muted);
   }
 
-  .stage-emoji {
-    font-size: 1rem;
+  .stage-icon {
+    font-size: 0.875rem;
+    color: var(--color-muted);
   }
 
   .stage-label {
@@ -181,12 +184,20 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     display: flex;
     flex-direction: column;
     padding: 1.25rem;
-    background: var(--color-card-bg, var(--color-sidebar-bg));
+    background-color: var(--color-sidebar-bg, #f7f7f7) !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    opacity: 1 !important;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md, 8px);
     text-decoration: none;
     color: inherit;
     transition: all 0.3s ease;
+  }
+
+  :global([data-theme="dark"]) .note-card {
+    background-color: #1a1a1a !important;
   }
 
   .note-card:hover {

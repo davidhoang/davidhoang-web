@@ -57,7 +57,7 @@ class AmbientSound {
 
     if (name.includes('swiss') || name.includes('minimal') || name.includes('precision') ||
         name.includes('grid') || cardStyle === 'flat') {
-      return 'minimal';
+      return 'coffeeshop';
     }
 
     if (name.includes('bazaar') || name.includes('midnight') || name.includes('noir') ||
@@ -87,6 +87,9 @@ class AmbientSound {
         break;
       case 'warm':
         this.createWarmAmbience();
+        break;
+      case 'coffeeshop':
+        this.createCoffeeShopAmbience();
         break;
       case 'minimal':
         this.createMinimalAmbience();
@@ -157,6 +160,67 @@ class AmbientSound {
   createMinimalAmbience() {
     this.createDrone(261.63, 0.02, 20, 'sine'); // C4
     this.createShimmer(523.25, 0.008, 15); // C5
+  }
+
+  /**
+   * Coffee Shop: Warm background murmur with soft jazz undertones
+   */
+  createCoffeeShopAmbience() {
+    // Soft background murmur (like distant conversation)
+    this.createFilteredNoise(0.025, 150, 600);
+
+    // Warm jazz-like pad - Cmaj7 voicing
+    this.createDrone(130.81, 0.02, 15, 'sine'); // C3
+    this.createDrone(164.81, 0.015, 18, 'sine'); // E3
+    this.createDrone(196, 0.012, 20, 'sine'); // G3
+    this.createDrone(246.94, 0.01, 22, 'sine'); // B3
+
+    // Subtle shimmer for warmth
+    this.createShimmer(392, 0.006, 12); // G4
+
+    // Occasional clinks (cup/spoon sounds)
+    this.createClinks(0.015);
+  }
+
+  /**
+   * Create subtle clinking sounds (cups, spoons)
+   */
+  createClinks(volume) {
+    const clink = () => {
+      if (!this.isPlaying) return;
+
+      // Higher pitched, shorter sounds for ceramic/glass feel
+      const osc = this.audioContext.createOscillator();
+      const gain = this.audioContext.createGain();
+      const filter = this.audioContext.createBiquadFilter();
+
+      // Random frequency in ceramic/glass range
+      osc.type = 'sine';
+      osc.frequency.value = 2000 + Math.random() * 3000;
+
+      // High-pass filter for clarity
+      filter.type = 'highpass';
+      filter.frequency.value = 1500;
+      filter.Q.value = 2;
+
+      // Quick attack, short decay
+      gain.gain.setValueAtTime(0, this.audioContext.currentTime);
+      gain.gain.linearRampToValueAtTime(volume * (0.3 + Math.random() * 0.7), this.audioContext.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.15);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.masterGain);
+
+      osc.start();
+      osc.stop(this.audioContext.currentTime + 0.2);
+
+      // Random interval - coffee shops have irregular clinks
+      setTimeout(clink, 2000 + Math.random() * 6000);
+    };
+
+    // Start after a small delay
+    setTimeout(clink, 1000 + Math.random() * 3000);
   }
 
   /**

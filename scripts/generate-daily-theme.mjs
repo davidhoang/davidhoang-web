@@ -181,6 +181,47 @@ How images appear affects the whole feel:
 - imageOpacity: "1" (full) | "0.9" | "0.85" (slightly faded for texture)
 - imageBorderRadius: "0px" to "24px" (match or contrast with layout radius)
 
+## FOOTER STYLES - END WITH IMPACT!
+The footer can dramatically change the feel of the entire page:
+- "classic": Default clean grid, simple border-top
+- "minimal": Centered, sparse, no headers, all links inline
+- "brutalist": Inverted colors (bg becomes text color), heavy borders, uppercase, loud
+- "inverted": Sidebar-bg background with CTA button for email
+- "editorial": Double border, large italic email CTA, newspaper feel
+- "gradient": Fading gradient background into sidebar color
+- "boxed": Footer contained in a rounded card
+- "retro": Dashed border, monospace fonts, terminal feel
+- "split": Two-column asymmetric layout
+- "marquee": Animated scrolling email (use sparingly!)
+
+Match footer to theme personality:
+- Swiss/Grid themes → brutalist or minimal
+- Editorial/Serif themes → editorial or classic
+- Modern/Tech themes → gradient or boxed
+- Playful themes → retro or marquee
+
+## SHADER BACKGROUNDS - SUBTLE CANVAS MAGIC!
+WebGL shader effects for dynamic, living backgrounds (via Paper Design):
+- "none": No shader, just solid color
+- "grain": Film grain texture - classic, editorial feel
+- "mesh-gradient": Flowing animated color gradients - modern, dreamy
+- "neuro": Organic neural network patterns - tech, futuristic
+- "waves": Gentle wave animations - calm, oceanic
+- "dot-grid": Animated dot grid pattern - Swiss, geometric
+- "swirl": Hypnotic swirling patterns - playful, psychedelic
+- "perlin": Perlin noise clouds - organic, natural
+- "simplex": Simplex noise patterns - smooth, ethereal
+
+Shader colors should use 2-4 colors from the theme palette (link color, accent, bg variants).
+Keep opacity subtle (0.1-0.2) so content remains readable.
+
+Match shaders to theme:
+- Editorial/Classic → grain or none
+- Swiss/Grid → dot-grid or waves
+- Tech/Modern → neuro or mesh-gradient
+- Dreamy/Soft → mesh-gradient or perlin
+- Bold/Experimental → swirl or simplex
+
 Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
 {
   "name": "Theme Name (2-3 words, evocative)",
@@ -254,16 +295,23 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "hover": "zoom|lift|colorize|glow|none",
     "opacity": "0.85-1",
     "borderRadius": "0px-24px"
+  },
+  "footer": {
+    "style": "classic|minimal|brutalist|inverted|editorial|gradient|boxed|retro|split|marquee"
+  },
+  "shader": {
+    "type": "none|grain|mesh-gradient|neuro|waves|dot-grid|swirl|perlin|simplex",
+    "colors": ["#color1", "#color2", "#color3 (optional)"]
   }
 }
 
 EXAMPLE DRAMATIC THEMES:
-1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, left-aligned hero, underline links, grid texture, grayscale images with colorize hover
-2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, centered hero, animated-underline links, none texture, vivid images with lift hover
-3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, minimal nav, outlined cards, minimal hero, color-only links, grain texture, muted images with glow hover
-4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, floating nav, glass cards, centered hero, highlight links, gradient texture, muted images with zoom hover
-5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, bold-bar nav, flat cards, bold hero, bracket links, dots texture, vivid images with lift hover
-6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, minimal nav, elevated cards, minimal hero, underline links, grain texture, grayscale images with colorize hover
+1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, left-aligned hero, underline links, grid texture, grayscale images with colorize hover, brutalist footer, dot-grid shader
+2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, centered hero, animated-underline links, none texture, vivid images with lift hover, editorial footer, grain shader
+3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, minimal nav, outlined cards, minimal hero, color-only links, grain texture, muted images with glow hover, retro footer, neuro shader
+4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, floating nav, glass cards, centered hero, highlight links, gradient texture, muted images with zoom hover, gradient footer, mesh-gradient shader
+5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, bold-bar nav, flat cards, bold hero, bracket links, dots texture, vivid images with lift hover, minimal footer, waves shader
+6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, minimal nav, elevated cards, minimal hero, underline links, grain texture, grayscale images with colorize hover, inverted footer, perlin shader
 
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 
