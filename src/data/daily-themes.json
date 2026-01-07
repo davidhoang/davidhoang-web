@@ -1,6 +1,108 @@
 {
   "themes": [
     {
+      "name": "Morning Mist",
+      "description": "A gentle awakening palette with soft pastels and breathing room for peaceful contemplation.",
+      "colors": {
+        "light": {
+          "--color-text": "#2D4A3E",
+          "--color-bg": "#F4F9F7",
+          "--color-link": "#00A676",
+          "--color-link-hover": "#008B64",
+          "--color-border": "#D1E7DD",
+          "--color-muted": "#6C8276",
+          "--color-sidebar-bg": "#EBF5F1",
+          "--color-nav-bg": "rgba(244, 249, 247, 0.95)",
+          "--color-nav-text": "#2D4A3E",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#E8F4F1",
+          "--color-bg": "#0D1F1A",
+          "--color-link": "#4ECDC4",
+          "--color-link-hover": "#6DD8D0",
+          "--color-border": "#1A3329",
+          "--color-muted": "#8FA899",
+          "--color-sidebar-bg": "#152620",
+          "--color-nav-bg": "rgba(13, 31, 26, 0.95)",
+          "--color-nav-text": "#E8F4F1",
+          "--color-card-bg": "#162B23"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Lora",
+          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Lora', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "56px",
+        "padding": "0.75rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 4px 16px rgba(0, 0, 0, 0.04)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "centered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "gradient"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "perlin",
+        "colors": [
+          "#00A676",
+          "#4ECDC4",
+          "#D1E7DD"
+        ]
+      },
+      "font": {
+        "name": "Lora",
+        "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Lora', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-07"
+    },
+    {
       "name": "Dawn Manuscript",
       "description": "A sophisticated editorial awakening with gentle warmth and typographic elegance.",
       "colors": {
@@ -508,5 +610,5 @@
       "date": "2026-01-02"
     }
   ],
-  "currentDate": "2026-01-06"
+  "currentDate": "2026-01-07"
 }
