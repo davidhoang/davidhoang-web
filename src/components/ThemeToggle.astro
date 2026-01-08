@@ -73,8 +73,41 @@
 
   @media (max-width: 768px) {
     .theme-toggle {
-      bottom: 1rem;
-      right: 1rem;
+      bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+      right: max(1rem, env(safe-area-inset-right, 1rem));
+    }
+
+    button {
+      width: 52px;
+      height: 52px;
+      padding: 0.875rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .sun-icon,
+    .moon-icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .theme-toggle {
+      bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem));
+      right: max(0.75rem, env(safe-area-inset-right, 0.75rem));
+    }
+
+    button {
+      width: 56px;
+      height: 56px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .sun-icon,
+    .moon-icon {
+      width: 24px;
+      height: 24px;
     }
   }
 
