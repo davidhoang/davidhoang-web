@@ -477,9 +477,6 @@ const hasThemes = themes.length > 0;
           });
         }
         defaultBtn.classList.add('active');
-
-        // Close calendar
-        if (cal) setTimeout(() => cal.classList.remove('open'), 300);
       });
     }
 
@@ -505,9 +502,6 @@ const hasThemes = themes.length > 0;
         if (toggleBtn) toggleBtn.setAttribute('aria-pressed', 'true');
 
         applyDailyTheme(date);
-
-        // Close calendar after selection
-        if (cal) setTimeout(() => cal.classList.remove('open'), 300);
       });
     });
   }

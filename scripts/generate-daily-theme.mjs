@@ -22,6 +22,7 @@ import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFI
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = join(__dirname, '..');
+const THEME_PROMPT_PATH = join(__dirname, 'theme-prompt.md');
 
 // Load .env file
 const envPath = join(rootDir, '.env');
@@ -39,6 +40,31 @@ try {
   });
 } catch (error) {
   // .env file doesn't exist, rely on environment variables
+}
+
+/**
+ * Load the creative direction from theme-prompt.md
+ */
+function loadThemePromptFile() {
+  try {
+    return readFileSync(THEME_PROMPT_PATH, 'utf-8');
+  } catch (error) {
+    console.warn('Warning: theme-prompt.md not found, using defaults');
+    return '';
+  }
+}
+
+/**
+ * Get recent theme names to avoid repetition
+ */
+function getRecentThemeNames() {
+  const themesPath = join(rootDir, 'src', 'data', 'daily-themes.json');
+  try {
+    const themesData = JSON.parse(readFileSync(themesPath, 'utf-8'));
+    return themesData.themes.map(t => t.name);
+  } catch {
+    return [];
+  }
 }
 
 // Google Fonts - diverse range for heading/body pairings
@@ -334,12 +360,25 @@ async function generateTheme(options = {}) {
     includeTimeModifier: true
   });
 
+  // Load creative direction from markdown file
+  const creativeDirection = loadThemePromptFile();
+
+  // Get recent theme names to avoid repetition
+  const recentNames = getRecentThemeNames();
+  const recentNamesSection = recentNames.length > 0
+    ? `\n\n## RECENTLY USED NAMES - DO NOT REUSE THESE OR SIMILAR:\n${recentNames.map(n => `- "${n}"`).join('\n')}\n\nCreate something COMPLETELY DIFFERENT from the above themes.`
+    : '';
+
   console.log('Generating daily theme with Claude...');
   console.log(`Inspiration: ${inspiration.inspirationName}`);
-  console.log(`Time period: ${inspiration.timePeriod}\n`);
+  console.log(`Time period: ${inspiration.timePeriod}`);
+  if (recentNames.length > 0) {
+    console.log(`Avoiding recent names: ${recentNames.join(', ')}`);
+  }
+  console.log('');
 
-  // Combine inspiration with base theme prompt
-  const fullPrompt = `${inspiration.fullPrompt}\n\n${THEME_PROMPT}`;
+  // Combine: creative direction + inspiration + base prompt + recent names
+  const fullPrompt = `${creativeDirection}\n\n${inspiration.fullPrompt}\n\n${THEME_PROMPT}${recentNamesSection}`;
 
   const message = await client.messages.create({
     model: 'claude-sonnet-4-20250514',
