@@ -66,15 +66,32 @@ Don't default to "classic" or "minimal". Try:
 - Retro for playful/nostalgic themes
 - Marquee sparingly for high-energy themes
 
-## Shader Usage
-Match shaders to reinforce theme personality:
-- **grain**: Editorial, film, vintage, noir
-- **mesh-gradient**: Dreamy, modern, fluid
-- **neuro**: Tech, futuristic, digital
-- **waves**: Calm, oceanic, meditative
-- **dot-grid**: Swiss, precise, geometric
-- **swirl**: Psychedelic, playful, bold
-- **perlin/simplex**: Organic, natural, ethereal
+## Shader Usage — USE SPARINGLY
+
+**IMPORTANT: Most themes should use `"none"` for shader.** Solid backgrounds are elegant and timeless. Shaders should be the exception, not the rule.
+
+### Default to No Shader
+- At least 60-70% of themes should have `shader.type: "none"`
+- A beautiful, well-chosen solid background color is often more sophisticated than animated effects
+- Let the typography, colors, and layout do the work
+
+### When to Consider a Shader
+Only use shaders when they genuinely reinforce the concept:
+- **grain**: Sparingly, for film noir or vintage editorial themes
+- **mesh-gradient**: Rarely, only for explicitly dreamy/fluid concepts
+- **waves**: Ocean-themed only
+- **dot-grid**: Swiss/geometric themes where dots are thematically relevant
+
+### Shaders to Avoid Overusing
+These create a "lava lamp" effect and should be used very rarely:
+- **swirl**: Almost never—too distracting
+- **neuro**: Very sparingly—can feel gimmicky
+- **perlin/simplex**: Rarely—often too busy
+
+### When You Do Use a Shader
+- Keep opacity very low (0.05-0.15)
+- Use colors that are close to the background, not contrasting
+- The shader should be barely noticeable, like a subtle texture
 
 ## What Makes a Theme Memorable
 
