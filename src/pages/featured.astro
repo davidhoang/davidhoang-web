@@ -19,11 +19,10 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
     <HeroImageShader client:load src="/images/header-images/img-highlights-featured.jpg" alt="Featured speaking and media" />
     <h1>{pageTitle}</h1>
   </div>
-  <div class="container">
-    <div class="featured-grid">
-      <div class="featured-item">
-        <div class="featured-content">
-          <h2>Speaking</h2>
+  <div class="featured-grid">
+    <div class="featured-item">
+      <div class="featured-content">
+        <h2>Speaking</h2>
             <h3>2025</h3>
             <ul>
               <li>May - <a href="https://nycxdesign.org/nycxdesign-talk-with-will-hall-designing-intelligence/" target="_blank">NYCxDESIGN: The future of software design</a></li>
@@ -112,8 +111,6 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
         </div>
       </div>
     </div>
-  </div>
-  </div>  
 </MainLayout>
 
 <style>
@@ -126,9 +123,9 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
 
   .featured-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 0rem;
-    margin: 1rem 0rem;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    margin: 1rem 0;
   }
 
   .featured-item {
@@ -151,6 +148,10 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.jpg";
   }
 
   @media (max-width: 768px) {
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
+
     .featured-content-intro {
       max-width: 100%;
     }
