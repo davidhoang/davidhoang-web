@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import EInkToggle from '../components/EInkToggle.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
@@ -111,7 +112,7 @@ const ogImageUrl = ogImage.startsWith('http')
       }
     </style>
     
-    <!-- Apply theme before paint to avoid flash -->
+    <!-- Apply theme and e-ink mode before paint to avoid flash -->
     <script>
       (function(){
         try {
@@ -119,6 +120,12 @@ const ogImageUrl = ogImage.startsWith('http')
           var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
           var theme = stored || (prefersDark ? 'dark' : 'light');
           document.documentElement.setAttribute('data-theme', theme);
+
+          // Apply e-ink mode if enabled
+          var eInkMode = localStorage.getItem('e-ink-mode');
+          if (eInkMode === 'true') {
+            document.documentElement.setAttribute('data-e-ink', 'true');
+          }
         } catch(e) {
           // no-op
         }
@@ -135,15 +142,46 @@ const ogImageUrl = ogImage.startsWith('http')
     </main>
     {!hideFooter && <Footer />}
     <DailyThemeToggle />
+    <EInkToggle />
     <ThemeToggle />
 
     <MusicPlayer />
     <script>
-      // Persist theme during view transitions
+      // Persist theme and e-ink mode during view transitions
       document.addEventListener('astro:after-swap', () => {
         const theme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', theme);
+
+        // Persist e-ink mode
+        const eInkMode = localStorage.getItem('e-ink-mode');
+        if (eInkMode === 'true') {
+          document.documentElement.setAttribute('data-e-ink', 'true');
+        }
+
+        // Re-init lazy loading after page swap
+        initLazyImages();
       });
+
+      // Lazy loading with fade-in effect
+      function initLazyImages() {
+        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        lazyImages.forEach(img => {
+          if (img.complete) {
+            img.classList.add('loaded');
+          } else {
+            img.addEventListener('load', () => {
+              img.classList.add('loaded');
+            }, { once: true });
+          }
+        });
+      }
+
+      // Init on page load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLazyImages);
+      } else {
+        initLazyImages();
+      }
     </script>
   </body>
 </html> 

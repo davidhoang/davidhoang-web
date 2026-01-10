@@ -34,6 +34,7 @@ export default function ShaderBackground({
   const [mounted, setMounted] = useState(false);
   const [currentShader, setCurrentShader] = useState(shader);
   const [currentColors, setCurrentColors] = useState(colors);
+  const [isEInkMode, setIsEInkMode] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -55,12 +56,17 @@ export default function ShaderBackground({
             }
           }
         }
+        // Watch for e-ink mode changes
+        if (mutation.attributeName === 'data-e-ink') {
+          const eInkMode = document.documentElement.getAttribute('data-e-ink') === 'true';
+          setIsEInkMode(eInkMode);
+        }
       });
     });
 
     observer.observe(document.documentElement, { attributes: true });
 
-    // Check initial value
+    // Check initial values
     const initialShader = document.documentElement.getAttribute('data-shader');
     if (initialShader) setCurrentShader(initialShader);
 
@@ -71,10 +77,15 @@ export default function ShaderBackground({
       } catch (e) {}
     }
 
+    // Check initial e-ink mode
+    const initialEInk = document.documentElement.getAttribute('data-e-ink') === 'true';
+    setIsEInkMode(initialEInk);
+
     return () => observer.disconnect();
   }, []);
 
-  if (!mounted || currentShader === 'none') {
+  // Don't render shaders in e-ink mode or if shader is none
+  if (!mounted || currentShader === 'none' || isEInkMode) {
     return null;
   }
 

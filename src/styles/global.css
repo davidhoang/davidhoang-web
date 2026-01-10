@@ -141,6 +141,106 @@
 }
 
 /* ============================================
+   E-Ink Mode
+   High contrast, grayscale, no effects
+   Mimics e-reader displays (Kindle, reMarkable)
+   ============================================ */
+
+[data-e-ink="true"] {
+  /* High contrast colors - cream background like real e-ink */
+  --color-text: #000000;
+  --color-bg: #f5f5f0;
+  --color-link: #000000;
+  --color-link-hover: #444444;
+  --color-border: #000000;
+  --color-muted: #555555;
+  --color-sidebar-bg: #e8e8e3;
+  --color-nav-bg: #f5f5f0;
+  --color-nav-text: #000000;
+  --color-nav-hover: rgba(0, 0, 0, 0.1);
+  --color-card-bg: #e8e8e3;
+
+  /* Remove all shadows and effects */
+  --card-shadow: none;
+  --shadow-default: none;
+  --shadow-hover: none;
+  --shadow-scrolling: none;
+  --inner-border: none;
+  --inner-border-button: none;
+}
+
+/* E-Ink dark mode */
+[data-e-ink="true"][data-theme="dark"] {
+  --color-text: #e0e0e0;
+  --color-bg: #121212;
+  --color-link: #e0e0e0;
+  --color-link-hover: #ffffff;
+  --color-border: #e0e0e0;
+  --color-muted: #aaaaaa;
+  --color-sidebar-bg: #1a1a1a;
+  --color-nav-bg: #121212;
+  --color-nav-text: #e0e0e0;
+  --color-nav-hover: rgba(255, 255, 255, 0.1);
+  --color-card-bg: #1a1a1a;
+}
+
+/* Force grayscale on all images in e-ink mode */
+[data-e-ink="true"] img {
+  filter: grayscale(1) contrast(1.1) !important;
+}
+
+/* Disable all transitions and animations in e-ink mode */
+[data-e-ink="true"] *,
+[data-e-ink="true"] *::before,
+[data-e-ink="true"] *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Remove glass/blur effects in e-ink mode */
+[data-e-ink="true"] .card-glass,
+[data-e-ink="true"] .surface-glass {
+  background: var(--color-sidebar-bg) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid var(--color-border);
+}
+
+/* Simple underline links in e-ink mode */
+[data-e-ink="true"] a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-bottom: none;
+}
+
+[data-e-ink="true"] a::after {
+  display: none !important;
+}
+
+/* Hide shader background in e-ink mode */
+[data-e-ink="true"] .shader-background {
+  display: none !important;
+}
+
+/* Remove background textures in e-ink mode */
+[data-e-ink="true"]::before {
+  display: none !important;
+}
+
+/* Simplify hero title in e-ink mode */
+[data-e-ink="true"] .hero-title {
+  background-image: none;
+  background-color: var(--color-sidebar-bg);
+}
+
+/* Remove hover transforms in e-ink mode */
+[data-e-ink="true"] .card-interactive:hover,
+[data-e-ink="true"] .btn:hover,
+[data-e-ink="true"] a:hover {
+  transform: none !important;
+}
+
+/* ============================================
    🎨 DESIGN SYSTEM PRIMITIVES
    ============================================
 
@@ -457,6 +557,22 @@
   max-height: 70vh;
   object-fit: cover;
   border-radius: var(--radius-lg);
+}
+
+/* Lazy loading with fade-in effect
+   Images fade in smoothly when they finish loading */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Performance optimization for off-screen images */
+img {
+  content-visibility: auto;
 }
 
 .img-avatar {
