@@ -1,6 +1,107 @@
 {
   "themes": [
     {
+      "name": "Maritime Library",
+      "description": "Deep ocean blues meet scholarly elegance in a nautical reading room aesthetic",
+      "colors": {
+        "light": {
+          "--color-text": "#1B4B5A",
+          "--color-bg": "#F0F8FC",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#B8323E",
+          "--color-border": "#C5D9E2",
+          "--color-muted": "#6B8C9A",
+          "--color-sidebar-bg": "#E1F1F7",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#2C5F6F",
+          "--color-card-bg": "#FAFCFD"
+        },
+        "dark": {
+          "--color-text": "#E8F4F8",
+          "--color-bg": "#0A1F28",
+          "--color-link": "#FF6B6B",
+          "--color-link-hover": "#FF5252",
+          "--color-border": "#2A4A55",
+          "--color-muted": "#8FA8B2",
+          "--color-sidebar-bg": "#132831",
+          "--color-nav-bg": "#0D252E",
+          "--color-nav-text": "#B8D4DC",
+          "--color-card-bg": "#142A35"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "500",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 20px rgba(27, 75, 90, 0.08)",
+        "borderWidth": "1px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "840px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "6px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "waves",
+        "colors": [
+          "#2A5A6B",
+          "#1B4B5A"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-11"
+    },
+    {
       "name": "Velvet Thunder",
       "description": "Rich burgundy depths meet electric gold accents in a luxurious nocturnal atmosphere",
       "colors": {
@@ -602,108 +703,7 @@
         "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-05"
-    },
-    {
-      "name": "Precision Grid",
-      "description": "Mathematical clarity meets confident afternoon energy with Swiss-inspired systematic design",
-      "colors": {
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#FDEBD0",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#B02A2F",
-          "--color-border": "#E8E8E8",
-          "--color-muted": "#666666",
-          "--color-sidebar-bg": "#FDF2E9",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FFFFFF"
-        },
-        "dark": {
-          "--color-text": "#F5F5F5",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A5C",
-          "--color-border": "#444444",
-          "--color-muted": "#AAAAAA",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F5F5F5",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "bold"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "1",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#E63946",
-          "#FDEBD0"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-01-04"
     }
   ],
-  "currentDate": "2026-01-10"
+  "currentDate": "2026-01-11"
 }
