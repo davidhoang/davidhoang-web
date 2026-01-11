@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
+import PageHeader from '../../components/PageHeader.astro';
 
 const allNotes = await getCollection('notes');
 // Filter out drafts in production, show in dev
@@ -28,12 +29,11 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 ---
 
 <MainLayout title="Notes | David Hoang" description={pageDescription}>
-  <div class="notes-header">
-    <h1>Notes</h1>
-    <p class="notes-intro">
-      Welcome to my digital garden. These are evergreen notes—ideas I plant, tend, and revisit over time.
-      Unlike blog posts, they grow and evolve.
-    </p>
+  <PageHeader
+    title="Notes"
+    variant="text-only"
+    subtitle="Welcome to my digital garden. These are evergreen notes—ideas I plant, tend, and revisit over time. Unlike blog posts, they grow and evolve."
+  >
     <div class="stage-legend">
       {Object.entries(stageInfo).map(([key, info]) => (
         <span class="stage-item">
@@ -42,7 +42,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
         </span>
       ))}
     </div>
-  </div>
+  </PageHeader>
 
   {allTags.length > 0 && (
     <div class="tags-filter">
@@ -88,27 +88,8 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 </MainLayout>
 
 <style>
-  .notes-header {
-    margin-bottom: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
-  }
-
-  .notes-header h1 {
-    margin-bottom: 0.5rem;
-  }
-
-  .notes-intro {
-    color: var(--color-muted);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin-bottom: 1rem;
-  }
-
   .stage-legend {
+    margin-top: 1rem;
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;

@@ -1,0 +1,292 @@
+---
+/**
+ * PageHeader Component
+ *
+ * A declarative page header with consistent shader effects and parallax.
+ * Use this for all main pages to ensure visual consistency.
+ *
+ * Usage:
+ *   <PageHeader title="About" image="/images/header-images/img-about.jpg" />
+ *   <PageHeader title="Notes" variant="text-only" subtitle="Welcome to my digital garden" />
+ */
+
+import HeroImageShader from './HeroImageShader.tsx';
+
+interface Props {
+  title: string;
+  image?: string;
+  alt?: string;
+  variant?: 'image' | 'text-only';
+  subtitle?: string;
+  class?: string;
+}
+
+const {
+  title,
+  image,
+  alt = title,
+  variant = 'image',
+  subtitle,
+  class: className = ''
+} = Astro.props;
+
+const isImageVariant = variant === 'image' && image;
+---
+
+<header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
+  {isImageVariant ? (
+    <div class="page-header__hero">
+      <HeroImageShader client:load src={image} alt={alt} />
+      <h1 class="page-header__title">{title}</h1>
+    </div>
+  ) : (
+    <div class="page-header__text">
+      <h1 class="page-header__title">{title}</h1>
+      {subtitle && <p class="page-header__subtitle">{subtitle}</p>}
+      <slot />
+    </div>
+  )}
+</header>
+
+<script>
+  // Parallax scroll effect with smooth inertia-based animation
+  function initPageHeaderParallax() {
+    const heroContainer = document.querySelector('.page-header__hero') as HTMLElement | null;
+    const shader = heroContainer?.querySelector(':scope > *:first-child') as HTMLElement | null;
+
+    if (!heroContainer || !shader) return;
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    // Skip on mobile
+    if (window.innerWidth <= 768) return;
+
+    let currentOffset = 0;
+    let targetOffset = 0;
+    let currentScale = 1;
+    let targetScale = 1;
+    let velocity = 0;
+    let lastTime = performance.now();
+    let animationFrameId: number | null = null;
+    let isScrolling = false;
+    let scrollTimeout: number | null = null;
+
+    function lerp(start: number, end: number, factor: number) {
+      return start + (end - start) * factor;
+    }
+
+    function calculateParallaxValues() {
+      if (!heroContainer) return { offset: 0, scale: 1 };
+
+      const rect = heroContainer.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const containerHeight = heroContainer.offsetHeight;
+      const scrolled = window.scrollY;
+      const containerTop = heroContainer.offsetTop;
+
+      if (rect.bottom >= 0 && rect.top <= windowHeight) {
+        const scrollDistance = scrolled - containerTop;
+        const parallaxSpeed = 0.3;
+        const offset = scrollDistance * parallaxSpeed;
+
+        const scrollProgress = Math.max(0, Math.min(1,
+          (scrollDistance + windowHeight) / (containerHeight + windowHeight)
+        ));
+        const scale = 1 + (scrollProgress * 0.3);
+
+        return { offset, scale };
+      } else if (rect.top > windowHeight) {
+        return { offset: 0, scale: 1 };
+      }
+      return { offset: currentOffset, scale: currentScale };
+    }
+
+    function animate() {
+      const now = performance.now();
+      lastTime = now;
+
+      const { offset, scale } = calculateParallaxValues();
+      targetOffset = offset;
+      targetScale = scale;
+
+      const lerpFactor = isScrolling ? 0.15 : 0.08;
+      currentOffset = lerp(currentOffset, targetOffset, lerpFactor);
+      currentScale = lerp(currentScale, targetScale, lerpFactor);
+
+      if (!isScrolling) {
+        const difference = targetOffset - currentOffset;
+        velocity = lerp(velocity, difference * 0.5, 0.1);
+        currentOffset += velocity;
+        velocity *= 0.92;
+
+        if (Math.abs(targetOffset - currentOffset) < 0.1 && Math.abs(velocity) < 0.1) {
+          currentOffset = targetOffset;
+          currentScale = targetScale;
+          velocity = 0;
+        }
+      }
+
+      if (shader) {
+        shader.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
+      }
+
+      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        animationFrameId = null;
+      }
+    }
+
+    function onScroll() {
+      isScrolling = true;
+
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+
+      if (!animationFrameId) {
+        lastTime = performance.now();
+        animationFrameId = requestAnimationFrame(animate);
+      }
+
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        if (!animationFrameId) {
+          lastTime = performance.now();
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      }, 50) as unknown as number;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Initial setup
+    const initialValues = calculateParallaxValues();
+    targetOffset = initialValues.offset;
+    currentOffset = targetOffset;
+    targetScale = initialValues.scale;
+    currentScale = targetScale;
+    lastTime = performance.now();
+    animate();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPageHeaderParallax);
+  } else {
+    initPageHeaderParallax();
+  }
+
+  // Re-initialize after navigation
+  document.addEventListener('astro:page-load', initPageHeaderParallax);
+</script>
+
+<style>
+  .page-header {
+    width: 100%;
+  }
+
+  /* Image variant - full hero with shader */
+  .page-header--image .page-header__hero {
+    width: 100vw;
+    max-width: 100vw;
+    height: 75vh;
+    min-height: 300px;
+    max-height: 600px;
+    margin-top: -4rem; /* Negate main padding */
+    margin-bottom: 2rem;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Shader/image container - parallax transform applied via JS */
+  .page-header--image .page-header__hero > :global(*:first-child) {
+    will-change: transform;
+    transform-origin: center center;
+  }
+
+  /* Overlay for text legibility */
+  .page-header--image .page-header__hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .page-header--image .page-header__title {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    padding: var(--container-padding, 2rem);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    letter-spacing: -0.02em;
+  }
+
+  /* Text variant - simple header */
+  .page-header--text {
+    padding: 2rem 0 1rem;
+  }
+
+  .page-header--text .page-header__title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin: 0 0 1rem;
+    color: var(--color-text);
+  }
+
+  .page-header__subtitle {
+    font-size: 1.2rem;
+    color: var(--color-muted);
+    max-width: 600px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .page-header--image .page-header__hero {
+      height: 50vh;
+      min-height: 250px;
+      margin-top: 0; /* No negative margin on mobile */
+    }
+
+    .page-header--image .page-header__title {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .page-header--text .page-header__title {
+      font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    /* Disable parallax on mobile */
+    .page-header--image .page-header__hero > :global(*:first-child) {
+      transform: none !important;
+    }
+  }
+
+  /* Large screens */
+  @media (min-width: 1920px) {
+    .page-header--image .page-header__hero {
+      max-height: 700px;
+    }
+
+    .page-header--image .page-header__title {
+      font-size: 5rem;
+    }
+  }
+</style>

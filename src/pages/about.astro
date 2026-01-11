@@ -1,16 +1,9 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import HeroImageShader from '../components/HeroImageShader';
+import PageHeader from '../components/PageHeader.astro';
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-
-// Get page name from the URL path
-const pageName = Astro.url.pathname
-  .split('/')
-  .filter(Boolean)
-  .pop() || 'Home';
-const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
 
 // Page metadata
 const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -125,10 +118,11 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 ---
 
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
-  <div class="hero-image-container portrait-container">
-    <HeroImageShader client:load src="/images/header-images/img-about.jpg" alt="David Hoang" />
-    <h1>{pageTitle}</h1>
-  </div>
+  <PageHeader
+    title="About"
+    image="/images/header-images/img-about.jpg"
+    alt="David Hoang"
+  />
   <div class="container">
     <div class="hero-grid">
       <div class="about-content">
@@ -374,151 +368,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 </style>
 
 <script>
-  // Parallax scroll effect with smooth inertia-based animation
-  function initParallax() {
-    const imageContainer = document.querySelector('.hero-image-container') as HTMLElement | null;
-    const image = document.querySelector('.hero-image-bg') as HTMLElement | null;
-
-    if (!imageContainer || !image) return;
-
-    let currentOffset = 0;
-    let targetOffset = 0;
-    let currentScale = 1;
-    let targetScale = 1;
-    let velocity = 0;
-    let lastScrollY = window.scrollY;
-    let lastTime = performance.now();
-    let animationFrameId: number | null = null;
-    let isScrolling = false;
-    let scrollTimeout: number | null = null;
-
-    // Smooth interpolation with inertia
-    function lerp(start: number, end: number, factor: number) {
-      return start + (end - start) * factor;
-    }
-
-    function calculateParallaxValues() {
-      if (!imageContainer) return { offset: 0, scale: 1 };
-
-      const rect = imageContainer.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const containerHeight = imageContainer.offsetHeight;
-      const scrolled = window.scrollY;
-      const containerTop = imageContainer.offsetTop;
-      
-      if (rect.bottom >= 0 && rect.top <= windowHeight) {
-        const scrollDistance = scrolled - containerTop;
-        const parallaxSpeed = 0.3;
-        const offset = scrollDistance * parallaxSpeed;
-        
-        // Calculate scroll progress (0 to 1) within the container viewport
-        // Scale from 1 to 1.2 as user scrolls down
-        const scrollProgress = Math.max(0, Math.min(1, 
-          (scrollDistance + windowHeight) / (containerHeight + windowHeight)
-        ));
-        const scale = 1 + (scrollProgress * 0.5); // 1 to 1.5
-        
-        return { offset, scale };
-      } else if (rect.top > windowHeight) {
-        return { offset: 0, scale: 1 };
-      }
-      return { offset: currentOffset, scale: currentScale };
-    }
-
-    function animate() {
-      const now = performance.now();
-      const deltaTime = Math.min((now - lastTime) / 1000, 0.1); // Cap at 100ms
-      lastTime = now;
-
-      // Calculate target offset and scale
-      const { offset, scale } = calculateParallaxValues();
-      targetOffset = offset;
-      targetScale = scale;
-
-      // Smooth interpolation with momentum
-      const lerpFactor = isScrolling ? 0.15 : 0.08; // Faster when scrolling, slower when settling
-      currentOffset = lerp(currentOffset, targetOffset, lerpFactor);
-      currentScale = lerp(currentScale, targetScale, lerpFactor);
-
-      // Apply velocity for inertia effect
-      if (!isScrolling) {
-        const difference = targetOffset - currentOffset;
-        velocity = lerp(velocity, difference * 0.5, 0.1);
-        currentOffset += velocity;
-        
-        // Damping - gradually reduce velocity
-        velocity *= 0.92;
-        
-        // Stop animation when very close to target
-        if (Math.abs(targetOffset - currentOffset) < 0.1 && Math.abs(velocity) < 0.1) {
-          currentOffset = targetOffset;
-          currentScale = targetScale;
-          velocity = 0;
-        }
-      }
-
-      // Apply transform with both translateY and scale
-      if (image) {
-        image.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
-      }
-
-      // Continue animation if needed
-      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1) {
-        animationFrameId = requestAnimationFrame(animate);
-      } else {
-        animationFrameId = null;
-      }
-    }
-
-    function onScroll() {
-      const currentScrollY = window.scrollY;
-      const scrollDelta = currentScrollY - lastScrollY;
-      lastScrollY = currentScrollY;
-
-      // Mark as scrolling
-      isScrolling = true;
-      
-      // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      // Start animation if not already running
-      if (!animationFrameId) {
-        lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(animate);
-      }
-
-      // Detect when scrolling stops
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-        // Continue animation for smooth deceleration
-        if (!animationFrameId) {
-          lastTime = performance.now();
-          animationFrameId = requestAnimationFrame(animate);
-        }
-      }, 50) as unknown as number;
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    
-    // Initial setup
-    const initialValues = calculateParallaxValues();
-    targetOffset = initialValues.offset;
-    currentOffset = targetOffset;
-    targetScale = initialValues.scale;
-    currentScale = targetScale;
-    lastTime = performance.now();
-    animate();
-  }
-
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initParallax);
-  } else {
-    initParallax();
-  }
-
   // Bio length slider functionality - smooth draggable spectrum
   function initBioSlider() {
     const slider = document.getElementById('bio-length-slider') as HTMLInputElement | null;
