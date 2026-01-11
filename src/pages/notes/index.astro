@@ -17,20 +17,6 @@ const notes = (import.meta.env.PROD
 // Get unique tags for filtering
 const allTags = [...new Set(notes.flatMap(note => note.data.tags || []))].sort();
 
-// Helper to get relative time
-function getRelativeTime(date: Date): string {
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffDays === 0) return 'today';
-  if (diffDays === 1) return 'yesterday';
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-  return `${Math.floor(diffDays / 365)} years ago`;
-}
-
 // Stage info - using dots instead of emoji
 const stageInfo = {
   seedling: { icon: '○', label: 'Seedling', description: 'Just planted, rough ideas' },
@@ -73,7 +59,6 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     ) : (
       notes.map(note => {
         const stage = stageInfo[note.data.stage || 'seedling'];
-        const displayDate = note.data.updatedDate || note.data.pubDate;
         const tags = note.data.tags || [];
 
         return (
@@ -83,7 +68,6 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
               <span class="note-stage" title={stage.description}>
                 {stage.icon}
               </span>
-              <span class="note-date">{getRelativeTime(displayDate)}</span>
             </div>
             <h2 class="note-title">{note.data.title}</h2>
             {note.data.description && (
@@ -106,6 +90,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 <style>
   .notes-header {
     margin-bottom: 2rem;
+    padding-top: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--color-border);
     background: var(--color-bg);
@@ -216,12 +201,6 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
   .note-stage {
     font-size: 1.25rem;
     cursor: help;
-  }
-
-  .note-date {
-    font-size: 0.75rem;
-    color: var(--color-muted);
-    text-transform: lowercase;
   }
 
   .note-title {

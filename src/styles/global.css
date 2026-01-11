@@ -519,6 +519,7 @@
 .link-muted {
   color: var(--color-muted);
   text-decoration: none;
+  transition: color 0.3s var(--ease-inertia);
 }
 
 .link-muted:hover {
@@ -823,7 +824,7 @@ a {
   text-decoration: none;
   position: relative;
   border-bottom: 1px dotted var(--color-link);
-  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
 }
 
 a:visited {
@@ -1551,6 +1552,7 @@ body.mobile-menu-open {
 /* Color only - no underline */
 [data-link-style="color-only"] a:not(.nav-link):not(.footer-link) {
   text-decoration: none;
+  transition: opacity 0.3s var(--ease-inertia);
 }
 
 [data-link-style="color-only"] a:not(.nav-link):not(.footer-link):hover {
