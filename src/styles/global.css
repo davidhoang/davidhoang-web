@@ -1,4 +1,36 @@
 /* ============================================
+   ABC Diatype Variable Fonts
+   ============================================
+
+   Typeface: ABC Diatype & ABC Diatype Mono
+   Foundry: Dinamo (https://abcdinamo.com)
+
+   ABC Diatype is a sans-serif with a warm, rational character.
+   Designed by Johannes Breyer and Fabian Harb.
+
+   Support independent type foundries!
+
+   ============================================ */
+
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatypeVariable.woff2') format('woff2'),
+       url('/fonts/ABCDiatypeVariable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Diatype Mono';
+  src: url('/fonts/ABCDiatypeMonoVariable.woff2') format('woff2'),
+       url('/fonts/ABCDiatypeMonoVariable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
    CSS Variables (Design Tokens)
    ============================================ */
 
@@ -30,12 +62,12 @@
   --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-inertia-smooth: cubic-bezier(0.33, 1, 0.68, 1);
 
-  /* Typography */
-  --font-primary: 'EB Garamond', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, serif;
+  /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com) */
+  --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
   --font-heading: var(--font-primary);
   --font-body: var(--font-primary);
-  --font-mono: 'Courier New', Courier, monospace;
+  --font-mono: 'ABC Diatype Mono', 'Courier New', Courier, monospace;
 
   /* Typography weights and transforms */
   --heading-weight: 600;
@@ -1018,7 +1050,7 @@ svg {
 }
 
 .hero-title h1 {
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-heading);
   font-size: clamp(5rem, 8vw, 8rem);
   font-weight: 500;
   width: 100%;
@@ -1038,7 +1070,7 @@ svg {
   max-width: 100vw;
   height: 75vh;
   min-height: 200px;
-  margin-top: calc(0px - var(--container-padding));
+  margin-top: -4rem; /* Negate main padding to reach viewport edge */
   margin-bottom: 2rem;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
@@ -2136,7 +2168,7 @@ article.blog-post img:hover {
     margin-bottom: 1rem;
     margin-top: 1rem;
     font-weight: 600;
-    font-family: 'EB Garamond', var(--font-primary);
+    font-family: var(--font-heading);
   }
   h1 {
     font-size: 2.5rem;

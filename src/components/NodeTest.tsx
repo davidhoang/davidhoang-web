@@ -335,7 +335,7 @@ const NodeTestComponent: React.FC = () => {
                 verticalAlign="middle"
                 fill={textColor}
                 fontSize={fontSize}
-                fontFamily="'EB Garamond', serif"
+                fontFamily="'ABC Diatype', sans-serif"
                 fontStyle="normal"
                 fontWeight={500}
                 opacity={0.95}
