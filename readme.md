@@ -8,7 +8,7 @@ Personal portfolio website with AI-powered daily theme generation.
 - **UI Components:** React 19 with [Framer Motion](https://www.framer.com/motion/) for animations
 - **Styling:** CSS with CSS custom properties for theming
 - **Graphics:** [Konva](https://konvajs.org/) / React-Konva for canvas, [Paper Design Shaders](https://www.npmjs.com/package/@paper-design/shaders-react) for WebGL backgrounds
-- **Typography:** [Geist](https://vercel.com/font) font family + Google Fonts
+- **Typography:** [ABC Diatype](https://abcdinamo.com/typefaces/diatype) font family + Google Fonts
 - **AI Integration:** [Anthropic Claude API](https://docs.anthropic.com/) for theme generation
 - **Deployment:** Vercel / Cloudflare
 - **Language:** TypeScript
