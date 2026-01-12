@@ -31,7 +31,7 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
   <article class="blog-post">
     {coverImage && (
       <div class="hero-section">
-        <img src={coverImage} alt={title} />
+        <img src={coverImage} alt={title} loading="lazy" decoding="async" />
       </div>
     )}
     <div class="container">
