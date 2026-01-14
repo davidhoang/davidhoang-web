@@ -275,7 +275,8 @@ const currentPath = Astro.url.pathname;
     height: 100dvh; /* Dynamic viewport height for mobile */
     background: var(--color-nav-bg);
     z-index: 1500;
-    padding: 0;
+    /* Safe area padding for notched devices */
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -373,7 +374,9 @@ const currentPath = Astro.url.pathname;
       max-width: 100%;
       border-radius: 0;
       padding: 0;
-      height: 64px;
+      /* Account for notch/Dynamic Island on iOS devices */
+      padding-top: env(safe-area-inset-top, 0);
+      height: calc(64px + env(safe-area-inset-top, 0));
       min-width: unset;
       border: none;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
