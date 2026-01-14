@@ -4,7 +4,6 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import EInkToggle from '../components/EInkToggle.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
@@ -142,7 +141,6 @@ const ogImageUrl = ogImage.startsWith('http')
     </main>
     {!hideFooter && <Footer />}
     <DailyThemeToggle />
-    <EInkToggle />
     <ThemeToggle />
 
     <MusicPlayer />
