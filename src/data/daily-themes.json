@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Gilded Geometry",
+      "description": "Art Deco elegance meets dawn's gentle awakening with luxurious gold accents and sharp geometric precision.",
+      "colors": {
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FEF8F0",
+          "--color-link": "#D4AF37",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#E8D5B7",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#F5F0E8",
+          "--color-nav-bg": "#2C1810",
+          "--color-nav-text": "#FEF8F0",
+          "--color-card-bg": "#FDFAF5"
+        },
+        "dark": {
+          "--color-text": "#F5F0E8",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFC107",
+          "--color-border": "#3D2817",
+          "--color-muted": "#A68B5B",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "#0D0704",
+          "--color-nav-text": "#F5F0E8",
+          "--color-card-bg": "#241409"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "centered"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-15"
+    },
+    {
       "name": "Botanical Laboratory",
       "description": "Scientific precision meets organic forms in a research greenhouse setting",
       "colors": {
@@ -597,109 +695,7 @@
         "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
       },
       "date": "2026-01-09"
-    },
-    {
-      "name": "Dawn Mirage",
-      "description": "A soft awakening in the desert where terracotta dreams meet morning mist.",
-      "colors": {
-        "light": {
-          "--color-text": "#4A2C1D",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#FF4500",
-          "--color-border": "#E6C2A6",
-          "--color-muted": "#8B6F4A",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#FEF3E2",
-          "--color-nav-text": "#4A2C1D",
-          "--color-card-bg": "#FDEDEC"
-        },
-        "dark": {
-          "--color-text": "#F4E4D6",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#4A2C1D",
-          "--color-muted": "#A68B5B",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F4E4D6",
-          "--color-card-bg": "#1C1410"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "56px",
-        "padding": "0.75rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(74, 44, 29, 0.1)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "880px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "centered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "perlin",
-        "colors": [
-          "#E63946",
-          "#FF6B35",
-          "#F4A261"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-08"
     }
   ],
-  "currentDate": "2026-01-14"
+  "currentDate": "2026-01-15"
 }
