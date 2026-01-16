@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Soviet Brutalism",
+      "description": "Raw concrete aesthetics meet bold red propaganda-inspired design with stark typography and industrial precision.",
+      "colors": {
+        "light": {
+          "--color-text": "#1A1A1A",
+          "--color-bg": "#F5F2F0",
+          "--color-link": "#CC0000",
+          "--color-link-hover": "#990000",
+          "--color-border": "#CCCCCC",
+          "--color-muted": "#666666",
+          "--color-sidebar-bg": "#E8E5E3",
+          "--color-nav-bg": "#1A1A1A",
+          "--color-nav-text": "#F5F2F0",
+          "--color-card-bg": "#EEEBE9"
+        },
+        "dark": {
+          "--color-text": "#F0F0F0",
+          "--color-bg": "#1C1C1C",
+          "--color-link": "#FF3333",
+          "--color-link-hover": "#FF6666",
+          "--color-border": "#444444",
+          "--color-muted": "#AAAAAA",
+          "--color-sidebar-bg": "#262626",
+          "--color-nav-bg": "#CC0000",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#222222"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.5",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-01-16"
+    },
+    {
       "name": "Gilded Geometry",
       "description": "Art Deco elegance meets dawn's gentle awakening with luxurious gold accents and sharp geometric precision.",
       "colors": {
@@ -597,105 +695,7 @@
         "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-10"
-    },
-    {
-      "name": "Copper Foundry",
-      "description": "Industrial warmth meets artisanal craftsmanship with rich metallics and bold typography.",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#D2691E",
-          "--color-link-hover": "#FF6B35",
-          "--color-border": "#E6C2A6",
-          "--color-muted": "#8B4513",
-          "--color-sidebar-bg": "#F4E4D6",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#FDF2E9",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#F4E4D6",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF7F50",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#5D4E37",
-          "--color-muted": "#A0826D",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#D2691E",
-          "--color-nav-text": "#1A0F0A",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Anton",
-          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Anton",
-        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-01-09"
     }
   ],
-  "currentDate": "2026-01-15"
+  "currentDate": "2026-01-16"
 }
