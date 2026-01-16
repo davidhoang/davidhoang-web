@@ -73,7 +73,6 @@ const currentPath = Astro.url.pathname;
     position: fixed;
     top: 24px;
     left: 50%;
-    transform: translateX(-50%);
     height: var(--nav-height);
     z-index: 1000;
     background: var(--color-nav-bg, #ffffff);
@@ -89,8 +88,44 @@ const currentPath = Astro.url.pathname;
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--color-nav-text, #000);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-sizing: border-box;
+    /* Sentient nav: CSS custom properties for JS-controlled motion */
+    --nav-float-x: 0px;
+    --nav-float-y: 0px;
+    --nav-tilt: 0deg;
+    --nav-glow-opacity: 0;
+    --nav-glow-color: var(--color-link);
+    /* Base transform - all motion flows through this */
+    transform: translateX(-50%)
+               translateY(var(--nav-float-y))
+               translateX(var(--nav-float-x))
+               rotate(var(--nav-tilt));
+    /* Smooth transitions for all properties */
+    transition:
+      transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+      min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Reactive glow effect */
+  nav::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: radial-gradient(
+      ellipse at center,
+      var(--nav-glow-color) 0%,
+      transparent 70%
+    );
+    opacity: var(--nav-glow-opacity);
+    filter: blur(16px);
+    z-index: -1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
   }
 
   /* Prevent horizontal overflow on smaller screens (between 520px and 768px) */
@@ -240,7 +275,8 @@ const currentPath = Astro.url.pathname;
     height: 100dvh; /* Dynamic viewport height for mobile */
     background: var(--color-nav-bg);
     z-index: 1500;
-    padding: 0;
+    /* Safe area padding for notched devices */
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -333,16 +369,22 @@ const currentPath = Astro.url.pathname;
       top: 0;
       left: 0;
       right: 0;
-      transform: none;
+      transform: none !important; /* Override sentient transforms */
       width: 100%;
       max-width: 100%;
       border-radius: 0;
       padding: 0;
-      height: 64px;
+      /* Account for notch/Dynamic Island on iOS devices */
+      padding-top: env(safe-area-inset-top, 0);
+      height: calc(64px + env(safe-area-inset-top, 0));
       min-width: unset;
-      border: none; /* Remove border on mobile */
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Simplified shadow */
-      transition: none !important; /* Remove all transitions on mobile */
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: none !important;
+    }
+
+    nav::after {
+      display: none;
     }
 
     /* Completely disable all hover effects on mobile */
@@ -773,11 +815,142 @@ const currentPath = Astro.url.pathname;
     window.addEventListener('scroll', handleScroll, { passive: true });
   }
 
+  function initSentientNav() {
+    const nav = document.querySelector('nav') as HTMLElement | null;
+    if (!nav) return;
+
+    // Check for reduced motion preference
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    // Skip on mobile
+    if (window.innerWidth <= 768) return;
+
+    let animationFrame: number | null = null;
+    let isHovering = false;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = 0;
+
+    // Current values (for smooth interpolation)
+    let currentX = 0;
+    let currentY = 0;
+    let currentTilt = 0;
+    let currentGlow = 0;
+
+    // Target values
+    let targetX = 0;
+    let targetY = 0;
+    let targetTilt = 0;
+    let targetGlow = 0;
+
+    // Breathing animation state
+    let breathePhase = 0;
+    let lastTime = performance.now();
+
+    const MAGNETIC_RANGE = 350; // Pixels - how far the magnetic effect reaches
+    const MAX_OFFSET = 6; // Max pixels the nav can move
+    const MAX_TILT = 1; // Max degrees of tilt
+    const LERP_SPEED = 0.08; // Interpolation speed (0-1, lower = smoother)
+    const BREATHE_SPEED = 0.0008; // Breathing animation speed
+    const BREATHE_AMOUNT = 2; // Pixels of vertical movement
+
+    function lerp(current: number, target: number, speed: number): number {
+      return current + (target - current) * speed;
+    }
+
+    function animate(time: number) {
+      const deltaTime = time - lastTime;
+      lastTime = time;
+
+      if (!nav) return;
+
+      const navRect = nav.getBoundingClientRect();
+      const navCenterX = navRect.left + navRect.width / 2;
+      const navCenterY = navRect.top + navRect.height / 2;
+
+      // Calculate distance from cursor to nav center
+      const deltaX = mouseX - navCenterX;
+      const deltaY = mouseY - navCenterY;
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if (!isHovering && distance < MAGNETIC_RANGE) {
+        // Calculate magnetic pull (stronger when closer)
+        const pull = 1 - (distance / MAGNETIC_RANGE);
+        const easeOut = pull * pull * pull; // Cubic ease for even smoother feel
+
+        // Set targets for magnetic effect
+        targetX = (deltaX / MAGNETIC_RANGE) * MAX_OFFSET * easeOut;
+        targetY = (deltaY / MAGNETIC_RANGE) * MAX_OFFSET * easeOut;
+        targetTilt = (deltaX / MAGNETIC_RANGE) * MAX_TILT * easeOut;
+        targetGlow = easeOut * 0.12;
+      } else if (!isHovering) {
+        // Add subtle breathing when cursor is far
+        breathePhase += BREATHE_SPEED * deltaTime;
+        const breatheOffset = Math.sin(breathePhase) * BREATHE_AMOUNT;
+
+        targetX = 0;
+        targetY = breatheOffset;
+        targetTilt = 0;
+        targetGlow = 0;
+      } else {
+        // Hovering - subtle glow, no movement
+        targetX = 0;
+        targetY = 0;
+        targetTilt = 0;
+        targetGlow = 0.15;
+      }
+
+      // Smoothly interpolate to targets
+      currentX = lerp(currentX, targetX, LERP_SPEED);
+      currentY = lerp(currentY, targetY, LERP_SPEED);
+      currentTilt = lerp(currentTilt, targetTilt, LERP_SPEED);
+      currentGlow = lerp(currentGlow, targetGlow, LERP_SPEED);
+
+      // Apply values via CSS custom properties
+      nav.style.setProperty('--nav-float-x', `${currentX}px`);
+      nav.style.setProperty('--nav-float-y', `${currentY}px`);
+      nav.style.setProperty('--nav-tilt', `${currentTilt}deg`);
+      nav.style.setProperty('--nav-glow-opacity', `${currentGlow}`);
+
+      animationFrame = requestAnimationFrame(animate);
+    }
+
+    function handleMouseMove(e: MouseEvent) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }
+
+    function handleMouseEnter() {
+      isHovering = true;
+    }
+
+    function handleMouseLeave() {
+      isHovering = false;
+    }
+
+    // Event listeners
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    nav.addEventListener('mouseenter', handleMouseEnter);
+    nav.addEventListener('mouseleave', handleMouseLeave);
+
+    // Start animation loop
+    animationFrame = requestAnimationFrame(animate);
+
+    // Cleanup function for page transitions
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      nav.removeEventListener('mouseenter', handleMouseEnter);
+      nav.removeEventListener('mouseleave', handleMouseLeave);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }
+
   // Initialize shader and existing mobile menu
   function init() {
     initShader();
     initMobileMenu();
     initScrollDetection();
+    initSentientNav();
   }
 
   // Initialize on page load

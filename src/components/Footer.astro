@@ -49,6 +49,7 @@
     opacity: 1;
     padding: 2rem 0 4rem 0;
     font-size: 1rem;
+    font-family: var(--font-body);
     min-height: 100px;
     width: 100%;
     border-top: 1px solid var(--color-border);
@@ -80,14 +81,19 @@
     }
   }
 
-  /* Footer links - override global styles */
+  /* Footer links - magnetic hover effect */
   footer a,
   footer a:visited,
   footer a:link {
     border-bottom: none;
     text-decoration: none;
+    font-family: var(--font-body);
     color: var(--color-link);
-    transition: color 0.3s ease;
+    position: relative;
+    display: inline-block;
+    transition:
+      color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+      transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
   }
 
   footer a::after {
@@ -95,12 +101,58 @@
     content: none;
   }
 
-  footer a:hover,
-  footer a:visited:hover {
-    color: var(--color-link-hover);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
+  /* Glow effect behind link */
+  footer a::before {
+    content: '';
+    position: absolute;
+    inset: -4px -8px;
+    background: radial-gradient(
+      ellipse at center,
+      var(--color-link) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    filter: blur(8px);
+    z-index: -1;
+    transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    pointer-events: none;
+    border-radius: 4px;
+  }
+
+  @media (hover: hover) {
+    footer a:hover,
+    footer a:visited:hover {
+      color: var(--color-link-hover);
+      transform: translateX(4px);
+    }
+
+    footer a:hover::before {
+      opacity: 0.15;
+    }
+  }
+
+  /* Email link - bigger magnetic effect */
+  .footer-section-email a {
+    transition:
+      color 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+      transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+      letter-spacing 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .footer-section-email a::before {
+    inset: -8px -16px;
+    filter: blur(12px);
+  }
+
+  @media (hover: hover) {
+    .footer-section-email a:hover {
+      transform: translateY(-2px);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-section-email a:hover::before {
+      opacity: 0.2;
+    }
   }
 
   .footer-section-email {
@@ -117,6 +169,7 @@
   .footer-section-copyright {
     margin-top: 2rem;
     font-size: 0.9rem;
+    font-family: var(--font-body);
   }
 
   .footer-grid {
@@ -128,6 +181,7 @@
 
   .footer-col h4 {
     font-size: 1.1rem;
+    font-family: var(--font-heading);
     font-weight: 700;
     margin-bottom: 0.75rem;
     margin-top: 0;
@@ -145,6 +199,7 @@
   .footer-col li {
     margin-bottom: 0.25rem;
     font-size: 0.95rem;
+    font-family: var(--font-body);
     line-height: 1.4;
   }
 
@@ -162,6 +217,16 @@
     .footer-col li {
       font-size: 0.9rem;
       margin-bottom: 0.2rem;
+    }
+
+    /* Disable hover effects on mobile */
+    footer a,
+    footer a:hover {
+      transform: none !important;
+    }
+
+    footer a::before {
+      display: none;
     }
   }
 

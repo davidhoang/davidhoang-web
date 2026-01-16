@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
+import PageHeader from '../../components/PageHeader.astro';
 
 const allNotes = await getCollection('notes');
 // Filter out drafts in production, show in dev
@@ -17,20 +18,6 @@ const notes = (import.meta.env.PROD
 // Get unique tags for filtering
 const allTags = [...new Set(notes.flatMap(note => note.data.tags || []))].sort();
 
-// Helper to get relative time
-function getRelativeTime(date: Date): string {
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffDays === 0) return 'today';
-  if (diffDays === 1) return 'yesterday';
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-  return `${Math.floor(diffDays / 365)} years ago`;
-}
-
 // Stage info - using dots instead of emoji
 const stageInfo = {
   seedling: { icon: '○', label: 'Seedling', description: 'Just planted, rough ideas' },
@@ -42,12 +29,11 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 ---
 
 <MainLayout title="Notes | David Hoang" description={pageDescription}>
-  <div class="notes-header">
-    <h1>Notes</h1>
-    <p class="notes-intro">
-      Welcome to my digital garden. These are evergreen notes—ideas I plant, tend, and revisit over time.
-      Unlike blog posts, they grow and evolve.
-    </p>
+  <PageHeader
+    title="Notes"
+    variant="text-only"
+    subtitle="Welcome to my digital garden. These are evergreen notes—ideas I plant, tend, and revisit over time. Unlike blog posts, they grow and evolve."
+  >
     <div class="stage-legend">
       {Object.entries(stageInfo).map(([key, info]) => (
         <span class="stage-item">
@@ -56,7 +42,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
         </span>
       ))}
     </div>
-  </div>
+  </PageHeader>
 
   {allTags.length > 0 && (
     <div class="tags-filter">
@@ -73,7 +59,6 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     ) : (
       notes.map(note => {
         const stage = stageInfo[note.data.stage || 'seedling'];
-        const displayDate = note.data.updatedDate || note.data.pubDate;
         const tags = note.data.tags || [];
 
         return (
@@ -83,7 +68,6 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
               <span class="note-stage" title={stage.description}>
                 {stage.icon}
               </span>
-              <span class="note-date">{getRelativeTime(displayDate)}</span>
             </div>
             <h2 class="note-title">{note.data.title}</h2>
             {note.data.description && (
@@ -104,26 +88,8 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 </MainLayout>
 
 <style>
-  .notes-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
-  }
-
-  .notes-header h1 {
-    margin-bottom: 0.5rem;
-  }
-
-  .notes-intro {
-    color: var(--color-muted);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin-bottom: 1rem;
-  }
-
   .stage-legend {
+    margin-top: 1rem;
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
@@ -216,12 +182,6 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
   .note-stage {
     font-size: 1.25rem;
     cursor: help;
-  }
-
-  .note-date {
-    font-size: 0.75rem;
-    color: var(--color-muted);
-    text-transform: lowercase;
   }
 
   .note-title {

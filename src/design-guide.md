@@ -45,10 +45,10 @@ These CSS custom properties are the foundation of the theme system. Daily themes
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `--font-primary` | Primary font stack | EB Garamond |
+| `--font-primary` | Primary font stack | ABC Diatype |
 | `--font-heading` | Heading font | `var(--font-primary)` |
 | `--font-body` | Body text font | `var(--font-primary)` |
-| `--font-mono` | Monospace font | Courier New |
+| `--font-mono` | Monospace font | ABC Diatype Mono |
 | `--heading-weight` | Heading font weight | `600` |
 | `--body-weight` | Body font weight | `400` |
 | `--body-line-height` | Body line height | `1.6` |

@@ -1,142 +1,334 @@
 {
   "themes": [
     {
-      "name": "Morning Mist",
-      "description": "A gentle awakening palette with soft pastels and breathing room for peaceful contemplation.",
+      "name": "Soviet Brutalism",
+      "description": "Raw concrete aesthetics meet bold red propaganda-inspired design with stark typography and industrial precision.",
       "colors": {
         "light": {
-          "--color-text": "#2D4A3E",
-          "--color-bg": "#F4F9F7",
-          "--color-link": "#00A676",
-          "--color-link-hover": "#008B64",
-          "--color-border": "#D1E7DD",
-          "--color-muted": "#6C8276",
-          "--color-sidebar-bg": "#EBF5F1",
-          "--color-nav-bg": "rgba(244, 249, 247, 0.95)",
-          "--color-nav-text": "#2D4A3E",
-          "--color-card-bg": "#FFFFFF"
+          "--color-text": "#1A1A1A",
+          "--color-bg": "#F5F2F0",
+          "--color-link": "#CC0000",
+          "--color-link-hover": "#990000",
+          "--color-border": "#CCCCCC",
+          "--color-muted": "#666666",
+          "--color-sidebar-bg": "#E8E5E3",
+          "--color-nav-bg": "#1A1A1A",
+          "--color-nav-text": "#F5F2F0",
+          "--color-card-bg": "#EEEBE9"
         },
         "dark": {
-          "--color-text": "#E8F4F1",
-          "--color-bg": "#0D1F1A",
-          "--color-link": "#4ECDC4",
-          "--color-link-hover": "#6DD8D0",
-          "--color-border": "#1A3329",
-          "--color-muted": "#8FA899",
-          "--color-sidebar-bg": "#152620",
-          "--color-nav-bg": "rgba(13, 31, 26, 0.95)",
-          "--color-nav-text": "#E8F4F1",
-          "--color-card-bg": "#162B23"
+          "--color-text": "#F0F0F0",
+          "--color-bg": "#1C1C1C",
+          "--color-link": "#FF3333",
+          "--color-link-hover": "#FF6666",
+          "--color-border": "#444444",
+          "--color-muted": "#AAAAAA",
+          "--color-sidebar-bg": "#262626",
+          "--color-nav-bg": "#CC0000",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#222222"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Lora",
-          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Lora', Georgia, 'Times New Roman', serif"
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
         },
         "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
           "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }
       },
       "typography": {
         "headingWeight": "400",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none"
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.5",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
       },
       "navigation": {
-        "style": "floating",
-        "height": "56px",
-        "padding": "0.75rem 2rem"
+        "style": "full-width",
+        "height": "72px",
+        "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "glass",
-        "shadow": "0 4px 16px rgba(0, 0, 0, 0.04)",
-        "borderWidth": "1px",
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
         "padding": "2rem"
       },
       "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-01-16"
+    },
+    {
+      "name": "Gilded Geometry",
+      "description": "Art Deco elegance meets dawn's gentle awakening with luxurious gold accents and sharp geometric precision.",
+      "colors": {
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FEF8F0",
+          "--color-link": "#D4AF37",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#E8D5B7",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#F5F0E8",
+          "--color-nav-bg": "#2C1810",
+          "--color-nav-text": "#FEF8F0",
+          "--color-card-bg": "#FDFAF5"
+        },
+        "dark": {
+          "--color-text": "#F5F0E8",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFC107",
+          "--color-border": "#3D2817",
+          "--color-muted": "#A68B5B",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "#0D0704",
+          "--color-nav-text": "#F5F0E8",
+          "--color-card-bg": "#241409"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "6rem",
         "contentPadding": "2rem"
       },
       "hero": {
         "layout": "centered"
       },
       "links": {
-        "style": "highlight"
+        "style": "bracket"
       },
       "background": {
-        "texture": "gradient"
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-15"
+    },
+    {
+      "name": "Botanical Laboratory",
+      "description": "Scientific precision meets organic forms in a research greenhouse setting",
+      "colors": {
+        "light": {
+          "--color-text": "#1B4332",
+          "--color-bg": "#F1F8E9",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#D62828",
+          "--color-border": "#A7C957",
+          "--color-muted": "#6A994E",
+          "--color-sidebar-bg": "#E8F5E8",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#2D6A4F",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#B7E4C7",
+          "--color-bg": "#0F2027",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C42",
+          "--color-border": "#386641",
+          "--color-muted": "#6A994E",
+          "--color-sidebar-bg": "#1A3B2E",
+          "--color-nav-bg": "#1B4332",
+          "--color-nav-text": "#95D5B2",
+          "--color-card-bg": "#2D5A41"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "500",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
       },
       "images": {
         "style": "muted",
         "hover": "lift",
         "opacity": "0.92",
-        "borderRadius": "12px"
+        "borderRadius": "8px"
       },
       "footer": {
-        "style": "minimal"
+        "style": "boxed"
       },
       "shader": {
-        "type": "perlin",
-        "colors": [
-          "#00A676",
-          "#4ECDC4",
-          "#D1E7DD"
-        ]
+        "type": "none",
+        "colors": []
       },
       "font": {
-        "name": "Lora",
-        "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Lora', Georgia, 'Times New Roman', serif"
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
-      "date": "2026-01-07"
+      "date": "2026-01-14"
     },
     {
-      "name": "Dawn Manuscript",
-      "description": "A sophisticated editorial awakening with gentle warmth and typographic elegance.",
+      "name": "Osaka Jazz Lounge",
+      "description": "Smoky midnight atmosphere of a 1960s Japanese jazz bar with warm amber lighting and sophisticated typography.",
       "colors": {
         "light": {
-          "--color-text": "#2C2420",
+          "--color-text": "#2D1810",
           "--color-bg": "#FDF2E9",
           "--color-link": "#E63946",
-          "--color-link-hover": "#B02A37",
-          "--color-border": "#E8D5C4",
-          "--color-muted": "#6B5B52",
-          "--color-sidebar-bg": "#F8EDE3",
-          "--color-nav-bg": "#FDEBD0",
-          "--color-nav-text": "#2C2420",
+          "--color-link-hover": "#B8242C",
+          "--color-border": "#D4A574",
+          "--color-muted": "#8B6914",
+          "--color-sidebar-bg": "#F4E4D1",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2D1810",
           "--color-card-bg": "#FEFAF7"
         },
         "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A5C",
-          "--color-border": "#3D2F23",
-          "--color-muted": "#A6927F",
+          "--color-text": "#E8D5B7",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFC107",
+          "--color-border": "#4A3829",
+          "--color-muted": "#8B7355",
           "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#241B14"
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#E8D5B7",
+          "--color-card-bg": "#2C1810"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Playfair Display",
-          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
           "category": "serif",
-          "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
         },
         "body": {
           "name": "Source Serif 4",
@@ -148,143 +340,42 @@
       "typography": {
         "headingWeight": "400",
         "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
+        "bodyLineHeight": "1.8",
         "letterSpacing": "0.01em",
         "headingLetterSpacing": "-0.02em",
         "headingTransform": "none"
       },
       "navigation": {
         "style": "minimal",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "720px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#E63946",
-          "#FDF2E9"
-        ]
-      },
-      "font": {
-        "name": "Playfair Display",
-        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-06"
-    },
-    {
-      "name": "Morning Hearth",
-      "description": "Sunrise warmth meets focused productivity in a cozy workspace atmosphere.",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FFF5E6",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#C8102E",
-          "--color-border": "#F4A261",
-          "--color-muted": "#8D6E63",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#FEF3E2",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FDEDEC"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8F65",
-          "--color-border": "#8B4513",
-          "--color-muted": "#A0826D",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
         "height": "64px",
         "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(139, 69, 19, 0.15)",
-        "borderWidth": "1px",
-        "padding": "2rem"
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "2.5rem"
       },
       "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "920px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
+        "borderRadius": "8px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem"
       },
       "hero": {
         "layout": "left-aligned"
       },
       "links": {
-        "style": "highlight"
+        "style": "animated-underline"
       },
       "background": {
         "texture": "grain"
       },
       "images": {
-        "style": "vivid",
+        "style": "duotone",
         "hover": "lift",
-        "opacity": "1",
-        "borderRadius": "12px"
+        "opacity": "0.9",
+        "borderRadius": "8px"
       },
       "footer": {
         "style": "editorial"
@@ -292,78 +383,77 @@
       "shader": {
         "type": "grain",
         "colors": [
-          "#E63946",
-          "#F4A261",
-          "#D2691E"
+          "#8B6914",
+          "#4A3829"
         ]
       },
       "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
         "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
-      "date": "2026-01-05"
+      "date": "2026-01-13"
     },
     {
-      "name": "Precision Grid",
-      "description": "Mathematical clarity meets confident afternoon energy with Swiss-inspired systematic design",
+      "name": "Neon Arcade",
+      "description": "Electric 80s gaming aesthetic with hot pink highlights and digital brutalism",
       "colors": {
         "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#FDEBD0",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#B02A2F",
-          "--color-border": "#E8E8E8",
-          "--color-muted": "#666666",
-          "--color-sidebar-bg": "#FDF2E9",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FFFFFF"
+          "--color-text": "#1A0D1F",
+          "--color-bg": "#FDF2F8",
+          "--color-link": "#FF1493",
+          "--color-link-hover": "#FF69B4",
+          "--color-border": "#E879F9",
+          "--color-muted": "#9CA3AF",
+          "--color-sidebar-bg": "#F3E8FF",
+          "--color-nav-bg": "#1A0D1F",
+          "--color-nav-text": "#FF1493",
+          "--color-card-bg": "#FEFCFF"
         },
         "dark": {
-          "--color-text": "#F5F5F5",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A5C",
-          "--color-border": "#444444",
-          "--color-muted": "#AAAAAA",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F5F5F5",
-          "--color-card-bg": "#2C1810"
+          "--color-text": "#FF1493",
+          "--color-bg": "#1A0D1F",
+          "--color-link": "#00FFFF",
+          "--color-link-hover": "#FF69B4",
+          "--color-border": "#9D4EDD",
+          "--color-muted": "#A1A1AA",
+          "--color-sidebar-bg": "#2D132C",
+          "--color-nav-bg": "#FF1493",
+          "--color-nav-text": "#1A0D1F",
+          "--color-card-bg": "#2A0E30"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "name": "Unbounded",
+          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
         },
         "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
         }
       },
       "typography": {
-        "headingWeight": "700",
+        "headingWeight": "800",
         "bodyWeight": "400",
         "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
         "headingTransform": "uppercase"
       },
       "navigation": {
         "style": "bold-bar",
         "height": "72px",
-        "padding": "1rem 2rem"
+        "padding": "1.5rem 2rem"
       },
       "cards": {
-        "style": "flat",
-        "shadow": "none",
+        "style": "outlined",
+        "shadow": "0 0 20px rgba(255, 20, 147, 0.15)",
         "borderWidth": "2px",
         "padding": "2rem"
       },
@@ -384,93 +474,94 @@
       },
       "images": {
         "style": "duotone",
-        "hover": "lift",
-        "opacity": "1",
+        "hover": "glow",
+        "opacity": "0.9",
         "borderRadius": "0px"
       },
       "footer": {
-        "style": "brutalist"
+        "style": "retro"
       },
       "shader": {
         "type": "dot-grid",
         "colors": [
-          "#E63946",
-          "#FDEBD0"
+          "#FF1493",
+          "#00FFFF",
+          "#9D4EDD"
         ]
       },
       "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "name": "Unbounded",
+        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
       },
-      "date": "2026-01-04"
+      "date": "2026-01-12"
     },
     {
-      "name": "Swiss Grid",
-      "description": "Precise typography and geometric balance in harmonious tinted spaces.",
+      "name": "Maritime Library",
+      "description": "Deep ocean blues meet scholarly elegance in a nautical reading room aesthetic",
       "colors": {
         "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#EBF5FB",
-          "--color-link": "#1565C0",
-          "--color-link-hover": "#0D47A1",
-          "--color-border": "#B3E5FC",
-          "--color-muted": "#607D8B",
-          "--color-sidebar-bg": "#E3F2FD",
+          "--color-text": "#1B4B5A",
+          "--color-bg": "#F0F8FC",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#B8323E",
+          "--color-border": "#C5D9E2",
+          "--color-muted": "#6B8C9A",
+          "--color-sidebar-bg": "#E1F1F7",
           "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FFFFFF"
+          "--color-nav-text": "#2C5F6F",
+          "--color-card-bg": "#FAFCFD"
         },
         "dark": {
-          "--color-text": "#E8E8E8",
-          "--color-bg": "#0A1628",
-          "--color-link": "#42A5F5",
-          "--color-link-hover": "#90CAF9",
-          "--color-border": "#1E3A8A",
-          "--color-muted": "#94A3B8",
-          "--color-sidebar-bg": "#0F1B2C",
-          "--color-nav-bg": "#1A2332",
-          "--color-nav-text": "#E8E8E8",
-          "--color-card-bg": "#1A2332"
+          "--color-text": "#E8F4F8",
+          "--color-bg": "#0A1F28",
+          "--color-link": "#FF6B6B",
+          "--color-link-hover": "#FF5252",
+          "--color-border": "#2A4A55",
+          "--color-muted": "#8FA8B2",
+          "--color-sidebar-bg": "#132831",
+          "--color-nav-bg": "#0D252E",
+          "--color-nav-text": "#B8D4DC",
+          "--color-card-bg": "#142A35"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif"
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
         },
         "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
         }
       },
       "typography": {
-        "headingWeight": "700",
+        "headingWeight": "500",
         "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0",
-        "headingLetterSpacing": "-0.02em",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
         "headingTransform": "none"
       },
       "navigation": {
-        "style": "minimal",
-        "height": "64px",
+        "style": "floating",
+        "height": "56px",
         "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "flat",
-        "shadow": "none",
+        "style": "elevated",
+        "shadow": "0 4px 20px rgba(27, 75, 90, 0.08)",
         "borderWidth": "1px",
-        "padding": "2rem"
+        "padding": "2.5rem"
       },
       "layout": {
         "borderRadius": "8px",
-        "containerMaxWidth": "1080px",
+        "containerMaxWidth": "840px",
         "sectionSpacing": "4rem",
         "contentPadding": "1.5rem"
       },
@@ -478,137 +569,133 @@
         "layout": "left-aligned"
       },
       "links": {
-        "style": "underline"
+        "style": "animated-underline"
       },
       "background": {
-        "texture": "dots"
+        "texture": "none"
       },
       "images": {
         "style": "muted",
-        "hover": "none",
-        "opacity": "0.9",
-        "borderRadius": "4px"
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "6px"
       },
       "footer": {
-        "style": "minimal"
+        "style": "editorial"
       },
       "shader": {
         "type": "waves",
         "colors": [
-          "#1565C0",
-          "#42A5F5",
-          "#E3F2FD"
+          "#2A5A6B",
+          "#1B4B5A"
         ]
       },
       "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif"
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
-      "date": "2026-01-03"
+      "date": "2026-01-11"
     },
     {
-      "name": "Antiquarian's Study",
-      "description": "A scholar's sanctuary filled with aged parchment, warm candlelight, and the whisper of turning pages.",
+      "name": "Velvet Thunder",
+      "description": "Rich burgundy depths meet electric gold accents in a luxurious nocturnal atmosphere",
       "colors": {
         "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FEF3E2",
-          "--color-link": "#B8860B",
-          "--color-link-hover": "#8B4513",
-          "--color-border": "#DDD0C0",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FDEDEC"
+          "--color-text": "#2D1B2E",
+          "--color-bg": "#FDF2F0",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#E63946",
+          "--color-border": "#E8C5C5",
+          "--color-muted": "#6B5B5D",
+          "--color-sidebar-bg": "#F9E8E6",
+          "--color-nav-bg": "#FDF2F0",
+          "--color-nav-text": "#2D1B2E",
+          "--color-card-bg": "#FBEBE9"
         },
         "dark": {
-          "--color-text": "#E8D5B7",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#DAA520",
-          "--color-link-hover": "#F4A460",
-          "--color-border": "#3A2F20",
-          "--color-muted": "#A0896C",
-          "--color-sidebar-bg": "#1C1410",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#E8D5B7",
-          "--color-card-bg": "#261A11"
+          "--color-text": "#E8D5D6",
+          "--color-bg": "#2D132C",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFA500",
+          "--color-border": "#5A3A58",
+          "--color-muted": "#A08B8C",
+          "--color-sidebar-bg": "#3A1F38",
+          "--color-nav-bg": "#2D132C",
+          "--color-nav-text": "#E8D5D6",
+          "--color-card-bg": "#3E1F3C"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Playfair Display",
-          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
           "category": "serif",
-          "stack": "'Playfair Display', Georgia, serif"
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
         },
         "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, serif"
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }
       },
       "typography": {
         "headingWeight": "600",
         "bodyWeight": "400",
         "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.01em",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
         "headingTransform": "none"
       },
       "navigation": {
-        "style": "minimal",
+        "style": "floating",
         "height": "64px",
         "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
+        "style": "elevated",
+        "shadow": "0 12px 24px rgba(45, 19, 44, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2.5rem"
       },
       "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "960px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
+        "borderRadius": "16px",
+        "containerMaxWidth": "880px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
       },
       "hero": {
         "layout": "left-aligned"
       },
       "links": {
-        "style": "underline"
+        "style": "highlight"
       },
       "background": {
-        "texture": "grain"
+        "texture": "none"
       },
       "images": {
-        "style": "muted",
+        "style": "duotone",
         "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
+        "opacity": "0.92",
+        "borderRadius": "12px"
       },
       "footer": {
         "style": "editorial"
       },
       "shader": {
-        "type": "grain",
-        "colors": [
-          "#B8860B",
-          "#FEF3E2"
-        ]
+        "type": "none",
+        "colors": []
       },
       "font": {
-        "name": "Playfair Display",
-        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
         "category": "serif",
-        "stack": "'Playfair Display', Georgia, serif"
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
-      "date": "2026-01-02"
+      "date": "2026-01-10"
     }
   ],
-  "currentDate": "2026-01-07"
+  "currentDate": "2026-01-16"
 }
