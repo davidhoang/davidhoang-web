@@ -35,46 +35,56 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       <p class="art-collection-intro">A curated collection of artwork that inspires and moves me.</p>
     </header>
 
-    <div class="art-collection-masonry" id="art-masonry">
-      {artworks.map((artwork) => (
-        <article class="artwork-card" data-artwork-id={artwork.id}>
-          <button 
-            class="artwork-thumbnail"
-            aria-label={`View details for ${artwork.title} by ${artwork.artist}`}
+    <div class="art-split-view">
+      <!-- Left: Thumbnail list -->
+      <aside class="art-thumbnail-list" role="list" aria-label="Artwork thumbnails">
+        {artworks.map((artwork, index) => (
+          <button
+            class={`art-thumbnail-item ${index === 0 ? 'active' : ''}`}
             data-artwork-id={artwork.id}
+            aria-label={`View ${artwork.title} by ${artwork.artist}`}
+            role="listitem"
           >
-            <img 
-              src={artwork.image} 
+            <img
+              src={artwork.image}
               alt={`${artwork.title} by ${artwork.artist}`}
               loading="lazy"
               decoding="async"
             />
-            <div class="artwork-overlay">
-              <div class="artwork-info-preview">
-                <h3 class="artwork-title">{artwork.title}</h3>
-                <p class="artwork-artist">{artwork.artist}</p>
-              </div>
+            <div class="art-thumbnail-info">
+              <span class="art-thumbnail-title">{artwork.title}</span>
+              <span class="art-thumbnail-artist">{artwork.artist}</span>
             </div>
           </button>
-        </article>
-      ))}
-    </div>
-  </div>
+        ))}
+      </aside>
 
-  <!-- Modal for artwork details -->
-  <div class="artwork-modal" id="artwork-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-    <div class="artwork-modal-backdrop" id="modal-backdrop"></div>
-    <div class="artwork-modal-content">
-      <button 
-        class="artwork-modal-close" 
-        id="modal-close"
-        aria-label="Close artwork details"
-      >
-        <span aria-hidden="true">×</span>
-      </button>
-      <div class="artwork-modal-body" id="modal-body">
-        <!-- Content will be populated by JavaScript -->
-      </div>
+      <!-- Right: Detail panel -->
+      <main class="art-detail-panel" id="art-detail-panel">
+        <div class="art-detail-image-wrapper">
+          <img
+            id="detail-image"
+            src={artworks[0].image}
+            alt={`${artworks[0].title} by ${artworks[0].artist}`}
+            class="art-detail-image"
+          />
+        </div>
+        <div class="art-detail-content">
+          <h2 class="art-detail-title" id="detail-title">{artworks[0].title}</h2>
+          <p class="art-detail-artist" id="detail-artist">{artworks[0].artist}</p>
+          <p class="art-detail-description" id="detail-description">{artworks[0].description}</p>
+          <div class="art-detail-meta">
+            <div class="art-detail-meta-item">
+              <span class="art-detail-label">Size</span>
+              <span class="art-detail-value" id="detail-size">{artworks[0].size}</span>
+            </div>
+            <div class="art-detail-meta-item">
+              <span class="art-detail-label">Medium</span>
+              <span class="art-detail-value" id="detail-medium">{artworks[0].medium}</span>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 
@@ -105,302 +115,196 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       margin: 0 auto;
     }
 
-    /* Masonry Layout using CSS Columns */
-    .art-collection-masonry {
-      column-count: 3;
-      column-gap: var(--spacing-lg);
-      column-fill: balance;
+    /* Split View Layout */
+    .art-split-view {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: var(--spacing-xl);
+      min-height: calc(100vh - 300px);
     }
 
-    .artwork-card {
-      break-inside: avoid;
-      margin-bottom: var(--spacing-lg);
-      page-break-inside: avoid;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .artwork-thumbnail {
-      position: relative;
-      width: 100%;
-      padding: 0;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      transition: transform 0.3s var(--ease-inertia), box-shadow 0.3s ease;
-    }
-
-    .artwork-thumbnail:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    [data-theme="dark"] .artwork-thumbnail:hover {
-      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
-    }
-
-    .artwork-thumbnail img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: var(--radius-md);
-    }
-
-    .artwork-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+    /* Left: Thumbnail List */
+    .art-thumbnail-list {
       display: flex;
-      align-items: flex-end;
-      padding: var(--spacing-md);
-      border-radius: var(--radius-md);
-    }
-
-    .artwork-thumbnail:hover .artwork-overlay {
-      opacity: 1;
-    }
-
-    .artwork-info-preview {
-      color: white;
-      width: 100%;
-    }
-
-    .artwork-info-preview .artwork-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 0 0 0.25rem 0;
-    }
-
-    .artwork-info-preview .artwork-artist {
-      font-size: 1rem;
-      margin: 0;
-      opacity: 0.9;
-    }
-
-    /* Modal Styles */
-    .artwork-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      max-width: 100vw;
-      max-height: 100vh;
-      z-index: 10000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: var(--spacing-lg);
-      box-sizing: border-box;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      overflow: hidden;
-    }
-
-    .artwork-modal[aria-hidden="false"] {
-      display: flex;
-      opacity: 1;
-    }
-
-    .artwork-modal-backdrop {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(4px);
-    }
-
-    .artwork-modal-content {
-      position: relative;
-      background: var(--color-bg);
-      border: 2px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      max-width: min(900px, calc(100vw - 2 * var(--spacing-lg)));
-      width: 100%;
-      min-width: 0;
-      max-height: calc(100vh - 2 * var(--spacing-lg));
+      flex-direction: column;
+      gap: var(--spacing-md);
       overflow-y: auto;
-      overflow-x: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      z-index: 1;
-      animation: modalSlideIn 0.3s var(--ease-inertia);
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      contain: layout style;
-      -webkit-overflow-scrolling: touch;
+      max-height: calc(100vh - 250px);
+      padding-right: var(--spacing-sm);
+      position: sticky;
+      top: var(--spacing-xl);
     }
-    
-    /* Custom scrollbar styling */
-    .artwork-modal-content::-webkit-scrollbar {
-      width: 8px;
+
+    .art-thumbnail-list::-webkit-scrollbar {
+      width: 6px;
     }
-    
-    .artwork-modal-content::-webkit-scrollbar-track {
+
+    .art-thumbnail-list::-webkit-scrollbar-track {
       background: transparent;
     }
-    
-    .artwork-modal-content::-webkit-scrollbar-thumb {
+
+    .art-thumbnail-list::-webkit-scrollbar-thumb {
       background: var(--color-border);
-      border-radius: 4px;
-    }
-    
-    .artwork-modal-content::-webkit-scrollbar-thumb:hover {
-      background: var(--color-muted);
+      border-radius: 3px;
     }
 
-    @keyframes modalSlideIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
-    .artwork-modal-close {
-      position: absolute;
-      top: var(--spacing-md);
-      right: var(--spacing-md);
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-full);
-      background: var(--color-bg);
-      border: 2px solid var(--color-border);
-      color: var(--color-text);
-      font-size: 1.5rem;
-      font-weight: 600;
-      cursor: pointer;
+    .art-thumbnail-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      z-index: 10;
-      padding: 0;
-      line-height: 1;
+      gap: var(--spacing-md);
+      padding: var(--spacing-sm);
+      background: transparent;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
     }
 
-    .artwork-modal-close:hover {
+    .art-thumbnail-item:hover {
+      border-color: var(--color-link);
       background: var(--color-sidebar-bg);
-      transform: scale(1.1);
+      transform: translateX(4px);
     }
 
-    .artwork-modal-close:focus-visible {
-      outline: 3px solid currentColor;
-      outline-offset: 3px;
+    .art-thumbnail-item.active {
+      border-color: var(--color-link);
+      background: var(--color-sidebar-bg);
     }
 
-    .artwork-modal-body {
-      padding: var(--spacing-xl);
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-      box-sizing: border-box;
-      flex-shrink: 1;
+    .art-thumbnail-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .art-thumbnail-info {
       display: flex;
       flex-direction: column;
-      flex: 1;
-      min-height: 0;
-    }
-
-    .artwork-modal-image-wrapper {
-      width: 100%;
-      max-width: 100%;
+      gap: 2px;
       min-width: 0;
-      box-sizing: border-box;
-      overflow: hidden;
-      margin-bottom: var(--spacing-xl);
-      display: block;
-      flex-shrink: 1;
-    }
-    
-    /* Ensure wrapper respects modal width */
-    .artwork-modal-body .artwork-modal-image-wrapper {
-      max-width: min(900px, calc(100vw - 2 * var(--spacing-lg) - 2 * var(--spacing-xl)));
     }
 
-    .artwork-modal-image {
-      width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      max-height: calc(100vh - 400px) !important;
-      object-fit: contain !important;
-      object-position: center;
+    .art-thumbnail-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--color-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .art-thumbnail-artist {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Right: Detail Panel */
+    .art-detail-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xl);
+    }
+
+    .art-detail-image-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .art-detail-image {
+      max-width: 100%;
+      max-height: 60vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       border-radius: var(--radius-md);
-      display: block;
-      box-sizing: border-box;
-      flex-shrink: 1;
-      min-width: 0;
-      overflow: hidden;
-    }
-    
-    /* Ensure image never exceeds container */
-    .artwork-modal-image-wrapper .artwork-modal-image {
-      width: 100%;
-      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .artwork-modal-title {
+    [data-theme="dark"] .art-detail-image {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .art-detail-content {
+      max-width: 700px;
+    }
+
+    .art-detail-title {
       font-size: 2.5rem;
       font-weight: 700;
       margin: 0 0 var(--spacing-sm) 0;
       color: var(--color-text);
     }
 
-    .artwork-modal-artist {
-      font-size: 1.5rem;
+    .art-detail-artist {
+      font-size: 1.25rem;
       color: var(--color-muted);
       margin: 0 0 var(--spacing-lg) 0;
       font-weight: 500;
     }
 
-    .artwork-modal-description {
+    .art-detail-description {
       font-size: 1.125rem;
-      line-height: 1.7;
+      line-height: 1.8;
       color: var(--color-text);
-      margin-bottom: var(--spacing-xl);
+      margin: 0 0 var(--spacing-xl) 0;
       white-space: pre-line;
     }
 
-    .artwork-modal-details {
+    .art-detail-meta {
       display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+      gap: var(--spacing-lg);
       padding-top: var(--spacing-lg);
       border-top: 1px solid var(--color-border);
     }
 
-    .artwork-modal-detail-item {
+    .art-detail-meta-item {
       display: flex;
-      gap: var(--spacing-md);
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .artwork-modal-detail-label {
+    .art-detail-label {
+      font-size: 0.85rem;
       font-weight: 600;
-      color: var(--color-text);
-      min-width: 100px;
+      color: var(--color-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .artwork-modal-detail-value {
-      color: var(--color-muted);
+    .art-detail-value {
+      font-size: 1rem;
+      color: var(--color-text);
     }
 
     /* Responsive Design */
-    @media (max-width: 1024px) {
-      .art-collection-masonry {
-        column-count: 2;
+    @media (max-width: 900px) {
+      .art-split-view {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+      }
+
+      .art-thumbnail-list {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        max-height: none;
+        position: static;
+        padding-right: 0;
+        padding-bottom: var(--spacing-sm);
+      }
+
+      .art-thumbnail-item {
+        flex-shrink: 0;
+        width: 200px;
       }
     }
 
@@ -417,62 +321,36 @@ const pageDescription = "A curated collection of artwork that inspires and moves
         font-size: 1.1rem;
       }
 
-      .art-collection-masonry {
-        column-count: 1;
-        column-gap: var(--spacing-md);
+      .art-detail-title {
+        font-size: 1.75rem;
       }
 
-      .artwork-modal {
-        padding: var(--spacing-md);
+      .art-detail-artist {
+        font-size: 1.1rem;
       }
 
-      .artwork-modal-content {
-        max-width: calc(100vw - 2 * var(--spacing-md));
-        max-height: calc(100vh - 2 * var(--spacing-md));
-      }
-
-      .artwork-modal-body {
-        padding: var(--spacing-lg);
-      }
-
-      .artwork-modal-title {
-        font-size: 2rem;
-      }
-
-      .artwork-modal-artist {
-        font-size: 1.25rem;
-      }
-
-      .artwork-modal-image {
-        max-height: calc(100vh - 300px);
-        width: 100%;
+      .art-detail-description {
+        font-size: 1rem;
       }
     }
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .artwork-thumbnail,
-      .artwork-overlay,
-      .artwork-modal,
-      .artwork-modal-content,
-      .artwork-modal-close {
+      .art-thumbnail-item {
         transition: none;
-        animation: none;
-      }
-
-      .artwork-thumbnail:hover {
-        transform: none;
       }
     }
   </style>
 
   <script>
-    // Modal functionality
-    const modal = document.getElementById('artwork-modal') as HTMLElement;
-    const modalBody = document.getElementById('modal-body') as HTMLElement;
-    const modalBackdrop = document.getElementById('modal-backdrop') as HTMLElement;
-    const modalClose = document.getElementById('modal-close') as HTMLElement;
-    const artworkThumbnails = document.querySelectorAll('.artwork-thumbnail') as NodeListOf<HTMLElement>;
+    // Split view functionality
+    const thumbnailButtons = document.querySelectorAll('.art-thumbnail-item') as NodeListOf<HTMLElement>;
+    const detailImage = document.getElementById('detail-image') as HTMLImageElement;
+    const detailTitle = document.getElementById('detail-title') as HTMLElement;
+    const detailArtist = document.getElementById('detail-artist') as HTMLElement;
+    const detailDescription = document.getElementById('detail-description') as HTMLElement;
+    const detailSize = document.getElementById('detail-size') as HTMLElement;
+    const detailMedium = document.getElementById('detail-medium') as HTMLElement;
 
     const artworks = [
       {
@@ -486,70 +364,55 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       }
     ];
 
-    function openModal(artworkId: string) {
+    function selectArtwork(artworkId: string) {
       const artwork = artworks.find(a => a.id === artworkId);
       if (!artwork) return;
 
-      modalBody.innerHTML = `
-        <div class="artwork-modal-image-wrapper">
-          <img 
-            src="${artwork.image}" 
-            alt="${artwork.title} by ${artwork.artist}"
-            class="artwork-modal-image"
-            style="width: 100%; max-width: 100%; height: auto; object-fit: contain;"
-          />
-        </div>
-        <h2 class="artwork-modal-title" id="modal-title">${artwork.title}</h2>
-        <p class="artwork-modal-artist">${artwork.artist}</p>
-        <p class="artwork-modal-description">${artwork.description}</p>
-        <div class="artwork-modal-details">
-          <div class="artwork-modal-detail-item">
-            <span class="artwork-modal-detail-label">Size:</span>
-            <span class="artwork-modal-detail-value">${artwork.size}</span>
-          </div>
-          <div class="artwork-modal-detail-item">
-            <span class="artwork-modal-detail-label">Medium:</span>
-            <span class="artwork-modal-detail-value">${artwork.medium}</span>
-          </div>
-        </div>
-      `;
+      // Update detail panel
+      detailImage.src = artwork.image;
+      detailImage.alt = `${artwork.title} by ${artwork.artist}`;
+      detailTitle.textContent = artwork.title;
+      detailArtist.textContent = artwork.artist;
+      detailDescription.textContent = artwork.description;
+      detailSize.textContent = artwork.size;
+      detailMedium.textContent = artwork.medium;
 
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      
-      // Focus management
-      modalClose.focus();
-    }
-
-    function closeModal() {
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+      // Update active state on thumbnails
+      thumbnailButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-artwork-id') === artworkId);
+      });
     }
 
     // Event listeners
-    artworkThumbnails.forEach(thumbnail => {
+    thumbnailButtons.forEach(thumbnail => {
       thumbnail.addEventListener('click', () => {
         const artworkId = thumbnail.getAttribute('data-artwork-id');
         if (artworkId) {
-          openModal(artworkId);
+          selectArtwork(artworkId);
         }
       });
     });
 
-    modalBackdrop.addEventListener('click', closeModal);
-    modalClose.addEventListener('click', closeModal);
-
-    // Close on Escape key
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
-        closeModal();
-      }
-    });
+      const activeElement = document.activeElement;
+      if (!activeElement?.classList.contains('art-thumbnail-item')) return;
 
-    // Prevent body scroll when modal is open
-    modal.addEventListener('transitionend', () => {
-      if (modal.getAttribute('aria-hidden') === 'true') {
-        document.body.style.overflow = '';
+      const currentIndex = Array.from(thumbnailButtons).indexOf(activeElement as HTMLElement);
+      let nextIndex = currentIndex;
+
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextIndex = (currentIndex + 1) % thumbnailButtons.length;
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        nextIndex = (currentIndex - 1 + thumbnailButtons.length) % thumbnailButtons.length;
+      }
+
+      if (nextIndex !== currentIndex) {
+        thumbnailButtons[nextIndex].focus();
+        const artworkId = thumbnailButtons[nextIndex].getAttribute('data-artwork-id');
+        if (artworkId) selectArtwork(artworkId);
       }
     });
   </script>

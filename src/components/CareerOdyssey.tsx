@@ -4772,7 +4772,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                               verticalAlign="middle"
                               fill={textColor}
                               fontSize={fontSize}
-                              fontFamily="'EB Garamond', serif"
+                              fontFamily="'ABC Diatype', sans-serif"
                               fontStyle="normal"
                               fontWeight={500}
                               opacity={isPossiblePath ? 0.5 : (pathTaken ? 0.95 : 0.75)}
@@ -4849,7 +4849,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                                   y={portY}
                                   text={truncatedLabel}
                                   fontSize={labelFontSize}
-                                  fontFamily="'EB Garamond', serif"
+                                  fontFamily="'ABC Diatype', sans-serif"
                                   fill="#333333"
                                   opacity={1}
                                   align="left"
@@ -4933,7 +4933,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                                   y={textY}
                                   text={truncatedLabel}
                                   fontSize={labelFontSize}
-                                  fontFamily="'EB Garamond', serif"
+                                  fontFamily="'ABC Diatype', sans-serif"
                                   fill="#333333"
                                   opacity={1}
                                   align="left"
@@ -5449,7 +5449,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           color: var(--color-text);
           line-height: 1.3;
           font-weight: 600;
-          font-family: 'EB Garamond', var(--font-primary);
+          font-family: var(--font-primary);
         }
 
         .node-card-date {
