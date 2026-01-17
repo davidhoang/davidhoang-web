@@ -85,11 +85,17 @@ const ogImage = "/images/img-dh-web-light.jpg";
 
   <style>
     /* Override shader container styles for home page */
-    :global([data-shader] #main-content.container) {
-      background: transparent;
-      box-shadow: none;
-      border-radius: 0;
-      padding: 0;
+    :global([data-shader="waves"] .container),
+    :global([data-shader="mesh-gradient"] .container),
+    :global([data-shader="swirl"] .container),
+    :global([data-shader="perlin"] .container),
+    :global([data-shader="simplex"] .container),
+    :global([data-shader="neuro"] .container),
+    :global([data-shader] .container) {
+      background: transparent !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
     }
 
     /* Card Stack Section */
