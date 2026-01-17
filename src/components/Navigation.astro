@@ -11,6 +11,7 @@ const currentPath = Astro.url.pathname;
 
 <nav class="glass-border" aria-label="Main navigation">
   <canvas id="noiseCanvas" class="noise-canvas" aria-hidden="true"></canvas>
+  <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
   <div class="container nav-container">
     <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
     <!-- Desktop Navigation -->
@@ -67,6 +68,16 @@ const currentPath = Astro.url.pathname;
     border-radius: inherit;
     opacity: 1.0;
     pointer-events: none;
+  }
+
+  .particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 200px;
+    pointer-events: none;
+    z-index: 999;
   }
 
   nav {
@@ -384,6 +395,10 @@ const currentPath = Astro.url.pathname;
     }
 
     nav::after {
+      display: none;
+    }
+
+    .particle-canvas {
       display: none;
     }
 
@@ -815,6 +830,225 @@ const currentPath = Astro.url.pathname;
     window.addEventListener('scroll', handleScroll, { passive: true });
   }
 
+  function initParticleTrail() {
+    const canvas = document.getElementById('particleCanvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Check for reduced motion preference
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    // Skip on mobile
+    if (window.innerWidth <= 768) {
+      canvas.style.display = 'none';
+      return;
+    }
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      life: number;
+      maxLife: number;
+      size: number;
+      hue: number;
+      saturation: number;
+      lightness: number;
+      alpha: number;
+    }
+
+    const particles: Particle[] = [];
+    let mouseX = 0;
+    let mouseY = 0;
+    let isNearNav = false;
+    let animationFrame: number | null = null;
+
+    const NAV_PROXIMITY = 150; // How close to nav to spawn particles
+    const SPAWN_RATE = 0.3; // Probability of spawning per frame when moving
+    const MAX_PARTICLES = 50;
+
+    function resize() {
+      if (!canvas) return;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+      canvas.height = 200 * window.devicePixelRatio;
+      ctx?.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    function getThemeColors() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      // Get accent color from CSS variable or use defaults
+      const linkColor = getComputedStyle(document.documentElement).getPropertyValue('--color-link').trim();
+
+      if (isDark) {
+        return {
+          baseHue: 220, // Blue-ish
+          saturation: 60,
+          lightness: 70,
+          alpha: 0.6
+        };
+      } else {
+        return {
+          baseHue: 220,
+          saturation: 50,
+          lightness: 50,
+          alpha: 0.4
+        };
+      }
+    }
+
+    function spawnParticle(x: number, y: number, velocityX: number, velocityY: number) {
+      if (particles.length >= MAX_PARTICLES) return;
+
+      const colors = getThemeColors();
+      const hueVariation = (Math.random() - 0.5) * 40; // ±20 hue variation
+
+      particles.push({
+        x,
+        y,
+        vx: velocityX * 0.1 + (Math.random() - 0.5) * 0.5,
+        vy: velocityY * 0.1 + (Math.random() - 0.5) * 0.5 - 0.3, // Slight upward drift
+        life: 1,
+        maxLife: 60 + Math.random() * 40, // 60-100 frames
+        size: 2 + Math.random() * 3,
+        hue: colors.baseHue + hueVariation,
+        saturation: colors.saturation + Math.random() * 20,
+        lightness: colors.lightness + Math.random() * 20,
+        alpha: colors.alpha
+      });
+    }
+
+    function updateParticles() {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+
+        // Update position with slight deceleration
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.98;
+        p.vy *= 0.98;
+
+        // Add subtle floating motion
+        p.vx += Math.sin(p.life * 0.1) * 0.02;
+        p.vy += Math.cos(p.life * 0.1) * 0.01;
+
+        // Decrease life
+        p.life -= 1 / p.maxLife;
+
+        // Remove dead particles
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+    }
+
+    function drawParticles() {
+      if (!ctx || !canvas) return;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio);
+
+      for (const p of particles) {
+        const alpha = p.alpha * p.life * p.life; // Quadratic fade for smoother disappear
+
+        // Draw glowing particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+
+        // Inner glow
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+        gradient.addColorStop(0, `hsla(${p.hue}, ${p.saturation}%, ${p.lightness}%, ${alpha})`);
+        gradient.addColorStop(0.5, `hsla(${p.hue}, ${p.saturation}%, ${p.lightness}%, ${alpha * 0.5})`);
+        gradient.addColorStop(1, `hsla(${p.hue}, ${p.saturation}%, ${p.lightness}%, 0)`);
+
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      }
+    }
+
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    function animate() {
+      const nav = document.querySelector('nav');
+      if (nav) {
+        const navRect = nav.getBoundingClientRect();
+        const navCenterX = navRect.left + navRect.width / 2;
+        const navCenterY = navRect.top + navRect.height / 2;
+
+        // Check if cursor is near nav
+        const distanceToNavY = Math.abs(mouseY - navCenterY);
+        const distanceToNavX = Math.abs(mouseX - navCenterX);
+        isNearNav = distanceToNavY < NAV_PROXIMITY && distanceToNavX < navRect.width / 2 + NAV_PROXIMITY;
+
+        // Spawn particles when near nav and moving
+        if (isNearNav) {
+          const velocityX = mouseX - lastMouseX;
+          const velocityY = mouseY - lastMouseY;
+          const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+          // Spawn particles along the nav edges, biased toward cursor
+          if (speed > 2 && Math.random() < SPAWN_RATE) {
+            // Spawn closer to nav bounds
+            const spawnX = navRect.left + Math.random() * navRect.width;
+            const spawnY = navRect.top + navRect.height / 2 + (Math.random() - 0.5) * navRect.height;
+            spawnParticle(spawnX, spawnY, velocityX * 0.5, velocityY * 0.5);
+          }
+
+          // Occasional ambient particles around the nav perimeter
+          if (Math.random() < 0.03) {
+            const angle = Math.random() * Math.PI * 2;
+            const radiusX = navRect.width / 2 + 10;
+            const radiusY = navRect.height / 2 + 10;
+            const spawnX = navCenterX + Math.cos(angle) * radiusX * (0.8 + Math.random() * 0.4);
+            const spawnY = navCenterY + Math.sin(angle) * radiusY * (0.8 + Math.random() * 0.4);
+            spawnParticle(spawnX, spawnY, 0, 0);
+          }
+        }
+      }
+
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
+
+      updateParticles();
+      drawParticles();
+      animationFrame = requestAnimationFrame(animate);
+    }
+
+    function handleMouseMove(e: MouseEvent) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      resize();
+      if (window.innerWidth <= 768) {
+        canvas.style.display = 'none';
+        if (animationFrame) cancelAnimationFrame(animationFrame);
+      } else {
+        canvas.style.display = 'block';
+        if (!animationFrame) animationFrame = requestAnimationFrame(animate);
+      }
+    });
+
+    // Mouse move handler
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+    // Initialize
+    resize();
+    animationFrame = requestAnimationFrame(animate);
+
+    // Cleanup function
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }
+
   function initSentientNav() {
     const nav = document.querySelector('nav') as HTMLElement | null;
     if (!nav) return;
@@ -951,6 +1185,7 @@ const currentPath = Astro.url.pathname;
     initMobileMenu();
     initScrollDetection();
     initSentientNav();
+    initParticleTrail();
   }
 
   // Initialize on page load
