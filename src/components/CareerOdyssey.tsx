@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { PersonAvatar } from './PersonAvatar';
 
 // Dynamic imports for Konva to avoid SSR issues
@@ -166,11 +165,13 @@ const DEFAULT_NODE_RADIUS = 80; // Default node radius for grid calculation
 const GRID_DOTS_PER_NODE = 8; // Number of grid dots visible across default node diameter
 // For 8 dots across diameter, we need 7 intervals: spacing = diameter / 7
 const BASE_GRID_SPACING = (DEFAULT_NODE_RADIUS * 2) / (GRID_DOTS_PER_NODE - 1); // 8-dot grid: 160px diameter / 7 ≈ 22.86px spacing
-const MAIN_PATH_Y = 600; // Centered vertically in compact canvas
-const BRANCH_SPACING = 120; // Reduced for much tighter vertical distribution (was 240)
-const CANVAS_WIDTH = 2400; // Reduced from 3600 for more compact horizontal layout
-const CANVAS_HEIGHT = 1400; // Reduced from 2000 for more compact vertical layout
-const PADDING = 120; // Reduced padding to allow nodes to be closer to edges (was 200)
+const MAIN_PATH_Y = 250; // Centered vertically
+const BRANCH_SPACING = 40; // Tight vertical distribution
+const CANVAS_WIDTH = 2000; // Width for horizontal flow
+const CANVAS_HEIGHT = 500; // Compact height
+const PADDING = 40; // Tight padding
+const MAX_NODE_DISTANCE = 250; // Maximum distance between connected nodes
+const NODE_GAP = 30; // Gap between adjacent nodes
 const BASE_FONT_SIZE = 12;
 const TEXT_PADDING = 12; // Padding around text inside node
 const TEXT_PADDING_NOT_TAKEN = 12; // Padding for paths not taken (same as regular padding)
@@ -223,798 +224,328 @@ const formatDate = (dateStr?: string): string => {
   return dateStr; // YYYY-MM-DD
 };
 
-// Calculate node positions
+// Calculate node positions - COMPACT FLOW LAYOUT
+// Nodes are placed sequentially with max 250px between connected nodes
 const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   // Parse dates and create positioned nodes with calculated dimensions
-  // Pass all nodes to calculateNodeSize so it can determine port counts for dynamic height
   const positionedNodes: PositionedNode[] = nodes.map(node => {
     const { width, height, radius } = calculateNodeSize(node, nodes);
     return {
       ...node,
       timestamp: parseDate(node.date),
-      x: node.x || 0,
-      y: node.y || 0,
-      radius, // Kept for backward compatibility
+      x: (node as any).x || 0,  // Use explicit x if provided
+      y: (node as any).y || 0,  // Use explicit y if provided
+      radius,
       width,
       height,
-      pathTaken: node.pathTaken !== false, // Default to true
+      pathTaken: node.pathTaken !== false,
     };
   });
 
-  // Sort by date, then by pathTaken status (true first), then by sequence if dates are very close
-  positionedNodes.sort((a, b) => {
+  // HYBRID LAYOUT: Nodes with explicit x/y keep their positions
+  // Nodes without explicit positions get auto-laid out
+
+  // Sort all nodes by date for sequential layout
+  const sortedNodes = [...positionedNodes].sort((a, b) => {
     const dateDiff = a.timestamp - b.timestamp;
-    // If dates are within the same year (approximately), prioritize pathTaken status
-    if (Math.abs(dateDiff) < 365 * 24 * 60 * 60 * 1000) { // Within 1 year
-      // Path taken nodes should come before path not taken nodes
-      if (a.pathTaken !== b.pathTaken) {
-        return a.pathTaken ? -1 : 1;
-      }
-      // If same pathTaken status, use sequence
-      const seqA = a.sequence ?? 0;
-      const seqB = b.sequence ?? 0;
-      if (seqA !== seqB) {
-        return seqA - seqB;
-      }
+    if (Math.abs(dateDiff) < 365 * 24 * 60 * 60 * 1000) {
+      return (a.sequence ?? 0) - (b.sequence ?? 0);
     }
     return dateDiff;
   });
 
-  // Auto-connect ALL nodes to the previous chronological node
-  // This ensures every node (except the first one) is connected somewhere along the timeline
-  // Even if a node already has connections, ensure it connects to the previous chronological node
-  positionedNodes.forEach((node, index) => {
-    // Skip Present and Future nodes - they have special positioning
-    if (isPresentNode(node) || isFutureNode(node)) {
-      return;
+  // Separate nodes: those with explicit positions vs those needing auto-layout
+  const manualNodes = sortedNodes.filter(n => (n as any).x !== undefined && (nodes.find(orig => orig.id === n.id) as any)?.x);
+  const autoNodes = sortedNodes.filter(n => !(nodes.find(orig => orig.id === n.id) as any)?.x);
+
+  // STEP 1: Auto-layout nodes without explicit positions
+  let currentX = PADDING;
+  let prevYear = 0;
+
+  // Group auto-nodes by year for vertical stacking
+  const nodesByYear = new Map<number, PositionedNode[]>();
+  autoNodes.forEach(node => {
+    const year = new Date(node.timestamp).getFullYear();
+    if (!nodesByYear.has(year)) {
+      nodesByYear.set(year, []);
     }
-    
-    // Find the previous node in chronological order (any type, any pathTaken status)
-    let previousNode: PositionedNode | null = null;
-    for (let i = index - 1; i >= 0; i--) {
-      const candidate = positionedNodes[i];
-      // Skip Present and Future nodes as connection sources
-      if (!isPresentNode(candidate) && !isFutureNode(candidate)) {
-        previousNode = candidate;
-        break;
-      }
+    nodesByYear.get(year)!.push(node);
+  });
+
+  autoNodes.forEach((node) => {
+    const nodeWidth = node.width || 200;
+    const nodeHeight = node.height || 120;
+    const year = new Date(node.timestamp).getFullYear();
+
+    // Add small gap for year changes
+    if (prevYear > 0 && year > prevYear) {
+      const yearGap = Math.min(year - prevYear, 3);
+      currentX += yearGap * 20;
     }
-    
-    // If we found a previous node, ensure this node connects to it
-    if (previousNode) {
-      // Initialize connections array if it doesn't exist
-      if (!node.connections) {
-        node.connections = [];
-      }
-      
-      // Check if previous node is already in connections
-      if (!node.connections.includes(previousNode.id)) {
-        // Add previous node as the first connection (primary chronological link)
-        node.connections.unshift(previousNode.id);
-        
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`Auto-connected ${node.id} to ${previousNode.id} (previous chronological node)`);
-        }
-      }
-    } else if (index > 0 && process.env.NODE_ENV === 'development') {
-      // Log if we couldn't find a previous node (should only happen for first node)
-      console.warn(`No previous node found for ${node.id} at index ${index}`);
+
+    // Vertical offset for nodes in same year
+    const nodesInYear = nodesByYear.get(year) || [];
+    const indexInYear = nodesInYear.indexOf(node);
+    const totalInYear = nodesInYear.length;
+    const verticalOffset = (indexInYear - (totalInYear - 1) / 2) * (nodeHeight * 0.6 + NODE_GAP);
+
+    node.x = currentX + nodeWidth / 2;
+    node.y = MAIN_PATH_Y + verticalOffset;
+
+    currentX += nodeWidth + NODE_GAP;
+    prevYear = year;
+  });
+
+  // STEP 2: Manual nodes already have their x positions, just set y if not specified
+  manualNodes.forEach(node => {
+    if (node.y === 0) {
+      node.y = MAIN_PATH_Y;
     }
   });
 
-  // Separate Present, Future, and regular nodes
-  const presentNodes = positionedNodes.filter(n => isPresentNode(n));
-  const futureNodes = positionedNodes.filter(n => isFutureNode(n));
-  const nonPresentOrFutureNodes = positionedNodes.filter(n => !isPresentNode(n) && !isFutureNode(n));
+  // STEP 3: Resolve overlaps using rectangular bounding box collision
+  // Each node needs padding around it to prevent overlap
+  const COLLISION_PADDING = 20; // Extra padding between nodes
+  const allNodes = positionedNodes;
 
-  // Find date range (excluding Present and Future nodes for timeline calculation)
-  const timestamps = nonPresentOrFutureNodes.map(n => n.timestamp);
-  const minTimestamp = timestamps.length > 0 ? Math.min(...timestamps) : Date.now();
-  const maxTimestamp = timestamps.length > 0 ? Math.max(...timestamps) : Date.now();
-  const dateRange = maxTimestamp - minTimestamp || 1;
+  // Create a set of manual node IDs - these should NOT be moved during collision resolution
+  const manualNodeIds = new Set(manualNodes.map(n => n.id));
 
-  // Calculate horizontal positions based on dates (for regular nodes)
-  // STRICT chronological ordering: earlier dates = left, later dates = right
-  // Use more of the canvas width for better distribution
-  const horizontalRange = CANVAS_WIDTH - (PADDING * 2);
-  const leftEdge = PADDING;
-  
-  // Sort historical nodes by timestamp to ensure strict chronological order
-  const sortedHistoricalNodes = [...nonPresentOrFutureNodes].sort((a, b) => {
-    const timeDiff = a.timestamp - b.timestamp;
-    if (Math.abs(timeDiff) < 1000) {
-      // If timestamps are very close, maintain original order
-      return 0;
-    }
-    return timeDiff;
-  });
-  
-  // Calculate base positions by chronological order, with manual x as a hint/offset
-  sortedHistoricalNodes.forEach((node, index) => {
-    const ratio = dateRange > 0 
-      ? (node.timestamp - minTimestamp) / dateRange 
-      : index / Math.max(1, sortedHistoricalNodes.length - 1);
-    // Distribute nodes across the horizontal range, leaving space for Present and Future nodes on the right
-    // Reserve right edge for Present and Future nodes (about 25% of canvas width)
-    const reservedRightSpace = CANVAS_WIDTH * 0.25;
-    const availableWidth = horizontalRange - reservedRightSpace;
-    const calculatedX = leftEdge + (ratio * availableWidth);
-    
-    // If manual x is provided, use it as a hint/offset rather than absolute position
-    // This allows fine-tuning while still respecting chronological order
-    if (node.x && node.x !== 0) {
-      // Use manual x as a target, but ensure it doesn't violate chronological order
-      // Blend manual position with calculated position (70% manual, 30% calculated)
-      // This gives flexibility while maintaining some structure
-      node.x = calculatedX * 0.3 + node.x * 0.7;
-    } else {
-      node.x = calculatedX;
-    }
-  });
-  
-  // Ensure strict chronological order: no node should be to the right of a node with a later timestamp
-  for (let i = 0; i < sortedHistoricalNodes.length - 1; i++) {
-    const currentNode = sortedHistoricalNodes[i];
-    const nextNode = sortedHistoricalNodes[i + 1];
-    
-    if (currentNode.timestamp > nextNode.timestamp) {
-      // Current node is later in time but positioned earlier - swap if needed
-      const currentRight = currentNode.x + (currentNode.width || currentNode.radius * 2) / 2;
-      const nextLeft = nextNode.x - (nextNode.width || nextNode.radius * 2) / 2;
-      
-      if (currentRight > nextLeft) {
-        // Adjust positions to maintain chronological order
-        const minDistance = (currentNode.width || currentNode.radius * 2) / 2 + 
-                           (nextNode.width || nextNode.radius * 2) / 2 + MIN_NODE_SPACING;
-        nextNode.x = currentNode.x + minDistance;
-      }
-    }
-  }
+  // Run multiple iterations to resolve all overlaps
+  for (let iteration = 0; iteration < 50; iteration++) {
+    let hasOverlap = false;
 
-  // Find the rightmost position of all non-future nodes (including Present nodes)
-  const allNonFutureNodes = [...nonPresentOrFutureNodes, ...presentNodes];
-  const rightmostX = allNonFutureNodes.length > 0 
-    ? Math.max(...allNonFutureNodes.map(n => n.x + n.radius))
-    : CANVAS_WIDTH - PADDING;
+    for (let i = 0; i < allNodes.length; i++) {
+      for (let j = i + 1; j < allNodes.length; j++) {
+        const nodeA = allNodes[i];
+        const nodeB = allNodes[j];
 
-  // Position Present nodes on the far right of the canvas (before Future nodes)
-  // All Present nodes share the same X position (far right, but before Future)
-  const rightEdgeX = CANVAS_WIDTH - PADDING;
-  
-  presentNodes.forEach((node) => {
-    // Always position Present nodes at the far right, overriding any manual x values
-    node.x = rightEdgeX;
-  });
+        // Check if nodes are pinned (have explicit positions)
+        const aIsPinned = manualNodeIds.has(nodeA.id);
+        const bIsPinned = manualNodeIds.has(nodeB.id);
 
-  // Position Future nodes to the right of all other nodes (including Present)
-  // Space them out horizontally to the right of the rightmost node
-  const futureNodeSpacing = 140; // Spacing between future nodes (reduced for tighter layout, was 220)
-  const futureStartX = rightmostX + futureNodeSpacing;
-  
-  futureNodes.forEach((node, index) => {
-    // Position future nodes to the right of all other nodes
-    // Override any manual x positioning to ensure Future nodes are always on the right
-    node.x = futureStartX + (index * futureNodeSpacing);
-  });
+        // If both nodes are pinned, skip collision resolution between them
+        if (aIsPinned && bIsPinned) continue;
 
-  // Separate spark nodes from regular nodes for special handling
-  const sparkNodes = positionedNodes.filter(n => n.type === 'spark');
-  const regularNodes = positionedNodes.filter(n => n.type !== 'spark');
-  
-  // Calculate vertical positions for regular nodes (non-spark)
-  const branchCounts = new Map<string, number>();
-  const mainPathBranches = new Map<string, PositionedNode[]>();
-  
-  // First pass: identify nodes that share the same connection source
-  regularNodes.forEach(node => {
-    if (node.y) return; // Manual override
-    
-    const connectionKey = node.connections?.[0] || 'root';
-    
-    if (node.pathTaken) {
-      // Track main path nodes that share the same source
-      if (!mainPathBranches.has(connectionKey)) {
-        mainPathBranches.set(connectionKey, []);
-      }
-      mainPathBranches.get(connectionKey)!.push(node);
-    }
-  });
-  
-  // Second pass: assign positions for regular nodes
-  // Use manual y as a hint/offset rather than absolute override
-  regularNodes.forEach(node => {
-    const connectionKey = node.connections?.[0] || 'root';
-    
-    let calculatedY: number;
-    
-    if (node.pathTaken) {
-      // Check if this node shares a source with other main path nodes
-      const sharedNodes = mainPathBranches.get(connectionKey) || [];
-      
-      if (sharedNodes.length > 1) {
-        // Multiple nodes from same source - create divergent paths
-        const index = sharedNodes.indexOf(node);
-        const totalNodes = sharedNodes.length;
-        
-        // Alternate above/below, with first node on main path if odd number
-        if (totalNodes === 1) {
-          calculatedY = MAIN_PATH_Y;
-        } else {
-          // Calculate offset: center nodes around main path
-          const centerIndex = (totalNodes - 1) / 2;
-          const offsetIndex = index - centerIndex;
-          
-          // Use branch spacing for divergence
-          // Give more space if this divergent path contains "Made first Angel Investment"
-          const hasAngelInvestment = sharedNodes.some(n => n.id === 'first-angel-investment');
-          const spacing = hasAngelInvestment ? BRANCH_SPACING * 1.8 : BRANCH_SPACING; // 80% more space
-          
-          const offset = offsetIndex * spacing;
-          calculatedY = MAIN_PATH_Y + offset;
-          
-          // Ensure nodes don't go outside canvas bounds
-          const minY = PADDING + node.radius;
-          const maxY = CANVAS_HEIGHT - PADDING - node.radius;
-          calculatedY = Math.max(minY, Math.min(maxY, calculatedY));
-        }
-      } else {
-        // Single node from this source - keep on main path
-        calculatedY = MAIN_PATH_Y;
-      }
-    } else {
-      // Branch nodes (pathTaken: false)
-      // Position them above or below the main path based on their connection source
-      const sourceNode = positionedNodes.find(n => n.connections && n.connections.includes(node.id));
-      
-      if (sourceNode) {
-        // Position relative to source node, but offset vertically
-        const sourceY = sourceNode.y || MAIN_PATH_Y;
-        const offset = BRANCH_SPACING * 0.6; // Smaller offset for branch nodes
-        // Alternate above/below based on node id hash for consistency
-        const hash = node.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        const direction = hash % 2 === 0 ? 1 : -1; // Alternate up/down
-        calculatedY = sourceY + (offset * direction);
-        
-        // Ensure nodes don't go outside canvas bounds
-        const minY = PADDING + node.radius;
-        const maxY = CANVAS_HEIGHT - PADDING - node.radius;
-        calculatedY = Math.max(minY, Math.min(maxY, calculatedY));
-      } else {
-        // No source found, use main path
-        calculatedY = MAIN_PATH_Y;
-      }
-    }
-    
-    // If manual y is provided, blend it with calculated position (60% manual, 40% calculated)
-    // This allows fine-tuning while maintaining connection-based structure
-    if (node.y && node.y !== 0) {
-      node.y = calculatedY * 0.4 + node.y * 0.6;
-    } else {
-      node.y = calculatedY;
-    }
-  });
+        // Get actual dimensions with padding
+        const aWidth = (nodeA.width || 200) + COLLISION_PADDING;
+        const aHeight = (nodeA.height || 120) + COLLISION_PADDING;
+        const bWidth = (nodeB.width || 200) + COLLISION_PADDING;
+        const bHeight = (nodeB.height || 120) + COLLISION_PADDING;
 
-  // Group regular nodes by year and add spacing for same-year nodes
-  // CRITICAL: Only adjust positions within the same year, never move nodes across year boundaries
-  // Exclude Present and Future nodes from year-grouping to keep them on the far right
-  const yearGroups = new Map<string, PositionedNode[]>();
-  regularNodes.forEach(node => {
-    // Skip Present and Future nodes - they should stay on the far right
-    if (isPresentNode(node) || isFutureNode(node)) return;
-    
-    const year = node.date || node.dateRange?.split('-')[0] || 'unknown';
-    if (!yearGroups.has(year)) {
-      yearGroups.set(year, []);
-    }
-    yearGroups.get(year)!.push(node);
-  });
+        // Calculate bounding boxes
+        const aLeft = nodeA.x - aWidth / 2;
+        const aRight = nodeA.x + aWidth / 2;
+        const aTop = nodeA.y - aHeight / 2;
+        const aBottom = nodeA.y + aHeight / 2;
 
-  // Add spacing for regular nodes in the same year
-  // IMPORTANT: Only adjust X positions within the same year group
-  yearGroups.forEach((yearNodes, year) => {
-    if (yearNodes.length > 1) {
-      // Sort nodes by timestamp first (strict chronological), then by pathTaken
-      yearNodes.sort((a, b) => {
-        // First, sort by timestamp (strict chronological order)
-        const timeDiff = a.timestamp - b.timestamp;
-        if (Math.abs(timeDiff) > 1000) { // More than 1 second difference
-          return timeDiff;
-        }
-        
-        // If timestamps are very close (same year), prioritize pathTaken
-        if (a.pathTaken !== b.pathTaken) {
-          return a.pathTaken ? -1 : 1;
-        }
-        
-        // If same pathTaken status and very close timestamps, use sequence
-        const seqA = a.sequence ?? 0;
-        const seqB = b.sequence ?? 0;
-        return seqA - seqB;
-      });
-      
-      // Calculate spacing based on node sizes
-      const minSpacing = 180; // Minimum spacing between nodes of same year (reduced for tighter layout)
-      let currentX = yearNodes[0]?.x || 0;
-      
-      yearNodes.forEach((node, index) => {
-        if (index > 0) {
-          // Ensure minimum spacing from previous node
-          const prevNode = yearNodes[index - 1];
-          const nodeWidth = node.width || node.radius * 2;
-          const prevNodeWidth = prevNode.width || prevNode.radius * 2;
-          const spacing = Math.max(minSpacing, prevNodeWidth / 2 + nodeWidth / 2 + minSpacing);
-          const requiredX = prevNode.x + prevNodeWidth / 2 + spacing;
-          if (currentX < requiredX) {
-            currentX = requiredX - nodeWidth / 2;
-          }
-        }
-        // Only adjust X if it doesn't violate chronological order with nodes from other years
-        const nodeWidth = node.width || node.radius * 2;
-        node.x = currentX;
-        // Calculate next position with proper spacing
-        currentX = node.x + nodeWidth / 2 + minSpacing;
-      });
-    }
-  });
+        const bLeft = nodeB.x - bWidth / 2;
+        const bRight = nodeB.x + bWidth / 2;
+        const bTop = nodeB.y - bHeight / 2;
+        const bBottom = nodeB.y + bHeight / 2;
 
-  // Group spark nodes by year and position them in clusters
-  const sparkYearGroups = new Map<string, PositionedNode[]>();
-  sparkNodes.forEach(node => {
-    const year = node.date || node.dateRange?.split('-')[0] || 'unknown';
-    if (!sparkYearGroups.has(year)) {
-      sparkYearGroups.set(year, []);
-    }
-    sparkYearGroups.get(year)!.push(node);
-  });
+        // Check for rectangular overlap
+        const overlapX = Math.min(aRight, bRight) - Math.max(aLeft, bLeft);
+        const overlapY = Math.min(aBottom, bBottom) - Math.max(aTop, bTop);
 
-  // Position spark nodes close to their connected main nodes (20px to 60px away)
-  sparkNodes.forEach((sparkNode) => {
-    // Find the connected main node
-    const connectedNodeId = sparkNode.connections?.[0];
-    if (!connectedNodeId) {
-      // Fallback: position at year center if no connection
-      const year = sparkNode.date || sparkNode.dateRange?.split('-')[0] || 'unknown';
-      const yearRatio = dateRange > 0 
-        ? (sparkNode.timestamp - minTimestamp) / dateRange 
-        : 0.5;
-      const reservedRightSpace = CANVAS_WIDTH * 0.15;
-      const availableWidth = (CANVAS_WIDTH - (PADDING * 2)) - reservedRightSpace;
-      sparkNode.x = PADDING + (yearRatio * availableWidth);
-      sparkNode.y = MAIN_PATH_Y;
-      return;
-    }
-    
-    const connectedNode = positionedNodes.find(n => n.id === connectedNodeId);
-    if (!connectedNode) {
-      // Fallback: position at year center if connected node not found
-      const year = sparkNode.date || sparkNode.dateRange?.split('-')[0] || 'unknown';
-      const yearRatio = dateRange > 0 
-        ? (sparkNode.timestamp - minTimestamp) / dateRange 
-        : 0.5;
-      const reservedRightSpace = CANVAS_WIDTH * 0.15;
-      const availableWidth = (CANVAS_WIDTH - (PADDING * 2)) - reservedRightSpace;
-      sparkNode.x = PADDING + (yearRatio * availableWidth);
-      sparkNode.y = MAIN_PATH_Y;
-      return;
-    }
-    
-    // Calculate distance from connected node (20px to 60px)
-    // If multiple spark nodes connect to the same node, space them around it
-    const allSparksToSameNode = sparkNodes.filter(n => 
-      n.connections?.[0] === connectedNodeId
-    );
-    
-    // Find this spark node's index among all sparks connected to the same node
-    const sparkIndex = allSparksToSameNode.findIndex(n => n.id === sparkNode.id);
-    const totalSparks = allSparksToSameNode.length;
-    
-    let distance: number;
-    let angle: number;
-    
-    if (totalSparks === 1) {
-      // Single spark node - position at a fixed distance (40px) at a nice angle
-      distance = 40;
-      angle = Math.PI / 4; // 45 degrees (top-right)
-    } else {
-      // Multiple spark nodes - distribute them around the connected node
-      const angleStep = (2 * Math.PI) / totalSparks;
-      angle = (sparkIndex * angleStep) + (Math.PI / 2); // Start at top (90 degrees)
-      
-      // Distance varies from 20px to 60px based on number of spark nodes
-      // More spark nodes = slightly further to prevent overlap
-      const minDistance = 20;
-      const maxDistance = 60;
-      distance = minDistance + ((maxDistance - minDistance) * Math.min(1, totalSparks / 4));
-    }
-    
-    // Position spark node relative to connected node
-    sparkNode.x = connectedNode.x + Math.cos(angle) * distance;
-    sparkNode.y = connectedNode.y + Math.sin(angle) * distance;
-    
-    // Ensure spark nodes don't go outside canvas bounds
-    const minX = PADDING + sparkNode.radius;
-    const maxX = CANVAS_WIDTH - PADDING - sparkNode.radius;
-    const minY = PADDING + sparkNode.radius;
-    const maxY = CANVAS_HEIGHT - PADDING - sparkNode.radius;
-    sparkNode.x = Math.max(minX, Math.min(maxX, sparkNode.x));
-    sparkNode.y = Math.max(minY, Math.min(maxY, sparkNode.y));
-  });
+        if (overlapX > 0 && overlapY > 0) {
+          hasOverlap = true;
 
-  // Stack output nodes vertically to the right of their source node
-  // This creates the default arrangement where outputs are stacked vertically
-  const outputNodeGroups = new Map<string, PositionedNode[]>();
-  
-  // For each node, find all nodes that connect FROM it (its outputs)
-  positionedNodes.forEach(sourceNode => {
-    // Skip Present, Future, spark nodes, and nodes that aren't pathTaken
-    if (isPresentNode(sourceNode) || isFutureNode(sourceNode) || 
-        sourceNode.type === 'spark' || !sourceNode.pathTaken) return;
-    
-    // Find all nodes that have this node in their connections (outputs of this node)
-    const outputNodes = positionedNodes.filter(node => {
-      // Skip if it's the source node itself
-      if (node.id === sourceNode.id) return false;
-      
-      // Skip Present, Future, and spark nodes
-      if (isPresentNode(node) || isFutureNode(node) || node.type === 'spark') return false;
-      
-      // Only stack pathTaken output nodes (not possiblePath)
-      if (!node.pathTaken) return false;
-      
-      // Check if this node connects from the source node
-      return node.connections && node.connections.includes(sourceNode.id);
-    });
-    
-    // Only create a stack if there are multiple outputs
-    if (outputNodes.length > 0) {
-      outputNodeGroups.set(sourceNode.id, outputNodes);
-    }
-  });
-  
-  // Position output nodes in vertical stacks to the right of their source
-  outputNodeGroups.forEach((outputNodes, sourceNodeId) => {
-    if (outputNodes.length === 0) return;
-    
-    const sourceNode = positionedNodes.find(n => n.id === sourceNodeId);
-    if (!sourceNode) return;
-    
-    // Sort output nodes by their original timestamp to maintain some chronological order
-    outputNodes.sort((a, b) => a.timestamp - b.timestamp);
-    
-    // Calculate horizontal position: to the right of source node
-    const sourceNodeWidth = sourceNode.width || sourceNode.radius * 2;
-    const horizontalSpacing = 280; // Spacing between source and output stack
-    const outputStackX = sourceNode.x + sourceNodeWidth / 2 + horizontalSpacing;
-    
-    // Calculate vertical spacing between output nodes
-    const verticalSpacing = 200; // Vertical spacing between stacked output nodes
-    
-    // Calculate total height of the stack
-    const totalStackHeight = outputNodes.reduce((sum, node) => {
-      const nodeHeight = node.height || node.radius * 2;
-      return sum + nodeHeight + verticalSpacing;
-    }, -verticalSpacing); // Subtract last spacing
-    
-    // Center the stack vertically around the source node's Y position
-    const stackStartY = sourceNode.y - totalStackHeight / 2;
-    
-    // Position each output node in the stack
-    let currentY = stackStartY;
-    outputNodes.forEach((outputNode, index) => {
-      const nodeHeight = outputNode.height || outputNode.radius * 2;
-      
-      // Set X position to the right of source
-      outputNode.x = outputStackX;
-      
-      // Set Y position in the stack
-      outputNode.y = currentY + nodeHeight / 2;
-      
-      // Move to next position
-      currentY += nodeHeight + verticalSpacing;
-    });
-  });
-
-  // REMOVED: Clustering pass that could violate chronological order
-  // Nodes are now positioned strictly by date, with only same-year adjustments allowed
-
-  // Collision detection and resolution
-  // CRITICAL: Only adjust Y positions to resolve collisions, never X positions
-  // This preserves strict chronological ordering
-  resolveCollisions(positionedNodes);
-
-  // Final pass: ensure minimum spacing between all nodes
-  // CRITICAL: Only adjust Y positions, never X positions (to preserve chronological order)
-  for (let i = 0; i < positionedNodes.length; i++) {
-    for (let j = i + 1; j < positionedNodes.length; j++) {
-      const node1 = positionedNodes[i];
-      const node2 = positionedNodes[j];
-      
-      const isNode1Present = isPresentNode(node1) || isFutureNode(node1);
-      const isNode2Present = isPresentNode(node2) || isFutureNode(node2);
-      
-      // Use rectangular bounds for collision detection
-      const node1Width = node1.width || node1.radius * 2;
-      const node1Height = node1.height || node1.radius * 2;
-      const node2Width = node2.width || node2.radius * 2;
-      const node2Height = node2.height || node2.radius * 2;
-      
-      const node1Left = node1.x - node1Width / 2;
-      const node1Right = node1.x + node1Width / 2;
-      const node1Top = node1.y - node1Height / 2;
-      const node1Bottom = node1.y + node1Height / 2;
-      
-      const node2Left = node2.x - node2Width / 2;
-      const node2Right = node2.x + node2Width / 2;
-      const node2Top = node2.y - node2Height / 2;
-      const node2Bottom = node2.y + node2Height / 2;
-      
-      // Check for overlap
-      const overlapX = Math.min(node1Right, node2Right) - Math.max(node1Left, node2Left);
-      const overlapY = Math.min(node1Bottom, node2Bottom) - Math.max(node1Top, node2Top);
-      
-      const minDistanceX = node1Width / 2 + node2Width / 2 + MIN_NODE_SPACING;
-      const minDistanceY = node1Height / 2 + node2Height / 2 + MIN_NODE_SPACING;
-      
-      if (overlapX > 0 && overlapY > 0) {
-        // Nodes are overlapping - separate them
-        const currentDistanceX = Math.abs(node2.x - node1.x);
-        const currentDistanceY = Math.abs(node2.y - node1.y);
-        
-        const neededSeparationX = minDistanceX - currentDistanceX;
-        const neededSeparationY = minDistanceY - currentDistanceY;
-        
-        // ONLY adjust Y positions to resolve collisions
-        // NEVER adjust X positions - this would violate chronological order
-        const pushY = neededSeparationY * 0.5;
-        if (node1.y < node2.y) {
-          node1.y -= pushY;
-          node2.y += pushY;
-        } else {
-          node1.y += pushY;
-          node2.y -= pushY;
-        }
-      } else if (overlapX > 0 || overlapY > 0) {
-        // Nodes are very close - ensure minimum spacing
-        const currentDistanceX = Math.abs(node2.x - node1.x);
-        const currentDistanceY = Math.abs(node2.y - node1.y);
-        
-        if (currentDistanceY < minDistanceY) {
-          const neededY = minDistanceY - currentDistanceY;
-          const pushY = neededY * 0.5;
-          if (node1.y < node2.y) {
-            node1.y -= pushY;
-            node2.y += pushY;
+          // Push apart in the direction of least overlap
+          // Only move unpinned nodes
+          if (overlapX < overlapY) {
+            // Push horizontally
+            const pushX = overlapX + 2;
+            if (aIsPinned) {
+              // Only move B
+              nodeB.x += (nodeA.x < nodeB.x) ? pushX : -pushX;
+            } else if (bIsPinned) {
+              // Only move A
+              nodeA.x += (nodeA.x < nodeB.x) ? -pushX : pushX;
+            } else {
+              // Move both
+              const halfPush = pushX / 2;
+              if (nodeA.x < nodeB.x) {
+                nodeA.x -= halfPush;
+                nodeB.x += halfPush;
+              } else {
+                nodeA.x += halfPush;
+                nodeB.x -= halfPush;
+              }
+            }
           } else {
-            node1.y += pushY;
-            node2.y -= pushY;
+            // Push vertically
+            const pushY = overlapY + 2;
+            if (aIsPinned) {
+              // Only move B
+              nodeB.y += (nodeA.y < nodeB.y) ? pushY : -pushY;
+            } else if (bIsPinned) {
+              // Only move A
+              nodeA.y += (nodeA.y < nodeB.y) ? -pushY : pushY;
+            } else {
+              // Move both
+              const halfPush = pushY / 2;
+              if (nodeA.y < nodeB.y) {
+                nodeA.y -= halfPush;
+                nodeB.y += halfPush;
+              } else {
+                nodeA.y += halfPush;
+                nodeB.y -= halfPush;
+              }
+            }
           }
         }
       }
     }
+
+    if (!hasOverlap) break;
   }
-  
-  // Final pass: ensure all Present nodes are still on the far right
-  // This ensures they stay there even after collision resolution
-  presentNodes.forEach((node) => {
-    node.x = rightEdgeX;
+
+  // Keep nodes within canvas bounds (only for auto-laid out nodes)
+  allNodes.forEach(node => {
+    // Skip bounds clamping for manually positioned nodes
+    if (manualNodeIds.has(node.id)) return;
+
+    const nodeWidth = node.width || 200;
+    const nodeHeight = node.height || 120;
+    const minX = PADDING + nodeWidth / 2;
+    const maxX = CANVAS_WIDTH * 2 - PADDING - nodeWidth / 2; // Allow canvas to grow
+    const minY = PADDING + nodeHeight / 2;
+    const maxY = CANVAS_HEIGHT - PADDING - nodeHeight / 2;
+
+    node.x = Math.max(minX, node.x);
+    node.y = Math.max(minY, Math.min(maxY, node.y));
   });
 
-  // STRICT CHRONOLOGICAL ENFORCEMENT: Final pass to ensure no node violates timeline order
-  // This is the most important pass - it ensures that if you draw a vertical line,
-  // no node from an earlier year will be to the right of a node from a later year
-  const allHistoricalNodes = [...nonPresentOrFutureNodes].sort((a, b) => a.timestamp - b.timestamp);
-  
-  // Enforce strict left-to-right chronological ordering
-  for (let i = 0; i < allHistoricalNodes.length; i++) {
-    const currentNode = allHistoricalNodes[i];
-    const nodeWidth = currentNode.width || currentNode.radius * 2;
-    const currentNodeRight = currentNode.x + nodeWidth / 2;
-    
-    // Check all nodes that come AFTER this node chronologically
-    for (let j = i + 1; j < allHistoricalNodes.length; j++) {
-      const laterNode = allHistoricalNodes[j];
-      const laterNodeWidth = laterNode.width || laterNode.radius * 2;
-      const laterNodeLeft = laterNode.x - laterNodeWidth / 2;
-      
-      // If current node's right edge is to the right of a later node's left edge, fix it
-      if (currentNodeRight > laterNodeLeft) {
-        // Move the later node to the right to maintain chronological order
-        const minDistance = nodeWidth / 2 + laterNodeWidth / 2 + MIN_NODE_SPACING;
-        laterNode.x = currentNode.x + minDistance;
-      }
+  // STEP 4: Ensure no node is more than MAX_NODE_DISTANCE from its connection
+  // Skip for manually positioned nodes
+  positionedNodes.forEach(node => {
+    // Skip if this node has explicit position
+    if (manualNodeIds.has(node.id)) return;
+    if (!node.connections || node.connections.length === 0) return;
+
+    const connectedNode = positionedNodes.find(n => n.id === node.connections![0]);
+    if (!connectedNode) return;
+
+    const dx = node.x - connectedNode.x;
+    const dy = node.y - connectedNode.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance > MAX_NODE_DISTANCE) {
+      // Pull node closer to its connection
+      const scale = MAX_NODE_DISTANCE / distance;
+      node.x = connectedNode.x + dx * scale;
+      node.y = connectedNode.y + dy * scale;
     }
-  }
-  
-  // Connection-based positioning: bring connected nodes closer together (50-300px range)
-  // BUT: Only adjust if it doesn't violate chronological order
-  const connectionAdjustmentPasses = 5; // More passes for better convergence
-  const minConnectionDistance = 50; // Minimum edge-to-edge distance between connected nodes
-  const maxConnectionDistance = 300; // Maximum preferred edge-to-edge distance
-  const targetConnectionDistance = 150; // Target edge-to-edge distance
-  
-  for (let pass = 0; pass < connectionAdjustmentPasses; pass++) {
-    positionedNodes.forEach(node => {
-      // Skip Present and Future nodes - they have fixed positions
-      if (isPresentNode(node) || isFutureNode(node)) return;
-      if (node.x === undefined) return;
-      
-      // Check all nodes that connect TO this node (inputs)
-      positionedNodes.forEach(sourceNode => {
-        if (sourceNode.connections && sourceNode.connections.includes(node.id)) {
-          const sourceTimestamp = sourceNode.timestamp || 0;
-          const targetTimestamp = node.timestamp || 0;
-          
-          // Only adjust if source is chronologically before target
-          if (sourceTimestamp <= targetTimestamp) {
-            const sourceWidth = sourceNode.width || sourceNode.radius * 2;
-            const targetWidth = node.width || node.radius * 2;
-            const sourceRight = sourceNode.x + sourceWidth / 2;
-            const targetLeft = node.x - targetWidth / 2;
-            const currentEdgeDistance = targetLeft - sourceRight; // Edge-to-edge distance
-            
-            // If nodes are too far apart (>300px), bring them closer
-            if (currentEdgeDistance > maxConnectionDistance) {
-              // Calculate desired distance (gradually approach target)
-              const desiredDistance = Math.min(targetConnectionDistance, currentEdgeDistance * 0.7);
-              const newTargetX = sourceNode.x + sourceWidth / 2 + targetWidth / 2 + desiredDistance;
-              
-              // Verify this doesn't violate chronological order
-              const canMove = allHistoricalNodes.every(otherNode => {
-                if (otherNode.id === node.id || otherNode.id === sourceNode.id) return true;
-                const otherTimestamp = otherNode.timestamp || 0;
-                
-                // If other node is from a later year, target shouldn't be to its right
-                if (otherTimestamp > targetTimestamp) {
-                  const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
-                  return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
-                }
-                // If other node is from an earlier year, target shouldn't be to its left
-                if (otherTimestamp < targetTimestamp) {
-                  const otherRight = otherNode.x + (otherNode.width || otherNode.radius * 2) / 2;
-                  return newTargetX - targetWidth / 2 >= otherRight + MIN_NODE_SPACING;
-                }
-                return true;
-              });
-              
-              if (canMove) {
-                node.x = newTargetX;
+  });
+
+  // STEP 5: Handle spark nodes - position them close to connected nodes
+  // Skip for manually positioned spark nodes
+  const sparkNodes = positionedNodes.filter(n => n.type === 'spark');
+  sparkNodes.forEach(sparkNode => {
+    // Skip if this spark node has explicit position
+    if (manualNodeIds.has(sparkNode.id)) return;
+
+    const connectedId = sparkNode.connections?.[0];
+    const connectedNode = connectedId ? positionedNodes.find(n => n.id === connectedId) : null;
+
+    if (connectedNode) {
+      // Position spark nodes in a small cluster around connected node
+      const allSparks = sparkNodes.filter(n => n.connections?.[0] === connectedId);
+      const sparkIndex = allSparks.indexOf(sparkNode);
+      const totalSparks = allSparks.length;
+
+      const angleStep = (2 * Math.PI) / Math.max(totalSparks, 1);
+      const angle = sparkIndex * angleStep - Math.PI / 2;
+      const distance = 60;
+
+      sparkNode.x = connectedNode.x + Math.cos(angle) * distance;
+      sparkNode.y = connectedNode.y + Math.sin(angle) * distance;
+    }
+  });
+
+  // STEP 6: Final collision resolution pass (after all positioning adjustments)
+  // Also respects manually positioned nodes
+  const FINAL_PADDING = 15;
+  const finalAllNodes = positionedNodes.filter(n => n.x !== undefined && n.y !== undefined);
+
+  for (let iteration = 0; iteration < 100; iteration++) {
+    let hasOverlap = false;
+
+    for (let i = 0; i < finalAllNodes.length; i++) {
+      for (let j = i + 1; j < finalAllNodes.length; j++) {
+        const nodeA = finalAllNodes[i];
+        const nodeB = finalAllNodes[j];
+
+        // Check if nodes are pinned (have explicit positions)
+        const aIsPinned = manualNodeIds.has(nodeA.id);
+        const bIsPinned = manualNodeIds.has(nodeB.id);
+
+        // If both nodes are pinned, skip collision resolution between them
+        if (aIsPinned && bIsPinned) continue;
+
+        const aWidth = (nodeA.width || 200) + FINAL_PADDING;
+        const aHeight = (nodeA.height || 120) + FINAL_PADDING;
+        const bWidth = (nodeB.width || 200) + FINAL_PADDING;
+        const bHeight = (nodeB.height || 120) + FINAL_PADDING;
+
+        const aLeft = nodeA.x - aWidth / 2;
+        const aRight = nodeA.x + aWidth / 2;
+        const aTop = nodeA.y - aHeight / 2;
+        const aBottom = nodeA.y + aHeight / 2;
+
+        const bLeft = nodeB.x - bWidth / 2;
+        const bRight = nodeB.x + bWidth / 2;
+        const bTop = nodeB.y - bHeight / 2;
+        const bBottom = nodeB.y + bHeight / 2;
+
+        const overlapX = Math.min(aRight, bRight) - Math.max(aLeft, bLeft);
+        const overlapY = Math.min(aBottom, bBottom) - Math.max(aTop, bTop);
+
+        if (overlapX > 0 && overlapY > 0) {
+          hasOverlap = true;
+
+          // Push apart - prefer horizontal separation to maintain timeline flow
+          // Only move unpinned nodes
+          if (overlapX <= overlapY) {
+            const pushX = overlapX + 4;
+            if (aIsPinned) {
+              nodeB.x += (nodeA.x < nodeB.x) ? pushX : -pushX;
+            } else if (bIsPinned) {
+              nodeA.x += (nodeA.x < nodeB.x) ? -pushX : pushX;
+            } else {
+              const halfPush = pushX / 2;
+              if (nodeA.x < nodeB.x) {
+                nodeA.x -= halfPush;
+                nodeB.x += halfPush;
+              } else {
+                nodeA.x += halfPush;
+                nodeB.x -= halfPush;
               }
-            } else if (currentEdgeDistance < minConnectionDistance) {
-              // Ensure minimum spacing
-              const minDistance = sourceWidth / 2 + targetWidth / 2 + minConnectionDistance;
-              const newTargetX = sourceNode.x + minDistance;
-              
-              // Verify this doesn't violate chronological order
-              const canMove = allHistoricalNodes.every(otherNode => {
-                if (otherNode.id === node.id || otherNode.id === sourceNode.id) return true;
-                const otherTimestamp = otherNode.timestamp || 0;
-                
-                if (otherTimestamp > targetTimestamp) {
-                  const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
-                  return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
-                }
-                return true;
-              });
-              
-              if (canMove) {
-                node.x = newTargetX;
+            }
+          } else {
+            const pushY = overlapY + 4;
+            if (aIsPinned) {
+              nodeB.y += (nodeA.y < nodeB.y) ? pushY : -pushY;
+            } else if (bIsPinned) {
+              nodeA.y += (nodeA.y < nodeB.y) ? -pushY : pushY;
+            } else {
+              const halfPush = pushY / 2;
+              if (nodeA.y < nodeB.y) {
+                nodeA.y -= halfPush;
+                nodeB.y += halfPush;
+              } else {
+                nodeA.y += halfPush;
+                nodeB.y -= halfPush;
               }
             }
           }
         }
-      });
-      
-      // Check all nodes that this node connects TO (outputs)
-      if (node.connections) {
-        node.connections.forEach(targetId => {
-          const targetNode = positionedNodes.find(n => n.id === targetId);
-          if (targetNode && !isPresentNode(targetNode) && !isFutureNode(targetNode)) {
-            const sourceTimestamp = node.timestamp || 0;
-            const targetTimestamp = targetNode.timestamp || 0;
-            
-            // Only adjust if source is chronologically before target
-            if (sourceTimestamp <= targetTimestamp) {
-              const sourceWidth = node.width || node.radius * 2;
-              const targetWidth = targetNode.width || targetNode.radius * 2;
-              const sourceRight = node.x + sourceWidth / 2;
-              const targetLeft = targetNode.x - targetWidth / 2;
-              const currentEdgeDistance = targetLeft - sourceRight; // Edge-to-edge distance
-              
-              // If nodes are too far apart (>300px), bring them closer
-              if (currentEdgeDistance > maxConnectionDistance) {
-                // Calculate desired distance (gradually approach target)
-                const desiredDistance = Math.min(targetConnectionDistance, currentEdgeDistance * 0.7);
-                const newTargetX = node.x + sourceWidth / 2 + targetWidth / 2 + desiredDistance;
-                
-                // Verify this doesn't violate chronological order
-                const canMove = allHistoricalNodes.every(otherNode => {
-                  if (otherNode.id === targetNode.id || otherNode.id === node.id) return true;
-                  const otherTimestamp = otherNode.timestamp || 0;
-                  
-                  // If other node is from a later year, target shouldn't be to its right
-                  if (otherTimestamp > targetTimestamp) {
-                    const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
-                    return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
-                  }
-                  // If other node is from an earlier year, target shouldn't be to its left
-                  if (otherTimestamp < targetTimestamp) {
-                    const otherRight = otherNode.x + (otherNode.width || otherNode.radius * 2) / 2;
-                    return newTargetX - targetWidth / 2 >= otherRight + MIN_NODE_SPACING;
-                  }
-                  return true;
-                });
-                
-                if (canMove) {
-                  targetNode.x = newTargetX;
-                }
-              } else if (currentEdgeDistance < minConnectionDistance) {
-                // Ensure minimum spacing
-                const minDistance = sourceWidth / 2 + targetWidth / 2 + minConnectionDistance;
-                const newTargetX = node.x + minDistance;
-                
-                // Verify this doesn't violate chronological order
-                const canMove = allHistoricalNodes.every(otherNode => {
-                  if (otherNode.id === targetNode.id || otherNode.id === node.id) return true;
-                  const otherTimestamp = otherNode.timestamp || 0;
-                  
-                  if (otherTimestamp > targetTimestamp) {
-                    const otherLeft = otherNode.x - (otherNode.width || otherNode.radius * 2) / 2;
-                    return newTargetX + targetWidth / 2 <= otherLeft - MIN_NODE_SPACING;
-                  }
-                  return true;
-                });
-                
-                if (canMove) {
-                  targetNode.x = newTargetX;
-                }
-              }
-            }
-          }
-        });
-      }
-    });
-    
-    // Re-enforce strict chronological order after each connection adjustment pass
-    for (let i = 0; i < allHistoricalNodes.length; i++) {
-      const currentNode = allHistoricalNodes[i];
-      const nodeWidth = currentNode.width || currentNode.radius * 2;
-      const currentNodeRight = currentNode.x + nodeWidth / 2;
-      
-      for (let j = i + 1; j < allHistoricalNodes.length; j++) {
-        const laterNode = allHistoricalNodes[j];
-        const laterNodeWidth = laterNode.width || laterNode.radius * 2;
-        const laterNodeLeft = laterNode.x - laterNodeWidth / 2;
-        
-        if (currentNodeRight > laterNodeLeft) {
-          const minDistance = nodeWidth / 2 + laterNodeWidth / 2 + MIN_NODE_SPACING;
-          laterNode.x = currentNode.x + minDistance;
-        }
       }
     }
+
+    if (!hasOverlap) break;
   }
-  
-  // Final strict chronological enforcement: Present nodes must be to the right of all historical nodes
-  const maxHistoricalX = Math.max(...nonPresentOrFutureNodes.map(n => n.x + (n.width || n.radius * 2) / 2));
-  const presentMinX = maxHistoricalX + MIN_NODE_SPACING * 2;
-  
-  presentNodes.forEach(node => {
-    if (node.x < presentMinX) {
-      node.x = presentMinX;
-    }
-  });
-  
-  // Future nodes must be to the right of Present nodes
-  const maxPresentX = presentNodes.length > 0 
-    ? Math.max(...presentNodes.map(n => n.x + (n.width || n.radius * 2) / 2))
-    : presentMinX;
-  const futureMinX = maxPresentX + MIN_NODE_SPACING * 2;
-  
-  futureNodes.forEach((node, index) => {
-    const requiredX = futureMinX + (index * 300);
-    if (node.x < requiredX) {
-      node.x = requiredX;
-    }
-  });
 
   return positionedNodes;
 };
@@ -1547,63 +1078,106 @@ const addLineHop = (
 // Calculate connection path - simple bezier curve between ports
 // No hops, no waypoints - just a clean curve
 const getConnectionPath = (
-  source: PositionedNode, 
-  target: PositionedNode, 
+  source: PositionedNode,
+  target: PositionedNode,
   allNodes: PositionedNode[],
   allConnections?: Array<{ source: PositionedNode; target: PositionedNode; path: string }>
 ): string => {
   // Find the specific port positions for this connection
   const sourcePorts = calculateNodePorts(source, allNodes);
   const targetPorts = calculateNodePorts(target, allNodes);
-  
+
   // Find the output port on source that connects to target
   const outputPort = sourcePorts.outputs.find(p => p.connectionId === target.id);
   // Find the input port on target that receives from source
   const inputPort = targetPorts.inputs.find(p => p.connectionId === source.id);
-  
+
   // Get port positions (relative to node center)
-  // Port squares are inside the node, but connections should connect at the edge
-  const sidePadding = 8; // Must match the sidePadding in calculateNodePorts
   let startX: number, startY: number, endX: number, endY: number;
-  
+
+  // Start point: always from right edge of source (where output ports are)
   if (outputPort) {
-    // Port is positioned inside the node, but connection should start at the edge
-    // Output port is at: node.width / 2 - sidePadding
-    // Connection should be at: node.width / 2 (the edge)
     startX = source.x + source.width / 2; // Right edge of source node
     startY = source.y + outputPort.y; // Use port's Y position
   } else {
-    // Fallback: use right edge center
     startX = source.x + source.width / 2;
     startY = source.y;
   }
-  
-  if (inputPort) {
-    // Port is positioned inside the node, but connection should end at the edge
-    // Input port is at: -node.width / 2 + sidePadding
-    // Connection should be at: -node.width / 2 (the edge)
-    endX = target.x - target.width / 2; // Left edge of target node
-    endY = target.y + inputPort.y; // Use port's Y position
+
+  // End point: determine best edge based on relative position
+  // Calculate the relative position of target from the start point
+  const targetCenterX = target.x;
+  const targetCenterY = target.y;
+  const relativeX = targetCenterX - startX;
+  const relativeY = targetCenterY - startY;
+
+  // Determine which edge of the target to connect to
+  // If target is primarily to the right and above/below, connect to left edge
+  // If target is primarily above (more vertical than horizontal), connect to bottom edge
+  // If target is primarily below, connect to top edge
+  const absRelX = Math.abs(relativeX);
+  const absRelY = Math.abs(relativeY);
+
+  // Calculate the angle to determine approach direction
+  const angle = Math.atan2(relativeY, relativeX);
+  const angleDeg = (angle * 180) / Math.PI;
+
+  // If target is mostly to the right (within ±60 degrees of horizontal)
+  if (absRelX > absRelY * 0.5 && relativeX > 0) {
+    // Connect to left edge of target
+    if (inputPort) {
+      endX = target.x - target.width / 2;
+      endY = target.y + inputPort.y;
+    } else {
+      endX = target.x - target.width / 2;
+      endY = target.y;
+    }
+  } else if (relativeY < 0 && absRelY > absRelX * 0.3) {
+    // Target is primarily above - connect to bottom edge
+    endX = target.x;
+    endY = target.y + target.height / 2;
+  } else if (relativeY > 0 && absRelY > absRelX * 0.3) {
+    // Target is primarily below - connect to top edge
+    endX = target.x;
+    endY = target.y - target.height / 2;
   } else {
-    // Fallback: use left edge center
-    endX = target.x - target.width / 2;
-    endY = target.y;
+    // Default: connect to left edge
+    if (inputPort) {
+      endX = target.x - target.width / 2;
+      endY = target.y + inputPort.y;
+    } else {
+      endX = target.x - target.width / 2;
+      endY = target.y;
+    }
   }
-  
-  // Calculate simple bezier curve
+
+  // Calculate bezier curve
   const dx = endX - startX;
   const dy = endY - startY;
   const distance = Math.sqrt(dx * dx + dy * dy);
-  
-  // Simple curve factor based on distance
-  const curveFactor = Math.min(0.3, Math.max(0.1, distance / 1000));
-  
+
+  // Adjust curve factor based on distance and direction
+  const curveFactor = Math.min(0.4, Math.max(0.15, distance / 800));
+
   // Control points for smooth bezier curve
-  const cp1x = startX + dx * curveFactor;
-  const cp1y = startY + dy * curveFactor * 0.3;
-  const cp2x = endX - dx * curveFactor;
-  const cp2y = endY - dy * curveFactor * 0.3;
-  
+  // Adjust control points based on connection direction
+  let cp1x: number, cp1y: number, cp2x: number, cp2y: number;
+
+  if (absRelY > absRelX * 0.5) {
+    // More vertical connection - curve horizontally first, then vertically
+    const horizontalOffset = Math.min(100, distance * 0.3);
+    cp1x = startX + horizontalOffset;
+    cp1y = startY;
+    cp2x = endX;
+    cp2y = endY - (relativeY < 0 ? -1 : 1) * Math.min(50, distance * 0.2);
+  } else {
+    // More horizontal connection - standard curve
+    cp1x = startX + dx * curveFactor;
+    cp1y = startY + dy * curveFactor * 0.3;
+    cp2x = endX - dx * curveFactor;
+    cp2y = endY - dy * curveFactor * 0.3;
+  }
+
   return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
 };
 
@@ -2131,17 +1705,26 @@ const AnimatedNodeGroup: React.FC<{
       hoverTweenRef.current = null;
     }
     
-    // Create smooth transition
+    // Create smooth spring-like transition for growth effect
+    // Use different easing for hover in vs out
+    const isGrowing = targetScale > scaleRef.current;
+    const duration = isGrowing ? 0.3 : 0.2; // Slightly longer for growth
+
+    // Custom elastic easing for bouncy growth effect
+    const easing = isGrowing ? Konva.Easings.EaseOut : Konva.Easings.EaseOut;
+
     hoverTweenRef.current = new Konva.Tween({
       node: group,
-      duration: 0.2, // 200ms smooth transition
-      easing: Konva.Easings.EaseOut,
+      duration: duration,
+      easing: easing,
       scaleX: targetScale,
       scaleY: targetScale,
       opacity: targetOpacity,
       onUpdate: () => {
         scaleRef.current = group.scaleX();
         opacityRef.current = group.opacity();
+        // Force redraw for smooth animation
+        group.getLayer()?.batchDraw();
       },
       onFinish: () => {
         // Re-cache after animation completes for better performance
@@ -2162,6 +1745,38 @@ const AnimatedNodeGroup: React.FC<{
         }
       },
     });
+
+    // For hover growth, add a secondary bounce tween
+    if (isGrowing && isHovered) {
+      // First overshoot slightly, then settle
+      const overshootScale = targetScale * 1.03;
+      hoverTweenRef.current = new Konva.Tween({
+        node: group,
+        duration: 0.15,
+        easing: Konva.Easings.EaseOut,
+        scaleX: overshootScale,
+        scaleY: overshootScale,
+        opacity: targetOpacity,
+        onUpdate: () => {
+          scaleRef.current = group.scaleX();
+          opacityRef.current = group.opacity();
+        },
+        onFinish: () => {
+          // Settle back to target scale
+          const settleTween = new Konva.Tween({
+            node: group,
+            duration: 0.15,
+            easing: Konva.Easings.EaseOut,
+            scaleX: targetScale,
+            scaleY: targetScale,
+            onUpdate: () => {
+              scaleRef.current = group.scaleX();
+            },
+          });
+          settleTween.play();
+        },
+      });
+    }
     
     hoverTweenRef.current.play();
     
@@ -2290,13 +1905,14 @@ const AnimatedNodeRect: React.FC<{
 }> = ({ x, y, width, height, cornerRadius, fill, opacity, stroke, strokeWidth, dash, isHovered, onMouseEnter, onMouseLeave, onMouseDown, onClick, onContextMenu, Konva, Rect }) => {
   const rectRef = useRef<any>(null);
   const shadowTweenRef = useRef<any>(null);
-  
+
+  // Animate shadow on hover
   useEffect(() => {
     if (!rectRef.current || !Konva) return;
-    
+
     const rect = rectRef.current;
     const targetShadowBlur = isHovered ? 8 : 0;
-    
+
     if (shadowTweenRef.current) {
       try {
         shadowTweenRef.current.stop();
@@ -2306,16 +1922,16 @@ const AnimatedNodeRect: React.FC<{
       }
       shadowTweenRef.current = null;
     }
-    
+
     shadowTweenRef.current = new Konva.Tween({
       node: rect,
       duration: 0.2,
       easing: Konva.Easings.EaseOut,
       shadowBlur: targetShadowBlur,
     });
-    
+
     shadowTweenRef.current.play();
-    
+
     return () => {
       if (shadowTweenRef.current) {
         try {
@@ -2328,9 +1944,9 @@ const AnimatedNodeRect: React.FC<{
       }
     };
   }, [isHovered, Konva]);
-  
+
   if (!Rect) return null;
-  
+
   return (
     <Rect
       ref={rectRef}
@@ -2599,6 +2215,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const touchStartRef = useRef<{ x: number; y: number; viewBoxX: number; viewBoxY: number } | null>(null);
   const nodeDragStartRef = useRef<{ nodeId: string; startX: number; startY: number; originalX: number; originalY: number; lastOffsetX: number; lastOffsetY: number } | null>(null);
   const [initialViewBox, setInitialViewBox] = useState<ViewBox | null>(null);
+  const [homeViewBox, setHomeViewBox] = useState<ViewBox | null>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const stageRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -2612,7 +2229,174 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
   const animateViewBoxRafIdRef = useRef<number | null>(null); // Track RAF ID for viewBox animation
   const nodeAnimationRafIdRef = useRef<number | null>(null); // Track RAF ID for node drag animation
   const prevViewBoxRef = useRef<ViewBox>(viewBox); // Track previous viewBox to detect changes
-  
+
+  // Physics simulation refs for subtle bounce effect
+  const nodeVelocitiesRef = useRef<Map<string, { vx: number; vy: number }>>(new Map());
+  const nodeOffsetsRef = useRef<Map<string, { x: number; y: number }>>(new Map()); // Track offsets in ref to avoid re-render loops
+  const physicsRafIdRef = useRef<number | null>(null);
+  const physicsActiveRef = useRef<boolean>(true);
+
+  // Physics simulation for subtle node bounce/repulsion - only when nodes actually collide
+  useEffect(() => {
+    if (nodes.length === 0) return;
+
+    // Physics constants - keep subtle
+    const REPULSION_STRENGTH = 0.8; // How strongly nodes push apart (increased for expanded nodes)
+    const DAMPING = 0.85; // Velocity decay (lower = faster settle)
+    const MIN_VELOCITY = 0.05; // Stop when velocity is tiny
+    const COLLISION_PADDING = 15; // Detection padding
+
+    // Initialize velocities for new nodes
+    nodes.forEach(node => {
+      if (!nodeVelocitiesRef.current.has(node.id)) {
+        nodeVelocitiesRef.current.set(node.id, { vx: 0, vy: 0 });
+      }
+      if (!nodeOffsetsRef.current.has(node.id)) {
+        nodeOffsetsRef.current.set(node.id, { x: 0, y: 0 });
+      }
+    });
+
+    let lastTime = performance.now();
+
+    const simulatePhysics = () => {
+      if (!physicsActiveRef.current) {
+        physicsRafIdRef.current = requestAnimationFrame(simulatePhysics);
+        return;
+      }
+
+      const now = performance.now();
+      const deltaTime = Math.min((now - lastTime) / 16.67, 2); // Cap delta to prevent jumps
+      lastTime = now;
+
+      // Don't run physics while dragging a node
+      if (draggingNodeId) {
+        physicsRafIdRef.current = requestAnimationFrame(simulatePhysics);
+        return;
+      }
+
+      const nodesWithVelocity = new Set<string>();
+
+      // Calculate repulsion forces only between overlapping node pairs
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const nodeA = nodes[i];
+          const nodeB = nodes[j];
+
+          const offsetA = nodeOffsetsRef.current.get(nodeA.id) || { x: 0, y: 0 };
+          const offsetB = nodeOffsetsRef.current.get(nodeB.id) || { x: 0, y: 0 };
+
+          const posAX = nodeA.x + offsetA.x;
+          const posAY = nodeA.y + offsetA.y;
+          const posBX = nodeB.x + offsetB.x;
+          const posBY = nodeB.y + offsetB.y;
+
+          // Get node dimensions with collision padding
+          const aWidth = (nodeA.width || 200) + COLLISION_PADDING;
+          const aHeight = (nodeA.height || 120) + COLLISION_PADDING;
+          const bWidth = (nodeB.width || 200) + COLLISION_PADDING;
+          const bHeight = (nodeB.height || 120) + COLLISION_PADDING;
+
+          // Check rectangular overlap
+          const overlapX = (aWidth / 2 + bWidth / 2) - Math.abs(posBX - posAX);
+          const overlapY = (aHeight / 2 + bHeight / 2) - Math.abs(posBY - posAY);
+
+          if (overlapX > 0 && overlapY > 0) {
+            // Only these two nodes are colliding - apply repulsion just to them
+            const dx = posBX - posAX;
+            const dy = posBY - posAY;
+            const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+            // Normalize direction
+            const nx = dx / distance;
+            const ny = dy / distance;
+
+            // Force proportional to overlap
+            const overlap = Math.min(overlapX, overlapY);
+            const force = overlap * REPULSION_STRENGTH * deltaTime;
+
+            // Apply force to velocities of just these two nodes
+            const velA = nodeVelocitiesRef.current.get(nodeA.id) || { vx: 0, vy: 0 };
+            const velB = nodeVelocitiesRef.current.get(nodeB.id) || { vx: 0, vy: 0 };
+
+            velA.vx -= nx * force;
+            velA.vy -= ny * force;
+            velB.vx += nx * force;
+            velB.vy += ny * force;
+
+            nodeVelocitiesRef.current.set(nodeA.id, velA);
+            nodeVelocitiesRef.current.set(nodeB.id, velB);
+
+            nodesWithVelocity.add(nodeA.id);
+            nodesWithVelocity.add(nodeB.id);
+          }
+        }
+      }
+
+      // Update positions only for nodes that have velocity
+      const updatedNodes: string[] = [];
+
+      nodes.forEach(node => {
+        const vel = nodeVelocitiesRef.current.get(node.id);
+        if (!vel) return;
+
+        // Only process nodes that have or had velocity
+        if (Math.abs(vel.vx) > MIN_VELOCITY || Math.abs(vel.vy) > MIN_VELOCITY) {
+          // Apply damping
+          vel.vx *= DAMPING;
+          vel.vy *= DAMPING;
+
+          const currentOffset = nodeOffsetsRef.current.get(node.id) || { x: 0, y: 0 };
+          const newOffset = {
+            x: currentOffset.x + vel.vx,
+            y: currentOffset.y + vel.vy,
+          };
+          nodeOffsetsRef.current.set(node.id, newOffset);
+          updatedNodes.push(node.id);
+
+          nodeVelocitiesRef.current.set(node.id, vel);
+        } else if (vel.vx !== 0 || vel.vy !== 0) {
+          // Stop tiny velocities
+          vel.vx = 0;
+          vel.vy = 0;
+          nodeVelocitiesRef.current.set(node.id, vel);
+        }
+      });
+
+      // Only update React state for nodes that actually moved
+      if (updatedNodes.length > 0) {
+        setNodeDragOffsets(prev => {
+          const next = new Map(prev);
+          updatedNodes.forEach(nodeId => {
+            const offset = nodeOffsetsRef.current.get(nodeId);
+            if (offset) {
+              next.set(nodeId, { ...offset });
+            }
+          });
+          return next;
+        });
+      }
+
+      // Continue animation loop
+      physicsRafIdRef.current = requestAnimationFrame(simulatePhysics);
+    };
+
+    // Start physics loop
+    physicsRafIdRef.current = requestAnimationFrame(simulatePhysics);
+
+    return () => {
+      if (physicsRafIdRef.current) {
+        cancelAnimationFrame(physicsRafIdRef.current);
+      }
+    };
+  }, [nodes, draggingNodeId, selectedNode]); // Re-run when nodes change, dragging, or selection changes
+
+  // Sync nodeOffsetsRef with nodeDragOffsets when user drags
+  useEffect(() => {
+    nodeDragOffsets.forEach((offset, nodeId) => {
+      nodeOffsetsRef.current.set(nodeId, { ...offset });
+    });
+  }, [nodeDragOffsets]);
+
   // Load Konva on client side only
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -2824,24 +2608,75 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       const contentCenterX = (nodeBounds.minX + nodeBounds.maxX) / 2;
       const contentCenterY = (nodeBounds.minY + nodeBounds.maxY) / 2;
       
-      // Default viewBox: zoomed out 2 times from actual size (reduced from 3x for more compact view)
-      // Zoom out 2 times: 1.2^2 = 1.44
-      const zoomFactor = 1.2;
-      const zoomOut2x = Math.pow(zoomFactor, 2); // 1.44 (reduced from 1.728)
-      
-      // Calculate viewBox to fit all nodes with some padding
-      const defaultWidth = Math.max(contentWidth * zoomOut2x, CANVAS_WIDTH * 0.8);
-      const defaultHeight = Math.max(contentHeight * zoomOut2x, CANVAS_HEIGHT * 0.8);
-      
-      // Center the view on the content (nodes), not the canvas center
-      const defaultVB = {
-        x: contentCenterX - defaultWidth / 2,
-        y: contentCenterY - defaultHeight / 2,
-        width: defaultWidth,
-        height: defaultHeight,
-      };
+      // Find Present/Now nodes to center the view on them
+      const presentNodesForView = positionedNodes.filter(n => isPresentNode(n));
+
+      let defaultVB: ViewBox;
+
+      if (presentNodesForView.length > 0) {
+        // Calculate bounds of Present nodes
+        const presentBounds = presentNodesForView.reduce((bounds, node) => {
+          const nodeLeft = node.x - (node.width || node.radius * 2) / 2;
+          const nodeRight = node.x + (node.width || node.radius * 2) / 2;
+          const nodeTop = node.y - (node.height || node.radius * 2) / 2;
+          const nodeBottom = node.y + (node.height || node.radius * 2) / 2;
+
+          return {
+            minX: Math.min(bounds.minX, nodeLeft),
+            maxX: Math.max(bounds.maxX, nodeRight),
+            minY: Math.min(bounds.minY, nodeTop),
+            maxY: Math.max(bounds.maxY, nodeBottom),
+          };
+        }, {
+          minX: Infinity,
+          maxX: -Infinity,
+          minY: Infinity,
+          maxY: -Infinity,
+        });
+
+        // Add padding around Present nodes
+        const viewPadding = 200;
+        const presentWidth = presentBounds.maxX - presentBounds.minX + (viewPadding * 2);
+        const presentHeight = presentBounds.maxY - presentBounds.minY + (viewPadding * 2);
+        const presentCenterX = (presentBounds.minX + presentBounds.maxX) / 2;
+        const presentCenterY = (presentBounds.minY + presentBounds.maxY) / 2;
+
+        // Use 16:9 aspect ratio for consistent display
+        const aspectRatio = 16 / 9;
+        let defaultWidth = presentWidth;
+        let defaultHeight = presentHeight;
+
+        // Adjust to maintain aspect ratio
+        if (defaultWidth / defaultHeight > aspectRatio) {
+          // Too wide, increase height
+          defaultHeight = defaultWidth / aspectRatio;
+        } else {
+          // Too tall, increase width
+          defaultWidth = defaultHeight * aspectRatio;
+        }
+
+        defaultVB = {
+          x: presentCenterX - defaultWidth / 2,
+          y: presentCenterY - defaultHeight / 2,
+          width: defaultWidth,
+          height: defaultHeight,
+        };
+      } else {
+        // Fallback: center on all content
+        const defaultWidth = contentWidth * 1.2;
+        const defaultHeight = contentHeight * 1.2;
+
+        defaultVB = {
+          x: contentCenterX - defaultWidth / 2,
+          y: contentCenterY - defaultHeight / 2,
+          width: defaultWidth,
+          height: defaultHeight,
+        };
+      }
       
       setViewBox(defaultVB);
+      // Store the fit-all view as the home view
+      setHomeViewBox(defaultVB);
     } catch (error) {
       console.error('Error initializing nodes:', error);
     }
@@ -3821,6 +3656,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     // CRITICAL: Clear all dragging states immediately to release cursor from grab/grabbing state
     setIsDragging(false);
     isDraggingRef.current = false;
+    setDraggingNodeId(null);
+    nodeDragStartRef.current = null;
     setHoveredNode(null);
     
     if (process.env.NODE_ENV === 'development') {
@@ -4028,35 +3865,13 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
     });
   }, [viewBox]);
 
-  // Home button - center on "Studied Art and Computer Science" at 3x zoom (default actual size)
+  // Home button - show fit-all view (zoomed out to see all nodes)
   const handleHome = useCallback(() => {
-    if (!containerRef.current || !initialViewBox) return;
-    
-    // Find the "Studied Art and Computer Science" node
-    const homeNode = nodes.find(node => node.id === 'studied-art');
-    if (!homeNode) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    // Get node position (with any drag offset)
-    const nodeOffset = nodeDragOffsets.get(homeNode.id) || { x: 0, y: 0 };
-    const nodeDisplayX = homeNode.x + nodeOffset.x;
-    const nodeDisplayY = homeNode.y + nodeOffset.y;
-    
-    // Calculate viewBox to center the node at actual size
-    const newX = nodeDisplayX - (centerX / rect.width) * initialViewBox.width;
-    const newY = nodeDisplayY - (centerY / rect.height) * initialViewBox.height;
-    
-    // Animate to home position
-    animateViewBox({
-      x: newX,
-      y: newY,
-      width: initialViewBox.width,
-      height: initialViewBox.height,
-    }, 600);
-  }, [nodes, nodeDragOffsets, initialViewBox, animateViewBox]);
+    if (!homeViewBox) return;
+
+    // Animate to the fit-all home view
+    animateViewBox(homeViewBox, 600);
+  }, [homeViewBox, animateViewBox]);
 
   // Calculate grid spacing based on zoom
   // Apple Freeform style: consistent visual spacing that scales with zoom
@@ -4601,20 +4416,24 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     Konva={Konva}
                     Group={Group}
                   >
-                    {/* REFACTORED: Clean node structure from scratch */}
+                    {/* Node renders with expanded state when selected */}
                     {(() => {
                       const { inputs, outputs } = calculateNodePorts(node, nodes);
                       const cornerRadius = 12;
-                      
+
+                      // Use base dimensions (panel presentation handles expanded view)
+                      const nodeWidth = node.width;
+                      const nodeHeight = node.height;
+
                       // Calculate layout dimensions
-                      const imageCoverHeight = node.image ? Math.max(node.width * 0.3, 80) : 0;
+                      const imageCoverHeight = node.image ? Math.max(nodeWidth * 0.3, 80) : 0;
                       const imageGap = node.image ? 8 : 0;
                       const topPadding = 8;
                       const textPadding = TEXT_PADDING;
-                      const availableWidth = node.width - (textPadding * 2);
-                      
+                      const availableWidth = nodeWidth - (textPadding * 2);
+
                       // Calculate title dimensions
-                      let fontSize = calculateFontSize(node.width);
+                      let fontSize = calculateFontSize(nodeWidth);
                       let lines = wrapTextToLines(node.label, availableWidth, fontSize);
                       let displayLines = lines.slice(0, 2);
                       
@@ -4638,7 +4457,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                       const titleGap = 8; // Gap after title before ports
                       
                       // Calculate positions (relative to node center at 0,0)
-                      const imageTopY = -node.height / 2;
+                      const imageTopY = -nodeHeight / 2;
                       const imageBottomY = imageTopY + imageCoverHeight;
                       const titleTopY = imageBottomY + imageGap + topPadding;
                       const titleCenterY = titleTopY + titleHeight / 2;
@@ -4663,8 +4482,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                           <AnimatedNodeRect
                             x={0}
                             y={0}
-                            width={node.width}
-                            height={node.height}
+                            width={nodeWidth}
+                            height={nodeHeight}
                             cornerRadius={cornerRadius}
                             fill="#ffffff"
                             opacity={nodeOpacity}
@@ -4729,8 +4548,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             <AnimatedHoverGlow
                               x={0}
                               y={0}
-                              width={node.width}
-                              height={node.height}
+                              width={nodeWidth}
+                              height={nodeHeight}
                               cornerRadius={cornerRadius}
                               stroke={nodeColor}
                               isHovered={isHovered}
@@ -4745,8 +4564,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                               src={node.image}
                               x={0}
                               y={0}
-                              width={node.width}
-                              height={node.height}
+                              width={nodeWidth}
+                              height={nodeHeight}
                               cornerRadius={cornerRadius}
                               opacity={isPossiblePath ? 0.5 : 1}
                               KonvaImage={KonvaImage}
@@ -4783,7 +4602,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                               height={titleHeight}
                             />
                           </Group>
-                          
+
                           {/* 4. Input Ports - Left side, below title, each with its own square */}
                           {/* Hide inputs/outputs for spark nodes */}
                           {!isSpark && inputs.map((port, index) => {
@@ -4796,9 +4615,9 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             const portY = port.y; // Already calculated in calculateNodePorts
                             
                             // Input section is 50% width (left half of node)
-                            const inputSectionLeft = -node.width / 2;
+                            const inputSectionLeft = -nodeWidth / 2;
                             const inputSectionRight = 0; // Center of node
-                            const inputSectionWidth = node.width / 2;
+                            const inputSectionWidth = nodeWidth / 2;
                             const textPadding = 4; // Minimal padding around text
                             
                             // Container spans the full input section width (50%)
@@ -4875,8 +4694,8 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             
                             // Output section is 50% width (right half of node)
                             const outputSectionLeft = 0; // Center of node
-                            const outputSectionRight = node.width / 2;
-                            const outputSectionWidth = node.width / 2;
+                            const outputSectionRight = nodeWidth / 2;
+                            const outputSectionWidth = nodeWidth / 2;
                             const textPadding = 4; // Minimal padding around text
                             
                             // Container spans the full output section width (50%)
@@ -5139,136 +4958,70 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         </div>
       </div>
 
-      {/* Node card - ALWAYS render when selectedNode exists */}
-      {selectedNode && (() => {
-        // Find connected nodes
-        const connectedNodes: PositionedNode[] = [];
-        const incomingNodes: PositionedNode[] = [];
-        
-        if (selectedNode.connections) {
-          selectedNode.connections.forEach(connId => {
-            const connectedNode = nodes.find(n => n.id === connId);
-            if (connectedNode) {
-              connectedNodes.push(connectedNode);
+      {/* Canvas fade overlay when node is selected */}
+      {selectedNode && (
+        <div
+          className="canvas-fade-overlay"
+          onClick={() => setSelectedNode(null)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.1)',
+            zIndex: 1000,
+            cursor: 'pointer',
+          }}
+        />
+      )}
+
+      {/* Node detail panel - Desktop: right side panel, Mobile: full modal */}
+      {selectedNode && (
+        <div
+          className={`node-panel-overlay ${isMobile ? 'node-panel-mobile' : 'node-panel-desktop'}`}
+          onClick={(e) => {
+            // Close only if clicking the overlay, not the panel content
+            if (e.target === e.currentTarget) {
+              setSelectedNode(null);
             }
-          });
-        }
-        
-        nodes.forEach(node => {
-          if (node.connections && node.connections.includes(selectedNode.id)) {
-            incomingNodes.push(node);
-          }
-        });
-        
-        // Use center-center positioning for all screen sizes
-        const finalPosition = cardPosition || { x: 50, y: 50 };
-        
-        return (
-          <motion.div
-            key={`card-${selectedNode.id}`}
-            className={`node-card-wrapper ${isMobile ? 'node-card-mobile' : ''}`}
-            initial={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
-            animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
-            exit={{ opacity: 0, scale: 0.9, x: '-50%', y: '-50%' }}
-            transition={{ duration: 0.2 }}
-            style={{
-              position: 'fixed',
-              left: `${finalPosition.x}%`,
-              top: `${finalPosition.y}%`,
-              zIndex: 10000,
-              pointerEvents: 'auto',
-            }}
-          >
-          <div 
-            className="node-card"
-            onWheel={(e) => {
-              // Stop wheel events from propagating to canvas panning
-              e.stopPropagation();
-            }}
-            onMouseDown={(e) => {
-              // Stop mouse events from propagating to canvas panning
-              e.stopPropagation();
-            }}
-            onTouchStart={(e) => {
-              // Stop touch events from propagating to canvas panning
-              e.stopPropagation();
-            }}
-          >
+          }}
+        >
+          <div className="node-panel">
+            {/* Close button */}
+            <button
+              className="node-card-close"
+              onClick={() => setSelectedNode(null)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            {/* Cover image */}
             {selectedNode.image && (
-              <div 
+              <div
                 className="node-card-image"
                 style={{
                   backgroundImage: `url(${selectedNode.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
                 }}
-              >
-                <button
-                  className="node-card-close"
-                  onClick={handleCloseModal}
-                  aria-label="Close"
-                >
-                  ×
-                </button>
-              </div>
+              />
             )}
-            
-            {!selectedNode.image && !selectedNode.iframe && (
-              <button
-                className="node-card-close"
-                onClick={handleCloseModal}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            )}
-            
+
+            {/* Content */}
             <div className="node-card-content">
               <h2 className="node-card-title">{selectedNode.label}</h2>
-              
-              {(selectedNode.dateRange || selectedNode.date) && (
+
+              {(selectedNode.date || selectedNode.dateRange) && (
                 <div className="node-card-date">
-                  {selectedNode.dateRange || formatDate(selectedNode.date)}
+                  {selectedNode.dateRange || selectedNode.date}
                 </div>
               )}
-              
+
               {selectedNode.description && (
                 <p className="node-card-description">{selectedNode.description}</p>
               )}
-              
-              {selectedNode.iframe && (
-                <div className="node-card-embed">
-                  <iframe
-                    src={selectedNode.iframe}
-                    title={selectedNode.label}
-                    className="node-card-embed-content"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    loading="lazy"
-                  />
-                </div>
-              )}
-              
-              {selectedNode.workedWith && selectedNode.workedWith.length > 0 && (
-                <div className="node-card-worked-with">
-                  <h3 className="node-card-worked-with-title">Worked with</h3>
-                  <div className="node-card-worked-with-list">
-                    {selectedNode.workedWith.map((person, index) => (
-                      <div key={index} className="node-card-worked-with-person">
-                        <PersonAvatar 
-                          person={person} 
-                          size={24}
-                          className="node-card-person-avatar"
-                          />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {/* Connections section - hidden per user request */}
-              
+
+              {/* External link if available */}
               {selectedNode.link && (
                 <a
                   href={selectedNode.link}
@@ -5276,14 +5029,52 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                   rel="noopener noreferrer"
                   className="node-card-link"
                 >
-                  link →
+                  Learn more →
                 </a>
+              )}
+
+              {/* Connected nodes */}
+              {selectedNode.connections && selectedNode.connections.length > 0 && (
+                <div className="node-card-connections">
+                  <div className="node-card-connections-inline">
+                    <span className="node-card-connections-label">Connected to:</span>
+                    <span className="node-card-connections-items">
+                      {selectedNode.connections.map((connId: string, index: number) => {
+                        const connectedNode = nodes.find(n => n.id === connId);
+                        if (!connectedNode) return null;
+                        return (
+                          <span key={connId}>
+                            {index > 0 && <span className="node-card-connections-separator">, </span>}
+                            <button
+                              className="node-card-connection-link"
+                              onClick={() => {
+                                const node = nodes.find(n => n.id === connId);
+                                if (node) {
+                                  setSelectedNode(node);
+                                  // Pan to the new node
+                                  const nodeX = node.x;
+                                  const nodeY = node.y;
+                                  setViewBox(prev => ({
+                                    ...prev,
+                                    x: nodeX - prev.width / 2,
+                                    y: nodeY - prev.height / 2,
+                                  }));
+                                }
+                              }}
+                            >
+                              {connectedNode.label}
+                            </button>
+                          </span>
+                        );
+                      })}
+                    </span>
+                  </div>
+                </div>
               )}
             </div>
           </div>
-        </motion.div>
-        );
-      })()}
+        </div>
+      )}
 
       <style>{`
         .career-odyssey-wrapper {
@@ -5320,22 +5111,78 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           cursor: grabbing;
         }
 
+        /* Node panel overlay */
+        .node-panel-overlay {
+          position: fixed;
+          z-index: 1001;
+          pointer-events: auto;
+        }
 
-        .node-card-wrapper {
-          pointer-events: none;
-          max-width: 100vw;
-          max-height: 100vh;
-          overflow: visible;
+        /* Desktop: right side panel with 30% padding on top, bottom, right */
+        .node-panel-desktop {
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          display: flex;
+          align-items: stretch;
+          justify-content: flex-end;
+          padding-top: 15vh;
+          padding-bottom: 15vh;
+          padding-right: 15vw;
+        }
+
+        .node-panel-desktop .node-panel {
+          width: 420px;
+          max-width: 35vw;
+          height: 100%;
+          overflow-y: auto;
+          background: var(--color-bg, #ffffff);
+          border: 1px solid var(--color-border);
+          border-radius: 16px;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+          position: relative;
+        }
+
+        [data-theme="dark"] .node-panel-desktop .node-panel {
+          background: #1a1a1a;
+        }
+
+        /* Mobile: full modal */
+        .node-panel-mobile {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+        }
+
+        .node-panel-mobile .node-panel {
+          width: 100%;
+          max-width: 400px;
+          max-height: 85vh;
+          overflow-y: auto;
+          background: var(--color-bg, #ffffff);
+          border: 1px solid var(--color-border);
+          border-radius: 16px;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+          position: relative;
+        }
+
+        [data-theme="dark"] .node-panel-mobile .node-panel {
+          background: #1a1a1a;
         }
 
         .node-card {
-          background: var(--color-bg);
+          background: var(--color-bg, #ffffff);
           border: 1px solid var(--color-border);
           border-radius: 12px;
-          width: 380px;
-          min-height: 200px;
-          max-height: 85vh;
-          height: fit-content;
+          width: 100%;
+          height: auto;
           overflow-y: auto;
           overflow-x: hidden;
           position: relative;
