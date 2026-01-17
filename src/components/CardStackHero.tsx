@@ -248,7 +248,7 @@ export default function CardStackHero() {
                 className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''}`}
                 style={{
                   backgroundColor: card.color,
-                  zIndex: isSelected ? 20 : isHovered ? 15 : 5 - index,
+                  zIndex: isSelected ? 20 : cards.length - index,
                 }}
                 layout
                 animate={{
