@@ -1647,7 +1647,7 @@ const AnimatedPath: React.FC<{
   );
 };
 
-// Animated Node Group component with smooth hover transitions and caching
+// Animated Node Group component with smooth hover transitions, entrance animations, and caching
 const AnimatedNodeGroup: React.FC<{
   nodeId: string;
   x: number;
@@ -1658,11 +1658,14 @@ const AnimatedNodeGroup: React.FC<{
   children: React.ReactNode;
   Konva?: any;
   Group?: any;
-}> = ({ nodeId, x, y, isHovered, isSelected, hasOtherSelected, children, Konva, Group }) => {
+  entranceDelay?: number; // Staggered entrance delay in ms
+}> = ({ nodeId, x, y, isHovered, isSelected, hasOtherSelected, children, Konva, Group, entranceDelay = 0 }) => {
   const groupRef = useRef<any>(null);
   const hoverTweenRef = useRef<any>(null);
-  const scaleRef = useRef<number>(1);
-  const opacityRef = useRef<number>(1);
+  const entranceTweenRef = useRef<any>(null);
+  const scaleRef = useRef<number>(0.85); // Start smaller for entrance animation
+  const opacityRef = useRef<number>(0); // Start transparent for entrance animation
+  const [hasEntered, setHasEntered] = useState<boolean>(false);
   const cacheInitializedRef = useRef<boolean>(false);
   
   // Initialize cache on mount
@@ -1692,12 +1695,62 @@ const AnimatedNodeGroup: React.FC<{
       }
     }
   }, [Konva]);
-  
+
+  // Entrance animation - staggered fade in and scale up
   useEffect(() => {
-    if (!groupRef.current || !Konva) return;
-    
+    if (!groupRef.current || !Konva || hasEntered) return;
+
     const group = groupRef.current;
-    const targetScale = isHovered ? 1.15 : isSelected ? 1.05 : 1;
+
+    // Set initial state
+    group.scaleX(0.85);
+    group.scaleY(0.85);
+    group.opacity(0);
+
+    // Delay the entrance animation based on entranceDelay prop
+    const timeoutId = setTimeout(() => {
+      if (!groupRef.current) return;
+
+      entranceTweenRef.current = new Konva.Tween({
+        node: group,
+        duration: 0.5,
+        easing: Konva.Easings.EaseOut,
+        scaleX: 1,
+        scaleY: 1,
+        opacity: 1,
+        onUpdate: () => {
+          scaleRef.current = group.scaleX();
+          opacityRef.current = group.opacity();
+        },
+        onFinish: () => {
+          setHasEntered(true);
+          scaleRef.current = 1;
+          opacityRef.current = 1;
+        },
+      });
+
+      entranceTweenRef.current.play();
+    }, entranceDelay);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (entranceTweenRef.current) {
+        try {
+          entranceTweenRef.current.stop();
+          entranceTweenRef.current.destroy();
+        } catch (error) {
+          // Ignore
+        }
+        entranceTweenRef.current = null;
+      }
+    };
+  }, [Konva, entranceDelay, hasEntered]);
+
+  useEffect(() => {
+    if (!groupRef.current || !Konva || !hasEntered) return;
+
+    const group = groupRef.current;
+    const targetScale = isHovered ? 1.12 : isSelected ? 1.05 : 1;
     const targetOpacity = (hasOtherSelected === true) ? 0.3 : 1;
     
     // Invalidate cache when hover/selection state changes (will be recached after animation)
@@ -1806,7 +1859,7 @@ const AnimatedNodeGroup: React.FC<{
         hoverTweenRef.current = null;
       }
     };
-  }, [isHovered, isSelected, hasOtherSelected, Konva]);
+  }, [isHovered, isSelected, hasOtherSelected, Konva, hasEntered]);
   
   if (!Group) return null;
   
@@ -1921,12 +1974,15 @@ const AnimatedNodeRect: React.FC<{
   const rectRef = useRef<any>(null);
   const shadowTweenRef = useRef<any>(null);
 
-  // Animate shadow on hover
+  // Animate shadow on hover - enhanced lift effect
   useEffect(() => {
     if (!rectRef.current || !Konva) return;
 
     const rect = rectRef.current;
-    const targetShadowBlur = isHovered ? 8 : 0;
+    // Enhanced shadow effect: more blur, slight Y offset for lift illusion
+    const targetShadowBlur = isHovered ? 16 : 4;
+    const targetShadowOffsetY = isHovered ? 8 : 2;
+    const targetShadowOpacity = isHovered ? 0.25 : 0.1;
 
     if (shadowTweenRef.current) {
       try {
@@ -1940,9 +1996,11 @@ const AnimatedNodeRect: React.FC<{
 
     shadowTweenRef.current = new Konva.Tween({
       node: rect,
-      duration: 0.2,
+      duration: 0.25,
       easing: Konva.Easings.EaseOut,
       shadowBlur: targetShadowBlur,
+      shadowOffsetY: targetShadowOffsetY,
+      shadowOpacity: targetShadowOpacity,
     });
 
     shadowTweenRef.current.play();
@@ -1975,8 +2033,10 @@ const AnimatedNodeRect: React.FC<{
       stroke={stroke}
       strokeWidth={strokeWidth}
       dash={dash}
-      shadowBlur={0}
-      shadowColor="rgba(0,0,0,0.2)"
+      shadowBlur={4}
+      shadowOffsetY={2}
+      shadowOpacity={0.1}
+      shadowColor="#000000"
       listening={true}
       perfectDrawEnabled={false}
       strokeScaleEnabled={false}
@@ -4403,12 +4463,12 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
             {/* Nodes Layer */}
             <Layer perfectDrawEnabled={false} listening={true}>
-              {visibleNodes.map(node => {
+              {visibleNodes.map((node, nodeIndex) => {
                 const isHovered = hoveredNode === node.id;
                 const isSelected = selectedNode?.id === node.id;
                 const nodeColor = getNodeColor(node.type, node.pathTaken !== false);
                 const pathTaken = node.pathTaken !== false;
-                
+
                 const dragOffset = nodeDragOffsets.get(node.id) || { x: 0, y: 0 };
                 const displayX = node.x + dragOffset.x;
                 const displayY = node.y + dragOffset.y;
@@ -4418,7 +4478,10 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                 // Use nodeColor for border instead of theme border color
                 const borderColor = nodeColor;
                 const hasOtherSelected = !!(selectedNode && selectedNode.id !== node.id);
-                
+
+                // Staggered entrance delay based on node position (left to right)
+                const entranceDelay = Math.min(nodeIndex * 30, 800); // 30ms stagger, max 800ms
+
                 return (
                   <AnimatedNodeGroup
                     key={node.id}
@@ -4430,6 +4493,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                     hasOtherSelected={hasOtherSelected}
                     Konva={Konva}
                     Group={Group}
+                    entranceDelay={entranceDelay}
                   >
                     {/* Node renders with expanded state when selected */}
                     {(() => {
@@ -4557,7 +4621,23 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                             Konva={Konva}
                             Rect={Rect}
                           />
-                          
+
+                          {/* Glass border effect - inner highlight for depth */}
+                          {!isPossiblePath && pathTaken && (
+                            <Rect
+                              x={-nodeWidth / 2 + 1}
+                              y={-nodeHeight / 2 + 1}
+                              width={nodeWidth - 2}
+                              height={nodeHeight - 2}
+                              cornerRadius={cornerRadius - 1}
+                              fill=""
+                              stroke="rgba(255, 255, 255, 0.4)"
+                              strokeWidth={1}
+                              listening={false}
+                              perfectDrawEnabled={false}
+                            />
+                          )}
+
                           {/* Hover glow - hide for possiblePath nodes */}
                           {!isPossiblePath && (
                             <AnimatedHoverGlow
