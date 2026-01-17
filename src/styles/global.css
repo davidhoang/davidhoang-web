@@ -354,12 +354,6 @@
   font-size: 1.125rem;
 }
 
-/* Icon button */
-.btn-icon {
-  padding: var(--spacing-sm);
-  aspect-ratio: 1;
-}
-
 /* --------------------------------------------
    2. CARDS
 
@@ -522,7 +516,6 @@
 .text-xl { font-size: 1.25rem; }
 .text-2xl { font-size: 1.5rem; }
 .text-3xl { font-size: 2rem; }
-.text-4xl { font-size: 2.5rem; }
 
 /* --------------------------------------------
    5. IMAGES
@@ -758,23 +751,18 @@ img {
 }
 
 /* --------------------------------------------
-   UTILITY: Spacing
+   UTILITY: Spacing (Consolidated)
+
+   Available: mt-xl, mb-sm, mb-md, mb-lg, mb-xl, m-0, p-sm, p-md, p-lg, p-xl
 
    Usage:
-     <div class="mt-md mb-lg">Spaced element</div>
+     <div class="mt-xl mb-lg">Spaced element</div>
    -------------------------------------------- */
 
-/* --------------------------------------------
-   UTILITY: Spacing
-   -------------------------------------------- */
-
-.mt-xs { margin-top: var(--spacing-xs); }
-.mt-sm { margin-top: var(--spacing-sm); }
-.mt-md { margin-top: var(--spacing-md); }
-.mt-lg { margin-top: var(--spacing-lg); }
+/* Margin-top - only xl is heavily used */
 .mt-xl { margin-top: var(--spacing-xl); }
 
-.mb-xs { margin-bottom: var(--spacing-xs); }
+/* Margin-bottom - sm, md, lg, xl are used */
 .mb-sm { margin-bottom: var(--spacing-sm); }
 .mb-md { margin-bottom: var(--spacing-md); }
 .mb-lg { margin-bottom: var(--spacing-lg); }
@@ -782,38 +770,22 @@ img {
 
 .m-0 { margin: 0; }
 
-.py-xs { padding-top: var(--spacing-xs); padding-bottom: var(--spacing-xs); }
-.py-sm { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
-.py-md { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
-.py-lg { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); }
-.py-xl { padding-top: var(--spacing-xl); padding-bottom: var(--spacing-xl); }
-
-.px-xs { padding-left: var(--spacing-xs); padding-right: var(--spacing-xs); }
-.px-sm { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
-.px-md { padding-left: var(--spacing-md); padding-right: var(--spacing-md); }
-.px-lg { padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); }
-.px-xl { padding-left: var(--spacing-xl); padding-right: var(--spacing-xl); }
-
+/* Padding - all-sides only */
 .p-sm { padding: var(--spacing-sm); }
 .p-md { padding: var(--spacing-md); }
 .p-lg { padding: var(--spacing-lg); }
 .p-xl { padding: var(--spacing-xl); }
 
 /* --------------------------------------------
-   UTILITY: Flexbox
+   UTILITY: Flexbox (Consolidated)
    -------------------------------------------- */
 
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
-.flex-row { flex-direction: row; }
 .flex-wrap { flex-wrap: wrap; }
 .items-center { align-items: center; }
-.items-start { align-items: flex-start; }
-.items-end { align-items: flex-end; }
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
-.justify-start { justify-content: flex-start; }
-.justify-end { justify-content: flex-end; }
 .gap-xs { gap: var(--spacing-xs); }
 .gap-sm { gap: var(--spacing-sm); }
 .gap-md { gap: var(--spacing-md); }
@@ -1101,12 +1073,9 @@ blockquote cite {
   font-style: normal;
 }
 
-/* Border Radius */
-.rounded-sm { border-radius: var(--radius-sm); }
+/* Border Radius (Consolidated) */
 .rounded { border-radius: var(--radius-md); }
-.rounded-lg { border-radius: var(--radius-lg); }
 .rounded-xl { border-radius: var(--radius-xl); }
-.rounded-full { border-radius: var(--radius-full); }
 
 /* Transitions */
 .transition { transition: all 0.4s var(--ease-inertia); }
@@ -2005,6 +1974,12 @@ article.blog-post img:hover {
   background: var(--color-card-bg);
   padding: 1.5rem;
   border-radius: var(--radius-md, 8px);
+}
+
+/* Newsletter signup needs consistent background on shader pages */
+[data-shader] .substack-signup {
+  background: var(--color-card-bg, var(--color-sidebar-bg));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* ============================================

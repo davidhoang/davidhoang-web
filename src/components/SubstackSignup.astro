@@ -48,16 +48,15 @@ const {
 
 <style>
   .substack-signup {
-    background: var(--color-bg);
+    background: var(--color-card-bg, var(--color-sidebar-bg));
     border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 2rem;
-    margin: 2rem 0;
+    border-radius: var(--radius-md, 8px);
+    padding: var(--spacing-xl, 2rem);
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
   .signup-title {
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 var(--spacing-sm, 0.5rem) 0;
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--color-text);
@@ -65,7 +64,7 @@ const {
   }
 
   .signup-description {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--spacing-lg, 1.5rem) 0;
     color: var(--color-muted);
     text-align: center;
     font-size: 1.1rem;
@@ -74,9 +73,9 @@ const {
 
   .signup-form {
     display: flex;
-    gap: 0.75rem;
+    gap: var(--spacing-sm, 0.5rem);
     flex-direction: column;
-    max-width: 400px;
+    max-width: 320px;
     margin: 0 auto;
   }
 
@@ -86,9 +85,9 @@ const {
 
   .email-input {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: var(--spacing-sm, 0.75rem) var(--spacing-md, 1rem);
     border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border-radius: var(--radius-md, 6px);
     font-size: 1rem;
     font-family: var(--font-primary);
     background: var(--color-bg);
@@ -114,11 +113,11 @@ const {
 
   .subscribe-button {
     width: 100%;
-    padding: 0.875rem 1.5rem;
+    padding: var(--spacing-sm, 0.75rem) var(--spacing-lg, 1.5rem);
     background: var(--color-text);
     color: var(--color-bg);
     border: 1px solid var(--color-text);
-    border-radius: 6px;
+    border-radius: var(--radius-md, 6px);
     font-size: 1rem;
     font-weight: 600;
     font-family: var(--font-primary);
@@ -146,7 +145,7 @@ const {
   }
 
   .signup-footnote {
-    margin: 1rem 0 0 0;
+    margin: var(--spacing-md, 1rem) 0 0 0;
     font-size: 0.875rem;
     color: var(--color-muted);
     text-align: center;
@@ -167,23 +166,23 @@ const {
 
   /* Compact variant for sidebar or inline use */
   .substack-signup.compact {
-    padding: 1.5rem;
+    padding: var(--spacing-lg, 1.5rem);
   }
 
   .substack-signup.compact .signup-title {
     font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-xs, 0.25rem);
   }
 
   .substack-signup.compact .signup-description {
     font-size: 0.95rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-md, 1rem);
   }
 
   /* Mobile optimization */
   @media (max-width: 768px) {
     .substack-signup {
-      padding: 1.5rem;
+      padding: var(--spacing-lg, 1.5rem);
     }
 
     .signup-form {
@@ -193,19 +192,6 @@ const {
     .email-input,
     .subscribe-button {
       font-size: 1rem;
-    }
-  }
-
-  /* Tablet and up - horizontal layout option */
-  @media (min-width: 480px) {
-    .signup-form.horizontal {
-      flex-direction: row;
-      max-width: 500px;
-    }
-
-    .signup-form.horizontal .subscribe-button {
-      width: auto;
-      white-space: nowrap;
     }
   }
 
