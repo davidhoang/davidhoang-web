@@ -291,7 +291,7 @@ export default function CardStackHero() {
           border-radius: 20px;
           cursor: pointer;
           overflow: hidden;
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
           display: flex;
           flex-direction: column;
           left: 50%;
@@ -299,6 +299,11 @@ export default function CardStackHero() {
           margin-left: -120px;
           margin-top: -160px;
           transform-origin: center center;
+          transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.12);
         }
 
         .card-selected {
@@ -306,7 +311,7 @@ export default function CardStackHero() {
           height: auto;
           min-height: 320px;
           margin-left: -160px;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.15);
         }
 
         .card-pattern {
