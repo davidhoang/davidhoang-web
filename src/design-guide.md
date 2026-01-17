@@ -112,11 +112,6 @@ Buttons automatically adapt to theme colors and border radius.
 <button class="btn btn-primary btn-sm">Small</button>
 <button class="btn btn-primary btn-lg">Large</button>
 
-<!-- Icon button -->
-<button class="btn btn-ghost btn-icon">
-  <svg>...</svg>
-</button>
-
 <!-- Disabled -->
 <button class="btn btn-primary" disabled>Disabled</button>
 ```
@@ -237,7 +232,6 @@ Typography classes ensure text responds to theme font settings.
 <p class="text-xl">Extra large</p>
 <p class="text-2xl">2X large</p>
 <p class="text-3xl">3X large</p>
-<p class="text-4xl">4X large</p>
 ```
 
 ### Theme Response
@@ -418,50 +412,37 @@ Layout containers for content width control.
 
 ## Utility Classes
 
-### Spacing
+### Spacing (Consolidated)
 
 ```html
 <!-- Margin top -->
-<div class="mt-xs">...</div>  <!-- 0.25rem -->
-<div class="mt-sm">...</div>  <!-- 0.5rem -->
-<div class="mt-md">...</div>  <!-- 1rem -->
-<div class="mt-lg">...</div>  <!-- 1.5rem -->
 <div class="mt-xl">...</div>  <!-- 2rem -->
 
 <!-- Margin bottom -->
-<div class="mb-xs">...</div>
-<div class="mb-sm">...</div>
-<div class="mb-md">...</div>
-<div class="mb-lg">...</div>
-<div class="mb-xl">...</div>
+<div class="mb-sm">...</div>  <!-- 0.5rem -->
+<div class="mb-md">...</div>  <!-- 1rem -->
+<div class="mb-lg">...</div>  <!-- 1.5rem -->
+<div class="mb-xl">...</div>  <!-- 2rem -->
 
-<!-- Padding vertical -->
-<div class="py-xs">...</div>
-<div class="py-sm">...</div>
-<div class="py-md">...</div>
-<div class="py-lg">...</div>
-<div class="py-xl">...</div>
+<!-- Reset margin -->
+<div class="m-0">...</div>
 
-<!-- Padding horizontal -->
-<div class="px-xs">...</div>
-<div class="px-sm">...</div>
-<div class="px-md">...</div>
-<div class="px-lg">...</div>
-<div class="px-xl">...</div>
+<!-- Padding (all sides) -->
+<div class="p-sm">...</div>  <!-- 0.5rem -->
+<div class="p-md">...</div>  <!-- 1rem -->
+<div class="p-lg">...</div>  <!-- 1.5rem -->
+<div class="p-xl">...</div>  <!-- 2rem -->
 ```
 
-### Flexbox
+### Flexbox (Consolidated)
 
 ```html
 <div class="flex">...</div>
 <div class="flex flex-col">...</div>
 <div class="flex flex-wrap">...</div>
 <div class="flex items-center">...</div>
-<div class="flex items-start">...</div>
-<div class="flex items-end">...</div>
 <div class="flex justify-center">...</div>
 <div class="flex justify-between">...</div>
-<div class="flex justify-end">...</div>
 <div class="flex gap-xs">...</div>
 <div class="flex gap-sm">...</div>
 <div class="flex gap-md">...</div>
