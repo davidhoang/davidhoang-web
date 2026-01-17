@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import HeroImageWithTexture from '../components/HeroImageWithTexture';
+import CardStackHero from '../components/CardStackHero';
 import { getCollection } from 'astro:content';
 import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.jpg';
@@ -14,6 +15,11 @@ const ogImage = "/images/img-dh-web-light.jpg";
 ---
 
 <MainLayout title="David Hoang" description={pageDescription} ogImage={ogImage}>
+  <!-- Card Stack Hero -->
+  <section class="card-stack-section" aria-label="Current activities and projects">
+    <CardStackHero client:load />
+  </section>
+
   <!-- Hero Section -->
   <section class="hero-grid" aria-labelledby="hero-heading">
     <div class="hero-content">
@@ -104,13 +110,20 @@ const ogImage = "/images/img-dh-web-light.jpg";
   </section>
 
   <style>
+    /* Card Stack Section */
+    .card-stack-section {
+      width: 100%;
+      margin-top: 80px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
     /* Hero Section */
     .hero-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: 2rem;
       width: 100%;
-      margin-top: 96px;
+      margin-top: 0;
       padding: 48px 0;
     }
 
@@ -235,10 +248,14 @@ const ogImage = "/images/img-dh-web-light.jpg";
 
     /* Responsive */
     @media (max-width: 768px) {
+      .card-stack-section {
+        margin-top: 60px;
+      }
+
       .hero-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
-        margin: 2rem 0 0 0;
+        margin: 0;
       }
 
       .hero-content h1 {
