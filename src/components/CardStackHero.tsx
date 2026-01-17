@@ -178,10 +178,25 @@ export default function CardStackHero() {
     setSelectedCard(selectedCard === cardId ? null : cardId);
   };
 
+  const hasSelection = selectedCard !== null;
+
   return (
     <div className="card-stack-hero" ref={containerRef}>
       <div className="card-stack-container">
-        <h1 className="hero-title">David Hoang is a designer and investor.</h1>
+        <motion.h1
+          className="hero-title"
+          animate={{
+            y: hasSelection ? -30 : 0,
+            opacity: hasSelection ? 0.6 : 1,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 400,
+            damping: 30,
+          }}
+        >
+          David Hoang is a designer and investor.
+        </motion.h1>
         <div className="cards-wrapper">
           {cards.map((card, index) => {
             const position = cardPositions[index];
@@ -201,9 +216,9 @@ export default function CardStackHero() {
                 layout
                 animate={{
                   x: isSelected ? 0 : position.x,
-                  y: isSelected ? 0 : (isHovered ? position.y - 15 : position.y),
+                  y: isSelected ? -120 : (isHovered ? position.y - 15 : position.y),
                   rotate: isSelected ? 0 : position.rotation,
-                  scale: isSelected ? 1.15 : (isHovered ? 1.03 : 1),
+                  scale: isSelected ? 1.1 : (isHovered ? 1.03 : 1),
                   opacity: isOtherSelected ? 0.3 : 1,
                 }}
                 transition={{
