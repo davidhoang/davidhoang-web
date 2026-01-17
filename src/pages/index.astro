@@ -18,7 +18,7 @@ const ogImage = "/images/img-dh-web-light.jpg";
     <CardStackHero client:load />
   </section>
   <section class="design-philosophy" aria-labelledby="philosophy-heading">
-    <h2 id="philosophy-heading">Design philosophy</h2>
+    <h2 id="philosophy-heading" style="background: none;">Design philosophy</h2>
     <div class="philosophy-grid" role="list" aria-label="Design philosophy principles">
       <div class="philosophy-item" role="listitem">
         <p><strong>Seek paradigm shifts.</strong> Imagine the future and build it now. Those who can spot trends of shifts will have enduring success.</p>
@@ -102,6 +102,15 @@ const ogImage = "/images/img-dh-web-light.jpg";
     .card-stack-section {
       width: 100%;
       margin-top: 40px;
+      background: none;
+    }
+
+    /* Section Headings - smaller than hero H1 */
+    .design-philosophy h2,
+    .portfolio-section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
     }
 
     /* Design Philosophy Section */
@@ -198,6 +207,11 @@ const ogImage = "/images/img-dh-web-light.jpg";
 
     /* Responsive */
     @media (max-width: 768px) {
+      .design-philosophy h2,
+      .portfolio-section h2 {
+        font-size: 1.5rem;
+      }
+
       .card-stack-section {
         margin-top: 50px;
       }
