@@ -227,14 +227,22 @@ const formatDate = (dateStr?: string): string => {
 // Calculate node positions - COMPACT FLOW LAYOUT
 // Nodes are placed sequentially with max 250px between connected nodes
 const calculateLayout = (nodes: Node[]): PositionedNode[] => {
+  // Create a map of original node data to check for explicit positions
+  const originalNodeMap = new Map<string, any>();
+  nodes.forEach(node => {
+    originalNodeMap.set(node.id, node);
+  });
+
   // Parse dates and create positioned nodes with calculated dimensions
   const positionedNodes: PositionedNode[] = nodes.map(node => {
     const { width, height, radius } = calculateNodeSize(node, nodes);
+    const hasExplicitX = (node as any).x !== undefined;
+    const hasExplicitY = (node as any).y !== undefined;
     return {
       ...node,
       timestamp: parseDate(node.date),
-      x: (node as any).x || 0,  // Use explicit x if provided
-      y: (node as any).y || 0,  // Use explicit y if provided
+      x: hasExplicitX ? (node as any).x : 0,  // Use explicit x if provided
+      y: hasExplicitY ? (node as any).y : 0,  // Use explicit y if provided
       radius,
       width,
       height,
@@ -254,9 +262,17 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
     return dateDiff;
   });
 
-  // Separate nodes: those with explicit positions vs those needing auto-layout
-  const manualNodes = sortedNodes.filter(n => (n as any).x !== undefined && (nodes.find(orig => orig.id === n.id) as any)?.x);
-  const autoNodes = sortedNodes.filter(n => !(nodes.find(orig => orig.id === n.id) as any)?.x);
+  // Separate nodes: those with explicit x positions vs those needing auto-layout
+  // A node is "manual" if the original JSON has an x property defined
+  const manualNodeIds = new Set<string>();
+  nodes.forEach(node => {
+    if ((node as any).x !== undefined) {
+      manualNodeIds.add(node.id);
+    }
+  });
+
+  const manualNodes = sortedNodes.filter(n => manualNodeIds.has(n.id));
+  const autoNodes = sortedNodes.filter(n => !manualNodeIds.has(n.id));
 
   // STEP 1: Auto-layout nodes without explicit positions
   let currentX = PADDING;
@@ -308,8 +324,7 @@ const calculateLayout = (nodes: Node[]): PositionedNode[] => {
   const COLLISION_PADDING = 20; // Extra padding between nodes
   const allNodes = positionedNodes;
 
-  // Create a set of manual node IDs - these should NOT be moved during collision resolution
-  const manualNodeIds = new Set(manualNodes.map(n => n.id));
+  // manualNodeIds already defined above - these should NOT be moved during collision resolution
 
   // Run multiple iterations to resolve all overlaps
   for (let iteration = 0; iteration < 50; iteration++) {
