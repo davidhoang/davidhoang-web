@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Copper Observatory",
+      "description": "Warm metallic tones meet astronomical precision in a design that feels like studying celestial maps by candlelight",
+      "colors": {
+        "light": {
+          "--color-text": "#2D1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#C5303E",
+          "--color-border": "#D4A574",
+          "--color-muted": "#8B6F47",
+          "--color-sidebar-bg": "#F4E6D7",
+          "--color-nav-bg": "#F4E6D7",
+          "--color-nav-text": "#2D1810",
+          "--color-card-bg": "#FAF0E6"
+        },
+        "dark": {
+          "--color-text": "#E8D5C4",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8A65",
+          "--color-border": "#8B4513",
+          "--color-muted": "#A0826D",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "#2C1810",
+          "--color-nav-text": "#E8D5C4",
+          "--color-card-bg": "#261A11"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 4px 16px rgba(139, 69, 19, 0.15)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-17"
+    },
+    {
       "name": "Soviet Brutalism",
       "description": "Raw concrete aesthetics meet bold red propaganda-inspired design with stark typography and industrial precision.",
       "colors": {
@@ -597,105 +695,7 @@
         "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-11"
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Rich burgundy depths meet electric gold accents in a luxurious nocturnal atmosphere",
-      "colors": {
-        "light": {
-          "--color-text": "#2D1B2E",
-          "--color-bg": "#FDF2F0",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#E8C5C5",
-          "--color-muted": "#6B5B5D",
-          "--color-sidebar-bg": "#F9E8E6",
-          "--color-nav-bg": "#FDF2F0",
-          "--color-nav-text": "#2D1B2E",
-          "--color-card-bg": "#FBEBE9"
-        },
-        "dark": {
-          "--color-text": "#E8D5D6",
-          "--color-bg": "#2D132C",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFA500",
-          "--color-border": "#5A3A58",
-          "--color-muted": "#A08B8C",
-          "--color-sidebar-bg": "#3A1F38",
-          "--color-nav-bg": "#2D132C",
-          "--color-nav-text": "#E8D5D6",
-          "--color-card-bg": "#3E1F3C"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 12px 24px rgba(45, 19, 44, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "880px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-10"
     }
   ],
-  "currentDate": "2026-01-16"
+  "currentDate": "2026-01-17"
 }
