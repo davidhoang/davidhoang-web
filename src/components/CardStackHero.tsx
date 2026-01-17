@@ -7,9 +7,11 @@ interface Card {
   subtitle?: string;
   description: string;
   color: string;
-  pattern: 'lines' | 'grid' | 'waves' | 'dots' | 'circuits';
+  pattern: 'lines' | 'grid' | 'waves' | 'dots' | 'circuits' | 'none';
   link?: string;
   linkText?: string;
+  extraLinks?: Array<{ url: string; text: string }>;
+  image?: string;
 }
 
 const cards: Card[] = [
@@ -34,32 +36,38 @@ const cards: Card[] = [
     linkText: 'Subscribe'
   },
   {
-    id: 'investing',
-    title: 'Angel Investing',
-    subtitle: '30+ companies',
-    description: 'Investing in early-stage startups at the intersection of creativity, code, and community. Focused on tools that empower creators and builders.',
+    id: 'talks',
+    title: 'Talks',
+    subtitle: 'Speaking',
+    description: 'Sharing insights on design, leadership, and the future of creative tools at conferences and podcasts.',
     color: '#2D6A4F',
     pattern: 'dots',
-  },
-  {
-    id: 'play',
-    title: 'Play',
-    subtitle: 'Advisor',
-    description: 'Contributing strategic guidance to help shape the future of mobile design tools and creative expression.',
-    color: '#9D4EDD',
-    pattern: 'grid',
-    link: 'https://createwithplay.com',
-    linkText: 'Visit Play'
+    link: 'https://youtu.be/piGC-iFwmrk',
+    linkText: 'Watch Config 2021',
+    extraLinks: [
+      { url: 'https://www.youtube.com/watch?v=6Z88rLjF-lc', text: 'Listen to Dive Club' }
+    ]
   },
   {
     id: 'odyssey',
     title: 'Career Odyssey',
     subtitle: 'Interactive Canvas',
     description: 'An explorable visualization of my 20-year journey from art school to leading design teams. A map of paths taken and not taken.',
-    color: '#1a1a1a',
-    pattern: 'circuits',
+    color: '#9D4EDD',
+    pattern: 'grid',
     link: '/career-odyssey',
     linkText: 'Explore'
+  },
+  {
+    id: 'about',
+    title: 'About',
+    subtitle: '',
+    description: 'Designer, investor, and builder focused on tools that revolutionize the internet. Previously at Replit, Webflow, and One Medical.',
+    color: '#78716c',
+    pattern: 'none',
+    link: '/about',
+    linkText: 'Learn more',
+    image: '/images/img-dh-web-light.jpg'
   },
 ];
 
@@ -141,15 +149,18 @@ const PatternCircuits = () => (
   </svg>
 );
 
+const PatternNone = () => null;
+
 const patterns = {
   lines: PatternLines,
   grid: PatternGrid,
   waves: PatternWaves,
   dots: PatternDots,
   circuits: PatternCircuits,
+  none: PatternNone,
 };
 
-// Card positions for the fanned stack - more spread out
+// Card positions for the fanned stack - 5 cards spread out
 const cardPositions = [
   { x: -280, y: 30, rotation: -12 },
   { x: -140, y: 15, rotation: -6 },
@@ -169,6 +180,7 @@ export default function CardStackHero() {
 
   return (
     <div className="card-stack-hero" ref={containerRef}>
+      <h1 className="hero-title">David Hoang is a designer and investor.</h1>
       <div className="card-stack-container">
         <div className="cards-wrapper">
           {cards.map((card, index) => {
@@ -181,7 +193,7 @@ export default function CardStackHero() {
             return (
               <motion.div
                 key={card.id}
-                className={`card ${isSelected ? 'card-selected' : ''}`}
+                className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''}`}
                 style={{
                   backgroundColor: card.color,
                   zIndex: isSelected ? 20 : isHovered ? 15 : 5 - index,
@@ -203,9 +215,13 @@ export default function CardStackHero() {
                 onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => handleCardClick(card.id)}
               >
-                <div className="card-pattern">
-                  <Pattern />
-                </div>
+                {card.image ? (
+                  <div className="card-image" style={{ backgroundImage: `url(${card.image})` }} />
+                ) : (
+                  <div className="card-pattern">
+                    <Pattern />
+                  </div>
+                )}
 
                 <div className="card-content">
                   <h3 className="card-title">{card.title}</h3>
@@ -223,21 +239,39 @@ export default function CardStackHero() {
                       transition={{ delay: 0.1, duration: 0.2 }}
                     >
                       <p className="card-description">{card.description}</p>
-                      {card.link && (
-                        <a
-                          href={card.link}
-                          className="card-link"
-                          target={card.link.startsWith('http') ? '_blank' : undefined}
-                          rel={card.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {card.linkText || 'Learn more'}
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                          </svg>
-                        </a>
-                      )}
+                      <div className="card-links">
+                        {card.link && (
+                          <a
+                            href={card.link}
+                            className="card-link"
+                            target={card.link.startsWith('http') ? '_blank' : undefined}
+                            rel={card.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {card.linkText || 'Learn more'}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                              <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                          </a>
+                        )}
+                        {card.extraLinks?.map((extraLink, i) => (
+                          <a
+                            key={i}
+                            href={extraLink.url}
+                            className="card-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {extraLink.text}
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                              <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                          </a>
+                        ))}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -258,7 +292,7 @@ export default function CardStackHero() {
       <style>{`
         .card-stack-hero {
           width: 100%;
-          min-height: 500px;
+          min-height: 550px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -266,6 +300,15 @@ export default function CardStackHero() {
           padding: 3rem 2rem;
           position: relative;
           overflow: hidden;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+          font-weight: 400;
+          margin: 0 0 2rem 0;
+          text-align: center;
+          color: var(--color-text);
+          font-family: var(--font-primary);
         }
 
         .card-stack-container {
@@ -327,6 +370,30 @@ export default function CardStackHero() {
           height: 40%;
         }
 
+        .card-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-size: cover;
+          background-position: center top;
+        }
+
+        .card-with-image .card-content {
+          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+          padding-top: 60px;
+        }
+
+        .card-selected.card-with-image .card-image {
+          bottom: 40%;
+        }
+
+        .card-selected.card-with-image .card-content {
+          background: rgba(0,0,0,0.85);
+          padding-top: 24px;
+        }
+
         .card-content {
           margin-top: auto;
           padding: 20px;
@@ -373,6 +440,12 @@ export default function CardStackHero() {
           opacity: 0.9;
         }
 
+        .card-links {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
         .card-link {
           display: inline-flex;
           align-items: center;
@@ -380,8 +453,8 @@ export default function CardStackHero() {
           color: white;
           text-decoration: none;
           font-weight: 500;
-          font-size: 0.95rem;
-          padding: 10px 18px;
+          font-size: 0.9rem;
+          padding: 10px 16px;
           background: rgba(255, 255, 255, 0.15);
           border-radius: 8px;
           transition: background 0.2s;
@@ -410,7 +483,12 @@ export default function CardStackHero() {
         @media (max-width: 768px) {
           .card-stack-hero {
             padding: 2rem 1rem;
-            min-height: 400px;
+            min-height: 450px;
+          }
+
+          .hero-title {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
           }
 
           .card-stack-container {

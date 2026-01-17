@@ -1,9 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
-import HeroImageWithTexture from '../components/HeroImageWithTexture';
 import CardStackHero from '../components/CardStackHero';
-import { getCollection } from 'astro:content';
 import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.jpg';
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.jpg';
 import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.jpg';
@@ -18,30 +16,6 @@ const ogImage = "/images/img-dh-web-light.jpg";
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
     <CardStackHero client:load />
-  </section>
-
-  <!-- Hero Section -->
-  <section class="hero-grid" aria-labelledby="hero-heading">
-    <div class="hero-content">
-      <h1 id="hero-heading">David Hoang is a designer and investor.</h1>
-      <ul role="list" aria-label="Quick links and highlights">
-        <li>Subscribe to the newsletter, <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
-        <li><a href="https://github.com/davidhoang" rel="noopener noreferrer">Follow on GitHub</a></li>
-        <li><a href="https://youtu.be/piGC-iFwmrk?si=RuQtmVtimws3npVM" rel="noopener noreferrer">Watch the talk from Config 2021</a></li>
-        <li><a href="https://www.youtube.com/watch?v=6Z88rLjF-lc" rel="noopener noreferrer">Listen to the interview on Dive Club</a></li>
-        <li>Recommended articles: <a href="https://www.davidhoang.com/writing/career-reboot" target="_blank" rel="noopener noreferrer">Career Reboot</a>, <a href="https://www.davidhoang.com/writing/design-engineering" target="_blank" rel="noopener noreferrer">Design Engineering</a>, and <a href="https://www.davidhoang.com/writing/the-four-types-of-software-in-the-future" target="_blank" rel="noopener noreferrer">The four types of software in the future</a></li>
-        <li><a href="/career-odyssey" rel="noopener noreferrer">Explore the Career Odyssey</a> — an interactive canvas of the career journey</li>
-      </ul>
-    </div>
-    <div class="hero-image portrait-container">
-      <HeroImageWithTexture
-        client:load
-        src="/images/img-dh-web-light.jpg"
-        alt="Professional headshot photo of David Hoang"
-        width={400}
-        height={533}
-      />
-    </div>
   </section>
   <section class="design-philosophy" aria-labelledby="philosophy-heading">
     <h2 id="philosophy-heading">Design philosophy</h2>
@@ -113,45 +87,7 @@ const ogImage = "/images/img-dh-web-light.jpg";
     /* Card Stack Section */
     .card-stack-section {
       width: 100%;
-      margin-top: 80px;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    /* Hero Section */
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 2rem;
-      width: 100%;
-      margin-top: 0;
-      padding: 48px 0;
-    }
-
-    .hero-content a {
-      color: var(--color-link);
-      text-decoration: none;
-      border-bottom: 1px dotted var(--color-link);
-      transition: all 0.3s ease;
-    }
-
-    .hero-content a:hover {
-      color: var(--color-link-hover);
-      border-bottom-color: var(--color-link-hover);
-    }
-
-    .hero-content ul {
-      margin: 0px 0px 0px 24px;
-    }
-
-    .hero-image {
-      position: relative;
-    }
-
-    .hero-portrait {
-      display: block;
-      width: 400px;
-      height: auto;
-      border-radius: var(--radius-md, 8px);
+      margin-top: 60px;
     }
 
     /* Design Philosophy Section */
@@ -249,17 +185,7 @@ const ogImage = "/images/img-dh-web-light.jpg";
     /* Responsive */
     @media (max-width: 768px) {
       .card-stack-section {
-        margin-top: 60px;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        margin: 0;
-      }
-
-      .hero-content h1 {
-        font-size: 2.25rem;
+        margin-top: 50px;
       }
 
       .philosophy-grid {
@@ -281,13 +207,6 @@ const ogImage = "/images/img-dh-web-light.jpg";
 
       .newsletter-section {
         padding: 2rem 1rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-portrait {
-        width: 100%;
-        height: auto;
       }
     }
 
