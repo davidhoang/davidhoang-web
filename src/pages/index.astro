@@ -84,10 +84,18 @@ const ogImage = "/images/img-dh-web-light.jpg";
   </section>
 
   <style>
+    /* Override shader container styles for home page */
+    :global([data-shader] #main-content.container) {
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0;
+    }
+
     /* Card Stack Section */
     .card-stack-section {
       width: 100%;
-      margin-top: 60px;
+      margin-top: 40px;
     }
 
     /* Design Philosophy Section */

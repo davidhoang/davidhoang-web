@@ -292,12 +292,12 @@ export default function CardStackHero() {
       <style>{`
         .card-stack-hero {
           width: 100%;
-          min-height: 500px;
+          min-height: 480px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          padding: 2rem 2rem 3rem 2rem;
+          justify-content: flex-start;
+          padding: 0 2rem 2rem 2rem;
           position: relative;
           overflow: hidden;
         }
@@ -305,7 +305,7 @@ export default function CardStackHero() {
         .hero-title {
           font-size: 2.25rem;
           font-weight: 400;
-          margin: 0;
+          margin: 0 0 0.5rem 0;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
@@ -319,7 +319,7 @@ export default function CardStackHero() {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-top: 1rem;
+          margin-top: 0;
         }
 
         .cards-wrapper {
