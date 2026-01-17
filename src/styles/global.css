@@ -2282,10 +2282,15 @@ article.blog-post img:hover {
   scroll-margin-top: calc(var(--nav-height) + 3rem);
 }
 
-/* Accessible focus styles */
+/* Accessible focus styles - subtle but visible */
 :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
+  outline: 1.5px solid var(--color-border);
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Respect users who prefer reduced motion */
