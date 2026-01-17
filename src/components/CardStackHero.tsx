@@ -292,20 +292,20 @@ export default function CardStackHero() {
       <style>{`
         .card-stack-hero {
           width: 100%;
-          min-height: 550px;
+          min-height: 500px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 3rem 2rem;
+          padding: 2rem 2rem 3rem 2rem;
           position: relative;
           overflow: hidden;
         }
 
         .hero-title {
-          font-size: 2.5rem;
+          font-size: 2.25rem;
           font-weight: 400;
-          margin: 0 0 2rem 0;
+          margin: 0;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
@@ -315,10 +315,11 @@ export default function CardStackHero() {
           position: relative;
           width: 100%;
           max-width: 1000px;
-          height: 420px;
+          height: 400px;
           display: flex;
           align-items: center;
           justify-content: center;
+          margin-top: 1rem;
         }
 
         .cards-wrapper {
@@ -482,17 +483,17 @@ export default function CardStackHero() {
 
         @media (max-width: 768px) {
           .card-stack-hero {
-            padding: 2rem 1rem;
-            min-height: 450px;
+            padding: 1.5rem 1rem 2rem 1rem;
+            min-height: 420px;
           }
 
           .hero-title {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
           }
 
           .card-stack-container {
-            height: 380px;
+            height: 360px;
+            margin-top: 0.75rem;
           }
 
           .cards-wrapper {
