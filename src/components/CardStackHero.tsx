@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Card {
@@ -10,8 +10,8 @@ interface Card {
   pattern: 'lines' | 'grid' | 'waves' | 'dots' | 'circuits' | 'none';
   link?: string;
   linkText?: string;
-  extraLinks?: Array<{ url: string; text: string }>;
   image?: string;
+  thumbnail?: string;
 }
 
 const cards: Card[] = [
@@ -36,17 +36,24 @@ const cards: Card[] = [
     linkText: 'Subscribe'
   },
   {
-    id: 'talks',
-    title: 'Talks',
-    subtitle: 'Speaking',
-    description: 'Sharing insights on design, leadership, and the future of creative tools at conferences and podcasts.',
+    id: 'config',
+    title: 'Config 2021',
+    subtitle: 'Figma Conference',
+    description: 'Spoke about the universal challenges of scaling design teams and building design culture.',
     color: '#2D6A4F',
     pattern: 'dots',
     link: 'https://youtu.be/piGC-iFwmrk',
-    linkText: 'Watch Config 2021',
-    extraLinks: [
-      { url: 'https://www.youtube.com/watch?v=6Z88rLjF-lc', text: 'Listen to Dive Club' }
-    ]
+    linkText: 'Watch talk'
+  },
+  {
+    id: 'diveclub',
+    title: 'Dive Club',
+    subtitle: 'Podcast',
+    description: 'Joined the Dive Club podcast to discuss design leadership, creative tools, and career journeys.',
+    color: '#1e3a5f',
+    pattern: 'waves',
+    link: 'https://www.youtube.com/watch?v=6Z88rLjF-lc',
+    linkText: 'Listen'
   },
   {
     id: 'odyssey',
@@ -67,7 +74,7 @@ const cards: Card[] = [
     pattern: 'none',
     link: '/about',
     linkText: 'Learn more',
-    image: '/images/img-dh-web-light.jpg'
+    thumbnail: '/images/img-dh-web-light.jpg'
   },
 ];
 
@@ -160,13 +167,14 @@ const patterns = {
   none: PatternNone,
 };
 
-// Card positions for the fanned stack - 5 cards spread out
+// Card positions for the fanned stack - 6 cards spread out
 const cardPositions = [
-  { x: -280, y: 30, rotation: -12 },
-  { x: -140, y: 15, rotation: -6 },
-  { x: 0, y: 0, rotation: 0 },
-  { x: 140, y: 15, rotation: 6 },
-  { x: 280, y: 30, rotation: 12 },
+  { x: -400, y: 35, rotation: -15 },
+  { x: -240, y: 20, rotation: -9 },
+  { x: -80, y: 8, rotation: -3 },
+  { x: 80, y: 8, rotation: 3 },
+  { x: 240, y: 20, rotation: 9 },
+  { x: 400, y: 35, rotation: 15 },
 ];
 
 export default function CardStackHero() {
@@ -174,9 +182,38 @@ export default function CardStackHero() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleCardClick = (cardId: string) => {
+  const handleCardClick = (cardId: string, link?: string) => {
+    // About card navigates directly
+    if (cardId === 'about' && link) {
+      window.location.href = link;
+      return;
+    }
     setSelectedCard(selectedCard === cardId ? null : cardId);
   };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedCard) return;
+
+      const currentIndex = cards.findIndex(card => card.id === selectedCard);
+
+      if (e.key === 'Escape') {
+        setSelectedCard(null);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % cards.length;
+        setSelectedCard(cards[nextIndex].id);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
+        setSelectedCard(cards[prevIndex].id);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedCard]);
 
   const hasSelection = selectedCard !== null;
 
@@ -216,7 +253,7 @@ export default function CardStackHero() {
                 layout
                 animate={{
                   x: isSelected ? 0 : position.x,
-                  y: isSelected ? -120 : (isHovered ? position.y - 15 : position.y),
+                  y: isSelected ? -70 : (isHovered ? position.y - 15 : position.y),
                   rotate: isSelected ? 0 : position.rotation,
                   scale: isSelected ? 1.1 : (isHovered ? 1.03 : 1),
                   opacity: isOtherSelected ? 0.3 : 1,
@@ -228,10 +265,16 @@ export default function CardStackHero() {
                 }}
                 onMouseEnter={() => !selectedCard && setHoveredCard(card.id)}
                 onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => handleCardClick(card.id)}
+                onClick={() => handleCardClick(card.id, card.link)}
               >
                 {card.image ? (
                   <div className="card-image" style={{ backgroundImage: `url(${card.image})` }} />
+                ) : card.thumbnail ? (
+                  <>
+                    <div className="card-thumbnail-area">
+                      <div className="card-thumbnail" style={{ backgroundImage: `url(${card.thumbnail})` }} />
+                    </div>
+                  </>
                 ) : (
                   <div className="card-pattern">
                     <Pattern />
@@ -270,22 +313,6 @@ export default function CardStackHero() {
                             </svg>
                           </a>
                         )}
-                        {card.extraLinks?.map((extraLink, i) => (
-                          <a
-                            key={i}
-                            href={extraLink.url}
-                            className="card-link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {extraLink.text}
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <line x1="5" y1="12" x2="19" y2="12" />
-                              <polyline points="12 5 19 12 12 19" />
-                            </svg>
-                          </a>
-                        ))}
                       </div>
                     </motion.div>
                   )}
@@ -312,15 +339,16 @@ export default function CardStackHero() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding: 0 2rem 2rem 2rem;
+          padding: 0 1rem 0 1rem;
           position: relative;
           overflow: hidden;
+          box-sizing: border-box;
         }
 
         .card-stack-container {
           position: relative;
           width: 100%;
-          max-width: 1000px;
+          max-width: 100%;
           height: 450px;
           display: flex;
           flex-direction: column;
@@ -329,12 +357,17 @@ export default function CardStackHero() {
         }
 
         .hero-title {
-          font-size: 2.25rem;
-          font-weight: 400;
-          margin: 0;
+          font-size: clamp(2rem, 5vw, 4.5rem);
+          font-weight: 700;
+          margin: 0 auto 1.5rem auto;
+          padding: 0 1rem;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
+          line-height: 1.1;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
         }
 
         .cards-wrapper {
@@ -351,7 +384,10 @@ export default function CardStackHero() {
           border-radius: 20px;
           cursor: pointer;
           overflow: hidden;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+          box-shadow:
+            0 8px 32px rgba(0, 0, 0, 0.12),
+            0 2px 8px rgba(0, 0, 0, 0.08),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.3);
           display: flex;
           flex-direction: column;
           left: 50%;
@@ -363,7 +399,10 @@ export default function CardStackHero() {
         }
 
         .card:hover {
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.12);
+          box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(0, 0, 0, 0.12),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.4);
         }
 
         .card:focus-visible {
@@ -402,6 +441,26 @@ export default function CardStackHero() {
           background-position: center top;
         }
 
+        .card-thumbnail-area {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 55%;
+          overflow: hidden;
+        }
+
+        .card-thumbnail {
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center top;
+        }
+
+        .card-selected .card-thumbnail-area {
+          height: 40%;
+        }
+
         .card-with-image .card-content {
           background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
           padding-top: 60px;
@@ -433,6 +492,7 @@ export default function CardStackHero() {
           font-weight: 600;
           margin: 0;
           line-height: 1.2;
+          color: white;
         }
 
         .card-selected .card-title {
@@ -440,6 +500,7 @@ export default function CardStackHero() {
         }
 
         .card-subtitle {
+          color: white;
           font-size: 0.9rem;
           margin: 6px 0 0 0;
           opacity: 0.75;
@@ -459,6 +520,7 @@ export default function CardStackHero() {
           font-size: 0.95rem;
           line-height: 1.6;
           margin: 0 0 20px 0;
+          color: white;
           opacity: 0.9;
         }
 
@@ -496,20 +558,21 @@ export default function CardStackHero() {
         }
 
         /* Responsive */
+        @media (max-width: 1100px) {
+          .cards-wrapper {
+            transform: scale(0.85);
+          }
+        }
+
         @media (max-width: 900px) {
           .cards-wrapper {
-            transform: scale(0.9);
+            transform: scale(0.75);
           }
         }
 
         @media (max-width: 768px) {
           .card-stack-hero {
-            padding: 1rem 1rem 2rem 1rem;
             min-height: 400px;
-          }
-
-          .hero-title {
-            font-size: 1.5rem;
           }
 
           .card-stack-container {
@@ -518,10 +581,7 @@ export default function CardStackHero() {
 
           .cards-wrapper {
             margin-top: 15px;
-          }
-
-          .cards-wrapper {
-            transform: scale(0.75);
+            transform: scale(0.65);
           }
 
           .card-selected {
@@ -536,7 +596,7 @@ export default function CardStackHero() {
 
         @media (max-width: 480px) {
           .cards-wrapper {
-            transform: scale(0.6);
+            transform: scale(0.55);
           }
 
           .card-stack-container {
