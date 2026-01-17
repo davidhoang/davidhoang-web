@@ -66,6 +66,10 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Browser theme color - blends browser UI with site -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
+
     <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
     <ViewTransitions fallback="swap" />
 
@@ -125,6 +129,13 @@ const ogImageUrl = ogImage.startsWith('http')
           if (eInkMode === 'true') {
             document.documentElement.setAttribute('data-e-ink', 'true');
           }
+
+          // Update browser theme-color to match current theme
+          var themeColor = theme === 'dark' ? '#111111' : '#ffffff';
+          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute('content', themeColor);
+          }
         } catch(e) {
           // no-op
         }
@@ -145,6 +156,18 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <MusicPlayer />
     <script>
+      // Helper to update browser theme-color
+      function updateBrowserThemeColor(theme) {
+        const themeColor = theme === 'dark' ? '#111111' : '#ffffff';
+        let metaThemeColor = document.querySelector('meta[name="theme-color"]:not([media])');
+        if (!metaThemeColor) {
+          metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        }
+        if (metaThemeColor) {
+          metaThemeColor.setAttribute('content', themeColor);
+        }
+      }
+
       // Persist theme and e-ink mode during view transitions
       document.addEventListener('astro:after-swap', () => {
         const theme = localStorage.getItem('theme') || 'light';
@@ -156,8 +179,16 @@ const ogImageUrl = ogImage.startsWith('http')
           document.documentElement.setAttribute('data-e-ink', 'true');
         }
 
+        // Update browser theme-color
+        updateBrowserThemeColor(theme);
+
         // Re-init lazy loading after page swap
         initLazyImages();
+      });
+
+      // Listen for theme changes (from ThemeToggle component)
+      document.addEventListener('theme-changed', (e) => {
+        updateBrowserThemeColor(e.detail.theme);
       });
 
       // Lazy loading with fade-in effect

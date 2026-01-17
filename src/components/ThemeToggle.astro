@@ -184,6 +184,9 @@
         toggleButton.setAttribute('aria-pressed', newTheme === 'dark' ? 'true' : 'false');
       }
 
+      // Dispatch custom event for browser theme-color update
+      document.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
+
       // Re-enable transitions after the next frame
       requestAnimationFrame(() => {
         document.documentElement.classList.add('theme-transition');
