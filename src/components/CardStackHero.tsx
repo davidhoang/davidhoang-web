@@ -180,8 +180,8 @@ export default function CardStackHero() {
 
   return (
     <div className="card-stack-hero" ref={containerRef}>
-      <h1 className="hero-title">David Hoang is a designer and investor.</h1>
       <div className="card-stack-container">
+        <h1 className="hero-title">David Hoang is a designer and investor.</h1>
         <div className="cards-wrapper">
           {cards.map((card, index) => {
             const position = cardPositions[index];
@@ -302,30 +302,31 @@ export default function CardStackHero() {
           overflow: hidden;
         }
 
-        .hero-title {
-          font-size: 2.25rem;
-          font-weight: 400;
-          margin: 0 0 0.5rem 0;
-          text-align: center;
-          color: var(--color-text);
-          font-family: var(--font-primary);
-        }
-
         .card-stack-container {
           position: relative;
           width: 100%;
           max-width: 1000px;
-          height: 400px;
+          height: 450px;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          margin-top: 0;
+          justify-content: flex-start;
+        }
+
+        .hero-title {
+          font-size: 2.25rem;
+          font-weight: 400;
+          margin: 0;
+          text-align: center;
+          color: var(--color-text);
+          font-family: var(--font-primary);
         }
 
         .cards-wrapper {
           position: relative;
           width: 240px;
           height: 340px;
+          margin-top: 20px;
         }
 
         .card {
@@ -488,8 +489,8 @@ export default function CardStackHero() {
 
         @media (max-width: 768px) {
           .card-stack-hero {
-            padding: 1.5rem 1rem 2rem 1rem;
-            min-height: 420px;
+            padding: 1rem 1rem 2rem 1rem;
+            min-height: 400px;
           }
 
           .hero-title {
@@ -497,8 +498,11 @@ export default function CardStackHero() {
           }
 
           .card-stack-container {
-            height: 360px;
-            margin-top: 0.75rem;
+            height: 380px;
+          }
+
+          .cards-wrapper {
+            margin-top: 15px;
           }
 
           .cards-wrapper {
