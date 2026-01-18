@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Card {
@@ -180,7 +180,6 @@ const cardPositions = [
 export default function CardStackHero() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleCardClick = (cardId: string, link?: string) => {
     // About card navigates directly
@@ -218,7 +217,7 @@ export default function CardStackHero() {
   const hasSelection = selectedCard !== null;
 
   return (
-    <div className="card-stack-hero" ref={containerRef}>
+    <div className="card-stack-hero">
       <div className="card-stack-container">
         <motion.h1
           className="hero-title"
@@ -307,7 +306,7 @@ export default function CardStackHero() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             {card.linkText || 'Learn more'}
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                               <line x1="5" y1="12" x2="19" y2="12" />
                               <polyline points="12 5 19 12 12 19" />
                             </svg>
@@ -554,7 +553,7 @@ export default function CardStackHero() {
           left: 0;
           right: 0;
           bottom: 0;
-          z-index: 1;
+          z-index: 10;
         }
 
         /* Responsive */

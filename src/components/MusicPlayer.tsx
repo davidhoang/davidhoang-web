@@ -513,7 +513,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [isHydrated]);
+  }, [isHydrated, currentTrackIndex, playlist]);
 
   // Initialize audio when track changes
   useEffect(() => {
@@ -675,7 +675,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
                 value={volume}
                 onChange={handleVolumeChange}
                 className="winamp-volume-slider"
-                orient="vertical"
+                aria-label="Volume"
               />
               <span className="winamp-volume-display">{volume}</span>
             </div>
@@ -689,6 +689,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
                 value={balance}
                 onChange={handleBalanceChange}
                 className="winamp-balance-slider"
+                aria-label="Balance"
               />
               <span className="winamp-balance-display">
                 {balance === 0 ? 'C' : balance < 0 ? `L${Math.abs(balance)}` : `R${balance}`}
@@ -740,6 +741,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             className="winamp-control-btn"
             onClick={handlePrevious}
             title="Previous Track (Z)"
+            aria-label="Previous Track"
             disabled={currentTrackIndex === 0}
           >
             ⏮
@@ -749,6 +751,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             className="winamp-control-btn"
             onClick={handlePlay}
             title="Play (X)"
+            aria-label="Play"
           >
             ▶
           </button>
@@ -757,6 +760,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             className="winamp-control-btn"
             onClick={handlePause}
             title="Pause (C)"
+            aria-label="Pause"
             disabled={!isPlaying}
           >
             ⏸
@@ -766,6 +770,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             className="winamp-control-btn"
             onClick={handleStop}
             title="Stop (V)"
+            aria-label="Stop"
           >
             ■
           </button>
@@ -774,6 +779,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             className="winamp-control-btn"
             onClick={handleNext}
             title="Next Track (B)"
+            aria-label="Next Track"
             disabled={currentTrackIndex >= playlist.length - 1}
           >
             ⏭
@@ -783,6 +789,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
             className="winamp-control-btn"
             onClick={handleEject}
             title="Eject / Toggle Playlist (L)"
+            aria-label="Toggle Playlist"
           >
             ⏏
           </button>

@@ -36,7 +36,7 @@ const isImageVariant = variant === 'image' && image;
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
     <div class="page-header__hero">
-      <HeroImageShader client:load src={image} alt={alt} />
+      <HeroImageShader client:visible src={image} alt={alt} />
       <h1 class="page-header__title">{title}</h1>
     </div>
   ) : (

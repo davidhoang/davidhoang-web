@@ -9,16 +9,27 @@ import { dirname, join } from 'path';
 const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
 const ogImage = "/images/img-david-sf.jpg";
 
+// HTML escape helper to prevent XSS
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 // Simple markdown to HTML converter (handles links and paragraphs)
 function markdownToHtml(markdown: string): string {
   let html = markdown.trim();
-  
+
   // Convert markdown links [text](url) to HTML links
   // Add target="_blank" for external URLs
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
     const isExternal = url.startsWith('http://') || url.startsWith('https://');
     const target = isExternal ? ' target="_blank"' : '';
-    return `<a href="${url}"${target}>${text}</a>`;
+    // Escape URL and text to prevent XSS
+    return `<a href="${escapeHtml(url)}"${target}>${escapeHtml(text)}</a>`;
   });
   
   // Split into paragraphs (double newline or single newline followed by content)
