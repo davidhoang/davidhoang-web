@@ -906,21 +906,68 @@ h6 {
 }
 
 p {
-  margin-bottom: 16px;
+  margin-bottom: 1.25em;
   font-size: 1.2rem;
+  line-height: var(--body-line-height, 1.6);
+  color: var(--color-text);
+}
+
+/* Editorial list styling */
+ul,
+ol {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
   color: var(--color-text);
 }
 
 ul {
-  margin: 0;
   list-style-type: disc;
 }
 
+ol {
+  list-style-type: decimal;
+}
+
+/* Nested lists */
+ul ul,
+ol ul {
+  list-style-type: circle;
+  margin: 0.5em 0;
+}
+
+ul ul ul,
+ol ul ul {
+  list-style-type: square;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-alpha;
+  margin: 0.5em 0;
+}
+
 li {
-  margin-bottom: 8px;
-  line-height: 1.5;
+  margin-bottom: 0.5em;
+  line-height: var(--body-line-height, 1.6);
   font-size: 1.2rem;
   color: var(--color-text);
+  padding-left: 0.25em;
+}
+
+/* Tighter spacing for nested list items */
+li li {
+  margin-bottom: 0.35em;
+}
+
+/* Remove bottom margin from last items */
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists directly after paragraphs - tighter spacing */
+p + ul,
+p + ol {
+  margin-top: -0.5em;
 }
 
 strong {
@@ -957,10 +1004,9 @@ a {
   display: inline;
   border-bottom: 1px dotted var(--color-link);
   transition:
-    color 0.4s var(--ease-inertia),
-    background-color 0.4s var(--ease-inertia),
-    border-color 0.4s var(--ease-inertia),
-    transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.3s ease;
 }
 
 a:visited {
@@ -968,65 +1014,75 @@ a:visited {
   border-bottom-color: var(--color-link);
 }
 
-/* Glow effect behind links */
+/* Subtle glow effect behind links */
 a::before {
   content: '';
   position: absolute;
-  inset: -2px -6px;
+  inset: -4px -8px;
   background: radial-gradient(
     ellipse at center,
     var(--color-link) 0%,
     transparent 70%
   );
   opacity: 0;
-  filter: blur(8px);
+  filter: blur(12px);
   z-index: -1;
-  transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
   border-radius: 4px;
 }
 
-/* Underline animation */
+/* Underline animation - grows from left */
 a::after {
-  transition: transform 0.4s var(--ease-inertia-smooth);
   content: '';
   position: absolute;
-  width: calc(100% - 2px);
-  height: 2px;
-  bottom: -1px;
+  width: 100%;
+  height: 1.5px;
+  bottom: -2px;
   left: 0;
-  background-color: var(--color-link-hover);
+  background: linear-gradient(90deg, var(--color-link-hover), var(--color-link));
   transform: scaleX(0);
-  transform-origin: bottom right;
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Hover effects - only on devices that support hover */
 @media (hover: hover) {
   a:hover {
     color: var(--color-link-hover);
-    border-bottom-color: var(--color-link-hover);
-    transform: translateX(3px);
+    border-bottom-color: transparent;
   }
 
   a:hover::before {
-    opacity: 0.12;
+    opacity: 0.08;
   }
 
   a:hover::after {
     transform: scaleX(1);
-    transform-origin: bottom left;
   }
 }
 
-/* Disable magnetic effect on mobile */
-@media (max-width: 768px) {
-  a,
-  a:hover {
-    transform: none !important;
-  }
+/* Active/pressed state */
+a:active {
+  opacity: 0.8;
+  transition: opacity 0.1s ease;
+}
 
+/* Focus state for keyboard navigation */
+a:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Disable glow on mobile for performance */
+@media (max-width: 768px) {
   a::before {
     display: none;
+  }
+
+  a::after {
+    height: 1px;
   }
 }
 
@@ -1095,8 +1151,30 @@ blockquote cite {
    Prose Content (for markdown/blog posts)
    ============================================ */
 
+/* Prose content - editorial reading experience */
+.prose-content p {
+  margin-bottom: 1.5em;
+}
+
+.prose-content ul,
+.prose-content ol {
+  margin: 1.5em 0;
+  padding-left: 1.75em;
+}
+
 .prose-content li {
-  margin-left: 1rem;
+  margin-bottom: 0.75em;
+  padding-left: 0.5em;
+}
+
+.prose-content li:last-child {
+  margin-bottom: 0;
+}
+
+/* Prose nested lists */
+.prose-content li ul,
+.prose-content li ol {
+  margin: 0.75em 0;
 }
 
 .prose-content img {
@@ -2414,11 +2492,16 @@ article.blog-post img:hover {
 
   p,
   li {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     max-width: 100%;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.25em;
   }
 
   .hero-title h1 {
