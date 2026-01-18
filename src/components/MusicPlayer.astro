@@ -7,26 +7,36 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
 </div>
 
 <style is:global>
-  /* Winamp Color Palette - Classic Winamp Colors (MORE GREEN!) */
+  /* Winamp Color Palette - Authentic Classic Winamp Colors */
   :root {
-    --winamp-bg: #2a2a3a; /* Main dark blue-grey background (Winamp's signature color) */
-    --winamp-button-bg: #3a3a4a; /* Dark blue-grey button background (not light grey!) */
-    --winamp-dark: #4a4a5a; /* Medium blue-grey */
-    --winamp-darker: #1a1a2a; /* Even darker blue-grey for depth */
-    --winamp-light: #5a5a6a; /* Lighter blue-grey for hover states */
-    --winamp-green: #00ff00; /* Bright green - PRIMARY accent color for EVERYTHING */
-    --winamp-green-dark: #00cc00; /* Darker green */
-    --winamp-green-track: #00ff00; /* GREEN slider tracks (not blue!) */
-    --winamp-yellow: #ffcc00; /* Yellow/gold for seek bar and equalizer slider knobs */
-    --winamp-text: #fff; /* White text on dark backgrounds */
-    --winamp-text-light: #fff; /* White text */
-    --winamp-text-dark: #000; /* Black text on light backgrounds */
-    --winamp-border: #000; /* Black borders */
-    --winamp-highlight: #ffffff; /* White highlights for 3D effect */
-    --winamp-shadow: #000000; /* Black shadows */
-    --winamp-titlebar-start: #000080; /* Title bar gradient start (dark blue) */
-    --winamp-titlebar-end: #0000c0; /* Title bar gradient end (slightly lighter blue) */
-    --winamp-selected: #808080; /* Grey for selected playlist items */
+    --winamp-bg: #232323; /* Main charcoal background - the iconic Winamp gray */
+    --winamp-bg-panel: #2b2b2b; /* Slightly lighter panel background */
+    --winamp-button-bg: #3a3a3a; /* Neutral gray button background */
+    --winamp-button-face: #4a4a4a; /* Button face color */
+    --winamp-dark: #1a1a1a; /* Dark areas */
+    --winamp-darker: #0f0f0f; /* Deepest shadows */
+    --winamp-light: #525252; /* Lighter gray for hover states */
+    --winamp-lighter: #5a5a5a; /* Even lighter for highlights */
+    --winamp-green: #00ff00; /* Bright green LCD text */
+    --winamp-green-dim: #00c800; /* Slightly dimmer green */
+    --winamp-green-dark: #009800; /* Dark green for inactive elements */
+    --winamp-green-glow: rgba(0, 255, 0, 0.4); /* Green glow effect */
+    --winamp-orange: #ff6600; /* Orange for stereo indicator */
+    --winamp-slider-track: #1e3c1e; /* Dark green-tinted track */
+    --winamp-slider-thumb: #a0a078; /* Olive/khaki slider thumb - classic Winamp */
+    --winamp-slider-thumb-highlight: #c0c0a0; /* Lighter olive for highlight */
+    --winamp-text: #d4d4d4; /* Light gray text */
+    --winamp-text-light: #ffffff; /* White text */
+    --winamp-text-dark: #000000; /* Black text */
+    --winamp-border: #0a0a0a; /* Near-black borders */
+    --winamp-border-light: #3a3a3a; /* Lighter border for 3D effect */
+    --winamp-highlight: #4a4a4a; /* 3D highlight edge */
+    --winamp-shadow: #000000; /* 3D shadow edge */
+    --winamp-titlebar-start: #0a0a4a; /* Title bar gradient start */
+    --winamp-titlebar-end: #000080; /* Title bar gradient end */
+    --winamp-display-bg: #000000; /* Black display background */
+    --winamp-selected: #0000c0; /* Blue for selected items */
+    --winamp-selected-text: #ffffff; /* White text on selected */
   }
 
   /* Main Winamp Container */
@@ -230,8 +240,8 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   .winamp-seek-progress {
     position: absolute;
     height: 100%;
-    background: var(--winamp-yellow);
-    box-shadow: 0 0 4px var(--winamp-yellow);
+    background: linear-gradient(to bottom, #90c090 0%, #60a060 50%, #408040 100%);
+    box-shadow: 0 0 2px rgba(100, 180, 100, 0.5);
     transition: width 0.1s linear;
     pointer-events: none;
   }
@@ -349,7 +359,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-volume-slider::-webkit-slider-track {
-    background: var(--winamp-green-track);
+    background: var(--winamp-slider-track);
     border: 1px solid var(--winamp-border);
     height: 6px;
     border-radius: 0;
@@ -357,28 +367,32 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
 
   .winamp-volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 8px;
-    height: 14px;
-    background: var(--winamp-yellow);
+    width: 10px;
+    height: 16px;
+    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
     border: 1px solid var(--winamp-border);
+    border-top: 1px solid var(--winamp-slider-thumb-highlight);
+    border-left: 1px solid var(--winamp-slider-thumb-highlight);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    box-shadow: inset -1px -1px 0 #606040;
   }
 
   .winamp-volume-slider::-moz-range-track {
-    background: var(--winamp-green-track);
+    background: var(--winamp-slider-track);
     border: 1px solid var(--winamp-border);
     height: 6px;
     border-radius: 0;
   }
 
   .winamp-volume-slider::-moz-range-thumb {
-    width: 8px;
-    height: 14px;
-    background: var(--winamp-yellow);
+    width: 10px;
+    height: 16px;
+    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
     border: 1px solid var(--winamp-border);
+    border-top: 1px solid var(--winamp-slider-thumb-highlight);
+    border-left: 1px solid var(--winamp-slider-thumb-highlight);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    box-shadow: inset -1px -1px 0 #606040;
     border-radius: 0;
   }
 
@@ -390,7 +404,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-balance-slider::-webkit-slider-track {
-    background: var(--winamp-green-track);
+    background: var(--winamp-slider-track);
     border: 1px solid var(--winamp-border);
     height: 6px;
     border-radius: 0;
@@ -398,28 +412,32 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
 
   .winamp-balance-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 8px;
-    height: 14px;
-    background: var(--winamp-yellow);
+    width: 10px;
+    height: 16px;
+    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
     border: 1px solid var(--winamp-border);
+    border-top: 1px solid var(--winamp-slider-thumb-highlight);
+    border-left: 1px solid var(--winamp-slider-thumb-highlight);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    box-shadow: inset -1px -1px 0 #606040;
   }
 
   .winamp-balance-slider::-moz-range-track {
-    background: var(--winamp-green-track);
+    background: var(--winamp-slider-track);
     border: 1px solid var(--winamp-border);
     height: 6px;
     border-radius: 0;
   }
 
   .winamp-balance-slider::-moz-range-thumb {
-    width: 8px;
-    height: 14px;
-    background: var(--winamp-yellow);
+    width: 10px;
+    height: 16px;
+    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
     border: 1px solid var(--winamp-border);
+    border-top: 1px solid var(--winamp-slider-thumb-highlight);
+    border-left: 1px solid var(--winamp-slider-thumb-highlight);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    box-shadow: inset -1px -1px 0 #606040;
   }
 
   .winamp-volume-display,
@@ -449,9 +467,10 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-mode-btn.active {
-    background: var(--winamp-green);
-    color: var(--winamp-text-dark);
+    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
+    color: var(--winamp-text-light);
     font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   .winamp-toggle-buttons {
@@ -471,9 +490,10 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-toggle-btn.active {
-    background: var(--winamp-green);
-    color: var(--winamp-text-dark);
+    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
+    color: var(--winamp-text-light);
     font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   /* Controls */
@@ -523,12 +543,11 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-control-btn.active {
-    background: var(--winamp-green);
-    color: var(--winamp-text-dark);
+    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
+    color: var(--winamp-text-light);
     font-weight: bold;
-    box-shadow:
-      inset 0 0 4px rgba(0, 255, 0, 0.6),
-      inset -1px -1px 0 var(--winamp-shadow);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: inset -1px -1px 0 #405040;
   }
 
   /* Equalizer Window */
@@ -574,9 +593,10 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-eq-btn.active {
-    background: var(--winamp-green);
-    color: var(--winamp-text-dark);
+    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
+    color: var(--winamp-text-light);
     font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   .winamp-eq-sliders {
@@ -628,7 +648,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-eq-slider::-webkit-slider-track {
-    background: var(--winamp-green-track);
+    background: linear-gradient(to bottom, var(--winamp-slider-track), #2a4a2a);
     border: 1px solid var(--winamp-border);
     width: 8px;
     border-radius: 0;
@@ -637,32 +657,32 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   .winamp-eq-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 12px;
-    background: var(--winamp-yellow);
+    width: 18px;
+    height: 10px;
+    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
     border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
+    border-top: 1px solid var(--winamp-slider-thumb-highlight);
+    border-left: 1px solid var(--winamp-slider-thumb-highlight);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    box-shadow: inset -1px -1px 0 #606040;
   }
 
   .winamp-eq-slider::-moz-range-track {
-    background: var(--winamp-green-track);
+    background: linear-gradient(to bottom, var(--winamp-slider-track), #2a4a2a);
     border: 1px solid var(--winamp-border);
     width: 8px;
     border-radius: 0;
   }
 
   .winamp-eq-slider::-moz-range-thumb {
-    width: 16px;
-    height: 12px;
-    background: var(--winamp-yellow);
+    width: 18px;
+    height: 10px;
+    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
     border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
+    border-top: 1px solid var(--winamp-slider-thumb-highlight);
+    border-left: 1px solid var(--winamp-slider-thumb-highlight);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    box-shadow: inset -1px -1px 0 #606040;
   }
 
   /* Playlist Window */
@@ -713,7 +733,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
 
   .winamp-playlist-track.active {
     background: var(--winamp-selected);
-    color: var(--winamp-text-light);
+    color: var(--winamp-selected-text);
   }
 
   .winamp-playlist-controls {
@@ -798,9 +818,10 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   }
 
   .winamp-mini-btn.active {
-    background: var(--winamp-green);
-    color: var(--winamp-text-dark);
+    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
+    color: var(--winamp-text-light);
     font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   /* Scrollbar styling for playlist */
