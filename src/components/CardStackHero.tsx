@@ -395,6 +395,7 @@ export default function CardStackHero() {
           margin-top: -160px;
           transform-origin: center center;
           transition: box-shadow 0.3s ease;
+          will-change: transform, opacity;
         }
 
         .card:hover {

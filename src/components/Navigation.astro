@@ -696,15 +696,33 @@ const currentPath = Astro.url.pathname;
 
     // Animation loop (respect reduced motion)
     let startTime = Date.now();
+    let shaderAnimationFrame: number | null = null;
+
     function animate() {
       if (!gl) return;
       const time = (Date.now() - startTime) * 0.001;
       gl.uniform1f(timeLocation, time);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      requestAnimationFrame(animate);
+      shaderAnimationFrame = requestAnimationFrame(animate);
     }
+
+    // Pause shader animation when tab is not visible
+    function handleShaderVisibility() {
+      if (document.hidden) {
+        if (shaderAnimationFrame) {
+          cancelAnimationFrame(shaderAnimationFrame);
+          shaderAnimationFrame = null;
+        }
+      } else {
+        if (!shaderAnimationFrame) {
+          shaderAnimationFrame = requestAnimationFrame(animate);
+        }
+      }
+    }
+
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduceMotion) {
+      document.addEventListener('visibilitychange', handleShaderVisibility);
       animate();
     }
   }
@@ -1038,6 +1056,22 @@ const currentPath = Astro.url.pathname;
     // Mouse move handler
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
 
+    // Pause animation when tab is not visible
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+      } else {
+        if (!animationFrame) {
+          animationFrame = requestAnimationFrame(animate);
+        }
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     // Initialize
     resize();
     animationFrame = requestAnimationFrame(animate);
@@ -1045,6 +1079,7 @@ const currentPath = Astro.url.pathname;
     // Cleanup function
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (animationFrame) cancelAnimationFrame(animationFrame);
     };
   }
@@ -1167,26 +1202,67 @@ const currentPath = Astro.url.pathname;
     nav.addEventListener('mouseenter', handleMouseEnter);
     nav.addEventListener('mouseleave', handleMouseLeave);
 
+    // Pause animation when tab is not visible
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+      } else {
+        if (!animationFrame) {
+          lastTime = performance.now();
+          animationFrame = requestAnimationFrame(animate);
+        }
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     // Start animation loop
     animationFrame = requestAnimationFrame(animate);
 
     // Cleanup function for page transitions
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       nav.removeEventListener('mouseenter', handleMouseEnter);
       nav.removeEventListener('mouseleave', handleMouseLeave);
       if (animationFrame) cancelAnimationFrame(animationFrame);
     };
   }
 
+  // Track initialization state and cleanup functions
+  let isInitialized = false;
+  let cleanupFunctions: Array<() => void> = [];
+
   // Initialize shader and existing mobile menu
   function init() {
+    // Prevent re-initialization
+    if (isInitialized) return;
+    isInitialized = true;
+
+    // Clean up any previous instances
+    cleanupFunctions.forEach(fn => fn());
+    cleanupFunctions = [];
+
     initShader();
     initMobileMenu();
     initScrollDetection();
-    initSentientNav();
-    initParticleTrail();
+
+    const sentientCleanup = initSentientNav();
+    if (sentientCleanup) cleanupFunctions.push(sentientCleanup);
+
+    const particleCleanup = initParticleTrail();
+    if (particleCleanup) cleanupFunctions.push(particleCleanup);
   }
+
+  // Reset initialization flag on navigation (for view transitions)
+  document.addEventListener('astro:before-swap', () => {
+    isInitialized = false;
+    cleanupFunctions.forEach(fn => fn());
+    cleanupFunctions = [];
+  });
 
   // Initialize on page load
   init();
