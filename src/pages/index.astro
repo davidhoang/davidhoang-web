@@ -95,7 +95,10 @@ const ogImage = "/images/img-dh-web-light.jpg";
       background: transparent !important;
       box-shadow: none !important;
       border-radius: 0 !important;
-      padding: 0 !important;
+      /* Preserve top padding for nav clearance, zero out sides and bottom */
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-bottom: 0 !important;
     }
 
     /* Card Stack Section */

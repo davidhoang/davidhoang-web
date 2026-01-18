@@ -49,6 +49,8 @@
 
   /* Layout */
   --nav-height: 40px;
+  --nav-offset-top: 24px; /* Desktop nav floats below viewport top */
+  --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem); /* Space below nav */
   --container-padding: clamp(1rem, 3vw, 2rem);
   
   /* Breakpoints */
@@ -845,8 +847,15 @@ body {
 
 main {
   min-height: calc(100vh - var(--nav-height) - 100px);
-  padding: 4rem 0;
+  padding-top: var(--content-top-padding);
+  padding-bottom: 4rem;
   width: 100%;
+}
+
+/* Ensure main always clears the fixed nav - higher specificity */
+main#main-content,
+main.container {
+  padding-top: var(--content-top-padding);
 }
 
 /* ============================================
@@ -1939,7 +1948,11 @@ article.blog-post img:hover {
 [data-shader="simplex"] .container,
 [data-shader="neuro"] .container {
   background: var(--color-bg);
-  padding: 2rem;
+  /* Preserve nav clearance on top, use 2rem for other sides */
+  padding-top: var(--content-top-padding);
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
   border-radius: var(--radius-lg, 12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
@@ -1949,7 +1962,10 @@ article.blog-post img:hover {
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  padding: 0;
+  /* Preserve top padding for nav clearance */
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
 }
 
 /* Reduced opacity for content cards with heavy shaders */
@@ -2304,6 +2320,11 @@ article.blog-post img:hover {
    ============================================ */
 
 @media (max-width: 768px) {
+  /* Mobile nav is full-width at top: 0 with 64px height + safe-area-inset */
+  :root {
+    --content-top-padding: calc(64px + env(safe-area-inset-top, 0px) + 1.5rem);
+  }
+
   h1,
   h2,
   h3,
