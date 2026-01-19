@@ -180,6 +180,19 @@ const cardPositions = [
 export default function CardStackHero() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+
+  // Trigger entrance animation after mount
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    // Mark animation complete after stagger finishes
+    const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(completeTimer);
+    };
+  }, []);
 
   const handleCardClick = (cardId: string, link?: string) => {
     // About card navigates directly
@@ -250,17 +263,25 @@ export default function CardStackHero() {
                   zIndex: isSelected ? 20 : cards.length - index,
                 }}
                 layout
+                initial={{
+                  x: 0,
+                  y: 50,
+                  rotate: 0,
+                  scale: 0.9,
+                  opacity: 0
+                }}
                 animate={{
-                  x: isSelected ? 0 : position.x,
-                  y: isSelected ? -70 : (isHovered ? position.y - 15 : position.y),
-                  rotate: isSelected ? 0 : position.rotation,
-                  scale: isSelected ? 1.1 : (isHovered ? 1.03 : 1),
-                  opacity: isOtherSelected ? 0.3 : 1,
+                  x: isSelected ? 0 : (isLoaded ? position.x : 0),
+                  y: isSelected ? -70 : (isLoaded ? (isHovered ? position.y - 15 : position.y) : 50),
+                  rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
+                  scale: isSelected ? 1.1 : (isLoaded ? (isHovered ? 1.03 : 1) : 0.9),
+                  opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
                 }}
                 transition={{
                   type: 'spring',
-                  stiffness: 400,
-                  damping: 30,
+                  stiffness: hasAnimatedIn ? 300 : 100,
+                  damping: hasAnimatedIn ? 20 : 10,
+                  delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
                 }}
                 onMouseEnter={() => !selectedCard && setHoveredCard(card.id)}
                 onMouseLeave={() => setHoveredCard(null)}
