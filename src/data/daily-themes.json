@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Electric Manuscript",
+      "description": "Digital age meets ancient scribes with vivid cyan accents and editorial precision",
+      "colors": {
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F6F0",
+          "--color-link": "#00D4AA",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#E0DDD4",
+          "--color-muted": "#6B7280",
+          "--color-sidebar-bg": "#EFEDE7",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#F1F5F9",
+          "--color-bg": "#16213E",
+          "--color-link": "#00D4AA",
+          "--color-link-hover": "#00FF7F",
+          "--color-border": "#334155",
+          "--color-muted": "#94A3B8",
+          "--color-sidebar-bg": "#1E293B",
+          "--color-nav-bg": "#0F172A",
+          "--color-nav-text": "#F1F5F9",
+          "--color-card-bg": "#1E293B"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "EB Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "500",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "768px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "EB Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-19"
+    },
+    {
       "name": "Sunday Morning Velvet",
       "description": "Warm burgundy hues with luxurious textures inspired by lazy weekend mornings in a vintage jazz café",
       "colors": {
@@ -590,109 +688,7 @@
         "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-13"
-    },
-    {
-      "name": "Neon Arcade",
-      "description": "Electric 80s gaming aesthetic with hot pink highlights and digital brutalism",
-      "colors": {
-        "light": {
-          "--color-text": "#1A0D1F",
-          "--color-bg": "#FDF2F8",
-          "--color-link": "#FF1493",
-          "--color-link-hover": "#FF69B4",
-          "--color-border": "#E879F9",
-          "--color-muted": "#9CA3AF",
-          "--color-sidebar-bg": "#F3E8FF",
-          "--color-nav-bg": "#1A0D1F",
-          "--color-nav-text": "#FF1493",
-          "--color-card-bg": "#FEFCFF"
-        },
-        "dark": {
-          "--color-text": "#FF1493",
-          "--color-bg": "#1A0D1F",
-          "--color-link": "#00FFFF",
-          "--color-link-hover": "#FF69B4",
-          "--color-border": "#9D4EDD",
-          "--color-muted": "#A1A1AA",
-          "--color-sidebar-bg": "#2D132C",
-          "--color-nav-bg": "#FF1493",
-          "--color-nav-text": "#1A0D1F",
-          "--color-card-bg": "#2A0E30"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Unbounded",
-          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "display",
-          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1.5rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 0 20px rgba(255, 20, 147, 0.15)",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "bold"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#FF1493",
-          "#00FFFF",
-          "#9D4EDD"
-        ]
-      },
-      "font": {
-        "name": "Unbounded",
-        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "display",
-        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-01-12"
     }
   ],
-  "currentDate": "2026-01-18"
+  "currentDate": "2026-01-19"
 }
