@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Sage Brutalism",
+      "description": "Raw concrete meets organic wisdom in a stark editorial landscape",
+      "colors": {
+        "light": {
+          "--color-text": "#1A1A1A",
+          "--color-bg": "#F0F4F1",
+          "--color-link": "#FF4500",
+          "--color-link-hover": "#E63946",
+          "--color-border": "#9CAF88",
+          "--color-muted": "#6B7B5C",
+          "--color-sidebar-bg": "#E8F0E9",
+          "--color-nav-bg": "#F0F4F1",
+          "--color-nav-text": "#1A1A1A",
+          "--color-card-bg": "#FAFCFB"
+        },
+        "dark": {
+          "--color-text": "#E8F0E9",
+          "--color-bg": "#1A2E1A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#4A5D4A",
+          "--color-muted": "#7A8F7A",
+          "--color-sidebar-bg": "#0F2027",
+          "--color-nav-bg": "#1A2E1A",
+          "--color-nav-text": "#E8F0E9",
+          "--color-card-bg": "#243324"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Anton",
+          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "3px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Anton",
+        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-01-20"
+    },
+    {
       "name": "Electric Manuscript",
       "description": "Digital age meets ancient scribes with vivid cyan accents and editorial precision",
       "colors": {
@@ -587,108 +685,7 @@
         "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "date": "2026-01-14"
-    },
-    {
-      "name": "Osaka Jazz Lounge",
-      "description": "Smoky midnight atmosphere of a 1960s Japanese jazz bar with warm amber lighting and sophisticated typography.",
-      "colors": {
-        "light": {
-          "--color-text": "#2D1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#B8242C",
-          "--color-border": "#D4A574",
-          "--color-muted": "#8B6914",
-          "--color-sidebar-bg": "#F4E4D1",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#2D1810",
-          "--color-card-bg": "#FEFAF7"
-        },
-        "dark": {
-          "--color-text": "#E8D5B7",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFC107",
-          "--color-border": "#4A3829",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#E8D5B7",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#8B6914",
-          "#4A3829"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-13"
     }
   ],
-  "currentDate": "2026-01-19"
+  "currentDate": "2026-01-20"
 }
