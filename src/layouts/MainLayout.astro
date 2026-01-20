@@ -87,6 +87,15 @@ const ogImageUrl = ogImage.startsWith('http')
         --color-text: #e1e1e1;
         --color-bg: #111;
       }
+      /* E-Ink mode - must be in critical CSS to prevent flash */
+      [data-e-ink="true"] {
+        --color-text: #000000;
+        --color-bg: #f5f5f0;
+      }
+      [data-e-ink="true"][data-theme="dark"] {
+        --color-text: #e0e0e0;
+        --color-bg: #121212;
+      }
       body {
         margin: 0;
         padding: 0;
@@ -94,8 +103,20 @@ const ogImageUrl = ogImage.startsWith('http')
         color: var(--color-text);
         background-color: var(--color-bg);
       }
+      [data-e-ink="true"] body {
+        background-color: #f5f5f0;
+      }
+      [data-e-ink="true"][data-theme="dark"] body {
+        background-color: #121212;
+      }
       nav {
         height: var(--nav-height);
+      }
+      [data-e-ink="true"] nav {
+        background: #e8e8e3 !important;
+      }
+      [data-e-ink="true"][data-theme="dark"] nav {
+        background: #1a1a1a !important;
       }
       /* Skip to main content link for keyboard users */
       .skip-link {
