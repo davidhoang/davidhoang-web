@@ -157,7 +157,7 @@
   --color-border: #000000;
   --color-muted: #555555;
   --color-sidebar-bg: #e8e8e3;
-  --color-nav-bg: #f5f5f0;
+  --color-nav-bg: #e8e8e3;
   --color-nav-text: #000000;
   --color-nav-hover: rgba(0, 0, 0, 0.1);
   --color-card-bg: #e8e8e3;
@@ -169,6 +169,9 @@
   --shadow-scrolling: none;
   --inner-border: none;
   --inner-border-button: none;
+
+  /* Ensure html/body backgrounds are set */
+  background-color: #f5f5f0 !important;
 }
 
 /* E-Ink dark mode */
@@ -180,10 +183,13 @@
   --color-border: #e0e0e0;
   --color-muted: #aaaaaa;
   --color-sidebar-bg: #1a1a1a;
-  --color-nav-bg: #121212;
+  --color-nav-bg: #1a1a1a;
   --color-nav-text: #e0e0e0;
   --color-nav-hover: rgba(255, 255, 255, 0.1);
   --color-card-bg: #1a1a1a;
+
+  /* Ensure html/body backgrounds are set */
+  background-color: #121212 !important;
 }
 
 /* Force grayscale on all images in e-ink mode */
@@ -240,6 +246,66 @@
 [data-e-ink="true"] .btn:hover,
 [data-e-ink="true"] a:hover {
   transform: none !important;
+}
+
+/* E-Ink: Card Stack Hero - monochromatic cards */
+[data-e-ink="true"] .card-stack-hero .card {
+  background-color: #3a3a3a !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-e-ink="true"][data-theme="dark"] .card-stack-hero .card {
+  background-color: #2a2a2a !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+/* E-Ink: Card thumbnails and images - high contrast grayscale */
+[data-e-ink="true"] .card-stack-hero .card-thumbnail,
+[data-e-ink="true"] .card-stack-hero .card-image {
+  filter: grayscale(1) contrast(1.3) !important;
+}
+
+/* E-Ink: Hide colorful patterns, show simple lines */
+[data-e-ink="true"] .card-stack-hero .card-pattern svg {
+  opacity: 0.2 !important;
+}
+
+[data-e-ink="true"] .card-stack-hero .card-pattern svg * {
+  stroke: rgba(255, 255, 255, 0.5) !important;
+  fill: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* E-Ink: Hero portrait/images on other pages */
+[data-e-ink="true"] .hero-portrait,
+[data-e-ink="true"] .hero-image-bg,
+[data-e-ink="true"] .node-card-image {
+  filter: grayscale(1) contrast(1.2) !important;
+}
+
+/* E-Ink: All background images */
+[data-e-ink="true"] [style*="background-image"] {
+  filter: grayscale(1) contrast(1.2) !important;
+}
+
+/* E-Ink: Navigation bar - explicit background, no effects */
+[data-e-ink="true"] nav {
+  background: #e8e8e3 !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+[data-e-ink="true"][data-theme="dark"] nav {
+  background: #1a1a1a !important;
+  border-color: #e0e0e0 !important;
+}
+
+[data-e-ink="true"] nav .noise-canvas,
+[data-e-ink="true"] nav .particle-canvas {
+  display: none !important;
+}
+
+[data-e-ink="true"] nav::after {
+  display: none !important;
 }
 
 /* ============================================
