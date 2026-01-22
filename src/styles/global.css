@@ -339,6 +339,18 @@
      <a class="btn btn-link">Link Style</a>
    -------------------------------------------- */
 
+/*
+ * BUTTON HOVER CONSISTENCY RULE:
+ * Button dimensions (border-radius, height, width, padding) must remain
+ * constant between default and hover states. Only allow transitions for:
+ * - color, background-color, border-color (visual feedback)
+ * - transform (subtle movement)
+ * - box-shadow (depth/emphasis)
+ * - opacity (disabled states)
+ *
+ * Never use `transition: all` on buttons as it can cause shape changes
+ * when themes modify CSS variables.
+ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -353,7 +365,13 @@
   border-radius: var(--radius-md);
   border: var(--card-border-width) solid transparent;
   cursor: pointer;
-  transition: all 0.2s var(--ease-inertia);
+  transition:
+    color 0.2s var(--ease-inertia),
+    background-color 0.2s var(--ease-inertia),
+    border-color 0.2s var(--ease-inertia),
+    transform 0.2s var(--ease-inertia),
+    box-shadow 0.2s var(--ease-inertia),
+    opacity 0.2s var(--ease-inertia);
 }
 
 .btn:disabled {
@@ -1273,11 +1291,16 @@ blockquote cite {
 }
 
 /* Glass-like border effect for buttons - optimized for both light and dark modes */
+/* Follows BUTTON HOVER CONSISTENCY RULE - no dimension transitions */
 .glass-border-button {
   position: relative;
   border: 1px solid var(--color-border);
   background-color: var(--color-sidebar-bg);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
 }
 
