@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Card {
@@ -182,9 +182,46 @@ export default function CardStackHero() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Trigger entrance animation after mount
+  // Use IntersectionObserver to defer animation until component is visible
+  // This improves initial page load performance by not animating off-screen content
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      // Skip animation entirely for users who prefer reduced motion
+      setIsInView(true);
+      setIsLoaded(true);
+      setHasAnimatedIn(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect(); // Only need to trigger once
+        }
+      },
+      {
+        threshold: 0.1, // Trigger when 10% visible
+        rootMargin: '50px', // Start slightly before entering viewport
+      }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  // Trigger entrance animation after component is in view
+  useEffect(() => {
+    if (!isInView) return;
+
     const timer = setTimeout(() => setIsLoaded(true), 100);
     // Mark animation complete after stagger finishes
     const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);
@@ -192,7 +229,7 @@ export default function CardStackHero() {
       clearTimeout(timer);
       clearTimeout(completeTimer);
     };
-  }, []);
+  }, [isInView]);
 
   const handleCardClick = (cardId: string, link?: string) => {
     // About card navigates directly
@@ -230,7 +267,7 @@ export default function CardStackHero() {
   const hasSelection = selectedCard !== null;
 
   return (
-    <div className="card-stack-hero">
+    <div className="card-stack-hero" ref={containerRef}>
       <div className="card-stack-container">
         <motion.h1
           className="hero-title"
