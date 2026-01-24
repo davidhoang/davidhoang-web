@@ -53,12 +53,25 @@
   --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem); /* Space below nav */
   --container-padding: clamp(1rem, 3vw, 2rem);
   
-  /* Breakpoints */
+  /* Breakpoints
+     ┌─────────────────────────────────────────────────────────────────────────┐
+     │ Breakpoint      │ Value  │ Target Devices                              │
+     ├─────────────────────────────────────────────────────────────────────────┤
+     │ mobile          │ 480px  │ Small phones, portrait mode                 │
+     │ tablet          │ 768px  │ Tablets, large phones, small tablets        │
+     │ tablet-large    │ 900px  │ Large tablets (iPad Pro), landscape tablets │
+     │ desktop         │ 1024px │ Small laptops, desktop browsers             │
+     │ desktop-large   │ 1440px │ Standard desktop monitors                   │
+     │ desktop-xl      │ 1920px │ Large desktop monitors, 4K displays         │
+     └─────────────────────────────────────────────────────────────────────────┘
+     Note: CSS variables can't be used in media queries directly.
+     These are documented here for reference. See src/utils/breakpoints.ts for JS. */
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
+  --breakpoint-tablet-large: 900px;
   --breakpoint-desktop: 1024px;
   --breakpoint-desktop-large: 1440px;
-  --breakpoint-desktop-extra-large: 1920px;
+  --breakpoint-desktop-xl: 1920px;
 
   /* Animation - Inertia easing for smooth, natural motion */
   --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1422,8 +1435,9 @@ svg {
 .hero-image-container {
   width: 100vw;
   max-width: 100vw;
-  height: 75vh;
-  min-height: 200px;
+  /* Fluid height: smoothly scales between 250px and 75vh based on viewport */
+  height: clamp(250px, 50vh + 10vw, 75vh);
+  min-height: 250px;
   margin-top: -4rem; /* Negate main padding to reach viewport edge */
   margin-bottom: 2rem;
   margin-left: calc(50% - 50vw);
@@ -2558,8 +2572,48 @@ article.blog-post img:hover {
 
 /* ============================================
    Responsive Design
+
+   Breakpoint Strategy:
+   - 480px: Mobile phones (small screens)
+   - 768px: Tablets and large phones
+   - 900px: Large tablets (iPad Pro, Surface)
+   - 1024px: Small laptops, desktop
+   - 1440px: Standard desktops
+   - 1920px: Large displays
    ============================================ */
 
+/* Touch-specific optimizations for touch devices */
+@media (pointer: coarse) {
+  /* Larger tap targets for touch devices (min 44px per WCAG) */
+  .btn,
+  .nav-links a,
+  .mobile-menu-button,
+  .close-menu,
+  button,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Remove hover-dependent visual changes on touch */
+  .card-interactive:hover {
+    transform: none;
+  }
+
+  /* Disable link glow effect on touch devices */
+  a::before {
+    display: none;
+  }
+
+  /* Simpler tap feedback */
+  a:active,
+  button:active,
+  .btn:active {
+    opacity: 0.7;
+  }
+}
+
+/* Tablet and below (max-width: 768px) */
 @media (max-width: 768px) {
   /* Mobile nav is full-width at top: 0 with 64px height + safe-area-inset */
   :root {
@@ -2677,6 +2731,41 @@ article.blog-post img:hover {
   }
 }
 
+/* Large tablet breakpoint - 900px (iPad Pro, Surface) */
+@media (min-width: 769px) and (max-width: 900px) {
+  /* Optimized typography for large tablets */
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  /* Compact navigation for large tablets */
+  .nav-links {
+    gap: 0.75rem;
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+  }
+
+  /* Adjusted hero sizing */
+  .hero-title h1 {
+    font-size: clamp(3.5rem, 7vw, 5rem);
+  }
+
+  /* Grid adjustments for large tablets */
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Extra-large breakpoint - 1920px */
 @media (min-width: 1920px) {
   .container {
@@ -2721,5 +2810,96 @@ article.blog-post img:hover {
 
   .hero-title h1 {
     font-size: clamp(6rem, 10vw, 10rem);
+  }
+}
+
+/* ============================================
+   Container Queries (Future-Proof)
+
+   Container queries allow component-level responsiveness
+   independent of viewport size. These provide more granular
+   control when components are used in different contexts.
+   ============================================ */
+
+/* Define container contexts */
+.container-query {
+  container-type: inline-size;
+}
+
+.card-container {
+  container-type: inline-size;
+}
+
+/* Card responsive to its container width */
+@container (max-width: 400px) {
+  .card-responsive {
+    padding: var(--spacing-md);
+  }
+
+  .card-responsive .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-responsive .card-description {
+    font-size: 0.9rem;
+  }
+}
+
+@container (min-width: 401px) and (max-width: 600px) {
+  .card-responsive {
+    padding: var(--spacing-lg);
+  }
+
+  .card-responsive .card-title {
+    font-size: 1.25rem;
+  }
+}
+
+@container (min-width: 601px) {
+  .card-responsive {
+    padding: var(--spacing-xl);
+  }
+
+  .card-responsive .card-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Navigation container query for flexibility in different layouts */
+.nav-container-query {
+  container-type: inline-size;
+}
+
+@container (max-width: 500px) {
+  .nav-responsive .nav-links {
+    gap: 0.5rem;
+  }
+
+  .nav-responsive .nav-links a {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Grid container that adapts to available space */
+.grid-container {
+  container-type: inline-size;
+}
+
+@container (max-width: 400px) {
+  .grid-responsive {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container (min-width: 401px) and (max-width: 700px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container (min-width: 701px) {
+  .grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

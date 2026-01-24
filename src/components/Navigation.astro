@@ -139,18 +139,46 @@ const currentPath = Astro.url.pathname;
     pointer-events: none;
   }
 
-  /* Prevent horizontal overflow on smaller screens (between 520px and 768px) */
-  @media (min-width: 521px) and (max-width: 768px) {
+  /* Prevent horizontal overflow on smaller screens (between tablet breakpoint and desktop) */
+  @media (min-width: 769px) and (max-width: 900px) {
     nav {
       min-width: unset;
       width: calc(100% - 32px);
+      max-width: 480px;
       left: 50%;
       transform: translateX(-50%);
     }
   }
 
-  /* Large tablet adjustments - keep desktop nav but reduce size */
-  @media (min-width: 769px) and (max-width: 1024px) {
+  /* Large tablet adjustments (769px-900px) - compact nav for iPad Pro landscape etc */
+  @media (min-width: 769px) and (max-width: 900px) {
+    nav {
+      min-width: 400px;
+      max-width: 420px;
+      padding: 20px 24px;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      gap: 0.5rem;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    @media (hover: hover) {
+      nav:hover {
+        min-width: 480px;
+        max-width: 500px;
+        padding: 20px 28px;
+      }
+    }
+  }
+
+  /* Standard tablet to small desktop (901px-1024px) */
+  @media (min-width: 901px) and (max-width: 1024px) {
     nav {
       min-width: 440px;
       max-width: 440px;
@@ -158,7 +186,7 @@ const currentPath = Astro.url.pathname;
       font-size: 1.2rem;
     }
 
-    @media (hover: hover) and (min-width: 769px) {
+    @media (hover: hover) {
       nav:hover {
         min-width: 520px;
         max-width: 520px;
@@ -561,9 +589,41 @@ const currentPath = Astro.url.pathname;
     opacity: 1 !important;
     translate: none !important;
   }
+
+  /* Touch device optimizations */
+  @media (pointer: coarse) {
+    /* Larger tap targets for touch (min 44px per WCAG) */
+    .nav-links a {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .mobile-menu-button,
+    .close-menu {
+      min-width: 48px;
+      min-height: 48px;
+    }
+
+    .mobile-nav-links a {
+      min-height: 48px;
+      padding: 1rem 1.25rem;
+    }
+
+    /* Remove hover effects on touch devices */
+    nav:hover {
+      top: 24px;
+      min-width: 480px;
+      max-width: 480px;
+    }
+  }
 </style>
 
 <script>
+  // Breakpoint constants - keep in sync with src/utils/breakpoints.ts
+  const BREAKPOINT_TABLET = 768;
+
   const vertexShader = `
     attribute vec2 position;
     void main() {
@@ -859,8 +919,8 @@ const currentPath = Astro.url.pathname;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
 
-    // Skip on mobile
-    if (window.innerWidth <= 768) {
+    // Skip on mobile/tablet
+    if (window.innerWidth <= BREAKPOINT_TABLET) {
       canvas.style.display = 'none';
       return;
     }
@@ -1044,7 +1104,7 @@ const currentPath = Astro.url.pathname;
     // Resize handler
     window.addEventListener('resize', () => {
       resize();
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= BREAKPOINT_TABLET) {
         canvas.style.display = 'none';
         if (animationFrame) cancelAnimationFrame(animationFrame);
       } else {

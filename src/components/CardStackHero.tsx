@@ -615,19 +615,33 @@ export default function CardStackHero() {
           z-index: 10;
         }
 
-        /* Responsive */
-        @media (max-width: 1100px) {
-          .cards-wrapper {
-            transform: scale(0.85);
+        /* Responsive - Fluid scaling using CSS clamp() for smoother transitions
+           Scale range: 0.55 (mobile) to 1.0 (desktop)
+           Formula: clamp(min, preferred, max) where preferred scales with viewport */
+        .cards-wrapper {
+          /* Fluid scale: 0.55 at 320px viewport, 1.0 at 1100px viewport */
+          --card-scale: clamp(0.55, 0.35 + 0.045 * (100vw - 320px) / 7.8, 1);
+          transform: scale(var(--card-scale));
+          transform-origin: center top;
+        }
+
+        /* Large tablet breakpoint - 900px (iPad Pro, Surface) */
+        @media (min-width: 769px) and (max-width: 900px) {
+          .card-stack-hero {
+            min-height: 420px;
+          }
+
+          .card-stack-container {
+            height: 400px;
+          }
+
+          .card-selected {
+            width: 300px;
+            margin-left: -150px;
           }
         }
 
-        @media (max-width: 900px) {
-          .cards-wrapper {
-            transform: scale(0.75);
-          }
-        }
-
+        /* Tablet breakpoint - 768px */
         @media (max-width: 768px) {
           .card-stack-hero {
             min-height: 400px;
@@ -639,7 +653,6 @@ export default function CardStackHero() {
 
           .cards-wrapper {
             margin-top: 15px;
-            transform: scale(0.65);
           }
 
           .card-selected {
@@ -652,11 +665,8 @@ export default function CardStackHero() {
           }
         }
 
+        /* Mobile breakpoint - 480px */
         @media (max-width: 480px) {
-          .cards-wrapper {
-            transform: scale(0.55);
-          }
-
           .card-stack-container {
             height: 320px;
           }
@@ -664,6 +674,19 @@ export default function CardStackHero() {
           .card-selected {
             width: 260px;
             margin-left: -130px;
+          }
+        }
+
+        /* Touch device optimizations */
+        @media (pointer: coarse) {
+          .card {
+            /* Ensure minimum tap target size */
+            min-height: 44px;
+          }
+
+          .card-link {
+            min-height: 44px;
+            padding: 12px 20px;
           }
         }
       `}</style>
