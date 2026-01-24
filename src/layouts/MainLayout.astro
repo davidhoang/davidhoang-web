@@ -8,7 +8,7 @@ import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import { ViewTransitions } from 'astro:transitions';
-import imgBgNoise from '../assets/images/img-bg-noise.png';
+import imgBgNoise from '../assets/images/img-bg-noise.webp';
 
 interface Props {
   title: string;
@@ -20,7 +20,7 @@ interface Props {
 const { 
   title, 
   description = "The official website of David Hoang", 
-  ogImage = "/images/img-dh-web-light.jpg",
+  ogImage = "/images/img-dh-web-light.webp",
   hideFooter = false
 } = Astro.props;
 

@@ -14,7 +14,7 @@ Pandora’s Box was open. From there, it spiraled into Secret Wars theory videos
 
 As the Marvel multiverse collapses from a series of catastrophic incursions, Doctor Doom seizes godlike power and creates a new patchwork world called Battleworld, where fragments of destroyed realities are stitched together under his rule. Avengers: Secret Wars is set to release in 2027, which is fifteen years after the original [Avengers](https://www.imdb.com/title/tt0848228/) film.
 
-![](/images/blog/img-2025-04-incursion@2x.jpg)
+![](/images/blog/img-2025-04-incursion@2x.webp)
 
 ## The AI incursion
 

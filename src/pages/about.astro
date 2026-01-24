@@ -7,7 +7,7 @@ import { dirname, join } from 'path';
 
 // Page metadata
 const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
-const ogImage = "/images/img-david-sf.jpg";
+const ogImage = "/images/img-david-sf.webp";
 
 // HTML escape helper to prevent XSS
 function escapeHtml(str: string): string {
@@ -131,7 +131,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
   <PageHeader
     title="About"
-    image="/images/header-images/img-about.jpg"
+    image="/images/header-images/img-about.webp"
     alt="David Hoang"
   />
   <div class="container">

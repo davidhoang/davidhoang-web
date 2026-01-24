@@ -74,7 +74,7 @@ const cards: Card[] = [
     pattern: 'none',
     link: '/about',
     linkText: 'Learn more',
-    thumbnail: '/images/img-dh-web-light.jpg'
+    thumbnail: '/images/img-dh-web-light.webp'
   },
 ];
 

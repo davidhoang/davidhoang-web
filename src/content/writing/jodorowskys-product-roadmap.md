@@ -11,11 +11,11 @@ In the 1970s, film director Alejandro Jodorowsky took on what people said was th
 
 From the beginning, Jodorowsky had a grand vision, and names such as Salvador Dalí, Mick Jagger, Orson Welles, and Pink Floyd were set to star in the film. He even offered to pay Dalí a fee of $100,000 per hour. Personally, I think that’s a pretty good rate in 1974. Jodorowsky had an uncompromising vision, proclaiming that there would be no script notes, and the film had to be produced 100% aligned with how he imagined it.
 
-![Jodorowsky](/images/blog/img-2021-jodorowskysbacklog-02.jpg)
+![Jodorowsky](/images/blog/img-2021-jodorowskysbacklog-02.webp)
 
 In addition to the star power of the on-screen talent, the designers who Jodorowsky recruited might be lesser known to the general public, but perhaps had a larger impact. This design cast included Chris Foss (a well-known science fiction cover artist), Jean Giraud (better known as Moebius in the comic book world), and H.R. Giger. Jodorowsky would lead his team of spiritual warriors who would make Dune come to life on the big screen.
 
-![Artwork and storyboards created by the amazing Moebius](/images/blog/img-2021-jodorowskysbacklog-01.jpg)
+![Artwork and storyboards created by the amazing Moebius](/images/blog/img-2021-jodorowskysbacklog-01.webp)
 
 The team of spiritual warriors spent $2 million of the $9.5 million budget on pre-production, with the film being about 14 hours long, and he wanted the film to be 20 hours. No rational production studio would take the risk on Jodorowsky’s massive vision, and the hope of this film actually being produced collapsed. With the project dead, the rights were sold to producer Dino De Laurentiis in 1984 (yes, he’s the grandfather of Giada from The Food Network), who ultimately hired David Lynch to direct. All that was left of Jodorowsky’s Dune was a book of concepts and storyboards the size of a Yellow Pages phone book.
 
@@ -25,7 +25,7 @@ Jodorowsky’s Dune is a prime example of an uncompromised vision that never mad
 
 The year was 1989 and Apple Inc. was headed by John Sculley, the former Pepsi CEO who co-founder Steve Jobs hired, and who ultimately fired Jobs. Without Jobs at the helm, the computer company was looking for new product innovation. Apple employee Marc Porat, known for his entrepreneurial spirit and big ideas, convinced Sculley that the future of computing would be a partnership of computer, communications, and consumer electronics companies. Known as the Paradigm project, the initiative lacked traction internally at Apple. Porat took the initiative and spun it out as its own company separate from Apple. General Magic was born. Porat recruited two key Apple engineers, Andy Hertzfeld and Bill Atkinson, to join this ragtag team of magicians to build the future of computing.
 
-![Photo of the team at General Magic](/images/blog/img-2021-general-magic.jpg)
+![Photo of the team at General Magic](/images/blog/img-2021-general-magic.webp)
 
 General Magic worked on an operating system called Magic Cap designed with mobile computing in mind, which was a wild idea in the early 90s when you still had to call the internet to connect. Magic Cap used the metaphor of rooms as a virtual office you could navigate on your mobile device. General Magic was able to get further in production than Jodorowsky simply by existing and still having money to work on their vision.
 
