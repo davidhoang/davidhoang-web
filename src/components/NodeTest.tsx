@@ -11,7 +11,7 @@ const testNode = {
   date: '1995',
   dateRange: '1995',
   pathTaken: true,
-  image: '/images/odyssey/img-command-and-conquer.jpg',
+  image: '/images/odyssey/img-command-and-conquer.webp',
   connections: ['output-1', 'output-2'], // Outputs
   x: 0,
   y: 0,

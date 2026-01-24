@@ -1,8 +1,8 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import imgDavidSydney from '../assets/images/img-david-sydney.jpeg';
-import imgDavidNow from '../assets/images/img-david-now.jpeg';
-import imgDavidHawaii from '../assets/images/img-david-hawaii.jpeg';
+import imgDavidSydney from '../assets/images/img-david-sydney.webp';
+import imgDavidNow from '../assets/images/img-david-now.webp';
+import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
 
 // Get current date for the last updated timestamp
 const currentDate = new Date().toLocaleDateString('en-US', {
@@ -20,7 +20,7 @@ const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1);
 
 // Page metadata
 const pageDescription = "What I'm currently up to: working on AI at Atlassian, taking care of a new kitten, vibe coding Tapestry, writing Proof of Concept newsletter, and more.";
-const ogImage = "/images/img-david-now.jpeg";
+const ogImage = "/images/img-david-now.webp";
 ---
 
 <MainLayout title="Now | David Hoang" description={pageDescription} ogImage={ogImage}>

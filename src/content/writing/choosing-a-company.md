@@ -2,7 +2,7 @@
 title: "Choosing a company"
 pubDate: 2023-12-31
 description: "A framework for evaluating your next role"
-coverImage: "/images/blog/img-2023-01-05-choosing-company.jpeg"
+coverImage: "/images/blog/img-2023-01-05-choosing-company.webp"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)
 
@@ -13,7 +13,7 @@ I've asked this question to every person I've interviewed as a hiring manager fo
 
 Answers from candidates may be surprising. It might be a Software Engineer wanting to move into a Technical Product Manager (TPM) or a Product Designer with the desire to make impact in a different industry. Perhaps it is looking for a different pace/cadence in their work life. Take a look at my own notes of my optimization list.
 
-![Image showing optimization list](/images/blog/img-2023-01-05-choosing-company.jpeg)
+![Image showing optimization list](/images/blog/img-2023-01-05-choosing-company.webp)
 
 Early stage company building
 Design/dev tools, Marketplaces, or Creator Economy

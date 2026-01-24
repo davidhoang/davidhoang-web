@@ -25,7 +25,7 @@ In its early days, software distribution looked more like how we delivered physi
 ## The four types of software
 The forces of nature above will result in four types of software: Commercial, Boutique, Personal, and Disposable.
 
-![Four quadrants showing different types of software: Commercial, Boutique, Personal, and Disposable](/images/blog/2023-07-16-the-four-types-of-software.jpeg)
+![Four quadrants showing different types of software: Commercial, Boutique, Personal, and Disposable](/images/blog/2023-07-16-the-four-types-of-software.webp)
 
 ### Commercial
 This category is the majority of what we know today. It's enterprise software, CRMs, and administrative applications we interact with. It's purchased through a subscription or the elusive one-time purchase with a license. Typically, commercial software is provided to you by your employer. Another sub-category is software created by entities for administrative reasons, such as government websites. The category of this software might feel basic—enough to get a job done.

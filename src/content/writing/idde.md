@@ -6,7 +6,7 @@ description: "It's time to kill design handoff and create software differently"
 
 Many millennial designers grew up playing with Microsoft Paint—often the first UI drawing tool they used whether they knew it or not. This was also true for me, but there was another software that inspired me as a kid—Visual Basic 1.0. I thought the visual development environment for BASIC created by Alan Cooper was a design tool. From Visual Basic, to HyperCard, and to Macromedia Dreamweaver, I never cared (or knew) the difference between a design tool and development tool. It was about making something.
 
-![Screenshot of Visual Basic 1.0 development environment](/images/blog/img-188-visual-basic@2x.jpg)
+![Screenshot of Visual Basic 1.0 development environment](/images/blog/img-188-visual-basic@2x.webp)
 
 2008 to 2015 were formative years as a designer. I immersed myself in as many tools as possible and found ways to subvert them to build something; some of my favorites being Quartz Composer, Xcode, Framer.js, and coding on TextMate 2. Blending design tools with ways to build, I became enamored with the concept of an Integrated Design (and) Development Environment (IDDE).
 
@@ -30,12 +30,12 @@ I came up with a few thoughts on what matters in an infused workflow and this is
 - People break each other's design and code all the time and this often results in manual reconciliation
 - Presence and communication—the ability to have visibility on how changes impact the work
 
-![Illustration of integrated design and development environment](/images/blog/img-188-cover@2x.jpg)
+![Illustration of integrated design and development environment](/images/blog/img-188-cover@2x.webp)
 
 ## The IDDE is a software creation platform
 It's an exciting time for everyone to participate in software creation. The infusion of design and dev tools is not replacing people, but empowering so many others with software developers being more important than ever.
 
-![Diagram showing the expansion of software creation platforms](/images/blog/img-188-software-creation-expansion@2x.jpg)
+![Diagram showing the expansion of software creation platforms](/images/blog/img-188-software-creation-expansion@2x.webp)
 
 The IDDE has been something I've been thinking about for more than ten years in my career. I can't think of a greater purpose than building tools that revolutionize the internet. I was motivated by this mission at Webflow and now get to work on it at Replit.
 

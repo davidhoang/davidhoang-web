@@ -16,7 +16,7 @@ Building your designs doesn’t assume production code. Less than 5% of the code
 
 One of my favorite use cases to build my designs is to quickly navigate through the interface flow. When I used to work on iOS apps, my favorite method of building iOS prototypes was a simple Xcode project using UIStoryboard. Storyboards (as the name implies) made it easy to add interface elements in views and connect the views to have a first look at the experience. I’d compile the project and put it on a test iPhone, hand it to the developers for us to walk through the experience. Low-fidelity builds invoke high-fidelity questions. Even in the first run we could have a clear discussion on trade-offs and upcoming design challenges. I’d take the feedback and update the Product Requirements Doc (yes, designers should write PRDs).
 
-![Alt text](/images/blog/img-181-one-medical-storyboards@2x.jpg)
+![Alt text](/images/blog/img-181-one-medical-storyboards@2x.webp)
 
 Here is a video demo of the prototype I built. It’s all built in storyboards with a bit of Swift code to detect the logic. It did not take very long to build either! This is an example of how, with a little bit of technical acumen, you can put something very functional together. There are some designers out there who are truly unicorns in the craft—able to design and write code, even at the production level. They’re often called Design Engineers today, and I think they will be the most sought after role this decade.
 
@@ -27,7 +27,7 @@ When bringing a building or structure to life, interior designers work closely w
 
 When a sculptor creates a bronze statue, comprehension of the materials is not only the temperature the alloy needs to be heated to pour into the mold. What is the patina effect over time that might change the look of the sculpture? What is the weight and durability of the output? How will people maintain the piece years down the road? Though software is a different process than creating a physical object, there are similar considerations in the interface implementation and maintainability of the codebase.
 
-![Alt text](/images/blog/img-181-bronze-casting@2x.jpg)
+![Alt text](/images/blog/img-181-bronze-casting@2x.webp)
 
 Understanding the build materials fosters accessible design. If you care about accessibility, building your designs will make you even more considerate of it. It'll force you to think about the different states and properties of an interface. Running a built interface through a screen reader builds more empathy than a representation of an interface.
 
@@ -56,4 +56,4 @@ Building your designs makes you a better designer.
 
 Designers build.
 
-![Designer working on building and implementing designs](/images/blog/img-181-cover@2x.jpg)
+![Designer working on building and implementing designs](/images/blog/img-181-cover@2x.webp)
