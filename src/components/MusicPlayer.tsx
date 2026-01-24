@@ -248,6 +248,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
         }
         // Don't disconnect source or close context here - reuse them
         // Only cleanup on component unmount
@@ -256,6 +257,23 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
       console.error('Audio context initialization failed:', error);
     }
   }, [isPlaying, currentTrack, isHydrated]);
+
+  // Cleanup on component unmount - cancel RAF and close audio context
+  useEffect(() => {
+    return () => {
+      // Cancel any pending animation frame
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+      // Close audio context to free resources
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+        audioContextRef.current.close().catch(() => {
+          // Ignore errors on cleanup
+        });
+      }
+    };
+  }, []);
 
   // Handle hydration
   useEffect(() => {

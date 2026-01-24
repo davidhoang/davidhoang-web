@@ -458,7 +458,12 @@
   border: var(--card-border-width) solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--card-padding);
-  transition: all 0.3s var(--ease-inertia);
+  /* Only transition specific properties for better performance - avoid `all` */
+  transition:
+    background-color 0.3s var(--ease-inertia),
+    border-color 0.3s var(--ease-inertia),
+    box-shadow 0.3s var(--ease-inertia),
+    transform 0.3s var(--ease-inertia);
 }
 
 .card-elevated {
@@ -476,6 +481,17 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  /* GPU acceleration for blur performance */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+/* Reduce blur on mobile for better performance */
+@media (max-width: 768px) {
+  .card-glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 [data-theme="dark"] .card-glass {
@@ -537,6 +553,17 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  /* GPU acceleration for blur performance */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+/* Reduce blur on mobile for better performance */
+@media (max-width: 768px) {
+  .surface-glass {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 [data-theme="dark"] .surface-glass {
@@ -618,7 +645,11 @@
 .img-themed {
   opacity: var(--image-opacity, 1);
   border-radius: var(--image-border-radius, var(--radius-md));
-  transition: all 0.4s var(--ease-inertia);
+  /* Specific transitions for better performance - avoid `all` */
+  transition:
+    opacity 0.4s var(--ease-inertia),
+    filter 0.4s var(--ease-inertia),
+    transform 0.4s var(--ease-inertia);
   max-width: 100%;
   height: auto;
 }
@@ -1226,10 +1257,30 @@ blockquote cite {
 .rounded { border-radius: var(--radius-md); }
 .rounded-xl { border-radius: var(--radius-xl); }
 
-/* Transitions */
-.transition { transition: all 0.4s var(--ease-inertia); }
+/* Transitions - Use specific property transitions instead of .transition class when possible */
+.transition {
+  transition:
+    color 0.4s var(--ease-inertia),
+    background-color 0.4s var(--ease-inertia),
+    border-color 0.4s var(--ease-inertia),
+    transform 0.4s var(--ease-inertia),
+    opacity 0.4s var(--ease-inertia),
+    box-shadow 0.4s var(--ease-inertia);
+}
 .transition-colors { transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia); }
 .transition-transform { transition: transform 0.4s var(--ease-inertia); }
+
+/* GPU Acceleration Utilities
+   Use these on elements that animate frequently for smoother performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.gpu-accelerated-opacity {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
 
 /* ============================================
    Prose Content (for markdown/blog posts)
@@ -1524,7 +1575,11 @@ body.mobile-menu-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  /* Specific transitions for better performance */
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -1590,11 +1645,14 @@ body.mobile-menu-open {
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   padding: var(--spacing-xl);
+  /* GPU layer for modal overlay performance */
+  transform: translateZ(0);
 }
 
 .node-card-wrapper.node-card-mobile {
@@ -1782,7 +1840,19 @@ body.mobile-menu-open {
 [data-card-style="glass"] .node-card {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  /* GPU acceleration for blur performance */
+  transform: translateZ(0);
+}
+
+/* Reduce glass blur on mobile for better performance */
+@media (max-width: 768px) {
+  [data-card-style="glass"] .card,
+  [data-card-style="glass"] .node-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 [data-theme="dark"][data-card-style="glass"] .card,
@@ -2000,7 +2070,11 @@ html:not([data-image-style]) .hero-portrait {
 [data-daily-theme] img:not(.avatar):not(.icon) {
   opacity: var(--image-opacity, 1);
   border-radius: var(--image-border-radius, var(--radius-md));
-  transition: all 0.4s ease;
+  /* Specific transitions for better performance - avoid `all` */
+  transition:
+    opacity 0.4s ease,
+    filter 0.4s ease,
+    transform 0.4s ease;
 }
 
 /* Vivid - full color, punchy */
