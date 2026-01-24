@@ -2,7 +2,7 @@
 title: "Design Engineering"
 pubDate: 2024-03-21
 description: "Thoughts on design engineering"
-image: "/images/blog/2024-03-design-engineering.jpeg"
+image: "/images/blog/2024-03-design-engineering.webp"
 ---
 Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/design-engineering?utm_source=publication-search)
 
@@ -12,7 +12,7 @@ In the early 2000s, the role of a Data Scientist became popular as data became i
 
 Data Science was transformative in tech in the 2010s. In the age of LLMs, multi-device interfaces, and everything seemingly being programming, Design Engineering will be the transformative practice in the 2020s.
 
-![Diagram illustrating the intersection of design and engineering disciplines in modern software development](/images/blog/2024-03-design-engineering.jpeg)
+![Diagram illustrating the intersection of design and engineering disciplines in modern software development](/images/blog/2024-03-design-engineering.webp)
 
 Design Engineering is not simply a rebrand of product design. Whether we like it or not, tech has a tendency to consolidate roles. Interaction Designers, UX Designers, UI Designers, and Visual Designers became Product Designers. Graphic Designers, Illustrators, Communications Designers, and Marketing Designers became Brand Designers.
 

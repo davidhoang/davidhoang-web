@@ -42,7 +42,7 @@ To understand the boundaries quickly, I navigate the most important parts of the
 - Meeting with people who understand the state of the business. Going directly to the CEO, founders, or execs might not be possible due to their schedule. Seek the data scientists, finance folks, and operations.
 - Advocates and skeptics of your org and what you might need to address
 
-![Drawing of what the fog of war looks like](/images/blog/img-204-cover.jpg)
+![Drawing of what the fog of war looks like](/images/blog/img-204-cover.webp)
 
 There is likely a reason you were hired and it’s important to emphasize your external value immediately. We might feel cognizant of not wanting to step on toes and assimilate to the new company. However, you were hired to bring your external skill and perspective. Don’t forget that. Since it’s impossible to turn yourself into a tenured employee of the new company, you gain wins by bringing your external value to them immediately. This might be the institutional knowledge you have in an industry or craft. It could be your skill in building teams. Identify that and push hard in those areas.
 
