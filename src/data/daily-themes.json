@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Prairie Telegraph",
+      "description": "Wide open spaces meet vintage communication - earthy warmth with geometric precision",
+      "colors": {
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#C5303E",
+          "--color-border": "#D4A574",
+          "--color-muted": "#8B6F47",
+          "--color-sidebar-bg": "#F4E6D7",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FAF0E6"
+        },
+        "dark": {
+          "--color-text": "#F4E6D7",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C42",
+          "--color-border": "#5D4037",
+          "--color-muted": "#A1887F",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F4E6D7",
+          "--color-card-bg": "#261A11"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-01-25"
+    },
+    {
       "name": "Tokyo Neon Rain",
       "description": "Cyberpunk elegance meets late-night city vibes with electric accents and fluid typography",
       "colors": {
@@ -598,105 +696,7 @@
         "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-19"
-    },
-    {
-      "name": "Sunday Morning Velvet",
-      "description": "Warm burgundy hues with luxurious textures inspired by lazy weekend mornings in a vintage jazz café",
-      "colors": {
-        "light": {
-          "--color-text": "#2D1B25",
-          "--color-bg": "#FDF5F3",
-          "--color-link": "#D63384",
-          "--color-link-hover": "#B02A5B",
-          "--color-border": "#E8D5D0",
-          "--color-muted": "#8B6F6B",
-          "--color-sidebar-bg": "#F7E9E4",
-          "--color-nav-bg": "#FDF5F3",
-          "--color-nav-text": "#2D1B25",
-          "--color-card-bg": "#FEFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8D5D0",
-          "--color-bg": "#1A0F14",
-          "--color-link": "#FF69B4",
-          "--color-link-hover": "#FF1493",
-          "--color-border": "#3D2A31",
-          "--color-muted": "#8B7B7D",
-          "--color-sidebar-bg": "#241B20",
-          "--color-nav-bg": "#1A0F14",
-          "--color-nav-text": "#E8D5D0",
-          "--color-card-bg": "#201419"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.015em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "56px",
-        "padding": "0.75rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 20px rgba(45, 27, 37, 0.08)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-18"
     }
   ],
-  "currentDate": "2026-01-24"
+  "currentDate": "2026-01-25"
 }
