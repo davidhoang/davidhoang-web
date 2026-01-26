@@ -4597,26 +4597,28 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
                               // Keep the node hovered so it stays visible in inspector
                               // Don't call setHoveredNode(null) here
                               // Explicitly allow default behavior for browser context menu
-                              // Log node data for inspection
-                              console.group('🔍 Node Inspection');
-                              console.log('Node Data:', {
-                                id: node.id,
-                                label: node.label,
-                                type: node.type,
-                                date: node.date,
-                                dateRange: node.dateRange,
-                                connections: node.connections,
-                                pathTaken: node.pathTaken,
-                                image: node.image,
-                                position: { x: node.x, y: node.y },
-                                dimensions: { width: node.width, height: node.height }
-                              });
-                              console.log('Full Node Object:', node);
-                              console.log('Node in Console:', node);
-                              // Store node in window for easy access
-                              (window as any).__inspectedNode = node;
-                              console.log('💡 Tip: Access this node via window.__inspectedNode');
-                              console.groupEnd();
+                              // Log node data for inspection (dev only)
+                              if (process.env.NODE_ENV === 'development') {
+                                console.group('🔍 Node Inspection');
+                                console.log('Node Data:', {
+                                  id: node.id,
+                                  label: node.label,
+                                  type: node.type,
+                                  date: node.date,
+                                  dateRange: node.dateRange,
+                                  connections: node.connections,
+                                  pathTaken: node.pathTaken,
+                                  image: node.image,
+                                  position: { x: node.x, y: node.y },
+                                  dimensions: { width: node.width, height: node.height }
+                                });
+                                console.log('Full Node Object:', node);
+                                console.log('Node in Console:', node);
+                                // Store node in window for easy access
+                                (window as any).__inspectedNode = node;
+                                console.log('💡 Tip: Access this node via window.__inspectedNode');
+                                console.groupEnd();
+                              }
                             }}
                             Konva={Konva}
                             Rect={Rect}

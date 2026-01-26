@@ -616,9 +616,8 @@ const hasThemes = themes.length > 0;
       root.style.setProperty(key, value);
     });
 
-    // Apply font pairings (new structure) or single font (legacy)
+    // Apply font pairings
     if (themeData.fonts) {
-      // New font pairing structure
       const headingFont = themeData.fonts.heading;
       const bodyFont = themeData.fonts.body;
 
@@ -627,17 +626,10 @@ const hasThemes = themes.length > 0;
       }
       if (bodyFont) {
         root.style.setProperty('--font-body', bodyFont.stack);
-        root.style.setProperty('--font-primary', bodyFont.stack); // Backward compat
+        root.style.setProperty('--font-primary', bodyFont.stack);
       }
 
-      // Load both fonts
       loadFonts([headingFont, bodyFont].filter(Boolean));
-    } else if (themeData.font) {
-      // Legacy single font
-      root.style.setProperty('--font-primary', themeData.font.stack);
-      root.style.setProperty('--font-heading', themeData.font.stack);
-      root.style.setProperty('--font-body', themeData.font.stack);
-      loadFonts([themeData.font]);
     }
 
     // Apply typography variations
