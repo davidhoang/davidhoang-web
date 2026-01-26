@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import CareerOdysseyComponent from '../components/CareerOdyssey.tsx';
+import CareerOdysseyWrapper from '../components/CareerOdysseyWrapper.tsx';
 import careerData from '../data/career-odyssey.json';
 
 // Page metadata
@@ -10,7 +10,7 @@ const ogImage = "/images/img-dh.webp";
 
 <MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true}>
   {/* @ts-ignore - JSON import types don't match exactly */}
-  <CareerOdysseyComponent client:load careerData={careerData} />
+  <CareerOdysseyWrapper client:load careerData={careerData} />
 </MainLayout>
 
 <style>

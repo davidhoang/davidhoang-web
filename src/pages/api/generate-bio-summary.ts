@@ -22,7 +22,10 @@ export const GET: APIRoute = async () => {
         contentLength: aiSummary.content?.length || 0
       }), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=3600'
+        }
       });
     } catch (error) {
       return new Response(JSON.stringify({
@@ -30,7 +33,10 @@ export const GET: APIRoute = async () => {
         message: 'AI summary not yet generated'
       }), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=3600'
+        }
       });
     }
   } catch (error: any) {
@@ -93,7 +99,7 @@ export const POST: APIRoute = async ({ request }) => {
           'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
-          model: 'claude-3-haiku-20240307',
+          model: 'claude-haiku-4-5',
           max_tokens: 1000,
           messages: [{
             role: 'user',
