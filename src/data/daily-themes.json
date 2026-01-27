@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Tangerine Typewriter",
+      "description": "Bold retro editorial energy with warm citrus tones and mechanical precision.",
+      "colors": {
+        "light": {
+          "--color-text": "#2D1B0F",
+          "--color-bg": "#FFF5E6",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#E55A2B",
+          "--color-border": "#E6D5C3",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#FDEBD0",
+          "--color-nav-bg": "#FF6B35",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#FDEDEC"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8A5C",
+          "--color-border": "#3D2A1F",
+          "--color-muted": "#A68B73",
+          "--color-sidebar-bg": "#261A11",
+          "--color-nav-bg": "#FF6B35",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#2C1810"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Oswald",
+          "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "0.95",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Oswald",
+        "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-01-27"
+    },
+    {
       "name": "Midnight Diner",
       "description": "Late-night Tokyo izakaya atmosphere with warm amber lighting and intimate shadows",
       "colors": {
@@ -554,99 +652,7 @@
         "colors": []
       },
       "date": "2026-01-16"
-    },
-    {
-      "name": "Gilded Geometry",
-      "description": "Art Deco elegance meets dawn's gentle awakening with luxurious gold accents and sharp geometric precision.",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FEF8F0",
-          "--color-link": "#D4AF37",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#E8D5B7",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#F5F0E8",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#FEF8F0",
-          "--color-card-bg": "#FDFAF5"
-        },
-        "dark": {
-          "--color-text": "#F5F0E8",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFC107",
-          "--color-border": "#3D2817",
-          "--color-muted": "#A68B5B",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#0D0704",
-          "--color-nav-text": "#F5F0E8",
-          "--color-card-bg": "#241409"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "centered"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "date": "2026-01-15"
     }
   ],
-  "currentDate": "2026-01-21"
+  "currentDate": "2026-01-27"
 }
