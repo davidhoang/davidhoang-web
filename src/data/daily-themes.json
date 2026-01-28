@@ -1,6 +1,107 @@
 {
   "themes": [
     {
+      "name": "Jazz Age Cinema",
+      "description": "Glamorous 1920s movie palace meets Art Deco elegance with rich golds and deep burgundy.",
+      "colors": {
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF8F0",
+          "--color-link": "#D4AF37",
+          "--color-link-hover": "#B8860B",
+          "--color-border": "#E6D7C3",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#F5F0E8",
+          "--color-nav-bg": "#FAF5ED",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FEFBF6"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFA500",
+          "--color-border": "#3D2817",
+          "--color-muted": "#A0846B",
+          "--color-sidebar-bg": "#261A11",
+          "--color-nav-bg": "#2C1810",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#221611"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Playfair Display",
+          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2.5rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 12px 36px rgba(212, 175, 55, 0.15)",
+        "borderWidth": "1px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "centered"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#D4AF37",
+          "#2C1810"
+        ]
+      },
+      "font": {
+        "name": "Playfair Display",
+        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-28"
+    },
+    {
       "name": "Tangerine Typewriter",
       "description": "Bold retro editorial energy with warm citrus tones and mechanical precision.",
       "colors": {
@@ -560,99 +661,7 @@
         "colors": []
       },
       "date": "2026-01-17"
-    },
-    {
-      "name": "Soviet Brutalism",
-      "description": "Raw concrete aesthetics meet bold red propaganda-inspired design with stark typography and industrial precision.",
-      "colors": {
-        "light": {
-          "--color-text": "#1A1A1A",
-          "--color-bg": "#F5F2F0",
-          "--color-link": "#CC0000",
-          "--color-link-hover": "#990000",
-          "--color-border": "#CCCCCC",
-          "--color-muted": "#666666",
-          "--color-sidebar-bg": "#E8E5E3",
-          "--color-nav-bg": "#1A1A1A",
-          "--color-nav-text": "#F5F2F0",
-          "--color-card-bg": "#EEEBE9"
-        },
-        "dark": {
-          "--color-text": "#F0F0F0",
-          "--color-bg": "#1C1C1C",
-          "--color-link": "#FF3333",
-          "--color-link-hover": "#FF6666",
-          "--color-border": "#444444",
-          "--color-muted": "#AAAAAA",
-          "--color-sidebar-bg": "#262626",
-          "--color-nav-bg": "#CC0000",
-          "--color-nav-text": "#FFFFFF",
-          "--color-card-bg": "#222222"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.5",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "date": "2026-01-16"
     }
   ],
-  "currentDate": "2026-01-27"
+  "currentDate": "2026-01-28"
 }
