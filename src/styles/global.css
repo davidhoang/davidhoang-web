@@ -143,6 +143,99 @@
 }
 
 /* ============================================
+   Mood Modification System
+   Real-time theme adjustments based on user mood
+   ============================================ */
+
+:root {
+  /* Mood modification variables - defaults to neutral */
+  --mood-saturation: 1;
+  --mood-contrast: 1;
+  --mood-brightness: 1;
+  --mood-hue-rotate: 0deg;
+  --mood-transition-speed: 0.4s;
+}
+
+/* Mood: Focus - reduced visual noise, high clarity */
+[data-mood="focus"] {
+  --mood-saturation: 0.8;
+  --mood-contrast: 1.1;
+  --mood-brightness: 1.02;
+  --mood-transition-speed: 0.6s;
+}
+
+/* Mood: Creative - vibrant and experimental */
+[data-mood="creative"] {
+  --mood-saturation: 1.15;
+  --mood-contrast: 1.05;
+  --mood-brightness: 1;
+  --mood-hue-rotate: 5deg;
+  --mood-transition-speed: 0.3s;
+}
+
+/* Mood: Relaxed - warm and gentle */
+[data-mood="relaxed"] {
+  --mood-saturation: 0.95;
+  --mood-contrast: 0.92;
+  --mood-brightness: 1.02;
+  --mood-hue-rotate: 10deg;
+  --mood-transition-speed: 0.8s;
+}
+
+/* ============================================
+   Intensity Modification System
+   Adjustable theme drama from subtle to bold
+   ============================================ */
+
+:root {
+  --intensity: 50;
+  --intensity-saturation: 1;
+  --intensity-contrast: 1;
+  --intensity-type-scale: 1;
+  --intensity-shadow-scale: 1;
+}
+
+/* Apply combined mood + intensity filters to body */
+body {
+  filter:
+    saturate(calc(var(--mood-saturation) * var(--intensity-saturation)))
+    contrast(calc(var(--mood-contrast) * var(--intensity-contrast)))
+    brightness(var(--mood-brightness))
+    hue-rotate(var(--mood-hue-rotate));
+  transition: filter calc(var(--mood-transition-speed) * 2) var(--ease-inertia);
+}
+
+/* Focus mood: reduce animation/motion */
+[data-mood="focus"] * {
+  animation-duration: 2s !important;
+}
+
+/* Creative mood: enhance interactive elements */
+[data-mood="creative"] a:hover,
+[data-mood="creative"] button:hover {
+  transform: scale(1.03);
+}
+
+/* Relaxed mood: softer shadows */
+[data-mood="relaxed"] {
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+/* E-ink mode overrides mood/intensity */
+[data-e-ink="true"] body {
+  filter: none !important;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================
    E-Ink Mode
    High contrast, grayscale, no effects
    Mimics e-reader displays (Kindle, reMarkable)
