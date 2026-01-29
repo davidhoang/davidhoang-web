@@ -69,9 +69,11 @@ export const POST: APIRoute = async ({ request }) => {
     const bioPath = join(__dirname, '../../content/bio.md');
     const bioContent = await readFile(bioPath, 'utf-8');
 
-    // Extract all bio sections to provide context
-    const sections = bioContent.split(/^##\s+(.+)$/gm);
-    const allBios = sections.filter((_, i) => i % 2 === 1).join('\n\n');
+    // Extract all bio content (everything after the initial HTML comment)
+    // The bio.md has sections like "## TLDR;", "## Speaker bio", etc.
+    // We want the actual content, not just headers
+    const contentWithoutComments = bioContent.replace(/<!--[\s\S]*?-->/g, '').trim();
+    const allBios = contentWithoutComments;
 
     // Get AI API key (supports OpenAI or Anthropic)
     const aiApiKey = import.meta.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY;
@@ -103,7 +105,17 @@ export const POST: APIRoute = async ({ request }) => {
           max_tokens: 1000,
           messages: [{
             role: 'user',
-            content: `Write a concise, engaging bio summary (2-3 paragraphs) in first person based on the following information. Write directly as David Hoang would, without any introductory phrases or meta-commentary. Match the tone of the existing bios:\n\n${allBios}`
+            content: `Write a concise, engaging bio summary (2-3 paragraphs) in first person based ONLY on the following information.
+
+CRITICAL RULES:
+- Use ONLY facts explicitly stated in the source material below
+- Do NOT invent or hallucinate any companies, roles, projects, or details
+- Do NOT add hobbies, interests, or details not mentioned
+- Write directly as David Hoang would, without introductory phrases
+- Match the professional tone of the existing bios
+
+Source material:
+${allBios}`
           }]
         })
       });
@@ -144,7 +156,17 @@ export const POST: APIRoute = async ({ request }) => {
           model: 'gpt-4o',
           messages: [{
             role: 'user',
-            content: `Write a concise, engaging bio summary (2-3 paragraphs) in first person based on the following information. Write directly as David Hoang would, without any introductory phrases or meta-commentary. Match the tone of the existing bios:\n\n${allBios}`
+            content: `Write a concise, engaging bio summary (2-3 paragraphs) in first person based ONLY on the following information.
+
+CRITICAL RULES:
+- Use ONLY facts explicitly stated in the source material below
+- Do NOT invent or hallucinate any companies, roles, projects, or details
+- Do NOT add hobbies, interests, or details not mentioned
+- Write directly as David Hoang would, without introductory phrases
+- Match the professional tone of the existing bios
+
+Source material:
+${allBios}`
           }],
           max_tokens: 1000
         })
