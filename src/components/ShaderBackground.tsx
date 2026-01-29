@@ -17,6 +17,7 @@ import {
   SimplexNoise,
   PaperTexture,
 } from '@paper-design/shaders-react';
+import MouseGlow from './MouseGlow';
 
 interface ShaderBackgroundProps {
   shader?: string;
@@ -105,6 +106,9 @@ export default function ShaderBackground({
     height: '100%',
   };
 
+  // Get the link color for mouse glow (falls back to first shader color)
+  const glowColor = currentColors[0] || '#ffffff';
+
   switch (currentShader) {
     case 'grain':
       return (
@@ -115,6 +119,7 @@ export default function ShaderBackground({
             color2={currentColors[1] || currentColors[0]}
             speed={speed}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -125,6 +130,7 @@ export default function ShaderBackground({
             style={shaderStyle}
             color={currentColors[0]}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -139,6 +145,7 @@ export default function ShaderBackground({
             color4={currentColors[3] || currentColors[1]}
             speed={speed}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -152,6 +159,7 @@ export default function ShaderBackground({
             speed={speed}
             scale={1.5}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -165,6 +173,7 @@ export default function ShaderBackground({
             color3={currentColors[2] || currentColors[0]}
             speed={speed}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -179,6 +188,7 @@ export default function ShaderBackground({
             gridSpacingX={0.03}
             gridSpacingY={0.03}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -192,6 +202,7 @@ export default function ShaderBackground({
             colorOuter={currentColors[2] || currentColors[0]}
             speed={speed}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -205,6 +216,7 @@ export default function ShaderBackground({
             speed={speed}
             scale={2}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 
@@ -218,6 +230,7 @@ export default function ShaderBackground({
             speed={speed}
             scale={2}
           />
+          <MouseGlow color={glowColor} />
         </div>
       );
 

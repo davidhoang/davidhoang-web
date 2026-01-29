@@ -71,6 +71,53 @@ const hasThemes = themes.length > 0;
           </button>
         ))}
       </div>
+
+      <div class="mood-section">
+        <span class="section-label">Mood</span>
+        <div class="mood-buttons">
+          <button class="mood-btn" data-mood="focus" title="Focus mode - reduced distractions">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            <span>Focus</span>
+          </button>
+          <button class="mood-btn" data-mood="creative" title="Creative mode - vibrant energy">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Creative</span>
+          </button>
+          <button class="mood-btn" data-mood="relaxed" title="Relaxed mode - warm and calm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+            </svg>
+            <span>Relaxed</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="intensity-section">
+        <div class="intensity-header">
+          <span class="section-label">Intensity</span>
+          <span class="intensity-value" id="intensity-display">Medium</span>
+        </div>
+        <div class="intensity-slider-container">
+          <span class="intensity-min">Subtle</span>
+          <input
+            type="range"
+            id="intensity-slider"
+            min="0"
+            max="100"
+            value="50"
+            class="intensity-slider"
+            aria-label="Theme intensity"
+          />
+          <span class="intensity-max">Bold</span>
+        </div>
+      </div>
+
       <div class="calendar-footer">
         <div class="sound-row">
           <span class="sound-label">Ambient sound</span>
@@ -393,6 +440,125 @@ const hasThemes = themes.length > 0;
     color: var(--color-link);
   }
 
+  /* Mood and Intensity sections */
+  .mood-section,
+  .intensity-section {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .mood-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .mood-btn {
+    flex: 1;
+    padding: 0.5rem;
+    background: var(--color-sidebar-bg);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.625rem;
+    font-family: var(--font-primary);
+    color: var(--color-muted);
+    transition: all 0.2s ease;
+  }
+
+  .mood-btn:hover {
+    border-color: var(--color-border);
+  }
+
+  .mood-btn.active {
+    border-color: var(--color-link);
+    color: var(--color-link);
+    background: var(--color-bg);
+  }
+
+  .mood-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .intensity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .intensity-value {
+    font-size: 0.625rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .intensity-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .intensity-min,
+  .intensity-max {
+    font-size: 0.5625rem;
+    color: var(--color-muted);
+    width: 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .intensity-max {
+    text-align: right;
+  }
+
+  .intensity-slider {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-border);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .intensity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--color-link);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .intensity-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .intensity-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--color-link);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+
   @media (max-width: 768px) {
     .daily-theme-toggle {
       bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
@@ -591,6 +757,17 @@ const hasThemes = themes.length > 0;
         if (toggleBtn) toggleBtn.setAttribute('aria-pressed', 'true');
 
         applyDailyTheme(date);
+
+        // Dispatch event for preference tracking
+        const themeDataStr = btn.getAttribute('data-theme-data');
+        if (themeDataStr) {
+          try {
+            const themeData = JSON.parse(themeDataStr);
+            window.dispatchEvent(new CustomEvent('theme-selected', { detail: themeData }));
+          } catch (e) {
+            // Ignore parse errors
+          }
+        }
       });
     });
   }
@@ -807,6 +984,97 @@ const hasThemes = themes.length > 0;
     root.removeAttribute('data-shader-colors');
   }
 
+  // Mood selector functionality
+  function initMoodSelector() {
+    const moodBtns = document.querySelectorAll('.mood-btn');
+    const currentMood = localStorage.getItem('user-mood') || null;
+
+    // Apply saved mood
+    if (currentMood) {
+      document.documentElement.setAttribute('data-mood', currentMood);
+      const activeBtn = document.querySelector(`.mood-btn[data-mood="${currentMood}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    moodBtns.forEach(btn => {
+      // Skip if already initialized
+      if (btn.dataset.moodInitialized === 'true') return;
+      btn.dataset.moodInitialized = 'true';
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const mood = btn.getAttribute('data-mood');
+        const isActive = btn.classList.contains('active');
+
+        // Toggle off if clicking active mood
+        if (isActive) {
+          document.documentElement.removeAttribute('data-mood');
+          localStorage.removeItem('user-mood');
+          btn.classList.remove('active');
+        } else {
+          document.documentElement.setAttribute('data-mood', mood);
+          localStorage.setItem('user-mood', mood);
+          moodBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+      });
+    });
+  }
+
+  // Intensity slider functionality
+  function initIntensitySlider() {
+    const slider = document.getElementById('intensity-slider');
+    const valueDisplay = document.getElementById('intensity-display');
+
+    if (!slider) return;
+
+    // Skip if already initialized
+    if (slider.dataset.intensityInitialized === 'true') return;
+    slider.dataset.intensityInitialized = 'true';
+
+    // Load saved intensity
+    const savedIntensity = localStorage.getItem('user-intensity') || '50';
+    slider.value = savedIntensity;
+    applyIntensity(parseInt(savedIntensity));
+
+    // Debounce for localStorage saves
+    let saveTimeout;
+
+    slider.addEventListener('input', (e) => {
+      const value = parseInt(e.target.value);
+      applyIntensity(value);
+
+      // Debounced save
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        localStorage.setItem('user-intensity', value.toString());
+      }, 300);
+    });
+
+    function applyIntensity(value) {
+      const root = document.documentElement;
+
+      // Map 0-100 to appropriate ranges
+      const saturation = 0.7 + (value / 100) * 0.6;       // 0.7 to 1.3
+      const contrast = 0.9 + (value / 100) * 0.25;        // 0.9 to 1.15
+      const typeScale = 0.9 + (value / 100) * 0.25;       // 0.9 to 1.15
+      const scale = 0.5 + (value / 100) * 1.0;            // 0.5 to 1.5
+
+      root.style.setProperty('--intensity', value);
+      root.style.setProperty('--intensity-saturation', saturation);
+      root.style.setProperty('--intensity-contrast', contrast);
+      root.style.setProperty('--intensity-type-scale', typeScale);
+      root.style.setProperty('--intensity-shadow-scale', scale);
+
+      // Update display text
+      if (valueDisplay) {
+        if (value < 33) valueDisplay.textContent = 'Subtle';
+        else if (value < 67) valueDisplay.textContent = 'Medium';
+        else valueDisplay.textContent = 'Bold';
+      }
+    }
+  }
+
   // Listen for theme toggle changes to update daily theme colors
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
@@ -822,11 +1090,17 @@ const hasThemes = themes.length > 0;
 
   observer.observe(document.documentElement, { attributes: true });
 
-  // Initialize
+  // Initialize all features
   initDailyTheme();
+  initMoodSelector();
+  initIntensitySlider();
 
   // Re-initialize after navigation
-  document.addEventListener('astro:page-load', initDailyTheme);
+  document.addEventListener('astro:page-load', () => {
+    initDailyTheme();
+    initMoodSelector();
+    initIntensitySlider();
+  });
 </script>
 
 <script>
@@ -906,4 +1180,25 @@ const hasThemes = themes.length > 0;
   // Initialize
   initSoundToggle();
   document.addEventListener('astro:page-load', initSoundToggle);
+</script>
+
+<script>
+  import { trackThemeSelection } from '../scripts/preference-tracker';
+
+  function initPreferenceTracking() {
+    // Check if already initialized
+    if ((window as any).__preferenceTrackingInitialized) return;
+    (window as any).__preferenceTrackingInitialized = true;
+
+    // Listen for theme selection events
+    window.addEventListener('theme-selected', ((e: CustomEvent) => {
+      if (e.detail) {
+        trackThemeSelection(e.detail);
+      }
+    }) as EventListener);
+  }
+
+  // Initialize
+  initPreferenceTracking();
+  document.addEventListener('astro:page-load', initPreferenceTracking);
 </script>
