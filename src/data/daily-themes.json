@@ -1,6 +1,107 @@
 {
   "themes": [
     {
+      "name": "Coral Laboratory",
+      "description": "Scientific precision meets underwater warmth in a vibrant research station aesthetic",
+      "colors": {
+        "light": {
+          "--color-text": "#2C5F5D",
+          "--color-bg": "#FEF7F7",
+          "--color-link": "#FF6B4A",
+          "--color-link-hover": "#E55039",
+          "--color-border": "#FFB3A1",
+          "--color-muted": "#7C9B99",
+          "--color-sidebar-bg": "#FDF0F0",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#2C5F5D",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#E8F4F8",
+          "--color-bg": "#1A2C2A",
+          "--color-link": "#FF7F66",
+          "--color-link-hover": "#FFB3A1",
+          "--color-border": "#3E5A58",
+          "--color-muted": "#A8C5C3",
+          "--color-sidebar-bg": "#243433",
+          "--color-nav-bg": "#2C4442",
+          "--color-nav-text": "#E8F4F8",
+          "--color-card-bg": "#2C4442"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Playfair Display",
+          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 4px 12px rgba(255, 107, 74, 0.08)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#FF6B4A",
+          "#2C5F5D"
+        ]
+      },
+      "font": {
+        "name": "Playfair Display",
+        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-01-30"
+    },
+    {
       "name": "Arctic Terminal",
       "description": "Ice-cold cyberpunk minimalism with crystalline precision and electric blue accents",
       "colors": {
@@ -578,99 +679,7 @@
         "colors": []
       },
       "date": "2026-01-19"
-    },
-    {
-      "name": "Sunday Morning Velvet",
-      "description": "Warm burgundy hues with luxurious textures inspired by lazy weekend mornings in a vintage jazz café",
-      "colors": {
-        "light": {
-          "--color-text": "#2D1B25",
-          "--color-bg": "#FDF5F3",
-          "--color-link": "#D63384",
-          "--color-link-hover": "#B02A5B",
-          "--color-border": "#E8D5D0",
-          "--color-muted": "#8B6F6B",
-          "--color-sidebar-bg": "#F7E9E4",
-          "--color-nav-bg": "#FDF5F3",
-          "--color-nav-text": "#2D1B25",
-          "--color-card-bg": "#FEFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8D5D0",
-          "--color-bg": "#1A0F14",
-          "--color-link": "#FF69B4",
-          "--color-link-hover": "#FF1493",
-          "--color-border": "#3D2A31",
-          "--color-muted": "#8B7B7D",
-          "--color-sidebar-bg": "#241B20",
-          "--color-nav-bg": "#1A0F14",
-          "--color-nav-text": "#E8D5D0",
-          "--color-card-bg": "#201419"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.015em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "56px",
-        "padding": "0.75rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 20px rgba(45, 27, 37, 0.08)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "date": "2026-01-18"
     }
   ],
-  "currentDate": "2026-01-29"
+  "currentDate": "2026-01-30"
 }
