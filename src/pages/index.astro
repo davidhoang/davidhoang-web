@@ -209,8 +209,16 @@ const ogImage = "/images/img-dh-web-light.webp";
         margin-top: 50px;
       }
 
+      /* Add horizontal padding to sections on mobile for shader themes */
+      .design-philosophy,
+      .portfolio-section {
+        padding-left: var(--container-padding, 1rem);
+        padding-right: var(--container-padding, 1rem);
+      }
+
       .philosophy-grid {
         grid-template-columns: 1fr;
+        padding-right: 0;
       }
 
       .portfolio-grid {
