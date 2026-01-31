@@ -1058,12 +1058,15 @@ main {
   padding-top: var(--content-top-padding);
   padding-bottom: 4rem;
   width: 100%;
+  /* CRITICAL: Never add top margin that would clip the layout */
+  margin-top: 0;
 }
 
 /* Ensure main always clears the fixed nav - higher specificity */
 main#main-content,
 main.container {
   padding-top: var(--content-top-padding);
+  margin-top: 0;
 }
 
 /* ============================================
@@ -2289,6 +2292,8 @@ article.blog-post img:hover {
   padding-bottom: 2rem;
   border-radius: var(--radius-lg, 12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  /* CRITICAL: Never add top margin that would clip the layout */
+  margin-top: 0 !important;
 }
 
 /* Remove container background on home page with card stack */
