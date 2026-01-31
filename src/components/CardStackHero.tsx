@@ -177,12 +177,18 @@ const cardPositions = [
   { x: 400, y: 35, rotation: 15 },
 ];
 
+const rotatingRoles = [
+  { label: 'Investor', link: null },
+  { label: 'Writer', link: 'https://www.proofofconcept.pub' },
+];
+
 export default function CardStackHero() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Use IntersectionObserver to defer animation until component is visible
@@ -230,6 +236,17 @@ export default function CardStackHero() {
       clearTimeout(completeTimer);
     };
   }, [isInView]);
+
+  const [isRolesExpanded, setIsRolesExpanded] = useState(false);
+
+  // Rotate through roles (pause when expanded)
+  useEffect(() => {
+    if (isRolesExpanded) return;
+    const interval = setInterval(() => {
+      setCurrentRoleIndex((prev) => (prev + 1) % rotatingRoles.length);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, [isRolesExpanded]);
 
   const handleCardClick = (cardId: string, link?: string) => {
     // About card navigates directly
@@ -281,7 +298,71 @@ export default function CardStackHero() {
             damping: 30,
           }}
         >
-          David Hoang is a designer and investor.
+          David Hoang is a Designer{'\u00A0'}
+          <a
+            href="https://www.youtube.com/watch?v=4lWYcr53kyI"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="and-link"
+            onClick={(e) => e.stopPropagation()}
+          >
+            and
+          </a>
+          {'\u00A0'}
+          <span
+            className="rotating-role-wrapper"
+            onMouseEnter={() => setIsRolesExpanded(true)}
+            onMouseLeave={() => setIsRolesExpanded(false)}
+          >
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={isRolesExpanded ? 'expanded' : currentRoleIndex}
+                className="rotating-role"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+              >
+                {isRolesExpanded ? (
+                  // Show all roles inline when expanded
+                  rotatingRoles.map((role, index) => (
+                    <span key={role.label}>
+                      {role.link ? (
+                        <a
+                          href={role.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="role-link"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {role.label}
+                        </a>
+                      ) : (
+                        <span>{role.label}</span>
+                      )}
+                      {index < rotatingRoles.length - 1 && <span className="role-separator">{'\u00A0'}/{'\u00A0'}</span>}
+                    </span>
+                  ))
+                ) : (
+                  // Show single rotating role
+                  rotatingRoles[currentRoleIndex].link ? (
+                    <a
+                      href={rotatingRoles[currentRoleIndex].link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="role-link"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {rotatingRoles[currentRoleIndex].label}
+                    </a>
+                  ) : (
+                    rotatingRoles[currentRoleIndex].label
+                  )
+                )}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+          .
         </motion.h1>
         <div className="cards-wrapper">
           {cards.map((card, index) => {
@@ -425,6 +506,44 @@ export default function CardStackHero() {
           width: 100%;
           max-width: 100%;
           box-sizing: border-box;
+        }
+
+        .and-link {
+          color: var(--color-link);
+          text-decoration: underline;
+          text-decoration-thickness: 2px;
+          text-underline-offset: 4px;
+          transition: color 0.2s ease, text-decoration-color 0.2s ease;
+          cursor: pointer;
+        }
+
+        .and-link:hover {
+          color: var(--color-link-hover);
+        }
+
+        .rotating-role-wrapper {
+          display: inline;
+          cursor: pointer;
+        }
+
+        .rotating-role {
+          display: inline;
+        }
+
+        .role-separator {
+          color: var(--color-muted);
+        }
+
+        .role-link {
+          color: var(--color-link);
+          text-decoration: underline;
+          text-decoration-thickness: 2px;
+          text-underline-offset: 4px;
+          transition: color 0.2s ease;
+        }
+
+        .role-link:hover {
+          color: var(--color-link-hover);
         }
 
         .cards-wrapper {

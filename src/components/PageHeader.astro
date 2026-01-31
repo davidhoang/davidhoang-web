@@ -193,7 +193,8 @@ const isImageVariant = variant === 'image' && image;
     height: 75vh;
     min-height: 300px;
     max-height: 600px;
-    margin-top: -4rem; /* Negate main padding */
+    /* Negate main padding dynamically - use CSS var with fallback */
+    margin-top: calc(-1 * var(--content-top-padding, 4rem));
     margin-bottom: 2rem;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);

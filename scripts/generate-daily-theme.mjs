@@ -204,6 +204,11 @@ Mix up these dramatically:
 - contentPadding: "0.5rem" (edge-to-edge) vs "3rem" (cushioned)
 - containerMaxWidth: "640px" (narrow/focused) to "1200px" (wide/expansive)
 
+CRITICAL LAYOUT RULES:
+1. Never add top margins or padding to the main container that would clip or push down the hero section. The hero must always be fully visible without any awkward gaps at the top. Top spacing should come from the navigation height only, not from container margins.
+2. Pages with hero images (like About) must have the hero extend fully to the top of the viewport beneath the navigation. No background color should be visible between the nav and the hero image.
+3. The shader/background color should never create a visible gap or border above the main content area.
+
 ## HERO LAYOUT - SET THE TONE!
 The hero section is the first thing visitors see - make it count:
 - "centered": Classic centered text, balanced and formal
