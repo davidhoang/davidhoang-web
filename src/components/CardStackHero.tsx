@@ -295,40 +295,25 @@ export default function CardStackHero() {
             damping: 30,
           }}
         >
-          David Hoang is a Designer{' '}
-          <a
+          David Hoang is a Designer <a
             href="https://www.youtube.com/watch?v=4lWYcr53kyI"
             target="_blank"
             rel="noopener noreferrer"
             className="and-link"
             onClick={(e) => e.stopPropagation()}
-          >
-            and
-          </a>{' '}
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={currentRoleIndex}
-              className="rotating-role"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
-            >
-              {rotatingRoles[currentRoleIndex].link ? (
-                <a
-                  href={rotatingRoles[currentRoleIndex].link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="role-link"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {rotatingRoles[currentRoleIndex].label}
-                </a>
-              ) : (
-                rotatingRoles[currentRoleIndex].label
-              )}
-            </motion.span>
-          </AnimatePresence>.
+          >and</a> <span className="rotating-role">{rotatingRoles[currentRoleIndex].link ? (
+              <a
+                href={rotatingRoles[currentRoleIndex].link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="role-link"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {rotatingRoles[currentRoleIndex].label}
+              </a>
+            ) : (
+              rotatingRoles[currentRoleIndex].label
+            )}</span>.
         </motion.h1>
         <div className="cards-wrapper">
           {cards.map((card, index) => {
