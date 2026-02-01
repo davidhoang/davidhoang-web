@@ -578,8 +578,17 @@ const hasThemes = themes.length > 0;
     }
 
     .theme-calendar {
-      right: -1rem;
-      max-width: 95vw;
+      position: fixed;
+      bottom: calc(60px + max(1rem, env(safe-area-inset-bottom, 1rem)));
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: calc(100vw - 2rem);
+      max-width: 420px;
+    }
+
+    .theme-calendar.open {
+      transform: translateX(-50%) translateY(0);
     }
   }
 
@@ -600,14 +609,21 @@ const hasThemes = themes.length > 0;
       width: 22px;
       height: 22px;
     }
+
+    .theme-calendar {
+      bottom: calc(64px + max(0.75rem, env(safe-area-inset-bottom, 0.75rem)));
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     button#daily-theme-toggle,
-    .theme-calendar,
     .calendar-day {
       transition: none !important;
       transform: none !important;
+    }
+
+    .theme-calendar {
+      transition: none !important;
     }
   }
 </style>
