@@ -66,6 +66,13 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Font preloading for critical performance improvement -->
+    <link rel="preload" href="/fonts/ABCDiatypeVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ABCDiatypeMonoVariable.woff2" as="font" type="font/woff2" crossorigin />
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+
     <!-- Browser theme color - blends browser UI with site -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
