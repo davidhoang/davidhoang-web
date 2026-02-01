@@ -295,13 +295,15 @@ export default function CardStackHero() {
             damping: 30,
           }}
         >
-          David Hoang is a Designer <a
+          David Hoang is a Designer{' '}
+          <a
             href="https://www.youtube.com/watch?v=4lWYcr53kyI"
             target="_blank"
             rel="noopener noreferrer"
             className="and-link"
             onClick={(e) => e.stopPropagation()}
-          >and</a> <span className="rotating-role">{rotatingRoles[currentRoleIndex].link ? (
+          >and</a>{' '}
+          <span className="rotating-role">{rotatingRoles[currentRoleIndex].link ? (
               <a
                 href={rotatingRoles[currentRoleIndex].link}
                 target="_blank"
@@ -446,16 +448,16 @@ export default function CardStackHero() {
         }
 
         .hero-title {
-          font-size: clamp(2rem, 5vw, 4.5rem);
+          font-size: clamp(1.75rem, 4vw, 3.5rem);
           font-weight: 700;
           margin: 0 auto 1.5rem auto;
           padding: 0 1rem;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
-          line-height: 1.1;
+          line-height: 1.2;
           width: 100%;
-          max-width: 100%;
+          max-width: 900px;
           box-sizing: border-box;
         }
 
@@ -473,7 +475,7 @@ export default function CardStackHero() {
         }
 
         .rotating-role {
-          display: inline-block;
+          display: inline;
         }
 
         .role-link {
