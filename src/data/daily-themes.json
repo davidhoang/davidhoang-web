@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Rust Monastery",
+      "description": "Weathered metal meets ancient stone, industrial textures with contemplative quietude.",
+      "colors": {
+        "light": {
+          "--color-text": "#2D1B1A",
+          "--color-bg": "#FDF6F0",
+          "--color-link": "#D2691E",
+          "--color-link-hover": "#A0522D",
+          "--color-border": "#E8D5C4",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#F5EDE3",
+          "--color-nav-bg": "#FAF0E6",
+          "--color-nav-text": "#2D1B1A",
+          "--color-card-bg": "#FAF2E9"
+        },
+        "dark": {
+          "--color-text": "#E8D5C4",
+          "--color-bg": "#1C1410",
+          "--color-link": "#FF6347",
+          "--color-link-hover": "#FF8C69",
+          "--color-border": "#3D2B1F",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#261A11",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#E8D5C4",
+          "--color-card-bg": "#2D1F17"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "500",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-01"
+    },
+    {
       "name": "Jazz Age Speakeasy",
       "description": "Art deco elegance meets underground rebellion with rich burgundy tones and theatrical typography",
       "colors": {
@@ -598,105 +696,7 @@
         "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
       },
       "date": "2026-01-20"
-    },
-    {
-      "name": "Electric Manuscript",
-      "description": "Digital age meets ancient scribes with vivid cyan accents and editorial precision",
-      "colors": {
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F8F6F0",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#E0DDD4",
-          "--color-muted": "#6B7280",
-          "--color-sidebar-bg": "#EFEDE7",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FFFFFF"
-        },
-        "dark": {
-          "--color-text": "#F1F5F9",
-          "--color-bg": "#16213E",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00FF7F",
-          "--color-border": "#334155",
-          "--color-muted": "#94A3B8",
-          "--color-sidebar-bg": "#1E293B",
-          "--color-nav-bg": "#0F172A",
-          "--color-nav-text": "#F1F5F9",
-          "--color-card-bg": "#1E293B"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "EB Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "500",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "768px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "EB Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-19"
     }
   ],
-  "currentDate": "2026-01-31"
+  "currentDate": "2026-02-01"
 }
