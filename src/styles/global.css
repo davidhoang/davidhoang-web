@@ -195,8 +195,15 @@
   --intensity-shadow-scale: 1;
 }
 
-/* Apply combined mood + intensity filters to body */
-body {
+/* Apply combined mood + intensity filters to content wrapper
+   NOTE: Cannot apply filter to body because it breaks position: fixed
+   for child elements (filter creates a new containing block).
+   Apply to .content-filter-wrapper instead. */
+.content-filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
   filter:
     saturate(calc(var(--mood-saturation) * var(--intensity-saturation)))
     contrast(calc(var(--mood-contrast) * var(--intensity-contrast)))
@@ -223,13 +230,13 @@ body {
 }
 
 /* E-ink mode overrides mood/intensity */
-[data-e-ink="true"] body {
+[data-e-ink="true"] .content-filter-wrapper {
   filter: none !important;
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  body {
+  .content-filter-wrapper {
     filter: none !important;
     transition: none !important;
   }

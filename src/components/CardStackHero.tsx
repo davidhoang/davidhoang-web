@@ -303,19 +303,19 @@ export default function CardStackHero() {
             className="and-link"
             onClick={(e) => e.stopPropagation()}
           >and</a>{' '}
-          <span className="rotating-role">{rotatingRoles[currentRoleIndex].link ? (
-              <a
-                href={rotatingRoles[currentRoleIndex].link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="role-link"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {rotatingRoles[currentRoleIndex].label}
-              </a>
-            ) : (
-              rotatingRoles[currentRoleIndex].label
-            )}</span>.
+          {rotatingRoles[currentRoleIndex].link ? (
+            <a
+              href={rotatingRoles[currentRoleIndex].link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="role-link"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {rotatingRoles[currentRoleIndex].label}
+            </a>
+          ) : (
+            rotatingRoles[currentRoleIndex].label
+          )}.
         </motion.h1>
         <div className="cards-wrapper">
           {cards.map((card, index) => {
@@ -448,17 +448,18 @@ export default function CardStackHero() {
         }
 
         .hero-title {
-          font-size: clamp(1.75rem, 4vw, 3.5rem);
+          font-size: clamp(1.1rem, 4.5vw, 3rem);
           font-weight: 700;
           margin: 0 auto 1.5rem auto;
-          padding: 0 1rem;
+          padding: 0 0.5rem;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
-          line-height: 1.2;
+          line-height: 1.3;
           width: 100%;
-          max-width: 900px;
+          max-width: 100%;
           box-sizing: border-box;
+          white-space: nowrap;
         }
 
         .and-link {
@@ -468,15 +469,13 @@ export default function CardStackHero() {
           text-underline-offset: 4px;
           transition: color 0.2s ease, text-decoration-color 0.2s ease;
           cursor: pointer;
+          margin: 0 0.15em;
         }
 
         .and-link:hover {
           color: var(--color-link-hover);
         }
 
-        .rotating-role {
-          display: inline;
-        }
 
         .role-link {
           color: var(--color-link);
@@ -484,6 +483,7 @@ export default function CardStackHero() {
           text-decoration-thickness: 2px;
           text-underline-offset: 4px;
           transition: color 0.2s ease;
+          margin-left: 0.15em;
         }
 
         .role-link:hover {

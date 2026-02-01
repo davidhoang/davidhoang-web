@@ -165,13 +165,17 @@ const ogImageUrl = ogImage.startsWith('http')
 
   </head>
   <body>
-    <ShaderBackground client:idle />
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <Navigation />
-    <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
-      <slot />
-    </main>
-    {!hideFooter && <Footer />}
+    <!-- Filter wrapper for mood/intensity effects - fixed UI elements must be outside -->
+    <div class="content-filter-wrapper">
+      <ShaderBackground client:idle />
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+      <Navigation />
+      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
+        <slot />
+      </main>
+      {!hideFooter && <Footer />}
+    </div>
+    <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
     <DailyThemeToggle />
     <ThemeToggle />
 
