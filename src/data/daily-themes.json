@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Velvet Thunder",
+      "description": "Electric energy meets luxurious depth in a bold display of contrasts and rich textures.",
+      "colors": {
+        "light": {
+          "--color-text": "#2D132C",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#FF3366",
+          "--color-link-hover": "#E63946",
+          "--color-border": "#E8B4CB",
+          "--color-muted": "#8B5A6B",
+          "--color-sidebar-bg": "#F8E6F0",
+          "--color-nav-bg": "#2D132C",
+          "--color-nav-text": "#FDF2E9",
+          "--color-card-bg": "#FDEDEC"
+        },
+        "dark": {
+          "--color-text": "#F8E6F0",
+          "--color-bg": "#2D132C",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#8B5A6B",
+          "--color-muted": "#C9A96E",
+          "--color-sidebar-bg": "#1A0F18",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2D132C",
+          "--color-card-bg": "#3D1B34"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Unbounded",
+          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2.5rem"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 12px 40px rgba(255, 51, 102, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "bold"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Unbounded",
+        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-02-02"
+    },
+    {
       "name": "Rust Monastery",
       "description": "Weathered metal meets ancient stone, industrial textures with contemplative quietude.",
       "colors": {
@@ -598,105 +696,7 @@
         "stack": "'Kalam', cursive"
       },
       "date": "2026-01-21"
-    },
-    {
-      "name": "Sage Brutalism",
-      "description": "Raw concrete meets organic wisdom in a stark editorial landscape",
-      "colors": {
-        "light": {
-          "--color-text": "#1A1A1A",
-          "--color-bg": "#F0F4F1",
-          "--color-link": "#FF4500",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#9CAF88",
-          "--color-muted": "#6B7B5C",
-          "--color-sidebar-bg": "#E8F0E9",
-          "--color-nav-bg": "#F0F4F1",
-          "--color-nav-text": "#1A1A1A",
-          "--color-card-bg": "#FAFCFB"
-        },
-        "dark": {
-          "--color-text": "#E8F0E9",
-          "--color-bg": "#1A2E1A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#4A5D4A",
-          "--color-muted": "#7A8F7A",
-          "--color-sidebar-bg": "#0F2027",
-          "--color-nav-bg": "#1A2E1A",
-          "--color-nav-text": "#E8F0E9",
-          "--color-card-bg": "#243324"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Anton",
-          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "3px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Anton",
-        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-01-20"
     }
   ],
-  "currentDate": "2026-02-01"
+  "currentDate": "2026-02-02"
 }
