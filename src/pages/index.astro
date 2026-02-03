@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import CardStackHero from '../components/CardStackHero';
+import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid, AnimatedSection } from '../components/AnimatedSections';
 import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.webp';
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.webp';
 import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.webp';
@@ -10,6 +11,47 @@ import imgHighlightsPoc from '../assets/images/highlights/img-highlights-proof-o
 // Page metadata
 const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
 const ogImage = "/images/img-dh-web-light.webp";
+
+// Philosophy items data
+const philosophyItems = [
+  { content: '<strong>Seek paradigm shifts.</strong> Imagine the future and build it now. Those who can spot trends of shifts will have enduring success.' },
+  { content: '<strong>Embrace the entrepreneurial spirit.</strong> Act like the owner of everything you do.', id: 'e3d275' },
+  { content: '<strong>Software is beautiful.</strong> Making high quality software is a calling and privilege to do so.' },
+  { content: '<strong>Method makes magic.</strong> Design is not magic. It\'s a method—a rigorous process of exploration, iteration, and validation until you reach a result that feels magical.', id: '647f3a' },
+  { content: '<strong>Iteration over perfectionism.</strong> The number one way to be more productive is to reduce the iteration cycle.' },
+];
+
+// Portfolio items data
+const portfolioItems = [
+  {
+    text: 'September 2024: Keynote talk at Hatch Conference: Design & (Blank)',
+    link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
+    linkText: 'Keynote talk at Hatch Conference: Design & (Blank)',
+    image: imgHighlightsHatch.src,
+    imageAlt: 'David Hoang speaking at Hatch Conference 2024, presenting on stage',
+  },
+  {
+    text: 'April 2024: Replit Developer Day and rebrand.',
+    link: 'https://www.youtube.com/watch?v=T6R9nx89bY4',
+    linkText: 'Replit Developer Day',
+    image: imgHighlightsReplit.src,
+    imageAlt: 'Replit Developer Day 2024 event branding and visual identity',
+  },
+  {
+    text: 'April 2023: Joined Play as Advisor.',
+    link: 'https://createwithplay.com',
+    linkText: 'Play',
+    image: imgHighlightsPlay.src,
+    imageAlt: 'Play app interface and branding design',
+  },
+  {
+    text: 'December 2019: Launched Proof of Concept, a newsletter about design, technology, and entrepreneurship.',
+    link: 'https://www.proofofconcept.pub',
+    linkText: 'Proof of Concept',
+    image: imgHighlightsPoc.src,
+    imageAlt: 'Proof of Concept newsletter branding and design layout',
+  },
+];
 ---
 
 <MainLayout title="David Hoang" description={pageDescription} ogImage={ogImage}>
@@ -19,63 +61,12 @@ const ogImage = "/images/img-dh-web-light.webp";
   </section>
   <section class="design-philosophy" aria-labelledby="philosophy-heading">
     <h2 id="philosophy-heading" style="background: none;">Design philosophy</h2>
-    <div class="philosophy-grid" role="list" aria-label="Design philosophy principles">
-      <div class="philosophy-item" role="listitem">
-        <p><strong>Seek paradigm shifts.</strong> Imagine the future and build it now. Those who can spot trends of shifts will have enduring success.</p>
-      </div>
-      <div class="philosophy-item" role="listitem" id="e3d275">
-        <p><strong>Embrace the entrepreneurial spirit.</strong> Act like the owner of everything you do.</p>
-      </div>
-      <div class="philosophy-item" role="listitem">
-        <p><strong>Software is beautiful.</strong> Making high quality software is a calling and privilege to do so.</p>
-      </div>
-      <div class="philosophy-item" role="listitem" id="647f3a">
-        <p><strong>Method makes magic.</strong> Design is not magic. It's a method—a rigorous process of exploration, iteration, and validation until you reach a result that feels magical.</p>
-      </div>
-      
-      <div class="philosophy-item" role="listitem">
-        <p><strong>Iteration over perfectionism.</strong> The number one way to be more productive is to reduce the iteration cycle.</p>
-      </div>
-    </div>
+    <AnimatedPhilosophyGrid items={philosophyItems} client:visible />
   </section>
   <!-- Portfolio Section -->
   <section class="portfolio-section" aria-labelledby="highlights-heading">
     <h2 id="highlights-heading">Highlights</h2>
-    <div class="portfolio-grid" role="list" aria-label="Recent highlights and projects">
-      <div class="portfolio-content" role="listitem">
-        <div class="portfolio-item-text">
-          <p>September 2024: <a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank" rel="noopener noreferrer">Keynote talk at Hatch Conference: Design & (Blank)</a></p>
-        </div>
-        <div class="portfolio-images">
-          <img src={imgHighlightsHatch.src} alt="David Hoang speaking at Hatch Conference 2024, presenting on stage" loading="lazy" decoding="async" width="1200" height="800">
-        </div>
-      </div>
-      <div class="portfolio-content" role="listitem">
-        <div class="portfolio-item-text">
-          <p>April 2024: <a href="https://www.youtube.com/watch?v=T6R9nx89bY4" target="_blank" rel="noopener noreferrer">Replit Developer Day</a> and rebrand.</p>
-        </div>
-        <div class="portfolio-images">
-          <img src={imgHighlightsReplit.src} alt="Replit Developer Day 2024 event branding and visual identity" loading="lazy" decoding="async" width="1200" height="800">
-        </div>
-      </div>
-      <div class="portfolio-content" role="listitem">
-        <div class="portfolio-item-text">
-          <p>April 2023: Joined <a href="https://createwithplay.com" target="_blank" rel="noopener noreferrer">Play</a> as Advisor.</p>
-        </div>
-        <div class="portfolio-images">
-          <img src={imgHighlightsPlay.src} alt="Play app interface and branding design" loading="lazy" decoding="async" width="1200" height="800">
-        </div>
-      </div>
-      <div class="portfolio-content" role="listitem">
-        <div class="portfolio-item-text">
-          <p>December 2019: Launched <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">Proof of Concept</a>, a newsletter about design, technology, and entrepreneurship.</p>
-        </div>
-        <div class="portfolio-images">
-          <img src={imgHighlightsPoc.src} alt="Proof of Concept newsletter branding and design layout" loading="lazy" decoding="async" width="1200" height="800">
-        </div>
-      </div>
-      
-    </div>
+    <AnimatedPortfolioGrid items={portfolioItems} client:visible />
   </section>
 
   <!-- Newsletter Signup Section -->
