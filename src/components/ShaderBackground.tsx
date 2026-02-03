@@ -40,34 +40,39 @@ export default function ShaderBackground({
   useEffect(() => {
     setMounted(true);
 
-    // Listen for theme changes
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'data-shader') {
-          const newShader = document.documentElement.getAttribute('data-shader') || 'none';
-          setCurrentShader(newShader);
-        }
-        if (mutation.attributeName === 'data-shader-colors') {
-          const colorsAttr = document.documentElement.getAttribute('data-shader-colors');
-          if (colorsAttr) {
-            try {
-              setCurrentColors(JSON.parse(colorsAttr));
-            } catch (e) {
-              // Keep current colors
+    let observer: MutationObserver | null = null;
+
+    // Defer observer setup to idle time to reduce main thread blocking
+    const initObserver = () => {
+      // Listen for theme changes
+      observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'data-shader') {
+            const newShader = document.documentElement.getAttribute('data-shader') || 'none';
+            setCurrentShader(newShader);
+          }
+          if (mutation.attributeName === 'data-shader-colors') {
+            const colorsAttr = document.documentElement.getAttribute('data-shader-colors');
+            if (colorsAttr) {
+              try {
+                setCurrentColors(JSON.parse(colorsAttr));
+              } catch (e) {
+                // Keep current colors
+              }
             }
           }
-        }
-        // Watch for e-ink mode changes
-        if (mutation.attributeName === 'data-e-ink') {
-          const eInkMode = document.documentElement.getAttribute('data-e-ink') === 'true';
-          setIsEInkMode(eInkMode);
-        }
+          // Watch for e-ink mode changes
+          if (mutation.attributeName === 'data-e-ink') {
+            const eInkMode = document.documentElement.getAttribute('data-e-ink') === 'true';
+            setIsEInkMode(eInkMode);
+          }
+        });
       });
-    });
 
-    observer.observe(document.documentElement, { attributes: true });
+      observer.observe(document.documentElement, { attributes: true });
+    };
 
-    // Check initial values
+    // Check initial values immediately (sync read is fast)
     const initialShader = document.documentElement.getAttribute('data-shader');
     if (initialShader) setCurrentShader(initialShader);
 
@@ -82,7 +87,14 @@ export default function ShaderBackground({
     const initialEInk = document.documentElement.getAttribute('data-e-ink') === 'true';
     setIsEInkMode(initialEInk);
 
-    return () => observer.disconnect();
+    // Defer MutationObserver setup to idle time
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(initObserver);
+    } else {
+      setTimeout(initObserver, 1);
+    }
+
+    return () => observer?.disconnect();
   }, []);
 
   // Don't render shaders in e-ink mode or if shader is none

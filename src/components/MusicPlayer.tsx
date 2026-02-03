@@ -177,8 +177,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
   };
 
   // Initialize audio context and analyser for spectrum
+  // Deferred until first play to reduce main thread work on page load
   useEffect(() => {
-    if (!audioRef.current || !isHydrated) return;
+    if (!audioRef.current || !isHydrated || !isPlaying) return;
 
     // Reuse existing audio context if available
     let audioContext = audioContextRef.current;
