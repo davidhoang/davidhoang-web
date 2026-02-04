@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Botanical Codex",
+      "description": "Art Nouveau meets scientific illustration with organic curves and vintage botanical precision",
+      "colors": {
+        "light": {
+          "--color-text": "#2D4A3E",
+          "--color-bg": "#F8FBF6",
+          "--color-link": "#8B6F47",
+          "--color-link-hover": "#A0845C",
+          "--color-border": "#E1E8DD",
+          "--color-muted": "#6B7F72",
+          "--color-sidebar-bg": "#F0F5EC",
+          "--color-nav-bg": "#FAFCF8",
+          "--color-nav-text": "#3A5248",
+          "--color-card-bg": "#FCFEFB"
+        },
+        "dark": {
+          "--color-text": "#D4E0D7",
+          "--color-bg": "#1A2420",
+          "--color-link": "#D4AF7A",
+          "--color-link-hover": "#E6C291",
+          "--color-border": "#2F3E35",
+          "--color-muted": "#8A9B8F",
+          "--color-sidebar-bg": "#212B27",
+          "--color-nav-bg": "#1F2923",
+          "--color-nav-text": "#C7D3CA",
+          "--color-card-bg": "#1E2824"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "60px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-04"
+    },
+    {
       "name": "Bauhaus Morning",
       "description": "Geometric dawn breaking through industrial glass windows with golden rationalism",
       "colors": {
@@ -595,109 +693,7 @@
         "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-01-23"
-    },
-    {
-      "name": "Polar Frequency",
-      "description": "Arctic research station vibes with electric cyan accents and crystalline precision",
-      "colors": {
-        "light": {
-          "--color-text": "#1A2B3D",
-          "--color-bg": "#F0F8FF",
-          "--color-link": "#00BFFF",
-          "--color-link-hover": "#0099CC",
-          "--color-border": "#B8D4E3",
-          "--color-muted": "#5A7A8A",
-          "--color-sidebar-bg": "#E6F3FF",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#2C3E50",
-          "--color-card-bg": "#FAFCFF"
-        },
-        "dark": {
-          "--color-text": "#E8F4F8",
-          "--color-bg": "#0A1428",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00FFCC",
-          "--color-border": "#1E3A52",
-          "--color-muted": "#7A9BB0",
-          "--color-sidebar-bg": "#0F1B2E",
-          "--color-nav-bg": "#1A2B3D",
-          "--color-nav-text": "#B8D4E3",
-          "--color-card-bg": "#0F1F32"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
-        }
-      },
-      "typography": {
-        "headingWeight": "500",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(0, 191, 255, 0.08)",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#00BFFF",
-          "#0A1428",
-          "#1E3A52"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-01-22"
     }
   ],
-  "currentDate": "2026-02-03"
+  "currentDate": "2026-02-04"
 }
