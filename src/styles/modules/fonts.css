@@ -1,0 +1,224 @@
+/* ============================================
+   Typography & Font Faces
+   ============================================
+
+   ABC Diatype Variable Fonts
+   Typeface: ABC Diatype & ABC Diatype Mono
+   Foundry: Dinamo (https://abcdinamo.com)
+
+   ABC Diatype is a sans-serif with a warm, rational character.
+   Designed by Johannes Breyer and Fabian Harb.
+
+   Support independent type foundries!
+
+   ============================================ */
+
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatypeVariable.woff2') format('woff2'),
+       url('/fonts/ABCDiatypeVariable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Diatype Mono';
+  src: url('/fonts/ABCDiatypeMonoVariable.woff2') format('woff2'),
+       url('/fonts/ABCDiatypeMonoVariable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-weight: 700;
+  letter-spacing: var(--heading-letter-spacing);
+  font-family: var(--font-heading);
+  text-transform: var(--heading-transform);
+}
+
+h1 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin: 16px 0px;
+}
+
+h2 {
+  font-size: 2.25rem;
+  margin: 16px 0px;
+}
+
+h3 {
+  font-size: 1.4rem;
+  margin-top: 16px;
+}
+
+h4 {
+  font-size: 1.75rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+h6 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin-bottom: 1.25em;
+  font-size: 1.2rem;
+  line-height: var(--body-line-height, 1.6);
+  color: var(--color-text);
+}
+
+/* Editorial list styling */
+ul,
+ol {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+  color: var(--color-text);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+/* Nested lists */
+ul ul,
+ol ul {
+  list-style-type: circle;
+  margin: 0.5em 0;
+}
+
+ul ul ul,
+ol ul ul {
+  list-style-type: square;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-alpha;
+  margin: 0.5em 0;
+}
+
+li {
+  margin-bottom: 0.5em;
+  line-height: var(--body-line-height, 1.6);
+  font-size: 1.2rem;
+  color: var(--color-text);
+  padding-left: 0.25em;
+}
+
+/* Tighter spacing for nested list items */
+li li {
+  margin-bottom: 0.35em;
+}
+
+/* Remove bottom margin from last items */
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists directly after paragraphs - tighter spacing */
+p + ul,
+p + ol {
+  margin-top: -0.5em;
+}
+
+strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] em {
+  color: var(--color-text);
+}
+
+time {
+  color: var(--color-muted);
+}
+
+/* Blockquote */
+blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid var(--color-text);
+  background-color: var(--color-sidebar-bg);
+  font-style: italic;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
+}
+
+blockquote p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+blockquote cite {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  font-style: normal;
+}
+
+/* Prose Content (for markdown/blog posts) */
+.prose-content p {
+  margin-bottom: 1.5em;
+}
+
+.prose-content ul,
+.prose-content ol {
+  margin: 1.5em 0;
+  padding-left: 1.75em;
+}
+
+.prose-content li {
+  margin-bottom: 0.75em;
+  padding-left: 0.5em;
+}
+
+.prose-content li:last-child {
+  margin-bottom: 0;
+}
+
+/* Prose nested lists */
+.prose-content li ul,
+.prose-content li ol {
+  margin: 0.75em 0;
+}
+
+.prose-content img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin: var(--spacing-md) 0;
+  overflow: auto;
+}
