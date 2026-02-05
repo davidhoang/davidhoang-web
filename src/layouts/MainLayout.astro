@@ -8,7 +8,6 @@ import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import { ViewTransitions } from 'astro:transitions';
-import imgBgNoise from '../assets/images/img-bg-noise.webp';
 
 interface Props {
   title: string;
@@ -81,7 +80,6 @@ const ogImageUrl = ogImage.startsWith('http')
         --color-bg: #fff;
         --nav-height: 40px;
         --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
-        --bg-noise-image: url('{imgBgNoise.src}');
       }
       [data-theme="dark"] {
         --color-text: #e1e1e1;
