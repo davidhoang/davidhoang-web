@@ -198,17 +198,34 @@
 /* Apply combined mood + intensity filters to content wrapper
    NOTE: Cannot apply filter to body because it breaks position: fixed
    for child elements (filter creates a new containing block).
-   Apply to .content-filter-wrapper instead. */
+   Apply to .content-filter-wrapper instead.
+
+   GPU Optimization: Using will-change and isolation to hint browser
+   for compositing layer creation. Transform creates GPU layer. */
 .content-filter-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
+
+  /* Computed filter values for smoother interpolation */
+  --computed-saturation: calc(var(--mood-saturation) * var(--intensity-saturation));
+  --computed-contrast: calc(var(--mood-contrast) * var(--intensity-contrast));
+  --computed-brightness: var(--mood-brightness);
+  --computed-hue: var(--mood-hue-rotate);
+
   filter:
-    saturate(calc(var(--mood-saturation) * var(--intensity-saturation)))
-    contrast(calc(var(--mood-contrast) * var(--intensity-contrast)))
-    brightness(var(--mood-brightness))
-    hue-rotate(var(--mood-hue-rotate));
+    saturate(var(--computed-saturation))
+    contrast(var(--computed-contrast))
+    brightness(var(--computed-brightness))
+    hue-rotate(var(--computed-hue));
+
+  /* GPU optimization hints */
+  will-change: filter;
+  transform: translateZ(0); /* Force GPU compositing layer */
+  isolation: isolate; /* Create new stacking context */
+
+  /* Smooth transition using custom easing */
   transition: filter calc(var(--mood-transition-speed) * 2) var(--ease-inertia);
 }
 
@@ -229,16 +246,28 @@
   --shadow-hover: 0 8px 30px rgba(0,0,0,0.1);
 }
 
-/* E-ink mode overrides mood/intensity */
+/* E-ink mode: transition to neutral filter values smoothly
+   instead of abrupt filter: none which causes full repaint */
 [data-e-ink="true"] .content-filter-wrapper {
-  filter: none !important;
+  --computed-saturation: 0; /* Grayscale effect */
+  --computed-contrast: 1.1; /* Slight contrast boost for readability */
+  --computed-brightness: 1;
+  --computed-hue: 0deg;
+  transition: filter 0.5s var(--ease-inertia);
 }
 
-/* Respect reduced motion preference */
+/* Respect reduced motion preference
+   Disable filter animations but keep static filter if desired */
 @media (prefers-reduced-motion: reduce) {
   .content-filter-wrapper {
-    filter: none !important;
+    /* Reset to neutral values instead of removing filters entirely */
+    --computed-saturation: 1;
+    --computed-contrast: 1;
+    --computed-brightness: 1;
+    --computed-hue: 0deg;
+    /* Disable all transitions */
     transition: none !important;
+    will-change: auto; /* Don't hint GPU for static content */
   }
 }
 
