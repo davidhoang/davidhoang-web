@@ -1,0 +1,558 @@
+/* ============================================
+   🎨 DESIGN SYSTEM PRIMITIVES
+   ============================================
+
+   Use these classes when building new layouts.
+   They automatically respond to daily themes.
+
+   CONTENTS:
+   1. Buttons (.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-link)
+   2. Cards (.card, .card-elevated, .card-outlined, .card-glass, .card-filled)
+   3. Surfaces (.surface, .surface-raised, .surface-sunken, .surface-glass)
+   4. Typography (.text-heading, .text-body, .text-caption, .text-mono)
+   5. Images (.img-themed, .img-thumbnail, .img-hero)
+   6. Badges (.badge, .badge-primary, .badge-muted)
+   7. Dividers (.divider, .divider-subtle)
+   8. Links (.link, .link-muted, .link-nav)
+   9. Inputs (.input, .input-lg, .textarea)
+   10. Containers (.container, .container-narrow, .container-wide)
+
+   ============================================ */
+
+/* --------------------------------------------
+   1. BUTTONS
+
+   Usage:
+     <button class="btn btn-primary">Primary</button>
+     <button class="btn btn-secondary">Secondary</button>
+     <button class="btn btn-ghost">Ghost</button>
+     <a class="btn btn-link">Link Style</a>
+   -------------------------------------------- */
+
+/*
+ * BUTTON HOVER CONSISTENCY RULE:
+ * Button dimensions (border-radius, height, width, padding) must remain
+ * constant between default and hover states. Only allow transitions for:
+ * - color, background-color, border-color (visual feedback)
+ * - transform (subtle movement)
+ * - box-shadow (depth/emphasis)
+ * - opacity (disabled states)
+ *
+ * Never use `transition: all` on buttons as it can cause shape changes
+ * when themes modify CSS variables.
+ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: var(--card-border-width) solid transparent;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease-inertia),
+    background-color 0.2s var(--ease-inertia),
+    border-color 0.2s var(--ease-inertia),
+    transform 0.2s var(--ease-inertia),
+    box-shadow 0.2s var(--ease-inertia),
+    opacity 0.2s var(--ease-inertia);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Primary - filled with link color */
+.btn-primary {
+  background: var(--color-link);
+  color: var(--color-bg);
+  border-color: var(--color-link);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  transform: translateY(-1px);
+}
+
+/* Secondary - outlined */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-sidebar-bg);
+  border-color: var(--color-text);
+}
+
+/* Ghost - minimal */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: transparent;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-sidebar-bg);
+}
+
+/* Link style button */
+.btn-link {
+  background: transparent;
+  color: var(--color-link);
+  border-color: transparent;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn-link:hover:not(:disabled) {
+  color: var(--color-link-hover);
+}
+
+/* Button sizes */
+.btn-sm {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1.125rem;
+}
+
+/* --------------------------------------------
+   2. CARDS
+
+   Usage:
+     <div class="card">Default card</div>
+     <div class="card card-elevated">With shadow</div>
+     <div class="card card-outlined">Strong border</div>
+     <div class="card card-glass">Glassmorphism</div>
+     <div class="card card-filled">Filled background</div>
+
+   Note: These respond to [data-card-style] from themes
+   -------------------------------------------- */
+
+.card {
+  background: var(--color-card-bg);
+  border: var(--card-border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--card-padding);
+  /* Only transition specific properties for better performance - avoid `all` */
+  transition:
+    background-color 0.3s var(--ease-inertia),
+    border-color 0.3s var(--ease-inertia),
+    box-shadow 0.3s var(--ease-inertia),
+    transform 0.3s var(--ease-inertia);
+}
+
+.card-elevated {
+  box-shadow: var(--card-shadow);
+  border: none;
+}
+
+.card-outlined {
+  background: transparent;
+  border: calc(var(--card-border-width) + 1px) solid var(--color-text);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* GPU acceleration for blur performance */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+/* Reduce blur on mobile for better performance */
+@media (max-width: 768px) {
+  .card-glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+[data-theme="dark"] .card-glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-filled {
+  background: var(--color-sidebar-bg);
+  border: none;
+}
+
+/* Card with hover effect */
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Card header/body/footer */
+.card-header {
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-md);
+}
+
+.card-footer {
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-md);
+}
+
+/* --------------------------------------------
+   3. SURFACES
+
+   Usage:
+     <div class="surface">Default surface</div>
+     <div class="surface-raised">Raised/elevated</div>
+     <div class="surface-sunken">Recessed</div>
+     <div class="surface-glass">Glass effect</div>
+   -------------------------------------------- */
+
+.surface {
+  background: var(--color-bg);
+  transition: background-color 0.3s var(--ease-inertia);
+}
+
+.surface-raised {
+  background: var(--color-sidebar-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.surface-sunken {
+  background: var(--color-sidebar-bg);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.surface-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* GPU acceleration for blur performance */
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+/* Reduce blur on mobile for better performance */
+@media (max-width: 768px) {
+  .surface-glass {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+[data-theme="dark"] .surface-glass {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* --------------------------------------------
+   4. TYPOGRAPHY
+
+   Usage:
+     <h1 class="text-heading">Heading</h1>
+     <p class="text-body">Body text</p>
+     <span class="text-caption">Caption</span>
+     <code class="text-mono">code</code>
+     <p class="text-muted">Muted text</p>
+   -------------------------------------------- */
+
+.text-heading {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-letter-spacing);
+  text-transform: var(--heading-transform);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-weight: var(--body-weight);
+  line-height: var(--body-line-height);
+  letter-spacing: var(--letter-spacing);
+  color: var(--color-text);
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-sidebar-bg);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.text-link {
+  color: var(--color-link);
+}
+
+/* Text sizes */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 2rem; }
+
+/* --------------------------------------------
+   5. IMAGES
+
+   Usage:
+     <img class="img-themed" src="..." alt="..." />
+     <img class="img-thumbnail" src="..." alt="..." />
+     <img class="img-hero" src="..." alt="..." />
+
+   Note: These respond to [data-image-style] and
+   [data-image-hover] from daily themes
+   -------------------------------------------- */
+
+.img-themed {
+  opacity: var(--image-opacity, 1);
+  border-radius: var(--image-border-radius, var(--radius-md));
+  /* Specific transitions for better performance - avoid `all` */
+  transition:
+    opacity 0.4s var(--ease-inertia),
+    filter 0.4s var(--ease-inertia),
+    transform 0.4s var(--ease-inertia);
+  max-width: 100%;
+  height: auto;
+}
+
+.img-thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.img-hero {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+/* Lazy loading with fade-in effect
+   Images fade in smoothly when they finish loading */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Performance optimization for off-screen images */
+img {
+  content-visibility: auto;
+}
+
+.img-avatar {
+  width: var(--size-lg);
+  height: var(--size-lg);
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+}
+
+.img-avatar-sm { width: var(--size-md); height: var(--size-md); }
+.img-avatar-lg { width: var(--size-xl); height: var(--size-xl); }
+
+/* --------------------------------------------
+   6. BADGES
+
+   Usage:
+     <span class="badge">Default</span>
+     <span class="badge badge-primary">Primary</span>
+     <span class="badge badge-muted">Muted</span>
+   -------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  background: var(--color-sidebar-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.badge-primary {
+  background: var(--color-link);
+  color: var(--color-bg);
+  border-color: var(--color-link);
+}
+
+.badge-muted {
+  background: transparent;
+  color: var(--color-muted);
+  border-color: var(--color-border);
+}
+
+/* --------------------------------------------
+   7. DIVIDERS
+
+   Usage:
+     <hr class="divider" />
+     <hr class="divider divider-subtle" />
+   -------------------------------------------- */
+
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--spacing-xl) 0;
+}
+
+.divider-subtle {
+  opacity: 0.5;
+}
+
+.divider-thick {
+  height: 2px;
+}
+
+/* --------------------------------------------
+   8. LINKS
+
+   Usage:
+     <a class="link" href="#">Standard link</a>
+     <a class="link-muted" href="#">Muted link</a>
+     <a class="link-nav" href="#">Nav link</a>
+
+   Note: These respond to [data-link-style] from themes
+   -------------------------------------------- */
+
+.link {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--color-link-hover);
+}
+
+.link-muted {
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-inertia);
+}
+
+.link-muted:hover {
+  color: var(--color-text);
+}
+
+.link-nav {
+  color: var(--color-nav-text);
+  text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.link-nav:hover {
+  background: var(--color-nav-hover);
+}
+
+/* --------------------------------------------
+   9. INPUTS
+
+   Usage:
+     <input class="input" type="text" />
+     <input class="input input-lg" type="text" />
+     <textarea class="textarea"></textarea>
+   -------------------------------------------- */
+
+.input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-link);
+  box-shadow: 0 0 0 3px rgba(var(--color-link), 0.1);
+}
+
+.input::placeholder {
+  color: var(--color-muted);
+}
+
+.input-lg {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 1.125rem;
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* --------------------------------------------
+   10. CONTAINERS
+
+   Usage:
+     <div class="container">Default width</div>
+     <div class="container-narrow">Narrow reading</div>
+     <div class="container-wide">Wide layout</div>
+   -------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width, 1200px);
+  margin-inline: auto;
+  /* Include safe area insets for notched devices in landscape */
+  padding-left: max(var(--container-padding), env(safe-area-inset-left, 0));
+  padding-right: max(var(--container-padding), env(safe-area-inset-right, 0));
+}
+
+.container-narrow {
+  max-width: 720px;
+}
+
+.container-wide {
+  max-width: 1400px;
+}
+
+.container-full {
+  max-width: none;
+}

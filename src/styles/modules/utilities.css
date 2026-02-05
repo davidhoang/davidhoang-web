@@ -1,0 +1,97 @@
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* --------------------------------------------
+   UTILITY: Spacing (Consolidated)
+
+   Available: mt-xl, mb-sm, mb-md, mb-lg, mb-xl, m-0, p-sm, p-md, p-lg, p-xl
+
+   Usage:
+     <div class="mt-xl mb-lg">Spaced element</div>
+   -------------------------------------------- */
+
+/* Margin-top - only xl is heavily used */
+.mt-xl { margin-top: var(--spacing-xl); }
+
+/* Margin-bottom - sm, md, lg, xl are used */
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+.m-0 { margin: 0; }
+
+/* Padding - all-sides only */
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+/* --------------------------------------------
+   UTILITY: Flexbox (Consolidated)
+   -------------------------------------------- */
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-xs { gap: var(--spacing-xs); }
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+.gap-xl { gap: var(--spacing-xl); }
+
+/* --------------------------------------------
+   UTILITY: Grid
+   -------------------------------------------- */
+
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Border Radius (Consolidated) */
+.rounded { border-radius: var(--radius-md); }
+.rounded-xl { border-radius: var(--radius-xl); }
+
+/* Transitions - Use specific property transitions instead of .transition class when possible */
+.transition {
+  transition:
+    color 0.4s var(--ease-inertia),
+    background-color 0.4s var(--ease-inertia),
+    border-color 0.4s var(--ease-inertia),
+    transform 0.4s var(--ease-inertia),
+    opacity 0.4s var(--ease-inertia),
+    box-shadow 0.4s var(--ease-inertia);
+}
+.transition-colors { transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia); }
+.transition-transform { transition: transform 0.4s var(--ease-inertia); }
+
+/* GPU Acceleration Utilities
+   Use these on elements that animate frequently for smoother performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.gpu-accelerated-opacity {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Screen-reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
