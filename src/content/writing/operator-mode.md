@@ -3,9 +3,9 @@ title: "Operator Mode"
 pubDate: 2024-09-15
 description: "Issue 212: Doing work as a non-founder and non professional management class"
 ---
-_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/operator-mode)_
 
-![Operator Mode cover](/images/blog/2024/img-2024-09-15-operator-mode.webp)
+
+![Operator Mode cover](/images/blog/2024/img-2024-09-15-operator-mode.jpeg)
 
 I love Paul Graham’s writing. Hackers and Painters is one of my favorite books of all time. Graham’s thoughts on art and science resonate with me as a designer who studied fine art. The internet broke when the long-time Silicon Valley investor wrote about Founder Mode. There’s been a shift in tech’s factory reset moment during the past few years. The professional management class is getting slashed with the reduction in workforce and the advancement of AI capabilities. Graham’s essay references a talk by Airbnb CEO Brian Chesky about Founder Mode vs. Manager Mode.
 
@@ -53,3 +53,7 @@ When it comes to entrepreneurship at scale, there is nobody who personifies that
 
 ### Operator Mode is leading in executing your craft
 Whether a founder, operator, or executive, the goal is leading towards shared outcomes; fulfilling the mission while leading a great exit. Your craft may come in many forms. It might be design or engineering. It might be business growth or recruiting. Good managers know how to right-size process and scaling. Despite their abundant experience, they’ll start with first principles to devise what’s needed, not blindly run a playbook. The balance of craft and management is why I continue loving Operator Mode.
+
+---
+
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/operator-mode)_
