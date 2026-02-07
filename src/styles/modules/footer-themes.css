@@ -1,0 +1,256 @@
+/* ============================================
+   Daily Theme: Footer Style Variations
+   ============================================ */
+
+/* Minimal - centered, sparse, elegant */
+[data-footer-style="minimal"] footer {
+  border-top: none;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+[data-footer-style="minimal"] footer .footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  grid-template-columns: none;
+}
+
+[data-footer-style="minimal"] footer .footer-col {
+  text-align: center;
+}
+
+[data-footer-style="minimal"] footer .footer-col h4 {
+  display: none;
+}
+
+[data-footer-style="minimal"] footer .footer-col ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+[data-footer-style="minimal"] footer .footer-col li {
+  margin: 0;
+}
+
+[data-footer-style="minimal"] footer .footer-section-email {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Brutalist - heavy, loud, monospace */
+[data-footer-style="brutalist"] footer {
+  border-top: 4px solid var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: 3rem 0;
+}
+
+[data-footer-style="brutalist"] footer a,
+[data-footer-style="brutalist"] footer a:visited {
+  color: var(--color-bg) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+[data-footer-style="brutalist"] footer a:hover {
+  color: var(--color-link) !important;
+}
+
+[data-footer-style="brutalist"] footer .footer-col h4 {
+  color: var(--color-bg);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  border-bottom: 2px solid var(--color-bg);
+  padding-bottom: 0.5rem;
+}
+
+[data-footer-style="brutalist"] footer .footer-section-copyright {
+  color: var(--color-bg);
+  opacity: 0.7;
+}
+
+/* Inverted - swapped colors, bold band */
+[data-footer-style="inverted"] footer {
+  border-top: none;
+  background: var(--color-sidebar-bg);
+  padding: 3rem 0;
+  margin-top: 4rem;
+}
+
+[data-footer-style="inverted"] footer .footer-section-email a {
+  background: var(--color-link);
+  color: var(--color-bg) !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md, 8px);
+  display: inline-block;
+  text-decoration: none !important;
+}
+
+[data-footer-style="inverted"] footer .footer-section-email a:hover {
+  background: var(--color-link-hover);
+  transform: translateY(-2px);
+}
+
+/* Marquee - animated scrolling feel */
+[data-footer-style="marquee"] footer {
+  border-top: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+[data-footer-style="marquee"] footer .footer-section-email {
+  font-size: 2rem;
+  white-space: nowrap;
+  animation: marquee-scroll 20s linear infinite;
+  padding: 2rem 0;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+[data-footer-style="marquee"] footer .footer-grid {
+  display: flex;
+  justify-content: space-between;
+  grid-template-columns: none;
+}
+
+/* Stacked - horizontal single row */
+[data-footer-style="stacked"] footer {
+  border-top: 1px solid var(--color-border);
+  padding: 2rem 0;
+}
+
+[data-footer-style="stacked"] footer .footer-grid {
+  display: none;
+}
+
+[data-footer-style="stacked"] footer .footer-section-email {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+[data-footer-style="stacked"] footer::after {
+  content: 'GitHub · LinkedIn · Twitter · RSS';
+  display: block;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-top: 1rem;
+}
+
+/* Editorial - newspaper style with large CTA */
+[data-footer-style="editorial"] footer {
+  border-top: 3px double var(--color-border);
+  padding: 4rem 0 2rem;
+}
+
+[data-footer-style="editorial"] footer .footer-section-email {
+  font-size: 2.5rem;
+  font-style: italic;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+[data-footer-style="editorial"] footer .footer-grid {
+  border-top: 1px solid var(--color-border);
+  padding-top: 2rem;
+}
+
+[data-footer-style="editorial"] footer .footer-col h4 {
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Gradient - fading background */
+[data-footer-style="gradient"] footer {
+  border-top: none;
+  background: linear-gradient(to bottom, transparent, var(--color-sidebar-bg));
+  padding: 6rem 0 3rem;
+  margin-top: -2rem;
+}
+
+/* Boxed - contained in a card */
+[data-footer-style="boxed"] footer {
+  border-top: none;
+  padding: 0;
+  margin-top: 4rem;
+}
+
+[data-footer-style="boxed"] footer .container {
+  background: var(--color-sidebar-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg, 16px);
+  padding: 2rem;
+  max-width: 900px;
+}
+
+/* Retro - pixelated borders, 8-bit feel */
+[data-footer-style="retro"] footer {
+  border-top: 4px dashed var(--color-link);
+  padding: 2rem 0;
+  image-rendering: pixelated;
+}
+
+[data-footer-style="retro"] footer .footer-col h4 {
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+[data-footer-style="retro"] footer a {
+  font-family: monospace;
+}
+
+[data-footer-style="retro"] footer .footer-section-email a::before {
+  content: '> ';
+  color: var(--color-link);
+}
+
+/* Split - two columns, asymmetric */
+[data-footer-style="split"] footer {
+  border-top: 1px solid var(--color-border);
+}
+
+[data-footer-style="split"] footer .container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+[data-footer-style="split"] footer .footer-section-email {
+  grid-column: 1;
+  font-size: 1.5rem;
+  position: sticky;
+  top: 2rem;
+}
+
+[data-footer-style="split"] footer .footer-grid {
+  grid-column: 2;
+}
+
+@media (max-width: 768px) {
+  [data-footer-style="split"] footer .container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  [data-footer-style="split"] footer .footer-section-email {
+    position: static;
+  }
+}

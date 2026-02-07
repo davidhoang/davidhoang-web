@@ -1,6 +1,602 @@
 {
   "themes": [
     {
+      "name": "Neon Palladium",
+      "description": "High-tech precision meets Miami Vice aesthetics with electric accents and chrome-like surfaces.",
+      "colors": {
+        "light": {
+          "--color-text": "#1A1B3A",
+          "--color-bg": "#F4F5FF",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#E6006B",
+          "--color-border": "#C8CADB",
+          "--color-muted": "#6B6D85",
+          "--color-sidebar-bg": "#EAEBF7",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#1A1B3A",
+          "--color-card-bg": "#FAFBFF"
+        },
+        "dark": {
+          "--color-text": "#E8E9F3",
+          "--color-bg": "#0F1121",
+          "--color-link": "#00FFAA",
+          "--color-link-hover": "#00E699",
+          "--color-border": "#2A2D47",
+          "--color-muted": "#8B8FA3",
+          "--color-sidebar-bg": "#181A2E",
+          "--color-nav-bg": "#1A1D33",
+          "--color-nav-text": "#E8E9F3",
+          "--color-card-bg": "#151829"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "bold"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "0.95",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "mesh-gradient",
+        "colors": [
+          "#FF0080",
+          "#00FFAA",
+          "#4A90E2"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-02-07"
+    },
+    {
+      "name": "Copenhagen Fog",
+      "description": "Minimalist Nordic design with soft grays and gentle warmth, like morning mist over cobblestones.",
+      "colors": {
+        "light": {
+          "--color-text": "#2D3748",
+          "--color-bg": "#F7FAFC",
+          "--color-link": "#3182CE",
+          "--color-link-hover": "#2C5282",
+          "--color-border": "#E2E8F0",
+          "--color-muted": "#718096",
+          "--color-sidebar-bg": "#EDF2F7",
+          "--color-nav-bg": "rgba(247, 250, 252, 0.8)",
+          "--color-nav-text": "#4A5568",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#F7FAFC",
+          "--color-bg": "#1A202C",
+          "--color-link": "#63B3ED",
+          "--color-link-hover": "#90CDF4",
+          "--color-border": "#4A5568",
+          "--color-muted": "#A0AEC0",
+          "--color-sidebar-bg": "#2D3748",
+          "--color-nav-bg": "rgba(26, 32, 44, 0.8)",
+          "--color-nav-text": "#CBD5E0",
+          "--color-card-bg": "#2D3748"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Playfair Display",
+          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(0,0,0,0.08)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Playfair Display",
+        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-06"
+    },
+    {
+      "name": "Electric Tangerine",
+      "description": "Bold citrus energy meets brutalist precision in this high-contrast maximalist explosion.",
+      "colors": {
+        "light": {
+          "--color-text": "#1A0D00",
+          "--color-bg": "#FFF4E6",
+          "--color-link": "#FF4500",
+          "--color-link-hover": "#FF6B35",
+          "--color-border": "#E85D00",
+          "--color-muted": "#8B4513",
+          "--color-sidebar-bg": "#FFEAD9",
+          "--color-nav-bg": "#FF4500",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#FFF8F0"
+        },
+        "dark": {
+          "--color-text": "#FFEAD9",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#FF4500",
+          "--color-muted": "#CD853F",
+          "--color-sidebar-bg": "#261A11",
+          "--color-nav-bg": "#FF4500",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#2C1810"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Anton",
+          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "3px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Anton",
+        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-02-05"
+    },
+    {
+      "name": "Botanical Codex",
+      "description": "Art Nouveau meets scientific illustration with organic curves and vintage botanical precision",
+      "colors": {
+        "light": {
+          "--color-text": "#2D4A3E",
+          "--color-bg": "#F8FBF6",
+          "--color-link": "#8B6F47",
+          "--color-link-hover": "#A0845C",
+          "--color-border": "#E1E8DD",
+          "--color-muted": "#6B7F72",
+          "--color-sidebar-bg": "#F0F5EC",
+          "--color-nav-bg": "#FAFCF8",
+          "--color-nav-text": "#3A5248",
+          "--color-card-bg": "#FCFEFB"
+        },
+        "dark": {
+          "--color-text": "#D4E0D7",
+          "--color-bg": "#1A2420",
+          "--color-link": "#D4AF7A",
+          "--color-link-hover": "#E6C291",
+          "--color-border": "#2F3E35",
+          "--color-muted": "#8A9B8F",
+          "--color-sidebar-bg": "#212B27",
+          "--color-nav-bg": "#1F2923",
+          "--color-nav-text": "#C7D3CA",
+          "--color-card-bg": "#1E2824"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "/styles/self-hosted-fonts.css",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "/styles/self-hosted-fonts.css",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "60px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "/styles/self-hosted-fonts.css",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-04"
+    },
+    {
+      "name": "Bauhaus Morning",
+      "description": "Geometric dawn breaking through industrial glass windows with golden rationalism",
+      "colors": {
+        "light": {
+          "--color-text": "#1A1A1A",
+          "--color-bg": "#FFF8E7",
+          "--color-link": "#FF6B00",
+          "--color-link-hover": "#E55A00",
+          "--color-border": "#E6D5B8",
+          "--color-muted": "#8A7A5C",
+          "--color-sidebar-bg": "#F5EDD6",
+          "--color-nav-bg": "#FFFBF0",
+          "--color-nav-text": "#2D2D2D",
+          "--color-card-bg": "#FEFCF2"
+        },
+        "dark": {
+          "--color-text": "#F0F0F0",
+          "--color-bg": "#1C1408",
+          "--color-link": "#FFB366",
+          "--color-link-hover": "#FFC280",
+          "--color-border": "#3D3420",
+          "--color-muted": "#A39577",
+          "--color-sidebar-bg": "#241A0C",
+          "--color-nav-bg": "#201608",
+          "--color-nav-text": "#E8E8E8",
+          "--color-card-bg": "#221810"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "/styles/self-hosted-fonts.css",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "/styles/self-hosted-fonts.css",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#FF6B00",
+          "#E6D5B8",
+          "#8A7A5C"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "/styles/self-hosted-fonts.css",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-02-03"
+    },
+    {
+      "name": "Velvet Thunder",
+      "description": "Electric energy meets luxurious depth in a bold display of contrasts and rich textures.",
+      "colors": {
+        "light": {
+          "--color-text": "#2D132C",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#FF3366",
+          "--color-link-hover": "#E63946",
+          "--color-border": "#E8B4CB",
+          "--color-muted": "#8B5A6B",
+          "--color-sidebar-bg": "#F8E6F0",
+          "--color-nav-bg": "#2D132C",
+          "--color-nav-text": "#FDF2E9",
+          "--color-card-bg": "#FDEDEC"
+        },
+        "dark": {
+          "--color-text": "#F8E6F0",
+          "--color-bg": "#2D132C",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#8B5A6B",
+          "--color-muted": "#C9A96E",
+          "--color-sidebar-bg": "#1A0F18",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2D132C",
+          "--color-card-bg": "#3D1B34"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Unbounded",
+          "url": "/styles/self-hosted-fonts.css",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "/styles/self-hosted-fonts.css",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2.5rem"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 12px 40px rgba(255, 51, 102, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "bold"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Unbounded",
+        "url": "/styles/self-hosted-fonts.css",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-02-02"
+    },
+    {
       "name": "Rust Monastery",
       "description": "Weathered metal meets ancient stone, industrial textures with contemplative quietude.",
       "colors": {
@@ -32,13 +628,13 @@
       "fonts": {
         "heading": {
           "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "url": "/styles/self-hosted-fonts.css",
           "category": "serif",
           "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
         },
         "body": {
           "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "url": "/styles/self-hosted-fonts.css",
           "category": "serif",
           "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
         }
@@ -92,611 +688,12 @@
       },
       "font": {
         "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "url": "/styles/self-hosted-fonts.css",
         "category": "serif",
         "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-02-01"
-    },
-    {
-      "name": "Jazz Age Speakeasy",
-      "description": "Art deco elegance meets underground rebellion with rich burgundy tones and theatrical typography",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C41E3A",
-          "--color-link-hover": "#8B0000",
-          "--color-border": "#D4AF37",
-          "--color-muted": "#8B4513",
-          "--color-sidebar-bg": "#F5E6D3",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B6B",
-          "--color-link-hover": "#FF4444",
-          "--color-border": "#DAA520",
-          "--color-muted": "#CD853F",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#0D0907",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#261A11"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2.5rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(196, 30, 58, 0.1)",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "980px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "centered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-31"
-    },
-    {
-      "name": "Tokyo Neon Rain",
-      "description": "Cyberpunk elegance meets late-night city vibes with electric accents and fluid typography",
-      "colors": {
-        "light": {
-          "--color-text": "#1A0F2E",
-          "--color-bg": "#F0F5FF",
-          "--color-link": "#FF3366",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#E8DAEF",
-          "--color-muted": "#6C7B95",
-          "--color-sidebar-bg": "#EBF5FB",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#1A0F2E",
-          "--color-card-bg": "#FAFCFF"
-        },
-        "dark": {
-          "--color-text": "#E8F4FD",
-          "--color-bg": "#0A1628",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#1E3A8A",
-          "--color-muted": "#64748B",
-          "--color-sidebar-bg": "#0F2027",
-          "--color-nav-bg": "#16213E",
-          "--color-nav-text": "#E8F4FD",
-          "--color-card-bg": "#1A2332"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "960px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "0.95",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF3366",
-          "#00D4AA",
-          "#0A1628"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-01-24"
-    },
-    {
-      "name": "Havana Crumble",
-      "description": "Weathered colonial elegance meets tropical warmth with vintage Cuban charm.",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#C5303E",
-          "--color-border": "#D4A574",
-          "--color-muted": "#8B5A3C",
-          "--color-sidebar-bg": "#F4E6D3",
-          "--color-nav-bg": "#F9E8D8",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#F4E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C5A",
-          "--color-border": "#8B5A3C",
-          "--color-muted": "#A67C5A",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F4E6D3",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 16px rgba(44, 24, 16, 0.15)",
-        "borderWidth": "1px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-23"
-    },
-    {
-      "name": "Polar Frequency",
-      "description": "Arctic research station vibes with electric cyan accents and crystalline precision",
-      "colors": {
-        "light": {
-          "--color-text": "#1A2B3D",
-          "--color-bg": "#F0F8FF",
-          "--color-link": "#00BFFF",
-          "--color-link-hover": "#0099CC",
-          "--color-border": "#B8D4E3",
-          "--color-muted": "#5A7A8A",
-          "--color-sidebar-bg": "#E6F3FF",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#2C3E50",
-          "--color-card-bg": "#FAFCFF"
-        },
-        "dark": {
-          "--color-text": "#E8F4F8",
-          "--color-bg": "#0A1428",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00FFCC",
-          "--color-border": "#1E3A52",
-          "--color-muted": "#7A9BB0",
-          "--color-sidebar-bg": "#0F1B2E",
-          "--color-nav-bg": "#1A2B3D",
-          "--color-nav-text": "#B8D4E3",
-          "--color-card-bg": "#0F1F32"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
-        }
-      },
-      "typography": {
-        "headingWeight": "500",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(0, 191, 255, 0.08)",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#00BFFF",
-          "#0A1428",
-          "#1E3A52"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-01-22"
-    },
-    {
-      "name": "Midnight Diner",
-      "description": "Late-night Tokyo izakaya atmosphere with warm amber lighting and intimate shadows",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#D4A574",
-          "--color-muted": "#8B6F47",
-          "--color-sidebar-bg": "#F4E6D7",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FFEEE4"
-        },
-        "dark": {
-          "--color-text": "#F4E6D7",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FF6B35",
-          "--color-border": "#4A3428",
-          "--color-muted": "#8B6F47",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F4E6D7",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Kalam",
-          "url": "https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap",
-          "category": "handwriting",
-          "stack": "'Kalam', cursive"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "60px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 24px rgba(26, 15, 10, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "inverted"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#FF6B35",
-          "#2C1810"
-        ]
-      },
-      "font": {
-        "name": "Kalam",
-        "url": "https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap",
-        "category": "handwriting",
-        "stack": "'Kalam', cursive"
-      },
-      "date": "2026-01-21"
-    },
-    {
-      "name": "Sage Brutalism",
-      "description": "Raw concrete meets organic wisdom in a stark editorial landscape",
-      "colors": {
-        "light": {
-          "--color-text": "#1A1A1A",
-          "--color-bg": "#F0F4F1",
-          "--color-link": "#FF4500",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#9CAF88",
-          "--color-muted": "#6B7B5C",
-          "--color-sidebar-bg": "#E8F0E9",
-          "--color-nav-bg": "#F0F4F1",
-          "--color-nav-text": "#1A1A1A",
-          "--color-card-bg": "#FAFCFB"
-        },
-        "dark": {
-          "--color-text": "#E8F0E9",
-          "--color-bg": "#1A2E1A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#4A5D4A",
-          "--color-muted": "#7A8F7A",
-          "--color-sidebar-bg": "#0F2027",
-          "--color-nav-bg": "#1A2E1A",
-          "--color-nav-text": "#E8F0E9",
-          "--color-card-bg": "#243324"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Anton",
-          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "3px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Anton",
-        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-01-20"
     }
   ],
-  "currentDate": "2026-02-01"
+  "currentDate": "2026-02-07"
 }

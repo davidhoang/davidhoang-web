@@ -3,6 +3,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import CardStackHero from '../components/CardStackHero';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid, AnimatedSection } from '../components/AnimatedSections';
+import CardStackHeroLazy from '../components/CardStackHeroLazy';
 import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.webp';
 import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.webp';
 import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.webp';
@@ -57,7 +58,7 @@ const portfolioItems = [
 <MainLayout title="David Hoang" description={pageDescription} ogImage={ogImage}>
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
-    <CardStackHero client:idle />
+    <CardStackHeroLazy client:idle />
   </section>
   <section class="design-philosophy" aria-labelledby="philosophy-heading">
     <h2 id="philosophy-heading" style="background: none;">Design philosophy</h2>

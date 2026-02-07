@@ -4,7 +4,7 @@ pubDate: 2024-03-21
 description: "Thoughts on design engineering"
 image: "/images/blog/2024-03-design-engineering.webp"
 ---
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/design-engineering?utm_source=publication-search)
+
 
 In software, engineering and design are infantile in existence compared to other sectors: mechanical, electrical, aerospace, and environmental engineering. Engineering encompasses a broad range of disciplines and involves critical thinking, creativity, problem-solving, and collaboration. Many engineering disciplines have a role called a Design Engineer—a title that has been more popular in software in recent years. Design Engineers tend to work on products and systems that involve adapting and using complex scientific and mathematical techniques. In essence, they work on highly technical challenges that require strong design consideration. Today, we’re seeing Design Engineers become a popular role in software, and this isn’t the first time new roles/practices emerged.
 
@@ -41,3 +41,7 @@ As we navigate what seems to be a tech paradigm shift with LLMs, AI applications
 My hope is not for designers to simply change their title to Design Engineer on LinkedIn. It’s uncertain if every company needs a Design Engineer. However, I am confident authoring environments or work with complex interactions/data need Design Engineers. Snap, Retool, Replit, Uber, Square, OpenAI, and The Browser Company are a few examples of companies that have Design Engineers on their software teams.
 
 Data was the currency in the web era of social and ad tech. Now it’s trained data (LLMs) presented in multi-device interfaces. When it comes to an emerging function in a paradigm shift in tech, the Design Engineer is the new Data Scientist. Let’s see if that’s true in ten years.
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/design-engineering?utm_source=publication-search)
