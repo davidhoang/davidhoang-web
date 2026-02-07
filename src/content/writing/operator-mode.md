@@ -4,7 +4,6 @@ pubDate: 2024-09-15
 description: "Issue 212: Doing work as a non-founder and non professional management class"
 ---
 
-
 ![Operator Mode cover](/images/blog/2024/img-2024-09-15-operator-mode.jpeg)
 
 I love Paul Graham’s writing. Hackers and Painters is one of my favorite books of all time. Graham’s thoughts on art and science resonate with me as a designer who studied fine art. The internet broke when the long-time Silicon Valley investor wrote about Founder Mode. There’s been a shift in tech’s factory reset moment during the past few years. The professional management class is getting slashed with the reduction in workforce and the advancement of AI capabilities. Graham’s essay references a talk by Airbnb CEO Brian Chesky about Founder Mode vs. Manager Mode.

@@ -303,19 +303,32 @@ export default function CardStackHero() {
             className="and-link"
             onClick={(e) => e.stopPropagation()}
           >and</a>{' '}
-          {rotatingRoles[currentRoleIndex].link ? (
-            <a
-              href={rotatingRoles[currentRoleIndex].link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="role-link"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {rotatingRoles[currentRoleIndex].label}
-            </a>
-          ) : (
-            rotatingRoles[currentRoleIndex].label
-          )}.
+          <span className="role-wrapper">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentRoleIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="role-text"
+              >
+                {rotatingRoles[currentRoleIndex].link ? (
+                  <a
+                    href={rotatingRoles[currentRoleIndex].link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="role-link"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {rotatingRoles[currentRoleIndex].label}
+                  </a>
+                ) : (
+                  rotatingRoles[currentRoleIndex].label
+                )}
+              </motion.span>
+            </AnimatePresence>
+          </span>.
         </motion.h1>
         <div className="cards-wrapper">
           {cards.map((card, index) => {
@@ -477,13 +490,22 @@ export default function CardStackHero() {
         }
 
 
+        .role-wrapper {
+          display: inline-block;
+          position: relative;
+          vertical-align: baseline;
+        }
+
+        .role-text {
+          display: inline-block;
+        }
+
         .role-link {
           color: var(--color-link);
           text-decoration: underline;
           text-decoration-thickness: 2px;
           text-underline-offset: 4px;
           transition: color 0.2s ease;
-          margin-left: 0.15em;
         }
 
         .role-link:hover {
