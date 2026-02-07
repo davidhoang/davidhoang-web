@@ -5,8 +5,6 @@ description: "Issue 250: AI is breaking the way we build (and it's exciting)"
 coverImage: "/images/blog/2025/img-2025-06-15-mvc-cover.webp"
 ---
 
-_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/a-new-mvc-is-emerging)_
-
 For makers of software, Model/View/Controller (MVC) is one of the first concepts you learn. MVC is a design pattern that separates an application into three parts to organize code and make it easier to maintain. The Model handles data and business logic, the View manages the user interface, and the Controller acts as a middleman that processes user input and coordinates between them.
 
 ![A new MVC is emerging](/images/blog/2025/img-2025-06-15-mvc.webp)
@@ -63,3 +61,7 @@ In this emerging architecture:
 * AI interfaces act as meta-layers, sitting above and across traditional apps
 
 Software isn't collapsing—it's decoupling. We are moving from app-centric experiences to system-centric ones. And with that comes a chance to rethink how we make, control, and interact with the systems around us.
+
+---
+
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/a-new-mvc-is-emerging)_

@@ -3,7 +3,7 @@ title: "The fog of war of company onboarding"
 pubDate: 2023-12-31
 description: "Navigating the first 90 days"
 ---
-_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding)_
+
 
 When you start at a new company, onboarding is a crucial phase to get right. The previous three times I’ve onboarded to a new company have been in a leadership role at a company already established. Onboarding is not simply following the artifact your new employer gives you. It’s a two-way street. The higher the role you enter at a new company, the more important it is to onboard to the company well, because you only have one first impression with your new employer and colleagues.
 
@@ -54,3 +54,7 @@ To be abundantly clear, the onboarding your company provides is extremely valuab
 - Be loud and clear about what external value you bring
 
 You only onboard once (YOOO?). The next time you join a company, design your own onboarding to navigate the Fog of War.
+
+---
+
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-fog-of-war-of-company-onboarding)_

@@ -3,7 +3,7 @@ title: "Tech is going through a factory reset moment"
 pubDate: 2023-12-31
 description: "The great tech reset of 2023"
 ---
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/tech-is-going-through-a-factory-reset)
+
 
 Factory reset: A software restore of an electronic device to its original system state by erasing all of the data, settings, and applications that were previously stored on the device.
 
@@ -29,3 +29,7 @@ AI is often in the discussion of replacing humans completely and their job. Thou
 The factory reset has already been hit, and it's booting. It's not about good or bad, but figuring out how to move forward. The future path is unwritten, and I can't tell you what the path forward for you is. Perhaps it's time to get out of tech and work on the retirement farm. It might be leaning in on how things are shifting and finding the role and scope you're excited about.
 
 Whenever I have to do a factory reset on my device, it's usually because something is broken or running slow. Despite not wanting to do it, I look forward to starting from scratch and figuring out what the next cycle looks like.
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/tech-is-going-through-a-factory-reset)

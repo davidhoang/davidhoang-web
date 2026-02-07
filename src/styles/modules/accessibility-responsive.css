@@ -55,36 +55,7 @@
     --content-top-padding: calc(64px + env(safe-area-inset-top, 0px) + 1.5rem);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    font-weight: 600;
-    font-family: var(--font-heading);
-  }
-  h1 {
-    font-size: 2.5rem;
-  }
-  h2 {
-    font-size: 2rem;
-  }
-  h3 {
-    font-size: 1.6rem;
-  }
-  h4 {
-    font-size: 1.5rem;
-  }
-  h5 {
-    font-size: 1.25rem;
-  }
-  h6 {
-    font-size: 1.1rem;
-  }
+  /* Headings use fluid typography via clamp() - no static overrides needed */
 
   .hero-title h1 {
     font-size: clamp(3rem, 6vw, 6rem);

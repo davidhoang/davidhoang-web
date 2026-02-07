@@ -5,7 +5,7 @@ description: "The race to the interface"
 coverImage: "/images/blog/2023/2023-09-03-pull-to-refresh.webp"
 ---
 
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/waiting-for-ais-pull-to-refresh-moment)
+
 
 There is a gesture on the iPhone that long-time mobile users are familiar with that has non-native origins. If you open the official Mail app on the inbox view, you can "pull" the interface down and the app will refresh with more emails. This is known as "pull-to-refresh."
 
@@ -89,3 +89,7 @@ The question isn't whether this moment will come—it's who will create it, and 
 Until then, we wait, experiment, and iterate. Because somewhere, perhaps in a small development studio or a large tech company, someone is working on the gesture, interaction, or paradigm that will define the next era of human-computer interaction.
 
 The race to the interface is on. AI's pull-to-refresh moment is coming.
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/waiting-for-ais-pull-to-refresh-moment)

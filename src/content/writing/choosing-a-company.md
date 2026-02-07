@@ -4,7 +4,7 @@ pubDate: 2023-12-31
 description: "A framework for evaluating your next role"
 coverImage: "/images/blog/img-2023-01-05-choosing-company.webp"
 ---
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)
+
 
 This April, I made a big life change and switched companies after nearly four years at the previous one. Every time I say I’m taking a sabbatical, it never happens. One day, I’ll make sure it happens. I took about a week off before advising with Replit, then ultimately joining the company. Many people ask what made me choose the software creation platform over other opportunities I had, and I’ll share with you my framework for choosing.
 
@@ -51,3 +51,7 @@ Identify what you're optimizing for
 Establish a priority framework (Note: they don't have to start with the letter P)
 Understand signals and anti-goals
 The reflection I ask people who are considering a job change is, "Are you running towards an opportunity or running away from one?" If the place you work at is a dumpster fire and you need to get a new job immediately, then GTFO. However, if what you're running towards isn't clear and the current role you're at is meeting your needs, then create more time. Having this rubric already established made it obvious what the right choice would be.
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)

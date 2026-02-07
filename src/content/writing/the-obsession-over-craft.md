@@ -4,7 +4,7 @@ pubDate: 2023-12-31
 description: "Craft is defined by the worst behavior you tolerate"
 ---
 
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-obsession-over-craft)
+
 
 In conversations about software design (brand, product, content, etc.), the word you constantly hear now is craft.
 
@@ -41,3 +41,7 @@ In software, excellence is often described as high performance, reliability, and
 
 ## Recap
 To be clear, designers with a high bar for craft without the work ethic, ability to respectfully collaborate, and articulate their work are key requirements to be a good designer. My point is not that other skills don’t matter—they do. However, there is a sequence of importance, and craft is first. This is why it’ll inevitably be the first thing you’re evaluated on. Improve on craft and invest the majority of your time in it. The rest will work itself out and unlock greater conversations.
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-obsession-over-craft)

@@ -52,9 +52,14 @@ These CSS custom properties are the foundation of the theme system. Daily themes
 | `--heading-weight` | Heading font weight | `600` |
 | `--body-weight` | Body font weight | `400` |
 | `--body-line-height` | Body line height | `1.6` |
-| `--letter-spacing` | Body letter spacing | `0` |
-| `--heading-letter-spacing` | Heading letter spacing | `0` |
+| `--letter-spacing` | Body letter spacing | `0.005em` |
+| `--heading-letter-spacing` | Heading letter spacing | `-0.02em` |
 | `--heading-transform` | Heading text transform | `none` |
+| `--letter-spacing-display` | Display text (H1) | `-0.03em` |
+| `--letter-spacing-heading-lg` | Large headings (H2) | `-0.02em` |
+| `--letter-spacing-heading-md` | Medium headings (H3-H6) | `-0.01em` |
+| `--letter-spacing-body` | Body text | `0.005em` |
+| `--letter-spacing-caption` | Captions & small text | `0.01em` |
 
 ### Spacing
 
@@ -242,6 +247,41 @@ Typography classes ensure text responds to theme font settings.
 | `.text-body` | `--font-body`, `--body-weight`, `--body-line-height`, `--letter-spacing` |
 | `.text-muted` | `--color-muted` |
 | `.text-link` | `--color-link` |
+
+---
+
+## Pull Quotes
+
+Editorial pull quotes highlight key passages in articles. They are larger and more dramatic than blockquotes, often centered with decorative elements.
+
+### Usage
+
+```html
+<!-- Basic pull quote -->
+<p class="pull-quote">This is a key passage that deserves emphasis and visual prominence.</p>
+
+<!-- Pull quote with attribution -->
+<p class="pull-quote">
+  A powerful statement that captures the essence of the article.
+  <span class="pull-quote-attribution">— Author Name</span>
+</p>
+```
+
+### Styling Details
+
+- **Responsive sizing**: Uses `clamp(1.5rem, 4vw, 2.5rem)` for fluid typography that scales with viewport
+- **Decorative marks**: Large, semi-transparent quotation marks frame the text
+- **Centered layout**: Text is centered for dramatic editorial effect
+- **Borders**: Top and bottom borders create visual separation
+- **Weight**: Semi-bold (600) for emphasis without being too heavy
+
+### Theme Response
+
+| Element | Responds To |
+|---------|-------------|
+| `.pull-quote` | `--color-text`, `--ease-inertia` |
+| `.pull-quote-attribution` | `--color-muted` |
+| Decorative marks | `--color-muted` (at 30% opacity) |
 
 ---
 

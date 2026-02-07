@@ -3,7 +3,7 @@ title: "The four types of software in the future"
 pubDate: 2023-12-31
 description: "The different classes and classifications of what we use (and make)"
 ---
-_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-four-types-of-software-in-the)_
+
 
 When you think of high-end or boutique design, the fashion industry likely comes to mind before software. Take something like a T-shirt. You can find a $10 version of it on a shelf at Target or spend hundreds (if not thousands) of dollars on one at a Louis Vuitton runway show. It might feel weird to think of software at first ponder, but this is where the world is heading. Could you imagine exclusive software? It's very possible in the future. What about software that gets thrown away like a daily-use contact lens? Also possible.
 
@@ -41,6 +41,9 @@ In the instance where Commercial or Boutique software might not meet your needs,
 ### Disposable
 The concept of a disposable object is interesting and can be a great design (if done right). There are disposable cameras, contact lenses, and many others. In fact, the sourdough clam chowder bowl and tostada shell are two of the best examples of great disposable design. What about software that destroys itself when a certain job is done? I see in the future there are certain types of software created by people (or an AI) for a certain purpose and will dispose of it.
 
-
 ## Software is the new material
 The world is now eating up software evolving to be known as an everyday thing we interact with. I'm personally excited about this future. It offers more choice and optionality in what people want. If you want to use a web browser, you can use a major player like Google Chrome, or a more boutique experience such as [Arc from The Browser Company](https://thebrowser.company/), perhaps making your own to fully customize. The [Winampification of software seems](https://skins.webamp.org/) to be making a comeback, and that's a good thing. I for one am excited about more personal software to make your own; a world where you can create what you consume and interact with.
+
+---
+
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/the-four-types-of-software-in-the)_
