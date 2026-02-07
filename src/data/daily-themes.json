@@ -1,6 +1,108 @@
 {
   "themes": [
     {
+      "name": "Neon Palladium",
+      "description": "High-tech precision meets Miami Vice aesthetics with electric accents and chrome-like surfaces.",
+      "colors": {
+        "light": {
+          "--color-text": "#1A1B3A",
+          "--color-bg": "#F4F5FF",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#E6006B",
+          "--color-border": "#C8CADB",
+          "--color-muted": "#6B6D85",
+          "--color-sidebar-bg": "#EAEBF7",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#1A1B3A",
+          "--color-card-bg": "#FAFBFF"
+        },
+        "dark": {
+          "--color-text": "#E8E9F3",
+          "--color-bg": "#0F1121",
+          "--color-link": "#00FFAA",
+          "--color-link-hover": "#00E699",
+          "--color-border": "#2A2D47",
+          "--color-muted": "#8B8FA3",
+          "--color-sidebar-bg": "#181A2E",
+          "--color-nav-bg": "#1A1D33",
+          "--color-nav-text": "#E8E9F3",
+          "--color-card-bg": "#151829"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "uppercase"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "bold"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "0.95",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "mesh-gradient",
+        "colors": [
+          "#FF0080",
+          "#00FFAA",
+          "#4A90E2"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-02-07"
+    },
+    {
       "name": "Copenhagen Fog",
       "description": "Minimalist Nordic design with soft grays and gentle warmth, like morning mist over cobblestones.",
       "colors": {
@@ -591,105 +693,7 @@
         "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-02-01"
-    },
-    {
-      "name": "Jazz Age Speakeasy",
-      "description": "Art deco elegance meets underground rebellion with rich burgundy tones and theatrical typography",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C41E3A",
-          "--color-link-hover": "#8B0000",
-          "--color-border": "#D4AF37",
-          "--color-muted": "#8B4513",
-          "--color-sidebar-bg": "#F5E6D3",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B6B",
-          "--color-link-hover": "#FF4444",
-          "--color-border": "#DAA520",
-          "--color-muted": "#CD853F",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#0D0907",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#261A11"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "/styles/self-hosted-fonts.css",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "/styles/self-hosted-fonts.css",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2.5rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(196, 30, 58, 0.1)",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "980px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "centered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "/styles/self-hosted-fonts.css",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-01-31"
     }
   ],
-  "currentDate": "2026-02-06"
+  "currentDate": "2026-02-07"
 }
