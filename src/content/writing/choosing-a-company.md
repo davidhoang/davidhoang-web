@@ -4,7 +4,7 @@ pubDate: 2023-12-31
 description: "A framework for evaluating your next role"
 coverImage: "/images/blog/img-2023-01-05-choosing-company.webp"
 ---
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)
+
 
 This April, I made a big life change and switched companies after nearly four years at the previous one. Every time I say I’m taking a sabbatical, it never happens. One day, I’ll make sure it happens. I took about a week off before advising with Replit, then ultimately joining the company. Many people ask what made me choose the software creation platform over other opportunities I had, and I’ll share with you my framework for choosing.
 
