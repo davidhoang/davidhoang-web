@@ -207,6 +207,56 @@ blockquote cite {
   text-transform: uppercase;
 }
 
+/* Pull Quote - Editorial highlight for key passages */
+.pull-quote {
+  margin: 3rem 0;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  border-top: 2px solid var(--color-text);
+  border-bottom: 2px solid var(--color-text);
+  transition: color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
+  position: relative;
+}
+
+/* Decorative quotation marks for pull quotes */
+.pull-quote::before,
+.pull-quote::after {
+  content: '"';
+  position: absolute;
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: var(--color-muted);
+  opacity: 0.3;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.pull-quote::before {
+  top: -0.5rem;
+  left: 1rem;
+}
+
+.pull-quote::after {
+  bottom: -0.5rem;
+  right: 1rem;
+}
+
+/* Pull quote attribution */
+.pull-quote-attribution {
+  display: block;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
 /* Prose Content (for markdown/blog posts) */
 .prose-content p {
   margin-bottom: 1.5em;
@@ -239,4 +289,39 @@ blockquote cite {
   border-radius: var(--radius-md);
   margin: var(--spacing-md) 0;
   overflow: auto;
+}
+
+/* Drop cap styling for article openers */
+.prose-content p:first-child::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  padding-top: 0.1em;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Lead paragraph styling - larger, distinct intro text */
+.prose-content p:first-child {
+  font-size: 1.35rem;
+  line-height: 1.7;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.75em;
+  color: var(--color-text);
+}
+
+/* Improved paragraph spacing with better vertical rhythm */
+.prose-content p {
+  margin-bottom: 1.75em;
+}
+
+.prose-content p + p {
+  margin-top: 0;
+}
+
+/* Ensure proper spacing after lead paragraph */
+.prose-content p:first-child + p {
+  margin-top: 0.5em;
 }
