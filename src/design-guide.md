@@ -250,6 +250,41 @@ Typography classes ensure text responds to theme font settings.
 
 ---
 
+## Pull Quotes
+
+Editorial pull quotes highlight key passages in articles. They are larger and more dramatic than blockquotes, often centered with decorative elements.
+
+### Usage
+
+```html
+<!-- Basic pull quote -->
+<p class="pull-quote">This is a key passage that deserves emphasis and visual prominence.</p>
+
+<!-- Pull quote with attribution -->
+<p class="pull-quote">
+  A powerful statement that captures the essence of the article.
+  <span class="pull-quote-attribution">— Author Name</span>
+</p>
+```
+
+### Styling Details
+
+- **Responsive sizing**: Uses `clamp(1.5rem, 4vw, 2.5rem)` for fluid typography that scales with viewport
+- **Decorative marks**: Large, semi-transparent quotation marks frame the text
+- **Centered layout**: Text is centered for dramatic editorial effect
+- **Borders**: Top and bottom borders create visual separation
+- **Weight**: Semi-bold (600) for emphasis without being too heavy
+
+### Theme Response
+
+| Element | Responds To |
+|---------|-------------|
+| `.pull-quote` | `--color-text`, `--ease-inertia` |
+| `.pull-quote-attribution` | `--color-muted` |
+| Decorative marks | `--color-muted` (at 30% opacity) |
+
+---
+
 ## Images
 
 Image classes ensure photos respond to theme image treatments.
