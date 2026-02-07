@@ -51,3 +51,7 @@ Identify what you're optimizing for
 Establish a priority framework (Note: they don't have to start with the letter P)
 Understand signals and anti-goals
 The reflection I ask people who are considering a job change is, "Are you running towards an opportunity or running away from one?" If the place you work at is a dumpster fire and you need to get a new job immediately, then GTFO. However, if what you're running towards isn't clear and the current role you're at is meeting your needs, then create more time. Having this rubric already established made it obvious what the right choice would be.
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/choosing-a-company-to-join)

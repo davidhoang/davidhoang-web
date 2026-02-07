@@ -3,7 +3,7 @@ title: "Building your designs"
 pubDate: 2024-02-11
 description: "A better focus than, should designers code?"
 ---
-Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/building-your-designs)
+
 
 At some point in a designer’s career, the age-old question is asked: "Should designers code?" My direct answer for people who design software interfaces is yes. This is a belief I've held my entire career. Despite my stance, I don't like the question. It might be the wrong question to focus on and varies depending on who is asking it. Designers feel like they are doing multiple jobs, so if someone outside our practice provokes the question, it feels like we're being asked to do more without being rewarded for the work.
 
@@ -57,3 +57,7 @@ Building your designs makes you a better designer.
 Designers build.
 
 ![Designer working on building and implementing designs](/images/blog/img-181-cover@2x.webp)
+
+---
+
+Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/building-your-designs)

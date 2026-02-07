@@ -5,7 +5,7 @@ description: "Issue 114: Making memorable documents"
 coverImage: "/images/blog/2022/img-2022-10-16-artifacts-cover.webp"
 ---
 
-_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/creating-value-with-artifacts)_
+
 
 **Artifact:** An object made by a human being, typically an item of cultural or historical interest.
 
@@ -64,3 +64,7 @@ We printed out several copies and shared the narrative with our coworkers and st
 ## Try making artifacts
 
 Don't underestimate the power of making an artifact. If you don't know where to start, make a simple drawing or diagram. Share it with a colleague to see if it's helpful. As you build a conversation around it, it'll prove its value. Finally, making artifacts are fun. I wish you luck in your artifact-making.
+
+---
+
+_Originally posted on [Proof of Concept](https://www.proofofconcept.pub/p/creating-value-with-artifacts)_
