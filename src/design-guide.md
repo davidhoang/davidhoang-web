@@ -52,9 +52,14 @@ These CSS custom properties are the foundation of the theme system. Daily themes
 | `--heading-weight` | Heading font weight | `600` |
 | `--body-weight` | Body font weight | `400` |
 | `--body-line-height` | Body line height | `1.6` |
-| `--letter-spacing` | Body letter spacing | `0` |
-| `--heading-letter-spacing` | Heading letter spacing | `0` |
+| `--letter-spacing` | Body letter spacing | `0.005em` |
+| `--heading-letter-spacing` | Heading letter spacing | `-0.02em` |
 | `--heading-transform` | Heading text transform | `none` |
+| `--letter-spacing-display` | Display text (H1) | `-0.03em` |
+| `--letter-spacing-heading-lg` | Large headings (H2) | `-0.02em` |
+| `--letter-spacing-heading-md` | Medium headings (H3-H6) | `-0.01em` |
+| `--letter-spacing-body` | Body text | `0.005em` |
+| `--letter-spacing-caption` | Captions & small text | `0.01em` |
 
 ### Spacing
 
