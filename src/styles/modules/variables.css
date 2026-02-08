@@ -1,0 +1,143 @@
+/* ============================================
+   CSS Variables (Design Tokens)
+   ============================================ */
+
+:root {
+  /* Colors - Light mode */
+  --color-text: #333;
+  --color-bg: #fff;
+  --color-link: #333;
+  --color-link-hover: #666;
+  --color-border: #eee;
+  --color-muted: #666;
+  --color-sidebar-bg: #f7f7f7;
+  --color-nav-bg: #f5f5f5;
+  --color-nav-text: #333;
+  --color-nav-hover: rgba(0, 0, 0, 0.05);
+
+  /* Layout */
+  --nav-height: 40px;
+  --nav-offset-top: 24px; /* Desktop nav floats below viewport top */
+  --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem); /* Space below nav */
+  --container-padding: clamp(1rem, 3vw, 2rem);
+  
+  /* Breakpoints */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-large: 1440px;
+  --breakpoint-desktop-extra-large: 1920px;
+
+  /* Animation - Inertia easing for smooth, natural motion */
+  --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-inertia-smooth: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com) */
+  --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
+  --font-heading: var(--font-primary);
+  --font-body: var(--font-primary);
+  --font-mono: 'ABC Diatype Mono', 'Courier New', Courier, monospace;
+
+  /* Typography weights and transforms */
+  --heading-weight: 600;
+  --heading-letter-spacing: -0.02em;
+  --heading-transform: none;
+  --body-weight: 400;
+  --body-line-height: 1.6;
+  --letter-spacing: 0.005em;
+
+  /* Letter-spacing scale for optical sizing */
+  --letter-spacing-display: -0.03em;  /* Large display text (H1) */
+  --letter-spacing-heading-lg: -0.02em;  /* Large headings (H2) */
+  --letter-spacing-heading-md: -0.01em;  /* Medium headings (H3, H4) */
+  --letter-spacing-body: 0.005em;  /* Body text */
+  --letter-spacing-caption: 0.01em;  /* Small text, captions */
+
+  /* Fluid Typography - Heading Sizes with Optical Sizing */
+  --h1-size: clamp(2rem, 5vw, 5rem);
+  --h1-line-height: 1.1;
+  --h1-letter-spacing: -0.03em;  /* Tightest for largest display text */
+
+  --h2-size: clamp(1.75rem, 4vw, 4rem);
+  --h2-line-height: 1.15;
+  --h2-letter-spacing: -0.02em;  /* Tight for large headings */
+
+  --h3-size: clamp(1.25rem, 3vw, 2.5rem);
+  --h3-line-height: 1.2;
+  --h3-letter-spacing: -0.01em;  /* Slightly tight for medium headings */
+
+  --h4-size: clamp(1.1rem, 2.5vw, 2rem);
+  --h4-line-height: 1.25;
+  --h4-letter-spacing: -0.005em;  /* Subtle tightening */
+
+  --h5-size: clamp(1rem, 2vw, 1.75rem);
+  --h5-line-height: 1.3;
+  --h5-letter-spacing: 0;  /* Neutral for smaller headings */
+
+  --h6-size: clamp(0.9rem, 1.5vw, 1.5rem);
+  --h6-line-height: 1.35;
+  --h6-letter-spacing: 0.005em;  /* Slight opening for smallest headings */
+
+  /* Navigation */
+  --nav-padding: 0.5rem 1rem;
+
+  /* Cards */
+  --color-card-bg: var(--color-sidebar-bg);
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --card-border-width: 1px;
+  --card-padding: 1.5rem;
+
+  /* Section spacing (for daily themes) */
+  --section-spacing: 4rem;
+  --content-padding: 2rem;
+
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+
+  /* Border radius scale */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Sizing scale */
+  --size-xs: 20px;
+  --size-sm: 24px;
+  --size-md: 32px;
+  --size-lg: 48px;
+  --size-xl: 64px;
+  --size-2xl: 80px;
+
+  /* Shared component styles - Border and Shadow */
+  --border-default: 1px solid var(--color-border);
+  --border-hover: 4px solid var(--color-border);
+  --shadow-default: none;
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12);
+  --shadow-scrolling: 0 4px 12px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.08);
+  --inner-border: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  --inner-border-button: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Dark mode colors */
+[data-theme="dark"] {
+  --color-text: #e1e1e1;
+  --color-bg: #111;
+  --color-link: #8bb8ff;
+  --color-link-hover: #afd0ff;
+  --color-border: #333;
+  --color-muted: #888;
+  --color-sidebar-bg: #1a1a1a;
+  --color-nav-bg: #1a1a1a;
+  --color-nav-text: #e1e1e1;
+  --color-nav-hover: rgba(255, 255, 255, 0.1);
+  --inner-border: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  --inner-border-button: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}

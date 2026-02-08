@@ -1,6 +1,7 @@
 ---
 import '../styles/reset.css';
 import '../styles/global.css';
+import '../styles/self-hosted-fonts.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
@@ -8,7 +9,6 @@ import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import { ViewTransitions } from 'astro:transitions';
-import imgBgNoise from '../assets/images/img-bg-noise.webp';
 
 interface Props {
   title: string;
@@ -66,6 +66,16 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Font preloading for critical performance improvement -->
+    <link rel="preload" href="/fonts/ABCDiatypeVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ABCDiatypeMonoVariable.woff2" as="font" type="font/woff2" crossorigin />
+    
+    <!-- Self-hosted Google Fonts - preload most critical files -->
+    <link rel="preload" href="/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2" as="font" type="font/woff2" crossorigin />
+    
+    <!-- DNS prefetch for external resources -->
+
     <!-- Browser theme color - blends browser UI with site -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
@@ -81,7 +91,6 @@ const ogImageUrl = ogImage.startsWith('http')
         --color-bg: #fff;
         --nav-height: 40px;
         --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
-        --bg-noise-image: url('{imgBgNoise.src}');
       }
       [data-theme="dark"] {
         --color-text: #e1e1e1;

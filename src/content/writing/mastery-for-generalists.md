@@ -5,7 +5,7 @@ description: "Issue 097: Becoming good when you're interested in everything"
 coverImage: "/images/blog/2022/img-2022-mastery-for-generalists-cover.webp"
 ---
 
-[Originally posted on Proof of Concept](https://www.proofofconcept.pub/p/mastery-for-generalists)
+
 
 When I was on the Product team at One Medical, our clinical and Ops teams were critical partners in how we shipped work. It was common to visit the offices to observe (going to gemba). During my four years at the health tech company, I learned about the various roles on clinical teams: primary care providers, registered nurses, care navigators, specialists, phlebotomists, and many more. In my research work, I spent the majority of the time with primary care providers (generalists).
 
@@ -62,5 +62,9 @@ I've worked in so many aspects of design: UI Designer, Information Architect, Ma
 Understand how every org works and connecting the dots across them. One of the services I was most passionate at while at One Medical was pediatrics and family practice. Whenever I had a coffee break or free time, I'd make time to connect with people who were passionate about that program and ways to support it. Learn how to synthesize, story tell, and connect to the big picture.
 
 Mastering the generalist path means everyone will be better than you at something, but you're better than everyone at every little thing.
+
+---
+
+[Originally posted on Proof of Concept](https://www.proofofconcept.pub/p/mastery-for-generalists)
 
 Being a generalist does not mean the work is shallow. It's right sizing the amount of up skill needed to get the job done. If the path of a generalist resonates with you, continue diversifying your skill portfolio and extend your range.

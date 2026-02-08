@@ -1,0 +1,327 @@
+/* ============================================
+   Typography & Font Faces
+   ============================================
+
+   ABC Diatype Variable Fonts
+   Typeface: ABC Diatype & ABC Diatype Mono
+   Foundry: Dinamo (https://abcdinamo.com)
+
+   ABC Diatype is a sans-serif with a warm, rational character.
+   Designed by Johannes Breyer and Fabian Harb.
+
+   Support independent type foundries!
+
+   ============================================ */
+
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatypeVariable.woff2') format('woff2'),
+       url('/fonts/ABCDiatypeVariable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Diatype Mono';
+  src: url('/fonts/ABCDiatypeMonoVariable.woff2') format('woff2'),
+       url('/fonts/ABCDiatypeMonoVariable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-weight: 700;
+  letter-spacing: var(--heading-letter-spacing);
+  font-family: var(--font-heading);
+  text-transform: var(--heading-transform);
+}
+
+h1 {
+  font-size: var(--h1-size);
+  line-height: var(--h1-line-height);
+  letter-spacing: var(--h1-letter-spacing);
+  font-weight: 700;
+  margin: 16px 0px;
+}
+
+h2 {
+  font-size: var(--h2-size);
+  line-height: var(--h2-line-height);
+  letter-spacing: var(--h2-letter-spacing);
+  margin: 16px 0px;
+}
+
+h3 {
+  font-size: var(--h3-size);
+  line-height: var(--h3-line-height);
+  letter-spacing: var(--h3-letter-spacing);
+  margin-top: 16px;
+}
+
+h4 {
+  font-size: var(--h4-size);
+  line-height: var(--h4-line-height);
+  letter-spacing: var(--h4-letter-spacing);
+}
+
+h5 {
+  font-size: var(--h5-size);
+  line-height: var(--h5-line-height);
+  letter-spacing: var(--h5-letter-spacing);
+}
+
+h6 {
+  font-size: var(--h6-size);
+  line-height: var(--h6-line-height);
+  letter-spacing: var(--h6-letter-spacing);
+}
+
+p {
+  margin-bottom: 1.25em;
+  font-size: 1.2rem;
+  line-height: var(--body-line-height, 1.6);
+  letter-spacing: var(--letter-spacing-body);
+  color: var(--color-text);
+}
+
+/* Editorial list styling */
+ul,
+ol {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+  color: var(--color-text);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+/* Nested lists */
+ul ul,
+ol ul {
+  list-style-type: circle;
+  margin: 0.5em 0;
+}
+
+ul ul ul,
+ol ul ul {
+  list-style-type: square;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-alpha;
+  margin: 0.5em 0;
+}
+
+li {
+  margin-bottom: 0.5em;
+  line-height: var(--body-line-height, 1.6);
+  font-size: 1.2rem;
+  letter-spacing: var(--letter-spacing-body);
+  color: var(--color-text);
+  padding-left: 0.25em;
+}
+
+/* Tighter spacing for nested list items */
+li li {
+  margin-bottom: 0.35em;
+}
+
+/* Remove bottom margin from last items */
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists directly after paragraphs - tighter spacing */
+p + ul,
+p + ol {
+  margin-top: -0.5em;
+}
+
+strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+  color: var(--color-text);
+}
+
+[data-theme="dark"] em {
+  color: var(--color-text);
+}
+
+time {
+  color: var(--color-muted);
+}
+
+/* Blockquote */
+blockquote {
+  margin: 2.5rem 0;
+  padding: 2rem 2.5rem;
+  border-left: 3px solid var(--color-text);
+  background-color: var(--color-sidebar-bg);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
+}
+
+blockquote p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.35rem;
+  line-height: 1.7;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+blockquote cite {
+  display: block;
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  color: var(--color-muted);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Pull Quote - Editorial highlight for key passages */
+.pull-quote {
+  margin: 3rem 0;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  border-top: 2px solid var(--color-text);
+  border-bottom: 2px solid var(--color-text);
+  transition: color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
+  position: relative;
+}
+
+/* Decorative quotation marks for pull quotes */
+.pull-quote::before,
+.pull-quote::after {
+  content: '"';
+  position: absolute;
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: var(--color-muted);
+  opacity: 0.3;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.pull-quote::before {
+  top: -0.5rem;
+  left: 1rem;
+}
+
+.pull-quote::after {
+  bottom: -0.5rem;
+  right: 1rem;
+}
+
+/* Pull quote attribution */
+.pull-quote-attribution {
+  display: block;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Prose Content (for markdown/blog posts) */
+.prose-content p {
+  margin-bottom: 1.5em;
+}
+
+.prose-content ul,
+.prose-content ol {
+  margin: 1.5em 0;
+  padding-left: 1.75em;
+}
+
+.prose-content li {
+  margin-bottom: 0.75em;
+  padding-left: 0.5em;
+}
+
+.prose-content li:last-child {
+  margin-bottom: 0;
+}
+
+/* Prose nested lists */
+.prose-content li ul,
+.prose-content li ol {
+  margin: 0.75em 0;
+}
+
+.prose-content img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin: var(--spacing-md) 0;
+  overflow: auto;
+}
+
+/* Drop cap styling for article openers */
+.prose-content p:first-child::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  padding-top: 0.1em;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Lead paragraph styling - larger, distinct intro text */
+.prose-content p:first-child {
+  font-size: 1.35rem;
+  line-height: 1.7;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.75em;
+  color: var(--color-text);
+}
+
+/* Improved paragraph spacing with better vertical rhythm */
+.prose-content p {
+  margin-bottom: 1.75em;
+}
+
+.prose-content p + p {
+  margin-top: 0;
+}
+
+/* Ensure proper spacing after lead paragraph */
+.prose-content p:first-child + p {
+  margin-top: 0.5em;
+}
