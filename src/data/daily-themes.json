@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Marrakech Tiles",
+      "description": "Warm terracotta and geometric patterns inspired by Moroccan architecture and desert sunsets.",
+      "colors": {
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#D62828",
+          "--color-border": "#E9C46A",
+          "--color-muted": "#8B4513",
+          "--color-sidebar-bg": "#FADBD8",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FDEBD0"
+        },
+        "dark": {
+          "--color-text": "#F4E4BC",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C42",
+          "--color-border": "#8B4513",
+          "--color-muted": "#CD853F",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F4E4BC",
+          "--color-card-bg": "#261A11"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 4px 16px rgba(139, 69, 19, 0.1)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "960px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-09"
+    },
+    {
       "name": "Jazz Age Speakeasy",
       "description": "Dark luxury with gold accents, channeling 1920s underground elegance and Art Deco sophistication.",
       "colors": {
@@ -598,105 +696,7 @@
         "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "date": "2026-02-03"
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Electric energy meets luxurious depth in a bold display of contrasts and rich textures.",
-      "colors": {
-        "light": {
-          "--color-text": "#2D132C",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#FF3366",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#E8B4CB",
-          "--color-muted": "#8B5A6B",
-          "--color-sidebar-bg": "#F8E6F0",
-          "--color-nav-bg": "#2D132C",
-          "--color-nav-text": "#FDF2E9",
-          "--color-card-bg": "#FDEDEC"
-        },
-        "dark": {
-          "--color-text": "#F8E6F0",
-          "--color-bg": "#2D132C",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#8B5A6B",
-          "--color-muted": "#C9A96E",
-          "--color-sidebar-bg": "#1A0F18",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#2D132C",
-          "--color-card-bg": "#3D1B34"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Unbounded",
-          "url": "/styles/self-hosted-fonts.css",
-          "category": "display",
-          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "/styles/self-hosted-fonts.css",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2.5rem"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 12px 40px rgba(255, 51, 102, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "bold"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Unbounded",
-        "url": "/styles/self-hosted-fonts.css",
-        "category": "display",
-        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-02-02"
     }
   ],
-  "currentDate": "2026-02-08"
+  "currentDate": "2026-02-09"
 }
