@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Concrete Haiku",
+      "description": "Minimalist Japanese aesthetics meets industrial brutalism with warm undertones and precise typography.",
+      "colors": {
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F8F5F0",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#D62828",
+          "--color-border": "#E0DDD8",
+          "--color-muted": "#6C6962",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#FEFCF9"
+        },
+        "dark": {
+          "--color-text": "#E8E6E3",
+          "--color-bg": "#1A1A18",
+          "--color-link": "#FF6B6B",
+          "--color-link-hover": "#FF5252",
+          "--color-border": "#2D2D2A",
+          "--color-muted": "#A8A6A3",
+          "--color-sidebar-bg": "#242421",
+          "--color-nav-bg": "#0F0F0E",
+          "--color-nav-text": "#E8E6E3",
+          "--color-card-bg": "#1F1F1C"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-02-11"
+    },
+    {
       "name": "Velvet Thunder",
       "description": "Rich burgundy depths meet electric gold accents in a moody editorial experience",
       "colors": {
@@ -594,105 +692,7 @@
         "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
       },
       "date": "2026-02-05"
-    },
-    {
-      "name": "Botanical Codex",
-      "description": "Art Nouveau meets scientific illustration with organic curves and vintage botanical precision",
-      "colors": {
-        "light": {
-          "--color-text": "#2D4A3E",
-          "--color-bg": "#F8FBF6",
-          "--color-link": "#8B6F47",
-          "--color-link-hover": "#A0845C",
-          "--color-border": "#E1E8DD",
-          "--color-muted": "#6B7F72",
-          "--color-sidebar-bg": "#F0F5EC",
-          "--color-nav-bg": "#FAFCF8",
-          "--color-nav-text": "#3A5248",
-          "--color-card-bg": "#FCFEFB"
-        },
-        "dark": {
-          "--color-text": "#D4E0D7",
-          "--color-bg": "#1A2420",
-          "--color-link": "#D4AF7A",
-          "--color-link-hover": "#E6C291",
-          "--color-border": "#2F3E35",
-          "--color-muted": "#8A9B8F",
-          "--color-sidebar-bg": "#212B27",
-          "--color-nav-bg": "#1F2923",
-          "--color-nav-text": "#C7D3CA",
-          "--color-card-bg": "#1E2824"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "/styles/self-hosted-fonts.css",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "/styles/self-hosted-fonts.css",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "60px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "/styles/self-hosted-fonts.css",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-02-04"
     }
   ],
-  "currentDate": "2026-02-10"
+  "currentDate": "2026-02-11"
 }
