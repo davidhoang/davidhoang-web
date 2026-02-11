@@ -188,16 +188,16 @@ const isImageVariant = variant === 'image' && image;
 
   /* Image variant - full hero with shader */
   .page-header--image .page-header__hero {
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
+    max-width: 100%;
     height: 75vh;
     min-height: 300px;
     max-height: 600px;
     /* Negate main padding dynamically - use CSS var with fallback */
     margin-top: calc(-1 * var(--content-top-padding, 4rem));
     margin-bottom: 2rem;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    margin-left: 0;
+    margin-right: 0;
     overflow: hidden;
     position: relative;
     display: flex;
