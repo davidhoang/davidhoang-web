@@ -72,32 +72,6 @@ const hasThemes = themes.length > 0;
         ))}
       </div>
 
-      <div class="mood-section">
-        <span class="section-label">Mood</span>
-        <div class="mood-buttons">
-          <button class="mood-btn" data-mood="focus" title="Focus mode - reduced distractions">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <circle cx="12" cy="12" r="6"></circle>
-              <circle cx="12" cy="12" r="2"></circle>
-            </svg>
-            <span>Focus</span>
-          </button>
-          <button class="mood-btn" data-mood="creative" title="Creative mode - vibrant energy">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <span>Creative</span>
-          </button>
-          <button class="mood-btn" data-mood="relaxed" title="Relaxed mode - warm and calm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
-            </svg>
-            <span>Relaxed</span>
-          </button>
-        </div>
-      </div>
-
       <div class="calendar-footer">
         <div class="sound-row">
           <span class="sound-label">Ambient sound</span>
@@ -418,57 +392,6 @@ const hasThemes = themes.length > 0;
 
   .sound-toggle-btn[aria-pressed="true"] .sound-status {
     color: var(--color-link);
-  }
-
-  /* Mood section */
-  .mood-section {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-text);
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .mood-buttons {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .mood-btn {
-    flex: 1;
-    padding: 0.5rem;
-    background: var(--color-sidebar-bg);
-    border: 1px solid transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.625rem;
-    font-family: var(--font-primary);
-    color: var(--color-muted);
-    transition: all 0.2s ease;
-  }
-
-  .mood-btn:hover {
-    border-color: var(--color-border);
-  }
-
-  .mood-btn.active {
-    border-color: var(--color-link);
-    color: var(--color-link);
-    background: var(--color-bg);
-  }
-
-  .mood-btn svg {
-    width: 14px;
-    height: 14px;
   }
 
   @media (max-width: 768px) {
@@ -896,43 +819,6 @@ const hasThemes = themes.length > 0;
     root.removeAttribute('data-shader-colors');
   }
 
-  // Mood selector functionality
-  function initMoodSelector() {
-    const moodBtns = document.querySelectorAll('.mood-btn');
-    const currentMood = localStorage.getItem('user-mood') || null;
-
-    // Apply saved mood
-    if (currentMood) {
-      document.documentElement.setAttribute('data-mood', currentMood);
-      const activeBtn = document.querySelector(`.mood-btn[data-mood="${currentMood}"]`);
-      if (activeBtn) activeBtn.classList.add('active');
-    }
-
-    moodBtns.forEach(btn => {
-      // Skip if already initialized
-      if (btn.dataset.moodInitialized === 'true') return;
-      btn.dataset.moodInitialized = 'true';
-
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const mood = btn.getAttribute('data-mood');
-        const isActive = btn.classList.contains('active');
-
-        // Toggle off if clicking active mood
-        if (isActive) {
-          document.documentElement.removeAttribute('data-mood');
-          localStorage.removeItem('user-mood');
-          btn.classList.remove('active');
-        } else {
-          document.documentElement.setAttribute('data-mood', mood);
-          localStorage.setItem('user-mood', mood);
-          moodBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-        }
-      });
-    });
-  }
-
   // Listen for theme toggle changes to update daily theme colors
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
@@ -948,14 +834,12 @@ const hasThemes = themes.length > 0;
 
   observer.observe(document.documentElement, { attributes: true });
 
-  // Initialize all features
+  // Initialize
   initDailyTheme();
-  initMoodSelector();
 
   // Re-initialize after navigation
   document.addEventListener('astro:page-load', () => {
     initDailyTheme();
-    initMoodSelector();
   });
 </script>
 
