@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Forbidden Gallery",
+      "description": "Dark romantic aesthetics with blood-red accents and ornate typography for Friday the 13th",
+      "colors": {
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#DC143C",
+          "--color-link-hover": "#B91C3C",
+          "--color-border": "#E5B4B8",
+          "--color-muted": "#8B5A5A",
+          "--color-sidebar-bg": "#FAE8E4",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FEFAF8"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B7A",
+          "--color-link-hover": "#FF8FA3",
+          "--color-border": "#4A2C2A",
+          "--color-muted": "#A0857A",
+          "--color-sidebar-bg": "#261A15",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#2D1B16"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 12px 28px rgba(139, 90, 90, 0.15)",
+        "borderWidth": "1px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-13"
+    },
+    {
       "name": "Polaroid Summer",
       "description": "Nostalgic warmth with playful vintage charm and saturated film photography aesthetics",
       "colors": {
@@ -594,105 +692,7 @@
         "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "date": "2026-02-07"
-    },
-    {
-      "name": "Copenhagen Fog",
-      "description": "Minimalist Nordic design with soft grays and gentle warmth, like morning mist over cobblestones.",
-      "colors": {
-        "light": {
-          "--color-text": "#2D3748",
-          "--color-bg": "#F7FAFC",
-          "--color-link": "#3182CE",
-          "--color-link-hover": "#2C5282",
-          "--color-border": "#E2E8F0",
-          "--color-muted": "#718096",
-          "--color-sidebar-bg": "#EDF2F7",
-          "--color-nav-bg": "rgba(247, 250, 252, 0.8)",
-          "--color-nav-text": "#4A5568",
-          "--color-card-bg": "#FFFFFF"
-        },
-        "dark": {
-          "--color-text": "#F7FAFC",
-          "--color-bg": "#1A202C",
-          "--color-link": "#63B3ED",
-          "--color-link-hover": "#90CDF4",
-          "--color-border": "#4A5568",
-          "--color-muted": "#A0AEC0",
-          "--color-sidebar-bg": "#2D3748",
-          "--color-nav-bg": "rgba(26, 32, 44, 0.8)",
-          "--color-nav-text": "#CBD5E0",
-          "--color-card-bg": "#2D3748"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Playfair Display",
-          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 16px rgba(0,0,0,0.08)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Playfair Display",
-        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Playfair Display', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-02-06"
     }
   ],
-  "currentDate": "2026-02-12"
+  "currentDate": "2026-02-13"
 }
