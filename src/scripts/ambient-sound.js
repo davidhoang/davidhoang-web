@@ -2,7 +2,8 @@
  * Ambient Sound System
  *
  * Generates subtle ambient soundscapes using Web Audio API
- * based on the current theme's mood. No audio files needed.
+ * based on the current theme's mood. The coffeeshop mood uses
+ * a real audio file loop with a synth-based fallback.
  */
 
 class AmbientSound {
@@ -12,6 +13,8 @@ class AmbientSound {
     this.isPlaying = false;
     this.nodes = [];
     this.currentMood = 'calm';
+    this.coffeeShopBuffer = null;
+    this.coffeeShopBufferLoading = false;
   }
 
   /**
@@ -70,6 +73,46 @@ class AmbientSound {
     }
 
     return 'calm';
+  }
+
+  /**
+   * Load and decode the coffee shop ambient audio file.
+   * Returns cached buffer if already loaded, null on failure.
+   */
+  async loadCoffeeShopAudio() {
+    if (this.coffeeShopBuffer) {
+      return this.coffeeShopBuffer;
+    }
+
+    if (this.coffeeShopBufferLoading) {
+      return new Promise((resolve) => {
+        const checkInterval = setInterval(() => {
+          if (!this.coffeeShopBufferLoading) {
+            clearInterval(checkInterval);
+            resolve(this.coffeeShopBuffer);
+          }
+        }, 100);
+        setTimeout(() => {
+          clearInterval(checkInterval);
+          resolve(null);
+        }, 10000);
+      });
+    }
+
+    this.coffeeShopBufferLoading = true;
+
+    try {
+      const response = await fetch('/audio/freesound_community-ambience-coffee-shop-5-17059.mp3');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const arrayBuffer = await response.arrayBuffer();
+      this.coffeeShopBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+      return this.coffeeShopBuffer;
+    } catch (error) {
+      console.warn('Ambient sound: Failed to load coffee shop audio, using synth fallback.', error);
+      return null;
+    } finally {
+      this.coffeeShopBufferLoading = false;
+    }
   }
 
   /**
@@ -163,9 +206,43 @@ class AmbientSound {
   }
 
   /**
-   * Coffee Shop: Warm background murmur with soft jazz undertones
+   * Coffee Shop: Real audio loop with synth fallback
    */
-  createCoffeeShopAmbience() {
+  async createCoffeeShopAmbience() {
+    const buffer = await this.loadCoffeeShopAudio();
+
+    // Guard: mood may have changed while loading
+    if (this.currentMood !== 'coffeeshop') return;
+
+    if (buffer) {
+      this.playCoffeeShopBuffer(buffer);
+    } else {
+      this.createCoffeeShopSynthFallback();
+    }
+  }
+
+  /**
+   * Play the decoded coffee shop audio buffer as a looping source
+   */
+  playCoffeeShopBuffer(buffer) {
+    const source = this.audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+
+    const gain = this.audioContext.createGain();
+    gain.gain.value = 0.7;
+
+    source.connect(gain);
+    gain.connect(this.masterGain);
+    source.start();
+
+    this.nodes.push({ noise: source, gain });
+  }
+
+  /**
+   * Synth fallback for coffee shop ambience
+   */
+  createCoffeeShopSynthFallback() {
     // Soft background murmur (like distant conversation)
     this.createFilteredNoise(0.025, 150, 600);
 
