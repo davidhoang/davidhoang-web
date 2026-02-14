@@ -290,13 +290,14 @@ const NodeTestComponent: React.FC = () => {
                 // Keep hovered state for inspection
                 e.cancelBubble = true;
                 e.evt.stopPropagation();
-                // Store node in window for easy access
-                (window as any).__inspectedNode = testNode;
-                console.group('🔍 Node Inspection');
-                console.log('Node Data:', testNode);
-                console.log('Full Node Object:', testNode);
-                console.log('💡 Tip: Access this node via window.__inspectedNode');
-                console.groupEnd();
+                // Store node in window for easy access in dev tools
+                if (process.env.NODE_ENV === 'development') {
+                  (window as any).__inspectedNode = testNode;
+                  console.group('Node Inspection');
+                  console.log('Node Data:', testNode);
+                  console.log('Access this node via window.__inspectedNode');
+                  console.groupEnd();
+                }
               }}
             />
             
