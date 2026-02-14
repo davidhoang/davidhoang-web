@@ -137,7 +137,7 @@ const ogImageUrl = ogImage.startsWith('http')
         padding: 8px;
         text-decoration: none;
         border-radius: 4px;
-        z-index: 10000;
+        z-index: var(--z-skip-link);
       }
       .skip-link:focus-visible {
         top: 6px;
@@ -174,17 +174,17 @@ const ogImageUrl = ogImage.startsWith('http')
 
   </head>
   <body>
-    <!-- Filter wrapper for mood/intensity effects - fixed UI elements must be outside -->
+    <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <Navigation />
+    <!-- Filter wrapper for mood/intensity effects - position:fixed elements must be outside -->
     <div class="content-filter-wrapper">
       <ShaderBackground client:idle />
-      <a href="#main-content" class="skip-link">Skip to main content</a>
-      <Navigation />
       <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
         <slot />
       </main>
       {!hideFooter && <Footer />}
     </div>
-    <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
     <DailyThemeToggle />
     <ThemeToggle />
 

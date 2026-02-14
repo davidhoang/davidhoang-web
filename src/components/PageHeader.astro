@@ -221,13 +221,13 @@ const isImageVariant = variant === 'image' && image;
       rgba(0, 0, 0, 0.2) 0%,
       rgba(0, 0, 0, 0.4) 100%
     );
-    z-index: 1;
+    z-index: var(--z-content);
     pointer-events: none;
   }
 
   .page-header--image .page-header__title {
     position: relative;
-    z-index: 2;
+    z-index: calc(var(--z-content) + 1);
     color: white;
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 700;

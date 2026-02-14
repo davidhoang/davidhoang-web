@@ -4251,15 +4251,15 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
       console.log('Showing loading state:', { window: typeof window !== 'undefined', konvaComponents: !!konvaComponents });
     }
     return (
-      <div className="career-odyssey-wrapper" style={{ width: '100%', height: '100vh', position: 'relative' }}>
-        <div 
-          className="career-odyssey-container" 
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
+      <div className="career-odyssey-wrapper" style={{ width: '100%', height: '100dvh', position: 'relative' }}>
+        <div
+          className="career-odyssey-container"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             width: '100%',
-            height: '100vh',
+            height: '100dvh',
             backgroundColor: '#ffffff',
             position: 'absolute',
             top: 0,
@@ -5177,6 +5177,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         .career-odyssey-wrapper {
           width: 100%;
           height: 100vh;
+          height: 100dvh;
           position: fixed;
           top: 0;
           left: 0;
@@ -5584,6 +5585,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         @media (max-width: 639px) {
           .career-odyssey-wrapper {
             height: 100vh;
+            height: 100dvh;
             min-height: 500px;
           }
 
@@ -5629,6 +5631,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         @media (min-width: 640px) and (max-width: 1023px) {
           .career-odyssey-wrapper {
             height: 100vh;
+            height: 100dvh;
             min-height: 600px;
           }
 
@@ -5674,6 +5677,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         @media (min-width: 1024px) {
           .career-odyssey-wrapper {
             height: 100vh;
+            height: 100dvh;
           }
 
           .node-card {

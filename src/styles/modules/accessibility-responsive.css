@@ -47,12 +47,41 @@
 
 /* ============================================
    Responsive Design
+
+   Breakpoint scale:
+     Mobile:       max-width: 768px
+     Small mobile: max-width: 480px
+     Large tablet:  min-width: 769px and max-width: 1024px
+     Extra-large:   min-width: 1920px
    ============================================ */
 
 @media (max-width: 768px) {
   /* Mobile nav is full-width at top: 0 with 64px height + safe-area-inset */
   :root {
     --content-top-padding: calc(64px + env(safe-area-inset-top, 0px) + 1.5rem);
+  }
+
+  /* Container - tighter padding on mobile */
+  .container {
+    padding: 1.0rem;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Typography - ensure text wraps properly on small screens */
+  p,
+  li {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.25em;
   }
 
   /* Headings use fluid typography via clamp() - no static overrides needed */
@@ -104,27 +133,11 @@
   }
 }
 
+/* Small mobile — compact hero and tighter spacing */
 @media (max-width: 480px) {
-  .container {
-    padding: 1.0rem;
-    max-width: 100%;
-    width: 100%;
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-
   p,
   li {
     font-size: 1.1rem;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-  }
-
-  ul,
-  ol {
-    padding-left: 1.25em;
   }
 
   .hero-title h1 {

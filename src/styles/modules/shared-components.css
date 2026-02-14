@@ -16,7 +16,7 @@
   border-radius: inherit;
   pointer-events: none;
   box-shadow: var(--inner-border);
-  z-index: 1;
+  z-index: var(--z-content);
 }
 
 /* Glass-like border effect for buttons - optimized for both light and dark modes */
@@ -40,7 +40,7 @@
   border-radius: inherit;
   pointer-events: none;
   box-shadow: var(--inner-border-button);
-  z-index: 1;
+  z-index: var(--z-content);
 }
 
 /* Hover state for glass-border buttons */
@@ -111,7 +111,7 @@
   background-position: center top;
   background-repeat: no-repeat;
   will-change: transform;
-  z-index: 0;
+  z-index: var(--z-base);
 }
 
 /* Overlay - covers entire container */
@@ -123,13 +123,13 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  z-index: var(--z-content);
 }
 
 /* Text content - with padding for white space */
 .hero-image-container h1 {
   position: relative;
-  z-index: 2;
+  z-index: calc(var(--z-content) + 1);
   color: white;
   font-size: clamp(3rem, 8vw, 8rem);
   font-weight: 700;
