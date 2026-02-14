@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Valentine Manifesto",
+      "description": "Bold romantic rebellion with industrial edge and editorial sophistication",
+      "colors": {
+        "light": {
+          "--color-text": "#2D1B1F",
+          "--color-bg": "#FDF2F3",
+          "--color-link": "#DC143C",
+          "--color-link-hover": "#8B0000",
+          "--color-border": "#E8D5D7",
+          "--color-muted": "#8A6B6E",
+          "--color-sidebar-bg": "#F8E8EA",
+          "--color-nav-bg": "#FDFDFD",
+          "--color-nav-text": "#2D1B1F",
+          "--color-card-bg": "#FEFBFB"
+        },
+        "dark": {
+          "--color-text": "#F4E5E7",
+          "--color-bg": "#1A0F11",
+          "--color-link": "#FF6B8A",
+          "--color-link-hover": "#FF9BB0",
+          "--color-border": "#3D2A2E",
+          "--color-muted": "#B8A0A3",
+          "--color-sidebar-bg": "#241418",
+          "--color-nav-bg": "#0F0809",
+          "--color-nav-text": "#F4E5E7",
+          "--color-card-bg": "#201114"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2.5rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 4px 16px rgba(220, 20, 60, 0.08)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-14"
+    },
+    {
       "name": "Forbidden Gallery",
       "description": "Dark romantic aesthetics with blood-red accents and ornate typography for Friday the 13th",
       "colors": {
@@ -590,109 +688,7 @@
         "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-02-08"
-    },
-    {
-      "name": "Neon Palladium",
-      "description": "High-tech precision meets Miami Vice aesthetics with electric accents and chrome-like surfaces.",
-      "colors": {
-        "light": {
-          "--color-text": "#1A1B3A",
-          "--color-bg": "#F4F5FF",
-          "--color-link": "#FF0080",
-          "--color-link-hover": "#E6006B",
-          "--color-border": "#C8CADB",
-          "--color-muted": "#6B6D85",
-          "--color-sidebar-bg": "#EAEBF7",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#1A1B3A",
-          "--color-card-bg": "#FAFBFF"
-        },
-        "dark": {
-          "--color-text": "#E8E9F3",
-          "--color-bg": "#0F1121",
-          "--color-link": "#00FFAA",
-          "--color-link-hover": "#00E699",
-          "--color-border": "#2A2D47",
-          "--color-muted": "#8B8FA3",
-          "--color-sidebar-bg": "#181A2E",
-          "--color-nav-bg": "#1A1D33",
-          "--color-nav-text": "#E8E9F3",
-          "--color-card-bg": "#151829"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "0.02em",
-        "headingTransform": "uppercase"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "bold"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "0.95",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "mesh-gradient",
-        "colors": [
-          "#FF0080",
-          "#00FFAA",
-          "#4A90E2"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-02-07"
     }
   ],
-  "currentDate": "2026-02-13"
+  "currentDate": "2026-02-14"
 }
