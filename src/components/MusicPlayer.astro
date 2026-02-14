@@ -44,7 +44,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 9999;
+    z-index: var(--z-texture);
     font-family: 'MS Sans Serif', 'Arial', sans-serif;
     font-size: 11px;
     user-select: none;
@@ -68,7 +68,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 9999;
+    z-index: var(--z-texture);
   }
 
   .winamp-toggle-btn {
@@ -848,7 +848,7 @@ import MusicPlayerComponent from './MusicPlayer.tsx';
   /* Ensure player stays in place during transitions */
   [data-astro-transition-scope="music-player"] {
     position: fixed !important;
-    z-index: 9999 !important;
+    z-index: var(--z-texture) !important;
     pointer-events: auto !important;
   }
 

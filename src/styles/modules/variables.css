@@ -116,6 +116,19 @@
   --size-xl: 64px;
   --size-2xl: 80px;
 
+  /* Z-index scale — use these instead of magic numbers */
+  --z-below: -1;          /* Background layers (shader, decorative) */
+  --z-base: 0;            /* Default stacking */
+  --z-content: 1;         /* Raised content (overlays on hero, glass borders) */
+  --z-raised: 10;         /* Locally raised elements (sticky headers, cards) */
+  --z-controls: 100;      /* Floating controls (zoom, timeline) */
+  --z-particle: 999;      /* Particle canvas */
+  --z-nav: 1000;          /* Navigation bar */
+  --z-theme-toggle: 1000; /* Theme/daily-theme toggles */
+  --z-modal: 1500;        /* Modals, mobile menu */
+  --z-texture: 9999;      /* Background texture overlays (grain, dots, grid) */
+  --z-skip-link: 10000;   /* Skip-to-content link */
+
   /* Shared component styles - Border and Shadow */
   --border-default: 1px solid var(--color-border);
   --border-hover: 4px solid var(--color-border);
