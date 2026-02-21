@@ -137,7 +137,7 @@ const ogImageUrl = ogImage.startsWith('http')
         padding: 8px;
         text-decoration: none;
         border-radius: 4px;
-        z-index: var(--z-skip-link);
+        z-index: 10000;
       }
       .skip-link:focus-visible {
         top: 6px;
@@ -174,17 +174,31 @@ const ogImageUrl = ogImage.startsWith('http')
 
   </head>
   <body>
-    <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <Navigation />
-    <!-- Filter wrapper for mood/intensity effects - position:fixed elements must be outside -->
+    <!-- Add inline SVG filter for noise texture -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+      <filter id="noise">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.80"
+          numOctaves="4"
+          stitchTiles="stitch"
+          result="noise"/>
+        <feColorMatrix type="saturate" values="0"/>
+        <feBlend in="SourceGraphic" in2="noise" mode="multiply"/>
+      </filter>
+    </svg>
+
+    <!-- Filter wrapper for mood/intensity effects - fixed UI elements must be outside -->
     <div class="content-filter-wrapper">
       <ShaderBackground client:idle />
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+      <Navigation />
       <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
         <slot />
       </main>
       {!hideFooter && <Footer />}
     </div>
+    <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
     <DailyThemeToggle />
     <ThemeToggle />
 
@@ -247,4 +261,4 @@ const ogImageUrl = ogImage.startsWith('http')
       }
     </script>
   </body>
-</html> 
+</html>
