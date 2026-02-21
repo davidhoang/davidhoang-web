@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, type ReactNode } from 'react';
+import { createResponsiveImage } from '../utils/responsive-images';
 
 interface PhilosophyItem {
   content: string;
@@ -116,14 +117,26 @@ export function AnimatedPortfolioGrid({
             </p>
           </div>
           <div className="portfolio-images">
-            <img
-              src={item.image}
-              alt={item.imageAlt}
-              loading="lazy"
-              decoding="async"
-              width="1200"
-              height="800"
-            />
+            {(() => {
+              const responsiveImage = createResponsiveImage({
+                src: item.image,
+                alt: item.imageAlt,
+                loading: 'lazy'
+              }, 'content');
+              
+              return (
+                <img
+                  src={responsiveImage.src}
+                  srcSet={responsiveImage.srcSet}
+                  sizes={responsiveImage.sizes}
+                  alt={responsiveImage.alt}
+                  loading={responsiveImage.loading}
+                  decoding="async"
+                  width="1200"
+                  height="800"
+                />
+              );
+            })()}
           </div>
         </motion.div>
       ))}

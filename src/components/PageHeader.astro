@@ -19,6 +19,7 @@ interface Props {
   variant?: 'image' | 'text-only';
   subtitle?: string;
   class?: string;
+  priority?: boolean;
 }
 
 const {
@@ -27,7 +28,8 @@ const {
   alt = title,
   variant = 'image',
   subtitle,
-  class: className = ''
+  class: className = '',
+  priority = false
 } = Astro.props;
 
 const isImageVariant = variant === 'image' && image;
@@ -36,7 +38,7 @@ const isImageVariant = variant === 'image' && image;
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
     <div class="page-header__hero">
-      <HeroImageShader client:visible src={image} alt={alt} />
+      <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
       <h1 class="page-header__title">{title}</h1>
     </div>
   ) : (
