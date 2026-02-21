@@ -8,6 +8,7 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
+import FontPreloader from '../components/FontPreloader.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -15,14 +16,25 @@ interface Props {
   description?: string;
   ogImage?: string;
   hideFooter?: boolean;
+  pageType?: 'home' | 'blog' | 'about';
 }
 
 const { 
   title, 
   description = "The official website of David Hoang", 
   ogImage = "/images/img-dh-web-light.webp",
-  hideFooter = false
+  hideFooter = false,
+  pageType
 } = Astro.props;
+
+// Auto-detect page type from URL if not provided
+const detectedPageType = pageType || (() => {
+  const pathname = Astro.url.pathname;
+  if (pathname === '/' || pathname === '') return 'home';
+  if (pathname.includes('/writing/') || pathname.includes('/notes/')) return 'blog';
+  if (pathname.includes('/about')) return 'about';
+  return 'home';
+})();
 
 // Get the canonical URL with fallback
 const canonicalURL = Astro.site 
@@ -66,13 +78,12 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Font preloading for critical performance improvement -->
-    <link rel="preload" href="/fonts/ABCDiatypeVariable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/ABCDiatypeMonoVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Intelligent Font Preloading System -->
+    <FontPreloader pageType={detectedPageType} priority={detectedPageType === 'home'} />
     
-    <!-- Self-hosted Google Fonts - preload most critical files -->
-    <link rel="preload" href="/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Resource hints for font loading optimization -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
     <!-- DNS prefetch for external resources -->
 
@@ -105,10 +116,36 @@ const ogImageUrl = ogImage.startsWith('http')
         --color-text: #e0e0e0;
         --color-bg: #121212;
       }
+      
+      /* Font loading optimization states */
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+      }
+      
+      /* Apply custom fonts only when critical fonts are loaded */
+      html.critical-fonts-loaded {
+        font-family: var(--font-primary);
+      }
+      
+      /* Prevent layout shift during font loading */
+      html.font-loading h1,
+      html.font-loading h2,
+      html.font-loading h3 {
+        font-weight: 600; /* Match ABC Diatype weight more closely */
+        letter-spacing: -0.02em; /* Closer to custom font metrics */
+      }
+      
+      /* Smooth font loading transition */
+      html.fonts-loaded * {
+        transition: font-family 0.1s ease-out;
+      }
+      
       body {
         margin: 0;
         padding: 0;
-        font-family: var(--font-primary);
+        font-family: inherit;
         color: var(--color-text);
         background-color: var(--color-bg);
       }
@@ -166,9 +203,123 @@ const ogImageUrl = ogImage.startsWith('http')
           if (metaThemeColor) {
             metaThemeColor.setAttribute('content', themeColor);
           }
+          
+          // Initialize font loading optimization early for better LCP
+          document.documentElement.classList.add('font-loading');
         } catch(e) {
           // no-op
         }
+      })();
+    </script>
+    
+    <!-- Font Loading Optimization Script -->
+    <script>
+      // Critical font loading optimization for LCP improvement
+      (function() {
+        'use strict';
+        
+        // Font loading state management
+        var fontState = {
+          critical: false,
+          theme: false,
+          all: false
+        };
+        
+        // Critical fonts for immediate loading
+        var criticalFonts = [
+          '/fonts/ABCDiatypeVariable.woff2',
+          '/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2'
+        ];
+        
+        function updateFontLoadingState() {
+          var allCriticalLoaded = criticalFonts.every(function(font) {
+            return document.querySelector('link[href="' + font + '"]');
+          });
+          
+          if (allCriticalLoaded && !fontState.critical) {
+            fontState.critical = true;
+            document.documentElement.classList.add('critical-fonts-loaded');
+            document.documentElement.classList.remove('font-loading');
+          }
+        }
+        
+        // Monitor font loading with Font Loading API
+        if ('fonts' in document) {
+          document.fonts.ready.then(function() {
+            fontState.all = true;
+            document.documentElement.classList.add('fonts-loaded');
+            
+            // Performance mark for LCP measurement
+            if ('performance' in window && 'mark' in window.performance) {
+              try {
+                performance.mark('fonts-loaded');
+              } catch(e) {}
+            }
+          });
+          
+          // Check specific critical fonts
+          criticalFonts.forEach(function(fontUrl) {
+            var fontName = fontUrl.includes('ABCDiatype') ? 'ABC Diatype' : 'Inter';
+            document.fonts.load('400 16px ' + fontName).then(function() {
+              updateFontLoadingState();
+            }).catch(function() {
+              // Fallback - mark as loaded after timeout
+              setTimeout(updateFontLoadingState, 2000);
+            });
+          });
+        } else {
+          // Fallback for browsers without Font Loading API
+          setTimeout(function() {
+            fontState.critical = true;
+            fontState.all = true;
+            document.documentElement.classList.add('critical-fonts-loaded', 'fonts-loaded');
+            document.documentElement.classList.remove('font-loading');
+          }, 2000);
+        }
+        
+        // Theme-specific font preloading
+        function preloadThemeFonts() {
+          var dailyTheme = document.documentElement.getAttribute('data-daily-theme');
+          var themeMode = localStorage.getItem('daily-theme-mode');
+          
+          if (themeMode === 'daily' && dailyTheme && dailyTheme !== 'default') {
+            // Preload theme-specific fonts lazily
+            var themeLink = document.createElement('link');
+            themeLink.rel = 'preload';
+            themeLink.href = '/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2'; // Cormorant Garamond
+            themeLink.as = 'font';
+            themeLink.type = 'font/woff2';
+            themeLink.crossOrigin = 'anonymous';
+            
+            // Add with low priority to not block critical fonts
+            requestIdleCallback(function() {
+              document.head.appendChild(themeLink);
+            }, { timeout: 1000 });
+          }
+        }
+        
+        // Initial theme font check
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', preloadThemeFonts);
+        } else {
+          preloadThemeFonts();
+        }
+        
+        // Monitor theme changes for font optimization
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && 
+                mutation.attributeName === 'data-daily-theme') {
+              preloadThemeFonts();
+            }
+          });
+        });
+        
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-daily-theme']
+        });
+        
       })();
     </script>
 

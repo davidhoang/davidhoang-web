@@ -1,0 +1,121 @@
+---
+/**
+ * FontPreloader Component
+ * 
+ * Dynamically generates optimized font preload tags based on page type and theme.
+ * Improves LCP by preloading only the most critical fonts.
+ */
+
+import { getCriticalFonts } from '../utils/font-preload';
+
+interface Props {
+  pageType?: 'home' | 'blog' | 'about';
+  priority?: boolean;
+}
+
+const { pageType = 'home', priority = false } = Astro.props;
+
+// Get critical fonts for this page type
+const criticalFonts = getCriticalFonts(pageType);
+
+// Font priority mapping for fetchpriority attribute
+const highPriorityFonts = [
+  'ABCDiatypeVariable.woff2',
+  'UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2' // Inter Regular
+];
+---
+
+<!-- Critical font preloads optimized for LCP -->
+{criticalFonts.map((font, index) => {
+  const fileName = font.split('/').pop() || '';
+  const isHighPriority = highPriorityFonts.some(hpFont => fileName.includes(hpFont)) || (priority && index < 2);
+  const fetchPriority = isHighPriority ? 'high' : undefined;
+  
+  return (
+    <link 
+      rel="preload" 
+      href={font} 
+      as="font" 
+      type="font/woff2" 
+      crossorigin 
+      fetchpriority={fetchPriority}
+    />
+  );
+})}
+
+<!-- Progressive font loading optimization script -->
+<script>
+  // Font loading optimization with fallback detection
+  (function() {
+    // Check if fonts are already loaded or cached
+    function optimizeFontLoading() {
+      try {
+        // Use font loading API if available
+        if ('fonts' in document) {
+          // Monitor critical font loading
+          const criticalFonts = ['ABC Diatype', 'Inter'];
+          
+          criticalFonts.forEach(fontFamily => {
+            document.fonts.ready.then(() => {
+              document.fonts.check('1rem ' + fontFamily);
+            });
+          });
+          
+          // Add font-loaded class when fonts are ready
+          document.fonts.ready.then(() => {
+            document.documentElement.classList.add('fonts-loaded');
+          });
+        }
+        
+        // Fallback for browsers without font loading API
+        const fallbackTimer = setTimeout(() => {
+          document.documentElement.classList.add('fonts-loaded');
+        }, 3000); // 3 second timeout
+        
+        // Clear timeout if fonts load faster
+        if ('fonts' in document) {
+          document.fonts.ready.then(() => {
+            clearTimeout(fallbackTimer);
+          });
+        }
+        
+      } catch (e) {
+        // Silent fallback
+        setTimeout(() => {
+          document.documentElement.classList.add('fonts-loaded');
+        }, 2000);
+      }
+    }
+    
+    // Run font optimization when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', optimizeFontLoading);
+    } else {
+      optimizeFontLoading();
+    }
+  })();
+</script>
+
+<style>
+  /* Font loading states to prevent FOUT/FOIT */
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
+  }
+  
+  /* Apply custom fonts only when loaded */
+  html.fonts-loaded {
+    font-family: var(--font-primary);
+  }
+  
+  /* Optimize font rendering during load */
+  .fonts-loading * {
+    font-display: swap;
+  }
+  
+  /* Ensure smooth transition when fonts load */
+  html:not(.fonts-loaded) h1,
+  html:not(.fonts-loaded) h2,
+  html:not(.fonts-loaded) h3 {
+    font-weight: 600; /* Closer to ABC Diatype weight */
+  }
+</style>
