@@ -1,0 +1,58 @@
+---
+/**
+ * ResponsiveImage Component
+ * 
+ * A reusable Astro component for responsive images with srcset optimization.
+ * Supports both hero and content image configurations.
+ */
+import { createResponsiveImage } from '../utils/responsive-images';
+
+interface Props {
+  src: string;
+  alt: string;
+  type?: 'hero' | 'content';
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  priority?: boolean;
+  sizes?: string;
+  style?: string;
+}
+
+const {
+  src,
+  alt,
+  type = 'content',
+  loading = 'lazy',
+  class: className = '',
+  priority = false,
+  sizes,
+  style,
+  ...attrs
+} = Astro.props;
+
+// Create responsive image configuration
+const responsiveImage = createResponsiveImage({
+  src,
+  alt,
+  loading: priority ? 'eager' : loading,
+  sizes
+}, type);
+---
+
+<img
+  src={responsiveImage.src}
+  srcset={responsiveImage.srcSet}
+  sizes={responsiveImage.sizes}
+  alt={responsiveImage.alt}
+  loading={responsiveImage.loading}
+  class={className}
+  style={style}
+  {...attrs}
+/>
+
+<style>
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
