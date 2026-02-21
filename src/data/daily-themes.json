@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Marrakech Tiles",
+      "description": "Warm terracotta and sage green inspired by Moroccan architecture and handcrafted ceramics",
+      "colors": {
+        "light": {
+          "--color-text": "#2D1B14",
+          "--color-bg": "#FDF5F0",
+          "--color-link": "#D2691E",
+          "--color-link-hover": "#B8860B",
+          "--color-border": "#E6D3C7",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#F4EDE4",
+          "--color-nav-bg": "#FAF0E6",
+          "--color-nav-text": "#2D1B14",
+          "--color-card-bg": "#FEFAF7"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A1612",
+          "--color-link": "#FF7F50",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#3D2F26",
+          "--color-muted": "#B8A082",
+          "--color-sidebar-bg": "#261E1A",
+          "--color-nav-bg": "#211914",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#1F1B17"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(139, 115, 85, 0.12)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "960px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "centered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "0.95",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-02-21"
+    },
+    {
       "name": "Copper Workshop",
       "description": "Industrial warmth meets artisan craftsmanship with rich copper accents and weathered textures",
       "colors": {
@@ -598,105 +696,7 @@
         "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-02-15"
-    },
-    {
-      "name": "Valentine Manifesto",
-      "description": "Bold romantic rebellion with industrial edge and editorial sophistication",
-      "colors": {
-        "light": {
-          "--color-text": "#2D1B1F",
-          "--color-bg": "#FDF2F3",
-          "--color-link": "#DC143C",
-          "--color-link-hover": "#8B0000",
-          "--color-border": "#E8D5D7",
-          "--color-muted": "#8A6B6E",
-          "--color-sidebar-bg": "#F8E8EA",
-          "--color-nav-bg": "#FDFDFD",
-          "--color-nav-text": "#2D1B1F",
-          "--color-card-bg": "#FEFBFB"
-        },
-        "dark": {
-          "--color-text": "#F4E5E7",
-          "--color-bg": "#1A0F11",
-          "--color-link": "#FF6B8A",
-          "--color-link-hover": "#FF9BB0",
-          "--color-border": "#3D2A2E",
-          "--color-muted": "#B8A0A3",
-          "--color-sidebar-bg": "#241418",
-          "--color-nav-bg": "#0F0809",
-          "--color-nav-text": "#F4E5E7",
-          "--color-card-bg": "#201114"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2.5rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(220, 20, 60, 0.08)",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-02-14"
     }
   ],
-  "currentDate": "2026-02-20"
+  "currentDate": "2026-02-21"
 }
