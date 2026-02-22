@@ -628,6 +628,13 @@ const hasThemes = themes.length > 0;
       root.style.setProperty(key, value);
     });
 
+    // Apply contrast mode
+    if (themeData.colors.contrastMode && themeData.colors.contrastMode !== 'standard') {
+      root.setAttribute('data-contrast-mode', themeData.colors.contrastMode);
+    } else {
+      root.removeAttribute('data-contrast-mode');
+    }
+
     // Apply font pairings
     if (themeData.fonts) {
       const headingFont = themeData.fonts.heading;
@@ -663,6 +670,12 @@ const hasThemes = themes.length > 0;
       }
       if (themeData.typography.headingTransform) {
         root.style.setProperty('--heading-transform', themeData.typography.headingTransform);
+      }
+      if (themeData.typography.scaleRatio) {
+        root.style.setProperty('--scale-ratio', themeData.typography.scaleRatio);
+      }
+      if (themeData.typography.fontVariationSettings && themeData.typography.fontVariationSettings !== 'normal') {
+        root.style.setProperty('--font-variation-settings', themeData.typography.fontVariationSettings);
       }
     }
 
@@ -709,6 +722,11 @@ const hasThemes = themes.length > 0;
       }
       if (themeData.layout.contentPadding) {
         root.style.setProperty('--content-padding', themeData.layout.contentPadding);
+      }
+      if (themeData.layout.gridStyle && themeData.layout.gridStyle !== 'standard') {
+        root.setAttribute('data-grid-style', themeData.layout.gridStyle);
+      } else {
+        root.removeAttribute('data-grid-style');
       }
     }
 
@@ -787,6 +805,7 @@ const hasThemes = themes.length > 0;
       // Typography
       '--heading-weight', '--body-weight', '--body-line-height',
       '--letter-spacing', '--heading-letter-spacing', '--heading-transform',
+      '--scale-ratio', '--font-variation-settings',
       // Navigation
       '--nav-height', '--nav-padding',
       // Cards
@@ -817,6 +836,8 @@ const hasThemes = themes.length > 0;
     root.removeAttribute('data-footer-style');
     root.removeAttribute('data-shader');
     root.removeAttribute('data-shader-colors');
+    root.removeAttribute('data-grid-style');
+    root.removeAttribute('data-contrast-mode');
   }
 
   // Listen for theme toggle changes to update daily theme colors
