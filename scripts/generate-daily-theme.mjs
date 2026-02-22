@@ -210,11 +210,11 @@ CRITICAL LAYOUT RULES:
 3. The shader/background color should never create a visible gap or border above the main content area.
 
 ## HERO LAYOUT - SET THE TONE!
-The hero section is the first thing visitors see - make it count:
-- "centered": Classic centered text, balanced and formal
-- "left-aligned": Editorial style, text aligned left with asymmetry
-- "minimal": Just the essentials, lots of whitespace
-- "bold": Large dramatic text, high impact
+The hero section is the first thing visitors see - make it count with a SPATIAL layout:
+- "stacked-fan": Classic fanned card stack, centered and balanced - familiar, refined
+- "editorial": Split-screen with title left, cards cascading vertically right - magazine cover feel
+- "scattered": Cards tossed organically across viewport, seeded by date - editorial, playful
+- "rolodex": 3D perspective carousel with depth navigation - bold, interactive
 
 ## LINK STYLES - PERSONALITY IN INTERACTIONS!
 How links look and behave says a lot about the design:
@@ -345,7 +345,7 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "gridStyle": "standard|asymmetric|split|magazine|sidebar"
   },
   "hero": {
-    "layout": "centered|left-aligned|minimal|bold"
+    "layout": "stacked-fan|editorial|scattered|rolodex"
   },
   "links": {
     "style": "underline|highlight|animated-underline|color-only|bracket"
@@ -369,12 +369,12 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
 }
 
 EXAMPLE DRAMATIC THEMES:
-1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, left-aligned hero, underline links, grid texture, grayscale images with colorize hover, brutalist footer, dot-grid shader
-2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, centered hero, animated-underline links, none texture, vivid images with lift hover, editorial footer, grain shader
-3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, minimal nav, outlined cards, minimal hero, color-only links, grain texture, muted images with glow hover, retro footer, neuro shader
-4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, floating nav, glass cards, centered hero, highlight links, gradient texture, muted images with zoom hover, gradient footer, mesh-gradient shader
-5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, bold-bar nav, flat cards, bold hero, bracket links, dots texture, vivid images with lift hover, minimal footer, waves shader
-6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, minimal nav, elevated cards, minimal hero, underline links, grain texture, grayscale images with colorize hover, inverted footer, perlin shader
+1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, editorial hero, underline links, grid texture, grayscale images with colorize hover, brutalist footer, dot-grid shader
+2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, stacked-fan hero, animated-underline links, none texture, vivid images with lift hover, editorial footer, grain shader
+3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, minimal nav, outlined cards, scattered hero, color-only links, grain texture, muted images with glow hover, retro footer, neuro shader
+4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, floating nav, glass cards, stacked-fan hero, highlight links, gradient texture, muted images with zoom hover, gradient footer, mesh-gradient shader
+5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, bold-bar nav, flat cards, rolodex hero, bracket links, dots texture, vivid images with lift hover, minimal footer, waves shader
+6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, minimal nav, elevated cards, scattered hero, underline links, grain texture, grayscale images with colorize hover, inverted footer, perlin shader
 
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 }
@@ -541,6 +541,22 @@ async function generateTheme(options = {}) {
     }
   } else {
     themeData.typography.fontVariationSettings = 'normal';
+  }
+
+  // Validate and default hero layout
+  if (!themeData.hero) themeData.hero = {};
+  const validHeroLayouts = ['stacked-fan', 'editorial', 'scattered', 'rolodex'];
+  const legacyHeroMap = {
+    'centered': 'stacked-fan',
+    'left-aligned': 'editorial',
+    'minimal': 'scattered',
+    'bold': 'rolodex',
+  };
+  if (legacyHeroMap[themeData.hero.layout]) {
+    themeData.hero.layout = legacyHeroMap[themeData.hero.layout];
+  }
+  if (!validHeroLayouts.includes(themeData.hero.layout)) {
+    themeData.hero.layout = 'stacked-fan';
   }
 
   // Validate and default new color fields

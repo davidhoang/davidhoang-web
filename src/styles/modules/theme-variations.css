@@ -545,36 +545,23 @@ html[data-e-ink="true"][data-theme="dark"] {
 
 /* ============================================
    Daily Theme: Hero Layout Variations
+   Layouts are rendered by React sub-components in
+   src/components/hero/layouts/. These CSS rules provide
+   overflow and sizing adjustments for non-default layouts.
    ============================================ */
 
-[data-hero-layout="centered"] .hero-title,
-[data-hero-layout="centered"] .hero-grid {
-  text-align: center;
-  justify-content: center;
+/* Layouts that break out of the container need visible overflow */
+[data-hero-layout="editorial"] .card-stack-section,
+[data-hero-layout="scattered"] .card-stack-section,
+[data-hero-layout="rolodex"] .card-stack-section {
+  overflow: visible;
 }
 
-[data-hero-layout="left-aligned"] .hero-title,
-[data-hero-layout="left-aligned"] .hero-grid {
-  text-align: left;
-  justify-content: flex-start;
-}
-
-[data-hero-layout="left-aligned"] .hero-title h1 {
-  text-align: left;
-}
-
-[data-hero-layout="minimal"] .hero-title h1 {
-  font-size: clamp(3rem, 5vw, 5rem);
-}
-
-[data-hero-layout="minimal"] .hero-grid {
-  margin: 1rem 0;
-}
-
-[data-hero-layout="bold"] .hero-title h1 {
-  font-size: clamp(6rem, 12vw, 12rem);
-  line-height: 0.9;
-}
+/* Legacy value mapping - in case stored themes still use old names */
+[data-hero-layout="centered"] .card-stack-section { overflow: hidden; }
+[data-hero-layout="left-aligned"] .card-stack-section { overflow: visible; }
+[data-hero-layout="minimal"] .card-stack-section { overflow: visible; }
+[data-hero-layout="bold"] .card-stack-section { overflow: visible; }
 
 /* ============================================
    Daily Theme: Link Style Variations

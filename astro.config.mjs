@@ -75,6 +75,13 @@ export default defineConfig({
             ],
             'hero-components': [
               'src/components/CardStackHero.tsx',
+              'src/components/hero/types.ts',
+              'src/components/hero/CardBase.tsx',
+              'src/components/hero/HeroTitle.tsx',
+              'src/components/hero/layouts/StackedFanLayout.tsx',
+              'src/components/hero/layouts/EditorialLayout.tsx',
+              'src/components/hero/layouts/ScatteredLayout.tsx',
+              'src/components/hero/layouts/RolodexLayout.tsx',
               'src/components/HeroImageShader.tsx',
               'src/components/HeroImageWithTexture.tsx'
             ],

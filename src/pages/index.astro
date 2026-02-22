@@ -4,10 +4,6 @@ import SubstackSignup from '../components/SubstackSignup.astro';
 import CardStackHero from '../components/CardStackHero';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid, AnimatedSection } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
-import imgHighlightsHatch from '../assets/images/highlights/img-highlights-hatch-conference.webp';
-import imgHighlightsReplit from '../assets/images/highlights/img-highlights-replit.webp';
-import imgHighlightsPlay from '../assets/images/highlights/img-highlights-play.webp';
-import imgHighlightsPoc from '../assets/images/highlights/img-highlights-proof-of-concept.webp';
 
 // Page metadata
 const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -28,28 +24,28 @@ const portfolioItems = [
     text: 'September 2024: Keynote talk at Hatch Conference: Design & (Blank)',
     link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
     linkText: 'Keynote talk at Hatch Conference: Design & (Blank)',
-    image: imgHighlightsHatch.src,
+    image: '/images/highlights/img-highlights-hatch-conference.webp',
     imageAlt: 'David Hoang speaking at Hatch Conference 2024, presenting on stage',
   },
   {
     text: 'April 2024: Replit Developer Day and rebrand.',
     link: 'https://www.youtube.com/watch?v=T6R9nx89bY4',
     linkText: 'Replit Developer Day',
-    image: imgHighlightsReplit.src,
+    image: '/images/highlights/img-highlights-replit.webp',
     imageAlt: 'Replit Developer Day 2024 event branding and visual identity',
   },
   {
     text: 'April 2023: Joined Play as Advisor.',
     link: 'https://createwithplay.com',
     linkText: 'Play',
-    image: imgHighlightsPlay.src,
+    image: '/images/highlights/img-highlights-play.webp',
     imageAlt: 'Play app interface and branding design',
   },
   {
     text: 'December 2019: Launched Proof of Concept, a newsletter about design, technology, and entrepreneurship.',
     link: 'https://www.proofofconcept.pub',
     linkText: 'Proof of Concept',
-    image: imgHighlightsPoc.src,
+    image: '/images/highlights/img-highlights-proof-of-concept.webp',
     imageAlt: 'Proof of Concept newsletter branding and design layout',
   },
 ];
@@ -98,6 +94,9 @@ const portfolioItems = [
       width: 100%;
       margin-top: 40px;
       background: none;
+      position: relative;
+      z-index: 2;
+      overflow: visible;
     }
 
     /* Section Headings - smaller than hero H1 */
@@ -112,6 +111,8 @@ const portfolioItems = [
     .design-philosophy {
       border-top: 1px solid var(--color-border);
       padding-top: 24px;
+      position: relative;
+      z-index: 1;
     }
 
     :global(.philosophy-grid) {
