@@ -17,7 +17,6 @@ export default function EditorialLayout({
   return (
     <div className="cards-wrapper">
       {cards.map((card, index) => {
-        const isHovered = hoveredCard === card.id;
         const isSelected = selectedCard === card.id;
         const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
 
@@ -33,7 +32,7 @@ export default function EditorialLayout({
             animate={{
               x: isLoaded ? 0 : 80,
               opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
-              scale: isSelected ? 1.02 : (isHovered ? 1.01 : 1),
+              scale: isSelected ? 1.02 : 1,
             }}
             whileHover={!isSelected ? {
               x: 8,

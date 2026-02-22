@@ -154,6 +154,10 @@ export default function CardStackHero() {
           box-sizing: border-box;
         }
 
+        .card-stack-hero--stacked-fan {
+          overflow: hidden;
+        }
+
         .card-stack-container {
           position: relative;
           width: 100%;
@@ -204,9 +208,6 @@ export default function CardStackHero() {
 
         .card-stack-hero--editorial .hero-title {
           text-align: left;
-          white-space: nowrap;
-          width: 100%;
-          max-width: 100%;
           margin: 0;
           padding-top: 0;
         }
@@ -519,15 +520,9 @@ export default function CardStackHero() {
         }
 
         /* Responsive */
-        @media (max-width: 1100px) {
+        @media (max-width: 1024px) {
           .card-stack-hero--stacked-fan .cards-wrapper {
-            transform: scale(0.85);
-          }
-        }
-
-        @media (max-width: 900px) {
-          .card-stack-hero--stacked-fan .cards-wrapper {
-            transform: scale(0.75);
+            transform: scale(0.8);
           }
 
           .card-stack-hero--editorial .hero-title {
