@@ -13,11 +13,13 @@ const {
 ---
 
 <div class="substack-signup">
-  {showTitle && <h2 class="signup-title">{title}</h2>}
-  {description && <p class="signup-description">{description}</p>}
-  
-  <form 
-    action="https://www.proofofconcept.pub/subscribe" 
+  <div class="signup-header">
+    {showTitle && <h2 class="signup-title">{title}</h2>}
+    {description && <p class="signup-description">{description}</p>}
+  </div>
+
+  <form
+    action="https://davidhoang.substack.com/api/v1/free"
     method="post"
     class="signup-form"
     id="substack-signup-form"
@@ -28,127 +30,136 @@ const {
         type="email"
         id="email"
         name="email"
-        placeholder="Enter your email"
+        placeholder="email address"
         required
         class="email-input"
         aria-label="Email address"
         autocomplete="email"
       />
     </div>
-    
-    <button type="submit" class="subscribe-button">
-      Subscribe
-    </button>
+
+    <div class="form-actions">
+      <button type="submit" class="subscribe-button">
+        Subscribe
+      </button>
+      <p class="signup-footnote">
+        Free, no spam. Unsubscribe anytime.
+      </p>
+    </div>
   </form>
-  
-  <p class="signup-footnote">
-    Free, no spam. Unsubscribe anytime.
-  </p>
 </div>
 
 <style>
   .substack-signup {
-    background: var(--color-card-bg, var(--color-sidebar-bg));
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md, 8px);
-    padding: var(--spacing-xl, 2rem);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border-top: 1px solid var(--color-border);
+    padding: 4rem 0 3rem 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .signup-header {
+    margin-bottom: 2rem;
   }
 
   .signup-title {
-    margin: 0 0 var(--spacing-sm, 0.5rem) 0;
-    font-size: 1.75rem;
-    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    font-size: clamp(4rem, 14vw, 12rem);
+    font-weight: 700;
     color: var(--color-text);
-    text-align: center;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
   }
 
   .signup-description {
-    margin: 0 0 var(--spacing-lg, 1.5rem) 0;
+    margin: 0;
     color: var(--color-muted);
-    text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.5;
   }
 
   .signup-form {
     display: flex;
-    gap: var(--spacing-sm, 0.5rem);
     flex-direction: column;
-    max-width: 320px;
-    margin: 0 auto;
+    gap: 1.5rem;
+    width: 100%;
   }
 
   .form-group {
-    flex: 1;
+    width: 100%;
   }
 
   .email-input {
     width: 100%;
-    padding: var(--spacing-sm, 0.75rem) var(--spacing-md, 1rem);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md, 6px);
-    font-size: 1rem;
+    padding: 0.25em 0;
+    border: none;
+    border-bottom: 3px solid var(--color-border);
+    border-radius: 0;
+    font-size: clamp(2rem, 7vw, 5rem);
     font-family: var(--font-primary);
-    background: var(--color-bg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    background: transparent;
     color: var(--color-text);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease;
     box-sizing: border-box;
   }
 
   .email-input:focus {
     outline: none;
-    border-color: var(--color-text);
-    box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1);
-  }
-
-  [data-theme="dark"] .email-input:focus {
-    box-shadow: 0 0 0 3px rgba(225, 225, 225, 0.1);
+    border-color: var(--color-link);
   }
 
   .email-input::placeholder {
     color: var(--color-muted);
-    opacity: 0.7;
+    opacity: 0.25;
+    font-weight: 600;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
   }
 
   .subscribe-button {
-    width: 100%;
-    padding: var(--spacing-sm, 0.75rem) var(--spacing-lg, 1.5rem);
+    padding: 1rem 3rem;
     background: var(--color-text);
     color: var(--color-bg);
-    border: 1px solid var(--color-text);
-    border-radius: var(--radius-md, 6px);
-    font-size: 1rem;
+    border: none;
+    border-radius: 999px;
+    font-size: 1.15rem;
     font-weight: 600;
     font-family: var(--font-primary);
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
   }
 
   .subscribe-button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
 
   [data-theme="dark"] .subscribe-button:hover {
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
   }
 
   .subscribe-button:active {
     transform: translateY(0);
+    box-shadow: none;
   }
 
   .subscribe-button:focus-visible {
-    outline: 3px solid currentColor;
+    outline: 2px solid var(--color-link);
     outline-offset: 3px;
   }
 
   .signup-footnote {
-    margin: var(--spacing-md, 1rem) 0 0 0;
-    font-size: 0.875rem;
+    margin: 0;
+    font-size: 0.85rem;
     color: var(--color-muted);
-    text-align: center;
+    opacity: 0.6;
   }
 
   /* Visually hidden but accessible to screen readers */
@@ -166,32 +177,37 @@ const {
 
   /* Compact variant for sidebar or inline use */
   .substack-signup.compact {
-    padding: var(--spacing-lg, 1.5rem);
+    padding: 1.5rem 0;
   }
 
   .substack-signup.compact .signup-title {
-    font-size: 1.25rem;
-    margin-bottom: var(--spacing-xs, 0.25rem);
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
   }
 
   .substack-signup.compact .signup-description {
     font-size: 0.95rem;
-    margin-bottom: var(--spacing-md, 1rem);
+    margin-bottom: 1rem;
   }
 
-  /* Mobile optimization */
+  .substack-signup.compact .email-input {
+    font-size: 1.5rem;
+  }
+
+  /* Mobile */
   @media (max-width: 768px) {
     .substack-signup {
-      padding: var(--spacing-lg, 1.5rem);
+      padding: 3rem 0 2rem 0;
     }
 
-    .signup-form {
-      max-width: 100%;
+    .form-actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
     }
 
-    .email-input,
     .subscribe-button {
-      font-size: 1rem;
+      width: 100%;
     }
   }
 
@@ -207,11 +223,10 @@ const {
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     .email-input,
-    .subscribe-button,
-    .substack-signup {
+    .subscribe-button {
       transition: none;
     }
-    
+
     .subscribe-button:hover {
       transform: none;
     }
