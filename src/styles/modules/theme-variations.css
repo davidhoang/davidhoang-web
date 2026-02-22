@@ -289,6 +289,170 @@ html[data-e-ink="true"][data-theme="dark"] {
 }
 
 /* ============================================
+   Daily Theme: Grid Style Variations
+   Applied via [data-grid-style] attribute
+   ============================================ */
+
+/* Asymmetric grid - unbalanced columns for visual tension */
+[data-grid-style="asymmetric"] .container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--section-spacing, 2rem);
+}
+
+@media (max-width: 768px) {
+  [data-grid-style="asymmetric"] .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Split-screen - two distinct halves */
+[data-grid-style="split"] .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+[data-grid-style="split"] .container > *:nth-child(odd) {
+  padding-right: var(--content-padding, 2rem);
+}
+
+[data-grid-style="split"] .container > *:nth-child(even) {
+  padding-left: var(--content-padding, 2rem);
+  border-left: 1px solid var(--color-border);
+}
+
+@media (max-width: 768px) {
+  [data-grid-style="split"] .container {
+    grid-template-columns: 1fr;
+  }
+
+  [data-grid-style="split"] .container > *:nth-child(odd) {
+    padding-right: 0;
+  }
+
+  [data-grid-style="split"] .container > *:nth-child(even) {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--content-padding, 2rem);
+  }
+}
+
+/* Magazine layout - multi-column flowing text */
+[data-grid-style="magazine"] .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--section-spacing, 2rem);
+}
+
+[data-grid-style="magazine"] .container > *:first-child {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1024px) {
+  [data-grid-style="magazine"] .container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  [data-grid-style="magazine"] .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sidebar layout - persistent side panel */
+[data-grid-style="sidebar"] .container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--section-spacing, 2rem);
+}
+
+[data-grid-style="sidebar"] .container > *:first-child {
+  position: sticky;
+  top: var(--content-top-padding);
+  align-self: start;
+}
+
+@media (max-width: 768px) {
+  [data-grid-style="sidebar"] .container {
+    grid-template-columns: 1fr;
+  }
+
+  [data-grid-style="sidebar"] .container > *:first-child {
+    position: static;
+  }
+}
+
+/* ============================================
+   Daily Theme: Font Variation Settings
+   Applied via --font-variation-settings custom property
+   ============================================ */
+
+:root {
+  --font-variation-settings: normal;
+}
+
+[data-daily-theme] h1,
+[data-daily-theme] h2,
+[data-daily-theme] h3,
+[data-daily-theme] h4,
+[data-daily-theme] h5,
+[data-daily-theme] h6 {
+  font-variation-settings: var(--font-variation-settings);
+}
+
+/* ============================================
+   Daily Theme: Extreme Typography Scale
+   Applied via --scale-ratio custom property
+   ============================================ */
+
+:root {
+  --scale-ratio: 1.333;
+  --text-micro: calc(1rem / var(--scale-ratio) / var(--scale-ratio));
+  --text-sm: calc(1rem / var(--scale-ratio));
+  --text-base: 1rem;
+  --text-lg: calc(1rem * var(--scale-ratio));
+  --text-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio));
+  --text-2xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
+  --text-jumbo: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
+  --text-display-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
+}
+
+/* Apply scale-driven sizes when daily theme is active */
+[data-daily-theme] .text-micro {
+  font-size: var(--text-micro);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+[data-daily-theme] .text-jumbo {
+  font-size: var(--text-jumbo);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+[data-daily-theme] .text-display-xl {
+  font-size: var(--text-display-xl);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+/* ============================================
+   Daily Theme: Contrast Mode Variations
+   Applied via [data-contrast-mode] attribute
+   ============================================ */
+
+[data-contrast-mode="high"] {
+  --intensity-contrast: 1.2;
+}
+
+[data-contrast-mode="low"] {
+  --intensity-contrast: 0.85;
+}
+
+/* ============================================
    Daily Theme: Navigation Style Variations
    ============================================ */
 

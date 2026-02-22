@@ -285,6 +285,8 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
   "name": "Theme Name (2-3 words, evocative)",
   "description": "One sentence describing the mood/inspiration",
   "colors": {
+    "colorScheme": "complementary|triadic|analogous|split-complementary",
+    "contrastMode": "standard|high|low",
     "light": {
       "--color-text": "#hex",
       "--color-bg": "#hex (TINTED!)",
@@ -320,7 +322,9 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "bodyLineHeight": "1.5-2.0",
     "letterSpacing": "-0.03em to 0.05em",
     "headingLetterSpacing": "-0.04em to 0.08em",
-    "headingTransform": "none|uppercase|lowercase"
+    "headingTransform": "none|uppercase|lowercase",
+    "scaleRatio": "1.2|1.333|1.414|1.618|2.0 (type scale ratio)",
+    "fontVariationSettings": "'wght' 100-900, 'wdth' 75-125, 'slnt' -12-0, 'opsz' 10-72 (optional, for variable fonts)"
   },
   "navigation": {
     "style": "floating|full-width|minimal|bold-bar",
@@ -337,7 +341,8 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "borderRadius": "0px-24px",
     "containerMaxWidth": "640px-1200px",
     "sectionSpacing": "2rem-8rem",
-    "contentPadding": "0.5rem-3rem"
+    "contentPadding": "0.5rem-3rem",
+    "gridStyle": "standard|asymmetric|split|magazine|sidebar"
   },
   "hero": {
     "layout": "centered|left-aligned|minimal|bold"
@@ -511,6 +516,44 @@ async function generateTheme(options = {}) {
     };
   }
 
+  // Validate and default new layout fields
+  const validGridStyles = ['standard', 'asymmetric', 'split', 'magazine', 'sidebar'];
+  if (!themeData.layout) themeData.layout = {};
+  if (!validGridStyles.includes(themeData.layout.gridStyle)) {
+    themeData.layout.gridStyle = 'standard';
+  }
+
+  // Validate and default new typography fields
+  if (!themeData.typography) themeData.typography = {};
+  const scaleRatio = parseFloat(themeData.typography.scaleRatio);
+  if (isNaN(scaleRatio) || scaleRatio < 1.0 || scaleRatio > 3.0) {
+    themeData.typography.scaleRatio = '1.333';
+  } else {
+    themeData.typography.scaleRatio = String(scaleRatio);
+  }
+  // fontVariationSettings is optional — validate format if present
+  if (themeData.typography.fontVariationSettings != null) {
+    const fvs = String(themeData.typography.fontVariationSettings).trim();
+    if (fvs === '' || fvs === 'normal') {
+      themeData.typography.fontVariationSettings = 'normal';
+    } else {
+      themeData.typography.fontVariationSettings = fvs;
+    }
+  } else {
+    themeData.typography.fontVariationSettings = 'normal';
+  }
+
+  // Validate and default new color fields
+  if (!themeData.colors) themeData.colors = {};
+  const validColorSchemes = ['complementary', 'triadic', 'analogous', 'split-complementary'];
+  if (!validColorSchemes.includes(themeData.colors.colorScheme)) {
+    themeData.colors.colorScheme = 'complementary';
+  }
+  const validContrastModes = ['standard', 'high', 'low'];
+  if (!validContrastModes.includes(themeData.colors.contrastMode)) {
+    themeData.colors.contrastMode = 'standard';
+  }
+
   // Add date
   const today = new Date().toISOString().split('T')[0];
   themeData.date = today;
@@ -574,7 +617,12 @@ function updateBuildLog(theme, status = 'success') {
     linkStyle: theme.links?.style,
     texture: theme.background?.texture,
     imageStyle: theme.images?.style,
-    imageHover: theme.images?.hover
+    imageHover: theme.images?.hover,
+    gridStyle: theme.layout?.gridStyle,
+    scaleRatio: theme.typography?.scaleRatio,
+    fontVariationSettings: theme.typography?.fontVariationSettings,
+    colorScheme: theme.colors?.colorScheme,
+    contrastMode: theme.colors?.contrastMode
   });
 
   // Keep 30 days of build history
@@ -629,7 +677,12 @@ async function main() {
     console.log(`Hero: ${theme.hero?.layout || 'centered'}`);
     console.log(`Links: ${theme.links?.style || 'underline'}`);
     console.log(`Texture: ${theme.background?.texture || 'none'}`);
-    console.log(`Images: ${theme.images?.style || 'vivid'} / hover: ${theme.images?.hover || 'zoom'}\n`);
+    console.log(`Images: ${theme.images?.style || 'vivid'} / hover: ${theme.images?.hover || 'zoom'}`);
+    console.log(`Grid style: ${theme.layout?.gridStyle || 'standard'}`);
+    console.log(`Scale ratio: ${theme.typography?.scaleRatio || '1.333'}`);
+    console.log(`Font variation: ${theme.typography?.fontVariationSettings || 'normal'}`);
+    console.log(`Color scheme: ${theme.colors?.colorScheme || 'complementary'}`);
+    console.log(`Contrast mode: ${theme.colors?.contrastMode || 'standard'}\n`);
 
     updateThemeHistory(theme);
     updateBuildLog(theme);
