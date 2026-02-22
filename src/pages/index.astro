@@ -114,18 +114,24 @@ const portfolioItems = [
       padding-top: 24px;
     }
 
-    .philosophy-grid {
+    :global(.philosophy-grid) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
+      row-gap: 1.25rem;
+      column-gap: 4rem;
       padding-right: 24px;
+      align-items: start;
     }
 
-    .philosophy-item {
+    :global(.philosophy-item p) {
+      margin: 0;
+    }
+
+    :global(.philosophy-item) {
       border-radius: 8px;
     }
 
-    .philosophy-item h3 {
+    :global(.philosophy-item h3) {
       margin-top: 0;
       font-size: 1.25rem;
       margin-bottom: 0.75rem;
@@ -140,34 +146,35 @@ const portfolioItems = [
       contain-intrinsic-size: 800px 1000px;
     }
 
-    .portfolio-grid {
+    :global(.portfolio-grid) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-lg, 1.5rem);
+      row-gap: 1.5rem;
+      column-gap: 3rem;
     }
 
-    .portfolio-content {
+    :global(.portfolio-content) {
       display: flex;
       flex-direction: column;
     }
 
-    .portfolio-item-text p {
+    :global(.portfolio-item-text p) {
       margin: 0 0 var(--spacing-sm, 0.5rem) 0;
       font-size: 1rem;
       line-height: 1.5;
     }
 
-    .portfolio-content a {
+    :global(.portfolio-content a) {
       font-weight: 500;
       color: var(--color-link);
     }
 
-    .portfolio-images {
+    :global(.portfolio-images) {
       width: 100%;
       overflow: hidden;
     }
 
-    .portfolio-images img {
+    :global(.portfolio-images img) {
       width: 100%;
       height: auto;
       aspect-ratio: 16 / 10;
@@ -208,12 +215,12 @@ const portfolioItems = [
         padding-right: var(--container-padding, 1rem);
       }
 
-      .philosophy-grid {
+      :global(.philosophy-grid) {
         grid-template-columns: 1fr;
         padding-right: 0;
       }
 
-      .portfolio-grid {
+      :global(.portfolio-grid) {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl, 2rem);
       }
@@ -224,6 +231,25 @@ const portfolioItems = [
 
       .newsletter-section {
         padding: var(--spacing-lg) var(--spacing-md);
+      }
+    }
+
+    /* Extra-large screen optimization */
+    @media (min-width: 1920px) {
+      :global(.philosophy-grid) {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 1.5rem;
+        column-gap: 10rem; /* Increased separation for very wide displays */
+      }
+      
+      :global(.philosophy-item p) {
+        max-width: 65ch; /* Optimal character width for readability in 2-col layout */
+        font-size: 1.4rem;
+        line-height: 1.6;
+      }
+
+      :global(.portfolio-grid) {
+        gap: 4rem;
       }
     }
   </style>
