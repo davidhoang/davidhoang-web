@@ -146,13 +146,22 @@ const PatternDots = () => (
 
 const PatternCircuits = () => (
   <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.4 }}>
-    <rect x="15" y="15" width="70" height="70" fill="none" stroke="#555" strokeWidth="1" rx="6" />
-    <rect x="25" y="25" width="50" height="50" fill="none" stroke="#555" strokeWidth="1" rx="4" />
-    <rect x="35" y="35" width="30" height="30" fill="none" stroke="#555" strokeWidth="1" rx="2" />
-    <line x1="15" y1="50" x2="5" y2="50" stroke="#555" strokeWidth="1" />
-    <line x1="85" y1="50" x2="95" y2="50" stroke="#555" strokeWidth="1" />
-    <line x1="50" y1="15" x2="50" y2="5" stroke="#555" strokeWidth="1" />
-    <line x1="50" y1="85" x2="50" y2="95" stroke="#555" strokeWidth="1" />
+    <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" strokeWidth="1" rx="6" />
+    <rect x="25" y="25" width="50" height="50" fill="none" stroke="currentColor" strokeWidth="1" rx="4" />
+    <rect x="35" y="35" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1" rx="2" />
+    <line x1="15" y1="50" x2="5" y2="50" stroke="currentColor" strokeWidth="1" />
+    <line x1="85" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="1" />
+    <line x1="50" y1="15" x2="50" y2="5" stroke="currentColor" strokeWidth="1" />
+    <line x1="50" y1="85" x2="50" y2="95" stroke="currentColor" strokeWidth="1" />
+  </svg>
+);
+
+const PatternMesh = () => (
+  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.3 }}>
+    <path d="M0 20 L100 80 M0 80 L100 20 M50 0 L50 100 M0 50 L100 50" stroke="currentColor" strokeWidth="0.5" fill="none" />
+    <circle cx="50" cy="50" r="10" stroke="currentColor" strokeWidth="1" fill="none" />
+    <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
+    <circle cx="80" cy="80" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
   </svg>
 );
 
@@ -164,6 +173,7 @@ const patterns = {
   waves: PatternWaves,
   dots: PatternDots,
   circuits: PatternCircuits,
+  mesh: PatternMesh,
   none: PatternNone,
 };
 
@@ -189,7 +199,23 @@ export default function CardStackHero() {
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [cardStyle, setCardStyle] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Detect daily theme card style
+  useEffect(() => {
+    const updateStyle = () => {
+      const style = document.documentElement.getAttribute('data-card-style');
+      setCardStyle(style);
+    };
+    
+    updateStyle();
+    
+    const observer = new MutationObserver(updateStyle);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-card-style'] });
+    
+    return () => observer.disconnect();
+  }, []);
 
   // Use IntersectionObserver to defer animation until component is visible
   // This improves initial page load performance by not animating off-screen content
@@ -336,14 +362,15 @@ export default function CardStackHero() {
             const isHovered = hoveredCard === card.id;
             const isSelected = selectedCard === card.id;
             const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-            const Pattern = patterns[card.pattern];
+            const Pattern = patterns[card.pattern as keyof typeof patterns] || PatternNone;
+            const isGlass = cardStyle === 'glass';
 
             return (
               <motion.div
                 key={card.id}
-                className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''}`}
+                className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
                 style={{
-                  backgroundColor: card.color,
+                  backgroundColor: isGlass ? 'transparent' : card.color,
                   zIndex: isSelected ? 20 : cards.length - index,
                 }}
                 layout
@@ -356,21 +383,41 @@ export default function CardStackHero() {
                 }}
                 animate={{
                   x: isSelected ? 0 : (isLoaded ? position.x : 0),
-                  y: isSelected ? -70 : (isLoaded ? (isHovered ? position.y - 15 : position.y) : 50),
+                  y: isSelected 
+                    ? -70 
+                    : (isLoaded 
+                        ? (isHovered ? position.y - 15 : position.y) + Math.sin(Date.now() / 1000 + index) * 5
+                        : 50),
                   rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
                   scale: isSelected ? 1.1 : (isLoaded ? (isHovered ? 1.03 : 1) : 0.9),
                   opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
                 }}
+                whileHover={!isSelected ? {
+                  y: position.y - 20,
+                  scale: 1.05,
+                  transition: { type: 'spring', stiffness: 400, damping: 25 }
+                } : {}}
+                whileTap={!isSelected ? { scale: 0.98 } : {}}
                 transition={{
                   type: 'spring',
                   stiffness: hasAnimatedIn ? 300 : 100,
                   damping: hasAnimatedIn ? 20 : 10,
                   delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
+                  y: {
+                    duration: isSelected ? 0.4 : 2,
+                    repeat: isSelected ? 0 : Infinity,
+                    repeatType: 'reverse',
+                    ease: "easeInOut"
+                  }
                 }}
                 onMouseEnter={() => !selectedCard && setHoveredCard(card.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => handleCardClick(card.id, card.link)}
               >
+                {isGlass && (
+                  <div className="card-glass-overlay" style={{ backgroundColor: card.color }} />
+                )}
+                
                 {card.image ? (
                   <div className="card-image" style={{ backgroundImage: `url(${card.image})` }} />
                 ) : card.thumbnail ? (
@@ -559,6 +606,21 @@ export default function CardStackHero() {
           min-height: 320px;
           margin-left: -160px;
           box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-glass-mode {
+          background-color: rgba(255, 255, 255, 0.05) !important;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-glass-overlay {
+          position: absolute;
+          inset: 0;
+          opacity: 0.15;
+          z-index: 0;
+          pointer-events: none;
         }
 
         .card-pattern {
