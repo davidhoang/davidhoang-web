@@ -1,6 +1,104 @@
 {
   "themes": [
     {
+      "name": "Scandi Birch Morning",
+      "description": "Clean Nordic simplicity with warm wood tones and frost-kissed pastels",
+      "colors": {
+        "light": {
+          "--color-text": "#2C3E50",
+          "--color-bg": "#F8F6F0",
+          "--color-link": "#E67E22",
+          "--color-link-hover": "#D35400",
+          "--color-border": "#E8E4DE",
+          "--color-muted": "#7F8C8D",
+          "--color-sidebar-bg": "#F1EDE4",
+          "--color-nav-bg": "#FDFCF8",
+          "--color-nav-text": "#34495E",
+          "--color-card-bg": "#FEFDF9"
+        },
+        "dark": {
+          "--color-text": "#ECF0F1",
+          "--color-bg": "#1A1A1A",
+          "--color-link": "#F39C12",
+          "--color-link-hover": "#E67E22",
+          "--color-border": "#2C3E50",
+          "--color-muted": "#95A5A6",
+          "--color-sidebar-bg": "#212121",
+          "--color-nav-bg": "#1E1E1E",
+          "--color-nav-text": "#BDC3C7",
+          "--color-card-bg": "#1F1F1F"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Nunito",
+          "url": "https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "768px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem"
+      },
+      "hero": {
+        "layout": "left-aligned"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Nunito",
+        "url": "https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "sans-serif",
+        "stack": "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-02-22"
+    },
+    {
       "name": "Marrakech Tiles",
       "description": "Warm terracotta and sage green inspired by Moroccan architecture and handcrafted ceramics",
       "colors": {
@@ -595,108 +693,7 @@
         "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "date": "2026-02-16"
-    },
-    {
-      "name": "Sunday Morning Jazz",
-      "description": "Warm coffee shop atmosphere with vintage record sleeves and lazy Sunday elegance",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#C5303E",
-          "--color-border": "#D4B08A",
-          "--color-muted": "#8B6F47",
-          "--color-sidebar-bg": "#F7E6D3",
-          "--color-nav-bg": "rgba(247, 230, 211, 0.9)",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#E8D5B7",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C42",
-          "--color-border": "#3D2817",
-          "--color-muted": "#A0845C",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "rgba(38, 26, 17, 0.9)",
-          "--color-nav-text": "#E8D5B7",
-          "--color-card-bg": "#2D1F14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "60px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 16px rgba(44, 24, 16, 0.08)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#E63946",
-          "#8B6F47"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-02-15"
     }
   ],
-  "currentDate": "2026-02-21"
+  "currentDate": "2026-02-22"
 }
