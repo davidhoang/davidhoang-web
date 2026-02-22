@@ -1,196 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { cards, resolveLayout } from './hero/types';
+import type { HeroLayout, LayoutProps } from './hero/types';
+import { HeroTitle } from './hero/HeroTitle';
+import StackedFanLayout from './hero/layouts/StackedFanLayout';
+import EditorialLayout from './hero/layouts/EditorialLayout';
+import ScatteredLayout from './hero/layouts/ScatteredLayout';
+import RolodexLayout from './hero/layouts/RolodexLayout';
 
-interface Card {
-  id: string;
-  title: string;
-  subtitle?: string;
-  description: string;
-  color: string;
-  pattern: 'lines' | 'grid' | 'waves' | 'dots' | 'circuits' | 'none';
-  link?: string;
-  linkText?: string;
-  image?: string;
-  thumbnail?: string;
-}
-
-const cards: Card[] = [
-  {
-    id: 'atlassian',
-    title: 'Atlassian',
-    subtitle: 'VP, Head of Design, AI',
-    description: 'Leading design for Rovo, Atlassian\'s AI-powered knowledge assistant that connects teams, work, and applications across the SaaS ecosystem.',
-    color: '#0052CC',
-    pattern: 'waves',
-    link: 'https://www.atlassian.com/software/rovo',
-    linkText: 'Learn about Rovo'
-  },
-  {
-    id: 'poc',
-    title: 'Proof of Concept',
-    subtitle: 'Newsletter',
-    description: 'A weekly newsletter about design, technology, and entrepreneurship. Exploring the intersection of creativity, code, and community.',
-    color: '#E85D04',
-    pattern: 'lines',
-    link: 'https://www.proofofconcept.pub',
-    linkText: 'Subscribe'
-  },
-  {
-    id: 'config',
-    title: 'Config 2021',
-    subtitle: 'Figma Conference',
-    description: 'Spoke about the universal challenges of scaling design teams and building design culture.',
-    color: '#2D6A4F',
-    pattern: 'dots',
-    link: 'https://youtu.be/piGC-iFwmrk',
-    linkText: 'Watch talk'
-  },
-  {
-    id: 'diveclub',
-    title: 'Dive Club',
-    subtitle: 'Podcast',
-    description: 'Joined the Dive Club podcast to discuss design leadership, creative tools, and career journeys.',
-    color: '#1e3a5f',
-    pattern: 'waves',
-    link: 'https://www.youtube.com/watch?v=6Z88rLjF-lc',
-    linkText: 'Listen'
-  },
-  {
-    id: 'odyssey',
-    title: 'Career Odyssey',
-    subtitle: 'Interactive Canvas',
-    description: 'An explorable visualization of my 20-year journey from art school to leading design teams. A map of paths taken and not taken.',
-    color: '#9D4EDD',
-    pattern: 'grid',
-    link: '/career-odyssey',
-    linkText: 'Explore'
-  },
-  {
-    id: 'about',
-    title: 'About',
-    subtitle: '',
-    description: 'Designer, investor, and builder focused on tools that revolutionize the internet. Previously at Replit, Webflow, and One Medical.',
-    color: '#78716c',
-    pattern: 'none',
-    link: '/about',
-    linkText: 'Learn more',
-    thumbnail: '/images/img-dh-web-light.webp'
-  },
-];
-
-// Pattern SVG components
-const PatternLines = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.4 }}>
-    {Array.from({ length: 25 }).map((_, i) => (
-      <line
-        key={i}
-        x1={4 + i * 4}
-        y1="5"
-        x2={4 + i * 4}
-        y2={95 - Math.random() * 40}
-        stroke="rgba(255,255,255,0.6)"
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-    ))}
-  </svg>
-);
-
-const PatternGrid = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.3 }}>
-    {Array.from({ length: 12 }).map((_, i) =>
-      Array.from({ length: 12 }).map((_, j) => (
-        <rect
-          key={`${i}-${j}`}
-          x={4 + i * 8}
-          y={4 + j * 8}
-          width="6"
-          height="6"
-          fill="rgba(255,255,255,0.5)"
-          rx="1"
-        />
-      ))
-    )}
-  </svg>
-);
-
-const PatternWaves = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.35 }}>
-    {Array.from({ length: 20 }).map((_, i) => (
-      <path
-        key={i}
-        d={`M 0 ${5 + i * 5} Q 25 ${2 + i * 5}, 50 ${5 + i * 5} T 100 ${5 + i * 5}`}
-        fill="none"
-        stroke="rgba(255,255,255,0.6)"
-        strokeWidth="1"
-      />
-    ))}
-  </svg>
-);
-
-const PatternDots = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.35 }}>
-    {Array.from({ length: 12 }).map((_, i) =>
-      Array.from({ length: 12 }).map((_, j) => (
-        <circle
-          key={`${i}-${j}`}
-          cx={8 + i * 8}
-          cy={8 + j * 8}
-          r="2"
-          fill="rgba(255,255,255,0.5)"
-        />
-      ))
-    )}
-  </svg>
-);
-
-const PatternCircuits = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.4 }}>
-    <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" strokeWidth="1" rx="6" />
-    <rect x="25" y="25" width="50" height="50" fill="none" stroke="currentColor" strokeWidth="1" rx="4" />
-    <rect x="35" y="35" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1" rx="2" />
-    <line x1="15" y1="50" x2="5" y2="50" stroke="currentColor" strokeWidth="1" />
-    <line x1="85" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="1" />
-    <line x1="50" y1="15" x2="50" y2="5" stroke="currentColor" strokeWidth="1" />
-    <line x1="50" y1="85" x2="50" y2="95" stroke="currentColor" strokeWidth="1" />
-  </svg>
-);
-
-const PatternMesh = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.3 }}>
-    <path d="M0 20 L100 80 M0 80 L100 20 M50 0 L50 100 M0 50 L100 50" stroke="currentColor" strokeWidth="0.5" fill="none" />
-    <circle cx="50" cy="50" r="10" stroke="currentColor" strokeWidth="1" fill="none" />
-    <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
-    <circle cx="80" cy="80" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
-  </svg>
-);
-
-const PatternNone = () => null;
-
-const patterns = {
-  lines: PatternLines,
-  grid: PatternGrid,
-  waves: PatternWaves,
-  dots: PatternDots,
-  circuits: PatternCircuits,
-  mesh: PatternMesh,
-  none: PatternNone,
+const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
+  'stacked-fan': StackedFanLayout,
+  'editorial': EditorialLayout,
+  'scattered': ScatteredLayout,
+  'rolodex': RolodexLayout,
 };
-
-// Card positions for the fanned stack - 6 cards spread out
-const cardPositions = [
-  { x: -400, y: 35, rotation: -15 },
-  { x: -240, y: 20, rotation: -9 },
-  { x: -80, y: 8, rotation: -3 },
-  { x: 80, y: 8, rotation: 3 },
-  { x: 240, y: 20, rotation: 9 },
-  { x: 400, y: 35, rotation: 15 },
-];
-
-const rotatingRoles = [
-  { label: 'Investor', link: null },
-  { label: 'Writer', link: 'https://www.proofofconcept.pub' },
-];
 
 export default function CardStackHero() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
@@ -198,35 +20,36 @@ export default function CardStackHero() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [cardStyle, setCardStyle] = useState<string | null>(null);
+  const [heroLayout, setHeroLayout] = useState<HeroLayout>('stacked-fan');
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Detect daily theme card style
+  // Observe data-card-style and data-hero-layout on <html>
   useEffect(() => {
-    const updateStyle = () => {
-      const style = document.documentElement.getAttribute('data-card-style');
-      setCardStyle(style);
+    const update = () => {
+      const root = document.documentElement;
+      setCardStyle(root.getAttribute('data-card-style'));
+      setHeroLayout(resolveLayout(root.getAttribute('data-hero-layout')));
     };
-    
-    updateStyle();
-    
-    const observer = new MutationObserver(updateStyle);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-card-style'] });
-    
+
+    update();
+
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-card-style', 'data-hero-layout'],
+    });
+
     return () => observer.disconnect();
   }, []);
 
-  // Use IntersectionObserver to defer animation until component is visible
-  // This improves initial page load performance by not animating off-screen content
+  // IntersectionObserver for deferred animation
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      // Skip animation entirely for users who prefer reduced motion
       setIsInView(true);
       setIsLoaded(true);
       setHasAnimatedIn(true);
@@ -237,25 +60,21 @@ export default function CardStackHero() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          observer.disconnect(); // Only need to trigger once
+          observer.disconnect();
         }
       },
-      {
-        threshold: 0.1, // Trigger when 10% visible
-        rootMargin: '50px', // Start slightly before entering viewport
-      }
+      { threshold: 0.1, rootMargin: '50px' }
     );
 
     observer.observe(container);
     return () => observer.disconnect();
   }, []);
 
-  // Trigger entrance animation after component is in view
+  // Trigger entrance animation after in view
   useEffect(() => {
     if (!isInView) return;
 
     const timer = setTimeout(() => setIsLoaded(true), 100);
-    // Mark animation complete after stagger finishes
     const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);
     return () => {
       clearTimeout(timer);
@@ -263,16 +82,7 @@ export default function CardStackHero() {
     };
   }, [isInView]);
 
-  // Rotate through roles
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentRoleIndex((prev) => (prev + 1) % rotatingRoles.length);
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleCardClick = (cardId: string, link?: string) => {
-    // About card navigates directly
     if (cardId === 'about' && link) {
       window.location.href = link;
       return;
@@ -305,176 +115,24 @@ export default function CardStackHero() {
   }, [selectedCard]);
 
   const hasSelection = selectedCard !== null;
+  const LayoutComponent = layoutComponents[heroLayout];
 
   return (
-    <div className="card-stack-hero" ref={containerRef}>
+    <div className={`card-stack-hero card-stack-hero--${heroLayout}`} ref={containerRef}>
       <div className="card-stack-container">
-        <motion.h1
-          className="hero-title"
-          animate={{
-            y: hasSelection ? -30 : 0,
-            opacity: hasSelection ? 0.6 : 1,
-          }}
-          transition={{
-            type: 'spring',
-            stiffness: 400,
-            damping: 30,
-          }}
-        >
-          David Hoang is a Designer{' '}
-          <a
-            href="https://www.youtube.com/watch?v=4lWYcr53kyI"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="and-link"
-            onClick={(e) => e.stopPropagation()}
-          >and</a>{' '}
-          <span className="role-wrapper">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentRoleIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="role-text"
-              >
-                {rotatingRoles[currentRoleIndex].link ? (
-                  <a
-                    href={rotatingRoles[currentRoleIndex].link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="role-link"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {rotatingRoles[currentRoleIndex].label}
-                  </a>
-                ) : (
-                  rotatingRoles[currentRoleIndex].label
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </span>.
-        </motion.h1>
-        <div className="cards-wrapper">
-          {cards.map((card, index) => {
-            const position = cardPositions[index];
-            const isHovered = hoveredCard === card.id;
-            const isSelected = selectedCard === card.id;
-            const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-            const Pattern = patterns[card.pattern as keyof typeof patterns] || PatternNone;
-            const isGlass = cardStyle === 'glass';
-
-            return (
-              <motion.div
-                key={card.id}
-                className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
-                style={{
-                  backgroundColor: isGlass ? 'transparent' : card.color,
-                  zIndex: isSelected ? 20 : cards.length - index,
-                }}
-                layout
-                initial={{
-                  x: 0,
-                  y: 50,
-                  rotate: 0,
-                  scale: 0.9,
-                  opacity: 0
-                }}
-                animate={{
-                  x: isSelected ? 0 : (isLoaded ? position.x : 0),
-                  y: isSelected 
-                    ? -70 
-                    : (isLoaded 
-                        ? (isHovered ? position.y - 15 : position.y) + Math.sin(Date.now() / 1000 + index) * 5
-                        : 50),
-                  rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-                  scale: isSelected ? 1.1 : (isLoaded ? (isHovered ? 1.03 : 1) : 0.9),
-                  opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
-                }}
-                whileHover={!isSelected ? {
-                  y: position.y - 20,
-                  scale: 1.05,
-                  transition: { type: 'spring', stiffness: 400, damping: 25 }
-                } : {}}
-                whileTap={!isSelected ? { scale: 0.98 } : {}}
-                transition={{
-                  type: 'spring',
-                  stiffness: hasAnimatedIn ? 300 : 100,
-                  damping: hasAnimatedIn ? 20 : 10,
-                  delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
-                  y: {
-                    duration: isSelected ? 0.4 : 2,
-                    repeat: isSelected ? 0 : Infinity,
-                    repeatType: 'reverse',
-                    ease: "easeInOut"
-                  }
-                }}
-                onMouseEnter={() => !selectedCard && setHoveredCard(card.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => handleCardClick(card.id, card.link)}
-              >
-                {isGlass && (
-                  <div className="card-glass-overlay" style={{ backgroundColor: card.color }} />
-                )}
-                
-                {card.image ? (
-                  <div className="card-image" style={{ backgroundImage: `url(${card.image})` }} />
-                ) : card.thumbnail ? (
-                  <>
-                    <div className="card-thumbnail-area">
-                      <div className="card-thumbnail" style={{ backgroundImage: `url(${card.thumbnail})` }} />
-                    </div>
-                  </>
-                ) : (
-                  <div className="card-pattern">
-                    <Pattern />
-                  </div>
-                )}
-
-                <div className="card-content">
-                  <h3 className="card-title">{card.title}</h3>
-                  {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
-                </div>
-
-                {/* Expanded content */}
-                <AnimatePresence>
-                  {isSelected && (
-                    <motion.div
-                      className="card-expanded-content"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      transition={{ delay: 0.1, duration: 0.2 }}
-                    >
-                      <p className="card-description">{card.description}</p>
-                      <div className="card-links">
-                        {card.link && (
-                          <a
-                            href={card.link}
-                            className="card-link"
-                            target={card.link.startsWith('http') ? '_blank' : undefined}
-                            rel={card.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {card.linkText || 'Learn more'}
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                              <line x1="5" y1="12" x2="19" y2="12" />
-                              <polyline points="12 5 19 12 12 19" />
-                            </svg>
-                          </a>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
-        </div>
+        <HeroTitle hasSelection={hasSelection} />
+        <LayoutComponent
+          cards={cards}
+          selectedCard={selectedCard}
+          hoveredCard={hoveredCard}
+          isLoaded={isLoaded}
+          hasAnimatedIn={hasAnimatedIn}
+          cardStyle={cardStyle}
+          onCardClick={handleCardClick}
+          onCardHover={setHoveredCard}
+        />
       </div>
 
-      {/* Click outside to deselect */}
       {selectedCard && (
         <div
           className="click-outside-overlay"
@@ -492,7 +150,7 @@ export default function CardStackHero() {
           justify-content: flex-start;
           padding: 0 1rem 0 1rem;
           position: relative;
-          overflow: hidden;
+          overflow: visible;
           box-sizing: border-box;
         }
 
@@ -505,6 +163,28 @@ export default function CardStackHero() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
+          overflow: visible;
+        }
+
+        .card-stack-hero--editorial {
+          min-height: auto;
+        }
+
+        .card-stack-hero--editorial .card-stack-container {
+          flex-direction: column;
+          align-items: flex-start;
+          height: auto;
+          min-height: auto;
+          max-width: 100%;
+          gap: 1.5rem;
+        }
+
+        .card-stack-hero--scattered .card-stack-container {
+          height: 520px;
+        }
+
+        .card-stack-hero--rolodex .card-stack-container {
+          perspective: 1200px;
         }
 
         .hero-title {
@@ -522,36 +202,36 @@ export default function CardStackHero() {
           white-space: nowrap;
         }
 
+        .card-stack-hero--editorial .hero-title {
+          text-align: left;
+          white-space: nowrap;
+          width: 100%;
+          max-width: 100%;
+          margin: 0;
+          padding-top: 0;
+        }
+
         .and-link {
           color: var(--color-link);
-          text-decoration: underline;
-          text-decoration-thickness: 2px;
-          text-underline-offset: 4px;
-          transition: color 0.2s ease, text-decoration-color 0.2s ease;
+          text-decoration: none;
           cursor: pointer;
           margin: 0 0.15em;
+          transition: color 0.2s ease;
+        }
+
+        /* Suppress theme link-style ::after pseudo on hero links */
+        .and-link::after,
+        .role-link::after {
+          display: none !important;
         }
 
         .and-link:hover {
           color: var(--color-link-hover);
         }
 
-
-        .role-wrapper {
-          display: inline-block;
-          position: relative;
-          vertical-align: baseline;
-        }
-
-        .role-text {
-          display: inline-block;
-        }
-
         .role-link {
           color: var(--color-link);
-          text-decoration: underline;
-          text-decoration-thickness: 2px;
-          text-underline-offset: 4px;
+          text-decoration: none;
           transition: color 0.2s ease;
         }
 
@@ -762,16 +442,96 @@ export default function CardStackHero() {
           z-index: 10;
         }
 
+        /* === Editorial layout overrides === */
+        .card-stack-hero--editorial .cards-wrapper {
+          width: 100%;
+          height: auto;
+          min-height: auto;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-top: 0;
+          overflow: visible;
+        }
+
+        .card-stack-hero--editorial .card {
+          position: relative;
+          left: auto;
+          top: auto;
+          margin: 0;
+          width: calc(33.333% - 0.75rem);
+          min-width: 180px;
+          height: 280px;
+          flex-shrink: 0;
+        }
+
+        .card-stack-hero--editorial .card-selected {
+          width: calc(33.333% - 0.75rem);
+          min-width: 260px;
+          height: auto;
+          min-height: 280px;
+          margin-left: 0;
+        }
+
+        /* === Scattered layout overrides === */
+        .card-stack-hero--scattered .cards-wrapper {
+          width: 100%;
+          height: 420px;
+          max-width: 1000px;
+        }
+
+        .card-stack-hero--scattered .card {
+          width: 200px;
+          height: 260px;
+          margin-left: -100px;
+          margin-top: -130px;
+        }
+
+        .card-stack-hero--scattered .card-selected {
+          width: 300px;
+          margin-left: -150px;
+          height: auto;
+          min-height: 260px;
+        }
+
+        /* === Rolodex layout overrides === */
+        .card-stack-hero--rolodex .cards-wrapper {
+          width: 280px;
+          height: 380px;
+          perspective: 1200px;
+          transform-style: preserve-3d;
+        }
+
+        .card-stack-hero--rolodex .card {
+          width: 280px;
+          height: 360px;
+          margin-left: -140px;
+          margin-top: -180px;
+          backface-visibility: hidden;
+        }
+
+        .card-stack-hero--rolodex .card-selected {
+          width: 340px;
+          margin-left: -170px;
+          height: auto;
+          min-height: 360px;
+        }
+
         /* Responsive */
         @media (max-width: 1100px) {
-          .cards-wrapper {
+          .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.85);
           }
         }
 
         @media (max-width: 900px) {
-          .cards-wrapper {
+          .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.75);
+          }
+
+          .card-stack-hero--editorial .hero-title {
+            text-align: center;
           }
         }
 
@@ -784,7 +544,7 @@ export default function CardStackHero() {
             height: 380px;
           }
 
-          .cards-wrapper {
+          .card-stack-hero--stacked-fan .cards-wrapper {
             margin-top: 15px;
             transform: scale(0.65);
           }
@@ -797,10 +557,18 @@ export default function CardStackHero() {
           .card-selected .card-title {
             font-size: 1.4rem;
           }
+
+          .card-stack-hero--scattered .cards-wrapper {
+            transform: scale(0.7);
+          }
+
+          .card-stack-hero--rolodex .cards-wrapper {
+            transform: scale(0.8);
+          }
         }
 
         @media (max-width: 480px) {
-          .cards-wrapper {
+          .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.55);
           }
 
@@ -811,6 +579,14 @@ export default function CardStackHero() {
           .card-selected {
             width: 260px;
             margin-left: -130px;
+          }
+
+          .card-stack-hero--scattered .cards-wrapper {
+            transform: scale(0.55);
+          }
+
+          .card-stack-hero--rolodex .cards-wrapper {
+            transform: scale(0.65);
           }
         }
       `}</style>
