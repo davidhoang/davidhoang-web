@@ -27,7 +27,6 @@ export default function StackedFanLayout({
     <div className="cards-wrapper">
       {cards.map((card, index) => {
         const position = cardPositions[index];
-        const isHovered = hoveredCard === card.id;
         const isSelected = selectedCard === card.id;
         const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
 
@@ -49,13 +48,9 @@ export default function StackedFanLayout({
             }}
             animate={{
               x: isSelected ? 0 : (isLoaded ? position.x : 0),
-              y: isSelected
-                ? -70
-                : (isLoaded
-                    ? (isHovered ? position.y - 15 : position.y) + Math.sin(Date.now() / 1000 + index) * 5
-                    : 50),
+              y: isSelected ? -70 : (isLoaded ? position.y : 50),
               rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-              scale: isSelected ? 1.1 : (isLoaded ? (isHovered ? 1.03 : 1) : 0.9),
+              scale: isSelected ? 1.1 : (isLoaded ? 1 : 0.9),
               opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
             }}
             whileHover={!isSelected ? {
@@ -69,12 +64,6 @@ export default function StackedFanLayout({
               stiffness: hasAnimatedIn ? 300 : 100,
               damping: hasAnimatedIn ? 20 : 10,
               delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
-              y: {
-                duration: isSelected ? 0.4 : 2,
-                repeat: isSelected ? 0 : Infinity,
-                repeatType: 'reverse',
-                ease: "easeInOut"
-              }
             }}
             onMouseEnter={() => !selectedCard && onCardHover(card.id)}
             onMouseLeave={() => onCardHover(null)}

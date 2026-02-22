@@ -79,15 +79,6 @@ const PatternCircuits = () => (
   </svg>
 );
 
-const PatternMesh = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.3 }}>
-    <path d="M0 20 L100 80 M0 80 L100 20 M50 0 L50 100 M0 50 L100 50" stroke="currentColor" strokeWidth="0.5" fill="none" />
-    <circle cx="50" cy="50" r="10" stroke="currentColor" strokeWidth="1" fill="none" />
-    <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
-    <circle cx="80" cy="80" r="5" stroke="currentColor" strokeWidth="1" fill="none" />
-  </svg>
-);
-
 const PatternNone = () => null;
 
 export const patterns: Record<string, React.ComponentType> = {
@@ -96,7 +87,6 @@ export const patterns: Record<string, React.ComponentType> = {
   waves: PatternWaves,
   dots: PatternDots,
   circuits: PatternCircuits,
-  mesh: PatternMesh,
   none: PatternNone,
 };
 
