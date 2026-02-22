@@ -27,27 +27,7 @@ export function HeroTitle({ hasSelection, className }: HeroTitleProps) {
         damping: 30,
       }}
     >
-      David Hoang is a Designer{' '}
-      <a
-        href="https://www.youtube.com/watch?v=4lWYcr53kyI"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="and-link"
-        onClick={(e) => e.stopPropagation()}
-      >and</a>{' '}
-      {role.link ? (
-        <a
-          href={role.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="role-link"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {role.label}
-        </a>
-      ) : (
-        <span className="role-text">{role.label}</span>
-      )}.
+      {`David Hoang is a Designer and ${role.label}.`}
     </motion.h1>
   );
 }

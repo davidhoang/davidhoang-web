@@ -192,18 +192,19 @@ export default function CardStackHero() {
         }
 
         .hero-title {
-          font-size: clamp(1.1rem, 4.5vw, 3rem);
+          font-size: clamp(2.5rem, 7vw, 6rem);
           font-weight: 700;
-          margin: 0 auto 1.5rem auto;
+          margin: 0 auto 3rem auto;
           padding: 0 0.5rem;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
-          line-height: 1.3;
+          line-height: 1.05;
+          letter-spacing: -0.03em;
           width: 100%;
           max-width: 100%;
           box-sizing: border-box;
-          white-space: nowrap;
+          text-wrap: balance;
         }
 
         .card-stack-hero--editorial .hero-title {
@@ -212,32 +213,28 @@ export default function CardStackHero() {
           padding-top: 0;
         }
 
-        .and-link {
+        .and-link,
+        .role-link {
+          display: inline !important;
           color: var(--color-link);
           text-decoration: none;
           cursor: pointer;
-          margin: 0 0.15em;
           transition: color 0.2s ease;
+          position: relative;
+          border: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .and-link:hover,
+        .role-link:hover {
+          color: var(--color-link-hover);
         }
 
         /* Suppress theme link-style ::after pseudo on hero links */
         .and-link::after,
         .role-link::after {
           display: none !important;
-        }
-
-        .and-link:hover {
-          color: var(--color-link-hover);
-        }
-
-        .role-link {
-          color: var(--color-link);
-          text-decoration: none;
-          transition: color 0.2s ease;
-        }
-
-        .role-link:hover {
-          color: var(--color-link-hover);
         }
 
         .cards-wrapper {
