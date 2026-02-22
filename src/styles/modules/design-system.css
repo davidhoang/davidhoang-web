@@ -9,13 +9,14 @@
    1. Buttons (.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-link)
    2. Cards (.card, .card-elevated, .card-outlined, .card-glass, .card-filled)
    3. Surfaces (.surface, .surface-raised, .surface-sunken, .surface-glass)
-   4. Typography (.text-heading, .text-body, .text-caption, .text-mono)
+   4. Typography (.text-heading, .text-body, .text-caption, .text-mono, .text-micro, .text-jumbo, .text-display-xl)
    5. Images (.img-themed, .img-thumbnail, .img-hero)
    6. Badges (.badge, .badge-primary, .badge-muted)
    7. Dividers (.divider, .divider-subtle)
    8. Links (.link, .link-muted, .link-nav)
    9. Inputs (.input, .input-lg, .textarea)
    10. Containers (.container, .container-narrow, .container-wide)
+   11. Experimental Grid Layouts (.grid-asymmetric, .grid-split, .grid-magazine, .grid-sidebar)
 
    ============================================ */
 
@@ -321,6 +322,29 @@
 .text-2xl { font-size: 1.5rem; }
 .text-3xl { font-size: 2rem; }
 
+/* Extreme typography scales — driven by --scale-ratio from daily themes */
+.text-micro {
+  font-size: var(--text-micro, 0.5625rem);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.text-jumbo {
+  font-size: var(--text-jumbo, 3.157rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+}
+
+.text-display-xl {
+  font-size: var(--text-display-xl, 4.209rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+}
+
 /* --------------------------------------------
    5. IMAGES
 
@@ -556,4 +580,95 @@ img {
 
 .container-full {
   max-width: none;
+}
+
+/* --------------------------------------------
+   11. EXPERIMENTAL GRID LAYOUTS
+
+   Usage:
+     <div class="grid-asymmetric">2fr + 1fr columns</div>
+     <div class="grid-split">Equal halves with divider</div>
+     <div class="grid-magazine">3-column editorial grid</div>
+     <div class="grid-sidebar">Sidebar + content</div>
+
+   Note: These complement [data-grid-style] from themes
+   -------------------------------------------- */
+
+.grid-asymmetric {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--section-spacing, 2rem);
+}
+
+.grid-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.grid-split > *:nth-child(odd) {
+  padding-right: var(--content-padding, 2rem);
+}
+
+.grid-split > *:nth-child(even) {
+  padding-left: var(--content-padding, 2rem);
+  border-left: 1px solid var(--color-border);
+}
+
+.grid-magazine {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--section-spacing, 2rem);
+}
+
+.grid-magazine > *:first-child {
+  grid-column: 1 / -1;
+}
+
+.grid-sidebar {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--section-spacing, 2rem);
+}
+
+.grid-sidebar > *:first-child {
+  position: sticky;
+  top: var(--content-top-padding);
+  align-self: start;
+}
+
+/* Responsive: all experimental grids collapse on mobile */
+@media (max-width: 768px) {
+  .grid-asymmetric,
+  .grid-split,
+  .grid-magazine,
+  .grid-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-split > *:nth-child(odd) {
+    padding-right: 0;
+  }
+
+  .grid-split > *:nth-child(even) {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--content-padding, 2rem);
+  }
+
+  .grid-sidebar > *:first-child {
+    position: static;
+  }
+
+  .grid-magazine > *:first-child {
+    grid-column: auto;
+  }
+}
+
+/* Tablet: magazine falls to 2 columns */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-magazine {
+    grid-template-columns: 1fr 1fr;
+  }
 }
