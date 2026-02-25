@@ -1,6 +1,113 @@
 {
   "themes": [
     {
+      "name": "Terminal Meadow",
+      "description": "Digital pastoral meets cyberpunk romance—neon greens bloom in electronic gardens",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1B2E1F",
+          "--color-bg": "#F0FDF4",
+          "--color-link": "#FF1493",
+          "--color-link-hover": "#DC143C",
+          "--color-border": "#86EFAC",
+          "--color-muted": "#6B7280",
+          "--color-sidebar-bg": "#DCFCE7",
+          "--color-nav-bg": "#F0FDF4",
+          "--color-nav-text": "#1B2E1F",
+          "--color-card-bg": "#FAFDF9"
+        },
+        "dark": {
+          "--color-text": "#86EFAC",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#00FF7F",
+          "--color-link-hover": "#32CD32",
+          "--color-border": "#166534",
+          "--color-muted": "#9CA3AF",
+          "--color-sidebar-bg": "#1A2E1F",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#86EFAC",
+          "--color-card-bg": "#1A2E1F"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "JetBrains Mono",
+          "url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap",
+          "category": "monospace",
+          "stack": "'JetBrains Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.1em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 700"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 0 24px rgba(134, 239, 172, 0.1)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#86EFAC",
+          "#22C55E",
+          "#15803D"
+        ]
+      },
+      "font": {
+        "name": "JetBrains Mono",
+        "url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap",
+        "category": "monospace",
+        "stack": "'JetBrains Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+      },
+      "date": "2026-02-25"
+    },
+    {
       "name": "Forest Floor",
       "description": "Dappled woodland light filtering through moss and bark textures with organic warmth.",
       "colors": {
@@ -604,109 +711,7 @@
         "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-02-19"
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Moody maximalism meets art nouveau elegance with rich jewel tones and flowing organic lines",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#C5303E",
-          "--color-border": "#E8DAEF",
-          "--color-muted": "#85677B",
-          "--color-sidebar-bg": "#F4ECF7",
-          "--color-nav-bg": "#FDEDEC",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FEF3E2"
-        },
-        "dark": {
-          "--color-text": "#E8DAEF",
-          "--color-bg": "#2D132C",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A5B",
-          "--color-border": "#4A2C48",
-          "--color-muted": "#A78A9E",
-          "--color-sidebar-bg": "#1A0F19",
-          "--color-nav-bg": "#241529",
-          "--color-nav-text": "#E8DAEF",
-          "--color-card-bg": "#3D1E3A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "1px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "swirl",
-        "colors": [
-          "#E63946",
-          "#9D4EDD",
-          "#2A9D8F"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-02-18"
     }
   ],
-  "currentDate": "2026-02-24"
+  "currentDate": "2026-02-25"
 }
