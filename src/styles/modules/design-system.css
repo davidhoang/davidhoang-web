@@ -571,11 +571,11 @@ img {
 }
 
 .container-narrow {
-  max-width: 720px;
+  max-width: var(--container-narrow-width, 720px);
 }
 
 .container-wide {
-  max-width: 1400px;
+  max-width: var(--container-wide-width, 1400px);
 }
 
 .container-full {

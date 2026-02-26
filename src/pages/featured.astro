@@ -115,14 +115,13 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.webp";
 <style>
 
   .featured-content-intro {
-    max-width: 800px;
+    max-width: var(--container-narrow-width, 720px);
     width: 100%;
   }
 
-
   .featured-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     gap: 3rem;
     margin: 1rem 0;
   }
@@ -156,11 +155,6 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.webp";
     }
   }
 
-  @media (max-width: 480px) {
-    .featured-content-intro {
-      max-width: 100%;
-    }
-  }
 </style>
 
  

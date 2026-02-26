@@ -89,7 +89,7 @@
   max-width: 100%;
   height: 75vh;
   min-height: 200px;
-  margin-top: -4rem; /* Negate main padding to reach viewport edge */
+  margin-top: calc(-1 * var(--content-top-padding, 4rem)); /* Negate main padding to reach viewport edge */
   margin-bottom: 2rem;
   margin-left: 0;
   margin-right: 0;

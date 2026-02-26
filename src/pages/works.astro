@@ -54,13 +54,12 @@ const works = [
     margin-left: 0;
     margin-right: 0;
     padding: 2rem clamp(1rem, 4vw, 4rem);
-    padding-top: calc(var(--nav-height) + 4rem);
     box-sizing: border-box;
   }
 
   .works-inner {
     width: 100%;
-    max-width: 1400px;
+    max-width: var(--container-wide-width, 1400px);
     margin: 0 auto;
   }
 
@@ -155,7 +154,6 @@ const works = [
   @media (max-width: 768px) {
     .works-container {
       padding: 1.5rem 1rem;
-      padding-top: calc(var(--nav-height) + 2rem);
     }
 
     .works-grid {
@@ -171,7 +169,6 @@ const works = [
   @media (max-width: 480px) {
     .works-container {
       padding: 1rem 0.75rem;
-      padding-top: calc(var(--nav-height) + 1.5rem);
     }
 
     .works-grid {
