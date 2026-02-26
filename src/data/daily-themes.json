@@ -1,6 +1,113 @@
 {
   "themes": [
     {
+      "name": "Neon Diner",
+      "description": "Electric pink and cyan collide in a retro-futuristic late-night diner aesthetic",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A0B2E",
+          "--color-bg": "#FDF5FF",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#00FFFF",
+          "--color-border": "#E91E63",
+          "--color-muted": "#7B2CBF",
+          "--color-sidebar-bg": "#F8E8FF",
+          "--color-nav-bg": "#FF0080",
+          "--color-nav-text": "#FFFFFF",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#FFFFFF",
+          "--color-bg": "#1A0B2E",
+          "--color-link": "#00FFFF",
+          "--color-link-hover": "#FF0080",
+          "--color-border": "#7209B7",
+          "--color-muted": "#A663CC",
+          "--color-sidebar-bg": "#2D1B69",
+          "--color-nav-bg": "#00FFFF",
+          "--color-nav-text": "#1A0B2E",
+          "--color-card-bg": "#2D1B69"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 0 20px rgba(255, 0, 128, 0.3)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "neuro",
+        "colors": [
+          "#FF0080",
+          "#00FFFF",
+          "#7209B7"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-02-26"
+    },
+    {
       "name": "Terminal Meadow",
       "description": "Digital pastoral meets cyberpunk romance—neon greens bloom in electronic gardens",
       "colors": {
@@ -613,105 +720,7 @@
         "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "date": "2026-02-20"
-    },
-    {
-      "name": "Golden Deco Awakening",
-      "description": "Art Deco glamour meets dawn serenity with geometric elegance and luxurious golden accents",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF8F0",
-          "--color-link": "#D4AF37",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#E8D5B7",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#F5EFE7",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#D4AF37",
-          "--color-card-bg": "#FEFBF6"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFA500",
-          "--color-border": "#3D2817",
-          "--color-muted": "#A0916B",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#0F0804",
-          "--color-nav-text": "#FFD700",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.04em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2.5rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(212, 175, 55, 0.1)",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem"
-      },
-      "hero": {
-        "layout": "centered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.95",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-02-19"
     }
   ],
-  "currentDate": "2026-02-25"
+  "currentDate": "2026-02-26"
 }
