@@ -20,7 +20,12 @@
   --nav-offset-top: 24px; /* Desktop nav floats below viewport top */
   --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem); /* Space below nav */
   --container-padding: clamp(1rem, 3vw, 2rem);
-  
+
+  /* Container widths — use these tokens instead of hardcoded max-width values */
+  --container-max-width: 1200px;
+  --container-narrow-width: 720px;
+  --container-wide-width: 1400px;
+
   /* Breakpoints */
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;

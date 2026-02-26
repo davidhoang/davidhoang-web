@@ -177,7 +177,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
       </div>
     </div>
   </div>
-  </div>
 </MainLayout>
 
 <style>
@@ -188,7 +187,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   }
 
   .about-content {
-    max-width: 800px;
+    max-width: var(--container-narrow-width, 720px);
     width: 100%;
     margin: 0 auto;
   }
@@ -371,11 +370,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     }
   }
 
-  @media (max-width: 480px) {
-    .about-content {
-      max-width: 100%;
-    }
-  }
 </style>
 
 <script>
