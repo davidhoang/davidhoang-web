@@ -76,7 +76,7 @@ export const cards: Card[] = [
   {
     id: 'about',
     title: 'About',
-    subtitle: '',
+    subtitle: 'A bit about myself',
     description: 'Designer, investor, and builder focused on tools that revolutionize the internet. Previously at Replit, Webflow, and One Medical.',
     color: '#78716c',
     pattern: 'none',
