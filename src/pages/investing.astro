@@ -1,105 +1,159 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 
-// Get current date for the last updated timestamp
-const currentDate = new Date().toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
-
-// Page metadata
-const pageDescription = "I'm an angel investor and advisor for startups. Looking for founders building products that solve problems for people. Selected investments include Visual Electric, Sublime, OZU, Daydream, and more.";
+const pageDescription = "Angel investor and advisor backing founders building at the intersection of design, AI, and tools for creators. Selected investments include Visual Electric, Sublime, Galileo AI, and more.";
 const ogImage = "/images/img-dh.webp";
 ---
 
 <MainLayout title="Investing | David Hoang" description={pageDescription} ogImage={ogImage}>
-  <div class="container">
+  <div class="investing-content">
     <div class="hero-title">
       <h1>Investing</h1>
     </div>
-    <div class="hero-content">
-      <p>I'm an angel investor and advisor for startups. I'm looking for founders who are building products that solve problems for people.</p>
-      <p>Selected investments:</p>
+
+    <section class="investing-intro">
+      <p>I'm an angel investor and advisor for early-stage startups. I back founders building products that solve real problems for people — particularly at the intersection of design, AI, and creative tools. I'm drawn to teams that care deeply about craft and believe great products come from understanding people first.</p>
+    </section>
+
+    <section class="investing-section">
+      <h2>AI & Machine Learning</h2>
       <ul>
-        <li><a href="https://visualelectric.com/" target="_blank">Visual Electric</a></li>
-        <li><a href="https://sublime.app" target="_blank">Sublime</a></li>
-        <li><a href="https://ozu.ai" target="_blank">OZU</a></li>
-        <li><a href="https://www.withdaydream.com" target="_blank">Daydream</a></li>
-        <li><a href="https://www.usegalileo.ai/explore" target="_blank">Galileo AI (Acquired by Google)</a></li>
-        <li><a href="https://www.dittowords.com" target="_blank">Ditto</a></li>
-        <li><a href="https://deepcast.fm" target="_blank">Deepcast</a></li>
-        <li><a href="https://opalcamera.com" target="_blank">Opal Camera</a></li>
-        <li><a href="https://texts.com" target="_blank">Texts.com</a> (Aquired by Automattic)</li>
-        <li><a href="https://www.eraser.io" target="_blank">Eraser</a></li>
-        <li><a href="https://www.passionfroot.me" target="_blank">Passionfroot</a></li>
-        <li><a href="https://www.cycle.app" target="_blank">Cycle</a></li>
+        <li><a href="https://visualelectric.com/" target="_blank" rel="noopener noreferrer">Visual Electric</a> — AI-native image generation for designers</li>
+        <li><a href="https://ozu.ai" target="_blank" rel="noopener noreferrer">OZU</a> — AI-powered creative tools</li>
+        <li><a href="https://www.usegalileo.ai/explore" target="_blank" rel="noopener noreferrer">Galileo AI</a> — AI-generated UI design <span class="exit-badge">Acquired by Google</span></li>
+        <li><a href="https://deepcast.fm" target="_blank" rel="noopener noreferrer">Deepcast</a> — AI-powered podcast platform</li>
       </ul>
-    </div>
+    </section>
+
+    <section class="investing-section">
+      <h2>Design & Developer Tools</h2>
+      <ul>
+        <li><a href="https://www.dittowords.com" target="_blank" rel="noopener noreferrer">Ditto</a> — Design-integrated copy management</li>
+        <li><a href="https://www.eraser.io" target="_blank" rel="noopener noreferrer">Eraser</a> — Technical design docs and diagramming</li>
+        <li><a href="https://www.cycle.app" target="_blank" rel="noopener noreferrer">Cycle</a> — Product feedback and insights</li>
+        <li><a href="https://opalcamera.com" target="_blank" rel="noopener noreferrer">Opal Camera</a> — Professional-grade webcam hardware</li>
+      </ul>
+    </section>
+
+    <section class="investing-section">
+      <h2>Communication & Creator Economy</h2>
+      <ul>
+        <li><a href="https://sublime.app" target="_blank" rel="noopener noreferrer">Sublime</a> — Curated content and social reading</li>
+        <li><a href="https://texts.com" target="_blank" rel="noopener noreferrer">Texts.com</a> — Unified messaging client <span class="exit-badge">Acquired by Automattic</span></li>
+        <li><a href="https://www.passionfroot.me" target="_blank" rel="noopener noreferrer">Passionfroot</a> — Creator business management</li>
+        <li><a href="https://www.withdaydream.com" target="_blank" rel="noopener noreferrer">Daydream</a> — Immersive social experiences</li>
+      </ul>
+    </section>
+
+    <section class="investing-cta">
+      <p>If you're a founder building something in these spaces, I'd love to hear from you — <a href="mailto:david@davidhoang.com">david@davidhoang.com</a>.</p>
+    </section>
   </div>
 </MainLayout>
 
 <style>
-  .now-content {
-    max-width: 700px;
+  .investing-content {
+    max-width: var(--container-narrow-width, 720px);
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 0 0 4rem 0;
   }
 
-  .subtitle {
-    color: #666;
-    font-size: 1.2rem;
+  .hero-title {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title h1 {
+    font-size: clamp(5rem, 8vw, 8rem);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .investing-intro {
     margin-bottom: 3rem;
   }
 
-  .now-section {
-    margin-bottom: 3rem;
+  .investing-intro p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text);
   }
 
-  .now-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
+  .investing-section {
+    margin-bottom: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
   }
 
-  .now-section ul {
-    list-style-type: none;
+  .investing-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .investing-section ul {
+    list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .now-section li {
-    margin-bottom: 0.5rem;
-    margin-left: 2rem;
-    font-size: 1.1rem;
-    list-style-type: disc;
+  .investing-section li {
+    margin-bottom: 0.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-muted);
   }
 
-  .now-footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid #eee;
-    font-size: 0.9rem;
-    color: #666;
+  .investing-section li a {
+    color: var(--color-link);
+    font-weight: 500;
   }
 
-  .now-page-info {
-    margin-top: 0.5rem;
-    font-style: italic;
+  .exit-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--color-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm, 4px);
+    padding: 0.125rem 0.5rem;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+  }
+
+  .investing-cta {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .investing-cta p {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-text);
   }
 
   @media (max-width: 768px) {
-    .now-content {
-      padding: 1rem;
+    .hero-title {
+      height: 200px;
     }
 
-    .subtitle {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
+    .hero-title h1 {
+      font-size: clamp(3rem, 10vw, 5rem);
     }
 
-    .now-section {
-      margin-bottom: 2rem;
+    .investing-content {
+      padding: 0 1rem 3rem 1rem;
+    }
+
+    .investing-intro p {
+      font-size: 1rem;
     }
   }
-</style> 
+</style>
