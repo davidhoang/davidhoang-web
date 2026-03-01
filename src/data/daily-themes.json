@@ -1,6 +1,113 @@
 {
   "themes": [
     {
+      "name": "Deep Current",
+      "description": "Maritime depths meet elegant editorial design with nautical sophistication and flowing typography",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1B3A4B",
+          "--color-bg": "#F0F8FF",
+          "--color-link": "#E74C3C",
+          "--color-link-hover": "#C0392B",
+          "--color-border": "#B8D4E3",
+          "--color-muted": "#5D7A8B",
+          "--color-sidebar-bg": "#E8F6F3",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#1B3A4B",
+          "--color-card-bg": "#FAFCFF"
+        },
+        "dark": {
+          "--color-text": "#E8F4F8",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C42",
+          "--color-bg": "#0A1628",
+          "--color-border": "#2C4A5B",
+          "--color-muted": "#7A9CAF",
+          "--color-sidebar-bg": "#0D1F22",
+          "--color-nav-bg": "#142631",
+          "--color-nav-text": "#E8F4F8",
+          "--color-card-bg": "#142631"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 400, 'opsz' 18"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 20px rgba(27, 58, 75, 0.08)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "waves",
+        "colors": [
+          "#B8D4E3",
+          "#E8F6F3",
+          "#F0F8FF"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-03-01"
+    },
+    {
       "name": "Copper & Sage",
       "description": "Industrial warmth meets botanical calm in a refined, earthy composition.",
       "colors": {
@@ -635,105 +742,7 @@
         "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
       },
       "date": "2026-02-23"
-    },
-    {
-      "name": "Scandi Birch Morning",
-      "description": "Clean Nordic simplicity with warm wood tones and frost-kissed pastels",
-      "colors": {
-        "light": {
-          "--color-text": "#2C3E50",
-          "--color-bg": "#F8F6F0",
-          "--color-link": "#E67E22",
-          "--color-link-hover": "#D35400",
-          "--color-border": "#E8E4DE",
-          "--color-muted": "#7F8C8D",
-          "--color-sidebar-bg": "#F1EDE4",
-          "--color-nav-bg": "#FDFCF8",
-          "--color-nav-text": "#34495E",
-          "--color-card-bg": "#FEFDF9"
-        },
-        "dark": {
-          "--color-text": "#ECF0F1",
-          "--color-bg": "#1A1A1A",
-          "--color-link": "#F39C12",
-          "--color-link-hover": "#E67E22",
-          "--color-border": "#2C3E50",
-          "--color-muted": "#95A5A6",
-          "--color-sidebar-bg": "#212121",
-          "--color-nav-bg": "#1E1E1E",
-          "--color-nav-text": "#BDC3C7",
-          "--color-card-bg": "#1F1F1F"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Nunito",
-          "url": "https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "768px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.92",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Nunito",
-        "url": "https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "sans-serif",
-        "stack": "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-02-22"
     }
   ],
-  "currentDate": "2026-02-28"
+  "currentDate": "2026-03-01"
 }
