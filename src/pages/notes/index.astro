@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import PageHeader from '../../components/PageHeader.astro';
+import SearchInput from '../../components/SearchInput.astro';
 
 const allNotes = await getCollection('notes');
 // Filter out drafts in production, show in dev
@@ -53,7 +54,9 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     </div>
   )}
 
-  <div class="notes-grid">
+  <SearchInput id="notes-search" placeholder="Search notes..." />
+
+  <div class="notes-grid" id="notes-grid">
     {notes.length === 0 ? (
       <p class="empty-state">No notes yet. Check back soon!</p>
     ) : (
@@ -62,7 +65,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
         const tags = note.data.tags || [];
 
         return (
-          <a href={`/notes/${note.slug}`} class="note-card" data-tags={tags.join(',')}>
+          <a href={`/notes/${note.slug}`} class="note-card" data-tags={tags.join(',')} data-title={note.data.title.toLowerCase()} data-description={(note.data.description || '').toLowerCase()}>
 
             <div class="note-header">
               <span class="note-stage" title={stage.description}>
@@ -85,6 +88,7 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
       })
     )}
   </div>
+  <p class="no-results" id="notes-no-results">No notes match your search.</p>
 </MainLayout>
 
 <style>
@@ -222,6 +226,14 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     padding: 3rem;
   }
 
+  .no-results {
+    display: none;
+    text-align: center;
+    color: var(--color-muted);
+    padding: 2rem 0;
+    font-size: 0.9375rem;
+  }
+
   @media (max-width: 640px) {
     .notes-grid {
       grid-template-columns: 1fr;
@@ -234,31 +246,65 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
 </style>
 
 <script>
-  function initTagFilter() {
+  function initNotesFilters() {
     const tagBtns = document.querySelectorAll('.tag-btn');
     const noteCards = document.querySelectorAll('.note-card');
+    const searchInput = document.getElementById('notes-search') as HTMLInputElement;
+    const noResults = document.getElementById('notes-no-results');
+    const clearBtn = searchInput?.parentElement?.querySelector('.search-clear') as HTMLElement;
+
+    let activeTag = 'all';
+
+    function applyFilters() {
+      const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      let visibleCount = 0;
+
+      if (clearBtn) {
+        clearBtn.style.display = query ? 'flex' : 'none';
+      }
+
+      noteCards.forEach(card => {
+        const cardTags = card.getAttribute('data-tags') || '';
+        const title = card.getAttribute('data-title') || '';
+        const description = card.getAttribute('data-description') || '';
+
+        const matchesTag = activeTag === 'all' || cardTags.split(',').includes(activeTag);
+        const matchesSearch = !query || title.includes(query) || description.includes(query);
+
+        const visible = matchesTag && matchesSearch;
+        (card as HTMLElement).style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
+      });
+
+      if (noResults) {
+        (noResults as HTMLElement).style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    }
 
     tagBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const tag = btn.getAttribute('data-tag');
-
-        // Update active state
+        activeTag = btn.getAttribute('data-tag') || 'all';
         tagBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        // Filter cards
-        noteCards.forEach(card => {
-          const cardTags = card.getAttribute('data-tags') || '';
-          if (tag === 'all' || cardTags.split(',').includes(tag)) {
-            (card as HTMLElement).style.display = '';
-          } else {
-            (card as HTMLElement).style.display = 'none';
-          }
-        });
+        applyFilters();
       });
     });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        if (searchInput) {
+          searchInput.value = '';
+          applyFilters();
+          searchInput.focus();
+        }
+      });
+    }
   }
 
-  initTagFilter();
-  document.addEventListener('astro:page-load', initTagFilter);
+  initNotesFilters();
+  document.addEventListener('astro:page-load', initNotesFilters);
 </script>

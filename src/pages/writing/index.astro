@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import SidebarWriting from '../../components/SidebarWriting.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import SearchInput from '../../components/SearchInput.astro';
 
 const allPosts = await getCollection('writing');
 // Filter out drafts in production, but show them in development
@@ -24,10 +25,11 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
   />
   <div class="container">
     <div class="content-grid">
-      <div class="posts-list">
-        <ul class="posts-list">
+      <div class="posts-column">
+        <SearchInput id="writing-search" placeholder="Search writing..." />
+        <ul class="posts-list" id="writing-list">
           {posts.map(post => (
-            <li>
+            <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
               <a href={`/writing/${post.slug}`} class="post-link">
                 <div class="post-row">
                   <span class="post-title">{post.data.title}</span>
@@ -39,6 +41,7 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
             </li>
           ))}
         </ul>
+        <p class="no-results" id="writing-no-results">No posts match your search.</p>
       </div>
       <SidebarWriting />
     </div>
@@ -100,9 +103,64 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
     flex-shrink: 0;
   }
 
+  .no-results {
+    display: none;
+    text-align: center;
+    color: var(--color-muted);
+    padding: 2rem 0;
+    font-size: 0.9375rem;
+  }
+
   @media (max-width: 768px) {
     .content-grid {
       grid-template-columns: 1fr;
     }
   }
-</style> 
+</style>
+
+<script>
+  function initWritingSearch() {
+    const input = document.getElementById('writing-search') as HTMLInputElement;
+    const list = document.getElementById('writing-list');
+    const noResults = document.getElementById('writing-no-results');
+    const clearBtn = input?.parentElement?.querySelector('.search-clear') as HTMLElement;
+
+    if (!input || !list) return;
+
+    const items = list.querySelectorAll('li');
+
+    function filterPosts() {
+      const query = input.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      if (clearBtn) {
+        clearBtn.style.display = query ? 'flex' : 'none';
+      }
+
+      items.forEach(item => {
+        const title = item.getAttribute('data-title') || '';
+        const description = item.getAttribute('data-description') || '';
+        const matches = !query || title.includes(query) || description.includes(query);
+        (item as HTMLElement).style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      if (noResults) {
+        (noResults as HTMLElement).style.display = visibleCount === 0 && query ? 'block' : 'none';
+      }
+    }
+
+    input.addEventListener('input', filterPosts);
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        filterPosts();
+        input.focus();
+      });
+    }
+  }
+
+  initWritingSearch();
+  document.addEventListener('astro:page-load', initWritingSearch);
+</script> 

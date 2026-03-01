@@ -1,0 +1,90 @@
+---
+interface Props {
+  id: string;
+  placeholder?: string;
+}
+
+const { id, placeholder = 'Search...' } = Astro.props;
+---
+
+<div class="search-wrapper">
+  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="8"/>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  <input
+    type="search"
+    id={id}
+    class="search-input"
+    placeholder={placeholder}
+    autocomplete="off"
+    spellcheck="false"
+  />
+  <button class="search-clear" aria-label="Clear search" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--color-muted);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.625rem 2.5rem 0.625rem 2.25rem;
+    font-family: var(--font-body, inherit);
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    transition: border-color 0.2s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-link);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-muted);
+  }
+
+  /* Hide browser-default clear button */
+  .search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--color-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm, 4px);
+  }
+
+  .search-clear:hover {
+    color: var(--color-text);
+  }
+</style>
