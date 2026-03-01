@@ -41,7 +41,7 @@ const updatedDate = note.data.updatedDate
 const pageDescription = note.data.description || `A ${stage.label.toLowerCase()} note on ${note.data.title}`;
 ---
 
-<MainLayout title={`${note.data.title} | Notes`} description={pageDescription}>
+<MainLayout title={`${note.data.title} | Notes`} description={pageDescription} ogImage={note.data.ogImage}>
   <article class="note-article">
     <header class="note-header">
       <a href="/notes" class="back-link">&larr; Notes</a>
