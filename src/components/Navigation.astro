@@ -21,6 +21,14 @@ const currentPath = Astro.url.pathname;
           <a href={item.path} data-astro-transition="swap" aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
         </li>
       ))}
+      <li>
+        <a href="/rss.xml" class="rss-link" aria-label="RSS feed" title="RSS feed">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="6.18" cy="17.82" r="2.18"/>
+            <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+          </svg>
+        </a>
+      </li>
     </ul>
     <!-- Mobile Menu Button -->
     <button id="menuButton" class="mobile-menu-button" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -266,6 +274,20 @@ const currentPath = Astro.url.pathname;
 
   .nav-links a::after {
     display: none;
+  }
+
+  .rss-link {
+    opacity: 0.5;
+    transition: opacity 0.2s ease !important;
+    display: flex !important;
+    align-items: center;
+    padding: 0.25rem;
+  }
+
+  .rss-link:hover {
+    opacity: 1;
+    text-decoration: none !important;
+    background-color: transparent !important;
   }
 
   .mobile-menu-button {

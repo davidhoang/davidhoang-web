@@ -67,14 +67,19 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content="davidhoang.com" />
+    <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter (Twitter prefers name attribute, though property also works) -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@davidhoang" />
+    <meta name="twitter:creator" content="@davidhoang" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={title} />
 
     <meta name="generator" content={Astro.generator} />
 

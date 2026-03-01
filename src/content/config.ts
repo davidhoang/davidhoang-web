@@ -19,6 +19,7 @@ const notes = defineCollection({
     updatedDate: z.date().optional(),     // Last tended
     stage: z.enum(['seedling', 'budding', 'evergreen']).default('seedling'),
     tags: z.array(z.string()).optional(),
+    ogImage: z.string().optional(),
     draft: z.boolean().optional().default(false),
   })
 });
