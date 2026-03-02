@@ -1,6 +1,109 @@
 {
   "themes": [
     {
+      "name": "Concrete Poetry",
+      "description": "Raw brutalist architecture meets delicate typography in an urban meditation space.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#F4F0EB",
+          "--color-link": "#E63946",
+          "--color-link-hover": "#B91E29",
+          "--color-border": "#D6CFC7",
+          "--color-muted": "#8B7D73",
+          "--color-sidebar-bg": "#EBE7E0",
+          "--color-nav-bg": "#FFFFFF",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FFFFFF"
+        },
+        "dark": {
+          "--color-text": "#F4F0EB",
+          "--color-bg": "#1A1A2E",
+          "--color-link": "#FF4500",
+          "--color-link-hover": "#FF6B35",
+          "--color-border": "#3D3D5C",
+          "--color-muted": "#8A8AB8",
+          "--color-sidebar-bg": "#252547",
+          "--color-nav-bg": "#16213E",
+          "--color-nav-text": "#F4F0EB",
+          "--color-card-bg": "#252547"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.05em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 800, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "3px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-02"
+    },
+    {
       "name": "Deep Current",
       "description": "Maritime depths meet elegant editorial design with nautical sophistication and flowing typography",
       "colors": {
@@ -636,113 +739,7 @@
         "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
       },
       "date": "2026-02-24"
-    },
-    {
-      "name": "Ink & Paper Press",
-      "description": "A vintage printing house with bold typography, warm cream pages, and rich indigo accents.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#FDF6E3",
-          "--color-link": "#E63946",
-          "--color-link-hover": "#C5303E",
-          "--color-border": "#D4C5B9",
-          "--color-muted": "#6C757D",
-          "--color-sidebar-bg": "#F4E8D0",
-          "--color-nav-bg": "#FDF6E3",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#F8F9FA",
-          "--color-bg": "#16213E",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C42",
-          "--color-border": "#3A4A6B",
-          "--color-muted": "#ADB5BD",
-          "--color-sidebar-bg": "#1E2A47",
-          "--color-nav-bg": "#16213E",
-          "--color-nav-text": "#F8F9FA",
-          "--color-card-bg": "#1B2951"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 95"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1.5rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "920px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#E63946",
-          "#1A1A2E"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-02-23"
     }
   ],
-  "currentDate": "2026-03-01"
+  "currentDate": "2026-03-02"
 }
