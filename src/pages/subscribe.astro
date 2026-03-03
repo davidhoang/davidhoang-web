@@ -35,7 +35,7 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
 <style>
 
   .subscribe-content-intro {
-    max-width: 800px;
+    max-width: var(--container-narrow-width);
     width: 100%;
   }
 
@@ -47,10 +47,10 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
   }
 
   .subscribe-content {
-    background: #fff;
+    background: var(--color-bg);
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
   }
 
   .subscribe-form {
@@ -64,31 +64,34 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
   label {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--primary-color);
+    color: var(--color-text);
   }
 
   input[type="text"],
   input[type="email"] {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     font-size: 1rem;
+    background: var(--color-bg);
+    color: var(--color-text);
   }
 
   .subscribe-button {
-    background: var(--primary-color);
-    color: white;
+    background: var(--color-link);
+    color: var(--color-bg);
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     font-size: 1rem;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.2s var(--ease-inertia);
   }
 
   .subscribe-button:hover {
-    opacity: 0.9;
+    background: var(--color-link-hover);
   }
 
   @media (max-width: 768px) {
