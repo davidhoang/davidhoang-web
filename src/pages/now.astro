@@ -49,24 +49,24 @@ const ogImage = "/images/img-david-now.webp";
 <style>
 
   .now-content {
-    max-width: var(--container-narrow-width, 720px);
+    max-width: var(--container-narrow-width);
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: var(--spacing-xl) 0;
   }
 
   .subtitle {
     color: var(--color-muted);
     font-size: 1.2rem;
-    margin-bottom: 3rem;
+    margin-bottom: var(--spacing-2xl);
   }
 
   .now-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--spacing-2xl);
   }
 
   .now-section h2 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-md);
     color: var(--color-text);
   }
 
@@ -77,8 +77,8 @@ const ogImage = "/images/img-david-now.webp";
   }
 
   .now-section li {
-    margin-bottom: 0.5rem;
-    margin-left: 2rem;
+    margin-bottom: var(--spacing-sm);
+    margin-left: var(--spacing-xl);
     font-size: 1.1rem;
     list-style-type: disc;
   }
@@ -86,14 +86,14 @@ const ogImage = "/images/img-david-now.webp";
   .now-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin: 2rem 0;
+    gap: var(--spacing-xl);
+    margin: var(--spacing-xl) 0;
   }
 
   .now-grid-item img {
     width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
   }
 
   .now-footer {
@@ -111,21 +111,21 @@ const ogImage = "/images/img-david-now.webp";
 
   @media (max-width: 768px) {
     .now-content {
-      padding: 1rem;
+      padding: var(--spacing-md);
     }
 
     .subtitle {
       font-size: 1.1rem;
-      margin-bottom: 2rem;
+      margin-bottom: var(--spacing-xl);
     }
 
     .now-section {
-      margin-bottom: 2rem;
+      margin-bottom: var(--spacing-xl);
     }
 
     .now-grid {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: var(--spacing-md);
     }
   }
 </style> 
