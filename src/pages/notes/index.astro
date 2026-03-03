@@ -126,12 +126,15 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
   .tag-btn {
     background: var(--color-sidebar-bg);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm, 4px);
+    border-radius: var(--radius-sm);
     padding: 0.375rem 0.75rem;
     font-size: 0.8125rem;
     cursor: pointer;
     color: var(--color-text);
-    transition: all 0.2s ease;
+    transition:
+      color 0.2s var(--ease-inertia),
+      background-color 0.2s var(--ease-inertia),
+      border-color 0.2s var(--ease-inertia);
   }
 
   .tag-btn:hover {
@@ -154,25 +157,24 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     display: flex;
     flex-direction: column;
     padding: 1.25rem;
-    background-color: var(--color-sidebar-bg, #f7f7f7) !important;
+    background-color: var(--color-sidebar-bg) !important;
     background-image: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     opacity: 1 !important;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md, 8px);
+    border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s ease;
-  }
-
-  :global([data-theme="dark"]) .note-card {
-    background-color: #1a1a1a !important;
+    transition:
+      transform 0.3s var(--ease-inertia),
+      box-shadow 0.3s var(--ease-inertia),
+      border-color 0.3s var(--ease-inertia);
   }
 
   .note-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
     border-color: var(--color-link);
   }
 

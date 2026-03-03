@@ -157,7 +157,10 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       border: 2px solid var(--color-border);
       border-radius: var(--radius-md);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition:
+        border-color 0.2s var(--ease-inertia),
+        background-color 0.2s var(--ease-inertia),
+        transform 0.2s var(--ease-inertia);
       text-align: left;
     }
 
