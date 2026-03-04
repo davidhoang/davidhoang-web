@@ -10,6 +10,14 @@ import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import FontPreloader from '../components/FontPreloader.astro';
 import { ViewTransitions } from 'astro:transitions';
+import themesData from '../data/daily-themes.json';
+
+// Get today's theme fonts for early preloading (reduces FOUT)
+const today = new Date().toISOString().split('T')[0];
+const todayTheme = (themesData as any).themes.find((t: any) => t.date === today) || (themesData as any).themes[0];
+const themeFonts = [todayTheme?.fonts?.heading, todayTheme?.fonts?.body]
+  .filter((f: any) => f?.url)
+  .filter((f: any, i: number, arr: any[]) => arr.findIndex((x: any) => x.url === f.url) === i);
 
 interface Props {
   title: string;
@@ -87,9 +95,15 @@ const ogImageUrl = ogImage.startsWith('http')
     <FontPreloader pageType={detectedPageType} priority={detectedPageType === 'home'} />
     
     <!-- Resource hints for font loading optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
+
+    <!-- Preload today's daily theme fonts to reduce FOUT -->
+    {themeFonts.map((font: any) => (
+      <link rel="stylesheet" href={font.url} media="print" onload="this.media='all'" />
+    ))}
+
     <!-- DNS prefetch for external resources -->
 
     <!-- Browser theme color - blends browser UI with site -->
