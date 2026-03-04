@@ -291,104 +291,68 @@ html[data-e-ink="true"][data-theme="dark"] {
 /* ============================================
    Daily Theme: Grid Style Variations
    Applied via [data-grid-style] attribute
+
+   IMPORTANT: Grid styles do NOT apply grid-template-columns
+   to the main .container. The .container holds many stacked
+   sections (hero, philosophy, portfolio, highlights, etc.)
+   and forcing them into columns breaks the page.
+
+   Instead, grid styles influence inner content grids
+   (philosophy-grid, portfolio-grid) and add visual flavor
+   through borders, spacing, and alignment.
    ============================================ */
 
-/* Prevent grid children from overflowing their cells */
-[data-grid-style]:not([data-grid-style="standard"]) .container > * {
-  min-width: 0;
-  overflow: hidden;
-}
-
-/* Asymmetric grid - unbalanced columns for visual tension */
-[data-grid-style="asymmetric"] .container {
-  display: grid;
+/* Asymmetric grid - offset content for visual tension */
+[data-grid-style="asymmetric"] .philosophy-grid,
+[data-grid-style="asymmetric"] .portfolio-grid {
   grid-template-columns: 2fr 1fr;
-  gap: var(--section-spacing, 2rem);
 }
 
 @media (max-width: 768px) {
-  [data-grid-style="asymmetric"] .container {
+  [data-grid-style="asymmetric"] .philosophy-grid,
+  [data-grid-style="asymmetric"] .portfolio-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Split-screen - two distinct halves */
-[data-grid-style="split"] .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
+/* Split-screen - add dividers between adjacent sections */
+[data-grid-style="split"] .design-philosophy,
+[data-grid-style="split"] .portfolio-section {
+  border-left: 4px solid var(--color-border);
+  padding-left: var(--content-padding, 1.5rem);
 }
 
-[data-grid-style="split"] .container > *:nth-child(odd) {
-  padding-right: var(--content-padding, 2rem);
+/* Magazine layout - 3-column inner grids */
+[data-grid-style="magazine"] .philosophy-grid {
+  grid-template-columns: repeat(3, 1fr);
 }
 
-[data-grid-style="split"] .container > *:nth-child(even) {
-  padding-left: var(--content-padding, 2rem);
-  border-left: 1px solid var(--color-border);
-}
-
-@media (max-width: 768px) {
-  [data-grid-style="split"] .container {
-    grid-template-columns: 1fr;
-  }
-
-  [data-grid-style="split"] .container > *:nth-child(odd) {
-    padding-right: 0;
-  }
-
-  [data-grid-style="split"] .container > *:nth-child(even) {
-    padding-left: 0;
-    border-left: none;
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--content-padding, 2rem);
-  }
-}
-
-/* Magazine layout - multi-column flowing text */
-[data-grid-style="magazine"] .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--section-spacing, 2rem);
-}
-
-[data-grid-style="magazine"] .container > *:first-child {
-  grid-column: 1 / -1;
+[data-grid-style="magazine"] .portfolio-grid {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 @media (max-width: 1024px) {
-  [data-grid-style="magazine"] .container {
-    grid-template-columns: 1fr 1fr;
+  [data-grid-style="magazine"] .philosophy-grid,
+  [data-grid-style="magazine"] .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  [data-grid-style="magazine"] .container {
+  [data-grid-style="magazine"] .philosophy-grid,
+  [data-grid-style="magazine"] .portfolio-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Sidebar layout - persistent side panel */
+/* Sidebar layout - narrower content column feel */
 [data-grid-style="sidebar"] .container {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: var(--section-spacing, 2rem);
+  max-width: min(var(--container-max-width, 1200px), 900px);
 }
 
-[data-grid-style="sidebar"] .container > *:first-child {
-  position: sticky;
-  top: var(--content-top-padding);
-  align-self: start;
-}
-
-@media (max-width: 768px) {
-  [data-grid-style="sidebar"] .container {
-    grid-template-columns: 1fr;
-  }
-
-  [data-grid-style="sidebar"] .container > *:first-child {
-    position: static;
-  }
+[data-grid-style="sidebar"] .philosophy-grid,
+[data-grid-style="sidebar"] .portfolio-grid {
+  grid-template-columns: 1fr;
 }
 
 /* ============================================
