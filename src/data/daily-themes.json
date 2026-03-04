@@ -1,86 +1,86 @@
 {
   "themes": [
     {
-      "name": "Church of Light",
-      "description": "Raw concrete meets divine illumination in minimalist spiritual architecture",
+      "name": "Graphite Blade",
+      "description": "Brutalist restraint meets ethereal light through raw concrete and golden cuts of illumination",
       "colors": {
-        "colorScheme": "analogous",
+        "colorScheme": "complementary",
         "contrastMode": "high",
         "light": {
-          "--color-text": "#2C2420",
+          "--color-text": "#1A1A1A",
           "--color-bg": "#F5F3F0",
           "--color-link": "#D4AF37",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#C4B5A0",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#EAE6E0",
+          "--color-link-hover": "#B8860B",
+          "--color-border": "#8B8680",
+          "--color-muted": "#6B645E",
+          "--color-sidebar-bg": "#E8E6E1",
           "--color-nav-bg": "#F5F3F0",
-          "--color-nav-text": "#2C2420",
-          "--color-card-bg": "#FFFFFF"
+          "--color-nav-text": "#1A1A1A",
+          "--color-card-bg": "#FAFAF8"
         },
         "dark": {
-          "--color-text": "#D4C4B0",
-          "--color-bg": "#1A1714",
-          "--color-link": "#FFE55C",
-          "--color-link-hover": "#D4AF37",
-          "--color-border": "#3D3530",
-          "--color-muted": "#7A6B5D",
-          "--color-sidebar-bg": "#0F0D0B",
-          "--color-nav-bg": "#1A1714",
-          "--color-nav-text": "#D4C4B0",
-          "--color-card-bg": "#252016"
+          "--color-text": "#E5E0DB",
+          "--color-bg": "#2A2622",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFC107",
+          "--color-border": "#4A453F",
+          "--color-muted": "#7A746E",
+          "--color-sidebar-bg": "#1F1C18",
+          "--color-nav-bg": "#2A2622",
+          "--color-nav-text": "#E5E0DB",
+          "--color-card-bg": "#332E28"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
         },
         "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
         }
       },
       "typography": {
         "headingWeight": "800",
         "bodyWeight": "400",
         "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
+        "letterSpacing": "0.02em",
         "headingLetterSpacing": "-0.02em",
         "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 400, 'wdth' 100"
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 800"
       },
       "navigation": {
-        "style": "minimal",
-        "height": "64px",
+        "style": "bold-bar",
+        "height": "72px",
         "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "flat",
+        "style": "outlined",
         "shadow": "none",
-        "borderWidth": "0px",
+        "borderWidth": "2px",
         "padding": "2rem"
       },
       "layout": {
         "borderRadius": "0px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
         "gridStyle": "asymmetric"
       },
       "hero": {
         "layout": "editorial"
       },
       "links": {
-        "style": "color-only"
+        "style": "bracket"
       },
       "background": {
-        "texture": "grain"
+        "texture": "none"
       },
       "images": {
         "style": "grayscale",
@@ -92,17 +92,14 @@
         "style": "brutalist"
       },
       "shader": {
-        "type": "grain",
-        "colors": [
-          "#F5F3F0",
-          "#C4B5A0"
-        ]
+        "type": "none",
+        "colors": []
       },
       "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
       },
       "date": "2026-03-04",
       "showcase": {
@@ -111,8 +108,8 @@
           "tc": {
             "type": "ThemeCard",
             "props": {
-              "title": "Church of Light",
-              "subtitle": "Raw concrete meets divine illumination"
+              "title": "Graphite Blade",
+              "subtitle": "Brutalist restraint meets ethereal light"
             },
             "children": [
               "s1",
@@ -125,7 +122,7 @@
             "props": {
               "direction": "horizontal",
               "gap": "md",
-              "align": "stretch"
+              "align": "start"
             },
             "children": [
               "lp",
@@ -147,15 +144,16 @@
               "align": "start"
             },
             "children": [
-              "t1",
+              "ts1",
               "br"
             ]
           },
-          "t1": {
+          "ts1": {
             "type": "TypeSample",
             "props": {
-              "text": "Sacred Geometry",
-              "variant": "heading"
+              "text": "CONCRETE & GOLD",
+              "variant": "heading",
+              "weight": "bold"
             },
             "children": []
           },
@@ -174,7 +172,7 @@
           "b1": {
             "type": "Badge",
             "props": {
-              "text": "sans-serif",
+              "text": "display",
               "variant": "outlined"
             },
             "children": []
@@ -182,7 +180,7 @@
           "b2": {
             "type": "Badge",
             "props": {
-              "text": "minimal",
+              "text": "brutalist",
               "variant": "filled"
             },
             "children": []
@@ -203,7 +201,7 @@
             },
             "children": [
               "cp",
-              "t2"
+              "ts2"
             ]
           },
           "cp": {
@@ -211,33 +209,33 @@
             "props": {
               "colors": [
                 {
-                  "hex": "#2C2420",
-                  "label": "text"
+                  "hex": "#F5F3F0",
+                  "label": "base"
                 },
                 {
                   "hex": "#D4AF37",
                   "label": "gold"
                 },
                 {
-                  "hex": "#C4B5A0",
-                  "label": "stone"
+                  "hex": "#1A1A1A",
+                  "label": "text"
                 },
                 {
-                  "hex": "#8B7355",
-                  "label": "shadow"
+                  "hex": "#8B8680",
+                  "label": "border"
                 },
                 {
-                  "hex": "#F5F3F0",
-                  "label": "light"
+                  "hex": "#E8E6E1",
+                  "label": "sidebar"
                 }
               ]
             },
             "children": []
           },
-          "t2": {
+          "ts2": {
             "type": "TypeSample",
             "props": {
-              "text": "Illumination through simplicity and space",
+              "text": "[raw_concrete] + illuminate(golden_cuts)",
               "variant": "body"
             },
             "children": []
