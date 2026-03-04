@@ -1,111 +1,249 @@
 {
   "themes": [
     {
-      "name": "Polaroid Fever",
-      "description": "Instant camera nostalgia with warm Kodak tones and tactile brutalist typography.",
+      "name": "Church of Light",
+      "description": "Raw concrete meets divine illumination in minimalist spiritual architecture",
       "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
+        "colorScheme": "analogous",
+        "contrastMode": "high",
         "light": {
-          "--color-text": "#2B1810",
-          "--color-bg": "#FDF5E6",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#E55A2B",
-          "--color-border": "#D4B896",
+          "--color-text": "#2C2420",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#D4AF37",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#C4B5A0",
           "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#F5EDD6",
-          "--color-nav-bg": "#FDF5E6",
-          "--color-nav-text": "#2B1810",
-          "--color-card-bg": "#FEFAF1"
+          "--color-sidebar-bg": "#EAE6E0",
+          "--color-nav-bg": "#F5F3F0",
+          "--color-nav-text": "#2C2420",
+          "--color-card-bg": "#FFFFFF"
         },
         "dark": {
-          "--color-text": "#F5EDD6",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF8A65",
-          "--color-link-hover": "#FFAB91",
-          "--color-border": "#3D2B1F",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#2B1810",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F5EDD6",
-          "--color-card-bg": "#2B1810"
+          "--color-text": "#D4C4B0",
+          "--color-bg": "#1A1714",
+          "--color-link": "#FFE55C",
+          "--color-link-hover": "#D4AF37",
+          "--color-border": "#3D3530",
+          "--color-muted": "#7A6B5D",
+          "--color-sidebar-bg": "#0F0D0B",
+          "--color-nav-bg": "#1A1714",
+          "--color-nav-text": "#D4C4B0",
+          "--color-card-bg": "#252016"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         },
         "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
           "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }
       },
       "typography": {
-        "headingWeight": "700",
+        "headingWeight": "800",
         "bodyWeight": "400",
         "bodyLineHeight": "1.6",
         "letterSpacing": "0.01em",
         "headingLetterSpacing": "-0.02em",
         "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 700, 'wdth' 95"
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 400, 'wdth' 100"
       },
       "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1.5rem 2rem"
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
       },
       "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(139, 115, 85, 0.15)",
+        "style": "flat",
+        "shadow": "none",
         "borderWidth": "0px",
         "padding": "2rem"
       },
       "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
+        "borderRadius": "0px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
       },
       "hero": {
         "layout": "editorial"
       },
       "links": {
-        "style": "highlight"
+        "style": "color-only"
       },
       "background": {
         "texture": "grain"
       },
       "images": {
-        "style": "muted",
-        "hover": "lift",
+        "style": "grayscale",
+        "hover": "colorize",
         "opacity": "0.9",
-        "borderRadius": "16px"
+        "borderRadius": "0px"
       },
       "footer": {
-        "style": "boxed"
+        "style": "brutalist"
       },
       "shader": {
         "type": "grain",
         "colors": [
-          "#FF6B35",
-          "#D4B896",
-          "#8B7355"
+          "#F5F3F0",
+          "#C4B5A0"
         ]
       },
       "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
-      "date": "2026-03-04"
+      "date": "2026-03-04",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Church of Light",
+              "subtitle": "Raw concrete meets divine illumination"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "lp",
+              "s3"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "br"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sacred Geometry",
+              "variant": "heading"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "minimal",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "t2"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C2420",
+                  "label": "text"
+                },
+                {
+                  "hex": "#D4AF37",
+                  "label": "gold"
+                },
+                {
+                  "hex": "#C4B5A0",
+                  "label": "stone"
+                },
+                {
+                  "hex": "#8B7355",
+                  "label": "shadow"
+                },
+                {
+                  "hex": "#F5F3F0",
+                  "label": "light"
+                }
+              ]
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Illumination through simplicity and space",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
     },
     {
       "name": "Art Deco Aurora",
