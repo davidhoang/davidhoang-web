@@ -18,6 +18,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
 import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFIERS } from './lib/inspiration.mjs';
+import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -414,9 +415,18 @@ async function generateTheme(options = {}) {
     ? `\n\n## RECENTLY USED NAMES - DO NOT REUSE THESE OR SIMILAR:\n${recentNames.map(n => `- "${n}"`).join('\n')}\n\nCreate something COMPLETELY DIFFERENT from the above themes.`
     : '';
 
+  // Load personal context from scripts/context/ folder
+  const context = loadContext();
+
   console.log('Generating daily theme with Claude...');
   console.log(`Inspiration: ${inspiration.inspirationName}`);
   console.log(`Time period: ${inspiration.timePeriod}`);
+  if (context.image) {
+    console.log(`Context image: ${context.image.filename}`);
+  }
+  if (context.markdown) {
+    console.log(`Context note: ${context.markdown.filename}`);
+  }
   if (recentNames.length > 0) {
     console.log(`Avoiding recent names: ${recentNames.join(', ')}`);
   }
@@ -425,8 +435,26 @@ async function generateTheme(options = {}) {
   // Build the theme prompt with dynamic font list
   const themePrompt = buildThemePrompt(headingFonts, bodyFonts);
 
-  // Combine: creative direction + inspiration + base prompt + recent names
-  const fullPrompt = `${creativeDirection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}${recentNamesSection}`;
+  // Append personal markdown context if available
+  const markdownContext = context.markdown
+    ? `\n\n## PERSONAL CONTEXT\nUse this as additional mood/inspiration — blend it naturally with the design inspiration above.\n\n${context.markdown.text}`
+    : '';
+
+  // Combine: creative direction + inspiration + base prompt + recent names + personal context
+  const fullPrompt = `${creativeDirection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}${recentNamesSection}${markdownContext}`;
+
+  // Build content blocks — use array format to support images
+  const contentBlocks = [];
+
+  if (context.image) {
+    contentBlocks.push(context.image.contentBlock);
+    contentBlocks.push({
+      type: 'text',
+      text: 'Above is a mood board image. Let its colors, textures, and overall feeling influence today\'s theme.\n\n'
+    });
+  }
+
+  contentBlocks.push({ type: 'text', text: fullPrompt });
 
   const message = await client.messages.create({
     model: 'claude-sonnet-4-20250514',
@@ -434,7 +462,7 @@ async function generateTheme(options = {}) {
     messages: [
       {
         role: 'user',
-        content: fullPrompt
+        content: contentBlocks
       }
     ]
   });
@@ -574,11 +602,18 @@ async function generateTheme(options = {}) {
   const today = new Date().toISOString().split('T')[0];
   themeData.date = today;
 
+  // Track context sources for build log (prefixed with _ to exclude from theme output)
+  themeData._contextImage = context.image?.filename || null;
+  themeData._contextMarkdown = context.markdown?.filename || null;
+
   return themeData;
 }
 
 function updateThemeHistory(newTheme) {
   const themesPath = join(rootDir, 'src', 'data', 'daily-themes.json');
+
+  // Strip internal tracking fields before saving
+  const { _contextImage, _contextMarkdown, ...themeToSave } = newTheme;
 
   let themesData;
   try {
@@ -588,11 +623,11 @@ function updateThemeHistory(newTheme) {
   }
 
   // Check if we already have a theme for today
-  const existingIndex = themesData.themes.findIndex(t => t.date === newTheme.date);
+  const existingIndex = themesData.themes.findIndex(t => t.date === themeToSave.date);
   if (existingIndex >= 0) {
-    themesData.themes[existingIndex] = newTheme;
+    themesData.themes[existingIndex] = themeToSave;
   } else {
-    themesData.themes.unshift(newTheme);
+    themesData.themes.unshift(themeToSave);
   }
 
   // Keep only 7 days of history
@@ -638,7 +673,9 @@ function updateBuildLog(theme, status = 'success') {
     scaleRatio: theme.typography?.scaleRatio,
     fontVariationSettings: theme.typography?.fontVariationSettings,
     colorScheme: theme.colors?.colorScheme,
-    contrastMode: theme.colors?.contrastMode
+    contrastMode: theme.colors?.contrastMode,
+    contextImage: theme._contextImage || null,
+    contextMarkdown: theme._contextMarkdown || null
   });
 
   // Keep 30 days of build history
@@ -658,6 +695,26 @@ function parseArgs() {
     console.log('Available inspirations:\n');
     listInspirations().forEach(name => console.log(`  - ${name}`));
     console.log('\nUsage: node generate-daily-theme.mjs [--inspiration "Name"] [--prompt "custom text"]');
+    process.exit(0);
+  }
+
+  // Check for --list-context flag to show context files
+  if (args.includes('--list-context')) {
+    const { images, markdowns } = listContextFiles();
+    console.log('Context files (scripts/context/):\n');
+    if (images.length > 0) {
+      console.log('  Images:');
+      images.forEach(f => console.log(`    - ${f}`));
+    } else {
+      console.log('  Images: (none)');
+    }
+    if (markdowns.length > 0) {
+      console.log('  Markdown:');
+      markdowns.forEach(f => console.log(`    - ${f}`));
+    } else {
+      console.log('  Markdown: (none)');
+    }
+    console.log('\nDrop images (.jpg, .png, .webp) and .md files into scripts/context/ to influence themes.');
     process.exit(0);
   }
 
