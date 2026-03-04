@@ -202,9 +202,19 @@ Mix up these dramatically:
 
 ## LAYOUT - CREATE DISTINCT PERSONALITIES!
 - borderRadius: "0px" (brutalist) vs "24px" (soft) vs "9999px" (pill)
-- sectionSpacing: "2rem" (compact) vs "8rem" (dramatic whitespace)
-- contentPadding: "0.5rem" (edge-to-edge) vs "3rem" (cushioned)
+- sectionSpacing: "2rem" (compact) vs "6rem" (dramatic whitespace)
+- contentPadding: "0.5rem" (edge-to-edge) vs "2rem" (cushioned)
 - containerMaxWidth: "640px" (narrow/focused) to "1200px" (wide/expansive)
+
+LAYOUT + GRID HARMONY RULES:
+- Multi-column grids need room! Match containerMaxWidth to gridStyle:
+  - "standard": any width works (640px-1200px)
+  - "asymmetric"/"split": use 1000px-1200px
+  - "magazine": use 1100px-1200px
+  - "sidebar": use 1000px-1200px
+- sectionSpacing is used as grid gap — keep ≤4rem for containers under 900px
+- contentPadding max 2rem to avoid compressing column content
+- Body text and grids MUST stay within the viewport — no accidental horizontal overflow
 
 CRITICAL LAYOUT RULES:
 1. Never add top margins or padding to the main container that would clip or push down the hero section. The hero must always be fully visible without any awkward gaps at the top. Top spacing should come from the navigation height only, not from container margins.
@@ -550,6 +560,27 @@ async function generateTheme(options = {}) {
   if (!themeData.layout) themeData.layout = {};
   if (!validGridStyles.includes(themeData.layout.gridStyle)) {
     themeData.layout.gridStyle = 'standard';
+  }
+
+  // Enforce grid + container width harmony
+  const multiColGrids = ['asymmetric', 'split', 'sidebar'];
+  const wideGrids = ['magazine'];
+  const containerPx = parseInt(themeData.layout.containerMaxWidth) || 1200;
+  if (multiColGrids.includes(themeData.layout.gridStyle) && containerPx < 1000) {
+    themeData.layout.containerMaxWidth = '1000px';
+  }
+  if (wideGrids.includes(themeData.layout.gridStyle) && containerPx < 1100) {
+    themeData.layout.containerMaxWidth = '1100px';
+  }
+
+  // Cap section spacing and content padding to prevent overflow
+  const sectionPx = parseFloat(themeData.layout.sectionSpacing) || 4;
+  if (sectionPx > 6) {
+    themeData.layout.sectionSpacing = '6rem';
+  }
+  const contentPx = parseFloat(themeData.layout.contentPadding) || 1.5;
+  if (contentPx > 2) {
+    themeData.layout.contentPadding = '2rem';
   }
 
   // Validate and default new typography fields

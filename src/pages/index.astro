@@ -118,9 +118,10 @@ const portfolioItems = [
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       row-gap: 1.25rem;
-      column-gap: 4rem;
+      column-gap: clamp(1rem, 4vw, 4rem);
       padding-right: 24px;
       align-items: start;
+      min-width: 0;
     }
 
     :global(.philosophy-item p) {
@@ -150,7 +151,8 @@ const portfolioItems = [
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       row-gap: 1.5rem;
-      column-gap: 3rem;
+      column-gap: clamp(1rem, 3vw, 3rem);
+      min-width: 0;
     }
 
     :global(.portfolio-content) {

@@ -293,6 +293,12 @@ html[data-e-ink="true"][data-theme="dark"] {
    Applied via [data-grid-style] attribute
    ============================================ */
 
+/* Prevent grid children from overflowing their cells */
+[data-grid-style]:not([data-grid-style="standard"]) .container > * {
+  min-width: 0;
+  overflow: hidden;
+}
+
 /* Asymmetric grid - unbalanced columns for visual tension */
 [data-grid-style="asymmetric"] .container {
   display: grid;

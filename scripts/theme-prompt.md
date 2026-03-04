@@ -93,6 +93,33 @@ These create a "lava lamp" effect and should be used very rarely:
 - Use colors that are close to the background, not contrasting
 - The shader should be barely noticeable, like a subtle texture
 
+## Layout Constraints (MUST FOLLOW)
+
+These rules prevent broken layouts. They always apply regardless of grid style.
+
+### Container Width
+- `containerMaxWidth` sets the max width of the main content area
+- All grid columns, gaps, and padding MUST fit within this width
+- When using multi-column grids (asymmetric, split, magazine, sidebar), content in each column will be constrained — choose `containerMaxWidth` accordingly:
+  - "standard" grid: 640px–1200px (any width works)
+  - "asymmetric" or "split": prefer 1000px–1200px (needs room for columns)
+  - "magazine": prefer 1100px–1200px (3 columns need width)
+  - "sidebar": prefer 1000px–1200px (280px sidebar + content)
+
+### Section Spacing
+- `sectionSpacing` is used as the grid gap in multi-column layouts
+- Keep it proportional to container width: max 4rem for containers ≤900px, up to 6rem for 1200px
+- For "split" grid, gap is always 0 (content padding creates separation)
+
+### Content Padding
+- `contentPadding` adds internal padding to sections
+- Range: 0.5rem–2rem. Values above 2rem compress content too much in narrow columns
+
+### Horizontal Overflow Policy
+- Content MUST NOT overflow the viewport horizontally by accident
+- If a layout creates intentional horizontal extension (e.g., oversized hero text, edge-to-edge imagery), that's fine — but body text and grids must stay contained
+- Multi-column grids collapse to single column on mobile (≤768px) automatically
+
 ## Experimental Layout Patterns
 
 Don't default to centered single-column layouts. Explore these patterns to create visual drama:
