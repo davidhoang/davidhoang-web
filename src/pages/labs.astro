@@ -1,9 +1,18 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import ThemeShowcase from '../components/generative-ui/ThemeShowcase';
+import themesData from '../data/daily-themes.json';
 
 // Page metadata
 const pageDescription = "Visual experiments and creative coding projects. Interactive canvas animations, generative art, data visualizations, and WebGL experiments.";
 const ogImage = "/images/img-dh.webp";
+
+// Prepare theme data for showcase component
+const themes = themesData.themes.map((t: any) => ({
+  name: t.name,
+  date: t.date,
+  showcase: t.showcase || null,
+}));
 ---
 
 <MainLayout title="Labs - David Hoang" description={pageDescription} ogImage={ogImage}>
@@ -13,6 +22,23 @@ const ogImage = "/images/img-dh.webp";
     </div>
 
     <div class="labs-grid">
+      <!-- Generative Theme Preview -->
+      <div class="lab-item">
+        <div class="lab-header">
+          <h3>Generative Theme Preview</h3>
+          <div class="lab-meta">
+            <span class="lab-tag">json-render</span>
+            <span class="lab-tag">Generative UI</span>
+          </div>
+        </div>
+        <div class="lab-showcase-container">
+          <ThemeShowcase client:visible themes={themes} />
+        </div>
+        <div class="lab-description">
+          <p>AI-generated theme preview cards using <a href="https://github.com/vercel-labs/json-render" target="_blank" rel="noopener">json-render</a>. Each daily theme includes a unique layout spec composed by Claude.</p>
+        </div>
+      </div>
+
       <!-- Example Canvas Experiment -->
       <div class="lab-item">
         <div class="lab-header">
@@ -147,6 +173,11 @@ const ogImage = "/images/img-dh.webp";
     padding: 0.25rem 0.5rem;
     border-radius: var(--radius-lg);
     font-weight: 500;
+  }
+
+  .lab-showcase-container {
+    margin-bottom: 1rem;
+    min-height: 120px;
   }
 
   .lab-canvas-container {

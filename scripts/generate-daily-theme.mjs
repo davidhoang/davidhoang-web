@@ -19,6 +19,7 @@ import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
 import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFIERS } from './lib/inspiration.mjs';
 import { loadContext, listContextFiles } from './lib/context-loader.mjs';
+import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -756,6 +757,18 @@ async function main() {
     console.log(`Font variation: ${theme.typography?.fontVariationSettings || 'normal'}`);
     console.log(`Color scheme: ${theme.colors?.colorScheme || 'complementary'}`);
     console.log(`Contrast mode: ${theme.colors?.contrastMode || 'standard'}\n`);
+
+    // Generate showcase spec (json-render UI preview)
+    console.log('\nGenerating showcase spec...');
+    try {
+      const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+      const showcase = await generateShowcaseSpec(client, theme);
+      theme.showcase = showcase;
+      console.log(`Showcase spec: ${Object.keys(showcase.elements).length} elements, root="${showcase.root}"`);
+    } catch (showcaseError) {
+      console.warn(`Warning: Showcase generation failed: ${showcaseError.message}`);
+      // Not fatal — theme still works without showcase
+    }
 
     updateThemeHistory(theme);
     updateBuildLog(theme);
