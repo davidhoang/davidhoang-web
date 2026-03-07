@@ -12,6 +12,39 @@ import FontPreloader from '../components/FontPreloader.astro';
 import { ViewTransitions } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 
+const contentSlide = {
+  forwards: {
+    old: {
+      name: 'contentFadeOut',
+      duration: '0.2s',
+      easing: 'ease-in',
+      fillMode: 'forwards',
+    },
+    new: {
+      name: 'contentSlideIn',
+      duration: '0.3s',
+      delay: '0.1s',
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      fillMode: 'backwards',
+    },
+  },
+  backwards: {
+    old: {
+      name: 'contentFadeOut',
+      duration: '0.2s',
+      easing: 'ease-in',
+      fillMode: 'forwards',
+    },
+    new: {
+      name: 'contentSlideBack',
+      duration: '0.3s',
+      delay: '0.1s',
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      fillMode: 'backwards',
+    },
+  },
+};
+
 // Get today's theme fonts for early preloading (reduces FOUT)
 const today = new Date().toISOString().split('T')[0];
 const todayTheme = (themesData as any).themes.find((t: any) => t.date === today) || (themesData as any).themes[0];
@@ -182,6 +215,28 @@ const ogImageUrl = ogImage.startsWith('http')
       }
       [data-e-ink="true"][data-theme="dark"] nav {
         background: #1a1a1a !important;
+      }
+      /* Page transition keyframes */
+      @keyframes contentFadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-8px); }
+      }
+      @keyframes contentSlideIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes contentSlideBack {
+        from { opacity: 0; transform: translateY(-12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      /* Respect reduced motion preference */
+      @media (prefers-reduced-motion: reduce) {
+        ::view-transition-group(*),
+        ::view-transition-old(*),
+        ::view-transition-new(*) {
+          animation-duration: 0.01s !important;
+          animation-delay: 0s !important;
+        }
       }
       /* Skip to main content link for keyboard users */
       .skip-link {
@@ -363,7 +418,7 @@ const ogImageUrl = ogImage.startsWith('http')
       <ShaderBackground client:idle />
       <a href="#main-content" class="skip-link">Skip to main content</a>
       <Navigation />
-      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" transition:animate="fade">
+      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" transition:animate={contentSlide}>
         <slot />
       </main>
       {!hideFooter && <Footer />}

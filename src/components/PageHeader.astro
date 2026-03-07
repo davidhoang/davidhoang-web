@@ -38,6 +38,13 @@ const isImageVariant = variant === 'image' && image;
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
     <div class="page-header__hero">
+      <img
+        src={image}
+        alt={alt}
+        class="page-header__image"
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+      />
       <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
       <h1 class="page-header__title">{title}</h1>
     </div>
@@ -190,21 +197,32 @@ const isImageVariant = variant === 'image' && image;
 
   /* Image variant - full hero with shader */
   .page-header--image .page-header__hero {
-    width: 100%;
-    max-width: 100%;
+    /* Full-bleed: break out of any parent container to span the viewport */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     height: 75vh;
     min-height: 300px;
     max-height: 600px;
-    /* Negate main padding dynamically - use CSS var with fallback */
     margin-top: calc(-1 * var(--content-top-padding, 4rem));
-    margin-bottom: 2rem;
-    margin-left: 0;
-    margin-right: 0;
+    margin-bottom: var(--section-spacing, 4rem);
     overflow: hidden;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Static hero image - renders immediately via SSR, no JS needed */
+  .page-header__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   /* Shader/image container - parallax transform applied via JS */
@@ -242,7 +260,7 @@ const isImageVariant = variant === 'image' && image;
 
   /* Text variant - simple header */
   .page-header--text {
-    padding: 2rem 0 1rem;
+    padding: 0 0 var(--section-spacing, 4rem);
   }
 
   .page-header--text .page-header__title {
