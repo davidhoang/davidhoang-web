@@ -363,7 +363,7 @@ const ogImageUrl = ogImage.startsWith('http')
       <ShaderBackground client:idle />
       <a href="#main-content" class="skip-link">Skip to main content</a>
       <Navigation />
-      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1">
+      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" transition:animate="fade">
         <slot />
       </main>
       {!hideFooter && <Footer />}

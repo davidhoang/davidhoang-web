@@ -7,6 +7,7 @@ import CommentsSection from '../components/CommentsSection.astro';
 
 const { data } = Astro.props;
 const { title, description, pubDate } = data;
+const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 // Only render a hero image when explicitly provided.
 // Note: we intentionally do NOT fall back to `ogImage` here so that
 // default OG images (e.g. David's portrait) don't render on the page.
@@ -28,7 +29,7 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
     publishDate={pubDate}
     url={Astro.url.pathname}
   />
-  <article class="blog-post">
+  <article class="blog-post" transition:animate="fade">
     {coverImage && (
       <div class="hero-section">
         <img src={coverImage} alt={title} loading="lazy" decoding="async" />
@@ -37,7 +38,7 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
     <div class="container">
       <div class="content-grid">
         <div class="main-content">
-          <h1>{title}</h1>
+          <h1 transition:name={`title-${slug}`}>{title}</h1>
           <time datetime={pubDate}>
             {new Date(pubDate).toLocaleDateString()}
           </time>
