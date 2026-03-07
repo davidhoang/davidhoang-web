@@ -7,14 +7,26 @@ import SearchInput from '../../components/SearchInput.astro';
 
 const allPosts = await getCollection('writing');
 // Filter out drafts in production, but show them in development
-const posts = (import.meta.env.PROD 
+const posts = (import.meta.env.PROD
   ? allPosts.filter((post) => !post.data.draft)
   : allPosts
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Featured post is the most recent
+const featuredPost = posts[0];
+const remainingPosts = posts.slice(1);
+
+// Split remaining posts into "recent" (next 3) and "archive" (the rest)
+const recentPosts = remainingPosts.slice(0, 3);
+const archivePosts = remainingPosts.slice(3);
+
 // Page metadata
 const pageDescription = "Essays and articles on design, engineering, AI, and entrepreneurship. Exploring the future of software design and building better products.";
 const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
 ---
 
 <MainLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
@@ -26,22 +38,62 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
   <div class="container">
     <div class="content-grid">
       <div class="posts-column">
-        <SearchInput id="writing-search" placeholder="Search writing..." />
-        <ul class="posts-list" id="writing-list">
-          {posts.map(post => (
-            <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
-              <a href={`/writing/${post.slug}`} class="post-link">
-                <div class="post-row">
-                  <span class="post-title">{post.data.title}</span>
+        {/* Featured post hero */}
+        {featuredPost && (
+          <a href={`/writing/${featuredPost.slug}`} class="featured-post" transition:name={`post-${featuredPost.slug}`}>
+            <span class="featured-label">Latest</span>
+            <h2 class="featured-title" transition:name={`title-${featuredPost.slug}`}>{featuredPost.data.title}</h2>
+            {featuredPost.data.description && (
+              <p class="featured-description">{featuredPost.data.description}</p>
+            )}
+            <time datetime={featuredPost.data.pubDate.toISOString()}>
+              {formatDate(featuredPost.data.pubDate)}
+            </time>
+          </a>
+        )}
+
+        {/* Recent posts in a magazine grid */}
+        {recentPosts.length > 0 && (
+          <section class="recent-section">
+            <h3 class="section-label">Recent</h3>
+            <div class="recent-grid">
+              {recentPosts.map(post => (
+                <a href={`/writing/${post.slug}`} class="recent-card" transition:name={`post-${post.slug}`}>
+                  <h3 class="recent-card-title" transition:name={`title-${post.slug}`}>{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="recent-card-description">{post.data.description}</p>
+                  )}
                   <time datetime={post.data.pubDate.toISOString()}>
-                    {new Date(post.data.pubDate).toLocaleDateString()}
+                    {formatDate(post.data.pubDate)}
                   </time>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p class="no-results" id="writing-no-results">No posts match your search.</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Archive list with search */}
+        {archivePosts.length > 0 && (
+          <section class="archive-section">
+            <h3 class="section-label">Archive</h3>
+            <SearchInput id="writing-search" placeholder="Search writing..." />
+            <ul class="posts-list" id="writing-list">
+              {archivePosts.map(post => (
+                <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
+                  <a href={`/writing/${post.slug}`} class="post-link" transition:name={`post-${post.slug}`}>
+                    <div class="post-row">
+                      <span class="post-title" transition:name={`title-${post.slug}`}>{post.data.title}</span>
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {formatDate(post.data.pubDate)}
+                      </time>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p class="no-results" id="writing-no-results">No posts match your search.</p>
+          </section>
+        )}
       </div>
       <SidebarWriting />
     </div>
@@ -54,6 +106,131 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 3rem;
+  }
+
+  /* Featured post hero card */
+  .featured-post {
+    display: block;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    border: var(--border-default);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-surface, var(--color-bg));
+    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
+  }
+
+  .featured-post::after {
+    display: none !important;
+  }
+
+  .featured-post:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .featured-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-link, #0066cc);
+    margin-bottom: 1rem;
+  }
+
+  .featured-title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .featured-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+    margin: 0 0 1.5rem;
+    max-width: 40ch;
+  }
+
+  .featured-post time {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  /* Section labels */
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
+  }
+
+  /* Recent posts magazine grid */
+  .recent-section {
+    margin-bottom: 3rem;
+  }
+
+  .recent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .recent-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
+  }
+
+  .recent-card::after {
+    display: none !important;
+  }
+
+  .recent-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .recent-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 0.75rem;
+  }
+
+  .recent-card-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    margin: 0 0 auto;
+    padding-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .recent-card time {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  /* Archive section */
+  .archive-section {
+    margin-bottom: 2rem;
   }
 
   .posts-list {
@@ -93,11 +270,6 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
     border-bottom-color: var(--color-link-hover, #0066cc);
   }
 
-  .posts-list h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
   time {
     color: var(--color-muted);
     flex-shrink: 0;
@@ -111,9 +283,27 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
     font-size: 0.9375rem;
   }
 
+  @media (max-width: 1024px) {
+    .recent-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
     .content-grid {
       grid-template-columns: 1fr;
+    }
+
+    .recent-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-post {
+      padding: 1.5rem;
+    }
+
+    .featured-title {
+      font-size: 1.5rem;
     }
   }
 </style>
