@@ -35,68 +35,66 @@ function formatDate(date: Date) {
     image="/images/highlights/img-highlights-proof-of-concept.webp"
     alt="Writing"
   />
-  <div class="container">
-    <div class="content-grid">
-      <div class="posts-column">
-        {/* Featured post hero */}
-        {featuredPost && (
-          <a href={`/writing/${featuredPost.slug}`} class="featured-post" transition:name={`post-${featuredPost.slug}`}>
-            <span class="featured-label">Latest</span>
-            <h2 class="featured-title" transition:name={`title-${featuredPost.slug}`}>{featuredPost.data.title}</h2>
-            {featuredPost.data.description && (
-              <p class="featured-description">{featuredPost.data.description}</p>
-            )}
-            <time datetime={featuredPost.data.pubDate.toISOString()}>
-              {formatDate(featuredPost.data.pubDate)}
-            </time>
-          </a>
-        )}
+  <div class="content-grid">
+    <div class="posts-column">
+      {/* Featured post hero */}
+      {featuredPost && (
+        <a href={`/writing/${featuredPost.slug}`} class="featured-post" transition:name={`post-${featuredPost.slug}`}>
+          <span class="featured-label">Latest</span>
+          <h2 class="featured-title" transition:name={`title-${featuredPost.slug}`}>{featuredPost.data.title}</h2>
+          {featuredPost.data.description && (
+            <p class="featured-description">{featuredPost.data.description}</p>
+          )}
+          <time datetime={featuredPost.data.pubDate.toISOString()}>
+            {formatDate(featuredPost.data.pubDate)}
+          </time>
+        </a>
+      )}
 
-        {/* Recent posts in a magazine grid */}
-        {recentPosts.length > 0 && (
-          <section class="recent-section">
-            <h3 class="section-label">Recent</h3>
-            <div class="recent-grid">
-              {recentPosts.map(post => (
-                <a href={`/writing/${post.slug}`} class="recent-card" transition:name={`post-${post.slug}`}>
-                  <h3 class="recent-card-title" transition:name={`title-${post.slug}`}>{post.data.title}</h3>
-                  {post.data.description && (
-                    <p class="recent-card-description">{post.data.description}</p>
-                  )}
-                  <time datetime={post.data.pubDate.toISOString()}>
-                    {formatDate(post.data.pubDate)}
-                  </time>
+      {/* Recent posts in a magazine grid */}
+      {recentPosts.length > 0 && (
+        <section class="recent-section">
+          <h3 class="section-label">Recent</h3>
+          <div class="recent-grid">
+            {recentPosts.map(post => (
+              <a href={`/writing/${post.slug}`} class="recent-card" transition:name={`post-${post.slug}`}>
+                <h3 class="recent-card-title" transition:name={`title-${post.slug}`}>{post.data.title}</h3>
+                {post.data.description && (
+                  <p class="recent-card-description">{post.data.description}</p>
+                )}
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Archive list with search */}
+      {archivePosts.length > 0 && (
+        <section class="archive-section">
+          <h3 class="section-label">Archive</h3>
+          <SearchInput id="writing-search" placeholder="Search writing..." />
+          <ul class="posts-list" id="writing-list">
+            {archivePosts.map(post => (
+              <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
+                <a href={`/writing/${post.slug}`} class="post-link" transition:name={`post-${post.slug}`}>
+                  <div class="post-row">
+                    <span class="post-title" transition:name={`title-${post.slug}`}>{post.data.title}</span>
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {formatDate(post.data.pubDate)}
+                    </time>
+                  </div>
                 </a>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Archive list with search */}
-        {archivePosts.length > 0 && (
-          <section class="archive-section">
-            <h3 class="section-label">Archive</h3>
-            <SearchInput id="writing-search" placeholder="Search writing..." />
-            <ul class="posts-list" id="writing-list">
-              {archivePosts.map(post => (
-                <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
-                  <a href={`/writing/${post.slug}`} class="post-link" transition:name={`post-${post.slug}`}>
-                    <div class="post-row">
-                      <span class="post-title" transition:name={`title-${post.slug}`}>{post.data.title}</span>
-                      <time datetime={post.data.pubDate.toISOString()}>
-                        {formatDate(post.data.pubDate)}
-                      </time>
-                    </div>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p class="no-results" id="writing-no-results">No posts match your search.</p>
-          </section>
-        )}
-      </div>
-      <SidebarWriting />
+              </li>
+            ))}
+          </ul>
+          <p class="no-results" id="writing-no-results">No posts match your search.</p>
+        </section>
+      )}
     </div>
+    <SidebarWriting />
   </div>
 </MainLayout>
 

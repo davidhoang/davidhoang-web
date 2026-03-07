@@ -2,12 +2,12 @@
  * Hero Image with Shader Effects
  *
  * Applies Paper Design shader filters to hero images.
- * Default theme uses HalftoneDots, other themes use CSS filters.
+ * Default theme shows plain image, daily themes use shader filters.
  * Supports responsive srcset for optimized loading across devices.
  */
 
 import { useEffect, useState } from 'react';
-import { HalftoneDots, Water, PaperTexture } from '@paper-design/shaders-react';
+import { Water, PaperTexture } from '@paper-design/shaders-react';
 import { createResponsiveImage } from '../utils/responsive-images';
 
 interface HeroImageShaderProps {
@@ -107,29 +107,11 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     );
   }
 
-  // Default theme: HalftoneDots shader with responsive image fallback
+  // Default theme: plain image, no shader
   if (isDefaultTheme) {
     return (
       <div style={containerStyle}>
-        {/* Responsive image fallback hidden behind shader */}
         <ResponsiveHeroImage />
-        {/* Shader overlay */}
-        <HalftoneDots
-          style={shaderStyle}
-          image={src} // Shader uses original source for now
-          colorFront="#2C1810"
-          colorBack="#F5F0EB"
-          originalColors={true}
-          type="soft"
-          grid="hex"
-          size={0.012}
-          radius={1.2}
-          contrast={0.7}
-          grainMixer={0.1}
-          grainOverlay={0.05}
-          grainSize={0.3}
-          fit="cover"
-        />
       </div>
     );
   }
