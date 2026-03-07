@@ -5,7 +5,7 @@ import { Image } from 'astro:assets';
 import SidebarWriting from '../components/SidebarWriting.astro';
 import CommentsSection from '../components/CommentsSection.astro';
 
-const { data } = Astro.props;
+const { data, relatedPosts = [] } = Astro.props;
 const { title, description, pubDate } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 // Only render a hero image when explicitly provided.
@@ -44,6 +44,21 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
         <div class="prose-content">
           <slot />
         </div>
+        {relatedPosts.length > 0 && (
+          <section class="related-posts">
+            <h2 class="related-posts__heading">Related</h2>
+            <div class="related-posts__grid">
+              {relatedPosts.map((rp: any) => (
+                <a href={`/writing/${rp.slug}`} class="related-posts__card">
+                  <span class="related-posts__title">{rp.data.title}</span>
+                  <time datetime={rp.data.pubDate.toISOString()}>
+                    {new Date(rp.data.pubDate).toLocaleDateString()}
+                  </time>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
         <CommentsSection />
       </div>
       <SidebarWriting />
@@ -88,8 +103,65 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
     margin: 1rem 0;
   }
 
+  .related-posts {
+    margin-top: var(--section-spacing, 4rem);
+    padding-top: var(--spacing-xl, 2rem);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-posts__heading {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .related-posts__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .related-posts__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
+  }
+
+  .related-posts__card::after {
+    display: none !important;
+  }
+
+  .related-posts__card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .related-posts__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .related-posts__card time {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
   @media (max-width: 768px) {
     .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .related-posts__grid {
       grid-template-columns: 1fr;
     }
   }

@@ -21,6 +21,33 @@ if (!post) {
   throw new Error('Post is undefined');
 }
 
+// Find related posts by keyword overlap in title + description
+const allPosts = await getCollection('writing');
+const otherPosts = (import.meta.env.PROD
+  ? allPosts.filter((p) => !p.data.draft)
+  : allPosts
+).filter((p) => p.slug !== post.slug);
+
+function getKeywords(text: string): Set<string> {
+  const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'it', 'its', 'with', 'as', 'by', 'from', 'that', 'this', 'was', 'are', 'be', 'has', 'had', 'have', 'not', 'what', 'how', 'you', 'your', 'we', 'our']);
+  return new Set(
+    text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w))
+  );
+}
+
+const currentKeywords = getKeywords(`${post.data.title} ${post.data.description || ''}`);
+
+const scored = otherPosts.map((p) => {
+  const keywords = getKeywords(`${p.data.title} ${p.data.description || ''}`);
+  let overlap = 0;
+  for (const word of keywords) {
+    if (currentKeywords.has(word)) overlap++;
+  }
+  return { post: p, score: overlap };
+}).sort((a, b) => b.score - a.score || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf());
+
+const relatedPosts = scored.slice(0, 3).map((s) => s.post);
+
 function extractFirstImageUrl(markdown: string): string | undefined {
   if (!markdown) return undefined;
 
@@ -64,6 +91,6 @@ const postData = {
 const { Content } = await post.render();
 ---
 
-<BlogPost data={postData}>
+<BlogPost data={postData} relatedPosts={relatedPosts}>
   <Content />
 </BlogPost> 
