@@ -105,27 +105,42 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
     setIsDragging(false);
   }, []);
 
-  // ── Zoom (wheel) ────────────────────────────────────────────────────────────
+  // ── Zoom & Pan (wheel / trackpad) ───────────────────────────────────────────
+  // ctrlKey is set for trackpad pinch-to-zoom and Ctrl+scroll on mouse → zoom
+  // Plain wheel events (trackpad two-finger scroll, mouse scroll) → pan
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const rect = el.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
-      const direction = e.deltaY < 0 ? 1 : -1;
 
-      setTransform((t) => {
-        const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, t.scale * (1 + direction * ZOOM_STEP)));
-        const ratio = newScale / t.scale;
-        return {
-          scale: newScale,
-          x: mx - (mx - t.x) * ratio,
-          y: my - (my - t.y) * ratio,
-        };
-      });
+      if (e.ctrlKey || e.metaKey) {
+        // Zoom (trackpad pinch or Ctrl/Cmd+scroll)
+        const rect = el.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        // Pinch events send small deltaY values; scale sensitivity accordingly
+        const zoomIntensity = e.ctrlKey ? 0.01 : ZOOM_STEP;
+        const delta = -e.deltaY * zoomIntensity;
+
+        setTransform((t) => {
+          const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, t.scale * (1 + delta)));
+          const ratio = newScale / t.scale;
+          return {
+            scale: newScale,
+            x: mx - (mx - t.x) * ratio,
+            y: my - (my - t.y) * ratio,
+          };
+        });
+      } else {
+        // Pan (trackpad two-finger scroll or mouse scroll wheel)
+        setTransform((t) => ({
+          ...t,
+          x: t.x - e.deltaX,
+          y: t.y - e.deltaY,
+        }));
+      }
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
