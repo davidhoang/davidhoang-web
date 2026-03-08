@@ -415,7 +415,7 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <!-- Filter wrapper for mood/intensity effects - fixed UI elements must be outside -->
     <div class="content-filter-wrapper">
-      <ShaderBackground client:idle />
+      <ShaderBackground client:visible />
       <a href="#main-content" class="skip-link">Skip to main content</a>
       <Navigation />
       <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" transition:animate={contentSlide}>
