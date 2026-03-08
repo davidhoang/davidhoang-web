@@ -20,6 +20,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFIERS } from './lib/inspiration.mjs';
 import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
+import { validateThemeContrast } from './lib/contrast.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -628,6 +629,17 @@ async function generateTheme(options = {}) {
   const validContrastModes = ['standard', 'high', 'low'];
   if (!validContrastModes.includes(themeData.colors.contrastMode)) {
     themeData.colors.contrastMode = 'standard';
+  }
+
+  // Validate and fix contrast ratios (WCAG AA)
+  const contrastFixes = validateThemeContrast(themeData);
+  if (contrastFixes.length > 0) {
+    console.log(`\nContrast fixes applied (${contrastFixes.length}):`);
+    for (const fix of contrastFixes) {
+      console.log(`  [${fix.mode}] ${fix.pair}: ${fix.original} → ${fix.fixed} (${fix.originalRatio} → ${fix.fixedRatio}, target: ${fix.target}:1)`);
+    }
+  } else {
+    console.log('\nAll color pairs pass WCAG AA contrast checks.');
   }
 
   // Add date
