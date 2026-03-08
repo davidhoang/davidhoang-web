@@ -1,4 +1,6 @@
 ---
+import { getCollection } from 'astro:content';
+
 const navItems = [
   { path: '/about', label: 'About' },
   { path: '/writing', label: 'Writing' },
@@ -6,6 +8,37 @@ const navItems = [
   { path: '/subscribe', label: 'Subscribe' }
 ];
 const currentPath = Astro.url.pathname;
+
+// Build search index at build time
+const writingPosts = await getCollection('writing', ({ data }) => !data.draft);
+const notesPosts = await getCollection('notes', ({ data }) => !data.draft);
+
+const searchIndex = [
+  // Static pages
+  { title: 'About', description: 'About David Hoang', path: '/about', type: 'page' },
+  { title: 'Writing', description: 'Essays and articles', path: '/writing', type: 'page' },
+  { title: 'Featured', description: 'Featured work and press', path: '/featured', type: 'page' },
+  { title: 'Subscribe', description: 'Subscribe to updates', path: '/subscribe', type: 'page' },
+  { title: 'Now', description: 'What David is doing now', path: '/now', type: 'page' },
+  { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
+  { title: 'Labs', description: 'Experiments and prototypes', path: '/labs', type: 'page' },
+  { title: 'Works', description: 'Portfolio and projects', path: '/works', type: 'page' },
+  { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
+  // Writing posts
+  ...writingPosts.map(post => ({
+    title: post.data.title,
+    description: post.data.description,
+    path: `/writing/${post.slug}`,
+    type: 'writing',
+  })),
+  // Notes
+  ...notesPosts.map(note => ({
+    title: note.data.title,
+    description: note.data.description || '',
+    path: `/notes/${note.slug}`,
+    type: 'note',
+  })),
+];
 ---
 
 <nav class="glass-border" aria-label="Main navigation" transition:persist>
@@ -29,6 +62,17 @@ const currentPath = Astro.url.pathname;
         </a>
       </li>
     </ul>
+    <!-- Command Palette -->
+    <div class="cmd-palette-input" id="cmdPalette">
+      <input
+        type="text"
+        id="cmdPaletteInput"
+        placeholder="Search pages, writing, notes..."
+        autocomplete="off"
+        aria-label="Command palette"
+      />
+      <kbd class="cmd-palette-hint">esc</kbd>
+    </div>
     <!-- Mobile Menu Button -->
     <button id="menuButton" class="mobile-menu-button" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
       <span class="hamburger-icon" aria-hidden="true">
@@ -38,6 +82,8 @@ const currentPath = Astro.url.pathname;
       </span>
     </button>
   </div>
+  <!-- Command Palette Results -->
+  <div class="cmd-palette-results" id="cmdPaletteResults" role="listbox" aria-label="Command palette results"></div>
 </nav>
 
 <!-- Mobile Modal Menu -->
@@ -187,16 +233,37 @@ const currentPath = Astro.url.pathname;
       min-width: 560px;
       max-width: 560px;
       padding: 24px 32px;
-      /* Use box-shadow to create thicker border effect without layout shift */
-      /* The box-shadow creates a 3px additional border (total 4px) */
-      box-shadow: 
+      box-shadow:
         0 0 0 3px var(--color-border),
         var(--shadow-hover);
       cursor: pointer;
     }
-    
+
     nav:hover .nav-container {
       gap: 1.5rem;
+    }
+
+    /* Search active: expand wider, unify radius */
+    nav.cmd-palette-active {
+      min-width: 580px;
+      max-width: 580px;
+      top: 24px;
+      border-radius: 24px;
+      box-shadow: none;
+      border-color: var(--color-border);
+    }
+
+    nav.cmd-palette-active:hover {
+      min-width: 580px;
+      max-width: 580px;
+      top: 24px;
+      border-radius: 24px;
+      box-shadow: none;
+    }
+
+    nav.cmd-palette-active.cmd-palette-has-results {
+      border-radius: 24px 24px 0 0;
+      border-bottom-color: transparent;
     }
   }
 
@@ -290,6 +357,163 @@ const currentPath = Astro.url.pathname;
     opacity: 1;
     text-decoration: none !important;
     background-color: transparent !important;
+  }
+
+  /* ── Command Palette ── */
+
+  .cmd-palette-input {
+    display: none;
+    flex: 1;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+  }
+
+  .cmd-palette-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-primary), system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-nav-text);
+    caret-color: var(--color-link);
+    padding: 0;
+  }
+
+  .cmd-palette-input input::placeholder {
+    color: var(--color-nav-text);
+    opacity: 0.4;
+  }
+
+  .cmd-palette-hint {
+    font-size: 0.65rem;
+    font-family: var(--font-primary), system-ui, sans-serif;
+    color: var(--color-nav-text);
+    opacity: 0.35;
+    background: color-mix(in srgb, var(--color-nav-text) 10%, transparent);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid color-mix(in srgb, var(--color-nav-text) 15%, transparent);
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+
+  nav.cmd-palette-active .desktop-nav {
+    display: none !important;
+  }
+
+  nav.cmd-palette-active .cmd-palette-input {
+    display: flex;
+  }
+
+  /* Results panel — unified with nav */
+
+  .cmd-palette-results {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    right: -1px;
+    background: var(--color-nav-bg, #ffffff);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-height: min(320px, 50vh);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.25rem 2rem 0.75rem;
+    z-index: 10;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-nav-text) 15%, transparent) transparent;
+  }
+
+  .cmd-palette-results::-webkit-scrollbar { width: 6px; }
+  .cmd-palette-results::-webkit-scrollbar-track { background: transparent; }
+  .cmd-palette-results::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-nav-text) 15%, transparent);
+    border-radius: 3px;
+  }
+  .cmd-palette-results::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-nav-text) 25%, transparent);
+  }
+
+  nav.cmd-palette-active .cmd-palette-results.has-results {
+    display: block;
+  }
+
+  /* Result items */
+
+  .cmd-group-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-nav-text);
+    opacity: 0.35;
+    padding: 0.5rem 0.5rem 0.2rem;
+  }
+
+  .cmd-result {
+    display: flex;
+    flex-direction: column;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    color: var(--color-nav-text);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .cmd-result::after,
+  .cmd-result::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  .cmd-result:hover,
+  .cmd-result:visited:hover {
+    background: color-mix(in srgb, var(--color-link) 10%, transparent);
+    transform: translateX(2px);
+    text-decoration: none !important;
+  }
+
+  .cmd-result.active {
+    background: color-mix(in srgb, var(--color-link) 15%, transparent);
+    transform: translateX(2px);
+    text-decoration: none !important;
+  }
+
+  .cmd-result-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .cmd-result:hover .cmd-result-title,
+  .cmd-result.active .cmd-result-title {
+    color: var(--color-link);
+  }
+
+  .cmd-result-desc {
+    font-size: 0.625rem;
+    opacity: 0.45;
+    line-height: 1.3;
+    margin-top: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cmd-empty {
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-nav-text);
+    opacity: 0.4;
   }
 
   .mobile-menu-button {
@@ -496,6 +720,34 @@ const currentPath = Astro.url.pathname;
       display: none;
     }
 
+    /* Search on mobile - full width */
+    nav.cmd-palette-active {
+      top: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    nav.cmd-palette-active.cmd-palette-has-results {
+      border-radius: 0 !important;
+    }
+
+    nav.cmd-palette-active .mobile-menu-button {
+      display: none !important;
+    }
+
+    nav.cmd-palette-active .cmd-palette-input {
+      display: flex !important;
+    }
+
+    .cmd-palette-results {
+      border-radius: 0 !important;
+      top: 100% !important;
+      left: 0 !important;
+      right: 0 !important;
+      border-left: none;
+      border-right: none;
+      max-height: 60vh;
+    }
+
     .mobile-menu-button {
       display: flex;
       align-items: center;
@@ -645,6 +897,23 @@ const currentPath = Astro.url.pathname;
     cleanupFunctions.forEach(fn => fn());
     cleanupFunctions = [];
   });
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<script define:vars={{ searchIndex }}>
+  // Pass search index to window for the command palette module
+  window.__cmdPaletteIndex = searchIndex;
+</script>
+
+<script>
+  import { initCommandPalette } from '../scripts/command-palette';
+
+  function init() {
+    const index = (window as any).__cmdPaletteIndex;
+    if (index) initCommandPalette(index);
+  }
 
   init();
   document.addEventListener('astro:page-load', init);
