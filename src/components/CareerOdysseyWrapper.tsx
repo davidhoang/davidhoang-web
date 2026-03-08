@@ -1,14 +1,13 @@
 import React, { Suspense, lazy } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
 
-// Lazy load the heavy CareerOdyssey component (5,868 lines)
-const CareerOdyssey = lazy(() => import('./CareerOdyssey'));
+// Lazy load the CareerCanvas component
+const CareerCanvas = lazy(() => import('./career-odyssey/CareerCanvas'));
 
 interface CareerOdysseyWrapperProps {
   careerData: any;
 }
 
-// Loading skeleton shown while lazy component loads
 const CareerOdysseyLoading = () => (
   <div style={{
     display: 'flex',
@@ -33,7 +32,6 @@ const CareerOdysseyLoading = () => (
   </div>
 );
 
-// Error fallback shown when component fails to load
 const CareerOdysseyFallback = () => (
   <div style={{
     display: 'flex',
@@ -70,7 +68,7 @@ export const CareerOdysseyWrapper: React.FC<CareerOdysseyWrapperProps> = ({ care
   return (
     <ErrorBoundary fallback={<CareerOdysseyFallback />}>
       <Suspense fallback={<CareerOdysseyLoading />}>
-        <CareerOdyssey careerData={careerData} />
+        <CareerCanvas careerData={careerData} />
       </Suspense>
     </ErrorBoundary>
   );
