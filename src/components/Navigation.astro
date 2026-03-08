@@ -61,6 +61,9 @@ const searchIndex = [
           </svg>
         </a>
       </li>
+      <li>
+        <kbd class="cmd-k-hint" aria-label="Press Command K to search" title="Search (⌘K)">⌘K</kbd>
+      </li>
     </ul>
     <!-- Command Palette -->
     <div class="cmd-palette-input" id="cmdPalette">
@@ -249,7 +252,7 @@ const searchIndex = [
       max-width: 580px;
       top: 24px;
       border-radius: 24px;
-      box-shadow: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
       border-color: var(--color-border);
     }
 
@@ -258,7 +261,7 @@ const searchIndex = [
       max-width: 580px;
       top: 24px;
       border-radius: 24px;
-      box-shadow: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
     nav.cmd-palette-active.cmd-palette-has-results {
@@ -359,6 +362,27 @@ const searchIndex = [
     background-color: transparent !important;
   }
 
+  /* ⌘K hint in nav */
+  .cmd-k-hint {
+    font-size: 0.6rem;
+    font-family: var(--font-primary), system-ui, sans-serif;
+    color: var(--color-nav-text);
+    opacity: 0.3;
+    background: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
+    padding: 0.2rem 0.4rem;
+    border-radius: 5px;
+    border: 1px solid color-mix(in srgb, var(--color-nav-text) 12%, transparent);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    line-height: 1;
+  }
+
+  @media (hover: hover) {
+    .cmd-k-hint:hover {
+      opacity: 0.6;
+    }
+  }
+
   /* ── Command Palette ── */
 
   .cmd-palette-input {
@@ -412,6 +436,7 @@ const searchIndex = [
 
   .cmd-palette-results {
     display: none;
+    flex-direction: column;
     position: absolute;
     top: 100%;
     left: -1px;
@@ -420,11 +445,11 @@ const searchIndex = [
     border: 1px solid var(--color-border);
     border-top: none;
     border-radius: 0 0 24px 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
     max-height: min(320px, 50vh);
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 0.25rem 2rem 0.75rem;
+    padding: 0.25rem 2rem 0.5rem;
     z-index: 10;
     scrollbar-width: thin;
     scrollbar-color: color-mix(in srgb, var(--color-nav-text) 15%, transparent) transparent;
@@ -441,12 +466,14 @@ const searchIndex = [
   }
 
   nav.cmd-palette-active .cmd-palette-results.has-results {
-    display: block;
+    display: flex;
   }
 
   /* Result items */
 
   .cmd-group-label {
+    display: block;
+    width: 100%;
     font-size: 0.6rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -456,22 +483,31 @@ const searchIndex = [
     padding: 0.5rem 0.5rem 0.2rem;
   }
 
-  .cmd-result {
-    display: flex;
-    flex-direction: column;
+  .cmd-result,
+  .cmd-result:link,
+  .cmd-result:visited {
+    display: block !important;
+    width: 100%;
     padding: 0.35rem 0.5rem;
     border-radius: 8px;
     text-decoration: none !important;
+    border: none !important;
     border-bottom: none !important;
-    color: var(--color-nav-text);
+    color: var(--color-nav-text) !important;
     cursor: pointer;
     transition: background 0.15s ease, transform 0.15s ease;
+    box-sizing: border-box;
+    position: relative;
   }
 
   .cmd-result::after,
   .cmd-result::before {
     display: none !important;
     content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    border: none !important;
+    background: none !important;
   }
 
   .cmd-result:hover,
@@ -479,12 +515,17 @@ const searchIndex = [
     background: color-mix(in srgb, var(--color-link) 10%, transparent);
     transform: translateX(2px);
     text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    color: var(--color-nav-text) !important;
   }
 
   .cmd-result.active {
     background: color-mix(in srgb, var(--color-link) 15%, transparent);
     transform: translateX(2px);
     text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
   }
 
   .cmd-result-title {
