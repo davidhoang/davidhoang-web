@@ -308,7 +308,9 @@ const portfolioItems = [
     @media (max-width: 768px) {
       .design-philosophy h2,
       .portfolio-section h2 {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
       }
 
       .card-stack-section {
@@ -327,9 +329,19 @@ const portfolioItems = [
         padding-right: 0;
       }
 
+      :global(.philosophy-item p) {
+        font-size: 1.125rem;
+        line-height: 1.7;
+      }
+
       :global(.portfolio-grid) {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl, 2rem);
+      }
+
+      :global(.portfolio-item-text p) {
+        font-size: 1.1rem;
+        line-height: 1.6;
       }
 
       .portfolio-images img {
@@ -345,6 +357,11 @@ const portfolioItems = [
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
+      }
+
+      .cta-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
       }
 
       .cta-form {
