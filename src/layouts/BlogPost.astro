@@ -161,8 +161,24 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
       grid-template-columns: 1fr;
     }
 
+    h1 {
+      font-size: clamp(2rem, 7vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .prose-content {
+      font-size: 1.15rem;
+      line-height: 1.75;
+    }
+
     .related-posts__grid {
       grid-template-columns: 1fr;
+    }
+
+    .related-posts__title {
+      font-size: 1.05rem;
+      line-height: 1.35;
     }
   }
 </style>
