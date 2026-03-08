@@ -17,7 +17,7 @@ The path for specialists is more clear than generalists. If one chooses the gene
 
 ## You might be a generalist...
 
-If you grew up in the 90s and experiencing lower back pain, you may remember comedian Jeff Foxworthy's "You might be a redneck" routine: "If you've been on the television more than five times describing what the tornado sounds like, you might be a redneck." We can remix that and play it back with being a generalist:
+If you grew up in the 90s and are experiencing lower back pain, you may remember comedian Jeff Foxworthy's "You might be a redneck" routine: "If you've been on the television more than five times describing what the tornado sounds like, you might be a redneck." We can remix that and play it back with being a generalist:
 
 - If you can't decide if you want to be a product manager, designer, or engineer, you might be a generalist
 
