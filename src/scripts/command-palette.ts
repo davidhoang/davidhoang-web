@@ -143,7 +143,8 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   function showResults() {
     results!.classList.add('has-results');
     nav!.classList.add('cmd-palette-has-results');
-    activeIndex = -1;
+    activeIndex = 0;
+    highlightActive();
   }
 
   function highlightActive() {
@@ -156,16 +157,29 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
 
   // --- Event handlers ---
 
-  // Click nav background or links area to open (desktop only)
+  // Click nav background or ⌘K hint to open (desktop only)
   function handleNavClick(e: MouseEvent) {
     if (nav!.classList.contains('cmd-palette-active')) return;
     if (window.innerWidth <= 768) return;
-    if ((e.target as HTMLElement).closest('a') || (e.target as HTMLElement).closest('button')) return;
+    const target = e.target as HTMLElement;
+    // ⌘K hint always opens palette
+    if (target.closest('.cmd-k-hint')) {
+      e.preventDefault();
+      openPalette();
+      return;
+    }
+    if (target.closest('a') || target.closest('button')) return;
     openPalette();
   }
 
   function handleDesktopNavClick(e: MouseEvent) {
-    if ((e.target as HTMLElement).closest('a')) return;
+    const target = e.target as HTMLElement;
+    if (target.closest('.cmd-k-hint')) {
+      e.preventDefault();
+      openPalette();
+      return;
+    }
+    if (target.closest('a')) return;
     e.preventDefault();
     openPalette();
   }
