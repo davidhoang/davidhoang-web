@@ -31,11 +31,11 @@ const currentPath = Astro.url.pathname;
     </ul>
     <!-- Mobile Menu Button -->
     <button id="menuButton" class="mobile-menu-button" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
+      <span class="hamburger-icon" aria-hidden="true">
+        <span class="hamburger-line hamburger-line--top"></span>
+        <span class="hamburger-line hamburger-line--middle"></span>
+        <span class="hamburger-line hamburger-line--bottom"></span>
+      </span>
     </button>
   </div>
 </nav>
@@ -45,10 +45,11 @@ const currentPath = Astro.url.pathname;
   <div class="mobile-menu-header">
     <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
     <button id="closeButton" class="close-menu" aria-label="Close mobile menu">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
+      <span class="hamburger-icon is-active" aria-hidden="true">
+        <span class="hamburger-line hamburger-line--top"></span>
+        <span class="hamburger-line hamburger-line--middle"></span>
+        <span class="hamburger-line hamburger-line--bottom"></span>
+      </span>
     </button>
   </div>
   <div class="mobile-menu-content">
@@ -300,30 +301,66 @@ const currentPath = Astro.url.pathname;
     padding: 0.5rem;
   }
 
+  /* Animated hamburger icon */
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    position: relative;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--color-nav-text);
+    border-radius: 1px;
+    position: absolute;
+    left: 0;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  .hamburger-line--top { top: 4px; }
+  .hamburger-line--middle { top: 10px; }
+  .hamburger-line--bottom { top: 16px; }
+
+  .hamburger-icon.is-active .hamburger-line--top {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .hamburger-icon.is-active .hamburger-line--middle {
+    opacity: 0;
+  }
+  .hamburger-icon.is-active .hamburger-line--bottom {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
   .mobile-menu {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile */
+    height: 100dvh;
     background: var(--color-nav-bg, #f5f5f5);
     z-index: var(--z-modal);
-    /* Safe area padding for notched devices */
     padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    /* Remove backdrop-filter for better mobile compatibility */
-    /* Add subtle overlay */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02));
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+                opacity 0.2s ease,
+                visibility 0.3s ease;
   }
 
   .mobile-menu.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transform: translateX(0);
   }
 
   /* Ensure mobile menu is hidden by default on larger screens */
@@ -341,21 +378,19 @@ const currentPath = Astro.url.pathname;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /* Simplified - no complex animations */
   }
 
   .mobile-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     opacity: 1;
     transform: translateY(0);
     height: 64px;
     padding: 0 1rem;
     background: var(--color-nav-bg, #f5f5f5);
-    border-bottom: none;
-    /* Simplified - no complex animations */
+    border-bottom: 1px solid var(--color-border);
   }
 
   .close-menu {
@@ -374,7 +409,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .mobile-nav-links li {
-    margin: 1.5rem 0;
+    margin: 0;
     list-style: none;
     padding: 0;
   }
@@ -382,15 +417,26 @@ const currentPath = Astro.url.pathname;
   .mobile-nav-links a {
     color: var(--color-nav-text);
     text-decoration: none;
-    font-size: 1.5rem;
-    display: block;
-    padding: 1rem 1rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0.875rem 1rem;
     font-family: var(--font-primary);
     font-weight: 500;
-    border-radius: 0;
+    border-radius: 10px;
     border-bottom: none;
-    transition: none; /* Remove transitions on mobile */
-    -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+    transition: background-color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-nav-links a:active {
+    background-color: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
+  }
+
+  .mobile-nav-links a[aria-current="page"] {
+    font-weight: 700;
+    color: var(--color-link, var(--color-nav-text));
   }
 
   .mobile-nav-links a::after {
@@ -457,10 +503,8 @@ const currentPath = Astro.url.pathname;
       height: 48px;
       width: 48px;
       border-radius: 8px;
-      transition: none !important; /* Remove transitions on mobile */
     }
 
-    /* Completely disable hover effects on mobile buttons */
     .mobile-menu-button:hover,
     .mobile-menu-button:active,
     .mobile-menu-button:focus {
@@ -471,13 +515,11 @@ const currentPath = Astro.url.pathname;
       height: 48px;
       width: 48px;
       border-radius: 8px;
-      transition: none !important; /* Remove transitions on mobile */
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Completely disable hover effects on mobile close button */
     .close-menu:hover,
     .close-menu:active,
     .close-menu:focus {
@@ -492,23 +534,12 @@ const currentPath = Astro.url.pathname;
       margin: 0;
       list-style: none;
       padding: 0;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .mobile-nav-links li:last-child {
-      border-bottom: none;
     }
 
     .mobile-nav-links a {
-      padding: 1.25rem 1rem;
       font-size: 1.2rem;
-      font-weight: 500;
-      transition: none;
       -webkit-tap-highlight-color: transparent;
-      display: block;
       width: 100%;
-      border-bottom: none;
-      border-radius: 0;
     }
 
     .mobile-menu-header {
@@ -518,12 +549,11 @@ const currentPath = Astro.url.pathname;
       position: sticky;
       top: 0;
       background: var(--color-nav-bg, #f5f5f5);
-      border-bottom: none;
       z-index: 10;
     }
 
     .mobile-menu-content {
-      padding: 2rem 1rem;
+      padding: 0.5rem 0.5rem;
       flex: 1;
       overflow-y: auto;
     }
@@ -536,8 +566,8 @@ const currentPath = Astro.url.pathname;
       opacity: 1 !important;
     }
 
-    /* Ensure no transitions on any nav children on mobile */
-    nav * {
+    /* Disable transitions on nav children except hamburger icon */
+    nav *:not(.hamburger-line):not(.hamburger-icon) {
       transition: none !important;
     }
   }
@@ -545,16 +575,12 @@ const currentPath = Astro.url.pathname;
   /* Mobile breakpoint - additional mobile-specific adjustments */
   @media (max-width: 480px) {
     .mobile-nav-links a {
-      font-size: 1.3rem;
-      padding: 1.25rem 1rem;
-      transition: none;
+      font-size: 1.25rem;
       -webkit-tap-highlight-color: transparent;
-      border-bottom: none;
-      border-radius: 0;
     }
 
     .mobile-menu-content {
-      padding: 1.5rem 1rem;
+      padding: 0.5rem 0.5rem;
     }
   }
 
