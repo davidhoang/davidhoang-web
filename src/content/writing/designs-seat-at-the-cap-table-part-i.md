@@ -27,7 +27,7 @@ An angel investor once told me that the value you can deliver as a value add inv
 Why would designers want to become angel investors? Isn’t that what product managers and engineers with successful exits do? That’s the problem within itself...why not us?
 
 ### Guiding design decisions
-By the time designer joins a company, there is already so much legacy debt. Working with early startups gives us the opportunity to be proactive about problem-solving and having a design advisor can help flag dependencies early on.
+By the time a designer joins a company, there is already so much legacy debt. Working with early startups gives us the opportunity to be proactive about problem-solving and having a design advisor can help flag dependencies early on.
 
 ### Product strategy
 Designers talk a lot about how they’d like to have more product influence in the companies they work at. This has resulted in some product designers pivoting into product management. There are other ways aside from a career change to have product influence, and startup advising is a great way to flex your product strategy muscle.

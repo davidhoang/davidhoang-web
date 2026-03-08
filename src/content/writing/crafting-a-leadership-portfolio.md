@@ -99,7 +99,7 @@ Work: Case studies and portfolio pieces you might want to include online. Be min
 By the end of the management cohort, we’ll work on your portfolio, your about page, and one case study of a project you led.
 
 ## Best practices and tips
-There are no one-size-fits-all approach for a leadership portfolio. However, here are some tips to keep in mind as you build your portfolio.
+There is no one-size-fits-all approach for a leadership portfolio. However, here are some tips to keep in mind as you build your portfolio.
 
 ### Focus on outcomes and impact
 Focus on outcomes and impact; present your work at a level higher than you might be used to. Your portfolio will look more like case studies of your time at the company and with your teams vs. individual projects.

@@ -63,7 +63,7 @@ We printed out several copies and shared the narrative with our coworkers and st
 
 ## Try making artifacts
 
-Don't underestimate the power of making an artifact. If you don't know where to start, make a simple drawing or diagram. Share it with a colleague to see if it's helpful. As you build a conversation around it, it'll prove its value. Finally, making artifacts are fun. I wish you luck in your artifact-making.
+Don't underestimate the power of making an artifact. If you don't know where to start, make a simple drawing or diagram. Share it with a colleague to see if it's helpful. As you build a conversation around it, it'll prove its value. Finally, making artifacts is fun. I wish you luck in your artifact-making.
 
 ---
 
