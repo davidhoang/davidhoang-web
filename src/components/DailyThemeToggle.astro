@@ -1,15 +1,9 @@
 ---
 import dailyThemes from '../data/daily-themes.json';
-import ThemePreviewInline from './generative-ui/ThemePreviewInline';
 
 const themes = dailyThemes.themes || [];
 const currentDate = dailyThemes.currentDate;
 const hasThemes = themes.length > 0;
-
-// Prepare showcase data for the inline preview
-const showcaseThemes = themes
-  .filter((t: any) => t.showcase)
-  .map((t: any) => ({ name: t.name, date: t.date, showcase: t.showcase }));
 ---
 
 {hasThemes && (
@@ -41,12 +35,6 @@ const showcaseThemes = themes
         </button>
       </div>
 
-      {showcaseThemes.length > 0 && (
-        <div class="theme-preview-slot">
-          <ThemePreviewInline client:idle themes={showcaseThemes} />
-        </div>
-      )}
-
       <div class="calendar-grid">
         <button id="default-theme-btn" class="calendar-day default-day" title="Use default theme">
           <span class="day-number">
@@ -56,7 +44,6 @@ const showcaseThemes = themes
             </svg>
           </span>
           <span class="day-name">Default</span>
-          <div class="color-preview" style="background: linear-gradient(135deg, #ffffff 50%, #1a1a1a 50%);"></div>
         </button>
         <button id="e-ink-theme-btn" class="calendar-day e-ink-day" title="E-Ink reading mode">
           <span class="day-number">
@@ -66,7 +53,6 @@ const showcaseThemes = themes
             </svg>
           </span>
           <span class="day-name">E-Ink</span>
-          <div class="color-preview" style="background: linear-gradient(135deg, #f5f5f0 50%, #121212 50%);"></div>
         </button>
         {themes.map((theme: any) => (
           <button
@@ -77,23 +63,20 @@ const showcaseThemes = themes
           >
             <span class="day-number">{new Date(theme.date + 'T12:00:00').getDate()}</span>
             <span class="day-name">{theme.name.split(' ')[0]}</span>
-            <div
-              class="color-preview"
-              style={`background: linear-gradient(135deg, ${theme.colors.light['--color-bg']} 50%, ${theme.colors.dark['--color-bg']} 50%);`}
-            ></div>
           </button>
         ))}
       </div>
 
       <div class="calendar-footer">
-        <div class="sound-row">
-          <span class="sound-label">Ambient sound</span>
+        <div class="calendar-footer-row">
+          <span class="footer-text">AI-generated daily <span class="separator">|</span> <a href="https://arnaud.ai/" target="_blank" rel="noopener noreferrer" class="credit-link">arnaud.ai</a></span>
           <button id="sound-toggle-inline" class="sound-toggle-btn" aria-label="Toggle ambient sound" aria-pressed="false">
-            <span class="sound-status">Off</span>
-            <span class="sound-switch"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-wave"></path>
+            </svg>
           </button>
         </div>
-        <span class="footer-text">AI-generated daily <span class="separator">|</span> <a href="https://arnaud.ai/" target="_blank" rel="noopener noreferrer" class="credit-link">Inspired by arnaud.ai</a></span>
       </div>
     </div>
   </div>
@@ -421,12 +404,9 @@ const showcaseThemes = themes
     if (toggleBtn.dataset.initialized === 'true') return;
     toggleBtn.dataset.initialized = 'true';
 
-    const statusText = toggleBtn.querySelector('.sound-status');
-
     // Always start with sound OFF on page load/refresh
     // (Browser autoplay restrictions prevent auto-starting audio anyway)
     toggleBtn.setAttribute('aria-pressed', 'false');
-    if (statusText) statusText.textContent = 'Off';
     localStorage.setItem('ambient-sound-enabled', 'false');
 
     // Get current theme mood
@@ -457,13 +437,11 @@ const showcaseThemes = themes
       if (isPlaying) {
         ambientSound.stop();
         toggleBtn.setAttribute('aria-pressed', 'false');
-        if (statusText) statusText.textContent = 'Off';
         localStorage.setItem('ambient-sound-enabled', 'false');
       } else {
         const mood = getCurrentMood();
         ambientSound.play(mood);
         toggleBtn.setAttribute('aria-pressed', 'true');
-        if (statusText) statusText.textContent = 'On';
         localStorage.setItem('ambient-sound-enabled', 'true');
       }
     });

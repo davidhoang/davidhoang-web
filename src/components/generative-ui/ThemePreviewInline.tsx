@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Renderer, StateProvider, VisibilityProvider, ActionProvider, type Spec } from '@json-render/react';
-import { registry } from './registry';
+import type { Spec } from '@json-render/react';
 
 interface ThemeInfo {
   name: string;
@@ -12,13 +11,22 @@ interface Props {
   themes: ThemeInfo[];
 }
 
+/** Extract color palette from a showcase spec */
+function extractColors(spec: Spec): Array<{ hex: string; label: string }> {
+  if (!spec?.elements) return [];
+  for (const el of Object.values(spec.elements) as any[]) {
+    if (el.type === 'ColorPalette' && el.props?.colors) {
+      return el.props.colors;
+    }
+  }
+  return [];
+}
+
 export default function ThemePreviewInline({ themes }: Props) {
-  // Default to the most recent theme so the preview is always visible
   const defaultDate = themes.length > 0 ? themes[0].date : null;
   const [displayDate, setDisplayDate] = useState<string | null>(defaultDate);
 
   useEffect(() => {
-    // Sync with the active daily theme if one is set
     const checkTheme = () => {
       const date = document.documentElement.getAttribute('data-daily-theme');
       if (date) setDisplayDate(date);
@@ -33,7 +41,6 @@ export default function ThemePreviewInline({ themes }: Props) {
     });
     observer.observe(document.documentElement, { attributes: true });
 
-    // Also listen for clicks on calendar days to update immediately
     const calendar = document.getElementById('theme-calendar');
     if (calendar) {
       const handleClick = (e: Event) => {
@@ -60,20 +67,24 @@ export default function ThemePreviewInline({ themes }: Props) {
 
   if (!theme?.showcase) return null;
 
+  const colors = extractColors(theme.showcase);
+
   return (
-    <div className="theme-preview-inline" style={{ position: 'relative' }}>
-      <div className="theme-preview-label">
-        <span className="theme-preview-label-text">Preview</span>
+    <div className="theme-preview-inline">
+      <div className="theme-preview-compact">
         <span className="theme-preview-name">{theme.name}</span>
-      </div>
-      <div className="theme-preview-render">
-        <StateProvider initialState={{}}>
-          <VisibilityProvider>
-            <ActionProvider handlers={{}}>
-              <Renderer spec={theme.showcase} registry={registry} />
-            </ActionProvider>
-          </VisibilityProvider>
-        </StateProvider>
+        {colors.length > 0 && (
+          <div className="theme-color-strip">
+            {colors.map((c, i) => (
+              <div
+                key={i}
+                className="theme-color-dot"
+                style={{ background: c.hex }}
+                title={c.label}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
