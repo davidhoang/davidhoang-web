@@ -8,8 +8,6 @@
 
 import { useEffect, useState } from 'react';
 import { Water, PaperTexture } from '@paper-design/shaders-react';
-import { createResponsiveImage } from '../utils/responsive-images';
-
 interface HeroImageShaderProps {
   src: string;
   alt: string;
@@ -20,13 +18,6 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
   const [mounted, setMounted] = useState(false);
   const [isDefaultTheme, setIsDefaultTheme] = useState(true);
   const [currentShader, setCurrentShader] = useState<string>('halftone');
-
-  // Create responsive image configuration
-  const responsiveImage = createResponsiveImage({
-    src,
-    alt,
-    loading: priority ? 'eager' : 'lazy'
-  }, 'hero');
 
   useEffect(() => {
     setMounted(true);
@@ -78,14 +69,12 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     zIndex: 0,
   };
 
-  // Responsive image component for non-shader cases
-  const ResponsiveHeroImage = ({ className = '' }: { className?: string }) => (
+  // Hero image for shader overlay cases (SSR img already handles base display)
+  const HeroImage = ({ className = '' }: { className?: string }) => (
     <img
-      src={responsiveImage.src}
-      srcSet={responsiveImage.srcSet}
-      sizes={responsiveImage.sizes}
-      alt={responsiveImage.alt}
-      loading={responsiveImage.loading}
+      src={src}
+      alt={alt}
+      loading={priority ? 'eager' : 'lazy'}
       className={className}
       style={{
         position: 'absolute',
@@ -102,7 +91,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
   if (!mounted) {
     return (
       <div style={containerStyle}>
-        <ResponsiveHeroImage />
+        <HeroImage />
       </div>
     );
   }
@@ -111,7 +100,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
   if (isDefaultTheme) {
     return (
       <div style={containerStyle}>
-        <ResponsiveHeroImage />
+        <HeroImage />
       </div>
     );
   }
@@ -121,7 +110,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     case 'waves':
       return (
         <div style={containerStyle}>
-          <ResponsiveHeroImage />
+          <HeroImage />
           <Water
             style={shaderStyle}
             image={src}
@@ -138,7 +127,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     case 'grain':
       return (
         <div style={containerStyle}>
-          <ResponsiveHeroImage />
+          <HeroImage />
           <PaperTexture
             style={shaderStyle}
             image={src}
@@ -157,7 +146,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
       // Fallback to responsive image with CSS filters applied via global.css
       return (
         <div className="hero-image-bg" style={containerStyle}>
-          <ResponsiveHeroImage className="hero-responsive-image" />
+          <HeroImage className="hero-responsive-image" />
         </div>
       );
   }
