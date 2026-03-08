@@ -1,9 +1,15 @@
 ---
 import dailyThemes from '../data/daily-themes.json';
+import ThemePreviewInline from './generative-ui/ThemePreviewInline';
 
 const themes = dailyThemes.themes || [];
 const currentDate = dailyThemes.currentDate;
 const hasThemes = themes.length > 0;
+
+// Prepare showcase data for the inline preview
+const showcaseThemes = themes
+  .filter((t: any) => t.showcase)
+  .map((t: any) => ({ name: t.name, date: t.date, showcase: t.showcase }));
 ---
 
 {hasThemes && (
@@ -71,6 +77,12 @@ const hasThemes = themes.length > 0;
           </button>
         ))}
       </div>
+
+      {showcaseThemes.length > 0 && (
+        <div class="theme-preview-slot">
+          <ThemePreviewInline client:idle themes={showcaseThemes} />
+        </div>
+      )}
 
       <div class="calendar-footer">
         <div class="sound-row">

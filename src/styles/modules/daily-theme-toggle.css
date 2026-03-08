@@ -211,6 +211,66 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   border: 1px solid var(--color-border);
 }
 
+/* Theme Preview Inline */
+
+.theme-preview-slot {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.theme-preview-inline {
+  animation: previewFadeIn 0.25s ease-out;
+}
+
+.theme-preview-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.theme-preview-label-text {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-link);
+  background: color-mix(in srgb, var(--color-link) 12%, transparent);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+}
+
+.theme-preview-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.theme-preview-render {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Scale down the rendered showcase to fit the calendar panel */
+.theme-preview-render > div {
+  font-size: 0.85em;
+}
+
+@keyframes previewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Calendar Footer */
 
 .calendar-footer {
