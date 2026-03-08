@@ -1,9 +1,9 @@
 ---
-import MusicPlayerComponent from './MusicPlayer.tsx';
+import MusicPlayerLazy from './MusicPlayerLazy.tsx';
 ---
 
 <div data-astro-transition-scope="music-player">
-  <MusicPlayerComponent client:idle />
+  <MusicPlayerLazy client:idle />
 </div>
 
 <style is:global>
