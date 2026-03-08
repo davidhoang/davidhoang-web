@@ -214,9 +214,9 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 /* Theme Preview Inline */
 
 .theme-preview-slot {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
   max-height: 280px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -388,9 +388,34 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
   }
 
+  /* Bottom sheet on mobile */
   .theme-calendar {
-    right: -1rem;
-    max-width: 95vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .theme-calendar.open {
+    transform: translateY(0);
+  }
+
+  .theme-preview-slot {
+    max-height: 200px;
+  }
+
+  /* Scale down the showcase further on mobile */
+  .theme-preview-render > div {
+    font-size: 0.75em;
   }
 }
 
@@ -410,6 +435,14 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   .palette-icon {
     width: 22px;
     height: 22px;
+  }
+
+  .calendar-grid {
+    gap: 0.375rem;
+  }
+
+  .calendar-day {
+    padding: 0.5rem 0.25rem;
   }
 }
 

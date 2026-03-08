@@ -40,6 +40,13 @@ const showcaseThemes = themes
           </svg>
         </button>
       </div>
+
+      {showcaseThemes.length > 0 && (
+        <div class="theme-preview-slot">
+          <ThemePreviewInline client:idle themes={showcaseThemes} />
+        </div>
+      )}
+
       <div class="calendar-grid">
         <button id="default-theme-btn" class="calendar-day default-day" title="Use default theme">
           <span class="day-number">
@@ -77,12 +84,6 @@ const showcaseThemes = themes
           </button>
         ))}
       </div>
-
-      {showcaseThemes.length > 0 && (
-        <div class="theme-preview-slot">
-          <ThemePreviewInline client:idle themes={showcaseThemes} />
-        </div>
-      )}
 
       <div class="calendar-footer">
         <div class="sound-row">
