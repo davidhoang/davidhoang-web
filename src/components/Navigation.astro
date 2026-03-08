@@ -471,84 +471,6 @@ const searchIndex = [
 
   /* Result items */
 
-  .cmd-group-label {
-    display: block;
-    width: 100%;
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-nav-text);
-    opacity: 0.35;
-    padding: 0.5rem 0.5rem 0.2rem;
-  }
-
-  .cmd-result,
-  .cmd-result:link,
-  .cmd-result:visited {
-    display: block !important;
-    width: 100%;
-    padding: 0.35rem 0.5rem;
-    border-radius: 8px;
-    text-decoration: none !important;
-    border: none !important;
-    border-bottom: none !important;
-    color: var(--color-nav-text) !important;
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.15s ease;
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  .cmd-result::after,
-  .cmd-result::before {
-    display: none !important;
-    content: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    border: none !important;
-    background: none !important;
-  }
-
-  .cmd-result:hover,
-  .cmd-result:visited:hover {
-    background: color-mix(in srgb, var(--color-link) 10%, transparent);
-    transform: translateX(2px);
-    text-decoration: none !important;
-    border: none !important;
-    border-bottom: none !important;
-    color: var(--color-nav-text) !important;
-  }
-
-  .cmd-result.active {
-    background: color-mix(in srgb, var(--color-link) 15%, transparent);
-    transform: translateX(2px);
-    text-decoration: none !important;
-    border: none !important;
-    border-bottom: none !important;
-  }
-
-  .cmd-result-title {
-    font-size: 0.8rem;
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .cmd-result:hover .cmd-result-title,
-  .cmd-result.active .cmd-result-title {
-    color: var(--color-link);
-  }
-
-  .cmd-result-desc {
-    font-size: 0.625rem;
-    opacity: 0.45;
-    line-height: 1.3;
-    margin-top: 0.1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   .cmd-empty {
     padding: 0.75rem;
     text-align: center;
@@ -942,6 +864,87 @@ const searchIndex = [
   init();
   document.addEventListener('astro:page-load', init);
 </script>
+
+<style is:global>
+  /* Global styles for dynamically injected command palette results */
+  .cmd-group-label {
+    display: block;
+    width: 100%;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-nav-text);
+    opacity: 0.35;
+    padding: 0.5rem 0.5rem 0.2rem;
+  }
+
+  .cmd-result,
+  .cmd-result:link,
+  .cmd-result:visited {
+    display: block !important;
+    width: 100%;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    color: var(--color-nav-text) !important;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .cmd-result::after,
+  .cmd-result::before {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    border: none !important;
+    background: none !important;
+  }
+
+  .cmd-result:hover,
+  .cmd-result:visited:hover {
+    background: color-mix(in srgb, var(--color-link) 10%, transparent);
+    transform: translateX(2px);
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    color: var(--color-nav-text) !important;
+  }
+
+  .cmd-result.active {
+    background: color-mix(in srgb, var(--color-link) 15%, transparent);
+    transform: translateX(2px);
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+  }
+
+  .cmd-result-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .cmd-result:hover .cmd-result-title,
+  .cmd-result.active .cmd-result-title {
+    color: var(--color-link);
+  }
+
+  .cmd-result-desc {
+    font-size: 0.625rem;
+    opacity: 0.45;
+    line-height: 1.3;
+    margin-top: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
 
 <script define:vars={{ searchIndex }}>
   // Pass search index to window for the command palette module
