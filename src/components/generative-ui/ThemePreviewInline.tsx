@@ -13,14 +13,15 @@ interface Props {
 }
 
 export default function ThemePreviewInline({ themes }: Props) {
-  const [activeDate, setActiveDate] = useState<string | null>(null);
-  const [hoveredDate, setHoveredDate] = useState<string | null>(null);
+  // Default to the most recent theme so the preview is always visible
+  const defaultDate = themes.length > 0 ? themes[0].date : null;
+  const [displayDate, setDisplayDate] = useState<string | null>(defaultDate);
 
   useEffect(() => {
-    // Track the active daily theme via the root attribute
+    // Sync with the active daily theme if one is set
     const checkTheme = () => {
       const date = document.documentElement.getAttribute('data-daily-theme');
-      setActiveDate(date);
+      if (date) setDisplayDate(date);
     };
 
     checkTheme();
@@ -32,41 +33,29 @@ export default function ThemePreviewInline({ themes }: Props) {
     });
     observer.observe(document.documentElement, { attributes: true });
 
-    // Hover preview: show a theme's showcase when hovering its calendar button
+    // Also listen for clicks on calendar days to update immediately
     const calendar = document.getElementById('theme-calendar');
     if (calendar) {
-      const handleMouseOver = (e: Event) => {
+      const handleClick = (e: Event) => {
         const btn = (e.target as HTMLElement).closest('.calendar-day[data-date]');
         if (btn) {
-          setHoveredDate(btn.getAttribute('data-date'));
+          setDisplayDate(btn.getAttribute('data-date'));
         }
       };
-      const handleMouseOut = (e: Event) => {
-        const related = (e as MouseEvent).relatedTarget as HTMLElement | null;
-        if (!related || !calendar.contains(related)) {
-          setHoveredDate(null);
-        }
-      };
-      // Use event delegation on the grid for efficiency
       const grid = calendar.querySelector('.calendar-grid');
       if (grid) {
-        grid.addEventListener('mouseover', handleMouseOver);
-        grid.addEventListener('mouseout', handleMouseOut);
+        grid.addEventListener('click', handleClick);
       }
 
       return () => {
         observer.disconnect();
-        if (grid) {
-          grid.removeEventListener('mouseover', handleMouseOver);
-          grid.removeEventListener('mouseout', handleMouseOut);
-        }
+        if (grid) grid.removeEventListener('click', handleClick);
       };
     }
 
     return () => observer.disconnect();
   }, []);
 
-  const displayDate = hoveredDate || activeDate;
   const theme = themes.find(t => t.date === displayDate);
 
   if (!theme?.showcase) return null;
@@ -74,9 +63,7 @@ export default function ThemePreviewInline({ themes }: Props) {
   return (
     <div className="theme-preview-inline" style={{ position: 'relative' }}>
       <div className="theme-preview-label">
-        <span className="theme-preview-label-text">
-          {hoveredDate && hoveredDate !== activeDate ? 'Preview' : 'Active'}
-        </span>
+        <span className="theme-preview-label-text">Preview</span>
         <span className="theme-preview-name">{theme.name}</span>
       </div>
       <div className="theme-preview-render">
