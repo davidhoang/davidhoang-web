@@ -85,8 +85,15 @@ const searchIndex = [
       </span>
     </button>
   </div>
-  <!-- Command Palette Results -->
-  <div class="cmd-palette-results" id="cmdPaletteResults" role="listbox" aria-label="Command palette results"></div>
+  <!-- Command Palette Dropdown -->
+  <div class="cmd-palette-dropdown">
+    <div class="cmd-palette-results" id="cmdPaletteResults" role="listbox" aria-label="Command palette results"></div>
+    <div class="cmd-palette-footer" id="cmdPaletteFooter" aria-hidden="true">
+      <span><kbd>↑↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
 </nav>
 
 <!-- Mobile Modal Menu -->
@@ -434,23 +441,34 @@ const searchIndex = [
 
   /* Results panel — unified with nav */
 
-  .cmd-palette-results {
+  /* Dropdown wrapper — holds results + footer */
+  .cmd-palette-dropdown {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 100%;
     left: -1px;
     right: -1px;
+    z-index: 10;
     background: var(--color-nav-bg, #ffffff);
     border: 1px solid var(--color-border);
     border-top: none;
     border-radius: 0 0 24px 24px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+
+  nav.cmd-palette-has-results .cmd-palette-dropdown {
+    display: flex;
+  }
+
+  .cmd-palette-results {
+    display: none;
+    flex-direction: column;
     max-height: min(320px, 50vh);
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 0.25rem 2rem 1.25rem;
-    z-index: 10;
+    padding: 0.25rem 2rem 0.5rem;
     scrollbar-width: thin;
     scrollbar-color: color-mix(in srgb, var(--color-nav-text) 15%, transparent) transparent;
   }
@@ -465,19 +483,39 @@ const searchIndex = [
     background: color-mix(in srgb, var(--color-nav-text) 25%, transparent);
   }
 
-  nav.cmd-palette-active .cmd-palette-results.has-results {
+  .cmd-palette-results.has-results {
     display: flex;
   }
 
-  /* Result items */
-
-  .cmd-empty {
-    padding: 0.75rem;
-    text-align: center;
-    font-size: 0.75rem;
+  /* Command Palette Footer */
+  .cmd-palette-footer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.6rem;
     color: var(--color-nav-text);
     opacity: 0.4;
+    padding: 0.4rem 2rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+    font-family: var(--font-primary), system-ui, sans-serif;
+    flex-shrink: 0;
   }
+
+  .cmd-palette-footer.visible {
+    display: flex;
+  }
+
+  .cmd-palette-footer kbd {
+    font-size: 0.6rem;
+    font-family: var(--font-primary), system-ui, sans-serif;
+    background: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    border: 1px solid color-mix(in srgb, var(--color-nav-text) 12%, transparent);
+  }
+
+  /* Result items */
 
   .mobile-menu-button {
     display: none;
@@ -701,13 +739,15 @@ const searchIndex = [
       display: flex !important;
     }
 
-    .cmd-palette-results {
+    .cmd-palette-dropdown {
       border-radius: 0 !important;
-      top: 100% !important;
       left: 0 !important;
       right: 0 !important;
       border-left: none;
       border-right: none;
+    }
+
+    .cmd-palette-results {
       max-height: 60vh;
     }
 
@@ -879,10 +919,22 @@ const searchIndex = [
     padding: 0.5rem 0.5rem 0.2rem;
   }
 
+  /* Staggered entrance animation */
+  @keyframes cmd-result-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cmd-result { animation: none !important; }
+  }
+
   .cmd-result,
   .cmd-result:link,
   .cmd-result:visited {
-    display: block !important;
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
     width: 100%;
     padding: 0.35rem 0.5rem;
     border-radius: 8px;
@@ -891,9 +943,10 @@ const searchIndex = [
     border-bottom: none !important;
     color: var(--color-nav-text) !important;
     cursor: pointer;
-    transition: background 0.15s ease, transform 0.15s ease;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
     box-sizing: border-box;
     position: relative;
+    animation: cmd-result-in 0.15s ease both;
   }
 
   .cmd-result::after,
@@ -917,9 +970,33 @@ const searchIndex = [
 
   .cmd-result.active {
     background: color-mix(in srgb, var(--color-nav-text) 6%, transparent);
+    box-shadow: inset 2px 0 0 var(--color-link);
     text-decoration: none !important;
     border: none !important;
     border-bottom: none !important;
+  }
+
+  /* Type icon */
+  .cmd-result-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    opacity: 0.35;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cmd-result:hover .cmd-result-icon,
+  .cmd-result.active .cmd-result-icon {
+    opacity: 0.6;
+  }
+
+  /* Text wrapper for title + description */
+  .cmd-result-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
 
   .cmd-result-title {
@@ -941,6 +1018,46 @@ const searchIndex = [
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* Query highlight */
+  .cmd-highlight {
+    background: none;
+    color: inherit;
+    font-weight: 700;
+  }
+
+  /* Group count */
+  .cmd-group-count {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  /* Enhanced empty state */
+  .cmd-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1.5rem 0.75rem;
+    text-align: center;
+    color: var(--color-nav-text);
+  }
+
+  .cmd-empty-icon {
+    font-size: 1.5rem;
+    opacity: 0.15;
+    font-weight: 700;
+  }
+
+  .cmd-empty-text {
+    font-size: 0.75rem;
+    opacity: 0.4;
+  }
+
+  .cmd-empty-hint {
+    font-size: 0.625rem;
+    opacity: 0.25;
   }
 </style>
 
