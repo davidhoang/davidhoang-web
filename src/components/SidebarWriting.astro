@@ -13,10 +13,10 @@ const { headings = [] } = Astro.props;
 const hasHeadings = headings.length > 0;
 ---
 
-<aside class="sidebar glass-border" role="complementary" aria-label="Sidebar with additional information">
+<aside class:list={["sidebar", { "sidebar--with-toc": hasHeadings }]} role="complementary" aria-label="Sidebar with additional information">
   {hasHeadings && (
-    <nav class="sidebar-section toc-section" aria-label="Table of contents">
-      <h2>On this page</h2>
+    <nav class="toc-section" aria-label="Table of contents">
+      <h2 class="toc-heading">On this page</h2>
       <ul class="toc-list" role="list">
         {headings.map((heading) => (
           <li class={`toc-item toc-depth-${heading.depth}`}>
@@ -29,20 +29,22 @@ const hasHeadings = headings.length > 0;
     </nav>
   )}
 
-  <div class="sidebar-section">
-    <h2>Newsletter</h2>
-    <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
-    <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer" class="sidebar-button glass-border-button" aria-label="Subscribe to Proof of Concept newsletter">Subscribe →</a>
-  </div>
+  <div class="sidebar-meta glass-border">
+    <div class="sidebar-section">
+      <h2>Newsletter</h2>
+      <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
+      <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer" class="sidebar-button glass-border-button" aria-label="Subscribe to Proof of Concept newsletter">Subscribe →</a>
+    </div>
 
-  <div class="sidebar-section">
-    <h2>Elsewhere</h2>
-    <ul class="social-links" role="list" aria-label="Social media and other links">
-      <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-      <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="/rss.xml" target="_blank" aria-label="RSS feed for this website">RSS Feed</a></li>
-    </ul>
+    <div class="sidebar-section">
+      <h2>Elsewhere</h2>
+      <ul class="social-links" role="list" aria-label="Social media and other links">
+        <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+        <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="/rss.xml" target="_blank" aria-label="RSS feed for this website">RSS Feed</a></li>
+      </ul>
+    </div>
   </div>
 </aside>
 
@@ -120,49 +122,46 @@ const hasHeadings = headings.length > 0;
   .sidebar {
     position: sticky;
     top: calc(var(--nav-height) + 2rem);
-    padding: 1.5rem;
-    padding-left: 2rem;
     width: 250px;
-    background-color: var(--color-sidebar-bg);
-    border: var(--border-default);
-    border-radius: var(--radius-lg);
     height: fit-content;
   }
 
-  .sidebar-section {
-    margin-bottom: 2rem;
+  /* When there's no TOC, the sidebar is just the meta card */
+  .sidebar:not(.sidebar--with-toc) .sidebar-meta {
+    /* Card styling applied via glass-border class */
   }
 
-  .sidebar-section:last-child {
-    margin-bottom: 0;
+  /* When there IS a TOC, float it without a card box */
+  .sidebar--with-toc {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
-  .sidebar-section h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-text);
-  }
-
-  .sidebar-section p {
-    font-size: 0.9rem;
-    color: var(--color-muted);
-    margin-bottom: 1rem;
-  }
-
-  /* Table of Contents */
+  /* TOC section — no card, just floating text */
   .toc-section {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--color-border);
+    padding: 0;
+  }
+
+  .toc-heading {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin: 0 0 0.75rem;
   }
 
   .toc-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: calc(100vh - var(--nav-height) - 16rem);
+    overflow-y: auto;
   }
 
   .toc-item {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.125rem;
   }
 
   .toc-depth-3 {
@@ -175,7 +174,7 @@ const hasHeadings = headings.length > 0;
 
   .toc-link {
     display: block;
-    padding: 0.25rem 0.5rem;
+    padding: 0.2rem 0.5rem;
     font-size: 0.8rem;
     line-height: 1.4;
     color: var(--color-muted);
@@ -199,6 +198,35 @@ const hasHeadings = headings.length > 0;
     color: var(--color-text);
     border-left-color: var(--color-text);
     font-weight: 500;
+  }
+
+  /* Newsletter/Elsewhere card */
+  .sidebar-meta {
+    padding: 1.5rem;
+    padding-left: 2rem;
+    background-color: var(--color-sidebar-bg);
+    border: var(--border-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .sidebar-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .sidebar-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .sidebar-section p {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    margin-bottom: 1rem;
   }
 
   .category-list,
@@ -239,10 +267,9 @@ const hasHeadings = headings.length > 0;
   }
 
   .sidebar-button::after {
-    display: none; /* Disable global link underline */
+    display: none;
   }
 
-  /* Hover state handled by glass-border-button class */
   @media (hover: hover) {
     .sidebar-button:hover {
       color: var(--color-bg);
@@ -254,21 +281,20 @@ const hasHeadings = headings.length > 0;
     .sidebar {
       position: static;
       margin-top: 2rem;
-      padding-left: 1.5rem;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      width: 100%;
     }
 
     .toc-section {
       display: none;
     }
+
+    .sidebar-meta {
+      padding: 1.5rem;
+    }
   }
 
   @media (max-width: 480px) {
     .sidebar {
-      width: 100%;
-      padding: 1.5rem;
-      padding-top: 2rem;
       margin: 1rem 0;
     }
   }
