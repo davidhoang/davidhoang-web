@@ -485,5 +485,9 @@ const ogImageUrl = ogImage.startsWith('http')
         initLazyImages();
       }
     </script>
+    <script>
+      import { injectSpeedInsights } from '@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
   </body>
 </html>
