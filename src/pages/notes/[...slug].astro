@@ -39,9 +39,10 @@ const updatedDate = note.data.updatedDate
   : null;
 
 const pageDescription = note.data.description || `A ${stage.label.toLowerCase()} note on ${note.data.title}`;
+const ogImage = note.data.ogImage || `/api/og?title=${encodeURIComponent(note.data.title)}&description=${encodeURIComponent(pageDescription)}&type=notes`;
 ---
 
-<MainLayout title={`${note.data.title} | Notes`} description={pageDescription} ogImage={note.data.ogImage}>
+<MainLayout title={`${note.data.title} | Notes`} description={pageDescription} ogImage={ogImage}>
   <article class="note-article">
     <header class="note-header">
       <a href="/notes" class="back-link">&larr; Notes</a>

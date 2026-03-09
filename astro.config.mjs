@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import { cpSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 
@@ -28,7 +29,14 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
   viewTransitions: true,
-  integrations: [react()],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/node-test') &&
+        !page.includes('/signup-examples'),
+    }),
+  ],
   vite: {
     plugins: [copyAssetsPlugin()],
     // Disable caching in development to prevent stale module issues
