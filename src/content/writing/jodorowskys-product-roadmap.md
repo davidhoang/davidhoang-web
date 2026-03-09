@@ -1,7 +1,7 @@
 ---
 title: "Jodorowsky's Product Roadmap"
 pubDate: 2021-01-23
-description: "Your description here"
+description: "What happens when uncompromising visions collide with the production process"
 
 ---
 
