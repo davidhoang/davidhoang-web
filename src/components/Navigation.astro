@@ -229,6 +229,32 @@ const searchIndex = [
         padding: 24px 32px;
       }
     }
+
+    /* Command palette: wider on tablet for comfortable search */
+    nav.cmd-palette-active {
+      min-width: min(540px, calc(100vw - 48px));
+      max-width: min(540px, calc(100vw - 48px));
+    }
+
+    nav.cmd-palette-active:hover {
+      min-width: min(540px, calc(100vw - 48px));
+      max-width: min(540px, calc(100vw - 48px));
+    }
+
+    .cmd-palette-input input {
+      font-size: 1.1rem;
+    }
+
+    .cmd-palette-results {
+      max-height: min(400px, 60vh);
+      padding: 0.5rem 1.5rem 0.75rem;
+    }
+
+    .cmd-palette-footer {
+      padding: 0.5rem 1.5rem;
+      gap: 1.25rem;
+      font-size: 0.65rem;
+    }
   }
 
   /* Scrolling state - add elevation with drop shadow */
@@ -1058,6 +1084,66 @@ const searchIndex = [
   .cmd-empty-hint {
     font-size: 0.625rem;
     opacity: 0.25;
+  }
+
+  /* ── iPad / Tablet touch improvements ── */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    /* Larger touch targets for result items */
+    .cmd-result,
+    .cmd-result:link,
+    .cmd-result:visited {
+      padding: 0.6rem 0.75rem;
+      gap: 0.625rem;
+      border-radius: 10px;
+    }
+
+    /* Bigger, more readable text */
+    .cmd-result-title {
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .cmd-result-desc {
+      font-size: 0.7rem;
+      margin-top: 0.15rem;
+    }
+
+    /* Larger icons */
+    .cmd-result-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .cmd-result-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Group labels */
+    .cmd-group-label {
+      font-size: 0.65rem;
+      padding: 0.6rem 0.75rem 0.25rem;
+    }
+
+    /* Bigger empty state for tablet */
+    .cmd-empty {
+      padding: 2rem 1rem;
+    }
+
+    .cmd-empty-icon {
+      font-size: 1.75rem;
+    }
+
+    .cmd-empty-text {
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Hide keyboard-only hints on touch devices without external keyboard */
+  @media (pointer: coarse) and (hover: none) {
+    .cmd-palette-footer {
+      display: none !important;
+    }
   }
 </style>
 
