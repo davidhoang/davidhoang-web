@@ -81,7 +81,7 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
 
   .content-grid {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr 250px;
     gap: 3rem;
     align-items: start;
   }
@@ -154,6 +154,13 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
   .related-posts__card time {
     font-size: 0.8125rem;
     color: var(--color-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .content-grid {
+      grid-template-columns: 1fr 200px;
+      gap: 2rem;
+    }
   }
 
   @media (max-width: 768px) {

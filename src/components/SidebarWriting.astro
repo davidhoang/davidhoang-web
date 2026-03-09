@@ -122,7 +122,7 @@ const hasHeadings = headings.length > 0;
   .sidebar {
     position: sticky;
     top: calc(var(--nav-height) + 2rem);
-    width: 250px;
+    min-width: 0;
     height: fit-content;
   }
 
@@ -274,6 +274,24 @@ const hasHeadings = headings.length > 0;
     .sidebar-button:hover {
       color: var(--color-bg);
       text-decoration: none;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .toc-link {
+      font-size: 0.75rem;
+    }
+
+    .sidebar-meta {
+      padding: 1.25rem;
+    }
+
+    .sidebar-section h2 {
+      font-size: 1rem;
+    }
+
+    .sidebar-section p {
+      font-size: 0.85rem;
     }
   }
 
