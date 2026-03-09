@@ -28,6 +28,7 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
+  trailingSlash: 'never',
   viewTransitions: true,
   integrations: [
     react(),

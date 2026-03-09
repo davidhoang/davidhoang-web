@@ -18,10 +18,37 @@ const pageDescription = description || "An article by David Hoang on design, eng
 // For social previews, fall back to a dynamically generated OG image when
 // the post doesn't provide one. This fallback should NOT affect the rendered hero.
 const ogImage = data.ogImage || coverImage || `/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(pageDescription)}&type=writing`;
+
+// Structured data helpers
+const siteUrl = 'https://www.davidhoang.com';
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+const isoDate = pubDate instanceof Date ? pubDate.toISOString() : new Date(pubDate).toISOString();
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": pageDescription,
+  "datePublished": isoDate,
+  "dateModified": isoDate,
+  "author": {
+    "@type": "Person",
+    "name": "David Hoang",
+    "url": "https://www.davidhoang.com"
+  },
+  "image": ogImageUrl,
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Person",
+    "name": "David Hoang"
+  }
+};
 ---
 
 <MainLayout title={title} description={pageDescription} ogImage={ogImage}>
-  <BlogMeta 
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <BlogMeta
     title={title}
     description={description}
     ogImage={ogImage}

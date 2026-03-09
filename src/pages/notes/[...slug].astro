@@ -40,9 +40,37 @@ const updatedDate = note.data.updatedDate
 
 const pageDescription = note.data.description || `A ${stage.label.toLowerCase()} note on ${note.data.title}`;
 const ogImage = note.data.ogImage || `/api/og?title=${encodeURIComponent(note.data.title)}&description=${encodeURIComponent(pageDescription)}&type=notes`;
+
+// Structured data for notes
+const siteUrl = 'https://www.davidhoang.com';
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
+const noteOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+const noteIsoDate = note.data.pubDate.toISOString();
+const noteIsoModified = note.data.updatedDate ? note.data.updatedDate.toISOString() : noteIsoDate;
+
+const noteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": note.data.title,
+  "description": pageDescription,
+  "datePublished": noteIsoDate,
+  "dateModified": noteIsoModified,
+  "author": {
+    "@type": "Person",
+    "name": "David Hoang",
+    "url": "https://www.davidhoang.com"
+  },
+  "image": noteOgImageUrl,
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Person",
+    "name": "David Hoang"
+  }
+};
 ---
 
 <MainLayout title={`${note.data.title} | Notes`} description={pageDescription} ogImage={ogImage}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
   <article class="note-article">
     <header class="note-header">
       <a href="/notes" class="back-link">&larr; Notes</a>
