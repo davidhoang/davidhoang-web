@@ -78,9 +78,12 @@ const detectedPageType = pageType || (() => {
 })();
 
 // Get the canonical URL with fallback
-const canonicalURL = Astro.site 
-  ? new URL(Astro.url.pathname, Astro.site)
-  : Astro.url.pathname;
+// Normalize: strip trailing slash (except for root "/") for consistent canonical URLs
+const rawPathname = Astro.url.pathname;
+const normalizedPathname = rawPathname === '/' ? '/' : rawPathname.replace(/\/+$/, '');
+const canonicalURL = Astro.site
+  ? new URL(normalizedPathname, Astro.site).href
+  : normalizedPathname;
 
 // Construct full URL for ogImage
 const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.com').replace(/\/$/, '');
@@ -96,6 +99,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for davidhoang.com" href="/rss.xml" />
+    <link rel="canonical" href={canonicalURL} />
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
@@ -145,6 +149,22 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
     <ViewTransitions fallback="swap" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "David Hoang",
+      "url": "https://www.davidhoang.com",
+      "description": description,
+      "author": {
+        "@type": "Person",
+        "name": "David Hoang",
+        "url": "https://www.davidhoang.com"
+      }
+    })} />
+
+    <slot name="head" />
 
     <!-- Inline critical CSS -->
     <style is:inline>
