@@ -88,9 +88,9 @@ const postData = {
   ogImage: inferredOgImage,
 };
 
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 ---
 
-<BlogPost data={postData} relatedPosts={relatedPosts}>
+<BlogPost data={postData} relatedPosts={relatedPosts} headings={headings}>
   <Content />
 </BlogPost> 

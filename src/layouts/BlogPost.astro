@@ -5,7 +5,7 @@ import { Image } from 'astro:assets';
 import SidebarWriting from '../components/SidebarWriting.astro';
 import CommentsSection from '../components/CommentsSection.astro';
 
-const { data, relatedPosts = [] } = Astro.props;
+const { data, relatedPosts = [], headings = [] } = Astro.props;
 const { title, description, pubDate } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 // Only render a hero image when explicitly provided.
@@ -61,7 +61,7 @@ const ogImage = data.ogImage || coverImage || defaultOgImage;
         )}
         <CommentsSection />
       </div>
-      <SidebarWriting />
+      <SidebarWriting headings={headings} />
     </div>
   </article>
 </MainLayout>
