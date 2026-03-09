@@ -90,6 +90,36 @@ const articleJsonLd = {
       <SidebarWriting headings={headings} />
     </div>
   </article>
+  <button class="back-to-top" aria-label="Back to top" id="back-to-top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M8 3L3 8.5M8 3l5 5.5M8 3v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <script>
+    function initBackToTop() {
+      const btn = document.getElementById('back-to-top');
+      if (!btn) return;
+
+      let visible = false;
+      const toggle = () => {
+        const show = window.scrollY > 400;
+        if (show !== visible) {
+          visible = show;
+          btn.classList.toggle('visible', show);
+        }
+      };
+
+      window.addEventListener('scroll', toggle, { passive: true });
+      toggle();
+
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    initBackToTop();
+    document.addEventListener('astro:after-swap', initBackToTop);
+  </script>
 </MainLayout>
 
 <style>
@@ -180,6 +210,44 @@ const articleJsonLd = {
   .related-posts__card time {
     font-size: 0.8125rem;
     color: var(--color-muted);
+  }
+
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.15s ease;
+    z-index: 100;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .back-to-top:hover {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+  }
+
+  .back-to-top:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
   }
 
   @media (max-width: 768px) {
