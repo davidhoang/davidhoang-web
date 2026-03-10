@@ -698,6 +698,40 @@ html:not([data-image-style]) .hero-portrait {
 }
 
 /* ============================================
+   Daily Theme: Background Color Padding Safety
+   When daily themes apply tinted backgrounds, ensure
+   content areas have enough breathing room so color
+   transitions between surfaces don't feel jarring.
+   ============================================ */
+
+/* Sections with borders need minimum padding when a daily theme is active */
+[data-daily-theme] .design-philosophy,
+[data-daily-theme] .portfolio-section {
+  padding-top: max(var(--section-spacing, 2rem), 1.5rem);
+}
+
+/* Cards with explicit backgrounds need inner padding so text doesn't sit on the color edge */
+[data-daily-theme] [data-card-style="filled"] :is(.card, .node-card) {
+  padding: max(var(--card-padding, 1.5rem), 1.25rem);
+}
+
+/* Ensure footer has a smooth transition from main content */
+[data-daily-theme] footer {
+  margin-top: max(var(--section-spacing, 2rem), 2rem);
+}
+
+/* Blog post content needs padding to keep prose off harsh bg edges */
+[data-daily-theme] .blog-post .content-grid {
+  padding-bottom: max(var(--section-spacing, 2rem), 2rem);
+}
+
+/* Notes and writing index pages — space out list items */
+[data-daily-theme] .writing-list,
+[data-daily-theme] .notes-list {
+  gap: max(var(--section-spacing, 1.5rem), 1rem);
+}
+
+/* ============================================
    Heavy Shader: Content Area Solid Backgrounds
    For themes with complex shaders (waves, mesh, swirl, etc.)
    content areas get semi-opaque backgrounds for readability.

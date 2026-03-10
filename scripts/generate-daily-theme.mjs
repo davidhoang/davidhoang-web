@@ -22,6 +22,40 @@ import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 import { validateThemeContrast } from './lib/contrast.mjs';
 
+// Color conversion helpers for surface harmony validation
+function hexToHsl(hex) {
+  if (!hex || typeof hex !== 'string') return null;
+  hex = hex.replace('#', '');
+  if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+  if (hex.length !== 6) return null;
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return { h: 0, s: 0, l: l * 100 };
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h = 0;
+  if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+  else if (max === g) h = ((b - r) / d + 2) / 6;
+  else h = ((r - g) / d + 4) / 6;
+  return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function hslToHex(h, s, l) {
+  h = ((h % 360) + 360) % 360;
+  s = Math.max(0, Math.min(100, s)) / 100;
+  l = Math.max(0, Math.min(100, l)) / 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = join(__dirname, '..');
@@ -221,6 +255,14 @@ CRITICAL LAYOUT RULES:
 1. Never add top margins or padding to the main container that would clip or push down the hero section. The hero must always be fully visible without any awkward gaps at the top. Top spacing should come from the navigation height only, not from container margins.
 2. Pages with hero images (like About) must have the hero extend fully to the top of the viewport beneath the navigation. No background color should be visible between the nav and the hero image.
 3. The shader/background color should never create a visible gap or border above the main content area.
+
+BACKGROUND COLOR + PADDING HARMONY RULES:
+4. When using a tinted --color-bg, ALL surface colors MUST form a smooth visual hierarchy — no jarring jumps between bg, card-bg, sidebar-bg, and nav-bg. These should be tonal variations of the same hue (e.g., if bg is warm peach, card-bg should be a slightly lighter or darker peach, NOT a completely different color).
+5. --color-card-bg should be within ~5% lightness of --color-bg. Cards should feel embedded in the page, not floating on a mismatched surface.
+6. --color-sidebar-bg should also be a close tonal neighbor of --color-bg — same hue, slightly shifted lightness.
+7. --color-nav-bg should blend seamlessly with the page. Never use a nav background that creates a harsh band of color against the page bg.
+8. When contentPadding is low (< 1rem), avoid high-contrast card styles like "outlined" or "filled" — the tight padding makes color boundaries feel cramped and jarring. Low padding works best with "flat", "elevated", or "glass" cards.
+9. sectionSpacing must be >= "2rem" when using tinted backgrounds to give visual breathing room between content blocks. Dense themes (sectionSpacing < 2rem) should only use neutral/white backgrounds.
 
 ## HERO LAYOUT - SET THE TONE!
 The hero section is the first thing visitors see - make it count with a SPATIAL layout:
@@ -640,6 +682,57 @@ async function generateTheme(options = {}) {
     }
   } else {
     console.log('\nAll color pairs pass WCAG AA contrast checks.');
+  }
+
+  // Validate surface color harmony (bg, card-bg, sidebar-bg, nav-bg)
+  // Ensures tinted backgrounds don't create jarring color jumps
+  for (const mode of ['light', 'dark']) {
+    const colors = themeData.colors?.[mode];
+    if (!colors) continue;
+
+    const bg = colors['--color-bg'];
+    const cardBg = colors['--color-card-bg'];
+    const sidebarBg = colors['--color-sidebar-bg'];
+    const navBg = colors['--color-nav-bg'];
+
+    if (bg) {
+      // Nudge card-bg and sidebar-bg toward bg if they differ too much in hue
+      const bgHsl = hexToHsl(bg);
+      if (bgHsl) {
+        for (const [prop, surface] of [['--color-card-bg', cardBg], ['--color-sidebar-bg', sidebarBg], ['--color-nav-bg', navBg]]) {
+          if (!surface) continue;
+          const surfaceHsl = hexToHsl(surface);
+          if (!surfaceHsl) continue;
+
+          // If hue differs by more than 30 degrees, realign to bg hue
+          const hueDiff = Math.abs(surfaceHsl.h - bgHsl.h);
+          const wrappedDiff = Math.min(hueDiff, 360 - hueDiff);
+          if (wrappedDiff > 30 && bgHsl.s > 5) {
+            // Keep surface lightness/saturation but match bg hue
+            const fixed = hslToHex(bgHsl.h, Math.min(surfaceHsl.s, bgHsl.s + 10), surfaceHsl.l);
+            console.log(`  [${mode}] ${prop}: hue realigned ${surface} → ${fixed} (hue diff was ${Math.round(wrappedDiff)}°)`);
+            colors[prop] = fixed;
+          }
+        }
+      }
+    }
+  }
+
+  // Enforce padding/card style harmony
+  const contentPadVal = parseFloat(themeData.layout?.contentPadding) || 1.5;
+  const cardStyle = themeData.cards?.style;
+  if (contentPadVal < 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
+    themeData.cards.style = 'elevated';
+    console.log(`  Card style changed from "${cardStyle}" to "elevated" (low contentPadding ${contentPadVal}rem conflicts with ${cardStyle} cards)`);
+  }
+
+  // Enforce minimum section spacing with tinted backgrounds
+  const sectionVal = parseFloat(themeData.layout?.sectionSpacing) || 4;
+  const bgColor = themeData.colors?.light?.['--color-bg'] || '#ffffff';
+  const isTinted = bgColor.toLowerCase() !== '#ffffff' && bgColor.toLowerCase() !== '#fff';
+  if (isTinted && sectionVal < 2) {
+    themeData.layout.sectionSpacing = '2rem';
+    console.log(`  Section spacing bumped from ${sectionVal}rem to 2rem (tinted background needs breathing room)`);
   }
 
   // Add date
