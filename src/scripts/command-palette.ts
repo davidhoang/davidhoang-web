@@ -62,7 +62,16 @@ function highlightQuery(text: string, query: string): string {
     + text.slice(idx + query.length);
 }
 
+// Track cleanup function to tear down before reinitializing
+let _cleanup: (() => void) | null = null;
+
 export function initCommandPalette(searchIndex: SearchItem[]) {
+  // Clean up previous instance (handles view transitions)
+  if (_cleanup) {
+    _cleanup();
+    _cleanup = null;
+  }
+
   const nav = document.querySelector('nav');
   const input = document.getElementById('cmdPaletteInput') as HTMLInputElement | null;
   const results = document.getElementById('cmdPaletteResults');
@@ -70,8 +79,6 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   const desktopNav = document.querySelector('.desktop-nav');
 
   if (!nav || !input || !results || !desktopNav) return;
-  if (nav.dataset.cmdPaletteInit === 'true') return;
-  nav.dataset.cmdPaletteInit = 'true';
 
   let activeIndex = -1;
 
@@ -196,26 +203,22 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     // ⌘K hint always opens palette
     if (target.closest('.cmd-k-hint')) {
       e.preventDefault();
-      openPalette();
+      open();
       return;
     }
     if (target.closest('a') || target.closest('button')) return;
-    openPalette();
+    open();
   }
 
   function handleDesktopNavClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (target.closest('.cmd-k-hint')) {
       e.preventDefault();
-      openPalette();
+      open();
       return;
     }
     if (target.closest('a')) return;
     e.preventDefault();
-    openPalette();
-  }
-
-  function openPalette() {
     open();
   }
 
@@ -295,4 +298,15 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   results.addEventListener('click', handleResultClick as EventListener);
   document.addEventListener('click', handleDocumentClick as EventListener);
   document.addEventListener('keydown', handleGlobalKeydown);
+
+  // --- Cleanup function for teardown ---
+  _cleanup = () => {
+    nav.removeEventListener('click', handleNavClick);
+    desktopNav.removeEventListener('click', handleDesktopNavClick as EventListener);
+    input.removeEventListener('input', handleInput);
+    input.removeEventListener('keydown', handleInputKeydown);
+    results.removeEventListener('click', handleResultClick as EventListener);
+    document.removeEventListener('click', handleDocumentClick as EventListener);
+    document.removeEventListener('keydown', handleGlobalKeydown);
+  };
 }
