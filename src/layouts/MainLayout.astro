@@ -4,7 +4,6 @@ import '../styles/global.css';
 import '../styles/self-hosted-fonts.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
 import ShaderBackground from '../components/ShaderBackground';
@@ -445,7 +444,6 @@ const ogImageUrl = ogImage.startsWith('http')
     </div>
     <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
     <DailyThemeToggle />
-    <ThemeToggle />
 
     <MusicPlayer />
     <script>

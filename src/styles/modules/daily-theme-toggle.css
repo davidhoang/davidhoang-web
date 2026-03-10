@@ -5,7 +5,7 @@
 .daily-theme-toggle {
   position: fixed;
   bottom: 1.5rem;
-  right: 5rem;
+  right: 1.5rem;
   z-index: var(--z-theme-toggle);
 }
 
@@ -137,6 +137,60 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 .close-btn:hover {
   color: var(--color-text);
   background: var(--color-sidebar-bg);
+}
+
+/* Appearance Toggle (light / dark / system) */
+
+.appearance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.appearance-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.appearance-toggle {
+  display: flex;
+  background: var(--color-sidebar-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.appearance-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.appearance-btn:hover {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.appearance-btn.active {
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Calendar Grid */
@@ -271,7 +325,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 @media (max-width: 768px) {
   .daily-theme-toggle {
     bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
-    right: max(5.5rem, calc(52px + 1rem + env(safe-area-inset-right, 0px)));
+    right: max(1rem, env(safe-area-inset-right, 1rem));
   }
 
   .toggle-label {
@@ -309,7 +363,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 @media (max-width: 480px) {
   .daily-theme-toggle {
     bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem));
-    right: max(5.75rem, calc(56px + 0.75rem + env(safe-area-inset-right, 0px)));
+    right: max(0.75rem, env(safe-area-inset-right, 0.75rem));
   }
 
   button#daily-theme-toggle {
