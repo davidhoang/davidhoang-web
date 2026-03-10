@@ -1062,7 +1062,9 @@ const searchIndex = [
 </style>
 
 <script define:vars={{ searchIndex }}>
-  // Pass search index to window for the command palette module
+  // Pass search index to window for the command palette module.
+  // This inline script runs synchronously before module scripts,
+  // guaranteeing the index is available when initCommandPalette runs.
   window.__cmdPaletteIndex = searchIndex;
 </script>
 
@@ -1074,6 +1076,11 @@ const searchIndex = [
     if (index) initCommandPalette(index);
   }
 
-  init();
-  document.addEventListener('astro:page-load', init);
+  // Use astro:page-load which fires on initial load AND after each
+  // view transition navigation. This single listener handles both cases.
+  // Guard against duplicate registration with a flag.
+  if (!(window as any).__cmdPaletteListenerBound) {
+    (window as any).__cmdPaletteListenerBound = true;
+    document.addEventListener('astro:page-load', init);
+  }
 </script>
