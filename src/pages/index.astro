@@ -282,6 +282,35 @@ const portfolioItems = [
       transform: translateY(-1px);
     }
 
+    .cta-button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .cta-button.is-loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .cta-button.is-loading::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      top: 50%;
+      left: 50%;
+      margin: -7px 0 0 -7px;
+      border: 2px solid var(--color-bg);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: cta-spin 0.6s linear infinite;
+    }
+
+    @keyframes cta-spin {
+      to { transform: rotate(360deg); }
+    }
+
     .cta-button:focus-visible {
       outline: 2px solid var(--color-link);
       outline-offset: 2px;
@@ -403,7 +432,7 @@ const portfolioItems = [
       inlineForm.addEventListener('submit', () => {
         const button = inlineForm.querySelector('.cta-button') as HTMLButtonElement;
         if (button) {
-          button.textContent = 'Subscribing...';
+          button.classList.add('is-loading');
           button.disabled = true;
         }
       });

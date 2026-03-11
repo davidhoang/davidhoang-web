@@ -9,9 +9,9 @@ a {
   display: inline;
   border-bottom: 1px dotted var(--color-link);
   transition:
-    color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    opacity 0.3s ease;
+    color var(--duration-slow) var(--ease-inertia),
+    border-color var(--duration-slow) var(--ease-inertia),
+    opacity var(--duration-slow) ease;
 }
 
 a:visited {
@@ -32,7 +32,7 @@ a::before {
   opacity: 0;
   filter: blur(12px);
   z-index: -1;
-  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity var(--duration-slow) var(--ease-inertia);
   pointer-events: none;
   border-radius: 4px;
 }
@@ -48,7 +48,7 @@ a::after {
   background: linear-gradient(90deg, var(--color-link-hover), var(--color-link));
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-slower) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Hover effects - only on devices that support hover */
@@ -70,7 +70,7 @@ a::after {
 /* Active/pressed state */
 a:active {
   opacity: 0.8;
-  transition: opacity 0.1s ease;
+  transition: opacity var(--duration-fast) ease;
 }
 
 /* Focus state for keyboard navigation */
@@ -98,7 +98,7 @@ footer a:visited {
   color: var(--color-link);
   border-bottom: none;
   text-decoration: none;
-  transition: color 0.4s var(--ease-inertia);
+  transition: color var(--duration-slow) var(--ease-inertia);
 }
 
 footer a:hover,
