@@ -7,10 +7,11 @@
   scroll-margin-top: calc(var(--nav-height) + 3rem);
 }
 
-/* Accessible focus styles - subtle but visible */
+/* Accessible focus styles - consistent 2px ring */
 :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 1.5px solid var(--color-border);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* Remove focus outline for mouse users */
