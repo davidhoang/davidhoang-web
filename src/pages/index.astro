@@ -169,7 +169,7 @@ const portfolioItems = [
 
     /* Portfolio Section */
     .portfolio-section {
-      margin: 4rem 0;
+      margin: var(--section-spacing, 4rem) 0;
       border-top: 1px solid var(--color-border);
       padding-top: 24px;
       content-visibility: auto;
@@ -218,7 +218,7 @@ const portfolioItems = [
       border-top: 1px solid var(--color-border);
       border-bottom: 1px solid var(--color-border);
       padding: 1.5rem 0;
-      margin: 2rem 0;
+      margin: var(--section-spacing, 4rem) 0;
     }
 
     .cta-content {
@@ -265,7 +265,7 @@ const portfolioItems = [
 
     .cta-button {
       padding: 0.5rem 1.25rem;
-      background: var(--color-text);
+      background: var(--color-link);
       color: var(--color-bg);
       border: none;
       border-radius: 999px;
@@ -274,10 +274,11 @@ const portfolioItems = [
       font-family: var(--font-primary);
       cursor: pointer;
       white-space: nowrap;
-      transition: transform 0.2s ease;
+      transition: background 0.2s ease, transform 0.2s ease;
     }
 
     .cta-button:hover {
+      background: var(--color-link-hover);
       transform: translateY(-1px);
     }
 

@@ -374,19 +374,21 @@ const searchIndex = [
     font-size: 0.6rem;
     font-family: var(--font-primary), system-ui, sans-serif;
     color: var(--color-nav-text);
-    opacity: 0.3;
+    opacity: 0.5;
     background: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
     padding: 0.2rem 0.4rem;
     border-radius: 5px;
-    border: 1px solid color-mix(in srgb, var(--color-nav-text) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-nav-text) 15%, transparent);
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     line-height: 1;
   }
 
   @media (hover: hover) {
     .cmd-k-hint:hover {
-      opacity: 0.6;
+      opacity: 0.8;
+      background: color-mix(in srgb, var(--color-nav-text) 12%, transparent);
+      border-color: color-mix(in srgb, var(--color-nav-text) 25%, transparent);
     }
   }
 
@@ -468,7 +470,7 @@ const searchIndex = [
     max-height: min(320px, 50vh);
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 0.25rem 2rem 0.5rem;
+    padding: 0.125rem 2rem 0.25rem;
     scrollbar-width: thin;
     scrollbar-color: color-mix(in srgb, var(--color-nav-text) 15%, transparent) transparent;
   }
@@ -916,7 +918,7 @@ const searchIndex = [
     letter-spacing: 0.06em;
     color: var(--color-nav-text);
     opacity: 0.35;
-    padding: 0.5rem 0.5rem 0.2rem;
+    padding: 0.4rem 0.5rem 0.15rem;
   }
 
   /* Staggered entrance animation */
@@ -936,7 +938,7 @@ const searchIndex = [
     align-items: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.35rem 0.5rem;
+    padding: 0.3rem 0.5rem;
     border-radius: 8px;
     text-decoration: none !important;
     border: none !important;
@@ -947,6 +949,28 @@ const searchIndex = [
     box-sizing: border-box;
     position: relative;
     animation: cmd-result-in 0.15s ease both;
+  }
+
+  /* Subtle separator between results (not on last) */
+  .cmd-result + .cmd-result {
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent) !important;
+    border-radius: 0;
+  }
+
+  /* First and last keep their radius */
+  .cmd-result:first-child,
+  .cmd-group-label + .cmd-result {
+    border-top: none !important;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .cmd-result:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+
+  .cmd-result:only-child,
+  .cmd-group-label + .cmd-result:last-child {
+    border-radius: 8px;
   }
 
   .cmd-result::after,
