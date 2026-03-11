@@ -37,6 +37,12 @@
   --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-inertia-smooth: cubic-bezier(0.33, 1, 0.68, 1);
 
+  /* Transition duration scale — use instead of hardcoded values */
+  --duration-fast: 0.15s;    /* Micro-interactions: active states, icon flips */
+  --duration-normal: 0.2s;   /* Standard feedback: buttons, toggles, color changes */
+  --duration-slow: 0.3s;     /* Component transitions: links, cards, panels */
+  --duration-slower: 0.4s;   /* Layout shifts: nav expand, modals, page transitions */
+
   /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com) */
   --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;

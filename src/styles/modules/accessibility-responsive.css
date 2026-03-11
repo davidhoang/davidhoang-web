@@ -74,7 +74,7 @@
   /* Typography - editorial mobile sizing for comfortable reading */
   p,
   li {
-    font-size: 1.125rem;
+    font-size: clamp(1.05rem, 3.8vw, 1.2rem);
     line-height: 1.7;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -161,12 +161,8 @@
 @media (max-width: 480px) {
   p,
   li {
-    font-size: 1.15rem;
+    font-size: clamp(1.05rem, 3.5vw, 1.15rem);
     line-height: 1.75;
-  }
-
-  h2 {
-    font-size: 1.5rem;
   }
 
   .hero-title h1 {
@@ -179,46 +175,21 @@
   }
 }
 
-/* Extra-large breakpoint - 1920px */
+/* Extra-large breakpoint - 1920px
+   Headings use clamp() from variables.css so they scale fluidly.
+   Only override body text and hero which need larger baselines. */
 @media (min-width: 1920px) {
   .container {
     max-width: 1920px;
   }
 
-  h1 {
-    font-size: 3.5rem;
-  }
-
-  h2 {
-    font-size: 2.875rem;
-  }
-
-  h3 {
-    font-size: 1.75rem;
-  }
-
-  h4 {
-    font-size: 2.25rem;
-  }
-
-  h5 {
-    font-size: 1.875rem;
-  }
-
-  h6 {
-    font-size: 1.5rem;
-  }
-
-  p {
-    font-size: 1.4rem;
-  }
-
+  p,
   li {
-    font-size: 1.4rem;
+    font-size: clamp(1.2rem, 1.1vw, 1.5rem);
   }
 
   blockquote p {
-    font-size: 1.4rem;
+    font-size: clamp(1.3rem, 1.2vw, 1.6rem);
   }
 
   .hero-title h1 {

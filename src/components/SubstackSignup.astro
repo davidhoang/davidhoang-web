@@ -123,7 +123,7 @@ const {
 
   .subscribe-button {
     padding: 1rem 3rem;
-    background: var(--color-text);
+    background: var(--color-link);
     color: var(--color-bg);
     border: none;
     border-radius: 999px;
@@ -132,12 +132,13 @@ const {
     font-family: var(--font-primary);
     cursor: pointer;
     white-space: nowrap;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--duration-normal) ease, box-shadow var(--duration-normal) ease, background var(--duration-normal) ease;
     flex-shrink: 0;
   }
 
   .subscribe-button:hover {
-    transform: translateY(-2px);
+    background: var(--color-link-hover);
+    transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
 
@@ -148,6 +149,35 @@ const {
   .subscribe-button:active {
     transform: translateY(0);
     box-shadow: none;
+  }
+
+  .subscribe-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .subscribe-button.is-loading {
+    position: relative;
+    color: transparent;
+  }
+
+  .subscribe-button.is-loading::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    margin: -9px 0 0 -9px;
+    border: 2px solid var(--color-bg);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: btn-spin 0.6s linear infinite;
+  }
+
+  @keyframes btn-spin {
+    to { transform: rotate(360deg); }
   }
 
   .subscribe-button:focus-visible {
@@ -243,7 +273,7 @@ const {
       const input = form.querySelector('.email-input') as HTMLInputElement;
       
       if (button) {
-        button.textContent = 'Subscribing...';
+        button.classList.add('is-loading');
         button.disabled = true;
       }
       
