@@ -15,14 +15,14 @@ const contentSlide = {
   forwards: {
     old: {
       name: 'contentFadeOut',
-      duration: '0.2s',
+      duration: '0.15s',
       easing: 'ease-in',
       fillMode: 'forwards',
     },
     new: {
       name: 'contentSlideIn',
-      duration: '0.3s',
-      delay: '0.1s',
+      duration: '0.35s',
+      delay: '0.05s',
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
       fillMode: 'backwards',
     },
@@ -30,17 +30,39 @@ const contentSlide = {
   backwards: {
     old: {
       name: 'contentFadeOut',
-      duration: '0.2s',
+      duration: '0.15s',
       easing: 'ease-in',
       fillMode: 'forwards',
     },
     new: {
       name: 'contentSlideBack',
-      duration: '0.3s',
-      delay: '0.1s',
+      duration: '0.35s',
+      delay: '0.05s',
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
       fillMode: 'backwards',
     },
+  },
+};
+
+const footerReveal = {
+  forwards: {
+    old: { name: 'footerFadeOut', duration: '0.1s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'footerFadeIn', duration: '0.4s', delay: '0.2s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'footerFadeOut', duration: '0.1s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'footerFadeIn', duration: '0.4s', delay: '0.2s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+};
+
+const blogContent = {
+  forwards: {
+    old: { name: 'contentFadeOut', duration: '0.15s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'blogSlideIn', duration: '0.4s', delay: '0.08s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'blogSlideOut', duration: '0.2s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'contentSlideBack', duration: '0.35s', delay: '0.05s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
   },
 };
 
@@ -248,6 +270,39 @@ const ogImageUrl = ogImage.startsWith('http')
         from { opacity: 0; transform: translateY(-12px); }
         to { opacity: 1; transform: translateY(0); }
       }
+      /* Blog post entrance — slides up with a gentle scale */
+      @keyframes blogSlideIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.99); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes blogSlideOut {
+        from { opacity: 1; transform: translateY(0) scale(1); }
+        to { opacity: 0; transform: translateY(8px) scale(0.99); }
+      }
+      /* Footer — subtle fade up */
+      @keyframes footerFadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes footerFadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      /* Smooth crossfade for the page root (background) */
+      ::view-transition-old(root) {
+        animation: pageFadeOut 0.15s ease-in forwards;
+      }
+      ::view-transition-new(root) {
+        animation: pageFadeIn 0.25s ease-out 0.05s backwards;
+      }
+      @keyframes pageFadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      @keyframes pageFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
       /* Respect reduced motion preference */
       @media (prefers-reduced-motion: reduce) {
         ::view-transition-group(*),
@@ -440,7 +495,7 @@ const ogImageUrl = ogImage.startsWith('http')
       <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" transition:animate={contentSlide}>
         <slot />
       </main>
-      {!hideFooter && <Footer />}
+      {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}
     </div>
     <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
     <DailyThemeToggle />
