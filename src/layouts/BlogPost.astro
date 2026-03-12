@@ -8,6 +8,17 @@ import CommentsSection from '../components/CommentsSection.astro';
 const { data, relatedPosts = [], headings = [] } = Astro.props;
 const { title, description, pubDate } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
+
+const blogContent = {
+  forwards: {
+    old: { name: 'contentFadeOut', duration: '0.15s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'blogSlideIn', duration: '0.4s', delay: '0.08s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'blogSlideOut', duration: '0.2s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'contentSlideBack', duration: '0.35s', delay: '0.05s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+};
 // Only render a hero image when explicitly provided.
 // Note: we intentionally do NOT fall back to `ogImage` here so that
 // default OG images (e.g. David's portrait) don't render on the page.
@@ -55,7 +66,7 @@ const articleJsonLd = {
     publishDate={pubDate}
     url={Astro.url.pathname}
   />
-  <article class="blog-post" transition:animate="fade">
+  <article class="blog-post" transition:animate={blogContent}>
     {coverImage && (
       <div class="hero-section">
         <img src={coverImage} alt={title} loading="lazy" decoding="async" />
