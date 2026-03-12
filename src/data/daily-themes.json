@@ -1,6 +1,254 @@
 {
   "themes": [
     {
+      "name": "Rust & Honey",
+      "description": "Industrial warmth meets organic sweetness, like weathered copper pipes in a sun-drenched conservatory",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#CF333F",
+          "--color-link-hover": "#D62828",
+          "--color-border": "#E9C46A",
+          "--color-muted": "#6F4E37",
+          "--color-sidebar-bg": "#FCF0E5",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FEFAF7"
+        },
+        "dark": {
+          "--color-text": "#F4E4C1",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C69",
+          "--color-border": "#B8860B",
+          "--color-muted": "#CD853F",
+          "--color-sidebar-bg": "#211308",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F4E4C1",
+          "--color-card-bg": "#1F1209"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 95"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(139, 69, 19, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-12",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Rust & Honey",
+              "subtitle": "Industrial warmth meets organic sweetness"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s2",
+              "ts1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C1810",
+                  "label": "text"
+                },
+                {
+                  "hex": "#CF333F",
+                  "label": "link"
+                },
+                {
+                  "hex": "#E9C46A",
+                  "label": "border"
+                },
+                {
+                  "hex": "#6F4E37",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#FDF2E9",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FEFAF7",
+                  "label": "card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "lp",
+              "s4"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "ts1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Weathered Copper Dreams",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "end"
+            },
+            "children": [
+              "cs1",
+              "ts2"
+            ]
+          },
+          "cs1": {
+            "type": "ColorSwatch",
+            "props": {
+              "color": "#D62828",
+              "label": "hover"
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sun-drenched conservatory",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Amber Circuit",
       "description": "Rain-slicked electronics gleaming in the amber glow of midnight vending machines",
       "colors": {
@@ -1434,242 +1682,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Electric Tokyo",
-      "description": "Neon-soaked Shibuya nights with rain-slick streets and vertical signage geometry",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F0F2F8",
-          "--color-link": "#FF1493",
-          "--color-link-hover": "#FF6B9D",
-          "--color-border": "#E0E4EA",
-          "--color-muted": "#6B7280",
-          "--color-sidebar-bg": "#E8EAEF",
-          "--color-nav-bg": "#FFFFFF",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FAFBFC"
-        },
-        "dark": {
-          "--color-text": "#E0E6FF",
-          "--color-bg": "#0D1529",
-          "--color-link": "#FF3366",
-          "--color-link-hover": "#FF6B9D",
-          "--color-border": "#1E293B",
-          "--color-muted": "#94A3B8",
-          "--color-sidebar-bg": "#162032",
-          "--color-nav-bg": "#0A1220",
-          "--color-nav-text": "#F1F5F9",
-          "--color-card-bg": "#1A2332"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.04em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 800, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "0.95",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF3366",
-          "#00BFFF",
-          "#FFD700"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-03-05",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Electric Tokyo",
-              "subtitle": "Neon-soaked Shibuya nights"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A1A2E",
-                  "label": "text"
-                },
-                {
-                  "hex": "#FF1493",
-                  "label": "link"
-                },
-                {
-                  "hex": "#FF6B9D",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#E0E4EA",
-                  "label": "border"
-                },
-                {
-                  "hex": "#6B7280",
-                  "label": "muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "霓虹街道",
-              "variant": "heading"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-11"
+  "currentDate": "2026-03-12"
 }
