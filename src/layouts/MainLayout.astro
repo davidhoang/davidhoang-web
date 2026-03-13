@@ -538,25 +538,38 @@ const ogImageUrl = ogImage.startsWith('http')
       });
 
       // Lazy loading with fade-in effect
-      function initLazyImages() {
-        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-        lazyImages.forEach(img => {
-          if (img.complete) {
-            img.classList.add('loaded');
-          } else {
-            img.addEventListener('load', () => {
-              img.classList.add('loaded');
-            }, { once: true });
-          }
-        });
+      function observeImage(img) {
+        if (img.classList.contains('loaded')) return;
+        if (img.complete && img.naturalWidth > 0) {
+          img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+          // Safety: if load event never fires, show the image after 4s
+          img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
+        }
       }
 
-      // Init on page load
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initLazyImages);
-      } else {
-        initLazyImages();
+      function initLazyImages() {
+        document.querySelectorAll('img[loading="lazy"]').forEach(observeImage);
       }
+
+      // Catch images added by client-side components (React, etc.)
+      const imgObserver = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          for (const node of mutation.addedNodes) {
+            if (node instanceof HTMLImageElement && node.loading === 'lazy') {
+              observeImage(node);
+            }
+            if (node instanceof HTMLElement) {
+              node.querySelectorAll?.('img[loading="lazy"]').forEach(observeImage);
+            }
+          }
+        }
+      });
+      imgObserver.observe(document.body, { childList: true, subtree: true });
+
+      // Init existing images
+      initLazyImages();
     </script>
     <script>
       import { injectSpeedInsights } from '@vercel/speed-insights';

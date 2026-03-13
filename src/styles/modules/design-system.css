@@ -387,14 +387,29 @@
 }
 
 /* Lazy loading with fade-in effect
-   Images fade in smoothly when they finish loading */
+   Images fade in smoothly when they finish loading.
+   CSS-only fallback: animation ensures visibility even if JS fails. */
 img[loading="lazy"] {
   opacity: 0;
   transition: opacity 0.4s ease-in-out;
+  animation: img-safety-reveal 0s 3s forwards;
 }
 
 img[loading="lazy"].loaded {
   opacity: 1;
+  animation: none;
+}
+
+@keyframes img-safety-reveal {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img[loading="lazy"] {
+    opacity: 1;
+    transition: none;
+    animation: none;
+  }
 }
 
 /* Performance optimization for off-screen images */
