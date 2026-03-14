@@ -22,7 +22,6 @@ const searchIndex = [
   { title: 'Now', description: 'What David is doing now', path: '/now', type: 'page' },
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
   { title: 'Labs', description: 'Experiments and prototypes', path: '/labs', type: 'page' },
-  { title: 'Works', description: 'Portfolio and projects', path: '/works', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
   // Writing posts
   ...writingPosts.map(post => ({
@@ -112,13 +111,21 @@ const searchIndex = [
     <nav aria-labelledby="mobile-menu-title">
       <h2 id="mobile-menu-title" class="sr-only">Mobile navigation menu</h2>
       <ul class="mobile-nav-links">
-        {navItems.map(item => (
-          <li>
+        {navItems.map((item, i) => (
+          <li style={`--i: ${i}`}>
             <a href={item.path} data-astro-transition="swap" aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
           </li>
         ))}
       </ul>
     </nav>
+    <div class="mobile-menu-footer">
+      <a href="mailto:david@davidhoang.com" class="mobile-menu-email">david@davidhoang.com</a>
+      <div class="mobile-menu-social">
+        <a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -571,16 +578,16 @@ const searchIndex = [
     width: 100%;
     height: 100vh;
     height: 100dvh;
-    background: var(--color-nav-bg, #f5f5f5);
+    background: var(--color-bg);
     z-index: var(--z-modal);
     padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1),
                 opacity 0.2s ease,
-                visibility 0.3s ease;
+                visibility 0.35s ease;
   }
 
   .mobile-menu.active {
@@ -588,6 +595,29 @@ const searchIndex = [
     visibility: visible;
     pointer-events: auto;
     transform: translateX(0);
+  }
+
+  /* Staggered link entrance */
+  .mobile-menu.active .mobile-nav-links li {
+    animation: mobileNavIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(var(--i) * 0.04s + 0.1s);
+  }
+
+  @keyframes mobileNavIn {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu.active .mobile-nav-links li {
+      animation: none;
+    }
   }
 
   /* Ensure mobile menu is hidden by default on larger screens */
@@ -598,9 +628,7 @@ const searchIndex = [
   }
 
   .mobile-menu-content {
-    opacity: 1;
-    transform: translateY(0);
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -611,19 +639,16 @@ const searchIndex = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    opacity: 1;
-    transform: translateY(0);
+    margin-bottom: 0.5rem;
     height: 64px;
-    padding: 0 1rem;
-    background: var(--color-nav-bg, #f5f5f5);
-    border-bottom: 1px solid var(--color-border);
+    padding: 0 1.5rem;
+    background: var(--color-bg);
   }
 
   .close-menu {
     background: none;
     border: none;
-    color: var(--color-nav-text);
+    color: var(--color-text);
     cursor: pointer;
     padding: 0.5rem;
   }
@@ -642,32 +667,71 @@ const searchIndex = [
   }
 
   .mobile-nav-links a {
-    color: var(--color-nav-text);
+    color: var(--color-text);
     text-decoration: none;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     min-height: 52px;
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 0.5rem;
     font-family: var(--font-primary);
-    font-weight: 500;
-    border-radius: 10px;
+    font-weight: 600;
     border-bottom: none;
-    transition: background-color 0.15s ease;
+    border-radius: 0;
+    transition: color var(--duration-fast, 0.15s) ease;
     -webkit-tap-highlight-color: transparent;
   }
 
   .mobile-nav-links a:active {
-    background-color: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
+    color: var(--color-link);
   }
 
   .mobile-nav-links a[aria-current="page"] {
+    color: var(--color-link);
     font-weight: 700;
-    color: var(--color-link, var(--color-nav-text));
   }
 
   .mobile-nav-links a::after {
     display: none;
+  }
+
+  /* Mobile menu footer */
+  .mobile-menu-footer {
+    margin-top: auto;
+    padding: 1.5rem 0.5rem 2rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-menu-email {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text) !important;
+    text-decoration: none !important;
+    border-bottom: none !important;
+  }
+
+  .mobile-menu-email::after {
+    display: none !important;
+  }
+
+  .mobile-menu-social {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .mobile-menu-social a {
+    font-size: 0.85rem;
+    color: var(--color-muted) !important;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    font-weight: 400;
+  }
+
+  .mobile-menu-social a::after {
+    display: none !important;
   }
 
   /* Tablet breakpoint - show mobile menu for smaller tablets */
@@ -938,7 +1002,7 @@ const searchIndex = [
     align-items: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 8px;
     text-decoration: none !important;
     border: none !important;
@@ -1000,22 +1064,6 @@ const searchIndex = [
     border-bottom: none !important;
   }
 
-  /* Type icon */
-  .cmd-result-icon {
-    flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-    opacity: 0.35;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cmd-result:hover .cmd-result-icon,
-  .cmd-result.active .cmd-result-icon {
-    opacity: 0.6;
-  }
-
   /* Text wrapper for title + description */
   .cmd-result-text {
     display: flex;
@@ -1024,7 +1072,7 @@ const searchIndex = [
   }
 
   .cmd-result-title {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     font-weight: 500;
     line-height: 1.4;
   }
