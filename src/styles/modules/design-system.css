@@ -689,3 +689,35 @@ img {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ============================================
+   DARK MODE FIXES
+   ============================================ */
+
+/* Shadows need to be stronger in dark mode to read against dark surfaces */
+[data-theme="dark"] {
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-scrolling: 0 4px 12px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Sunken surface uses hardcoded rgba — fix for dark */
+[data-theme="dark"] .surface-sunken {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Related post cards need visible borders in dark */
+[data-theme="dark"] .related-posts__card {
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .related-posts__card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Back-to-top button dark mode */
+[data-theme="dark"] .back-to-top:hover {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+}

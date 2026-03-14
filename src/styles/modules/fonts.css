@@ -322,3 +322,68 @@ blockquote cite {
 .prose-content p:first-child + p {
   margin-top: 0.5em;
 }
+
+/* Code blocks */
+.prose-content pre {
+  background: var(--color-sidebar-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin: 1.75em 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  tab-size: 2;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-text) 12%, transparent) transparent;
+}
+
+.prose-content pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose-content pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prose-content pre::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-text) 15%, transparent);
+  border-radius: 3px;
+}
+
+/* Astro/Shiki code blocks */
+.prose-content .astro-code {
+  background: var(--color-sidebar-bg) !important;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin: 1.75em 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Inline code */
+.prose-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: color-mix(in srgb, var(--color-text) 6%, transparent);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  word-break: break-word;
+}
+
+/* Don't double-style code inside pre */
+.prose-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  word-break: normal;
+}
+
+/* Blockquote + code contrast */
+.prose-content blockquote code {
+  background: color-mix(in srgb, var(--color-text) 8%, transparent);
+}
