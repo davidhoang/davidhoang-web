@@ -157,7 +157,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
         
         <div class="bio-content-wrapper">
           {bioSections.map((bio, index) => (
-            <div 
+            <div
               class={`bio-content ${index === defaultIndex ? 'active' : ''}`}
               data-version={index}
               data-label={bio.title}
@@ -173,6 +173,52 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
             </div>
           ))}
         </div>
+
+        <section class="work-history" aria-label="Work history">
+          <h2 class="work-history-label">Work</h2>
+          <ul class="work-list" role="list">
+            <li class="work-entry">
+              <span class="work-company">Atlassian</span>
+              <span class="work-role">VP of Design, AI</span>
+              <span class="work-years">2024–</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">Replit</span>
+              <span class="work-role">VP of Marketing & Design</span>
+              <span class="work-years">2022–24</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">Webflow</span>
+              <span class="work-role">Head of Design</span>
+              <span class="work-years">2018–22</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">One Medical</span>
+              <span class="work-role">Product Design</span>
+              <span class="work-years">2015–18</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">Black Pixel</span>
+              <span class="work-role">Design</span>
+              <span class="work-years">2013–15</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">Xhatch</span>
+              <span class="work-role">Founder</span>
+              <span class="work-years">2011–13</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">ExactTarget</span>
+              <span class="work-role">Design</span>
+              <span class="work-years">2008–11</span>
+            </li>
+            <li class="work-entry">
+              <span class="work-company">Various Companies</span>
+              <span class="work-role"></span>
+              <span class="work-years">2006–08</span>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
 </MainLayout>
@@ -343,6 +389,81 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   }
 
   
+  /* Work History */
+  .work-history {
+    margin-top: var(--section-spacing, 4rem);
+    padding-top: var(--spacing-xl, 2rem);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .work-history-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .work-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .work-entry {
+    display: flex;
+    align-items: baseline;
+    padding: 0.625rem 0;
+    gap: 0.5rem;
+  }
+
+  .work-company {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--color-text);
+    flex-shrink: 0;
+  }
+
+  .work-role {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+
+  .work-years {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    margin-left: auto;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 768px) {
+    .work-entry {
+      flex-wrap: wrap;
+      gap: 0.25rem 0.5rem;
+    }
+
+    .work-company {
+      font-size: 1rem;
+    }
+
+    .work-role {
+      font-size: 0.95rem;
+    }
+
+    .work-years {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .work-years {
+      margin-left: auto;
+    }
+  }
+
   /* Ensure images in content stay in container */
   .about-content img {
     max-width: 100%;
