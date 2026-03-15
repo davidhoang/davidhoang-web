@@ -1,0 +1,189 @@
+---
+/**
+ * Compact inline newsletter signup bar.
+ * A single-line CTA with description + email input + subscribe button.
+ * Use when you want a lightweight signup prompt between content sections.
+ */
+---
+
+<section class="inline-newsletter-cta" aria-label="Newsletter signup">
+  <div class="cta-content">
+    <p class="cta-text">
+      <strong>Proof of Concept</strong> — a weekly newsletter on design, technology, and entrepreneurship.
+    </p>
+    <form
+      action="https://www.proofofconcept.pub/api/v1/free"
+      method="post"
+      class="cta-form"
+      id="inline-signup-form"
+    >
+      <label for="inline-email" class="visually-hidden">Email address</label>
+      <input
+        type="email"
+        id="inline-email"
+        name="email"
+        placeholder="your@email.com"
+        required
+        class="cta-email"
+        aria-label="Email address"
+        autocomplete="email"
+      />
+      <button type="submit" class="cta-button">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  const inlineForm = document.getElementById('inline-signup-form') as HTMLFormElement;
+  if (inlineForm) {
+    inlineForm.addEventListener('submit', () => {
+      const button = inlineForm.querySelector('.cta-button') as HTMLButtonElement;
+      if (button) {
+        button.classList.add('is-loading');
+        button.disabled = true;
+      }
+    });
+  }
+</script>
+
+<style>
+  .inline-newsletter-cta {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.5rem 0;
+    margin: var(--section-spacing, 4rem) 0;
+  }
+
+  .cta-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .cta-text {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--color-text);
+    flex-shrink: 0;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .cta-email {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+    background: var(--color-bg);
+    color: var(--color-text);
+    width: 200px;
+    transition: border-color 0.2s ease;
+  }
+
+  .cta-email:focus {
+    outline: none;
+    border-color: var(--color-link);
+  }
+
+  .cta-email::placeholder {
+    color: var(--color-muted);
+    opacity: 0.5;
+  }
+
+  .cta-button {
+    padding: 0.5rem 1.25rem;
+    background: var(--color-link);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .cta-button:hover {
+    background: var(--color-link-hover);
+    transform: translateY(-1px);
+  }
+
+  .cta-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cta-button.is-loading {
+    position: relative;
+    color: transparent;
+  }
+
+  .cta-button.is-loading::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    margin: -7px 0 0 -7px;
+    border: 2px solid var(--color-bg);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: cta-spin 0.6s linear infinite;
+  }
+
+  @keyframes cta-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .cta-button:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    .inline-newsletter-cta {
+      padding-left: var(--container-padding, 1rem);
+      padding-right: var(--container-padding, 1rem);
+    }
+
+    .cta-content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .cta-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .cta-form {
+      flex-direction: column;
+    }
+
+    .cta-email {
+      width: 100%;
+    }
+  }
+</style>
