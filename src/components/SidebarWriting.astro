@@ -47,6 +47,11 @@ const hasHeadings = headings.length > 0;
 </aside>
 
 <script>
+  function initSidebar() {
+    initTocScrollSpy();
+    initStickySidebar();
+  }
+
   function initTocScrollSpy() {
     const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
     if (tocLinks.length === 0) return;
@@ -61,6 +66,8 @@ const hasHeadings = headings.length > 0;
     });
 
     if (headingElements.length === 0) return;
+
+    const tocList = document.querySelector('.toc-list');
 
     function updateActiveHeading() {
       const scrollY = window.scrollY;
@@ -78,13 +85,24 @@ const hasHeadings = headings.length > 0;
       tocLinks.forEach((link) => {
         if (link.dataset.headingSlug === activeSlug) {
           link.classList.add('active');
+          if (tocList) {
+            const item = link.closest('.toc-item') as HTMLElement;
+            if (item) {
+              const listTop = tocList.scrollTop;
+              const listHeight = tocList.clientHeight;
+              const itemTop = item.offsetTop - (tocList as HTMLElement).offsetTop;
+              const itemBottom = itemTop + item.offsetHeight;
+              if (itemTop < listTop || itemBottom > listTop + listHeight) {
+                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
+            }
+          }
         } else {
           link.classList.remove('active');
         }
       });
     }
 
-    // Smooth scroll on click
     tocLinks.forEach((link) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -112,29 +130,71 @@ const hasHeadings = headings.length > 0;
     updateActiveHeading();
   }
 
-  // Support Astro view transitions
-  document.addEventListener('astro:page-load', initTocScrollSpy);
+  function initStickySidebar() {
+    const sidebar = document.querySelector<HTMLElement>('.sidebar');
+    const contentGrid = document.querySelector<HTMLElement>('.content-grid');
+    if (!sidebar || !contentGrid || window.innerWidth <= 768) return;
+
+    const style = getComputedStyle(document.documentElement);
+    const navHeight = parseFloat(style.getPropertyValue('--nav-height')) || 40;
+    // Nav sits at top: 24px on desktop, so its bottom edge is at 64px
+    // Add 24px breathing room below
+    const stickyTop = 24 + navHeight + 24;
+
+    // Record the sidebar's initial page-Y position (before any transform)
+    const initialPageTop = sidebar.getBoundingClientRect().top + window.scrollY;
+
+    function update() {
+      if (window.innerWidth <= 768) {
+        sidebar.style.transform = '';
+        return;
+      }
+
+      const sidebarHeight = sidebar.offsetHeight;
+      const gridBottom = contentGrid.getBoundingClientRect().bottom + window.scrollY;
+      const maxOffset = gridBottom - initialPageTop - sidebarHeight;
+
+      // How far we need to push the sidebar down to keep it at stickyTop
+      const desiredOffset = window.scrollY + stickyTop - initialPageTop;
+
+      if (desiredOffset <= 0) {
+        sidebar.style.transform = '';
+      } else {
+        const clamped = Math.min(desiredOffset, Math.max(0, maxOffset));
+        sidebar.style.transform = `translateY(${clamped}px)`;
+      }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+
+    window.addEventListener('resize', () => {
+      sidebar.style.transform = '';
+    });
+
+    update();
+  }
+
+  document.addEventListener('astro:page-load', initSidebar);
 </script>
 
 <style>
   .sidebar {
-    position: sticky;
-    top: calc(var(--nav-height) + 2rem);
+    align-self: start;
     padding: 1.25rem 1.25rem 1.25rem 1.5rem;
     width: 250px;
     background-color: var(--color-sidebar-bg);
     border: var(--border-default);
     border-radius: var(--radius-lg);
-    height: fit-content;
     max-height: calc(100vh - var(--nav-height) - 4rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--color-text) 12%, transparent) transparent;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* no transition — sidebar position tracks scroll synchronously */
   }
 
   .sidebar-section {
     margin-bottom: 1.25rem;
+    flex-shrink: 0;
   }
 
   .sidebar-section:last-child {
@@ -162,16 +222,17 @@ const hasHeadings = headings.length > 0;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 1rem;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-text) 12%, transparent) transparent;
   }
 
   .toc-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 40vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--color-text) 12%, transparent) transparent;
   }
 
   .toc-item {
@@ -275,6 +336,8 @@ const hasHeadings = headings.length > 0;
       position: static;
       width: 100%;
       max-height: none;
+      overflow: visible;
+      display: block;
       margin-top: 2rem;
       padding: 1.25rem;
     }

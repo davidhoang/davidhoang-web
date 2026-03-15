@@ -83,16 +83,24 @@ const articleJsonLd = {
         </div>
         {relatedPosts.length > 0 && (
           <section class="related-posts">
-            <h2 class="related-posts__heading">Related</h2>
+            <h2 class="related-posts__heading">Related articles</h2>
             <div class="related-posts__grid">
-              {relatedPosts.map((rp: any) => (
-                <a href={`/writing/${rp.slug}`} class="related-posts__card">
-                  <span class="related-posts__title">{rp.data.title}</span>
-                  <time datetime={rp.data.pubDate.toISOString()}>
-                    {new Date(rp.data.pubDate).toLocaleDateString()}
-                  </time>
-                </a>
-              ))}
+              {relatedPosts.map((rp: any) => {
+                const thumb = rp.data.coverImage || rp.data.ogImage || `/api/og?title=${encodeURIComponent(rp.data.title)}&type=writing`;
+                return (
+                  <a href={`/writing/${rp.slug}`} class="related-posts__card">
+                    <div class="related-posts__thumb">
+                      <img src={thumb} alt="" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="related-posts__info">
+                      <span class="related-posts__title">{rp.data.title}</span>
+                      <time datetime={rp.data.pubDate.toISOString()}>
+                        {new Date(rp.data.pubDate).toLocaleDateString()}
+                      </time>
+                    </div>
+                  </a>
+                );
+              })}
             </div>
           </section>
         )}
@@ -150,7 +158,6 @@ const articleJsonLd = {
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 3rem;
-    align-items: start;
   }
 
   .post-image {
@@ -168,6 +175,21 @@ const articleJsonLd = {
     font-size: 0.9rem;
     display: block;
     margin: 1rem 0;
+  }
+
+  /* "Originally posted on" attribution */
+  .prose-content > hr:last-of-type {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0 1rem;
+  }
+
+  .prose-content > hr:last-of-type + p,
+  .prose-content > hr:last-of-type + p em,
+  .prose-content > p:last-child em {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    font-style: normal;
   }
 
   .related-posts {
@@ -194,12 +216,11 @@ const articleJsonLd = {
   .related-posts__card {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
+    overflow: hidden;
     transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
   }
 
@@ -212,6 +233,27 @@ const articleJsonLd = {
     transform: translateY(-2px);
   }
 
+  .related-posts__thumb {
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    overflow: hidden;
+    background: var(--color-sidebar-bg);
+  }
+
+  .related-posts__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .related-posts__info {
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
   .related-posts__title {
     font-size: 0.9375rem;
     font-weight: 600;
@@ -221,6 +263,7 @@ const articleJsonLd = {
   .related-posts__card time {
     font-size: 0.8125rem;
     color: var(--color-muted);
+    margin: 0;
   }
 
   .back-to-top {
@@ -279,6 +322,22 @@ const articleJsonLd = {
 
     .related-posts__grid {
       grid-template-columns: 1fr;
+    }
+
+    .related-posts__card {
+      flex-direction: row;
+    }
+
+    .related-posts__thumb {
+      width: 120px;
+      flex-shrink: 0;
+      aspect-ratio: auto;
+      align-self: stretch;
+    }
+
+    .related-posts__info {
+      flex: 1;
+      justify-content: center;
     }
 
     .related-posts__title {
