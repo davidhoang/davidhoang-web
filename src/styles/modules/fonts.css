@@ -255,6 +255,42 @@ blockquote cite {
 }
 
 /* Prose Content (for markdown/blog posts) */
+
+/* Article heading hierarchy — scaled down from page-level display sizes */
+.prose-content h2 {
+  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+}
+
+.prose-content h3 {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.prose-content h4 {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.3;
+  letter-spacing: 0;
+  margin-top: 1.75em;
+  margin-bottom: 0.5em;
+}
+
+.prose-content h5 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 1.75em;
+  margin-bottom: 0.5em;
+  color: var(--color-muted);
+}
+
 .prose-content p {
   margin-bottom: 1.5em;
 }
