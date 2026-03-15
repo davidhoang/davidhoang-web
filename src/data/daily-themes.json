@@ -1,6 +1,219 @@
 {
   "themes": [
     {
+      "name": "Concrete Cathedral",
+      "description": "Brutalist minimalism meets sacred geometry with warm concrete textures and golden light",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2A26",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#8A6508",
+          "--color-link-hover": "#DAA520",
+          "--color-border": "#D4CFC7",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#F5F3F0",
+          "--color-nav-text": "#2C2A26",
+          "--color-card-bg": "#FAFAF8"
+        },
+        "dark": {
+          "--color-text": "#E8E6E3",
+          "--color-bg": "#1A1816",
+          "--color-link": "#DAA520",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#3A3631",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#211E1B",
+          "--color-nav-bg": "#1A1816",
+          "--color-nav-text": "#E8E6E3",
+          "--color-card-bg": "#1F1D1A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "bold-bar",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#F5F3F0",
+          "#DAA520"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-15",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Cathedral",
+              "subtitle": "Brutalist minimalism meets sacred geometry"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "t1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "l1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "brutalist",
+              "variant": "filled"
+            }
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            }
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            }
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sacred Geometry",
+              "variant": "heading",
+              "weight": "bold"
+            }
+          },
+          "s3": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F3F0",
+                  "label": "base"
+                },
+                {
+                  "hex": "#2C2A26",
+                  "label": "text"
+                },
+                {
+                  "hex": "#DAA520",
+                  "label": "gold"
+                },
+                {
+                  "hex": "#8A6508",
+                  "label": "link"
+                },
+                {
+                  "hex": "#D4CFC7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#FAFAF8",
+                  "label": "card"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Church of Light",
       "description": "Tadao Ando's concrete cathedral meets sacred geometry, where brutalist restraint creates spiritual atmosphere",
       "colors": {
@@ -1437,236 +1650,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Deep burgundy velvet meets electric gold accents in a luxurious yet rebellious editorial experience",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D0A1F",
-          "--color-bg": "#FDF8F0",
-          "--color-link": "#CF333F",
-          "--color-link-hover": "#FF1744",
-          "--color-border": "#E8D5C4",
-          "--color-muted": "#8D6E63",
-          "--color-sidebar-bg": "#F5E6D3",
-          "--color-nav-bg": "#FEFCF8",
-          "--color-nav-text": "#3E2723",
-          "--color-card-bg": "#FFFBF5"
-        },
-        "dark": {
-          "--color-text": "#F5E6D8",
-          "--color-bg": "#1A0F14",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFA000",
-          "--color-border": "#4A2C2A",
-          "--color-muted": "#8D6E63",
-          "--color-sidebar-bg": "#2D1B1F",
-          "--color-nav-bg": "#0F0A0D",
-          "--color-nav-text": "#E0C2A6",
-          "--color-card-bg": "#241419"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 600, 'opsz' 48"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 12px 24px rgba(46, 10, 31, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-03-08",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Thunder",
-              "subtitle": "Luxurious rebellion in editorial form"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "l1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "outlined"
-            }
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            }
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "p1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Thunder Rolls Deep",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2D0A1F",
-                  "label": "text"
-                },
-                {
-                  "hex": "#CF333F",
-                  "label": "link"
-                },
-                {
-                  "hex": "#8D6E63",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#E8D5C4",
-                  "label": "border"
-                },
-                {
-                  "hex": "#F5E6D3",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#FDF8F0",
-                  "label": "bg"
-                }
-              ]
-            }
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Crimson words flow like velvet across gilded pages",
-              "variant": "body"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-14"
+  "currentDate": "2026-03-15"
 }
