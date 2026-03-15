@@ -274,12 +274,12 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     border: 2px solid var(--color-bg);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, border-color 0.4s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--color-text) 20%, transparent);
   }
 
   .bio-slider::-webkit-slider-thumb:hover {
     transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text) 30%, transparent);
   }
 
   .bio-slider:focus-visible::-webkit-slider-thumb {
@@ -295,12 +295,12 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     border: 2px solid var(--color-bg);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, border-color 0.4s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--color-text) 20%, transparent);
   }
 
   .bio-slider::-moz-range-thumb:hover {
     transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text) 30%, transparent);
   }
 
   .bio-slider:focus-visible::-moz-range-thumb {
