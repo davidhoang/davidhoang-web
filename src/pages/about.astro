@@ -175,7 +175,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
         </div>
 
         <section class="work-history" aria-label="Work history">
-          <h2 class="work-history-label">Work</h2>
+          <h2 class="work-history-heading">Work</h2>
           <ul class="work-list" role="list">
             <li class="work-entry">
               <span class="work-company">Atlassian</span>
@@ -396,13 +396,13 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     border-top: 1px solid var(--color-border);
   }
 
-  .work-history-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-muted);
-    margin: 0 0 1.25rem;
+  .work-history-heading {
+    font-size: var(--h2-size);
+    font-weight: var(--heading-weight, 600);
+    letter-spacing: var(--h2-letter-spacing, -0.02em);
+    line-height: var(--h2-line-height, 1.15);
+    color: var(--color-text);
+    margin: 0 0 1rem;
   }
 
   .work-list {
@@ -414,8 +414,9 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   .work-entry {
     display: flex;
     align-items: baseline;
-    padding: 0.625rem 0;
+    padding: 0.15rem 0;
     gap: 0.5rem;
+    line-height: 1.2;
   }
 
   .work-company {
