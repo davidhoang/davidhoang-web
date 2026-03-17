@@ -1,6 +1,214 @@
 {
   "themes": [
     {
+      "name": "Golden Slit",
+      "description": "Raw concrete meets sacred light through minimalist brutalist expression",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8935F",
+          "--color-border": "#E0DDD8",
+          "--color-muted": "#6B6B6B",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#F5F3F0",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#FAFAF8"
+        },
+        "dark": {
+          "--color-text": "#F5F3F0",
+          "--color-bg": "#1A1A1A",
+          "--color-link": "#E6B887",
+          "--color-link-hover": "#D4A574",
+          "--color-border": "#333333",
+          "--color-muted": "#A0A0A0",
+          "--color-sidebar-bg": "#252525",
+          "--color-nav-bg": "#1A1A1A",
+          "--color-nav-text": "#F5F3F0",
+          "--color-card-bg": "#212121"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "500",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 500"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-17",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Golden Slit",
+              "subtitle": "Raw concrete meets sacred light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s2",
+              "t1"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F3F0",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FAFAF8",
+                  "label": "card"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "link"
+                },
+                {
+                  "hex": "#B8935F",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#E0DDD8",
+                  "label": "border"
+                },
+                {
+                  "hex": "#2C2C2C",
+                  "label": "text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "l1",
+              "b1",
+              "b2"
+            ]
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "brutalist",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sacred Minimalism",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Graphite Abbey",
       "description": "Monastic minimalism meets raw concrete textures with precise graphite typography and cathedral-like spatial breathing room.",
       "colors": {
@@ -1405,244 +1613,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Marrakech Tiles",
-      "description": "Warm terracotta earth meets intricate geometric patterns, like wandering through a sunlit riad courtyard.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2D1B14",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C5303C",
-          "--color-link-hover": "#C8102E",
-          "--color-border": "#D4A574",
-          "--color-muted": "#8B6F47",
-          "--color-sidebar-bg": "#F4E4D1",
-          "--color-nav-bg": "#F8EDE0",
-          "--color-nav-text": "#2D1B14",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#F4E4D1",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C42",
-          "--color-border": "#8B6F47",
-          "--color-muted": "#A67C52",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#221812",
-          "--color-nav-text": "#F4E4D1",
-          "--color-card-bg": "#2A1F16"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 600, 'opsz' 144"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(139, 111, 71, 0.15)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-03-10",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Marrakech Tiles",
-              "subtitle": "Sunlit riad courtyard vibes"
-            },
-            "children": [
-              "s1",
-              "div",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            }
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          },
-          "div": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            }
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "ts",
-              "cp",
-              "s3"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Geometric Courtyard",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "cream"
-                },
-                {
-                  "hex": "#F4E4D1",
-                  "label": "sand"
-                },
-                {
-                  "hex": "#D4A574",
-                  "label": "gold"
-                },
-                {
-                  "hex": "#C5303C",
-                  "label": "clay"
-                },
-                {
-                  "hex": "#8B6F47",
-                  "label": "earth"
-                },
-                {
-                  "hex": "#2D1B14",
-                  "label": "umber"
-                }
-              ]
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "cs1",
-              "cs2"
-            ]
-          },
-          "cs1": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#C5303C",
-              "label": "Link"
-            }
-          },
-          "cs2": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#FAF0E6",
-              "label": "Card"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-16"
+  "currentDate": "2026-03-17"
 }
