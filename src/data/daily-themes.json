@@ -1,6 +1,227 @@
 {
   "themes": [
     {
+      "name": "Temple Shaft",
+      "description": "Raw concrete meets divine light in this brutalist sanctuary of minimal worship",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2420",
+          "--color-bg": "#F5F2ED",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#A39388",
+          "--color-muted": "#6B6157",
+          "--color-sidebar-bg": "#F0EDE6",
+          "--color-nav-bg": "#F8F5EF",
+          "--color-nav-text": "#2C2420",
+          "--color-card-bg": "#F8F5EF"
+        },
+        "dark": {
+          "--color-text": "#E8E1D6",
+          "--color-bg": "#1A1714",
+          "--color-link": "#F4D03F",
+          "--color-link-hover": "#F7DC6F",
+          "--color-border": "#3A3530",
+          "--color-muted": "#8B7E72",
+          "--color-sidebar-bg": "#201D19",
+          "--color-nav-bg": "#1E1B17",
+          "--color-nav-text": "#E8E1D6",
+          "--color-card-bg": "#1E1B17"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 95"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "72px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-18",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Temple Shaft",
+              "subtitle": "Brutalist sanctuary of minimal worship"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "b1",
+              "h1",
+              "lp",
+              "s2",
+              "d1",
+              "p1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "DIVINE LIGHT",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "t1",
+              "b2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Raw concrete meets sacred geometry",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F2ED",
+                  "label": "stone"
+                },
+                {
+                  "hex": "#2C2420",
+                  "label": "shadow"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "gold"
+                },
+                {
+                  "hex": "#A39388",
+                  "label": "ash"
+                },
+                {
+                  "hex": "#F8F5EF",
+                  "label": "light"
+                }
+              ]
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Golden Slit",
       "description": "Raw concrete meets sacred light through minimalist brutalist expression",
       "colors": {
@@ -1382,238 +1603,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Amber Circuit",
-      "description": "Rain-slicked electronics gleaming in the amber glow of midnight vending machines",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#FEF3E2",
-          "--color-link": "#B34B00",
-          "--color-link-hover": "#FF8533",
-          "--color-border": "#E6D7C3",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#FDF0E1",
-          "--color-nav-bg": "#FDEDE0",
-          "--color-nav-text": "#2D2D4A",
-          "--color-card-bg": "#FCF6F0"
-        },
-        "dark": {
-          "--color-text": "#E8E8F0",
-          "--color-bg": "#16213E",
-          "--color-link": "#FFB366",
-          "--color-link-hover": "#FF9933",
-          "--color-border": "#2A3A5C",
-          "--color-muted": "#8B9DC3",
-          "--color-sidebar-bg": "#1A2847",
-          "--color-nav-bg": "#1D2B4D",
-          "--color-nav-text": "#D4DDF0",
-          "--color-card-bg": "#1C2952"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 4px 16px rgba(0,0,0,0.1)",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.92",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#FFB366",
-          "#2A3A5C"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-03-11",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Amber Circuit",
-              "subtitle": "Rain-slicked electronics in midnight glow"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "cp",
-              "lp"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FEF3E2",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#B34B00",
-                  "label": "link"
-                },
-                {
-                  "hex": "#FF8533",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#E6D7C3",
-                  "label": "border"
-                },
-                {
-                  "hex": "#8B7355",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#FCF6F0",
-                  "label": "card"
-                }
-              ]
-            }
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "ts",
-              "s3"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "[MIDNIGHT VENDORS]",
-              "variant": "heading"
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "filled"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-17"
+  "currentDate": "2026-03-18"
 }
