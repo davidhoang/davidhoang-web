@@ -128,6 +128,26 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 ---
 
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "David Hoang",
+    "url": "https://www.davidhoang.com",
+    "image": "https://www.davidhoang.com/images/img-david-sf.webp",
+    "jobTitle": "VP of Design, AI",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Atlassian",
+      "url": "https://www.atlassian.com"
+    },
+    "description": pageDescription,
+    "sameAs": [
+      "https://twitter.com/davidhoang",
+      "https://www.linkedin.com/in/davidhoang",
+      "https://github.com/davidhoang"
+    ],
+    "knowsAbout": ["Design", "AI", "Product Design", "Engineering", "Entrepreneurship"]
+  })} />
   <PageHeader
     title="About"
     image="/images/header-images/img-about.webp"

@@ -38,7 +38,7 @@ const isoDate = pubDate instanceof Date ? pubDate.toISOString() : new Date(pubDa
 
 const articleJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
+  "@type": "BlogPosting",
   "headline": title,
   "description": pageDescription,
   "datePublished": isoDate,
@@ -46,13 +46,23 @@ const articleJsonLd = {
   "author": {
     "@type": "Person",
     "name": "David Hoang",
-    "url": "https://www.davidhoang.com"
+    "url": "https://www.davidhoang.com",
+    "sameAs": [
+      "https://twitter.com/davidhoang",
+      "https://www.linkedin.com/in/davidhoang",
+      "https://github.com/davidhoang"
+    ]
   },
   "image": ogImageUrl,
   "url": canonicalUrl,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalUrl
+  },
   "publisher": {
     "@type": "Person",
-    "name": "David Hoang"
+    "name": "David Hoang",
+    "url": "https://www.davidhoang.com"
   }
 };
 ---

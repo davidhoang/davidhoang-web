@@ -81,6 +81,20 @@ interface Props {
   pageType?: 'home' | 'blog' | 'about';
 }
 
+// Build breadcrumb list from URL path
+const breadcrumbSegments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  { name: 'Home', url: 'https://www.davidhoang.com/' }
+];
+let cumulativePath = '';
+for (const segment of breadcrumbSegments) {
+  cumulativePath += `/${segment}`;
+  const name = segment
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c: string) => c.toUpperCase());
+  breadcrumbItems.push({ name, url: `https://www.davidhoang.com${cumulativePath}` });
+}
+
 const { 
   title, 
   description = "The official website of David Hoang", 
@@ -134,6 +148,8 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content={title} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="davidhoang.com" />
     <meta property="og:locale" content="en_US" />
 
@@ -184,6 +200,19 @@ const ogImageUrl = ogImage.startsWith('http')
         "url": "https://www.davidhoang.com"
       }
     })} />
+
+    {breadcrumbItems.length > 1 && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbItems.map((item, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "name": item.name,
+          "item": item.url
+        }))
+      })} />
+    )}
 
     <slot name="head" />
 
