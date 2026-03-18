@@ -115,6 +115,76 @@ const articleJsonLd = {
     </svg>
   </button>
   <script>
+    /**
+     * Elegant smooth scroll with easing — slower and more refined than
+     * the browser's native `scroll-behavior: smooth`.
+     */
+    function smoothScrollTo(targetY: number, duration = 1000) {
+      const startY = window.scrollY;
+      const distance = targetY - startY;
+      if (Math.abs(distance) < 1) return;
+
+      let startTime: number | null = null;
+
+      // Cubic ease-in-out for a natural, elegant feel
+      function ease(t: number): number {
+        return t < 0.5
+          ? 4 * t * t * t
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function step(timestamp: number) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        window.scrollTo(0, startY + distance * ease(progress));
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    /**
+     * Handle clicks on in-content anchor links (e.g. #apps-as-views)
+     * and hash navigation on page load.
+     */
+    function initAnchorScroll() {
+      const navHeight = 88; // nav offset for scroll target
+      const scrollDuration = 1000; // ms — tune for feel
+
+      // Intercept clicks on all in-page anchor links within the article
+      document.querySelector('.blog-post')?.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
+        if (!link) return;
+        const id = decodeURIComponent(link.getAttribute('href')!.slice(1));
+        const target = document.getElementById(id);
+        if (!target) return;
+
+        e.preventDefault();
+        const targetY = target.getBoundingClientRect().top + window.scrollY - navHeight;
+        smoothScrollTo(targetY, scrollDuration);
+        history.pushState(null, '', `#${id}`);
+      });
+
+      // Handle initial hash in URL (e.g. arriving from an external link)
+      if (window.location.hash) {
+        const id = decodeURIComponent(window.location.hash.slice(1));
+        const target = document.getElementById(id);
+        if (target) {
+          // Small delay to let the page render before scrolling
+          requestAnimationFrame(() => {
+            const targetY = target.getBoundingClientRect().top + window.scrollY - navHeight;
+            smoothScrollTo(targetY, scrollDuration);
+          });
+        }
+      }
+    }
+
+    initAnchorScroll();
+    document.addEventListener('astro:after-swap', initAnchorScroll);
+
     function initBackToTop() {
       const btn = document.getElementById('back-to-top');
       if (!btn) return;
@@ -132,7 +202,7 @@ const articleJsonLd = {
       toggle();
 
       btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        smoothScrollTo(0, 1000);
       });
     }
 
