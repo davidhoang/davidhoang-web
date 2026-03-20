@@ -1,6 +1,223 @@
 {
   "themes": [
     {
+      "name": "Marrakech Tiles",
+      "description": "Terra cotta warmth meets geometric precision in an ancient riad at golden hour",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2D1B14",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#C5303C",
+          "--color-link-hover": "#D62828",
+          "--color-border": "#E9C46A",
+          "--color-muted": "#8D5524",
+          "--color-sidebar-bg": "#FCF0E4",
+          "--color-nav-bg": "#FBF0E6",
+          "--color-nav-text": "#2D1B14",
+          "--color-card-bg": "#FDEBD0"
+        },
+        "dark": {
+          "--color-text": "#F4E5D3",
+          "--color-bg": "#2C1810",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C42",
+          "--color-border": "#8D5524",
+          "--color-muted": "#A67C52",
+          "--color-sidebar-bg": "#342018",
+          "--color-nav-bg": "#1F130C",
+          "--color-nav-text": "#F4E5D3",
+          "--color-card-bg": "#3A2520"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "500",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 500, 'opsz' 20"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(139, 85, 36, 0.12)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-03-20",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Marrakech Tiles",
+              "subtitle": "Terra cotta warmth meets geometric precision"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "filled"
+            }
+          },
+          "lp1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            }
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            }
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "t1",
+              "p1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Golden Hour in the Riad",
+              "variant": "heading",
+              "weight": "medium"
+            }
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "sand"
+                },
+                {
+                  "hex": "#C5303C",
+                  "label": "terra"
+                },
+                {
+                  "hex": "#E9C46A",
+                  "label": "gold"
+                },
+                {
+                  "hex": "#8D5524",
+                  "label": "spice"
+                },
+                {
+                  "hex": "#FDEBD0",
+                  "label": "cream"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Midnight Katakana",
       "description": "Rain-soaked Tokyo streets where neon signs blur into digital poetry",
       "colors": {
@@ -1342,247 +1559,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Electric Tokyo",
-      "description": "Shibuya's neon glow reflected in rain-slicked streets — vibrant katakana energy meets atmospheric depth",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F5F2FF",
-          "--color-link": "#CC1076",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#E0D9FF",
-          "--color-muted": "#6B7280",
-          "--color-sidebar-bg": "#EFECFF",
-          "--color-nav-bg": "#F0EDFF",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FEFCFF"
-        },
-        "dark": {
-          "--color-text": "#F8FAFC",
-          "--color-bg": "#0F1129",
-          "--color-link": "#FF1493",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2D1B69",
-          "--color-muted": "#94A3B8",
-          "--color-sidebar-bg": "#141632",
-          "--color-nav-bg": "#12142E",
-          "--color-nav-text": "#F8FAFC",
-          "--color-card-bg": "#16193A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.05em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 800, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(255, 20, 147, 0.15)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "0.95",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF1493",
-          "#00BFFF",
-          "#FFB800"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-03-13",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Electric Tokyo",
-              "subtitle": "Neon meets atmospheric depth"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "br",
-              "p1",
-              "div",
-              "s2"
-            ]
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "asymmetric",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#CC1076",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#00BFFF",
-                  "label": "Hover"
-                },
-                {
-                  "hex": "#1A1A2E",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#F5F2FF",
-                  "label": "Background"
-                },
-                {
-                  "hex": "#E0D9FF",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#EFECFF",
-                  "label": "Sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "ts",
-              "lp"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "渋谷の輝き",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-19"
+  "currentDate": "2026-03-20"
 }
