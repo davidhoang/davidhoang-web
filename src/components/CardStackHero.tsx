@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
-import type { HeroLayout, LayoutProps } from './hero/types';
+import type { Card, HeroLayout, LayoutProps } from './hero/types';
+import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import StackedFanLayout from './hero/layouts/StackedFanLayout';
 import EditorialLayout from './hero/layouts/EditorialLayout';
@@ -23,7 +24,35 @@ export default function CardStackHero() {
   const [isInView, setIsInView] = useState(false);
   const [cardStyle, setCardStyle] = useState<string | null>(null);
   const [heroLayout, setHeroLayout] = useState<HeroLayout>('stacked-fan');
+  const [cardPaletteRev, setCardPaletteRev] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Daily theme: recolor hero cards from --color-link family; default theme keeps types.ts colors
+  useEffect(() => {
+    const bump = () => setCardPaletteRev((n) => n + 1);
+    bump();
+    const rafId = requestAnimationFrame(bump);
+    const obs = new MutationObserver(bump);
+    obs.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-daily-theme', 'data-theme', 'data-e-ink'],
+    });
+    window.addEventListener('theme-changed', bump);
+    return () => {
+      cancelAnimationFrame(rafId);
+      obs.disconnect();
+      window.removeEventListener('theme-changed', bump);
+    };
+  }, []);
+
+  const displayCards: Card[] = useMemo(() => {
+    const themed = deriveHeroCardPalette(cards.length);
+    if (!themed) return cards;
+    return cards.map((c, i) => ({
+      ...c,
+      color: themed[i] ?? c.color,
+    }));
+  }, [cardPaletteRev]);
 
   // Observe data-card-style and data-hero-layout on <html>
   useEffect(() => {
@@ -140,7 +169,7 @@ export default function CardStackHero() {
           <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
         </header>
         <LayoutComponent
-          cards={cards}
+          cards={displayCards}
           selectedCard={selectedCard}
           hoveredCard={hoveredCard}
           isLoaded={isLoaded}
