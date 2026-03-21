@@ -3,18 +3,31 @@ interface Props {
   title?: string;
   description?: string;
   showTitle?: boolean;
+  /** Set when this block is the sole newsletter region (avoids duplicate ids on example pages). */
+  headingId?: string;
 }
 
-const { 
-  title = "Proof of Concept",
-  description = "Get my newsletter every Sunday about design, technology, and entrepreneurship.",
-  showTitle = true
+const {
+  title = 'Proof of Concept',
+  description = 'Get my newsletter every Sunday about design, technology, and entrepreneurship.',
+  showTitle = true,
+  headingId,
 } = Astro.props;
+
+const isBrandTitle = title === 'Proof of Concept';
 ---
 
 <div class="substack-signup">
   <div class="signup-header">
-    {showTitle && <h2 class="signup-title">{title}</h2>}
+    {
+      showTitle && isBrandTitle && (
+        <h2 class="signup-title signup-title--brand" id={headingId}>
+          <span class="signup-title-line">Proof of</span>
+          <span class="signup-title-line">Concept</span>
+        </h2>
+      )
+    }
+    {showTitle && !isBrandTitle && <h2 class="signup-title signup-title--custom" id={headingId}>{title}</h2>}
     {description && <p class="signup-description">{description}</p>}
   </div>
 
@@ -25,26 +38,38 @@ const {
     id="substack-signup-form"
   >
     <div class="form-group">
-      <label for="email" class="visually-hidden">Email address</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="email address"
-        required
-        class="email-input"
-        aria-label="Email address"
-        autocomplete="email"
-      />
+      <div class="email-input-shell">
+        <label for="email" class="visually-hidden">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email address"
+          required
+          class="email-input"
+          aria-label="Email address for newsletter signup"
+          autocomplete="email"
+          data-placeholder-rotate
+        />
+        <div class="email-input-rail" aria-hidden="true"></div>
+      </div>
     </div>
 
     <div class="form-actions">
       <button type="submit" class="subscribe-button">
-        Subscribe
+        <span class="subscribe-button-label">Subscribe</span>
+        <span class="subscribe-button-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
       </button>
-      <p class="signup-footnote">
-        Free, no spam. Unsubscribe anytime.
-      </p>
+      <p class="signup-footnote">Free, no spam. Unsubscribe anytime.</p>
     </div>
   </form>
 </div>
@@ -54,7 +79,6 @@ const {
     border-top: 1px solid var(--color-border);
     padding: 4rem 0 3rem 0;
     width: 100%;
-    overflow: hidden;
   }
 
   .signup-header {
@@ -70,11 +94,20 @@ const {
     line-height: 0.95;
   }
 
+  .signup-title--brand .signup-title-line {
+    display: block;
+  }
+
+  .signup-title--custom {
+    max-width: 20ch;
+  }
+
   .signup-description {
     margin: 0;
     color: var(--color-muted);
     font-size: 1.15rem;
     line-height: 1.5;
+    max-width: 36ch;
   }
 
   .signup-form {
@@ -88,11 +121,15 @@ const {
     width: 100%;
   }
 
+  .email-input-shell {
+    position: relative;
+    width: 100%;
+  }
+
   .email-input {
     width: 100%;
     padding: 0.25em 0;
     border: none;
-    border-bottom: 3px solid var(--color-border);
     border-radius: 0;
     font-size: clamp(2rem, 7vw, 5rem);
     font-family: var(--font-primary);
@@ -100,29 +137,67 @@ const {
     letter-spacing: -0.02em;
     background: transparent;
     color: var(--color-text);
-    transition: border-color 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-sizing: border-box;
+  }
+
+  .email-input-shell:focus-within .email-input {
+    transform: translateY(-2px);
   }
 
   .email-input:focus {
     outline: none;
-    border-color: var(--color-link);
   }
 
   .email-input::placeholder {
     color: var(--color-muted);
-    opacity: 0.25;
+    opacity: 0.35;
     font-weight: 600;
+  }
+
+  .email-input-rail {
+    height: 4px;
+    border-radius: 999px;
+    margin-top: 0.15rem;
+    background: color-mix(in srgb, var(--color-border) 85%, transparent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .email-input-rail::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-link);
+    transform: scaleX(0.15);
+    transform-origin: left center;
+    opacity: 0.45;
+    transition:
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.35s ease,
+      background-color 0.35s ease;
+  }
+
+  .email-input-shell:focus-within .email-input-rail::after {
+    transform: scaleX(1);
+    opacity: 1;
+    background: var(--color-link-hover);
   }
 
   .form-actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    flex-wrap: wrap;
   }
 
   .subscribe-button {
-    padding: 1rem 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.75rem 1rem 2rem;
     background: var(--color-link);
     color: var(--color-bg);
     border: none;
@@ -132,23 +207,48 @@ const {
     font-family: var(--font-primary);
     cursor: pointer;
     white-space: nowrap;
-    transition: transform var(--duration-normal) ease, box-shadow var(--duration-normal) ease, background var(--duration-normal) ease;
+    transition:
+      transform var(--duration-normal, 0.25s) cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow var(--duration-normal, 0.25s) ease,
+      background var(--duration-normal, 0.25s) ease;
     flex-shrink: 0;
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--color-text) 18%, transparent);
+  }
+
+  .subscribe-button-icon {
+    display: flex;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .subscribe-button:hover {
     background: var(--color-link-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px) rotate(-1deg);
+    box-shadow:
+      0 8px 24px color-mix(in srgb, var(--color-link) 35%, transparent),
+      0 6px 0 color-mix(in srgb, var(--color-text) 12%, transparent);
   }
 
-  [data-theme="dark"] .subscribe-button:hover {
-    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+  .subscribe-button:hover .subscribe-button-icon {
+    transform: translate(3px, -3px) rotate(12deg);
+  }
+
+  [data-theme='dark'] .subscribe-button {
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--color-bg) 25%, transparent);
+  }
+
+  [data-theme='dark'] .subscribe-button:hover {
+    box-shadow:
+      0 8px 28px color-mix(in srgb, var(--color-link) 45%, transparent),
+      0 6px 0 color-mix(in srgb, var(--color-bg) 18%, transparent);
   }
 
   .subscribe-button:active {
-    transform: translateY(0);
-    box-shadow: none;
+    transform: translateY(0) rotate(0);
+    box-shadow: 0 2px 0 color-mix(in srgb, var(--color-text) 15%, transparent);
+  }
+
+  .subscribe-button:active .subscribe-button-icon {
+    transform: translate(1px, -1px);
   }
 
   .subscribe-button:disabled {
@@ -160,6 +260,10 @@ const {
   .subscribe-button.is-loading {
     position: relative;
     color: transparent;
+  }
+
+  .subscribe-button.is-loading .subscribe-button-icon {
+    opacity: 0;
   }
 
   .subscribe-button.is-loading::after {
@@ -177,7 +281,9 @@ const {
   }
 
   @keyframes btn-spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .subscribe-button:focus-visible {
@@ -189,10 +295,20 @@ const {
     margin: 0;
     font-size: 0.85rem;
     color: var(--color-muted);
-    opacity: 0.6;
+    opacity: 0.75;
+    animation: signup-footnote-nudge 6s ease-in-out infinite;
   }
 
-  /* Visually hidden but accessible to screen readers */
+  @keyframes signup-footnote-nudge {
+    0%,
+    100% {
+      opacity: 0.65;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+
   .visually-hidden {
     position: absolute;
     width: 1px;
@@ -205,7 +321,6 @@ const {
     border-width: 0;
   }
 
-  /* Compact variant for sidebar or inline use */
   .substack-signup.compact {
     padding: 1.5rem 0;
   }
@@ -224,7 +339,17 @@ const {
     font-size: 1.5rem;
   }
 
-  /* Mobile */
+  .substack-signup.compact .subscribe-button {
+    padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+    font-size: 1rem;
+    box-shadow: none;
+  }
+
+  .substack-signup.compact .subscribe-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  }
+
   @media (max-width: 768px) {
     .substack-signup {
       padding: 3rem 0 2rem 0;
@@ -241,45 +366,69 @@ const {
     }
   }
 
-  /* Success and error states */
-  .email-input.error {
-    border-color: #dc2626;
+  .email-input.error + .email-input-rail::after {
+    background: #dc2626;
+    transform: scaleX(1);
+    opacity: 1;
+    animation: none;
   }
 
-  .email-input.success {
-    border-color: #16a34a;
+  .email-input.success + .email-input-rail::after {
+    background: #16a34a;
+    transform: scaleX(1);
+    opacity: 1;
+    animation: none;
   }
 
-  /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
+    .signup-footnote {
+      animation: none;
+    }
+
     .email-input,
-    .subscribe-button {
+    .subscribe-button,
+    .subscribe-button-icon {
       transition: none;
     }
 
-    .subscribe-button:hover {
+    .subscribe-button:hover,
+    .subscribe-button:hover .subscribe-button-icon {
       transform: none;
     }
+
+    .email-input-shell:focus-within .email-input {
+      transform: none;
+    }
+
   }
 </style>
 
 <script>
-  // Handle form submission with better UX
-  const form = document.getElementById('substack-signup-form') as HTMLFormElement;
-  
+  const form = document.getElementById('substack-signup-form') as HTMLFormElement | null;
+
   if (form) {
-    form.addEventListener('submit', async (e) => {
-      const button = form.querySelector('.subscribe-button') as HTMLButtonElement;
-      const input = form.querySelector('.email-input') as HTMLInputElement;
-      
+    form.addEventListener('submit', () => {
+      const button = form.querySelector('.subscribe-button') as HTMLButtonElement | null;
       if (button) {
         button.classList.add('is-loading');
         button.disabled = true;
       }
-      
-      // The form will submit normally to Substack
-      // This just provides visual feedback
     });
   }
-</script>
 
+  const rotateInput = form?.querySelector('[data-placeholder-rotate]') as HTMLInputElement | null;
+  if (rotateInput && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const placeholders = [
+      'email address',
+      'you@something.fun',
+      'your inbox is waiting',
+      'best email ever',
+    ];
+    let i = 0;
+    window.setInterval(() => {
+      if (document.activeElement === rotateInput) return;
+      i = (i + 1) % placeholders.length;
+      rotateInput.placeholder = placeholders[i];
+    }, 3200);
+  }
+</script>
