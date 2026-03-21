@@ -3,7 +3,8 @@
 
 <footer role="contentinfo" aria-label="Site footer">
   <div class="container">
-    <section class="footer-section-email">
+    <section class="footer-section-email" aria-labelledby="footer-email-heading">
+      <p id="footer-email-heading" class="footer-email-eyebrow">Say hello</p>
       <a href="mailto:david[at]davidhoang.com" aria-label="Email David Hoang">david[at]davidhoang.com</a>
     </section>
     <section aria-label="Footer navigation">
@@ -40,8 +41,16 @@
       </div>
     </section>
     <!-- Footer already has contentinfo role; remove redundant role from inner section -->
-    <section class="footer-section-copyright">
-      <p class="footer-section-copyright">&copy; 2002-2026 David Hoang. All rights reserved. "Sometimes to create, one must first destroy." —David, Prometheus</p>
+    <section class="footer-section-meta" aria-label="Copyright and colophon">
+      <p class="footer-copyright-line">
+        &copy; 2002-2026 David Hoang. All rights reserved.
+        <span class="footer-quote">
+          “Sometimes to create, one must first destroy.” —David, <cite>Prometheus</cite>
+        </span>
+      </p>
+      <p class="footer-tools-footnote">
+        Built with <a href="https://paper.design" target="_blank" rel="noopener noreferrer" aria-label="Paper (opens in new tab)">Paper</a> and <a href="https://astro.build" target="_blank" rel="noopener noreferrer" aria-label="Astro (opens in new tab)">Astro</a>.
+      </p>
     </section>
   </div>
 </footer>
@@ -49,12 +58,60 @@
 <style>
   footer {
     opacity: 1;
+    position: relative;
     padding: var(--section-spacing, 4rem) 0;
     font-size: 1rem;
     font-family: var(--font-body);
     min-height: 100px;
     width: 100%;
     border-top: 1px solid var(--color-border);
+    isolation: isolate;
+  }
+
+  /* Soft atmosphere — classic footer only; themed footers hide via footer-themes.css */
+  footer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 120% 80% at 50% 0%,
+        color-mix(in srgb, var(--color-link) 8%, transparent) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 100% 100%,
+        color-mix(in srgb, var(--color-muted) 6%, transparent) 0%,
+        transparent 45%
+      );
+    opacity: 0.85;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--color-link) 45%, transparent) 22%,
+      color-mix(in srgb, var(--color-link) 70%, transparent) 50%,
+      color-mix(in srgb, var(--color-link) 45%, transparent) 78%,
+      transparent 100%
+    );
+    opacity: 0.9;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    footer::after {
+      opacity: 0.5;
+    }
   }
 
   /* Ensure footer container matches main content container constraints */
@@ -96,6 +153,11 @@
     transition:
       color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
       transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  footer a:hover,
+  footer a:focus-visible {
+    text-decoration: none;
   }
 
   footer a::after {
@@ -157,21 +219,78 @@
     }
   }
 
+  .footer-email-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: var(--heading-letter-spacing, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    font-family: var(--font-body);
+  }
+
   .footer-section-email {
-    padding: 24px 0px;
-    margin-bottom: 24px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.75rem;
     font-size: clamp(1rem, 2.5vw, 1.2rem);
     font-weight: 600;
+    border-radius: var(--radius-lg, 16px);
+    border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
+    background: color-mix(in srgb, var(--color-sidebar-bg) 55%, transparent);
+    box-shadow:
+      0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent),
+      0 12px 40px -28px color-mix(in srgb, var(--color-link) 35%, transparent);
   }
 
   .footer-section-email a {
     font-size: 1.4em;
   }
 
-  .footer-section-copyright {
-    margin-top: 2rem;
+  .footer-section-meta {
+    margin-top: 2.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  }
+
+  .footer-copyright-line {
+    margin: 0;
     font-size: 0.9rem;
     font-family: var(--font-body);
+    line-height: 1.55;
+    color: var(--color-text);
+  }
+
+  .footer-quote {
+    display: block;
+    margin-top: 0.65rem;
+    font-style: italic;
+    color: var(--color-muted);
+    font-size: 0.92em;
+    max-width: 52ch;
+  }
+
+  .footer-quote cite {
+    font-style: normal;
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-tools-footnote {
+    margin: 0.5rem 0 0;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: var(--color-muted);
+    font-family: var(--font-body);
+  }
+
+  .footer-tools-footnote a {
+    color: var(--color-muted);
+  }
+
+  @media (hover: hover) {
+    .footer-tools-footnote a:hover {
+      color: var(--color-link-hover);
+    }
   }
 
   .footer-grid {
@@ -182,14 +301,32 @@
   }
 
   .footer-col h4 {
+    position: relative;
     font-size: 1.1rem;
     font-family: var(--font-heading);
     font-weight: 700;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.85rem;
     margin-top: 0;
     letter-spacing: 0.05em;
     color: var(--color-text);
     opacity: 0.9;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2rem;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-link) 85%, transparent),
+      transparent
+    );
+    opacity: 0.85;
   }
 
   .footer-col ul {
@@ -252,8 +389,12 @@
       font-size: 1.4em;
     }
 
-    .footer-section-copyright {
+    .footer-copyright-line {
       font-size: 1.1rem;
+    }
+
+    .footer-tools-footnote {
+      font-size: 0.85rem;
     }
 
     .footer-col h4 {
