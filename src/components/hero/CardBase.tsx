@@ -1,94 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Card } from './types';
-
-// Pattern SVG components
-const PatternLines = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.4 }}>
-    {Array.from({ length: 25 }).map((_, i) => (
-      <line
-        key={i}
-        x1={4 + i * 4}
-        y1="5"
-        x2={4 + i * 4}
-        y2={95 - Math.random() * 40}
-        stroke="rgba(255,255,255,0.6)"
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-    ))}
-  </svg>
-);
-
-const PatternGrid = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.3 }}>
-    {Array.from({ length: 12 }).map((_, i) =>
-      Array.from({ length: 12 }).map((_, j) => (
-        <rect
-          key={`${i}-${j}`}
-          x={4 + i * 8}
-          y={4 + j * 8}
-          width="6"
-          height="6"
-          fill="rgba(255,255,255,0.5)"
-          rx="1"
-        />
-      ))
-    )}
-  </svg>
-);
-
-const PatternWaves = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.35 }}>
-    {Array.from({ length: 20 }).map((_, i) => (
-      <path
-        key={i}
-        d={`M 0 ${5 + i * 5} Q 25 ${2 + i * 5}, 50 ${5 + i * 5} T 100 ${5 + i * 5}`}
-        fill="none"
-        stroke="rgba(255,255,255,0.6)"
-        strokeWidth="1"
-      />
-    ))}
-  </svg>
-);
-
-const PatternDots = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.35 }}>
-    {Array.from({ length: 12 }).map((_, i) =>
-      Array.from({ length: 12 }).map((_, j) => (
-        <circle
-          key={`${i}-${j}`}
-          cx={8 + i * 8}
-          cy={8 + j * 8}
-          r="2"
-          fill="rgba(255,255,255,0.5)"
-        />
-      ))
-    )}
-  </svg>
-);
-
-const PatternCircuits = () => (
-  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ opacity: 0.4 }}>
-    <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" strokeWidth="1" rx="6" />
-    <rect x="25" y="25" width="50" height="50" fill="none" stroke="currentColor" strokeWidth="1" rx="4" />
-    <rect x="35" y="35" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1" rx="2" />
-    <line x1="15" y1="50" x2="5" y2="50" stroke="currentColor" strokeWidth="1" />
-    <line x1="85" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="1" />
-    <line x1="50" y1="15" x2="50" y2="5" stroke="currentColor" strokeWidth="1" />
-    <line x1="50" y1="85" x2="50" y2="95" stroke="currentColor" strokeWidth="1" />
-  </svg>
-);
-
-const PatternNone = () => null;
-
-export const patterns: Record<string, React.ComponentType> = {
-  lines: PatternLines,
-  grid: PatternGrid,
-  waves: PatternWaves,
-  dots: PatternDots,
-  circuits: PatternCircuits,
-  none: PatternNone,
-};
+import { HeroCardShaderPattern } from './HeroCardShaderPattern';
 
 interface CardBaseProps {
   card: Card;
@@ -99,8 +11,6 @@ interface CardBaseProps {
 
 /** Renders the inner content of a card: pattern/image, title, and expanded details. */
 export function CardBaseContent({ card, isSelected, isGlass, onLinkClick }: CardBaseProps) {
-  const Pattern = patterns[card.pattern] || PatternNone;
-
   return (
     <>
       {isGlass && (
@@ -114,8 +24,8 @@ export function CardBaseContent({ card, isSelected, isGlass, onLinkClick }: Card
           <div className="card-thumbnail" style={{ backgroundImage: `url(${card.thumbnail})` }} />
         </div>
       ) : (
-        <div className="card-pattern">
-          <Pattern />
+        <div className="card-pattern" style={{ backgroundColor: card.color }}>
+          <HeroCardShaderPattern cardId={card.id} pattern={card.pattern} color={card.color} />
         </div>
       )}
 
