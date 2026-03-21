@@ -1,0 +1,197 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const pageDescription = "A curated collection of design tools, references, and resources I use and recommend.";
+
+const resources = [
+  {
+    category: "Design Tools",
+    items: [
+      { name: "Figma", url: "https://figma.com", description: "Collaborative interface design tool. My daily driver for UI and product design." },
+      { name: "Paper", url: "https://paper.design", description: "A new design tool with a fresh take on creative workflows." },
+      { name: "Whimsical", url: "https://whimsical.com", description: "Quick wireframes, flowcharts, and mind maps when I need to think visually." },
+      { name: "Rive", url: "https://rive.app", description: "Interactive animations and motion design for production." },
+    ]
+  },
+  {
+    category: "Typography",
+    items: [
+      { name: "Dinamo Typefaces", url: "https://abcdinamo.com", description: "Independent foundry behind ABC Diatype, the typeface used on this site." },
+      { name: "Google Fonts", url: "https://fonts.google.com", description: "Free, open-source fonts. Great for prototyping and web projects." },
+      { name: "Future Fonts", url: "https://www.futurefonts.xyz", description: "Work-in-progress typefaces from independent designers. Support them early." },
+      { name: "Typewolf", url: "https://www.typewolf.com", description: "Typography inspiration and font recommendations from real sites." },
+      { name: "Fonts In Use", url: "https://fontsinuse.com", description: "A searchable archive of typography in the wild." },
+    ]
+  },
+  {
+    category: "Color & Visual Reference",
+    items: [
+      { name: "Realtime Colors", url: "https://www.realtimecolors.com", description: "Visualize color palettes on a real UI instantly." },
+      { name: "Coolors", url: "https://coolors.co", description: "Fast palette generator with export options." },
+      { name: "Khroma", url: "https://www.khroma.co", description: "AI-powered color tool that learns your preferences." },
+      { name: "Mobbin", url: "https://mobbin.com", description: "Searchable library of real app screenshots for UI patterns." },
+    ]
+  },
+  {
+    category: "Photography & Assets",
+    items: [
+      { name: "Unsplash", url: "https://unsplash.com", description: "High-quality, free-to-use photography." },
+      { name: "Pexels", url: "https://pexels.com", description: "Free stock photos and videos with a generous license." },
+      { name: "Blush", url: "https://blush.design", description: "Customizable illustration collections by independent artists." },
+      { name: "Noun Project", url: "https://thenounproject.com", description: "Massive icon library with consistent, clean styles." },
+    ]
+  },
+  {
+    category: "Learning & Inspiration",
+    items: [
+      { name: "Sidebar", url: "https://sidebar.io", description: "Five curated design links, every day." },
+      { name: "Refactoring UI", url: "https://www.refactoringui.com", description: "Practical visual design tips from the Tailwind CSS creators." },
+      { name: "Shift Nudge", url: "https://shiftnudge.com", description: "Interface design course focused on visual design fundamentals." },
+      { name: "Laws of UX", url: "https://lawsofux.com", description: "Beautifully presented collection of UX principles backed by research." },
+      { name: "The Futur", url: "https://thefutur.com", description: "Business and design education — especially good for freelancers and creative leads." },
+    ]
+  },
+  {
+    category: "Books I Come Back To",
+    items: [
+      { name: "The Design of Everyday Things", url: "https://www.amazon.com/Design-Everyday-Things-Revised-Expanded/dp/0465050654", description: "Don Norman's classic on human-centered design thinking." },
+      { name: "Thinking in Systems", url: "https://www.amazon.com/Thinking-Systems-Donella-H-Meadows/dp/1603580557", description: "Donella Meadows on understanding complex systems — applicable well beyond design." },
+      { name: "Creative Selection", url: "https://www.amazon.com/Creative-Selection-Inside-Apples-Process/dp/1250194466", description: "Ken Kocienda's inside look at Apple's design process and demo culture." },
+      { name: "Grid Systems in Graphic Design", url: "https://www.amazon.com/Grid-Systems-Graphic-Design-Communication/dp/3721201450", description: "Josef Müller-Brockmann's foundational work on typographic grids." },
+    ]
+  }
+];
+---
+
+<MainLayout title="Design Resources | David Hoang" description={pageDescription}>
+  <PageHeader
+    title="Design Resources"
+  />
+  <div class="resources-content">
+    <p class="resources-intro">Tools, references, and resources I've found valuable over the years. This isn't exhaustive — it's what I actually use and recommend.</p>
+
+    {resources.map((section) => (
+      <section class="resource-section">
+        <h2>{section.category}</h2>
+        <div class="resource-list">
+          {section.items.map((item) => (
+            <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-item">
+              <span class="resource-name">{item.name}</span>
+              <span class="resource-description">{item.description}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</MainLayout>
+
+<style>
+  .resources-content {
+    max-width: var(--container-narrow-width);
+    margin: 0 auto;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .resources-intro {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+    margin-bottom: var(--spacing-2xl);
+    max-width: 640px;
+  }
+
+  .resource-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .resource-section h2 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .resource-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .resource-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+    transition: background-color 0.15s ease;
+  }
+
+  .resource-item::after {
+    display: none;
+  }
+
+  .resource-item:last-child {
+    border-bottom: none;
+  }
+
+  @media (hover: hover) {
+    .resource-item:hover {
+      background-color: color-mix(in srgb, var(--color-text) 3%, transparent);
+      margin-inline: -0.75rem;
+      padding-inline: 0.75rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .resource-item:hover .resource-name {
+      color: var(--color-link);
+    }
+  }
+
+  .resource-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+  }
+
+  .resource-description {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .resources-content {
+      padding: var(--spacing-md);
+    }
+
+    .resource-item {
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.875rem 0;
+    }
+
+    .resource-name {
+      font-size: 1.05rem;
+    }
+
+    .resource-description {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .resources-content {
+      padding: var(--spacing-sm);
+    }
+  }
+</style>
