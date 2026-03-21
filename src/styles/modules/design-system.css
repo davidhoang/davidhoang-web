@@ -276,7 +276,7 @@
 
 .text-heading {
   font-family: var(--font-heading);
-  font-weight: var(--heading-weight);
+  font-weight: var(--heading-weight, 600);
   letter-spacing: var(--heading-letter-spacing);
   text-transform: var(--heading-transform);
   line-height: 1.2;
@@ -285,7 +285,7 @@
 
 .text-body {
   font-family: var(--font-body);
-  font-weight: var(--body-weight);
+  font-weight: var(--body-weight, 400);
   line-height: var(--body-line-height);
   letter-spacing: var(--letter-spacing);
   color: var(--color-text);

@@ -150,6 +150,35 @@ const hasThemes = themes.length > 0;
     return path.split('.').reduce((o, k) => o && o[k], obj);
   }
 
+  /** Parse CSS font-weight 100–900 from theme strings */
+  function parseThemeFontWeight(val) {
+    if (val == null || val === '') return null;
+    const s = String(val).trim();
+    const m = s.match(/\b([1-9]\d{2})\b/);
+    const n = m ? parseInt(m[1], 10) : parseInt(s, 10);
+    if (Number.isNaN(n)) return null;
+    const rounded = Math.round(n / 100) * 100;
+    return Math.min(900, Math.max(100, rounded));
+  }
+
+  /** Ensure --heading-weight > --body-weight for daily themes (fixes legacy JSON). */
+  function enforceTypographyWeightHierarchy(root, themeData) {
+    const typo = themeData?.typography || {};
+    const fromComputed = (prop) => {
+      const v = getComputedStyle(root).getPropertyValue(prop).trim();
+      return parseThemeFontWeight(v);
+    };
+    let heading = parseThemeFontWeight(typo.headingWeight) ?? fromComputed('--heading-weight') ?? 600;
+    let body = parseThemeFontWeight(typo.bodyWeight) ?? fromComputed('--body-weight') ?? 400;
+    const MIN_STEP = 100;
+    if (heading <= body) {
+      heading = Math.min(900, body + MIN_STEP);
+      if (heading <= body) body = Math.max(100, heading - MIN_STEP);
+    }
+    root.style.setProperty('--heading-weight', String(heading));
+    root.style.setProperty('--body-weight', String(body));
+  }
+
   function clearCalendarSelections(cal) {
     if (!cal) return;
     cal.querySelectorAll('.calendar-day').forEach(b => {
@@ -339,6 +368,8 @@ const hasThemes = themes.length > 0;
       const val = getNestedValue(themeData, path);
       if (val) root.style.setProperty(prop, val);
     });
+
+    enforceTypographyWeightHierarchy(root, themeData);
 
     // Apply mapped data attributes
     THEME_ATTRS.forEach(([path, attr, defaultVal]) => {

@@ -93,6 +93,12 @@ These create a "lava lamp" effect and should be used very rarely:
 - Use colors that are close to the background, not contrasting
 - The shader should be barely noticeable, like a subtle texture
 
+## Typography hierarchy (MUST FOLLOW)
+
+- `headingWeight` and `bodyWeight` are numeric strings on the **100–900** axis (steps of 100).
+- **Headings must be heavier than body copy:** `headingWeight` MUST be strictly greater than `bodyWeight` (aim for at least **+100**, e.g. body `400` + heading `600`).
+- Never output equal weights; never make body heavier than headings. Light display headings are allowed only when body is lighter still (e.g. body `300`, heading `400`).
+
 ## Layout Constraints (MUST FOLLOW)
 
 These rules prevent broken layouts. They always apply regardless of grid style.
