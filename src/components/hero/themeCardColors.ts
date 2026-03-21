@@ -36,6 +36,55 @@ export function parseCssColorToRgb(input: string): { r: number; g: number; b: nu
   return null;
 }
 
+/** Mix toward white (0–1) for shader highlights on saturated card bases */
+export function mixColorTowardWhite(input: string, amount: number): string {
+  const rgb = parseCssColorToRgb(input);
+  if (!rgb) return 'rgba(255,255,255,0.55)';
+  const r = Math.round(rgb.r + (255 - rgb.r) * amount);
+  const g = Math.round(rgb.g + (255 - rgb.g) * amount);
+  const b = Math.round(rgb.b + (255 - rgb.b) * amount);
+  return rgbToHex({ r, g, b });
+}
+
+/** Mix toward black (0–1) for depth / ink */
+export function mixColorTowardBlack(input: string, amount: number): string {
+  const rgb = parseCssColorToRgb(input);
+  if (!rgb) return '#1a1a1a';
+  const r = Math.round(rgb.r * (1 - amount));
+  const g = Math.round(rgb.g * (1 - amount));
+  const b = Math.round(rgb.b * (1 - amount));
+  return rgbToHex({ r, g, b });
+}
+
+/** Rotate hue in degrees (hex or rgb() input) */
+export function adjustColorHue(input: string, deltaDegrees: number): string {
+  const rgb = parseCssColorToRgb(input);
+  if (!rgb) return input;
+  const { h, s, l } = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const nh = (h + deltaDegrees + 360) % 360;
+  return rgbToHex(hslToRgb(nh, s, l));
+}
+
+/** Linear blend between two parseable colors (0 = a, 1 = b) */
+export function blendColors(a: string, b: string, t: number): string {
+  const ra = parseCssColorToRgb(a);
+  const rb = parseCssColorToRgb(b);
+  if (!ra) return b;
+  if (!rb) return a;
+  const u = Math.max(0, Math.min(1, t));
+  return rgbToHex({
+    r: Math.round(ra.r + (rb.r - ra.r) * u),
+    g: Math.round(ra.g + (rb.g - ra.g) * u),
+    b: Math.round(ra.b + (rb.b - ra.b) * u),
+  });
+}
+
+/** Normalize CSS color string to #rrggbb, or fallback if unparsable */
+export function colorToHex(input: string, fallback: string): string {
+  const rgb = parseCssColorToRgb(input);
+  return rgb ? rgbToHex(rgb) : fallback;
+}
+
 function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
   r /= 255;
   g /= 255;

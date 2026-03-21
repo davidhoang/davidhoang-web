@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
@@ -151,21 +150,6 @@ export default function CardStackHero() {
     <div className={`card-stack-hero card-stack-hero--${heroLayout}`} ref={containerRef}>
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
-          <motion.p
-            className="card-stack-hero__kicker"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{
-              opacity: isLoaded ? 1 : 0,
-              y: isLoaded ? 0 : 10,
-            }}
-            transition={{
-              duration: 0.4,
-              delay: isLoaded ? 0.05 : 0,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            Designer, investor, builder — tap a card to explore
-          </motion.p>
           <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
         </header>
         <LayoutComponent
@@ -249,20 +233,6 @@ export default function CardStackHero() {
           margin-bottom: 0.25rem;
         }
 
-        .card-stack-hero__kicker {
-          margin: 0 auto 1rem;
-          padding: 0 0.75rem;
-          max-width: 40rem;
-          font-size: clamp(0.7rem, 1.5vw, 0.8125rem);
-          font-weight: 500;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          line-height: 1.45;
-          color: var(--color-muted);
-          font-family: var(--font-body);
-          text-wrap: balance;
-        }
-
         /* Override global .hero-title (shared-components) which targets page wrappers */
         .card-stack-hero .hero-title {
           height: auto;
@@ -290,12 +260,6 @@ export default function CardStackHero() {
         .card-stack-hero--editorial .card-stack-hero__intro {
           align-items: flex-start;
           text-align: left;
-        }
-
-        .card-stack-hero--editorial .card-stack-hero__kicker {
-          margin-left: 0;
-          margin-right: 0;
-          padding-left: 0;
         }
 
         .card-stack-hero--editorial .hero-title {
@@ -617,12 +581,6 @@ export default function CardStackHero() {
           .card-stack-hero--editorial .card-stack-hero__intro {
             align-items: center;
             text-align: center;
-          }
-
-          .card-stack-hero--editorial .card-stack-hero__kicker {
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 0.75rem;
           }
 
           .card-stack-hero--editorial .hero-title {
