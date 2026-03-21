@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { HeroLayout, LayoutProps } from './hero/types';
 import { HeroTitle } from './hero/HeroTitle';
@@ -120,7 +121,24 @@ export default function CardStackHero() {
   return (
     <div className={`card-stack-hero card-stack-hero--${heroLayout}`} ref={containerRef}>
       <div className="card-stack-container">
-        <HeroTitle hasSelection={hasSelection} />
+        <header className="card-stack-hero__intro">
+          <motion.p
+            className="card-stack-hero__kicker"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{
+              opacity: isLoaded ? 1 : 0,
+              y: isLoaded ? 0 : 10,
+            }}
+            transition={{
+              duration: 0.4,
+              delay: isLoaded ? 0.05 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            Designer, investor, builder — tap a card to explore
+          </motion.p>
+          <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
+        </header>
         <LayoutComponent
           cards={cards}
           selectedCard={selectedCard}
@@ -143,12 +161,12 @@ export default function CardStackHero() {
       <style>{`
         .card-stack-hero {
           width: 100%;
-          min-height: 480px;
+          min-height: clamp(420px, 52dvh, 640px);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding: 0 1rem 0 1rem;
+          padding: 0 var(--content-padding, 1rem) 0.5rem;
           position: relative;
           overflow: visible;
           box-sizing: border-box;
@@ -161,7 +179,8 @@ export default function CardStackHero() {
         .card-stack-container {
           position: relative;
           width: 100%;
-          max-width: 100%;
+          max-width: min(100%, var(--container-max-width, 72rem));
+          margin-inline: auto;
           height: 450px;
           display: flex;
           flex-direction: column;
@@ -191,10 +210,42 @@ export default function CardStackHero() {
           perspective: 1200px;
         }
 
-        .hero-title {
+        .card-stack-hero__intro {
+          width: 100%;
+          max-width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 0.25rem;
+        }
+
+        .card-stack-hero__kicker {
+          margin: 0 auto 1rem;
+          padding: 0 0.75rem;
+          max-width: 40rem;
+          font-size: clamp(0.7rem, 1.5vw, 0.8125rem);
+          font-weight: 500;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          line-height: 1.45;
+          color: var(--color-muted);
+          font-family: var(--font-body);
+          text-wrap: balance;
+        }
+
+        /* Override global .hero-title (shared-components) which targets page wrappers */
+        .card-stack-hero .hero-title {
+          height: auto;
+          min-height: 0;
+          margin-top: 0;
+          margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+          display: block;
+          border-radius: 0;
+          justify-content: unset;
+          align-items: unset;
           font-size: clamp(2.5rem, 7vw, 6rem);
           font-weight: 700;
-          margin: 0 auto 3rem auto;
           padding: 0 0.5rem;
           text-align: center;
           color: var(--color-text);
@@ -207,9 +258,21 @@ export default function CardStackHero() {
           text-wrap: balance;
         }
 
+        .card-stack-hero--editorial .card-stack-hero__intro {
+          align-items: flex-start;
+          text-align: left;
+        }
+
+        .card-stack-hero--editorial .card-stack-hero__kicker {
+          margin-left: 0;
+          margin-right: 0;
+          padding-left: 0;
+        }
+
         .card-stack-hero--editorial .hero-title {
           text-align: left;
-          margin: 0;
+          margin-left: 0;
+          margin-right: 0;
           padding-top: 0;
         }
 
@@ -520,6 +583,17 @@ export default function CardStackHero() {
         @media (max-width: 1024px) {
           .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.8);
+          }
+
+          .card-stack-hero--editorial .card-stack-hero__intro {
+            align-items: center;
+            text-align: center;
+          }
+
+          .card-stack-hero--editorial .card-stack-hero__kicker {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 0.75rem;
           }
 
           .card-stack-hero--editorial .hero-title {

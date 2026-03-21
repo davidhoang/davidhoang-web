@@ -21,6 +21,7 @@ import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFI
 import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 import { validateThemeContrast } from './lib/contrast.mjs';
+import { enforceHeadingHeavierThanBody } from './lib/typography-weights.mjs';
 
 // Color conversion helpers for surface harmony validation
 function hexToHsl(hex) {
@@ -227,9 +228,11 @@ Great pairings contrast categories:
 - Serif heading + Serif body = Classic literary (Bodoni Moda + Source Serif 4)
 
 ## TYPOGRAPHY - MAKE IT FEEL DIFFERENT!
-Mix up these dramatically:
-- headingWeight: "300" (light/elegant) to "900" (ultra black/impactful)
-- bodyWeight: "300" (light) to "500" (medium)
+**HIERARCHY RULE (non-negotiable):** \`headingWeight\` MUST be a **larger number** than \`bodyWeight\` on the 100–900 scale (e.g. body 400 → heading at least 500). Aim for at least **+100** between them so headings read clearly above body copy. Never output equal weights; never make body heavier than headings.
+
+Mix up these dramatically (within that rule):
+- headingWeight: use **500–900** for most themes; **400** only if body is **300**
+- bodyWeight: **300–500** typical for readable paragraphs (must stay below headingWeight)
 - bodyLineHeight: "1.5" (compact/dense) vs "2.0" (airy/spacious)
 - letterSpacing: "-0.03em" (tight/modern) vs "0.05em" (loose/classic)
 - headingLetterSpacing: "-0.04em" (compressed) vs "0.08em" (expanded/uppercase feel)
@@ -372,8 +375,8 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "body": "Font Name for body text"
   },
   "typography": {
-    "headingWeight": "300-900",
-    "bodyWeight": "300-500",
+    "headingWeight": "500-900 (must be > bodyWeight)",
+    "bodyWeight": "300-500 (must be < headingWeight)",
     "bodyLineHeight": "1.5-2.0",
     "letterSpacing": "-0.03em to 0.05em",
     "headingLetterSpacing": "-0.04em to 0.08em",
@@ -645,6 +648,8 @@ async function generateTheme(options = {}) {
   } else {
     themeData.typography.fontVariationSettings = 'normal';
   }
+
+  enforceHeadingHeavierThanBody(themeData.typography);
 
   // Validate and default hero layout
   if (!themeData.hero) themeData.hero = {};

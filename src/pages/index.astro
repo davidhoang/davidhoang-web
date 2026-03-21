@@ -150,7 +150,7 @@ const portfolioItems = [
 
     :global(.portfolio-grid) {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       row-gap: 1.5rem;
       column-gap: clamp(1rem, 3vw, 3rem);
       min-width: 0;
@@ -159,6 +159,7 @@ const portfolioItems = [
     :global(.portfolio-content) {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     :global(.portfolio-item-text p) {
@@ -182,6 +183,7 @@ const portfolioItems = [
       height: auto;
       aspect-ratio: 16 / 10;
       object-fit: cover;
+      object-position: center;
       border-radius: var(--radius-md, 8px);
     }
 

@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
+import { enforceHeadingHeavierThanBody } from './lib/typography-weights.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -91,6 +92,9 @@ Link colors - MUST be SATURATED and match the mood
 HEADING FONTS: ${HEADING_FONTS.map(f => f.name).join(', ')}
 BODY FONTS: ${BODY_FONTS.map(f => f.name).join(', ')}
 
+## TYPOGRAPHY HIERARCHY
+- headingWeight MUST be numerically greater than bodyWeight (100–900 scale, e.g. body 400 + heading 600).
+
 ## OPTIONS
 - Navigation: floating, full-width, minimal, bold-bar
 - Cards: flat, elevated, glass, outlined, filled
@@ -109,7 +113,7 @@ Generate a JSON object with this structure (no markdown):
     "dark": { "--color-text": "#hex", "--color-bg": "#hex", "--color-link": "#hex", "--color-link-hover": "#hex", "--color-border": "#hex", "--color-muted": "#hex", "--color-sidebar-bg": "#hex", "--color-nav-bg": "#hex", "--color-nav-text": "#hex", "--color-card-bg": "#hex" }
   },
   "fonts": { "heading": "Font Name", "body": "Font Name" },
-  "typography": { "headingWeight": "300-900", "bodyWeight": "300-500", "bodyLineHeight": "1.5-2.0", "letterSpacing": "-0.02em to 0.03em", "headingLetterSpacing": "-0.03em to 0.05em", "headingTransform": "none|uppercase" },
+  "typography": { "headingWeight": "500-900 (must exceed bodyWeight)", "bodyWeight": "300-500 (must be less than headingWeight)", "bodyLineHeight": "1.5-2.0", "letterSpacing": "-0.02em to 0.03em", "headingLetterSpacing": "-0.03em to 0.05em", "headingTransform": "none|uppercase" },
   "navigation": { "style": "floating|full-width|minimal|bold-bar", "height": "48-80px", "padding": "CSS" },
   "cards": { "style": "flat|elevated|glass|outlined|filled", "shadow": "CSS or none", "borderWidth": "0-3px", "padding": "1-3rem" },
   "layout": { "borderRadius": "0-24px", "containerMaxWidth": "640-1200px", "sectionSpacing": "2-8rem", "contentPadding": "0.5-3rem" },
@@ -174,6 +178,9 @@ async function generateTheme() {
 
   themeData.font = themeData.fonts.heading;
   themeData.date = targetDate;
+
+  if (!themeData.typography) themeData.typography = {};
+  enforceHeadingHeavierThanBody(themeData.typography);
 
   return themeData;
 }

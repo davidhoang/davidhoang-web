@@ -41,7 +41,7 @@ h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: var(--heading-letter-spacing);
   font-family: var(--font-heading);
   text-transform: var(--heading-transform);
@@ -51,7 +51,7 @@ h1 {
   font-size: var(--h1-size);
   line-height: var(--h1-line-height);
   letter-spacing: var(--h1-letter-spacing);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
 }
 
 h2 {
@@ -87,6 +87,7 @@ h6 {
 p {
   margin-bottom: 1.25em;
   font-size: 1.2rem;
+  font-weight: var(--body-weight, 400);
   line-height: var(--body-line-height, 1.6);
   letter-spacing: var(--letter-spacing-body);
   color: var(--color-text);
@@ -152,13 +153,16 @@ p + ol {
 }
 
 strong {
-  font-weight: 600;
+  /* One step heavier than body, never as heavy as headings */
+  font-weight: min(
+    calc(var(--heading-weight, 700) - 100),
+    calc(var(--body-weight, 400) + 100)
+  );
   color: var(--color-text);
 }
 
 [data-theme="dark"] strong {
   color: var(--color-text);
-  font-weight: 700;
 }
 
 em {
@@ -189,7 +193,11 @@ blockquote p {
   color: var(--color-text);
   font-size: 1.35rem;
   line-height: 1.7;
-  font-weight: 500;
+  /* Between body and headings: cap at one step below heading weight */
+  font-weight: min(
+    calc(var(--heading-weight, 700) - 100),
+    max(var(--body-weight, 400), 500)
+  );
   letter-spacing: -0.01em;
 }
 
@@ -211,7 +219,7 @@ blockquote cite {
   text-align: center;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   line-height: 1.5;
-  font-weight: 600;
+  font-weight: var(--heading-weight, 600);
   letter-spacing: -0.02em;
   color: var(--color-text);
   border-top: 2px solid var(--color-text);
@@ -283,7 +291,7 @@ blockquote cite {
 
 .prose-content h5 {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: var(--heading-weight, 600);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-top: 1.75em;
@@ -331,7 +339,7 @@ blockquote cite {
   line-height: 0.8;
   padding-right: 0.1em;
   padding-top: 0.1em;
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   color: var(--color-text);
 }
 
@@ -339,7 +347,10 @@ blockquote cite {
 .prose-content p:first-child {
   font-size: 1.35rem;
   line-height: 1.7;
-  font-weight: 500;
+  font-weight: min(
+    calc(var(--heading-weight, 700) - 100),
+    max(var(--body-weight, 400), 500)
+  );
   letter-spacing: -0.01em;
   margin-bottom: 1.75em;
   color: var(--color-text);

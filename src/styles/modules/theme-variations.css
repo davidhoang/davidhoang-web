@@ -291,19 +291,18 @@ html[data-e-ink="true"][data-theme="dark"] {
    and forcing them into columns breaks the page.
 
    Instead, grid styles influence inner content grids
-   (philosophy-grid, portfolio-grid) and add visual flavor
+   (philosophy-grid) and add visual flavor
    through borders, spacing, and alignment.
+   Highlights (.portfolio-grid) stay a balanced 2×2 grid on the home page.
    ============================================ */
 
-/* Asymmetric grid - offset content for visual tension */
-[data-grid-style="asymmetric"] .philosophy-grid,
-[data-grid-style="asymmetric"] .portfolio-grid {
+/* Asymmetric grid - offset content for visual tension (philosophy only; portfolio stays equal columns) */
+[data-grid-style="asymmetric"] .philosophy-grid {
   grid-template-columns: 2fr 1fr;
 }
 
 @media (max-width: 768px) {
-  [data-grid-style="asymmetric"] .philosophy-grid,
-  [data-grid-style="asymmetric"] .portfolio-grid {
+  [data-grid-style="asymmetric"] .philosophy-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -315,25 +314,19 @@ html[data-e-ink="true"][data-theme="dark"] {
   padding-left: var(--content-padding, 1.5rem);
 }
 
-/* Magazine layout - 3-column inner grids */
+/* Magazine layout - 3-column inner grids (philosophy only; portfolio stays 2×2) */
 [data-grid-style="magazine"] .philosophy-grid {
   grid-template-columns: repeat(3, 1fr);
 }
 
-[data-grid-style="magazine"] .portfolio-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
 @media (max-width: 1024px) {
-  [data-grid-style="magazine"] .philosophy-grid,
-  [data-grid-style="magazine"] .portfolio-grid {
+  [data-grid-style="magazine"] .philosophy-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  [data-grid-style="magazine"] .philosophy-grid,
-  [data-grid-style="magazine"] .portfolio-grid {
+  [data-grid-style="magazine"] .philosophy-grid {
     grid-template-columns: 1fr;
   }
 }
