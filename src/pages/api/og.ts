@@ -8,11 +8,12 @@ export const GET: APIRoute = async ({ url }) => {
   const description = url.searchParams.get('description') || '';
   const type = url.searchParams.get('type') || 'writing';
 
-  const accentColor = type === 'notes' ? '#86efac' : '#a5b4fc';
-
   // Clamp font size for long titles
   const titleLength = title.length;
-  const titleFontSize = titleLength > 80 ? 36 : titleLength > 50 ? 42 : 48;
+  const titleFontSize = titleLength > 80 ? 40 : titleLength > 50 ? 48 : 56;
+
+  // Type label for the badge
+  const typeLabel = type === 'notes' ? 'Notes' : 'Writing';
 
   const html = {
     type: 'div',
@@ -22,33 +23,68 @@ export const GET: APIRoute = async ({ url }) => {
         flexDirection: 'column',
         width: '100%',
         height: '100%',
-        backgroundColor: '#1a1a1a',
+        backgroundColor: '#fafaf9',
         padding: '0',
+        position: 'relative',
+        overflow: 'hidden',
       },
       children: [
-        // Top accent line
+        // Large faded "DH" monogram in background
         {
           type: 'div',
           props: {
             style: {
-              width: '100%',
-              height: '4px',
-              backgroundColor: accentColor,
+              position: 'absolute',
+              top: '-40px',
+              right: '-20px',
+              fontSize: '320px',
+              fontWeight: 900,
+              color: 'rgba(0, 0, 0, 0.03)',
+              fontFamily: 'Inter, sans-serif',
+              lineHeight: 1,
+              letterSpacing: '-0.04em',
             },
+            children: 'DH',
           },
         },
-        // Content area
+        // Main content area
         {
           type: 'div',
           props: {
             style: {
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
+              justifyContent: 'flex-end',
               flexGrow: 1,
-              padding: '60px 80px',
+              padding: '60px 72px 0 72px',
             },
             children: [
+              // Type badge
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    display: 'flex',
+                    marginBottom: '20px',
+                  },
+                  children: [
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          color: '#888',
+                          fontFamily: 'Inter, sans-serif',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.1em',
+                        },
+                        children: typeLabel,
+                      },
+                    },
+                  ],
+                },
+              },
               // Title
               {
                 type: 'div',
@@ -56,10 +92,12 @@ export const GET: APIRoute = async ({ url }) => {
                   style: {
                     fontSize: `${titleFontSize}px`,
                     fontWeight: 700,
-                    color: '#ffffff',
-                    lineHeight: 1.2,
+                    color: '#1a1a1a',
+                    lineHeight: 1.1,
                     fontFamily: 'Inter, sans-serif',
-                    marginBottom: description ? '24px' : '0',
+                    letterSpacing: '-0.03em',
+                    marginBottom: description ? '20px' : '0',
+                    maxWidth: '900px',
                   },
                   children: title,
                 },
@@ -71,11 +109,12 @@ export const GET: APIRoute = async ({ url }) => {
                       type: 'div',
                       props: {
                         style: {
-                          fontSize: '24px',
+                          fontSize: '22px',
                           fontWeight: 400,
-                          color: '#888888',
-                          lineHeight: 1.4,
+                          color: '#666',
+                          lineHeight: 1.45,
                           fontFamily: 'Inter, sans-serif',
+                          maxWidth: '750px',
                         },
                         children:
                           description.length > 120
@@ -88,7 +127,7 @@ export const GET: APIRoute = async ({ url }) => {
             ],
           },
         },
-        // Footer
+        // Footer bar
         {
           type: 'div',
           props: {
@@ -96,32 +135,56 @@ export const GET: APIRoute = async ({ url }) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '0 80px 40px 80px',
+              padding: '32px 72px',
+              borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+              marginTop: '40px',
             },
             children: [
               {
                 type: 'div',
                 props: {
                   style: {
-                    fontSize: '20px',
-                    fontWeight: 500,
-                    color: '#666666',
-                    fontFamily: 'Inter, sans-serif',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
                   },
-                  children: 'davidhoang.com',
-                },
-              },
-              {
-                type: 'div',
-                props: {
-                  style: {
-                    fontSize: '16px',
-                    fontWeight: 400,
-                    color: '#555555',
-                    fontFamily: 'Inter, sans-serif',
-                    textTransform: 'capitalize',
-                  },
-                  children: type,
+                  children: [
+                    // DH mark
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#1a1a1a',
+                          fontFamily: 'Inter, sans-serif',
+                        },
+                        children: 'DH',
+                      },
+                    },
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          width: '1px',
+                          height: '16px',
+                          backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                        },
+                      },
+                    },
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          fontSize: '16px',
+                          fontWeight: 400,
+                          color: '#888',
+                          fontFamily: 'Inter, sans-serif',
+                        },
+                        children: 'davidhoang.com',
+                      },
+                    },
+                  ],
                 },
               },
             ],
