@@ -1,4 +1,6 @@
 ---
+import TextureCard from './TextureCard.astro';
+
 export interface DesignStackItem {
   name: string;
   url: string;
@@ -28,13 +30,8 @@ function stackUrlFootnote(url: string): string {
   {
     items.map((item, i) => (
       <li class="design-stack-item" style={`--stack-i: ${i}`}>
-        <a
-          href={item.url}
-          class="design-stack-card"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div class="design-stack-card__cover">
+        <TextureCard href={item.url} target="_blank" rel="noopener noreferrer">
+          <div class="texture-card__media">
             <img
               src={item.logo}
               alt=""
@@ -43,20 +40,20 @@ function stackUrlFootnote(url: string): string {
               loading="lazy"
               decoding="async"
               class:list={[
-                'design-stack-card__logo',
-                item.preserveLogoColor && 'design-stack-card__logo--color',
+                'texture-card__logo',
+                item.preserveLogoColor && 'texture-card__logo--color',
               ]}
             />
           </div>
-          <div class="design-stack-card__body">
-            <span class="design-stack-card__name">{item.name}</span>
-            <p class="design-stack-card__desc">{item.description}</p>
-            <p class="design-stack-card__footnote" aria-hidden="true">
+          <div class="texture-card__body">
+            <span class="texture-card__title">{item.name}</span>
+            <p class="texture-card__desc">{item.description}</p>
+            <p class="texture-card__footnote" aria-hidden="true">
               {stackUrlFootnote(item.url)}
             </p>
             <span class="sr-only">(opens in new tab)</span>
           </div>
-        </a>
+        </TextureCard>
       </li>
     ))
   }
@@ -113,119 +110,5 @@ function stackUrlFootnote(url: string): string {
     .design-stack-item {
       animation: none;
     }
-  }
-
-  .design-stack-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
-    border-radius: var(--radius-md, 12px);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg);
-    overflow: hidden;
-    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent);
-    transition:
-      transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
-      border-color 0.25s ease,
-      box-shadow 0.28s ease;
-  }
-
-  .design-stack-card::after {
-    display: none;
-  }
-
-  .design-stack-card__cover {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Wider than 16/10 — less vertical chrome around the logo */
-    aspect-ratio: 16 / 7;
-    background: color-mix(in srgb, var(--color-muted) 10%, var(--color-bg));
-    overflow: hidden;
-  }
-
-  /*
-   * Monochrome logos (any fill): dark on light UI, light on dark UI.
-   * brightness(0) collapses to black first so light- or dark-sourced SVGs behave the same.
-   */
-  .design-stack-card__logo:not(.design-stack-card__logo--color) {
-    filter: brightness(0) saturate(100%);
-  }
-
-  :global([data-theme='dark']) .design-stack-card__logo:not(.design-stack-card__logo--color) {
-    filter: brightness(0) saturate(100%) invert(1) brightness(1.08);
-  }
-
-  .design-stack-card__logo {
-    width: clamp(2.75rem, 28%, 3.5rem);
-    height: clamp(2.75rem, 28%, 3.5rem);
-    object-fit: contain;
-    display: block;
-    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
-  }
-
-  .design-stack-card__body {
-    padding: 1rem 1.05rem 1.1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    flex: 1;
-  }
-
-  .design-stack-card__name {
-    font-size: 1.1rem;
-    font-weight: 700;
-    font-family: var(--font-heading, var(--font-primary));
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    color: var(--color-text);
-    transition: color 0.2s ease;
-  }
-
-  .design-stack-card__desc {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--color-muted);
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .design-stack-card__footnote {
-    margin: 0;
-    margin-top: auto;
-    padding-top: 0.65rem;
-    border-top: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
-    font-size: 0.72rem;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-    color: color-mix(in srgb, var(--color-muted) 92%, var(--color-text) 8%);
-  }
-
-  @media (hover: hover) {
-    .design-stack-card:hover {
-      transform: translateY(-4px);
-      border-color: color-mix(in srgb, var(--color-border) 70%, var(--color-link) 30%);
-      box-shadow:
-        0 12px 32px -14px color-mix(in srgb, var(--color-text) 20%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--color-link) 10%, transparent);
-    }
-
-    .design-stack-card:hover .design-stack-card__logo {
-      transform: scale(1.06);
-    }
-
-    .design-stack-card:hover .design-stack-card__name {
-      color: var(--color-link);
-    }
-  }
-
-  .design-stack-card:focus-visible {
-    outline: 2px solid var(--color-link);
-    outline-offset: 3px;
   }
 </style>

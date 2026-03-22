@@ -1,0 +1,189 @@
+---
+/**
+ * Reusable card shell: border, lift on hover, Paper Design texture (dither) on hover/focus.
+ * Compose with `.texture-card__media` (optional top strip), `.texture-card__body`, etc.
+ */
+import TextureCardShader from './TextureCardShader';
+
+export interface Props {
+  href?: string;
+  target?: string;
+  rel?: string;
+  class?: string;
+}
+
+const { href, target, rel, class: className } = Astro.props;
+const isLink = Boolean(href);
+---
+
+{
+  isLink ? (
+    <a
+      href={href}
+      class:list={['texture-card', className]}
+      target={target}
+      rel={rel}
+    >
+      <div class="texture-card__shader-host" aria-hidden="true">
+        <TextureCardShader client:visible />
+      </div>
+      <slot />
+    </a>
+  ) : (
+    <div class:list={['texture-card', className]}>
+      <div class="texture-card__shader-host" aria-hidden="true">
+        <TextureCardShader client:visible />
+      </div>
+      <slot />
+    </div>
+  )
+}
+
+<style>
+  /*
+   * Slotted markup (media, body, logo…) is compiled in the parent, so it does not get
+   * this component’s scope hash. Use :global() for those BEM classes; keep scoped rules
+   * for elements defined in this file (.texture-card root, .texture-card__shader-host).
+   */
+  .texture-card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    overflow: hidden;
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent);
+    transition:
+      transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
+      border-color 0.25s ease,
+      box-shadow 0.28s ease;
+  }
+
+  .texture-card::after {
+    display: none;
+  }
+
+  .texture-card__shader-host {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .texture-card__shader-host {
+      transition: none;
+    }
+  }
+
+  .texture-card :global(.texture-card__media) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 7;
+    background: color-mix(in srgb, var(--color-muted) 10%, var(--color-bg));
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .texture-card :global(.texture-card__logo:not(.texture-card__logo--color)) {
+    filter: brightness(0) saturate(100%);
+  }
+
+  :global([data-theme='dark'])
+    .texture-card
+    :global(.texture-card__logo:not(.texture-card__logo--color)) {
+    filter: brightness(0) saturate(100%) invert(1) brightness(1.08);
+  }
+
+  .texture-card :global(.texture-card__logo) {
+    width: clamp(2.75rem, 28%, 3.5rem);
+    height: clamp(2.75rem, 28%, 3.5rem);
+    object-fit: contain;
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .texture-card :global(.texture-card__body) {
+    padding: 1rem 1.05rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .texture-card :global(.texture-card__title) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: var(--font-heading, var(--font-primary));
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+  }
+
+  .texture-card :global(.texture-card__desc) {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .texture-card :global(.texture-card__footnote) {
+    margin: 0;
+    margin-top: auto;
+    padding-top: 0.65rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    color: color-mix(in srgb, var(--color-muted) 92%, var(--color-text) 8%);
+  }
+
+  @media (hover: hover) {
+    .texture-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--color-border) 70%, var(--color-link) 30%);
+      box-shadow:
+        0 12px 32px -14px color-mix(in srgb, var(--color-text) 20%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--color-link) 10%, transparent);
+    }
+
+    .texture-card:hover .texture-card__shader-host {
+      opacity: 0.58;
+    }
+
+    .texture-card:hover :global(.texture-card__logo) {
+      transform: scale(1.06);
+    }
+
+    .texture-card:hover :global(.texture-card__title) {
+      color: var(--color-link);
+    }
+  }
+
+  .texture-card:focus-visible .texture-card__shader-host {
+    opacity: 0.58;
+  }
+
+  .texture-card:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 3px;
+  }
+</style>
