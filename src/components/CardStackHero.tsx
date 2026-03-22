@@ -202,6 +202,10 @@ export default function CardStackHero() {
           overflow: visible;
         }
 
+        .card-stack-hero--stacked-fan .card-stack-container {
+          height: 510px;
+        }
+
         .card-stack-hero--editorial {
           min-height: auto;
         }
@@ -233,6 +237,10 @@ export default function CardStackHero() {
           margin-bottom: 0.25rem;
         }
 
+        .card-stack-hero--stacked-fan .card-stack-hero__intro {
+          margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
         /* Override global .hero-title (shared-components) which targets page wrappers */
         .card-stack-hero .hero-title {
           height: auto;
@@ -255,6 +263,10 @@ export default function CardStackHero() {
           max-width: 100%;
           box-sizing: border-box;
           text-wrap: balance;
+        }
+
+        .card-stack-hero--stacked-fan .hero-title {
+          margin-bottom: clamp(2.5rem, 6vw, 4rem);
         }
 
         .card-stack-hero--editorial .card-stack-hero__intro {
@@ -298,6 +310,10 @@ export default function CardStackHero() {
           width: 240px;
           height: 340px;
           margin-top: 20px;
+        }
+
+        .card-stack-hero--stacked-fan .cards-wrapper {
+          margin-top: clamp(28px, 4vw, 56px);
         }
 
         .card {
@@ -597,8 +613,12 @@ export default function CardStackHero() {
             height: 380px;
           }
 
+          .card-stack-hero--stacked-fan .card-stack-container {
+            height: 430px;
+          }
+
           .card-stack-hero--stacked-fan .cards-wrapper {
-            margin-top: 15px;
+            margin-top: clamp(22px, 4vw, 36px);
             transform: scale(0.65);
           }
 
@@ -623,10 +643,19 @@ export default function CardStackHero() {
         @media (max-width: 480px) {
           .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.55);
+            margin-top: clamp(18px, 5vw, 28px);
           }
 
           .card-stack-container {
             height: 320px;
+          }
+
+          .card-stack-hero--stacked-fan .card-stack-container {
+            height: 365px;
+          }
+
+          .card-stack-hero--stacked-fan .hero-title {
+            margin-bottom: clamp(1.75rem, 6vw, 2.75rem);
           }
 
           .card-selected {
