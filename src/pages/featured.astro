@@ -1,10 +1,16 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import EditorialMediaCard from '../components/EditorialMediaCard.astro';
+import { featuredSpeaking } from '../data/featuredSpeaking';
+import { featuredMedia } from '../data/featuredMedia';
+import { resolveFeaturedMedia } from '../utils/linkPreview';
 
-// Page metadata
-const pageDescription = "A collection of conference talks, podcasts, and interviews. Speaking engagements at Config, Hatch Conference, UX Cambridge, and more.";
-const ogImage = "/images/highlights/img-highlights-hatch-conference.webp";
+const pageDescription =
+  'A collection of conference talks, podcasts, and interviews. Speaking engagements at Config, Hatch Conference, UX Cambridge, and more.';
+const ogImage = '/images/highlights/img-highlights-hatch-conference.webp';
+
+const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 ---
 
 <MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
@@ -13,148 +19,191 @@ const ogImage = "/images/highlights/img-highlights-hatch-conference.webp";
     image="/images/header-images/img-highlights-featured.webp"
     alt="Featured speaking and media"
   />
-  <div class="featured-grid">
-    <div class="featured-item">
-      <div class="featured-content">
-        <h2>Speaking</h2>
-            <h3>2026</h3>
-            <ul>
-              <li>May - <a href="https://luma.com/ow4gxstq" target="_blank">World Class Design Conference, Paris</a></li>
-              <li>May - <a href="https://leadershipateliers.com/" target="_blank">Hatch Leadership Ateliers, Amsterdam</a></li>
-            </ul>
-            <h3>2025</h3>
-            <ul>
-              <li>May - <a href="https://nycxdesign.org/nycxdesign-talk-with-will-hall-designing-intelligence/" target="_blank">NYCxDESIGN: The future of software design</a></li>
-              <li>May - <a href="https://www.youtube.com/watch?v=xkriqGkodQA" target="_blank">Config 2025: Maturing your teams & your leadership</a></li>
-            </ul>
-            <h3>2024</h3>
-            <ul>
-              <li>September - <a href="https://www.youtube.com/watch?v=4lWYcr53kyI" target="_blank">Hatch Conference: Design and (Blank)</a></li>
-            </ul>
-            <h3>2022</h3>
-            <ul>
-            <li>October - Disco Conf by Maze: Prototyping towards outcomes</li>
-            <li>November - Front Utah: Leading and operating design orgs</li>
-            </ul>
-
-            <h3>2021</h3>
-            <ul>
-            <li>April - <a href="https://www.youtube.com/watch?app=desktop&v=piGC-iFwmrk&t=45s" target="_blank">Figma Config: The Universal Challenges of Every Scaling Design Team</a></li>
-            <li>March - Design Career Network - From Designer to Manager</li>
-            <li>January - Product Hive: Lessons Learned in Prototyping</li>
-            </ul>
-
-            <h3>2020</h3>
-            <ul>
-            <li>December - Curiosity: The Product Development Superpower (Duke University)</li>
-            <li>November - Principles and Allegories (Hyper Island)</li>
-            </ul>
-
-            <h3>2019</h3>
-            <ul>
-            <li>November - No Code Conference</li>
-            <li>November - Productized in Lisbon, Portugal</li>
-            <li>April - Designing for healthcare</li>
-            </ul>
-
-            <h3>2018</h3>
-            <ul>
-            <li>October - UXDX in Dublin, Ireland</li>
-            <li>September - UX Cambridge in Cambridge, UK – An introduction to human-centred design leadership</li>
-            <li>June - UX Scotland in Edinburgh, Scotland – Play the part: an introduction to technology experience prototyping</li>
-            <li>June - UX Scotland in Edinburgh, Scotland – Human-Centered Design Leadership</li>
-            <li>March - try!Swift, Tokyo, Japan</li>
-            <li>February - Seattle Xcoders in Seattle, Washington</li>
-            </ul>
-
-            <h3>2017</h3>
-            <ul>
-            <li>September - UX Cambridge</li>
-            <li>September - SwiftConf in Cologne, Germany</li>
-            <li>June - Cocoa Conf Next Door in San Jose, California</li>
-            <li>March - Design for Healthcare: Designing For Doctors</li>
-            <li>March - Seattle Xcoders: Build Like a Kid</li>
-            </ul>
-
-            <h3>2016</h3>
-            <ul>
-            <li>September 29 - VanCocoa</li>
-            <li>September 14-16 - UX Cambridge</li>
-            <li>September 9-10 - CocoaConf Washington DC</li>
-            <li>May 6-7 - CocoaConf in Seattle, WA</li>
-            <li>April 14 - Seattle Xcoders: Me too! Designers working in Xcode</li>
-            <li>April 6 - Tradecraft: Fast With Intent—Learning Through Rapid Prototyping</li>
-            </ul>
-
-            <h3>2015</h3>
-            <ul>
-            <li>July 15 - Seattle Prototyping for Designers</li>
-            <li>May 8-9 - CocoaConf 2015 in Portland, Oregon: Designing For WATCH</li>
-            <li>January 8 - Seattle Xcoders in Seattle, Washington: Designing for WATCH before it ships</li>
-            </ul>
-
-            <h3>2013</h3>
-            <ul>
-            <li>Seattle Ignite: Coast-To-Coast: How to live in two cities</li>
-            </ul>
-        </div>
-      </div>
-
-      <div class="featured-item">
-        <div class="featured-content">
-          <h2>Media and publications</h2>
-          <ul>
-            <li><a href="https://www.codenewbie.org/podcast/how-no-code-tools-can-help-your-coding" target="_blank">Code Newbie: How no-code tools can help your coding</a></li>
-            <li><a href="https://webflow.com/blog/from-no-code-to-know-code" target="_blank">From no-code to know code</a></li>
-          </ul>
-        </div>
+  <div class="featured-editorial">
+    <div class="featured-editorial__speaking">
+      <h2 class="featured-editorial__section-title">Speaking</h2>
+      <p class="featured-editorial__lede">
+        Talks and workshops — listed newest first, with links where video or registration is
+        available.
+      </p>
+      <div class="speaking-timeline">
+        {
+          featuredSpeaking.map((block) => (
+            <section class="speaking-year" aria-labelledby={`speaking-${block.year}`}>
+              <h3 class="speaking-year__label" id={`speaking-${block.year}`}>
+                {block.year}
+              </h3>
+              <ul class="speaking-year__list">
+                {block.entries.map((entry) => (
+                  <li class="speaking-entry">
+                    {entry.meta ? (
+                      <span class="speaking-entry__meta">{entry.meta}</span>
+                    ) : (
+                      <span class="speaking-entry__meta speaking-entry__meta--empty" />
+                    )}
+                    <span class="speaking-entry__title">
+                      {entry.href ? (
+                        <a href={entry.href} target="_blank" rel="noopener noreferrer">
+                          {entry.title}
+                        </a>
+                      ) : (
+                        entry.title
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
       </div>
     </div>
+
+    <aside class="featured-editorial__media" aria-label="Media and publications">
+      <h2 class="featured-editorial__section-title">Media and publications</h2>
+      <p class="featured-editorial__lede featured-editorial__lede--compact">
+        Essays and appearances — previews pulled from each site when the build runs.
+      </p>
+      <div class="media-stack">
+        {mediaResolved.map((item) => <EditorialMediaCard {...item} />)}
+      </div>
+    </aside>
+  </div>
 </MainLayout>
 
 <style>
-
-  .featured-content-intro {
-    max-width: var(--container-narrow-width, 720px);
-    width: 100%;
-  }
-
-  .featured-grid {
+  .featured-editorial {
     display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 3rem;
-    margin: 1rem 0;
+    grid-template-columns: minmax(0, 1.65fr) minmax(18rem, 1fr);
+    gap: clamp(2rem, 5vw, 3.5rem);
+    margin: 1.25rem 0 3rem;
+    align-items: start;
   }
 
-  .featured-item {
-    overflow: hidden;
+  .featured-editorial__section-title {
+    margin: 0 0 0.35rem;
+    font-size: var(--h2-size);
+    line-height: var(--h2-line-height);
+    letter-spacing: var(--h2-letter-spacing);
+    overflow-wrap: break-word;
   }
 
-  .featured-content {
-    
+  .featured-editorial__lede {
+    margin: 0 0 1.75rem;
+    max-width: 42rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+    letter-spacing: var(--letter-spacing-body);
   }
 
-  .read-more {
-    display: inline-block;
-    margin-top: 1rem;
+  .featured-editorial__lede--compact {
+    margin-bottom: 1.25rem;
+    max-width: none;
+  }
+
+  .speaking-timeline {
+    border-left: 1px solid var(--color-border);
+    padding-left: clamp(1rem, 3vw, 1.75rem);
+    margin-left: 0.15rem;
+  }
+
+  .speaking-year {
+    margin-bottom: 2rem;
+  }
+
+  .speaking-year:last-child {
+    margin-bottom: 0;
+  }
+
+  .speaking-year__label {
+    margin: 0 0 0.85rem;
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    line-height: 1.2;
+    letter-spacing: var(--letter-spacing-heading-md);
+    font-weight: var(--heading-weight);
+    color: var(--color-text);
+    position: relative;
+  }
+
+  .speaking-year__label::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * clamp(1rem, 3vw, 1.75rem) - 0.15rem);
+    top: 0.55em;
+    width: 0.55rem;
+    height: 1px;
+    background: var(--color-border);
+    transform: translateX(-100%);
+  }
+
+  .speaking-year__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .speaking-entry {
+    display: grid;
+    grid-template-columns: minmax(4.5rem, 6.5rem) minmax(0, 1fr);
+    gap: 0.75rem 1.25rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
+    align-items: baseline;
+  }
+
+  .speaking-year__list li:last-child {
+    border-bottom: none;
+  }
+
+  .speaking-entry__meta {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  .speaking-entry__meta--empty {
+    visibility: hidden;
+  }
+
+  .speaking-entry__title {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
+  }
+
+  .speaking-entry__title a {
     color: var(--color-link);
-    text-decoration: none;
-  }
-
-  .read-more:hover {
     text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.18em;
+    transition: color var(--duration-normal) ease;
   }
 
-  @media (max-width: 768px) {
-    .featured-grid {
+  .speaking-entry__title a:hover {
+    color: var(--color-link-hover);
+  }
+
+  .media-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  @media (max-width: 900px) {
+    .featured-editorial {
       grid-template-columns: 1fr;
     }
 
-    .featured-content-intro {
-      max-width: 100%;
+    .featured-editorial__media {
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--color-border);
     }
   }
-
 </style>
-
- 
