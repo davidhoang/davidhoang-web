@@ -144,7 +144,8 @@ export function HeroCardShaderPattern({ cardId, pattern, color }: HeroCardShader
           colorFront={pair.front}
           shape="wave"
           type={dailyCtx && dailyCtx.phase > 0.52 ? '8x8' : '4x4'}
-          size={dailyCtx ? 2.35 + dailyCtx.phase * 0.45 : 2.6}
+          /* Coarser cells = less high-frequency noise behind the title overlap */
+          size={dailyCtx ? 3.05 + dailyCtx.phase * 0.55 : 3.35}
           scale={1.18}
           speed={0.42 * s * sm}
         />

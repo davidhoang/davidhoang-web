@@ -466,6 +466,62 @@ export default function CardStackHero() {
           margin-top: 8px;
         }
 
+        /* Shader header cards: title overlaps dither/mesh — scrim + shadow for legibility */
+        .card-has-shader .card-content {
+          padding-top: 28px;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.88) 0%,
+            rgba(0, 0, 0, 0.62) 36%,
+            rgba(0, 0, 0, 0.28) 65%,
+            transparent 100%
+          );
+        }
+
+        .card-has-shader .card-title,
+        .card-has-shader .card-subtitle {
+          text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.95),
+            0 2px 14px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-has-shader .card-subtitle {
+          opacity: 0.96;
+        }
+
+        .card-selected.card-has-shader .card-content {
+          padding-top: 32px;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0.68) 32%,
+            rgba(0, 0, 0, 0.32) 58%,
+            transparent 100%
+          );
+        }
+
+        .card-selected.card-has-shader .card-expanded-content {
+          margin-top: 0;
+          padding-top: 20px;
+          background: rgba(0, 0, 0, 0.22);
+          border-radius: 0 0 20px 20px;
+        }
+
+        .card-has-shader .card-description {
+          opacity: 1;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+        }
+
+        .card-has-shader .card-link {
+          background: rgba(0, 0, 0, 0.4);
+          border: 1px dashed rgba(255, 255, 255, 0.5);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-has-shader .card-link:hover {
+          background: rgba(0, 0, 0, 0.55);
+        }
+
         .card-expanded-content {
           padding: 16px 24px 24px 24px;
           color: white;
