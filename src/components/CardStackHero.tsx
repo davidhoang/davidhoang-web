@@ -663,10 +663,13 @@ export default function CardStackHero() {
         @media (max-width: 768px) {
           .card-stack-hero {
             min-height: 400px;
+            padding-left: 0;
+            padding-right: 0;
           }
 
           .card-stack-container {
             height: 380px;
+            max-width: 100%;
           }
 
           .card-stack-hero--stacked-fan .card-stack-container {
@@ -675,16 +678,33 @@ export default function CardStackHero() {
 
           .card-stack-hero--stacked-fan .cards-wrapper {
             margin-top: clamp(22px, 4vw, 36px);
-            transform: scale(0.65);
+            transform: scale(0.75);
           }
 
           .card-selected {
-            width: 280px;
-            margin-left: -140px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: calc(100vw - 2rem);
+            max-width: 400px;
+            margin-left: 0;
+            margin-top: 0;
+            transform: translate(-50%, -50%) !important;
+            z-index: 30;
+            min-height: auto;
+            height: auto;
           }
 
           .card-selected .card-title {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+          }
+
+          .card-selected .card-subtitle {
+            font-size: 1.05rem;
+          }
+
+          .click-outside-overlay {
+            background: rgba(0, 0, 0, 0.4);
           }
 
           .card-stack-hero--scattered .cards-wrapper {
@@ -698,16 +718,16 @@ export default function CardStackHero() {
 
         @media (max-width: 480px) {
           .card-stack-hero--stacked-fan .cards-wrapper {
-            transform: scale(0.55);
+            transform: scale(0.65);
             margin-top: clamp(18px, 5vw, 28px);
           }
 
           .card-stack-container {
-            height: 320px;
+            height: 340px;
           }
 
           .card-stack-hero--stacked-fan .card-stack-container {
-            height: 365px;
+            height: 385px;
           }
 
           .card-stack-hero--stacked-fan .hero-title {
@@ -715,8 +735,8 @@ export default function CardStackHero() {
           }
 
           .card-selected {
-            width: 260px;
-            margin-left: -130px;
+            width: calc(100vw - 1.5rem);
+            max-width: 360px;
           }
 
           .card-stack-hero--scattered .cards-wrapper {
