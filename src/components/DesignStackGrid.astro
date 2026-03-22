@@ -5,6 +5,8 @@ export interface DesignStackItem {
   description: string;
   /** Path to SVG under /public, e.g. /images/logos/stack/cursor.svg */
   logo: string;
+  /** When true, skip theme filters so multi-color / brand marks stay accurate */
+  preserveLogoColor?: boolean;
 }
 
 interface Props {
@@ -32,7 +34,10 @@ const { items } = Astro.props;
               height="72"
               loading="lazy"
               decoding="async"
-              class="design-stack-card__logo"
+              class:list={[
+                'design-stack-card__logo',
+                item.preserveLogoColor && 'design-stack-card__logo--color',
+              ]}
             />
           </div>
           <div class="design-stack-card__body">
@@ -129,8 +134,16 @@ const { items } = Astro.props;
     overflow: hidden;
   }
 
-  :global([data-theme='dark']) .design-stack-card__logo {
-    filter: invert(1) brightness(1.08);
+  /*
+   * Monochrome logos (any fill): dark on light UI, light on dark UI.
+   * brightness(0) collapses to black first so light- or dark-sourced SVGs behave the same.
+   */
+  .design-stack-card__logo:not(.design-stack-card__logo--color) {
+    filter: brightness(0) saturate(100%);
+  }
+
+  :global([data-theme='dark']) .design-stack-card__logo:not(.design-stack-card__logo--color) {
+    filter: brightness(0) saturate(100%) invert(1) brightness(1.08);
   }
 
   .design-stack-card__logo {

@@ -6,13 +6,14 @@ import DesignStackGrid from '../components/DesignStackGrid.astro';
 const pageDescription = "A curated collection of design tools, references, and resources I use and recommend.";
 const ogImage = "/images/header-images/img-header-writing.webp";
 
-/** Stack logos: cursor, replit, obsidian from Simple Icons (CC0); paper + ghostly are placeholders in /public/images/logos/stack/. */
+/** Stack logos: cursor, replit, obsidian from Simple Icons (CC0); paper + ghostly in /public/images/logos/stack/. */
 const designStack = [
   {
     name: "Paper",
     url: "https://paper.design",
     description: "Connected canvas for design, agents, and code—HTML/CSS-native handoff without losing intent.",
     logo: "/images/logos/stack/paper.svg",
+    preserveLogoColor: true,
   },
   {
     name: "Cursor",
@@ -30,7 +31,8 @@ const designStack = [
     name: "Ghostly",
     url: "https://getghostly.com",
     description: "OpenTelemetry-first observability—maps, context, and signal when systems get real.",
-    logo: "/images/logos/stack/ghostly.svg",
+    logo: "/images/logos/stack/ghostly.webp",
+    preserveLogoColor: true,
   },
   {
     name: "Obsidian",
