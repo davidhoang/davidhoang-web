@@ -317,10 +317,14 @@ export default function CardStackHero() {
         }
 
         .card {
+          /* Concentric nested radii: inner = outer − inset (see shader expanded panel). */
+          --card-radius: 20px;
+          --card-panel-inset: 12px;
+          --card-panel-inner-radius: max(0px, calc(var(--card-radius) - var(--card-panel-inset)));
           position: absolute;
           width: 240px;
           height: 320px;
-          border-radius: 20px;
+          border-radius: var(--card-radius);
           cursor: pointer;
           overflow: hidden;
           box-shadow:
@@ -501,10 +505,12 @@ export default function CardStackHero() {
         }
 
         .card-selected.card-has-shader .card-expanded-content {
-          margin-top: 0;
-          padding-top: 20px;
+          margin: 0 var(--card-panel-inset) var(--card-panel-inset) var(--card-panel-inset);
+          /* Margin + padding keeps 24px from card edge to copy; inner radius = outer − inset */
+          padding: 20px calc(24px - var(--card-panel-inset)) calc(24px - var(--card-panel-inset))
+            calc(24px - var(--card-panel-inset));
           background: rgba(0, 0, 0, 0.22);
-          border-radius: 0 0 20px 20px;
+          border-radius: 0 0 var(--card-panel-inner-radius) var(--card-panel-inner-radius);
         }
 
         .card-has-shader .card-description {
