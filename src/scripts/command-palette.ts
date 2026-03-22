@@ -50,7 +50,7 @@ function highlightQuery(text: string, query: string): string {
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
   if (idx === -1) return text;
   return text.slice(0, idx)
-    + '<mark class="cmd-highlight">'
+    + '<mark class="cmd-palette-highlight">'
     + text.slice(idx, idx + query.length)
     + '</mark>'
     + text.slice(idx + query.length);
@@ -81,6 +81,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   function open() {
     nav!.classList.add('cmd-palette-active');
     input!.value = '';
+    input!.setAttribute('aria-expanded', 'true');
     render('');
     requestAnimationFrame(() => {
       input!.focus();
@@ -92,6 +93,8 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   function close() {
     nav!.classList.remove('cmd-palette-active', 'cmd-palette-has-results');
     input!.value = '';
+    input!.setAttribute('aria-expanded', 'false');
+    input!.removeAttribute('aria-activedescendant');
     results!.innerHTML = '';
     results!.classList.remove('has-results');
     footer?.classList.remove('visible');
@@ -111,12 +114,13 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
 
     function resultHtml(item: SearchItem, type: string, title: string, desc?: string): string {
       const delay = resultIndex * 0.02;
+      const optId = `cmd-palette-opt-${resultIndex}`;
       const descHtml = desc
-        ? `<span class="cmd-result-desc">${desc}</span>`
+        ? `<span class="cmd-palette-item__desc">${desc}</span>`
         : '';
-      const html = `<a href="${item.path}" class="cmd-result cmd-result--${type}" role="option" data-path="${item.path}" style="animation-delay:${delay}s">
-        <span class="cmd-result-text">
-          <span class="cmd-result-title">${title}</span>
+      const html = `<a href="${item.path}" id="${optId}" class="cmd-palette-item cmd-palette-item--${type}" role="option" aria-selected="false" data-path="${item.path}" style="--cmd-palette-stagger:${delay}s">
+        <span class="cmd-palette-item__main">
+          <span class="cmd-palette-item__title">${title}</span>
           ${descHtml}
         </span>
       </a>`;
@@ -179,10 +183,18 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   }
 
   function highlightActive() {
-    const items = results!.querySelectorAll('.cmd-result');
-    items.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+    const items = results!.querySelectorAll('.cmd-palette-item');
+    items.forEach((el, i) => {
+      const on = activeIndex >= 0 && i === activeIndex;
+      el.classList.toggle('is-highlighted', on);
+      el.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
     if (activeIndex >= 0 && items[activeIndex]) {
-      items[activeIndex].scrollIntoView({ block: 'nearest' });
+      const active = items[activeIndex] as HTMLElement;
+      if (active.id) input!.setAttribute('aria-activedescendant', active.id);
+      active.scrollIntoView({ block: 'nearest' });
+    } else {
+      input!.removeAttribute('aria-activedescendant');
     }
   }
 
@@ -222,7 +234,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
 
   // Keyboard navigation in input
   function handleInputKeydown(e: KeyboardEvent) {
-    const items = results!.querySelectorAll('.cmd-result');
+    const items = results!.querySelectorAll('.cmd-palette-item');
     const count = items.length;
 
     switch (e.key) {
@@ -253,7 +265,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
 
   // Click a result
   function handleResultClick(e: MouseEvent) {
-    if ((e.target as HTMLElement).closest('.cmd-result')) {
+    if ((e.target as HTMLElement).closest('.cmd-palette-item')) {
       close();
     }
   }

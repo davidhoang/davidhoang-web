@@ -3,12 +3,12 @@ import type { LayoutProps } from '../types';
 import { CardBaseContent } from '../CardBase';
 
 const cardPositions = [
-  { x: -400, y: 35, rotation: -15 },
-  { x: -240, y: 20, rotation: -9 },
-  { x: -80, y: 8, rotation: -3 },
-  { x: 80, y: 8, rotation: 3 },
-  { x: 240, y: 20, rotation: 9 },
-  { x: 400, y: 35, rotation: 15 },
+  { x: -400, y: 28, rotation: -9 },
+  { x: -240, y: 14, rotation: -5.5 },
+  { x: -80, y: 5, rotation: -2 },
+  { x: 80, y: 5, rotation: 2 },
+  { x: 240, y: 14, rotation: 5.5 },
+  { x: 400, y: 28, rotation: 9 },
 ];
 
 export default function StackedFanLayout({
@@ -48,21 +48,21 @@ export default function StackedFanLayout({
             }}
             animate={{
               x: isSelected ? 0 : (isLoaded ? position.x : 0),
-              y: isSelected ? -70 : (isLoaded ? position.y : 50),
+              y: isSelected ? -52 : (isLoaded ? position.y : 50),
               rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-              scale: isSelected ? 1.1 : (isLoaded ? 1 : 0.9),
+              scale: isSelected ? 1.06 : (isLoaded ? 1 : 0.9),
               opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
             }}
             whileHover={!isSelected ? {
-              y: position.y - 20,
-              scale: 1.05,
-              transition: { type: 'spring', stiffness: 400, damping: 25 }
+              y: position.y - 10,
+              scale: 1.025,
+              transition: { type: 'spring', stiffness: 280, damping: 32 }
             } : {}}
-            whileTap={!isSelected ? { scale: 0.98 } : {}}
+            whileTap={!isSelected ? { scale: 0.99 } : {}}
             transition={{
               type: 'spring',
-              stiffness: hasAnimatedIn ? 300 : 100,
-              damping: hasAnimatedIn ? 20 : 10,
+              stiffness: hasAnimatedIn ? 220 : 85,
+              damping: hasAnimatedIn ? 24 : 14,
               delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
             }}
             onMouseEnter={() => !selectedCard && onCardHover(card.id)}
