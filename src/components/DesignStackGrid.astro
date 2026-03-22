@@ -30,13 +30,18 @@ function stackUrlFootnote(url: string): string {
   {
     items.map((item, i) => (
       <li class="design-stack-item" style={`--stack-i: ${i}`}>
-        <TextureCard href={item.url} target="_blank" rel="noopener noreferrer">
+        <TextureCard
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="texture-card--compact-logo"
+        >
           <div class="texture-card__media">
             <img
               src={item.logo}
               alt=""
-              width="72"
-              height="72"
+              width="56"
+              height="56"
               loading="lazy"
               decoding="async"
               class:list={[
