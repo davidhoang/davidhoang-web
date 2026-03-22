@@ -6,20 +6,25 @@ import DesignStackGrid from '../components/DesignStackGrid.astro';
 const pageDescription = "A curated collection of design tools, references, and resources I use and recommend.";
 const ogImage = "/images/header-images/img-header-writing.webp";
 
-/** Stack logos: cursor, replit, obsidian from Simple Icons (CC0); paper + ghostly in /public/images/logos/stack/. */
+/** Stack logos: cursor, replit, obsidian, claude-code (Anthropic mark) from Simple Icons (CC0); paper + ghostly in /public/images/logos/stack/. */
 const designStack = [
   {
     name: "Paper",
     url: "https://paper.design",
     description: "Connected canvas for design, agents, and code—HTML/CSS-native handoff without losing intent.",
     logo: "/images/logos/stack/paper.svg",
-    preserveLogoColor: true,
   },
   {
     name: "Cursor",
     url: "https://cursor.com",
     description: "The AI-native editor I use for day-to-day shipping: context-aware refactors and fast iteration.",
     logo: "/images/logos/stack/cursor.svg",
+  },
+  {
+    name: "Claude Code",
+    url: "https://www.anthropic.com/claude-code",
+    description: "Agentic coding in the terminal—repo-wide context, edits, and runs with clear permission boundaries.",
+    logo: "/images/logos/stack/claude-code.svg",
   },
   {
     name: "Replit",
@@ -76,7 +81,7 @@ const resources = [
     <section class="design-stack-section" aria-labelledby="design-stack-heading">
       <h2 id="design-stack-heading" class="section-heading">My design stack</h2>
       <p class="design-stack-lede">
-        Design, build, run, observe, and think — the five products I keep in rotation right now.
+        Tools I use daily to make software.
       </p>
       <DesignStackGrid items={designStack} />
     </section>

@@ -14,6 +14,14 @@ interface Props {
 }
 
 const { items } = Astro.props;
+
+function stackUrlFootnote(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./i, '');
+  } catch {
+    return url;
+  }
+}
 ---
 
 <ul class="design-stack-grid" role="list">
@@ -43,6 +51,9 @@ const { items } = Astro.props;
           <div class="design-stack-card__body">
             <span class="design-stack-card__name">{item.name}</span>
             <p class="design-stack-card__desc">{item.description}</p>
+            <p class="design-stack-card__footnote" aria-hidden="true">
+              {stackUrlFootnote(item.url)}
+            </p>
             <span class="sr-only">(opens in new tab)</span>
           </div>
         </a>
@@ -129,7 +140,8 @@ const { items } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 16 / 10;
+    /* Wider than 16/10 — less vertical chrome around the logo */
+    aspect-ratio: 16 / 7;
     background: color-mix(in srgb, var(--color-muted) 10%, var(--color-bg));
     overflow: hidden;
   }
@@ -181,6 +193,17 @@ const { items } = Astro.props;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .design-stack-card__footnote {
+    margin: 0;
+    margin-top: auto;
+    padding-top: 0.65rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    color: color-mix(in srgb, var(--color-muted) 92%, var(--color-text) 8%);
   }
 
   @media (hover: hover) {
