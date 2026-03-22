@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import AiDisclaimer from '../components/AiDisclaimer.astro';
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -136,22 +137,22 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   />
   <div class="hero-grid">
     <div class="about-content">
-        <div class="bio-controls glass-border">
-          <div class="bio-slider-container">
-            <div class="bio-slider-label-wrapper">
-              <span class="bio-slider-current-label" id="bio-slider-current-label">{bioSections[defaultIndex]?.title || 'Medium'}</span>
-            </div>
-            <input 
-              type="range" 
-              id="bio-length-slider" 
-              class="bio-slider" 
-              min="0" 
-              max={bioSections.length - 1} 
-              value={defaultIndex} 
-              step="0.01"
-              aria-label="Select bio length"
-              data-bio-count={bioSections.length}
-            />
+        <div class="bio-pipe-wrap">
+          <div class="bio-pipe" role="tablist" aria-label="Bio versions">
+            {bioSections.map((bio, index) => (
+              <button
+                type="button"
+                role="tab"
+                class:list={['bio-pipe-segment', { 'is-active': index === defaultIndex }]}
+                id={`bio-tab-${index}`}
+                aria-selected={index === defaultIndex}
+                aria-controls={`bio-panel-${index}`}
+                tabindex={index === defaultIndex ? 0 : -1}
+                data-version={index}
+              >
+                {bio.title}
+              </button>
+            ))}
           </div>
         </div>
         
@@ -159,15 +160,14 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
           {bioSections.map((bio, index) => (
             <div
               class={`bio-content ${index === defaultIndex ? 'active' : ''}`}
+              role="tabpanel"
+              id={`bio-panel-${index}`}
+              aria-labelledby={`bio-tab-${index}`}
               data-version={index}
-              data-label={bio.title}
+              aria-hidden={index !== defaultIndex}
+              inert={index !== defaultIndex}
             >
-              {bio.isAI && (
-                <div class="ai-warning">
-                  <span class="ai-warning-icon">⚠️</span>
-                  <span class="ai-warning-text">AI generated, verify results</span>
-                </div>
-              )}
+              {bio.isAI && <AiDisclaimer />}
               <h2 class="bio-section-title">{bio.title}</h2>
               <div set:html={bio.content}></div>
             </div>
@@ -236,98 +236,91 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     margin: 0 auto;
   }
 
-  .bio-controls {
-    margin-bottom: 2rem;
-    padding: 0.75rem 1rem;
-    background: var(--color-sidebar-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    transition: background-color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
-  }
-
-  .bio-slider-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .bio-slider {
-    width: 100%;
-    height: 6px;
-    border-radius: var(--radius-full, 9999px);
-    background: var(--color-border);
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    transition: background-color 0.4s var(--ease-inertia, ease);
-    margin: 0.25rem 0;
-  }
-
-  .bio-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: var(--radius-full, 9999px);
-    background: var(--color-text);
-    border: 2px solid var(--color-bg);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, border-color 0.4s ease;
-    box-shadow: 0 2px 6px color-mix(in srgb, var(--color-text) 20%, transparent);
-  }
-
-  .bio-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text) 30%, transparent);
-  }
-
-  .bio-slider:focus-visible::-webkit-slider-thumb {
-    outline: 3px solid var(--color-link);
-    outline-offset: 2px;
-  }
-
-  .bio-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: var(--radius-full, 9999px);
-    background: var(--color-text);
-    border: 2px solid var(--color-bg);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, border-color 0.4s ease;
-    box-shadow: 0 2px 6px color-mix(in srgb, var(--color-text) 20%, transparent);
-  }
-
-  .bio-slider::-moz-range-thumb:hover {
-    transform: scale(1.15);
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text) 30%, transparent);
-  }
-
-  .bio-slider:focus-visible::-moz-range-thumb {
-    outline: 3px solid var(--color-link);
-    outline-offset: 2px;
-  }
-
-  .bio-slider::-moz-range-track {
-    height: 6px;
-    border-radius: var(--radius-full, 9999px);
-    background: var(--color-border);
-    transition: background-color 0.4s ease;
-  }
-
-  .bio-slider-label-wrapper {
+  .bio-pipe-wrap {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 0.25rem;
+    width: 100%;
+    margin: 0 0 1.125rem;
   }
 
-  .bio-slider-current-label {
-    font-size: 1rem;
-    font-weight: var(--heading-weight, 600);
-    color: var(--color-link);
-    transition: color 0.4s ease, font-weight 0.4s ease;
+  .bio-pipe {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0;
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 0 0.2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-border) 55%, transparent) transparent;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+  }
+
+  .bio-pipe::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .bio-pipe::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-border) 70%, transparent);
+    border-radius: var(--radius-full, 9999px);
+  }
+
+  .bio-pipe-segment {
+    flex: 0 0 auto;
+    min-width: fit-content;
+    margin: 0;
+    padding: 0.2rem 0.45rem;
+    font-family: inherit;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    color: color-mix(in srgb, var(--color-muted) 92%, var(--color-text));
     text-align: center;
+    white-space: nowrap;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border-left: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+    cursor: pointer;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .bio-pipe-segment:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .bio-pipe-segment:last-child {
+    padding-right: 0;
+  }
+
+  .bio-pipe-segment:hover:not(.is-active) {
+    color: var(--color-text);
+  }
+
+  .bio-pipe-segment.is-active {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.28em;
+    text-decoration-color: color-mix(in srgb, var(--color-link) 42%, var(--color-border));
+  }
+
+  .bio-pipe-segment:focus {
+    outline: none;
+  }
+
+  .bio-pipe-segment:focus-visible {
+    position: relative;
+    z-index: 1;
+    border-radius: 2px;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 35%, transparent);
   }
 
   .bio-content-wrapper {
@@ -361,34 +354,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     line-height: 1.2;
   }
 
-  .ai-warning {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: var(--radius-md);
-    font-size: 0.875rem;
-    color: var(--color-text);
-  }
-
-  .ai-warning-icon {
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-
-  .ai-warning-text {
-    font-weight: 500;
-  }
-
-  [data-theme="dark"] .ai-warning {
-    background: rgba(255, 193, 7, 0.15);
-    border-color: rgba(255, 193, 7, 0.4);
-  }
-
-  
   /* Work History */
   .work-history {
     margin-top: var(--section-spacing, 4rem);
@@ -481,12 +446,13 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
       line-height: 1.75;
     }
 
-    .bio-controls {
-      padding: 0.5rem 0.75rem;
+    .bio-pipe-wrap {
+      margin-bottom: 1rem;
     }
 
-    .bio-slider-current-label {
-      font-size: 0.9rem;
+    .bio-pipe-segment {
+      font-size: 0.65625rem;
+      padding: 0.15rem 0.4rem;
     }
 
     .bio-section-title {
@@ -499,101 +465,61 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 </style>
 
 <script>
-  // Bio length slider functionality - smooth draggable spectrum
-  function initBioSlider() {
-    const slider = document.getElementById('bio-length-slider') as HTMLInputElement | null;
-    const currentLabel = document.getElementById('bio-slider-current-label');
+  function initBioVersionPipe() {
+    const pipe = document.querySelector('.bio-pipe');
+    const segments = document.querySelectorAll('.bio-pipe-segment');
     const bioContents = document.querySelectorAll('.bio-content');
 
-    if (!slider) return;
+    if (!pipe || segments.length === 0 || bioContents.length === 0) return;
 
-    // Get number of versions dynamically
-    const numVersions = bioContents.length;
-    const maxValue = numVersions - 1;
-    
-    // Extract labels from data attributes or use index as fallback
-    const versionLabels: string[] = [];
-    bioContents.forEach((content) => {
-      const label = (content as HTMLElement).getAttribute('data-label') || 
-                    (content as HTMLElement).getAttribute('data-version') || 
-                    '';
-      versionLabels.push(label);
-    });
+    function selectVersion(i: number, focusTab: boolean) {
+      const max = segments.length - 1;
+      const version = Math.max(0, Math.min(max, i));
 
-    // Update slider max if needed
-    if (slider.max !== String(maxValue)) {
-      slider.max = String(maxValue);
-    }
+      segments.forEach((seg, idx) => {
+        const btn = seg as HTMLButtonElement;
+        const on = idx === version;
+        btn.classList.toggle('is-active', on);
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.tabIndex = on ? 0 : -1;
+        if (on && focusTab) btn.focus();
+      });
 
-    function getClosestVersion(value: number): number {
-      // Snap to nearest version
-      return Math.round(Math.max(0, Math.min(maxValue, value)));
-    }
-
-    function updateBioContent(value: number) {
-      const version = getClosestVersion(value);
-      const label = versionLabels[version] || `Version ${version + 1}`;
-
-      // Update label
-      if (currentLabel) {
-        currentLabel.textContent = label;
-      }
-
-      // Update active content with smooth transitions
       bioContents.forEach((content) => {
-        const bioContent = content as HTMLElement;
-        const contentVersion = parseInt(bioContent.getAttribute('data-version') || '0');
-        
-        if (contentVersion === version) {
-          bioContent.classList.add('active');
-        } else {
-          bioContent.classList.remove('active');
-        }
+        const el = content as HTMLElement;
+        const contentVersion = parseInt(el.getAttribute('data-version') || '0', 10);
+        const on = contentVersion === version;
+        el.classList.toggle('active', on);
+        el.setAttribute('aria-hidden', on ? 'false' : 'true');
+        el.inert = !on;
       });
     }
 
-    // Get initial value from slider
-    const initialValue = parseFloat(slider.value) || Math.floor(numVersions / 2);
-    updateBioContent(initialValue);
-
-    // Handle slider input - smooth dragging
-    slider.addEventListener('input', (e) => {
-      const value = parseFloat((e.target as HTMLInputElement).value);
-      updateBioContent(value);
+    pipe.addEventListener('click', (e) => {
+      const t = (e.target as HTMLElement).closest('.bio-pipe-segment');
+      if (!t || !pipe.contains(t)) return;
+      const v = parseInt((t as HTMLButtonElement).getAttribute('data-version') || '0', 10);
+      selectVersion(v, false);
     });
 
-    // Snap to nearest position when user releases
-    slider.addEventListener('change', (e) => {
-      const value = parseFloat((e.target as HTMLInputElement).value);
-      const snappedValue = getClosestVersion(value);
-      slider.value = String(snappedValue);
-      updateBioContent(snappedValue);
-    });
+    pipe.addEventListener('keydown', (e) => {
+      const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
+      if (!keys.includes(e.key)) return;
 
-    // Handle keyboard navigation
-    slider.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        const currentValue = parseFloat(slider.value);
-        const step = 0.25; // Smaller steps for smoother keyboard navigation
-        
-        if (e.key === 'ArrowLeft' && currentValue > 0) {
-          const newValue = Math.max(0, currentValue - step);
-          slider.value = String(newValue);
-          updateBioContent(newValue);
-        } else if (e.key === 'ArrowRight' && currentValue < maxValue) {
-          const newValue = Math.min(maxValue, currentValue + step);
-          slider.value = String(newValue);
-          updateBioContent(newValue);
-        }
-      }
+      const tabs = [...segments] as HTMLButtonElement[];
+      const current = tabs.findIndex((b) => b.classList.contains('is-active'));
+      if (current < 0) return;
+
+      e.preventDefault();
+      let next = current;
+      if (e.key === 'ArrowLeft') next = current > 0 ? current - 1 : tabs.length - 1;
+      else if (e.key === 'ArrowRight') next = current < tabs.length - 1 ? current + 1 : 0;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabs.length - 1;
+
+      selectVersion(next, true);
     });
   }
 
-  // Initialize bio slider when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBioSlider);
-  } else {
-    initBioSlider();
-  }
+  document.addEventListener('astro:page-load', initBioVersionPipe);
 </script>

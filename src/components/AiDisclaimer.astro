@@ -1,0 +1,96 @@
+---
+interface Props {
+  message?: string;
+}
+
+const { message = 'AI generated, verify results' } = Astro.props;
+---
+
+<div class="ai-disclaimer" role="note">
+  <span class="ai-disclaimer-icon" aria-hidden="true">
+    <svg class="ai-disclaimer-svg" viewBox="0 0 24 24" width="17" height="17">
+      <path
+        class="ai-disclaimer-triangle"
+        d="M12 3.8 20.4 18.2H3.6L12 3.8z"
+      />
+      <path
+        class="ai-disclaimer-mark"
+        d="M12 9.2v4.6M12 16.4v.01"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
+  </span>
+  <p class="ai-disclaimer-text">{message}</p>
+</div>
+
+<style>
+  .ai-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: 0.7rem 1rem 0.75rem;
+    margin: 0 0 1.1rem;
+    max-width: 100%;
+    border-radius: calc(var(--radius-md, 8px) + 1px);
+    border: 1px solid
+      color-mix(in srgb, #b8a88c 28%, var(--color-border));
+    background: color-mix(
+      in srgb,
+      #f3efe6 52%,
+      var(--color-bg)
+    );
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent);
+  }
+
+  .ai-disclaimer-icon {
+    flex-shrink: 0;
+    margin-top: 0.12rem;
+    line-height: 0;
+    opacity: 0.92;
+  }
+
+  .ai-disclaimer-svg {
+    display: block;
+  }
+
+  .ai-disclaimer-triangle {
+    fill: color-mix(in srgb, #c4a85a 68%, #d8ccb0);
+  }
+
+  .ai-disclaimer-mark {
+    stroke: color-mix(in srgb, var(--color-text) 82%, #3d3830);
+  }
+
+  .ai-disclaimer-text {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
+  }
+
+  [data-theme='dark'] .ai-disclaimer {
+    border-color: color-mix(in srgb, #8a7b62 32%, var(--color-border));
+    background: color-mix(
+      in srgb,
+      #1e1c16 42%,
+      var(--color-bg)
+    );
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 4%, transparent);
+  }
+
+  [data-theme='dark'] .ai-disclaimer-triangle {
+    fill: color-mix(in srgb, #9a8548 45%, #4a4030);
+  }
+
+  [data-theme='dark'] .ai-disclaimer-mark {
+    stroke: color-mix(in srgb, var(--color-text) 88%, #c4beb2);
+  }
+
+  [data-theme='dark'] .ai-disclaimer-text {
+    color: color-mix(in srgb, var(--color-text) 72%, var(--color-muted));
+  }
+</style>
