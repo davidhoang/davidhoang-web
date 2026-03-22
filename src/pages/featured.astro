@@ -22,10 +22,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   <div class="featured-editorial">
     <div class="featured-editorial__speaking">
       <h2 class="featured-editorial__section-title">Speaking</h2>
-      <p class="featured-editorial__lede">
-        Talks and workshops — listed newest first, with links where video or registration is
-        available.
-      </p>
       <div class="speaking-timeline">
         {
           featuredSpeaking.map((block) => (
@@ -86,6 +82,10 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     line-height: var(--h2-line-height);
     letter-spacing: var(--h2-letter-spacing);
     overflow-wrap: break-word;
+  }
+
+  .featured-editorial__speaking .featured-editorial__section-title {
+    margin-bottom: 1.25rem;
   }
 
   .featured-editorial__lede {
@@ -178,15 +178,13 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     color: var(--color-text);
   }
 
-  .speaking-entry__title a {
+  .featured-editorial .speaking-entry__title a {
     color: var(--color-link);
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-underline-offset: 0.18em;
+    text-decoration: none;
     transition: color var(--duration-normal) ease;
   }
 
-  .speaking-entry__title a:hover {
+  .featured-editorial .speaking-entry__title a:hover {
     color: var(--color-link-hover);
   }
 
