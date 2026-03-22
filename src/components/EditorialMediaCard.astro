@@ -1,0 +1,168 @@
+---
+import type { ResolvedFeaturedMedia } from '../utils/linkPreview';
+
+type Props = ResolvedFeaturedMedia;
+
+const { url, kicker, title, description, image, hostname } = Astro.props;
+const label = [kicker, hostname].filter(Boolean).join(' · ');
+const cta =
+  /podcast/i.test(kicker) || /podcast/i.test(hostname) ? 'Listen to episode' : 'Read article';
+---
+
+<a class="editorial-media-card" href={url} target="_blank" rel="noopener noreferrer">
+  <div class="editorial-media-card__visual">
+    {
+      image ? (
+        <img
+          src={image}
+          alt=""
+          width={800}
+          height={450}
+          loading="lazy"
+          decoding="async"
+          class="editorial-media-card__img"
+        />
+      ) : (
+        <div class="editorial-media-card__placeholder" aria-hidden="true">
+          <span class="editorial-media-card__glyph">↗</span>
+        </div>
+      )
+    }
+  </div>
+  <div class="editorial-media-card__body">
+    <p class="editorial-media-card__kicker">{label}</p>
+    <h3 class="editorial-media-card__title">{title}</h3>
+    <p class="editorial-media-card__desc">{description}</p>
+    <span class="editorial-media-card__cta">{cta}</span>
+  </div>
+</a>
+
+<style>
+  .editorial-media-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 4px);
+    overflow: hidden;
+    background: var(--color-bg);
+    transition:
+      border-color var(--duration-slow, 0.3s) var(--ease-inertia, ease),
+      box-shadow var(--duration-slow, 0.3s) var(--ease-inertia, ease);
+  }
+
+  @media (min-width: 520px) {
+    .editorial-media-card {
+      grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr);
+    }
+  }
+
+  .editorial-media-card:hover {
+    border-color: var(--color-link-hover);
+    box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
+  }
+
+  .editorial-media-card:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 3px;
+  }
+
+  .editorial-media-card__visual {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--color-sidebar-bg);
+  }
+
+  @media (min-width: 520px) {
+    .editorial-media-card__visual {
+      aspect-ratio: auto;
+      min-height: 100%;
+    }
+  }
+
+  .editorial-media-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .editorial-media-card__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      145deg,
+      var(--color-sidebar-bg) 0%,
+      color-mix(in srgb, var(--color-border) 55%, var(--color-bg)) 100%
+    );
+  }
+
+  .editorial-media-card__glyph {
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--color-muted);
+    opacity: 0.65;
+  }
+
+  .editorial-media-card__body {
+    padding: clamp(1rem, 2.5vw, 1.35rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .editorial-media-card__kicker {
+    margin: 0;
+    font-size: 0.7rem;
+    letter-spacing: var(--letter-spacing-caption, 0.08em);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+
+  .editorial-media-card__title {
+    margin: 0;
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    line-height: 1.25;
+    letter-spacing: var(--letter-spacing-heading-md, -0.01em);
+    font-weight: var(--heading-weight, 600);
+    color: var(--color-text);
+    transition: color var(--duration-normal, 0.2s) ease;
+  }
+
+  .editorial-media-card:hover .editorial-media-card__title {
+    color: var(--color-link-hover);
+  }
+
+  .editorial-media-card__desc {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    letter-spacing: var(--letter-spacing-body, 0.005em);
+    flex: 1;
+  }
+
+  .editorial-media-card__cta {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.2em;
+  }
+
+  .editorial-media-card:hover .editorial-media-card__cta {
+    color: var(--color-link-hover);
+  }
+</style>
