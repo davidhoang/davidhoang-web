@@ -69,7 +69,6 @@ const isBrandTitle = title === 'Proof of Concept';
           </svg>
         </span>
       </button>
-      <p class="signup-footnote">Free, no spam. Unsubscribe anytime.</p>
     </div>
   </form>
 </div>
@@ -291,24 +290,6 @@ const isBrandTitle = title === 'Proof of Concept';
     outline-offset: 3px;
   }
 
-  .signup-footnote {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--color-muted);
-    opacity: 0.75;
-    animation: signup-footnote-nudge 6s ease-in-out infinite;
-  }
-
-  @keyframes signup-footnote-nudge {
-    0%,
-    100% {
-      opacity: 0.65;
-    }
-    50% {
-      opacity: 0.9;
-    }
-  }
-
   .visually-hidden {
     position: absolute;
     width: 1px;
@@ -381,10 +362,6 @@ const isBrandTitle = title === 'Proof of Concept';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .signup-footnote {
-      animation: none;
-    }
-
     .email-input,
     .subscribe-button,
     .subscribe-button-icon {
