@@ -2,6 +2,7 @@
 /**
  * Reusable card shell: border, lift on hover, Paper Design texture (dither) on hover/focus.
  * Compose with `.texture-card__media` (optional top strip), `.texture-card__body`, etc.
+ * Optional root class `texture-card--compact-logo` for smaller marks (e.g. design stack grid).
  */
 import TextureCardShader from './TextureCardShader';
 
@@ -112,6 +113,11 @@ const isLink = Boolean(href);
     object-fit: contain;
     display: block;
     transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .texture-card.texture-card--compact-logo :global(.texture-card__logo) {
+    width: clamp(2rem, 22%, 2.625rem);
+    height: clamp(2rem, 22%, 2.625rem);
   }
 
   .texture-card :global(.texture-card__body) {
