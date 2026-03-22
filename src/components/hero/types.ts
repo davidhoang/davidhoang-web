@@ -11,6 +11,11 @@ export interface Card {
   thumbnail?: string;
 }
 
+/** True when the card uses a generative shader in the header (title can overlap busy art). */
+export function cardHasShaderSurface(card: Pick<Card, 'image' | 'thumbnail'>): boolean {
+  return !card.image && !card.thumbnail;
+}
+
 export interface LayoutProps {
   cards: Card[];
   selectedCard: string | null;

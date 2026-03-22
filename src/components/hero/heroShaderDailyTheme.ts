@@ -124,11 +124,11 @@ export function dailyStaticMeshColors(c: string, ctx: HeroDailyShaderContext): s
   ];
 }
 
-/** Proof of Concept — dither */
+/** Proof of Concept — dither (slightly muted front = less near-white speckle behind title overlap) */
 export function dailyDitherPair(c: string, ctx: HeroDailyShaderContext): { back: string; front: string } {
   return {
     back: blendColors(mixColorTowardBlack(c, 0.62), blendColors(ctx.bg, ctx.muted, 0.5), 0.42),
-    front: blendColors(mixColorTowardWhite(c, 0.88), ctx.linkHover, 0.26),
+    front: blendColors(mixColorTowardWhite(c, 0.72), ctx.linkHover, 0.22),
   };
 }
 

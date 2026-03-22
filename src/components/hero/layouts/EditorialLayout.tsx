@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import type { LayoutProps } from '../types';
+import { type LayoutProps, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 
 export default function EditorialLayout({
@@ -23,7 +23,7 @@ export default function EditorialLayout({
         return (
           <motion.div
             key={card.id}
-            className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
+            className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
             style={{
               backgroundColor: isGlass ? 'transparent' : card.color,
               zIndex: isSelected ? 20 : cards.length - index,
