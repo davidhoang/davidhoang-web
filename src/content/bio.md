@@ -30,7 +30,7 @@ I invest in and advise early-stage startups, especially creative tools that empo
 
 See what I'm up to [now](/now).
 
-## Life Story
+## Long Form
 
 I'm a designer, investor, and builder focused on tools that revolutionize the internet. My career has been an [odyssey](/career-odyssey)—20 years in and still so much to learn and experience. My love for design and software began after graduating with a BFA in Drawing and Painting. Interdisciplinary studies led me to electives in Computer Science, Art History, and the Humanities. After matriculation, I took what's now called a gap year to prepare for an MFA; I never went, instead designing app interfaces for a new device called the iPhone.
 
