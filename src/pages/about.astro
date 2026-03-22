@@ -405,31 +405,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     font-variant-numeric: tabular-nums;
   }
 
-  @media (max-width: 768px) {
-    .work-entry {
-      flex-wrap: wrap;
-      gap: 0.25rem 0.5rem;
-    }
-
-    .work-company {
-      font-size: 1rem;
-    }
-
-    .work-role {
-      font-size: 0.95rem;
-    }
-
-    .work-years {
-      font-size: 0.95rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .work-years {
-      margin-left: auto;
-    }
-  }
-
   /* Ensure images in content stay in container */
   .about-content img {
     max-width: 100%;
@@ -459,6 +434,20 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
       font-size: 1.85rem;
       margin-bottom: 1.25rem;
       letter-spacing: -0.02em;
+    }
+
+    .work-entry {
+      flex-wrap: wrap;
+      gap: 0.25rem 0.5rem;
+    }
+
+    .work-company {
+      font-size: 1rem;
+    }
+
+    .work-role,
+    .work-years {
+      font-size: 0.95rem;
     }
   }
 
