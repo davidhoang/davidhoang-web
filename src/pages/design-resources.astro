@@ -72,29 +72,27 @@ const resources = [
   />
   <div class="design-resources-layout">
     <section class="design-stack-section" aria-labelledby="design-stack-heading">
-      <h2 id="design-stack-heading" class="design-stack-heading">My design stack</h2>
+      <h2 id="design-stack-heading" class="section-heading">My design stack</h2>
       <p class="design-stack-lede">
         Design, build, run, observe, and think — the five products I keep in rotation right now.
       </p>
       <DesignStackGrid items={designStack} />
     </section>
 
-    <div class="resources-content more-sources">
-      <section class="resources-secondary" aria-labelledby="more-sources-heading">
-        <h2 id="more-sources-heading" class="resources-secondary-heading">More Sources</h2>
+    <div class="design-resources-sources">
+      <section aria-labelledby="more-sources-heading">
+        <h2 id="more-sources-heading" class="section-heading">More Sources</h2>
         <p class="resources-intro">Books and typography — go-to references I use and recommend.</p>
 
         {resources.map((section) => (
           <section class="resource-section">
             <h3>{section.category}</h3>
-            <div class="resource-list">
-              {section.items.map((item) => (
-                <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-item">
-                  <span class="resource-name">{item.name}</span>
-                  <span class="resource-description">{item.description}</span>
-                </a>
-              ))}
-            </div>
+            {section.items.map((item) => (
+              <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-item">
+                <span class="resource-name">{item.name}</span>
+                <span class="resource-description">{item.description}</span>
+              </a>
+            ))}
           </section>
         ))}
       </section>
@@ -106,21 +104,17 @@ const resources = [
   .design-resources-layout {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     width: 100%;
     min-height: calc(100dvh - clamp(9rem, 22vh, 14rem));
   }
 
-  .resources-content {
+  .design-resources-sources {
     max-width: var(--container-narrow-width);
     width: 100%;
-    margin: 0 auto;
-    padding: var(--spacing-xl) 0 var(--spacing-2xl);
-  }
-
-  .resources-content.more-sources {
+    margin-inline: auto;
     margin-top: auto;
-    padding-top: var(--spacing-2xl);
+    padding-block: var(--spacing-2xl);
+    padding-inline: 0;
     border-top: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
   }
 
@@ -128,12 +122,11 @@ const resources = [
     width: 100%;
     max-width: min(100%, 960px);
     margin-inline: auto;
-    margin-bottom: 0;
-    padding: var(--spacing-xl) var(--container-padding, 1rem) var(--spacing-xl);
+    padding: var(--spacing-xl) var(--container-padding, 1rem);
     box-sizing: border-box;
   }
 
-  .design-stack-heading {
+  .section-heading {
     font-size: clamp(1.75rem, 4vw, 2.25rem);
     font-weight: 700;
     font-family: var(--font-heading, var(--font-primary));
@@ -149,16 +142,6 @@ const resources = [
     color: var(--color-muted);
     margin: 0 0 1.5rem;
     max-width: 42rem;
-  }
-
-  .resources-secondary-heading {
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    font-weight: 700;
-    font-family: var(--font-heading, var(--font-primary));
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    color: var(--color-text);
-    margin: 0 0 0.75rem;
   }
 
   .resources-intro {
@@ -182,11 +165,6 @@ const resources = [
     margin: 0 0 1rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--color-border);
-  }
-
-  .resource-list {
-    display: flex;
-    flex-direction: column;
   }
 
   .resource-item {
@@ -237,7 +215,7 @@ const resources = [
   }
 
   @media (max-width: 768px) {
-    .resources-content {
+    .design-resources-sources {
       padding: var(--spacing-md);
     }
 
@@ -257,7 +235,7 @@ const resources = [
   }
 
   @media (max-width: 480px) {
-    .resources-content {
+    .design-resources-sources {
       padding: var(--spacing-sm);
     }
   }
