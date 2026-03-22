@@ -10,7 +10,9 @@ interface Props {
 }
 
 const { headings = [] } = Astro.props;
-const hasHeadings = headings.length > 0;
+/** Only H2 (##) — keeps the block compact and avoids nested TOC scrollbars. */
+const tocHeadings = headings.filter((h) => h.depth === 2);
+const hasHeadings = tocHeadings.length > 0;
 ---
 
 <aside class="sidebar glass-border" role="complementary" aria-label="Sidebar with additional information">
@@ -18,8 +20,8 @@ const hasHeadings = headings.length > 0;
     <nav class="sidebar-section toc-section" aria-label="Table of contents">
       <h2>On this page</h2>
       <ul class="toc-list" role="list">
-        {headings.map((heading) => (
-          <li class={`toc-item toc-depth-${heading.depth}`}>
+        {tocHeadings.map((heading) => (
+          <li class="toc-item">
             <a href={`#${heading.slug}`} class="toc-link" data-heading-slug={heading.slug}>
               {heading.text}
             </a>
@@ -67,8 +69,6 @@ const hasHeadings = headings.length > 0;
 
     if (headingElements.length === 0) return;
 
-    const tocList = document.querySelector('.toc-list');
-
     function updateActiveHeading() {
       const scrollY = window.scrollY;
       const offset = 120;
@@ -85,18 +85,6 @@ const hasHeadings = headings.length > 0;
       tocLinks.forEach((link) => {
         if (link.dataset.headingSlug === activeSlug) {
           link.classList.add('active');
-          if (tocList) {
-            const item = link.closest('.toc-item') as HTMLElement;
-            if (item) {
-              const listTop = tocList.scrollTop;
-              const listHeight = tocList.clientHeight;
-              const itemTop = item.offsetTop - (tocList as HTMLElement).offsetTop;
-              const itemBottom = itemTop + item.offsetHeight;
-              if (itemTop < listTop || itemBottom > listTop + listHeight) {
-                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              }
-            }
-          }
         } else {
           link.classList.remove('active');
         }
@@ -217,16 +205,14 @@ const hasHeadings = headings.length > 0;
     margin: 0 0 0.75rem 0;
   }
 
-  /* Table of Contents */
+  /* Table of contents: no internal scrollbars — H2-only list + wrapping */
   .toc-section {
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 1rem;
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--color-text) 12%, transparent) transparent;
+    flex-shrink: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .toc-list {
@@ -239,19 +225,13 @@ const hasHeadings = headings.length > 0;
     margin-bottom: 0.125rem;
   }
 
-  .toc-depth-3 {
-    padding-left: 0.75rem;
-  }
-
-  .toc-depth-4 {
-    padding-left: 1.5rem;
-  }
-
   .toc-link {
     display: block;
     padding: 0.2rem 0.5rem;
     font-size: 0.75rem;
     line-height: 1.4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     color: var(--color-muted);
     text-decoration: none;
     border-left: 2px solid transparent;
