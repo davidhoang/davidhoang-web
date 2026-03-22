@@ -1,0 +1,195 @@
+---
+export interface DesignStackItem {
+  name: string;
+  url: string;
+  description: string;
+  /** Path to SVG under /public, e.g. /images/logos/stack/cursor.svg */
+  logo: string;
+}
+
+interface Props {
+  items: DesignStackItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="design-stack-grid" role="list">
+  {
+    items.map((item, i) => (
+      <li class="design-stack-item" style={`--stack-i: ${i}`}>
+        <a
+          href={item.url}
+          class="design-stack-card"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="design-stack-card__cover">
+            <img
+              src={item.logo}
+              alt=""
+              width="72"
+              height="72"
+              loading="lazy"
+              decoding="async"
+              class="design-stack-card__logo"
+            />
+          </div>
+          <div class="design-stack-card__body">
+            <span class="design-stack-card__name">{item.name}</span>
+            <p class="design-stack-card__desc">{item.description}</p>
+            <span class="sr-only">(opens in new tab)</span>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .design-stack-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 520px) {
+    .design-stack-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 720px) {
+    .design-stack-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.125rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .design-stack-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .design-stack-item {
+    margin: 0;
+    padding: 0;
+    animation: stack-card-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(var(--stack-i, 0) * 0.07s);
+  }
+
+  @keyframes stack-card-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .design-stack-item {
+      animation: none;
+    }
+  }
+
+  .design-stack-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radius-md, 12px);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    overflow: hidden;
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent);
+    transition:
+      transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
+      border-color 0.25s ease,
+      box-shadow 0.28s ease;
+  }
+
+  .design-stack-card::after {
+    display: none;
+  }
+
+  .design-stack-card__cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 10;
+    background: color-mix(in srgb, var(--color-muted) 10%, var(--color-bg));
+    overflow: hidden;
+  }
+
+  :global([data-theme='dark']) .design-stack-card__logo {
+    filter: invert(1) brightness(1.08);
+  }
+
+  .design-stack-card__logo {
+    width: clamp(2.75rem, 28%, 3.5rem);
+    height: clamp(2.75rem, 28%, 3.5rem);
+    object-fit: contain;
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .design-stack-card__body {
+    padding: 1rem 1.05rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+  }
+
+  .design-stack-card__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: var(--font-heading, var(--font-primary));
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+  }
+
+  .design-stack-card__desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (hover: hover) {
+    .design-stack-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--color-border) 70%, var(--color-link) 30%);
+      box-shadow:
+        0 12px 32px -14px color-mix(in srgb, var(--color-text) 20%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--color-link) 10%, transparent);
+    }
+
+    .design-stack-card:hover .design-stack-card__logo {
+      transform: scale(1.06);
+    }
+
+    .design-stack-card:hover .design-stack-card__name {
+      color: var(--color-link);
+    }
+  }
+
+  .design-stack-card:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 3px;
+  }
+</style>

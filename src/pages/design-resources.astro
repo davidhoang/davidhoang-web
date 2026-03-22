@@ -1,17 +1,53 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import DesignStackGrid from '../components/DesignStackGrid.astro';
 
 const pageDescription = "A curated collection of design tools, references, and resources I use and recommend.";
+const ogImage = "/images/header-images/img-header-writing.webp";
+
+/** Stack logos: cursor, replit, obsidian from Simple Icons (CC0); paper + ghostly are placeholders in /public/images/logos/stack/. */
+const designStack = [
+  {
+    name: "Paper",
+    url: "https://paper.design",
+    description: "Connected canvas for design, agents, and code—HTML/CSS-native handoff without losing intent.",
+    logo: "/images/logos/stack/paper.svg",
+  },
+  {
+    name: "Cursor",
+    url: "https://cursor.com",
+    description: "The AI-native editor I use for day-to-day shipping: context-aware refactors and fast iteration.",
+    logo: "/images/logos/stack/cursor.svg",
+  },
+  {
+    name: "Replit",
+    url: "https://replit.com",
+    description: "Spin up ideas in the cloud when I need a full environment without local ceremony.",
+    logo: "/images/logos/stack/replit.svg",
+  },
+  {
+    name: "Ghostly",
+    url: "https://getghostly.com",
+    description: "OpenTelemetry-first observability—maps, context, and signal when systems get real.",
+    logo: "/images/logos/stack/ghostly.svg",
+  },
+  {
+    name: "Obsidian",
+    url: "https://obsidian.md",
+    description: "Local markdown graph for notes, writing, and long-running thinking—my second brain.",
+    logo: "/images/logos/stack/obsidian.svg",
+  },
+];
 
 const resources = [
   {
-    category: "Design Tools",
+    category: "Books I Come Back To",
     items: [
-      { name: "Figma", url: "https://figma.com", description: "Collaborative interface design tool. My daily driver for UI and product design." },
-      { name: "Paper", url: "https://paper.design", description: "A new design tool with a fresh take on creative workflows." },
-      { name: "Whimsical", url: "https://whimsical.com", description: "Quick wireframes, flowcharts, and mind maps when I need to think visually." },
-      { name: "Rive", url: "https://rive.app", description: "Interactive animations and motion design for production." },
+      { name: "The Design of Everyday Things", url: "https://www.amazon.com/Design-Everyday-Things-Revised-Expanded/dp/0465050654", description: "Don Norman's classic on human-centered design thinking." },
+      { name: "Thinking in Systems", url: "https://www.amazon.com/Thinking-Systems-Donella-H-Meadows/dp/1603580557", description: "Donella Meadows on understanding complex systems — applicable well beyond design." },
+      { name: "Creative Selection", url: "https://www.amazon.com/Creative-Selection-Inside-Apples-Process/dp/1250194466", description: "Ken Kocienda's inside look at Apple's design process and demo culture." },
+      { name: "Grid Systems in Graphic Design", url: "https://www.amazon.com/Grid-Systems-Graphic-Design-Communication/dp/3721201450", description: "Josef Müller-Brockmann's foundational work on typographic grids." },
     ]
   },
   {
@@ -24,74 +60,105 @@ const resources = [
       { name: "Fonts In Use", url: "https://fontsinuse.com", description: "A searchable archive of typography in the wild." },
     ]
   },
-  {
-    category: "Color & Visual Reference",
-    items: [
-      { name: "Realtime Colors", url: "https://www.realtimecolors.com", description: "Visualize color palettes on a real UI instantly." },
-      { name: "Coolors", url: "https://coolors.co", description: "Fast palette generator with export options." },
-      { name: "Khroma", url: "https://www.khroma.co", description: "AI-powered color tool that learns your preferences." },
-      { name: "Mobbin", url: "https://mobbin.com", description: "Searchable library of real app screenshots for UI patterns." },
-    ]
-  },
-  {
-    category: "Photography & Assets",
-    items: [
-      { name: "Unsplash", url: "https://unsplash.com", description: "High-quality, free-to-use photography." },
-      { name: "Pexels", url: "https://pexels.com", description: "Free stock photos and videos with a generous license." },
-      { name: "Blush", url: "https://blush.design", description: "Customizable illustration collections by independent artists." },
-      { name: "Noun Project", url: "https://thenounproject.com", description: "Massive icon library with consistent, clean styles." },
-    ]
-  },
-  {
-    category: "Learning & Inspiration",
-    items: [
-      { name: "Sidebar", url: "https://sidebar.io", description: "Five curated design links, every day." },
-      { name: "Refactoring UI", url: "https://www.refactoringui.com", description: "Practical visual design tips from the Tailwind CSS creators." },
-      { name: "Shift Nudge", url: "https://shiftnudge.com", description: "Interface design course focused on visual design fundamentals." },
-      { name: "Laws of UX", url: "https://lawsofux.com", description: "Beautifully presented collection of UX principles backed by research." },
-      { name: "The Futur", url: "https://thefutur.com", description: "Business and design education — especially good for freelancers and creative leads." },
-    ]
-  },
-  {
-    category: "Books I Come Back To",
-    items: [
-      { name: "The Design of Everyday Things", url: "https://www.amazon.com/Design-Everyday-Things-Revised-Expanded/dp/0465050654", description: "Don Norman's classic on human-centered design thinking." },
-      { name: "Thinking in Systems", url: "https://www.amazon.com/Thinking-Systems-Donella-H-Meadows/dp/1603580557", description: "Donella Meadows on understanding complex systems — applicable well beyond design." },
-      { name: "Creative Selection", url: "https://www.amazon.com/Creative-Selection-Inside-Apples-Process/dp/1250194466", description: "Ken Kocienda's inside look at Apple's design process and demo culture." },
-      { name: "Grid Systems in Graphic Design", url: "https://www.amazon.com/Grid-Systems-Graphic-Design-Communication/dp/3721201450", description: "Josef Müller-Brockmann's foundational work on typographic grids." },
-    ]
-  }
 ];
 ---
 
-<MainLayout title="Design Resources | David Hoang" description={pageDescription}>
+<MainLayout title="Design Resources | David Hoang" description={pageDescription} ogImage={ogImage}>
   <PageHeader
     title="Design Resources"
+    image={ogImage}
+    alt="Design tools, references, and resources"
+    priority={true}
   />
-  <div class="resources-content">
-    <p class="resources-intro">Tools, references, and resources I've found valuable over the years. This isn't exhaustive — it's what I actually use and recommend.</p>
+  <div class="design-resources-layout">
+    <section class="design-stack-section" aria-labelledby="design-stack-heading">
+      <h2 id="design-stack-heading" class="design-stack-heading">My design stack</h2>
+      <p class="design-stack-lede">
+        Design, build, run, observe, and think — the five products I keep in rotation right now.
+      </p>
+      <DesignStackGrid items={designStack} />
+    </section>
 
-    {resources.map((section) => (
-      <section class="resource-section">
-        <h2>{section.category}</h2>
-        <div class="resource-list">
-          {section.items.map((item) => (
-            <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-item">
-              <span class="resource-name">{item.name}</span>
-              <span class="resource-description">{item.description}</span>
-            </a>
-          ))}
-        </div>
+    <div class="resources-content more-sources">
+      <section class="resources-secondary" aria-labelledby="more-sources-heading">
+        <h2 id="more-sources-heading" class="resources-secondary-heading">More Sources</h2>
+        <p class="resources-intro">Books and typography — go-to references I use and recommend.</p>
+
+        {resources.map((section) => (
+          <section class="resource-section">
+            <h3>{section.category}</h3>
+            <div class="resource-list">
+              {section.items.map((item) => (
+                <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-item">
+                  <span class="resource-name">{item.name}</span>
+                  <span class="resource-description">{item.description}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
       </section>
-    ))}
+    </div>
   </div>
 </MainLayout>
 
 <style>
+  .design-resources-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: calc(100dvh - clamp(9rem, 22vh, 14rem));
+  }
+
   .resources-content {
     max-width: var(--container-narrow-width);
+    width: 100%;
     margin: 0 auto;
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-xl) 0 var(--spacing-2xl);
+  }
+
+  .resources-content.more-sources {
+    margin-top: auto;
+    padding-top: var(--spacing-2xl);
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
+  }
+
+  .design-stack-section {
+    width: 100%;
+    max-width: min(100%, 960px);
+    margin-inline: auto;
+    margin-bottom: 0;
+    padding: var(--spacing-xl) var(--container-padding, 1rem) var(--spacing-xl);
+    box-sizing: border-box;
+  }
+
+  .design-stack-heading {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    font-family: var(--font-heading, var(--font-primary));
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-text);
+    margin: 0 0 0.75rem;
+  }
+
+  .design-stack-lede {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+    margin: 0 0 1.5rem;
+    max-width: 42rem;
+  }
+
+  .resources-secondary-heading {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    font-family: var(--font-heading, var(--font-primary));
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-text);
+    margin: 0 0 0.75rem;
   }
 
   .resources-intro {
@@ -106,7 +173,7 @@ const resources = [
     margin-bottom: var(--spacing-2xl);
   }
 
-  .resource-section h2 {
+  .resource-section h3 {
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
