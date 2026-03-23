@@ -1,6 +1,231 @@
 {
   "themes": [
     {
+      "name": "Concrete Hymn",
+      "description": "Raw material truth meets sacred light in brutalist minimalism",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F2ED",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8934F",
+          "--color-border": "#A8A8A8",
+          "--color-muted": "#6B6B6B",
+          "--color-sidebar-bg": "#EDE8E1",
+          "--color-nav-bg": "#F0EDE6",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#F8F5F0"
+        },
+        "dark": {
+          "--color-text": "#E8E8E8",
+          "--color-bg": "#1A1A1A",
+          "--color-link": "#E6B366",
+          "--color-link-hover": "#F2C373",
+          "--color-border": "#404040",
+          "--color-muted": "#9A9A9A",
+          "--color-sidebar-bg": "#212121",
+          "--color-nav-bg": "#1D1D1D",
+          "--color-nav-text": "#E8E8E8",
+          "--color-card-bg": "#222222"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.05em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-23",
+      "showcase": {
+        "root": "tc1",
+        "elements": {
+          "tc1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Hymn",
+              "subtitle": "Brutalist minimalism with sacred light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "t1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            }
+          },
+          "lp1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            }
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            }
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Material Truth",
+              "variant": "heading",
+              "weight": "bold"
+            }
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "cp1",
+              "t2"
+            ]
+          },
+          "cp1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F2ED",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#F8F5F0",
+                  "label": "card"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "link"
+                },
+                {
+                  "hex": "#B8934F",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#2C2C2C",
+                  "label": "text"
+                }
+              ]
+            }
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Raw concrete meets sacred geometry in minimalist editorial design",
+              "variant": "body"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Electric Tokyo",
       "description": "Shibuya after rain - neon reflections bleeding across wet asphalt, digital stillness in urban chaos.",
       "colors": {
@@ -1380,255 +1605,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Graphite Abbey",
-      "description": "Monastic minimalism meets raw concrete textures with precise graphite typography and cathedral-like spatial breathing room.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F4F1",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#D1CFC8",
-          "--color-muted": "#8B8B8B",
-          "--color-sidebar-bg": "#F0EFEB",
-          "--color-nav-bg": "#F8F7F4",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FAFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8E6E1",
-          "--color-bg": "#1A1918",
-          "--color-link": "#D4AF37",
-          "--color-link-hover": "#E6C148",
-          "--color-border": "#2D2C2A",
-          "--color-muted": "#8B8A87",
-          "--color-sidebar-bg": "#1E1D1C",
-          "--color-nav-bg": "#161514",
-          "--color-nav-text": "#E8E6E1",
-          "--color-card-bg": "#201F1E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "72px",
-        "padding": "1.5rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "0.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D4AF37",
-          "#8B8A87"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-03-16",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Graphite Abbey",
-              "subtitle": "Monastic minimalism with concrete textures"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "h1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C2C2C",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F5F4F1",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "link"
-                },
-                {
-                  "hex": "#D1CFC8",
-                  "label": "border"
-                },
-                {
-                  "hex": "#8B8B8B",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#FAFAF8",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Typography",
-              "variant": "heading",
-              "weight": "600"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "d1",
-              "t2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans+serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "minimalist",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Breathing room",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw concrete",
-              "variant": "caption"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-22"
+  "currentDate": "2026-03-23"
 }
