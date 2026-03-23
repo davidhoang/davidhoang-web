@@ -778,6 +778,16 @@ const searchIndex = [
 
     .cmd-palette-results {
       max-height: min(50vh, 360px);
+      padding: 0.5rem 0.75rem 0.75rem;
+    }
+
+    /* Hide esc hint and keyboard footer on mobile — no physical keyboard */
+    .cmd-palette-hint {
+      display: none !important;
+    }
+
+    .cmd-palette-footer {
+      display: none !important;
     }
 
     .mobile-menu-button {
