@@ -6,6 +6,7 @@ import SidebarWriting from '../components/SidebarWriting.astro';
 import CommentsSection from '../components/CommentsSection.astro';
 
 const { data, relatedPosts = [], headings = [] } = Astro.props;
+const tocHeadings = headings.filter((h: { depth: number }) => h.depth === 2);
 const { title, description, pubDate } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 
@@ -81,6 +82,7 @@ const articleJsonLd = {
         <div class="prose-content">
           <slot />
         </div>
+        <SidebarWriting variant="meta-only" />
         {relatedPosts.length > 0 && (
           <section class="related-posts">
             <h2 class="related-posts__heading">Related articles</h2>
@@ -106,7 +108,7 @@ const articleJsonLd = {
         )}
         <CommentsSection />
       </div>
-      <SidebarWriting headings={headings} />
+      {tocHeadings.length > 0 && <SidebarWriting headings={headings} variant="toc-only" />}
     </div>
   </article>
   <button class="back-to-top" aria-label="Back to top" id="back-to-top">
@@ -156,8 +158,21 @@ const articleJsonLd = {
 
   .content-grid {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    /* minmax(0, …) lets columns shrink below min-content — avoids grid/track overflow */
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
     gap: 3rem;
+    align-items: start;
+  }
+
+  .content-grid > .main-content {
+    min-width: 0;
+  }
+
+  /* Writing post: TOC slot + full sidebar both direct-child asides */
+  .content-grid > aside {
+    min-width: 0;
+    min-height: min-content;
+    align-self: start;
   }
 
   .post-image {

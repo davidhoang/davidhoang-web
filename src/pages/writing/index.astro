@@ -102,8 +102,17 @@ function formatDate(date: Date) {
 
   .content-grid {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
     gap: 3rem;
+    align-items: start;
+  }
+
+  .content-grid > .posts-column {
+    min-width: 0;
+  }
+
+  .content-grid > aside.sidebar {
+    min-width: 0;
   }
 
   /* Featured post hero card */

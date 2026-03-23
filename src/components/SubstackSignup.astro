@@ -22,8 +22,7 @@ const isBrandTitle = title === 'Proof of Concept';
     {
       showTitle && isBrandTitle && (
         <h2 class="signup-title signup-title--brand" id={headingId}>
-          <span class="signup-title-line">Proof of</span>
-          <span class="signup-title-line">Concept</span>
+          Proof of Concept
         </h2>
       )
     }
@@ -93,8 +92,8 @@ const isBrandTitle = title === 'Proof of Concept';
     line-height: 0.95;
   }
 
-  .signup-title--brand .signup-title-line {
-    display: block;
+  .signup-title--brand {
+    text-wrap: balance;
   }
 
   .signup-title--custom {

@@ -264,6 +264,12 @@ blockquote cite {
 
 /* Prose Content (for markdown/blog posts) */
 
+/* BFC: contains drop-cap float (::first-letter float:left) so it cannot affect layout after .prose-content */
+.prose-content {
+  display: flow-root;
+  max-width: 100%;
+}
+
 /* Article heading hierarchy — scaled down from page-level display sizes */
 .prose-content h2 {
   font-size: clamp(1.4rem, 2.5vw, 1.75rem);
@@ -326,10 +332,11 @@ blockquote cite {
 
 .prose-content img {
   width: 100%;
+  max-width: 100%;
   height: auto;
   border-radius: var(--radius-md);
   margin: var(--spacing-md) 0;
-  overflow: auto;
+  display: block;
 }
 
 /* Drop cap styling for article openers */
