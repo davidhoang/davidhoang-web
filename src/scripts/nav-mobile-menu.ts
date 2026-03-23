@@ -2,28 +2,26 @@ export function initMobileMenu(): void {
   const menuButton = document.getElementById('menuButton');
   const closeButton = document.getElementById('closeButton');
   const mobileMenu = document.getElementById('mobileMenu');
-  const mobileLinks = mobileMenu?.querySelectorAll('a');
+  const backdrop = document.getElementById('mobileMenuBackdrop');
+  const searchInput = document.getElementById('mobileMenuSearch') as HTMLInputElement | null;
+  const mobileLinks = mobileMenu?.querySelectorAll('.mobile-nav-links li');
   const hamburgerIcon = menuButton?.querySelector('.hamburger-icon');
-  const focusableSelectors = 'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select';
-
-  // Swipe-to-close state
-  let touchStartX = 0;
-  let touchCurrentX = 0;
-  let isSwiping = false;
-  const SWIPE_THRESHOLD = 80;
+  const focusableSelectors = 'a[href], button:not([disabled]), input[type="text"]';
 
   function openMenu() {
     const scrollY = window.scrollY;
     document.documentElement.style.setProperty('--scroll-position', `${scrollY}px`);
 
     mobileMenu?.classList.add('active');
+    backdrop?.classList.add('active');
     document.body.classList.add('mobile-menu-open');
     hamburgerIcon?.classList.add('is-active');
 
     menuButton?.setAttribute('aria-expanded', 'true');
     mobileMenu?.setAttribute('aria-hidden', 'false');
 
-    closeButton?.focus();
+    // Focus the search input
+    setTimeout(() => searchInput?.focus(), 100);
     document.addEventListener('keydown', trapFocus);
     setSiblingsInert(mobileMenu, true);
   }
@@ -34,13 +32,15 @@ export function initMobileMenu(): void {
     );
 
     mobileMenu?.classList.remove('active');
+    backdrop?.classList.remove('active');
     document.body.classList.remove('mobile-menu-open');
     document.documentElement.style.removeProperty('--scroll-position');
     hamburgerIcon?.classList.remove('is-active');
 
-    // Reset any swipe transform
-    if (mobileMenu) {
-      mobileMenu.style.transform = '';
+    // Reset search
+    if (searchInput) {
+      searchInput.value = '';
+      filterLinks('');
     }
 
     window.scrollTo(0, scrollY);
@@ -53,71 +53,41 @@ export function initMobileMenu(): void {
     setSiblingsInert(mobileMenu, false);
   }
 
+  // Filter nav links based on search input
+  function filterLinks(query: string) {
+    if (!mobileLinks) return;
+    const q = query.toLowerCase().trim();
+    mobileLinks.forEach((li) => {
+      const label = li.querySelector('.mobile-nav-label')?.textContent?.toLowerCase() || '';
+      const path = li.querySelector('.mobile-nav-path')?.textContent?.toLowerCase() || '';
+      const match = !q || label.includes(q) || path.includes(q);
+      (li as HTMLElement).style.display = match ? '' : 'none';
+    });
+  }
+
+  searchInput?.addEventListener('input', () => {
+    filterLinks(searchInput.value);
+  });
+
   function handleEscape(event: KeyboardEvent) {
     if (event.key === 'Escape' && mobileMenu?.classList.contains('active')) {
       closeMenu();
     }
   }
 
-  function handleClickOutside(event: MouseEvent) {
-    if (mobileMenu?.classList.contains('active') &&
-        !mobileMenu.contains(event.target as Node) &&
-        !menuButton?.contains(event.target as Node)) {
-      closeMenu();
-    }
-  }
-
-  // Swipe-to-close: detect right swipe to dismiss menu
-  function handleTouchStart(event: TouchEvent) {
-    if (!mobileMenu?.classList.contains('active')) return;
-    touchStartX = event.touches[0].clientX;
-    touchCurrentX = touchStartX;
-    isSwiping = false;
-  }
-
-  function handleTouchMove(event: TouchEvent) {
-    if (!mobileMenu?.classList.contains('active')) return;
-    touchCurrentX = event.touches[0].clientX;
-    const deltaX = touchCurrentX - touchStartX;
-
-    // Only track rightward swipes
-    if (deltaX > 10) {
-      isSwiping = true;
-      // Move menu with finger, clamped to positive values only
-      const translateX = Math.max(0, deltaX);
-      mobileMenu.style.transform = `translateX(${translateX}px)`;
-      mobileMenu.style.transition = 'none';
-    }
-  }
-
-  function handleTouchEnd() {
-    if (!mobileMenu?.classList.contains('active') || !isSwiping) return;
-    const deltaX = touchCurrentX - touchStartX;
-
-    // Restore transition
-    mobileMenu!.style.transition = '';
-
-    if (deltaX > SWIPE_THRESHOLD) {
-      closeMenu();
-    } else {
-      // Snap back
-      mobileMenu!.style.transform = '';
-    }
-
-    isSwiping = false;
-  }
-
   menuButton?.addEventListener('click', openMenu);
   closeButton?.addEventListener('click', closeMenu);
+  backdrop?.addEventListener('click', closeMenu);
   document.addEventListener('keydown', handleEscape);
-  document.addEventListener('click', handleClickOutside);
 
-  // Swipe gesture listeners
-  mobileMenu?.addEventListener('touchstart', handleTouchStart, { passive: true });
-  mobileMenu?.addEventListener('touchmove', handleTouchMove, { passive: true });
-  mobileMenu?.addEventListener('touchend', handleTouchEnd, { passive: true });
+  const navLinks = mobileMenu?.querySelectorAll('.mobile-nav-links a');
+  navLinks?.forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
 
-  mobileLinks?.forEach(link => {
+  // Footer links also close
+  const footerLinks = mobileMenu?.querySelectorAll('.mobile-menu-footer a');
+  footerLinks?.forEach(link => {
     link.addEventListener('click', closeMenu);
   });
 
@@ -142,7 +112,9 @@ export function initMobileMenu(): void {
 
   function setSiblingsInert(element: HTMLElement | null, inert: boolean) {
     if (!element) return;
-    const siblings = Array.from(document.body.children).filter(el => el !== element);
+    const siblings = Array.from(document.body.children).filter(
+      el => el !== element && el !== backdrop
+    );
     siblings.forEach(el => {
       if (inert) {
         el.setAttribute('aria-hidden', 'true');
