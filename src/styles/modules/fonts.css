@@ -86,7 +86,7 @@ h6 {
 
 p {
   margin-bottom: 1.25em;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: var(--body-weight, 400);
   line-height: var(--body-line-height, 1.6);
   letter-spacing: var(--letter-spacing-body);
@@ -267,7 +267,7 @@ blockquote cite {
 /* BFC: contains drop-cap float (::first-letter float:left) so it cannot affect layout after .prose-content */
 .prose-content {
   display: flow-root;
-  max-width: 100%;
+  max-width: 42rem;
 }
 
 /* Article heading hierarchy — scaled down from page-level display sizes */
@@ -275,24 +275,24 @@ blockquote cite {
   font-size: clamp(1.4rem, 2.5vw, 1.75rem);
   line-height: 1.2;
   letter-spacing: -0.02em;
-  margin-top: 2.5em;
-  margin-bottom: 0.75em;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
 }
 
 .prose-content h3 {
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   line-height: 1.25;
   letter-spacing: -0.01em;
-  margin-top: 2em;
-  margin-bottom: 0.6em;
+  margin-top: 1.75em;
+  margin-bottom: 0.4em;
 }
 
 .prose-content h4 {
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   line-height: 1.3;
   letter-spacing: 0;
-  margin-top: 1.75em;
-  margin-bottom: 0.5em;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
 }
 
 .prose-content h5 {
@@ -306,17 +306,17 @@ blockquote cite {
 }
 
 .prose-content p {
-  margin-bottom: 1.5em;
+  margin-bottom: 1.25em;
 }
 
 .prose-content ul,
 .prose-content ol {
-  margin: 1.5em 0;
+  margin: 1.25em 0;
   padding-left: 1.75em;
 }
 
 .prose-content li {
-  margin-bottom: 0.75em;
+  margin-bottom: 0.5em;
   padding-left: 0.5em;
 }
 
@@ -359,13 +359,13 @@ blockquote cite {
     max(var(--body-weight, 400), 500)
   );
   letter-spacing: -0.01em;
-  margin-bottom: 1.75em;
+  margin-bottom: 1.5em;
   color: var(--color-text);
 }
 
 /* Improved paragraph spacing with better vertical rhythm */
 .prose-content p {
-  margin-bottom: 1.75em;
+  margin-bottom: 1.25em;
 }
 
 .prose-content p + p {
