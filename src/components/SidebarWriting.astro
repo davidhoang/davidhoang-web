@@ -7,51 +7,106 @@ interface Heading {
 
 interface Props {
   headings?: Heading[];
+  /** full: TOC + meta (default). toc-only: right-column TOC. meta-only: newsletter + links below article body on writing posts. */
+  variant?: 'full' | 'toc-only' | 'meta-only';
 }
 
-const { headings = [] } = Astro.props;
+const { headings = [], variant = 'full' } = Astro.props;
 /** Only H2 (##) — keeps the block compact and avoids nested TOC scrollbars. */
 const tocHeadings = headings.filter((h) => h.depth === 2);
 const hasHeadings = tocHeadings.length > 0;
+
+const showToc = (variant === 'full' || variant === 'toc-only') && hasHeadings;
+const showMeta = variant === 'full' || variant === 'meta-only';
+
+const showAside =
+  variant === 'meta-only' || variant === 'full' || (variant === 'toc-only' && hasHeadings);
+
+/* TOC column: outer slot is not sticky (avoids grid height ~1 line); inner panel is sticky + card */
+const asideClass = [
+  'sidebar',
+  'glass-border',
+  variant === 'meta-only' && 'sidebar--meta-inline',
+]
+  .filter(Boolean)
+  .join(' ');
+
+const asideAria =
+  variant === 'meta-only'
+    ? 'Newsletter and social links'
+    : variant === 'toc-only'
+      ? 'Table of contents'
+      : 'Sidebar with additional information';
 ---
 
-<aside class="sidebar glass-border" role="complementary" aria-label="Sidebar with additional information">
-  {hasHeadings && (
-    <nav class="sidebar-section toc-section" aria-label="Table of contents">
-      <h2>On this page</h2>
-      <ul class="toc-list" role="list">
-        {tocHeadings.map((heading) => (
-          <li class="toc-item">
-            <a href={`#${heading.slug}`} class="toc-link" data-heading-slug={heading.slug}>
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )}
+{
+  showAside &&
+    (variant === 'toc-only' ? (
+      <aside class="sidebar-toc-slot" role="complementary" aria-label={asideAria}>
+        <div class="sidebar-toc-panel glass-border" role="navigation" aria-label="Table of contents">
+          <h2 class="toc-heading">On this page</h2>
+          <ul class="toc-list" role="list">
+            {tocHeadings.map((heading) => (
+              <li class="toc-item">
+                <a href={`#${heading.slug}`} class="toc-link" data-heading-slug={heading.slug}>
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    ) : (
+      <aside class={asideClass} role="complementary" aria-label={asideAria}>
+        {showToc && (
+          <nav class="sidebar-section toc-section" aria-label="Table of contents">
+            <h2>On this page</h2>
+            <ul class="toc-list" role="list">
+              {tocHeadings.map((heading) => (
+                <li class="toc-item">
+                  <a href={`#${heading.slug}`} class="toc-link" data-heading-slug={heading.slug}>
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
 
-  <div class="sidebar-section">
-    <h2>Newsletter</h2>
-    <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
-    <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer" class="sidebar-button glass-border-button" aria-label="Subscribe to Proof of Concept newsletter">Subscribe →</a>
-  </div>
+        {showMeta && (
+          <>
+            <div class="sidebar-section">
+              <h2>Newsletter</h2>
+              <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
+              <a
+                href="https://www.proofofconcept.pub/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="sidebar-button glass-border-button"
+                aria-label="Subscribe to Proof of Concept newsletter"
+              >
+                Subscribe →
+              </a>
+            </div>
 
-  <div class="sidebar-section">
-    <h2>Elsewhere</h2>
-    <ul class="social-links" role="list" aria-label="Social media and other links">
-      <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-      <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a href="/rss.xml" target="_blank" aria-label="RSS feed for this website">RSS Feed</a></li>
-    </ul>
-  </div>
-</aside>
+            <div class="sidebar-section">
+              <h2>Elsewhere</h2>
+              <ul class="social-links" role="list" aria-label="Social media and other links">
+                <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+                <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="/rss.xml" target="_blank" aria-label="RSS feed for this website">RSS Feed</a></li>
+              </ul>
+            </div>
+          </>
+        )}
+      </aside>
+    ))
+}
 
 <script>
   function initSidebar() {
     initTocScrollSpy();
-    initStickySidebar();
   }
 
   function initTocScrollSpy() {
@@ -118,66 +173,78 @@ const hasHeadings = tocHeadings.length > 0;
     updateActiveHeading();
   }
 
-  function initStickySidebar() {
-    const sidebar = document.querySelector<HTMLElement>('.sidebar');
-    const contentGrid = document.querySelector<HTMLElement>('.content-grid');
-    if (!sidebar || !contentGrid || window.innerWidth <= 768) return;
-
-    const style = getComputedStyle(document.documentElement);
-    const navHeight = parseFloat(style.getPropertyValue('--nav-height')) || 40;
-    // Nav sits at top: 24px on desktop, so its bottom edge is at 64px
-    // Add 24px breathing room below
-    const stickyTop = 24 + navHeight + 24;
-
-    // Record the sidebar's initial page-Y position (before any transform)
-    const initialPageTop = sidebar.getBoundingClientRect().top + window.scrollY;
-
-    function update() {
-      if (window.innerWidth <= 768) {
-        sidebar.style.transform = '';
-        return;
-      }
-
-      const sidebarHeight = sidebar.offsetHeight;
-      const gridBottom = contentGrid.getBoundingClientRect().bottom + window.scrollY;
-      const maxOffset = gridBottom - initialPageTop - sidebarHeight;
-
-      // How far we need to push the sidebar down to keep it at stickyTop
-      const desiredOffset = window.scrollY + stickyTop - initialPageTop;
-
-      if (desiredOffset <= 0) {
-        sidebar.style.transform = '';
-      } else {
-        const clamped = Math.min(desiredOffset, Math.max(0, maxOffset));
-        sidebar.style.transform = `translateY(${clamped}px)`;
-      }
-    }
-
-    window.addEventListener('scroll', update, { passive: true });
-
-    window.addEventListener('resize', () => {
-      sidebar.style.transform = '';
-    });
-
-    update();
-  }
-
   document.addEventListener('astro:page-load', initSidebar);
 </script>
 
 <style>
-  .sidebar {
-    align-self: start;
+  /* TOC sidebar: aside stretches with the grid row for sticky to work */
+  .sidebar-toc-slot {
+    align-self: stretch;
+    min-width: 0;
+    justify-self: end;
+  }
+
+  /* TOC card: sticky + card styles on one element */
+  .sidebar-toc-panel {
+    position: sticky;
+    top: calc(var(--nav-offset-top, 24px) + var(--nav-height, 40px) + 1.5rem);
+    z-index: 2;
+    width: 100%;
+    max-width: 250px;
     padding: 1.25rem 1.25rem 1.25rem 1.5rem;
-    width: 250px;
+    box-sizing: border-box;
     background-color: var(--color-sidebar-bg);
     border: var(--border-default);
     border-radius: var(--radius-lg);
-    max-height: calc(100vh - var(--nav-height) - 4rem);
+  }
+
+  .toc-heading {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-muted);
+  }
+
+  .sidebar {
+    float: none;
+    clear: none;
+    align-self: start;
+    justify-self: end;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    /* At least as tall as all sections (flex column; avoids collapsed min-content quirks) */
+    min-height: max-content;
+    max-height: none;
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+    box-sizing: border-box;
+    background-color: var(--color-sidebar-bg);
+    border: var(--border-default);
+    border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    /* no transition — sidebar position tracks scroll synchronously */
+    flex-shrink: 0;
+    /* visible on both axes: hidden+visible forces y=auto and can collapse height with min-height:0 */
+    overflow: visible;
+    scrollbar-width: none;
+    isolation: isolate;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Newsletter + links below article (main column; never sticky) */
+  .sidebar--meta-inline {
+    position: static;
+    justify-self: start;
+    width: 100%;
+    max-width: min(100%, 20rem);
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
   }
 
   .sidebar-section {
@@ -205,20 +272,33 @@ const hasHeadings = tocHeadings.length > 0;
     margin: 0 0 0.75rem 0;
   }
 
-  /* Table of contents: no internal scrollbars — H2-only list + wrapping */
+  /* Table of contents: H2-only list, no scroll containers, no scrollbars */
   .toc-section {
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 1rem;
     flex-shrink: 0;
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow: visible;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .toc-section::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   .toc-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    overflow: visible;
+    scrollbar-width: none;
+  }
+
+  .toc-list::-webkit-scrollbar {
+    display: none;
   }
 
   .toc-item {
@@ -227,7 +307,10 @@ const hasHeadings = tocHeadings.length > 0;
 
   .toc-link {
     display: block;
-    padding: 0.2rem 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.35rem 0.5rem;
     font-size: 0.75rem;
     line-height: 1.4;
     overflow-wrap: anywhere;
@@ -236,8 +319,12 @@ const hasHeadings = tocHeadings.length > 0;
     text-decoration: none;
     border-left: 2px solid transparent;
     border-bottom: none;
-    border-radius: 0;
-    transition: color var(--duration-normal, 0.2s) ease, border-color var(--duration-normal, 0.2s) ease;
+    /* Inner radius ≈ outer (--radius-lg) minus horizontal inset (padding + link pad) */
+    border-radius: max(0px, calc(var(--radius-lg) - 1.25rem));
+    transition:
+      color var(--duration-normal, 0.2s) ease,
+      border-color var(--duration-normal, 0.2s) ease,
+      background-color var(--duration-normal, 0.2s) ease;
   }
 
   .toc-link::after {
@@ -247,12 +334,15 @@ const hasHeadings = tocHeadings.length > 0;
   .toc-link:hover {
     color: var(--color-text);
     text-decoration: none;
+    background: color-mix(in srgb, var(--color-text) 5%, transparent);
   }
 
   .toc-link.active {
     color: var(--color-text);
-    border-left-color: var(--color-link);
     font-weight: 500;
+    /* Real border spans full multi-line block; inset box-shadow clipped oddly on wrapped text */
+    border-left-color: var(--color-link);
+    background: color-mix(in srgb, var(--color-text) 8%, transparent);
   }
 
   .category-list,
@@ -312,6 +402,11 @@ const hasHeadings = tocHeadings.length > 0;
   }
 
   @media (max-width: 768px) {
+    /* Right-column TOC hidden — meta already follows article in main column */
+    .sidebar-toc-slot {
+      display: none !important;
+    }
+
     .sidebar {
       position: static;
       width: 100%;
@@ -320,6 +415,12 @@ const hasHeadings = tocHeadings.length > 0;
       display: block;
       margin-top: 2rem;
       padding: 1.25rem;
+    }
+
+    .sidebar--meta-inline {
+      margin-top: 2rem;
+      padding-top: 1.75rem;
+      max-width: 100%;
     }
 
     .toc-section {
