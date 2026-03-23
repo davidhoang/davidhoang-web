@@ -99,42 +99,7 @@ const searchIndex = [
   </div>
 </nav>
 
-<!-- Mobile Modal Menu — command-palette style -->
-<div id="mobileMenuBackdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
-<div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title" aria-hidden="true">
-  <h2 id="mobile-menu-title" class="sr-only">Navigation menu</h2>
-  <div class="mobile-menu-search">
-    <input
-      type="text"
-      id="mobileMenuSearch"
-      placeholder="Where to?"
-      autocomplete="off"
-      aria-label="Search navigation"
-    />
-    <button id="closeButton" class="mobile-menu-close" aria-label="Close menu">
-      <kbd>esc</kbd>
-    </button>
-  </div>
-  <nav class="mobile-menu-nav">
-    <ul class="mobile-nav-links" role="list">
-      {navItems.map((item, i) => (
-        <li style={`--i: ${i}`}>
-          <a href={item.path} data-astro-transition="swap" aria-current={currentPath === item.path ? 'page' : undefined}>
-            <span class="mobile-nav-label">{item.label}</span>
-            <span class="mobile-nav-path">{item.path}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-  <div class="mobile-menu-footer">
-    <a href="mailto:david@davidhoang.com">david@davidhoang.com</a>
-    <span class="mobile-menu-footer-sep">&middot;</span>
-    <a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a>
-    <a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a>
-    <a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-  </div>
-</div>
+<!-- Mobile menu is handled by the command palette — hamburger triggers it directly -->
 
 <style>
   .noise-canvas {
@@ -709,254 +674,25 @@ const searchIndex = [
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  /* ── Mobile Menu — command-palette style ── */
+  /* Mobile menu is now handled by the command palette */
 
-  .mobile-menu-backdrop {
-    position: fixed;
-    inset: 0;
-    background: color-mix(in srgb, var(--color-text) 40%, transparent);
-    z-index: calc(var(--z-modal) - 1);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-  }
-
-  .mobile-menu-backdrop.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .mobile-menu {
-    position: fixed;
-    top: clamp(60px, 12vh, 120px);
-    left: 50%;
-    transform: translateX(-50%) scale(0.96);
-    width: calc(100% - 2rem);
-    max-width: 400px;
-    max-height: calc(100dvh - clamp(80px, 16vh, 160px));
-    z-index: var(--z-modal);
-    background:
-      linear-gradient(
-        185deg,
-        color-mix(in srgb, var(--color-link) 6%, transparent) 0%,
-        transparent 50%
-      ),
-      var(--color-nav-bg);
-    border: 1px solid color-mix(in srgb, var(--color-border) 80%, var(--color-link) 10%);
-    border-radius: 20px;
-    box-shadow:
-      0 24px 60px -12px color-mix(in srgb, var(--color-text) 25%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--color-border) 30%, transparent);
-    -webkit-backdrop-filter: blur(20px) saturate(1.15);
-    backdrop-filter: blur(20px) saturate(1.15);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition:
-      opacity 0.2s ease,
-      visibility 0.2s ease,
-      transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
-  }
-
-  .mobile-menu.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%) scale(1);
-  }
-
-  .mobile-menu-search {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
-  }
-
-  .mobile-menu-search input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-family: var(--font-primary), system-ui, sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color-text);
-    caret-color: var(--color-link);
-    padding: 0.25rem 0;
-  }
-
-  .mobile-menu-search input::placeholder {
-    color: var(--color-muted);
-    opacity: 0.6;
-  }
-
-  .mobile-menu-close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .mobile-menu-close kbd {
-    font-size: 0.65rem;
-    font-family: var(--font-primary), system-ui, sans-serif;
-    color: var(--color-muted);
-    background: color-mix(in srgb, var(--color-text) 6%, transparent);
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-    border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
-  }
-
-  .mobile-menu-nav {
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 0.4rem 0.5rem;
-    flex: 1;
-  }
-
-  .mobile-nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .mobile-nav-links li {
-    margin: 0;
-    list-style: none;
-    padding: 0;
-  }
-
-  /* Staggered entrance */
-  .mobile-menu.active .mobile-nav-links li {
-    animation: mobileNavIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-    animation-delay: calc(var(--i) * 0.03s + 0.08s);
-  }
-
-  @keyframes mobileNavIn {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .mobile-menu.active .mobile-nav-links li {
-      animation: none;
-    }
-  }
-
-  .mobile-nav-links a {
-    color: var(--color-text);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.65rem 0.75rem;
-    font-family: var(--font-primary), system-ui, sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    border: 1px solid transparent;
-    border-bottom: none;
-    border-radius: 11px;
-    transition: background 0.15s ease, border-color 0.15s ease;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .mobile-nav-links a::before,
-  .mobile-nav-links a::after {
-    display: none !important;
-  }
-
-  .mobile-nav-links a:active,
-  .mobile-nav-links a:hover {
-    background: color-mix(in srgb, var(--color-link) 8%, transparent);
-    border-color: color-mix(in srgb, var(--color-link) 12%, transparent);
-  }
-
-  .mobile-nav-links a[aria-current="page"] {
-    color: var(--color-link);
-    background: color-mix(in srgb, var(--color-link) 6%, transparent);
-    font-weight: 600;
-  }
-
-  .mobile-nav-label {
-    flex: 1;
-  }
-
-  .mobile-nav-path {
-    font-size: 0.7rem;
-    color: var(--color-muted);
-    opacity: 0.5;
-    font-weight: 400;
-    font-family: var(--font-mono, monospace);
-  }
-
-  .mobile-menu-footer {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1rem;
-    border-top: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
-    flex-wrap: wrap;
-  }
-
-  .mobile-menu-footer a {
-    font-size: 0.7rem;
-    color: var(--color-muted) !important;
-    text-decoration: none !important;
-    border-bottom: none !important;
-    font-weight: 400;
-    opacity: 0.7;
-  }
-
-  .mobile-menu-footer a::before,
-  .mobile-menu-footer a::after {
-    display: none !important;
-  }
-
-  .mobile-menu-footer-sep {
-    font-size: 0.6rem;
-    color: var(--color-muted);
-    opacity: 0.3;
-  }
-
-  /* Ensure mobile menu is hidden by default on larger screens */
-  @media (min-width: 769px) {
-    .mobile-menu,
-    .mobile-menu-backdrop {
-      display: none;
-    }
-  }
-
-  /* Tablet breakpoint - show mobile menu for smaller tablets */
+  /* Tablet breakpoint - floating pill nav on mobile */
   @media (max-width: 768px) {
     nav {
-      top: 0;
-      left: 0;
-      right: 0;
-      transform: none !important; /* Override sentient transforms */
-      width: 100%;
-      max-width: 100%;
-      border-radius: 0;
-      padding: 0;
-      /* Account for notch/Dynamic Island on iOS devices */
-      padding-top: env(safe-area-inset-top, 0);
-      height: calc(64px + env(safe-area-inset-top, 0));
+      top: max(12px, env(safe-area-inset-top, 12px));
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%) !important;
+      width: calc(100% - 2rem);
+      max-width: 400px;
       min-width: unset;
-      border: none;
-      box-shadow: var(--shadow-default, 0 2px 4px rgba(0,0,0,0.1));
+      border-radius: 999px;
+      padding: 0;
+      height: 48px;
+      border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+      box-shadow:
+        0 4px 20px -4px color-mix(in srgb, var(--color-text) 12%, transparent),
+        0 0 0 0.5px color-mix(in srgb, var(--color-border) 30%, transparent);
       transition: none !important;
     }
 
@@ -968,15 +704,20 @@ const searchIndex = [
       display: none;
     }
 
-    /* Completely disable all hover effects on mobile */
+    /* Disable hover effects on mobile */
     nav:hover {
-      top: 0 !important;
+      top: max(12px, env(safe-area-inset-top, 12px)) !important;
+      left: 50% !important;
+      right: auto !important;
+      transform: translateX(-50%) !important;
       min-width: unset !important;
-      max-width: 100% !important;
-      width: 100% !important;
+      max-width: 400px !important;
+      width: calc(100% - 2rem) !important;
       padding: 0 !important;
-      box-shadow: var(--shadow-default, 0 2px 4px rgba(0,0,0,0.1)) !important;
-      transform: none !important;
+      border-radius: 999px !important;
+      box-shadow:
+        0 4px 20px -4px color-mix(in srgb, var(--color-text) 12%, transparent),
+        0 0 0 0.5px color-mix(in srgb, var(--color-border) 30%, transparent) !important;
     }
 
     nav:hover .nav-container {
@@ -984,23 +725,30 @@ const searchIndex = [
     }
 
     .nav-container {
-      padding: 0 1rem;
-      height: 64px;
-      transition: none !important; /* Remove transitions on mobile */
+      padding: 0 1.25rem;
+      height: 48px;
+      transition: none !important;
     }
 
     .desktop-nav {
       display: none;
     }
 
-    /* Search on mobile - full width */
+    /* Command palette on mobile — floating card style */
     nav.cmd-palette-active {
-      top: 0 !important;
-      border-radius: 0 !important;
+      top: max(12px, env(safe-area-inset-top, 12px)) !important;
+      left: 50% !important;
+      right: auto !important;
+      width: calc(100% - 1.5rem) !important;
+      max-width: 400px !important;
+      transform: translateX(-50%) !important;
+      border-radius: 20px !important;
+      height: auto !important;
+      padding: 0 !important;
     }
 
     nav.cmd-palette-active.cmd-palette-has-results {
-      border-radius: 0 !important;
+      border-radius: 20px !important;
     }
 
     nav.cmd-palette-active .mobile-menu-button {
@@ -1011,25 +759,34 @@ const searchIndex = [
       display: flex !important;
     }
 
+    nav.cmd-palette-active .nav-container {
+      height: auto !important;
+    }
+
     .cmd-palette-dropdown {
-      border-radius: 0 !important;
+      position: relative !important;
+      top: 0 !important;
       left: 0 !important;
       right: 0 !important;
-      border-left: none;
-      border-right: none;
+      border-radius: 0 0 20px 20px !important;
+      border-top: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent) !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
     }
 
     .cmd-palette-results {
-      max-height: 60vh;
+      max-height: min(50vh, 360px);
     }
 
     .mobile-menu-button {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 48px;
-      width: 48px;
-      border-radius: 8px;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
     }
 
     .mobile-menu-button:hover,
@@ -1038,9 +795,7 @@ const searchIndex = [
       background-color: transparent !important;
     }
 
-    .mobile-menu {
-      display: flex;
-    }
+    /* mobile menu handled by command palette */
 
     /* Disable all hover effects on mobile for logo and links */
     .logo:hover,
@@ -1058,17 +813,15 @@ const searchIndex = [
 
   /* Mobile breakpoint - small screens */
   @media (max-width: 480px) {
-    .mobile-menu {
-      width: calc(100% - 1.5rem);
+    nav.cmd-palette-active {
+      width: calc(100% - 1rem) !important;
     }
   }
 
   /* Ensure nav elements use consistent font */
   nav, 
   .nav-link,
-  .nav-item,
-  .mobile-menu,
-  .mobile-nav-links {
+  .nav-item {
     font-family: var(--font-primary), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 500;
     -webkit-font-smoothing: antialiased;

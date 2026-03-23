@@ -90,6 +90,10 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     });
   }
 
+  // Expose open/close globally so the mobile menu can trigger the palette
+  (window as any).__cmdPaletteOpen = open;
+  (window as any).__cmdPaletteClose = close;
+
   function close() {
     nav!.classList.remove('cmd-palette-active', 'cmd-palette-has-results');
     input!.value = '';
