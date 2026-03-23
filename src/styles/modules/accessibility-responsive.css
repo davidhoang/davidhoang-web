@@ -176,23 +176,4 @@
 }
 
 /* Extra-large breakpoint - 1920px
-   Headings use clamp() from variables.css so they scale fluidly.
-   Only override body text and hero which need larger baselines. */
-@media (min-width: 1920px) {
-  .container {
-    max-width: 1920px;
-  }
-
-  p,
-  li {
-    font-size: clamp(1.2rem, 1.1vw, 1.5rem);
-  }
-
-  blockquote p {
-    font-size: clamp(1.3rem, 1.2vw, 1.6rem);
-  }
-
-  .hero-title h1 {
-    font-size: clamp(6rem, 10vw, 10rem);
-  }
-}
+   Container stays at default max-width; headings use clamp() so they scale fluidly. */

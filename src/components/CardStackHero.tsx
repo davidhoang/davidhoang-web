@@ -260,7 +260,7 @@ export default function CardStackHero() {
           line-height: 1.05;
           letter-spacing: -0.03em;
           width: 100%;
-          max-width: 100%;
+          max-width: 1200px;
           box-sizing: border-box;
           text-wrap: balance;
         }
