@@ -79,6 +79,8 @@ interface Props {
   ogImage?: string;
   hideFooter?: boolean;
   pageType?: 'home' | 'blog' | 'about';
+  /** When true, skip mood filter on .content-filter-wrapper so position:sticky works (filter breaks sticky/fixed descendants). */
+  disableContentMoodFilter?: boolean;
 }
 
 const { 
@@ -86,7 +88,8 @@ const {
   description = "The official website of David Hoang", 
   ogImage = "/images/img-dh-web-light.webp",
   hideFooter = false,
-  pageType
+  pageType,
+  disableContentMoodFilter = false,
 } = Astro.props;
 
 // Auto-detect page type from URL if not provided
@@ -473,7 +476,7 @@ const ogImageUrl = ogImage.startsWith('http')
     </script>
 
   </head>
-  <body>
+  <body class:list={[{ 'layout-no-content-filter': disableContentMoodFilter }]}>
     <!-- Add inline SVG filter for noise texture -->
     <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
       <filter id="noise">
@@ -503,6 +506,16 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <MusicPlayer />
     <script>
+      /** Mood filter on .content-filter-wrapper breaks position:sticky; disable on long-form posts (see theme-variations.css). */
+      function syncBlogPostMoodFilterBypass() {
+        document.body.classList.toggle(
+          'layout-no-content-filter',
+          Boolean(document.querySelector('article.blog-post')),
+        );
+      }
+      syncBlogPostMoodFilterBypass();
+      document.addEventListener('astro:page-load', syncBlogPostMoodFilterBypass);
+
       // Helper to update browser theme-color
       function updateBrowserThemeColor(theme) {
         const themeColor = theme === 'dark' ? '#111111' : '#ffffff';
