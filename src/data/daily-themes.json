@@ -1,6 +1,229 @@
 {
   "themes": [
     {
+      "name": "Velvet Thunder",
+      "description": "Deep burgundy elegance meets electric gold accents in a sophisticated editorial layout with dramatic serif typography.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2D1B2E",
+          "--color-bg": "#FDF8F5",
+          "--color-link": "#BF5028",
+          "--color-link-hover": "#E63946",
+          "--color-border": "#E8D5D2",
+          "--color-muted": "#8B7D7B",
+          "--color-sidebar-bg": "#FCF5F2",
+          "--color-nav-bg": "#FDF8F5",
+          "--color-nav-text": "#2D1B2E",
+          "--color-card-bg": "#FEFBF8"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFA500",
+          "--color-border": "#3D2A1F",
+          "--color-muted": "#A68B7A",
+          "--color-sidebar-bg": "#221611",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#1F1208"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 700, 'opsz' 72"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-03-24",
+      "showcase": {
+        "root": "rt",
+        "elements": {
+          "rt": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Velvet Thunder",
+              "subtitle": "Burgundy elegance meets electric gold"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "bg",
+              "s2",
+              "dv",
+              "s3"
+            ]
+          },
+          "bg": {
+            "type": "Badge",
+            "props": {
+              "text": "Editorial Serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "ts",
+              "lp"
+            ]
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Thunder Strikes",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "dv": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "ts2"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2D1B2E",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#FDF8F5",
+                  "label": "Background"
+                },
+                {
+                  "hex": "#BF5028",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#E63946",
+                  "label": "Hover"
+                },
+                {
+                  "hex": "#E8D5D2",
+                  "label": "Border"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sophisticated serif typography with dramatic presence",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Concrete Hymn",
       "description": "Raw material truth meets sacred light in brutalist minimalism",
       "colors": {
@@ -1397,215 +1620,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Golden Slit",
-      "description": "Raw concrete meets sacred light through minimalist brutalist expression",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F3F0",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8935F",
-          "--color-border": "#E0DDD8",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#F0EDE8",
-          "--color-nav-bg": "#F5F3F0",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FAFAF8"
-        },
-        "dark": {
-          "--color-text": "#F5F3F0",
-          "--color-bg": "#1A1A1A",
-          "--color-link": "#E6B887",
-          "--color-link-hover": "#D4A574",
-          "--color-border": "#333333",
-          "--color-muted": "#A0A0A0",
-          "--color-sidebar-bg": "#252525",
-          "--color-nav-bg": "#1A1A1A",
-          "--color-nav-text": "#F5F3F0",
-          "--color-card-bg": "#212121"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "500",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 500"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-03-17",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Golden Slit",
-              "subtitle": "Raw concrete meets sacred light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "t1"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F3F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#FAFAF8",
-                  "label": "card"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8935F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#E0DDD8",
-                  "label": "border"
-                },
-                {
-                  "hex": "#2C2C2C",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "l1",
-              "b1",
-              "b2"
-            ]
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "brutalist",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Minimalism",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-23"
+  "currentDate": "2026-03-24"
 }
