@@ -72,7 +72,7 @@
 
 /* Apply combined mood + intensity filters to content wrapper
    NOTE: Cannot apply filter to body because it breaks position: fixed
-   for child elements (filter creates a new containing block).
+   and position: sticky for descendants (filter creates a new containing block).
    Apply to .content-filter-wrapper instead. */
 .content-filter-wrapper {
   display: flex;
@@ -86,6 +86,12 @@
     brightness(var(--mood-brightness))
     hue-rotate(var(--mood-hue-rotate));
   transition: filter calc(var(--mood-transition-speed) * 2) var(--ease-inertia);
+}
+
+/* Writing posts: sticky TOC needs an ancestor without filter (see .content-filter-wrapper note above). */
+body.layout-no-content-filter .content-filter-wrapper {
+  filter: none !important;
+  transition: none !important;
 }
 
 /* Focus mood: reduce animation/motion */

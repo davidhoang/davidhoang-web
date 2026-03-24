@@ -146,6 +146,8 @@ const asideAria =
       });
     }
 
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
     tocLinks.forEach((link) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -153,7 +155,8 @@ const asideAria =
         if (!slug) return;
         const target = document.getElementById(slug);
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const behavior = reduceMotion.matches ? 'auto' : 'smooth';
+          target.scrollIntoView({ behavior, block: 'start' });
           history.pushState(null, '', `#${slug}`);
         }
       });
@@ -196,6 +199,24 @@ const asideAria =
     background-color: var(--color-sidebar-bg);
     border: var(--border-default);
     border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 1024px) {
+    .sidebar-toc-panel {
+      max-width: min(17.5rem, 100%);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .sidebar-toc-panel {
+      max-width: min(18.75rem, 100%);
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .sidebar-toc-panel {
+      max-width: min(19.5rem, 100%);
+    }
   }
 
   .toc-heading {

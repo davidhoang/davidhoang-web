@@ -58,7 +58,7 @@ const articleJsonLd = {
 };
 ---
 
-<MainLayout title={title} description={pageDescription} ogImage={ogImage}>
+<MainLayout title={title} description={pageDescription} ogImage={ogImage} disableContentMoodFilter>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <BlogMeta
     title={title}
@@ -175,6 +175,11 @@ const articleJsonLd = {
     min-width: 0;
     min-height: min-content;
     align-self: start;
+  }
+
+  /* Stretch TOC column to full article row height so the inner panel can position:sticky */
+  .content-grid > aside.sidebar-toc-slot {
+    align-self: stretch;
   }
 
   .post-image {
@@ -319,6 +324,34 @@ const articleJsonLd = {
   .back-to-top:focus-visible {
     outline: 2px solid var(--color-link);
     outline-offset: 2px;
+  }
+
+  /* Wide screens: slightly wider article + TOC track (sticky sidebar uses the extra 1fr column) */
+  @media (min-width: 1024px) {
+    .content-grid {
+      max-width: min(60rem, 100%);
+      gap: 3.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .content-grid {
+      max-width: min(62rem, 100%);
+      gap: 4rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .content-grid {
+      max-width: min(64rem, calc(100vw - 2 * var(--container-padding, 2rem)));
+      gap: 4.5rem;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .content-grid {
+      gap: 5rem;
+    }
   }
 
   @media (max-width: 768px) {
