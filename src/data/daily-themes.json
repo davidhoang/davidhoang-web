@@ -1,6 +1,227 @@
 {
   "themes": [
     {
+      "name": "Church of Light",
+      "description": "Raw concrete meets ethereal daylight in sacred minimalism",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F2EC",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8935F",
+          "--color-border": "#D0C7B8",
+          "--color-muted": "#8A8A8A",
+          "--color-sidebar-bg": "#F0EDE5",
+          "--color-nav-bg": "#F5F2EC",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#EFEFEA"
+        },
+        "dark": {
+          "--color-text": "#E8E8E8",
+          "--color-bg": "#1A1816",
+          "--color-link": "#E6B673",
+          "--color-link-hover": "#F2C78A",
+          "--color-border": "#2F2D2A",
+          "--color-muted": "#6B6B6B",
+          "--color-sidebar-bg": "#1E1C19",
+          "--color-nav-bg": "#1A1816",
+          "--color-nav-text": "#E8E8E8",
+          "--color-card-bg": "#1F1D1A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "800px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-25",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Church of Light",
+              "subtitle": "Raw concrete meets ethereal daylight in sacred minimalism"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "h1",
+              "s2",
+              "p1",
+              "d1",
+              "b1"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "SACRED SPACE",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b2",
+              "b3",
+              "l1"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F2EC",
+                  "label": "altar"
+                },
+                {
+                  "hex": "#F0EDE5",
+                  "label": "nave"
+                },
+                {
+                  "hex": "#D0C7B8",
+                  "label": "stone"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "shadow"
+                },
+                {
+                  "hex": "#B8935F",
+                  "label": "light"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Silence becomes luminous in these hallowed walls where concrete and spirit converge.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "minimal",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Thunder",
       "description": "Deep burgundy elegance meets electric gold accents in a sophisticated editorial layout with dramatic serif typography.",
       "colors": {
@@ -1399,228 +1620,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Temple Shaft",
-      "description": "Raw concrete meets divine light in this brutalist sanctuary of minimal worship",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2420",
-          "--color-bg": "#F5F2ED",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#A39388",
-          "--color-muted": "#6B6157",
-          "--color-sidebar-bg": "#F0EDE6",
-          "--color-nav-bg": "#F8F5EF",
-          "--color-nav-text": "#2C2420",
-          "--color-card-bg": "#F8F5EF"
-        },
-        "dark": {
-          "--color-text": "#E8E1D6",
-          "--color-bg": "#1A1714",
-          "--color-link": "#F4D03F",
-          "--color-link-hover": "#F7DC6F",
-          "--color-border": "#3A3530",
-          "--color-muted": "#8B7E72",
-          "--color-sidebar-bg": "#201D19",
-          "--color-nav-bg": "#1E1B17",
-          "--color-nav-text": "#E8E1D6",
-          "--color-card-bg": "#1E1B17"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 95"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-03-18",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Temple Shaft",
-              "subtitle": "Brutalist sanctuary of minimal worship"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "b1",
-              "h1",
-              "lp",
-              "s2",
-              "d1",
-              "p1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "DIVINE LIGHT",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "t1",
-              "b2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw concrete meets sacred geometry",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2ED",
-                  "label": "stone"
-                },
-                {
-                  "hex": "#2C2420",
-                  "label": "shadow"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "gold"
-                },
-                {
-                  "hex": "#A39388",
-                  "label": "ash"
-                },
-                {
-                  "hex": "#F8F5EF",
-                  "label": "light"
-                }
-              ]
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-24"
+  "currentDate": "2026-03-25"
 }
