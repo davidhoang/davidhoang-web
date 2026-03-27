@@ -3,6 +3,7 @@ title: "Dynamic Interfaces"
 pubDate: 2026-01-06
 description: "Exploring how interfaces adapt and evolve in real-time"
 draft: true
+tags: ["ai","interface-design","tools"]
 ---
 
 An interactive essay on the future of AI-powered interfaces.

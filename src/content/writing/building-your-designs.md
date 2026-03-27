@@ -2,6 +2,7 @@
 title: "Building your designs"
 pubDate: 2024-02-11
 description: "A better focus than, should designers code?"
+tags: ["design","engineering"]
 ---
 
 

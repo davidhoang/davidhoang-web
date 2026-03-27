@@ -1,0 +1,104 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<MainLayout title="Search | David Hoang" description="Search across all writing and notes on davidhoang.com">
+  <PageHeader
+    title="Search"
+    variant="text-only"
+    subtitle="Full-text search across all writing and notes."
+  />
+  <div id="search" data-pagefind-ignore></div>
+</MainLayout>
+
+<style is:global>
+  /* Pagefind UI overrides to match site design tokens */
+  :root {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: var(--color-link);
+    --pagefind-ui-text: var(--color-text);
+    --pagefind-ui-background: var(--color-bg);
+    --pagefind-ui-border: var(--color-border);
+    --pagefind-ui-tag: var(--color-sidebar-bg);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: var(--radius-md, 8px);
+    --pagefind-ui-image-border-radius: var(--radius-md, 8px);
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: var(--font-body, inherit);
+  }
+
+  .pagefind-ui__search-input {
+    font-family: var(--font-body, inherit) !important;
+    font-size: 1rem !important;
+  }
+
+  .pagefind-ui__search-input:focus {
+    border-color: var(--color-link) !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .pagefind-ui__result-link {
+    color: var(--color-text) !important;
+    font-weight: 600 !important;
+  }
+
+  .pagefind-ui__result-link:hover {
+    color: var(--color-link) !important;
+  }
+
+  .pagefind-ui__result-excerpt {
+    color: var(--color-muted) !important;
+    font-size: 0.9375rem !important;
+    line-height: 1.6 !important;
+  }
+
+  mark.pagefind-ui__result-excerpt {
+    background: transparent !important;
+    color: var(--color-text) !important;
+    font-weight: 600 !important;
+  }
+
+  .pagefind-ui__button {
+    background: var(--color-link) !important;
+    color: var(--color-bg) !important;
+    border-radius: var(--radius-md, 8px) !important;
+  }
+
+  .pagefind-ui__message {
+    color: var(--color-muted) !important;
+    font-size: 0.875rem !important;
+  }
+</style>
+
+<script is:inline>
+  async function initPagefind() {
+    const el = document.getElementById('search');
+    if (!el || el.dataset.pagefindInit) return;
+    el.dataset.pagefindInit = 'true';
+
+    // Load Pagefind CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/pagefind/pagefind-ui.css';
+    document.head.appendChild(link);
+
+    // Load Pagefind UI JS at runtime (generated post-build, not available to Vite)
+    const PagefindUI = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
+    new PagefindUI.PagefindUI({
+      element: '#search',
+      showSubResults: true,
+      showImages: false,
+    });
+
+    // Auto-focus the search input
+    setTimeout(() => {
+      const input = el.querySelector('.pagefind-ui__search-input');
+      if (input) input.focus();
+    }, 100);
+  }
+
+  initPagefind();
+  document.addEventListener('astro:page-load', initPagefind);
+</script>

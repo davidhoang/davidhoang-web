@@ -3,6 +3,7 @@ title: "Keeping an advisory close"
 pubDate: 2023-12-31
 description: "A modern approach to career updates"
 coverImage: "/images/blog/img-2022-email-update-career-advisors.webp"
+tags: ["career"]
 ---
 
 The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and they also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of [assembling a personal board](https://medium.com/@davidhoang/assembling-your-personal-board-of-directors-f2a8ebdc1163) of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.

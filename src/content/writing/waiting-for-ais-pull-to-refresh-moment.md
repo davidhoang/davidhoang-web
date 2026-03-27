@@ -3,6 +3,7 @@ title: "Waiting for AI's pull-to-refresh moment"
 pubDate: 2023-09-03
 description: "The race to the interface"
 coverImage: "/images/blog/2023/2023-09-03-pull-to-refresh.webp"
+tags: ["ai","interface-design"]
 ---
 
 

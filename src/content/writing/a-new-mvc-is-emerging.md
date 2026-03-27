@@ -3,6 +3,7 @@ title: "A new MVC is emerging"
 pubDate: 2025-06-15
 description: "Issue 250: AI is breaking the way we build (and it's exciting)"
 coverImage: "/images/blog/2025/img-2025-06-15-mvc-cover.webp"
+tags: ["ai","software","architecture"]
 ---
 
 For makers of software, Model/View/Controller (MVC) is one of the first concepts you learn. MVC is a design pattern that separates an application into three parts to organize code and make it easier to maintain. The Model handles data and business logic, the View manages the user interface, and the Controller acts as a middleman that processes user input and coordinates between them.

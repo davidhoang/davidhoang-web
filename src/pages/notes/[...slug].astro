@@ -13,6 +13,35 @@ export async function getStaticPaths() {
 const { note } = Astro.props;
 const { Content } = await note.render();
 
+// Find related content by shared tags
+const currentTags = note.data.tags || [];
+const allNotes = await getCollection('notes');
+const allWriting = await getCollection('writing');
+
+const relatedNotes = currentTags.length > 0
+  ? allNotes
+      .filter(n => n.slug !== note.slug && !n.data.draft)
+      .map(n => {
+        const shared = (n.data.tags || []).filter(t => currentTags.includes(t));
+        return { ...n, sharedCount: shared.length };
+      })
+      .filter(n => n.sharedCount > 0)
+      .sort((a, b) => b.sharedCount - a.sharedCount)
+      .slice(0, 3)
+  : [];
+
+const relatedWriting = currentTags.length > 0
+  ? allWriting
+      .filter(p => !p.data.draft)
+      .map(p => {
+        const shared = (p.data.tags || []).filter(t => currentTags.includes(t));
+        return { ...p, sharedCount: shared.length };
+      })
+      .filter(p => p.sharedCount > 0)
+      .sort((a, b) => b.sharedCount - a.sharedCount)
+      .slice(0, 3)
+  : [];
+
 // Stage info - using dots instead of emoji
 const stageInfo = {
   seedling: { icon: '○', label: 'Seedling', description: 'Just planted—rough ideas and early thoughts' },
@@ -100,6 +129,36 @@ const noteJsonLd = {
     <div class="note-content">
       <Content />
     </div>
+
+    {(relatedNotes.length > 0 || relatedWriting.length > 0) && (
+      <nav class="related-content" aria-label="Related content">
+        <h2 class="related-heading">Related</h2>
+        {relatedNotes.length > 0 && (
+          <div class="related-section">
+            <h3 class="related-label">Notes</h3>
+            <ul class="related-list">
+              {relatedNotes.map(n => (
+                <li>
+                  <a href={`/notes/${n.slug}`}>{n.data.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {relatedWriting.length > 0 && (
+          <div class="related-section">
+            <h3 class="related-label">Writing</h3>
+            <ul class="related-list">
+              {relatedWriting.map(p => (
+                <li>
+                  <a href={`/writing/${p.slug}`}>{p.data.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </nav>
+    )}
 
     <footer class="note-footer">
       <div class="growth-notice">
@@ -242,8 +301,55 @@ const noteJsonLd = {
     padding: 0;
   }
 
-  .note-footer {
+  .related-content {
     margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-heading {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+  }
+
+  .related-section {
+    margin-bottom: 1rem;
+  }
+
+  .related-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin: 0 0 0.5rem;
+  }
+
+  .related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .related-list li {
+    padding: 0.375rem 0;
+  }
+
+  .related-list a {
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s var(--ease-inertia);
+  }
+
+  .related-list a:hover {
+    color: var(--color-link);
+  }
+
+  .note-footer {
+    margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
   }
