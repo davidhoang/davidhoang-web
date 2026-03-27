@@ -552,7 +552,7 @@ img {
 .input:focus {
   outline: none;
   border-color: var(--color-link);
-  box-shadow: 0 0 0 3px rgba(var(--color-link), 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-link) 10%, transparent);
 }
 
 .input::placeholder {
@@ -712,7 +712,7 @@ img {
 }
 
 [data-theme="dark"] .related-posts__card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Back-to-top button dark mode */

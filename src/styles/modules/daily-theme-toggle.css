@@ -44,8 +44,9 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 
 @media (hover: hover) {
   button#daily-theme-toggle:hover {
-    border: var(--border-hover);
-    box-shadow: var(--shadow-hover);
+    box-shadow:
+      0 0 0 3px var(--color-border),
+      var(--shadow-hover);
     transform: scale(1.02);
   }
 }
