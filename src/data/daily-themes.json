@@ -1,6 +1,269 @@
 {
   "themes": [
     {
+      "name": "Sacred Brutalism",
+      "description": "Raw concrete meets ethereal light in a study of material truth and spiritual restraint.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2B2B2B",
+          "--color-bg": "#F5F1ED",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#C7C0B8",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#F0EBE6",
+          "--color-nav-bg": "#F5F1ED",
+          "--color-nav-text": "#2B2B2B",
+          "--color-card-bg": "#F8F4F0"
+        },
+        "dark": {
+          "--color-text": "#E8E4DF",
+          "--color-bg": "#1A1A1A",
+          "--color-link": "#F4D03F",
+          "--color-link-hover": "#D4AF37",
+          "--color-border": "#404040",
+          "--color-muted": "#999999",
+          "--color-sidebar-bg": "#262626",
+          "--color-nav-bg": "#1A1A1A",
+          "--color-nav-text": "#E8E4DF",
+          "--color-card-bg": "#222222"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-03-27",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Sacred Brutalism",
+              "subtitle": "Material truth meets ethereal light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "br",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "s4",
+              "lp"
+            ]
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "ts",
+              "cp"
+            ]
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "cs1",
+              "cs2"
+            ]
+          },
+          "cs1": {
+            "type": "ColorSwatch",
+            "props": {
+              "color": "#F5F1ED",
+              "label": "concrete"
+            },
+            "children": []
+          },
+          "cs2": {
+            "type": "ColorSwatch",
+            "props": {
+              "color": "#7F6921",
+              "label": "sacred"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "TRUTH IN FORM",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F1ED",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#F8F4F0",
+                  "label": "card"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "link"
+                },
+                {
+                  "hex": "#C7C0B8",
+                  "label": "border"
+                },
+                {
+                  "hex": "#8B8680",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Diner",
       "description": "1970s American diner booth with burgundy vinyl and chrome fixtures under warm amber light.",
       "colors": {
@@ -1402,224 +1665,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Marrakech Tiles",
-      "description": "Terra cotta warmth meets geometric precision in an ancient riad at golden hour",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2D1B14",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C5303C",
-          "--color-link-hover": "#D62828",
-          "--color-border": "#E9C46A",
-          "--color-muted": "#8D5524",
-          "--color-sidebar-bg": "#FCF0E4",
-          "--color-nav-bg": "#FBF0E6",
-          "--color-nav-text": "#2D1B14",
-          "--color-card-bg": "#FDEBD0"
-        },
-        "dark": {
-          "--color-text": "#F4E5D3",
-          "--color-bg": "#2C1810",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C42",
-          "--color-border": "#8D5524",
-          "--color-muted": "#A67C52",
-          "--color-sidebar-bg": "#342018",
-          "--color-nav-bg": "#1F130C",
-          "--color-nav-text": "#F4E5D3",
-          "--color-card-bg": "#3A2520"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "500",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 500, 'opsz' 20"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 16px rgba(139, 85, 36, 0.12)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-03-20",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Marrakech Tiles",
-              "subtitle": "Terra cotta warmth meets geometric precision"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "filled"
-            }
-          },
-          "lp1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "p1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Golden Hour in the Riad",
-              "variant": "heading",
-              "weight": "medium"
-            }
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "sand"
-                },
-                {
-                  "hex": "#C5303C",
-                  "label": "terra"
-                },
-                {
-                  "hex": "#E9C46A",
-                  "label": "gold"
-                },
-                {
-                  "hex": "#8D5524",
-                  "label": "spice"
-                },
-                {
-                  "hex": "#FDEBD0",
-                  "label": "cream"
-                }
-              ]
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-26"
+  "currentDate": "2026-03-27"
 }
