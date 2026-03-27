@@ -3,6 +3,7 @@ title: "Design Engineering"
 pubDate: 2024-03-21
 description: "Thoughts on design engineering"
 image: "/images/blog/2024-03-design-engineering.webp"
+tags: ["design","engineering"]
 ---
 
 

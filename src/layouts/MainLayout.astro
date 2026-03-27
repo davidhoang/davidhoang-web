@@ -496,7 +496,7 @@ const ogImageUrl = ogImage.startsWith('http')
       <ShaderBackground client:visible />
       <a href="#main-content" class="skip-link">Skip to main content</a>
       <Navigation />
-      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" transition:animate={contentSlide}>
+      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" data-pagefind-body transition:animate={contentSlide}>
         <slot />
       </main>
       {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}

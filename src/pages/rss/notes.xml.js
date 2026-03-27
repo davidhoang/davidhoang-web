@@ -6,31 +6,17 @@ import MarkdownIt from 'markdown-it';
 const md = new MarkdownIt();
 
 export async function GET(context) {
-  const allPosts = await getCollection('writing');
   const allNotes = await getCollection('notes');
-
-  const posts = (import.meta.env.PROD
-    ? allPosts.filter((post) => !post.data.draft)
-    : allPosts
-  );
-
   const notes = (import.meta.env.PROD
     ? allNotes.filter((note) => !note.data.draft)
     : allNotes
-  );
+  ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-  const items = [
-    ...posts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.pubDate,
-      description: post.data.description,
-      link: `/writing/${post.slug}/`,
-      content: sanitizeHtml(md.render(post.body), {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-      }),
-      categories: ['writing', ...(post.data.tags || [])],
-    })),
-    ...notes.map((note) => ({
+  return rss({
+    title: 'David Hoang — Notes',
+    description: 'Digital garden notes on design, AI, and building products.',
+    site: context.site,
+    items: notes.map((note) => ({
       title: note.data.title,
       pubDate: note.data.pubDate,
       description: note.data.description || `A note on ${note.data.title}`,
@@ -40,17 +26,10 @@ export async function GET(context) {
       }),
       categories: ['notes', ...(note.data.tags || [])],
     })),
-  ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
-
-  return rss({
-    title: 'David Hoang',
-    description: 'Writing about design, technology, and building products.',
-    site: context.site,
-    items,
     customData: [
       `<language>en-us</language>`,
       `<lastBuildDate>${new Date().toUTCString()}</lastBuildDate>`,
-      `<atom:link href="${new URL('rss.xml', context.site)}" rel="self" type="application/rss+xml"/>`,
+      `<atom:link href="${new URL('rss/notes.xml', context.site)}" rel="self" type="application/rss+xml"/>`,
     ].join(''),
     xmlns: {
       atom: 'http://www.w3.org/2005/Atom',

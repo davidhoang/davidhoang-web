@@ -2,6 +2,7 @@
 title: "The four types of software in the future"
 pubDate: 2023-12-31
 description: "The different classes and classifications of what we use (and make)"
+tags: ["software","technology"]
 ---
 
 

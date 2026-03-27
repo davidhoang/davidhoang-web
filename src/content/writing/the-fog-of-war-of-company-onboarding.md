@@ -2,6 +2,7 @@
 title: "The fog of war of company onboarding"
 pubDate: 2023-12-31
 description: "Navigating the first 90 days"
+tags: ["career"]
 ---
 
 

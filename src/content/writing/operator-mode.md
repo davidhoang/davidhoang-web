@@ -2,6 +2,7 @@
 title: "Operator Mode"
 pubDate: 2024-09-15
 description: "Issue 212: Doing work as a non-founder and non professional management class"
+tags: ["career","leadership"]
 ---
 
 ![Operator Mode cover](/images/blog/2024/img-2024-09-15-operator-mode.jpeg)

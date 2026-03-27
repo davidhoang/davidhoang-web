@@ -2,6 +2,7 @@
 title: "The obsession over craft"
 pubDate: 2023-12-31
 description: "Craft is defined by the worst behavior you tolerate"
+tags: ["craft","design"]
 ---
 
 

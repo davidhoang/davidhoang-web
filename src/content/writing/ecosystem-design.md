@@ -2,6 +2,7 @@
 title: "Give users choice: Design ecosystems, not paths"
 pubDate: 2021-05-03
 description: "A truly user-centered design journey that allows for a matrix of possible interactions and empowers users to create their own pathways."
+tags: ["design","product"]
 ---
 
 Originally posted on [Webflow Blog](https://webflow.com/blog/ecosystem-design)
