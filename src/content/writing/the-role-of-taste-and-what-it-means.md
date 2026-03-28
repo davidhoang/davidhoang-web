@@ -9,7 +9,7 @@ Happy Sunday from Brooklyn, NY. This week, many new memories made were in famili
 
 In addition to being home to the best Sardinian restaurant in New York, Brooklyn Heights is where Adam Yauch Park is named after the legendary member of the Beastie Boys, MCA. Formerly, Squibb Park, the park was renamed to dedicate Yauch, who died of cancer in 2012 (RIP MCA). Brooklyn Heights is where Yauch grew up, and his mom Frances still lived there at the time I was there. This isn’t an important prelude, but a segue to talk about a man who had a close relationship with the Beastie Boys and many other iconic musicians: Rick Rubin. This week, we’ll talk about Rubin as the proxy of the role of taste in design.
 
-![Alt text](/images/blog/2023/2023-02-12-taste-01.webp)
+![Rick Rubin during his 60 Minutes interview with Anderson Cooper](/images/blog/2023/2023-02-12-taste-01.webp)
 
 A few weeks ago, 60 Minutes posted their 60 Minutes interview, a sit-down with Anderson Cooper and Rick Rubin, a record producer, and co-founder of Def Jam Records. This interview is in part of the launch of Rubin’s new book, The Creative Act: A Way of Being. The tweet from the 60 Minutes account sparked many thoughts about Rubin, such as, “What does he actually do then?”
 
@@ -17,7 +17,7 @@ A few weeks ago, 60 Minutes posted their 60 Minutes interview, a sit-down with A
 
 Wait, what on Earth does Rubin actually do then? Is he one of those “I have an app idea” guys (it’s always a guy) who needs the talents of product developers who can actually build the app? Surely someone who hasn’t been a designer cannot have design taste because they haven’t spent hundreds of thousands of dollars to go to the Rhode Island School of Design, right? The answer is, Rubin is kind of like all these things, but he’s damn good at his job, which is having great taste, spotting talent, and popularizing it. Rubin represented artists such as the Beastie Boys, Run-DMC, Public Enemy, LL Cool J, Red Hot Chili Peppers, Rage Against the Machine, and the litany of legends go on.
 
-![Alt text](/images/blog/2023/2023-02-12-taste-02.webp)
+![Illustration of the relationship between taste, curation, and creative vision](/images/blog/2023/2023-02-12-taste-02.webp)
 
 Let’s talk about taste and the role it plays in creativity and software. “Taste” undefined is vague like those words that generalize without substance, like “cultural fit.” In essence, taste is curating subjectivity in a way that brings objectivity to your vision. It’s the ability to say, “this is dope, and I’ll tell you in a detailed manner why it is.” Taste is being able to articulate why you enjoy the Riot in Belgium’s remix of Chromeo’s Bonafied Lovin’ more than the original.
 

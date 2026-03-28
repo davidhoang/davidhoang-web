@@ -238,6 +238,15 @@ const hasThemes = themes.length > 0;
       });
     }
 
+    // Escape key closes the calendar
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && calendar.classList.contains('open')) {
+        e.preventDefault();
+        calendar.classList.remove('open');
+        toggleBtn.focus();
+      }
+    });
+
     // Close when clicking outside
     document.addEventListener('click', (e) => {
       if (!calendar.contains(e.target) && !toggleBtn.contains(e.target)) {
@@ -287,6 +296,25 @@ const hasThemes = themes.length > 0;
         const isActive = scheme === currentScheme;
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+      });
+
+      // Arrow key navigation for radiogroup
+      appearanceToggle.addEventListener('keydown', (e) => {
+        const buttons = Array.from(appearanceToggle.querySelectorAll('.appearance-btn'));
+        const current = buttons.indexOf(document.activeElement);
+        if (current === -1) return;
+        let next = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          next = (current + 1) % buttons.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          next = (current - 1 + buttons.length) % buttons.length;
+        }
+        if (next >= 0) {
+          (buttons[next] as HTMLElement).focus();
+          (buttons[next] as HTMLElement).click();
+        }
       });
 
       appearanceToggle.addEventListener('click', (e) => {

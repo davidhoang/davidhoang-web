@@ -72,13 +72,18 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   const footer = document.getElementById('cmdPaletteFooter');
   const desktopNav = document.querySelector('.desktop-nav');
 
+  const liveRegion = document.getElementById('cmdPaletteLive');
+
   if (!nav || !input || !results || !desktopNav) return;
 
   let activeIndex = -1;
+  let triggerElement: HTMLElement | null = null;
 
   // --- Core actions ---
 
   function open() {
+    // Remember what triggered the palette so we can restore focus on close
+    triggerElement = document.activeElement as HTMLElement | null;
     nav!.classList.add('cmd-palette-active');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
@@ -115,6 +120,11 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     hamburger?.classList.remove('is-active');
     menuButton?.setAttribute('aria-expanded', 'false');
     menuButton?.setAttribute('aria-label', 'Open mobile menu');
+    // Restore focus to the element that opened the palette
+    if (triggerElement && typeof triggerElement.focus === 'function') {
+      triggerElement.focus();
+      triggerElement = null;
+    }
   }
 
   function navigate(path: string) {
@@ -149,6 +159,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
       results!.innerHTML = pages
         .map(item => resultHtml(item, 'page', item.title))
         .join('');
+      if (liveRegion) liveRegion.textContent = `${pages.length} pages`;
       showResults();
       return;
     }
@@ -165,6 +176,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
         <span class="cmd-empty-text">No results for "${q}"</span>
         <span class="cmd-empty-hint">Try a different search term</span>
       </div>`;
+      if (liveRegion) liveRegion.textContent = `No results for ${q}`;
       showResults();
       return;
     }
@@ -187,6 +199,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     });
 
     results!.innerHTML = html;
+    if (liveRegion) liveRegion.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'} found`;
     showResults();
   }
 
@@ -275,6 +288,10 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
         } else if (items.length > 0) {
           navigate(items[0].getAttribute('data-path')!);
         }
+        break;
+      case 'Tab':
+        // Trap focus within the palette — keep focus on input
+        e.preventDefault();
         break;
     }
   }
