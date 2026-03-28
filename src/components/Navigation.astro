@@ -694,7 +694,12 @@ const searchIndex = [
       box-shadow:
         0 4px 20px -4px color-mix(in srgb, var(--color-text) 12%, transparent),
         0 0 0 0.5px color-mix(in srgb, var(--color-border) 30%, transparent);
-      transition: none !important;
+      transition:
+        border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s ease !important;
     }
 
     nav::after {
@@ -728,7 +733,7 @@ const searchIndex = [
     .nav-container {
       padding: 0 1.25rem;
       height: 48px;
-      transition: none !important;
+      transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
     .desktop-nav {
@@ -753,7 +758,9 @@ const searchIndex = [
     }
 
     nav.cmd-palette-active .mobile-menu-button {
-      display: none !important;
+      display: flex !important;
+      flex-shrink: 0;
+      z-index: 2;
     }
 
     nav.cmd-palette-active .cmd-palette-input {
@@ -795,8 +802,8 @@ const searchIndex = [
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 40px;
-      width: 40px;
+      height: 48px;
+      width: 48px;
       border-radius: 50%;
     }
 
@@ -816,9 +823,9 @@ const searchIndex = [
       opacity: 1 !important;
     }
 
-    /* Disable transitions on nav children except hamburger icon */
-    nav *:not(.hamburger-line):not(.hamburger-icon) {
-      transition: none !important;
+    /* Disable transform/motion transitions on nav children; allow color and opacity */
+    nav *:not(.hamburger-line):not(.hamburger-icon):not(.cmd-palette-input):not(#cmdPaletteInput) {
+      transition: color 0.2s ease, opacity 0.2s ease !important;
     }
   }
 

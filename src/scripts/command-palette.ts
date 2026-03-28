@@ -82,6 +82,12 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     nav!.classList.add('cmd-palette-active');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
+    // Toggle hamburger to X
+    const hamburger = document.querySelector('.hamburger-icon');
+    const menuButton = document.getElementById('menuButton');
+    hamburger?.classList.add('is-active');
+    menuButton?.setAttribute('aria-expanded', 'true');
+    menuButton?.setAttribute('aria-label', 'Close menu');
     render('');
     requestAnimationFrame(() => {
       input!.focus();
@@ -103,6 +109,12 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     results!.classList.remove('has-results');
     footer?.classList.remove('visible');
     activeIndex = -1;
+    // Toggle X back to hamburger
+    const hamburger = document.querySelector('.hamburger-icon');
+    const menuButton = document.getElementById('menuButton');
+    hamburger?.classList.remove('is-active');
+    menuButton?.setAttribute('aria-expanded', 'false');
+    menuButton?.setAttribute('aria-label', 'Open mobile menu');
   }
 
   function navigate(path: string) {
