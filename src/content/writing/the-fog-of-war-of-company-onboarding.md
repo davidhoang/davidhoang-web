@@ -11,7 +11,7 @@ When you start at a new company, onboarding is a crucial phase to get right. The
 ## The Fog of War
 I describe onboarding as navigating the Fog of War—a game concept. The "Fog of War" in Real-Time Strategy (RTS) games is a game mechanic that conceals portions of the game map from the player until their units explore those areas. This creates an element of uncertainty and strategic depth, as players must scout and gather information about enemy positions and terrain. The concept was first introduced in the game Herzog Zwei, released in 1989. Notable examples of RTS games that have incorporated this mechanic include the Warcraft series, Starcraft, Age of Empires, and my favorite of all-time, Command & Conquer. These games use the Fog of War to enhance the strategic complexity by requiring players to balance exploration, defense, and offense without having complete information about their opponents' actions.
 
-![Alt text](/images/blog/img-204-command-and-conquer.webp)
+![Screenshot of Command & Conquer showing the fog of war game mechanic](/images/blog/img-204-command-and-conquer.webp)
 
 The Fog of War is my metaphor for onboarding to a new company. You start at an empty point, and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire Fog of War first to get a full landscape of the map. Because you have not uncovered the Fog of War does not mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
 

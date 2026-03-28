@@ -30,7 +30,7 @@ Artifacts capture and memorialize certain moments. A danger is when artifacts be
 
 When someone can review and can clearly understand the context of an artifact, you know it's good. It should not require voiceover or verbal context. Otherwise, the artifact is pointless. Guiding artifacts have a nomenclature and visual language that's easy to understand. If you try to be too sophisticated, the barrier to comprehending makes it pointless.
 
-![](/images/blog/2022/img-2022-10-16-artifacts-cover.webp)
+![Cover illustration for creating value with artifacts](/images/blog/2022/img-2022-10-16-artifacts-cover.webp)
 
 ## Examples of artifacts
 
@@ -40,7 +40,7 @@ There's no wrong way to make an artifact and there are multiple fidelities. The 
 
 At times, you don't want artifacts to be too prescriptive, especially when you're leading other people. Avoid making artifacts that feel too solution-oriented or prescriptive. I loved sharing low-fidelity sketches with the product designers and researchers on my team to generate ideas. This is a sketch of some of our initial ideas for our virtual therapy platform.
 
-![](/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp)
+![Low-fidelity sketch of initial ideas for a virtual therapy platform at One Medical](/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp)
 
 This is one of the development points of my drawing style. Strive for high-fidelity conversation and low-fidelity production.
 
@@ -50,7 +50,7 @@ I love Alissa Briggs' talk Maps and Markers and refer to this often. Maps help p
 
 Mapping our One Medical Ecosystem (intentionally blurred)
 
-![](/images/blog/2022/img-2022-10-16-artifacts-sprint.webp)
+![Ecosystem map created with product and clinical leaders at One Medical](/images/blog/2022/img-2022-10-16-artifacts-sprint.webp)
 
 Maps encourage people to refine and build. The act of a map is to start the journey.
 
@@ -58,7 +58,7 @@ Maps encourage people to refine and build. The act of a map is to start the jour
 
 One project I was most proud of at One Medical was a vision book we shared with our board and execs on where the future of the company could go. We created a pitch book, just like one in my agency days. It was really fun to put together and tell a story.
 
-![](/images/blog/2022/img-2022-10-16-artifacts-vision-board.webp)
+![Vision book created for One Medical's board and executive team](/images/blog/2022/img-2022-10-16-artifacts-vision-board.webp)
 
 We printed out several copies and shared the narrative with our coworkers and stakeholders. This invited people to participate in a vision vs. it being handed down to them from the mountains. Their markups allowed us to infuse their perspectives in the vision and make it a part of the updated artifact.
 
