@@ -3,10 +3,13 @@ export function initMobileMenu(): void {
   if (!menuButton) return;
 
   function handleMenuClick() {
-    // On mobile, open the command palette directly
-    const openPalette = (window as any).__cmdPaletteOpen;
-    if (typeof openPalette === 'function') {
-      openPalette();
+    const nav = document.querySelector('nav');
+    if (nav?.classList.contains('cmd-palette-active')) {
+      const closePalette = (window as any).__cmdPaletteClose;
+      if (typeof closePalette === 'function') closePalette();
+    } else {
+      const openPalette = (window as any).__cmdPaletteOpen;
+      if (typeof openPalette === 'function') openPalette();
     }
   }
 
