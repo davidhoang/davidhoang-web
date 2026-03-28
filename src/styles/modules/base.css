@@ -35,7 +35,8 @@ body {
   transition:
     color 0.6s var(--ease-inertia),
     background-color 0.6s var(--ease-inertia),
-    font-weight 0.4s var(--ease-inertia);
+    border-color 0.4s var(--ease-inertia),
+    box-shadow 0.4s var(--ease-inertia);
 }
 
 main {
@@ -67,18 +68,29 @@ body.mobile-menu-open {
   top: calc(-1 * var(--scroll-position, 0px));
 }
 
-/* Theme transitions */
+/* Theme transitions — smooth light ↔ dark crossfade */
 body,
 a,
 button,
+input,
+textarea,
+select,
 blockquote,
+pre,
+code,
+hr,
+aside,
+footer,
+header,
+section,
 .hero-title {
   transition:
     color 0.4s var(--ease-inertia),
     background-color 0.4s var(--ease-inertia),
-    font-weight 0.4s var(--ease-inertia);
+    border-color 0.4s var(--ease-inertia),
+    box-shadow 0.4s var(--ease-inertia);
 }
 
 svg {
-  transition: color 0.3s ease, stroke 0.3s ease;
+  transition: color 0.3s ease, stroke 0.3s ease, fill 0.3s ease;
 }

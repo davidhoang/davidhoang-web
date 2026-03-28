@@ -46,6 +46,7 @@
       transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-default);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,17 +66,24 @@
   .sun-icon,
   .moon-icon {
     color: var(--color-text);
-    display: none;
+    position: absolute;
     width: 20px;
     height: 20px;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+    transition:
+      opacity 0.4s var(--ease-inertia),
+      transform 0.4s var(--ease-inertia);
   }
 
   :global([data-theme="light"]) .sun-icon {
-    display: block;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 
   :global([data-theme="dark"]) .moon-icon {
-    display: block;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 
   @media (max-width: 768px) {
@@ -120,6 +128,14 @@
 
   @media (prefers-reduced-motion: reduce) {
     button, button:hover {
+      transform: none !important;
+    }
+    .sun-icon, .moon-icon {
+      transition: opacity 0.2s ease !important;
+      transform: none !important;
+    }
+    :global([data-theme="light"]) .sun-icon,
+    :global([data-theme="dark"]) .moon-icon {
       transform: none !important;
     }
   }
@@ -176,11 +192,11 @@
     });
 
     const handleToggleClick = () => {
-      // Remove transition temporarily
-      document.documentElement.classList.remove('theme-transition');
-
       const element = document.documentElement;
       const newTheme = element.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+
+      // Ensure transitions are active during the switch
+      element.classList.add('theme-transition');
       element.setAttribute('data-theme', newTheme);
 
       localStorage.setItem('theme', newTheme);
@@ -193,11 +209,6 @@
 
       // Dispatch custom event for browser theme-color update
       document.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
-
-      // Re-enable transitions after the next frame
-      requestAnimationFrame(() => {
-        document.documentElement.classList.add('theme-transition');
-      });
     }
 
     const themeToggle = document.getElementById('theme-toggle');
