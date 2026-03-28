@@ -5,9 +5,10 @@ interface Props {
   ogImage?: string;
   publishDate: Date;
   url: string;
+  tags?: string[];
 }
 
-const { title, description, ogImage, publishDate, url } = Astro.props;
+const { title, description, ogImage, publishDate, url, tags } = Astro.props;
 const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.com').replace(/\/$/, '');
 const imageUrl = ogImage
   ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`)
@@ -43,6 +44,9 @@ const imageType = (() => {
 )}
 <meta property="article:published_time" content={publishDate.toISOString()} />
 <meta property="article:author" content="David Hoang" />
+{tags && tags.map((tag) => (
+  <meta property="article:tag" content={tag} />
+))}
 
 <!-- Twitter - Override MainLayout for blog posts -->
 <meta name="twitter:card" content="summary_large_image" />

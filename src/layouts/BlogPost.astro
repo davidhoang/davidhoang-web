@@ -7,7 +7,7 @@ import CommentsSection from '../components/CommentsSection.astro';
 
 const { data, relatedPosts = [], headings = [] } = Astro.props;
 const tocHeadings = headings.filter((h: { depth: number }) => h.depth === 2);
-const { title, description, pubDate } = data;
+const { title, description, pubDate, tags } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 
 const blogContent = {
@@ -66,6 +66,7 @@ const articleJsonLd = {
     ogImage={ogImage}
     publishDate={pubDate}
     url={Astro.url.pathname}
+    tags={tags}
   />
   <article class="blog-post" transition:animate={blogContent}>
     {coverImage && (
