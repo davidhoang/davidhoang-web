@@ -23,13 +23,14 @@ const blogContent = {
 // Only render a hero image when explicitly provided.
 // Note: we intentionally do NOT fall back to `ogImage` here so that
 // default OG images (e.g. David's portrait) don't render on the page.
-const coverImage = data.coverImage;
+const coverImage = data.coverImage; // ImageMetadata | undefined (from image() schema)
 
 // Use the post description for MainLayout as well
 const pageDescription = description || "An article by David Hoang on design, engineering, AI, and entrepreneurship.";
 // For social previews, fall back to a dynamically generated OG image when
-// the post doesn't provide one. This fallback should NOT affect the rendered hero.
-const ogImage = data.ogImage || coverImage || `/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(pageDescription)}&type=writing`;
+// the post doesn't provide one. coverImage is now ImageMetadata, so use .src for the URL.
+const coverImageSrc = coverImage?.src;
+const ogImage = data.ogImage || coverImageSrc || `/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(pageDescription)}&type=writing`;
 
 // Structured data helpers
 const siteUrl = 'https://www.davidhoang.com';
@@ -71,7 +72,7 @@ const articleJsonLd = {
   <article class="blog-post" transition:animate={blogContent}>
     {coverImage && (
       <div class="hero-section">
-        <img src={coverImage} alt={title} loading="eager" decoding="async" width="1200" height="630" fetchpriority="high" />
+        <Image src={coverImage} alt={title} width={1200} height={630} loading="eager" decoding="async" format="webp" />
       </div>
     )}
     <div class="content-grid">
@@ -89,7 +90,7 @@ const articleJsonLd = {
             <h2 class="related-posts__heading">Related articles</h2>
             <div class="related-posts__grid">
               {relatedPosts.map((rp: any) => {
-                const thumb = rp.data.coverImage || rp.data.ogImage || `/api/og?title=${encodeURIComponent(rp.data.title)}&type=writing`;
+                const thumb = rp.data.coverImage?.src || rp.data.ogImage || `/api/og?title=${encodeURIComponent(rp.data.title)}&type=writing`;
                 return (
                   <a href={`/writing/${rp.slug}`} class="related-posts__card">
                     <div class="related-posts__thumb">

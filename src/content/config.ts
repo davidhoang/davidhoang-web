@@ -1,12 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 
 const writing = defineCollection({
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     pubDate: z.date(),
     description: z.string(),
     ogImage: z.string().optional(),
-    coverImage: z.string().optional(),
+    coverImage: image().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional().default(false),
   })

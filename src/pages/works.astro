@@ -1,5 +1,8 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import { Image } from 'astro:assets';
+import worksInspirato from '../assets/images/works/works-inspirato.webp';
+import worksTwitterCamera from '../assets/images/works/works-twitter-camera.webp';
 
 // Page metadata
 const pageDescription = "A collection of my work and projects.";
@@ -9,13 +12,13 @@ const ogImage = "/images/works/works-inspirato.webp";
 const works = [
   {
     id: 'inspirato',
-    image: '/images/works/works-inspirato.webp',
+    image: worksInspirato,
     alt: 'Inspirato work showcase',
     context: 'Inspirato | Black Pixel (2015)'
   },
   {
     id: 'twitter-camera',
-    image: '/images/works/works-twitter-camera.webp',
+    image: worksTwitterCamera,
     alt: 'Twitter Camera work showcase',
     context: 'Twitter Camera | Twitter'
   }
@@ -30,13 +33,14 @@ const works = [
           <div class="work-item">
             <div class="work-image-container">
               <div class="work-image-wrapper">
-                <img
+                <Image
                   src={work.image}
                   alt={work.alt}
+                  width={1920}
+                  height={1080}
                   loading="lazy"
                   decoding="async"
-                  width="1920"
-                  height="1080"
+                  format="webp"
                 />
               </div>
               <div class="work-context">

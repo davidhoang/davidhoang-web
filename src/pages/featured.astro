@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import imgFeaturedHeader from '../assets/images/header-images/img-highlights-featured.webp';
 import EditorialMediaCard from '../components/EditorialMediaCard.astro';
 import { featuredSpeaking } from '../data/featuredSpeaking';
 import { featuredMedia } from '../data/featuredMedia';
@@ -16,7 +17,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 <MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
   <PageHeader
     title="Featured"
-    image="/images/header-images/img-highlights-featured.webp"
+    image={imgFeaturedHeader}
     alt="Featured speaking and media"
   />
   <div class="featured-editorial">

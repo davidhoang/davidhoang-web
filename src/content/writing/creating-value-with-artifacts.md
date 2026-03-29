@@ -2,7 +2,7 @@
 title: "Creating value with artifacts"
 pubDate: 2022-10-16
 description: "Issue 114: Making memorable documents"
-coverImage: "/images/blog/2022/img-2022-10-16-artifacts-cover.webp"
+coverImage: ../../assets/images/blog/2022/img-2022-10-16-artifacts-cover.webp
 tags: ["craft","product"]
 ---
 

@@ -6,15 +6,18 @@
  * Use this for all main pages to ensure visual consistency.
  *
  * Usage:
- *   <PageHeader title="About" image="/images/header-images/img-about.jpg" />
+ *   import headerImg from '../assets/images/header-images/img-about.webp';
+ *   <PageHeader title="About" image={headerImg} />
  *   <PageHeader title="Notes" variant="text-only" subtitle="Welcome to my digital garden" />
  */
 
+import { Image, type ImageMetadata } from 'astro:assets';
 import HeroImageShader from './HeroImageShader.tsx';
 
 interface Props {
   title: string;
-  image?: string;
+  /** Accepts an imported image (optimized) or a string path (passthrough). */
+  image?: ImageMetadata | string;
   alt?: string;
   variant?: 'image' | 'text-only';
   subtitle?: string;
@@ -33,22 +36,37 @@ const {
 } = Astro.props;
 
 const isImageVariant = variant === 'image' && image;
+// Resolve to a string src for the shader (React component needs a URL string)
+const imageSrc = typeof image === 'string' ? image : image?.src;
 ---
 
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
     <div class="page-header__hero">
-      <img
-        src={image}
-        alt={alt}
-        class="page-header__image"
-        loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
-        fetchpriority={priority ? 'high' : undefined}
-        width="1920"
-        height="600"
-      />
-      <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
+      {typeof image !== 'string' ? (
+        <Image
+          src={image}
+          alt={alt}
+          class="page-header__image"
+          width={1920}
+          height={600}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          format="webp"
+        />
+      ) : (
+        <img
+          src={image}
+          alt={alt}
+          class="page-header__image"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchpriority={priority ? 'high' : undefined}
+          width="1920"
+          height="600"
+        />
+      )}
+      <HeroImageShader client:visible src={imageSrc} alt={alt} priority={priority} />
       <h1 class="page-header__title">{title}</h1>
     </div>
   ) : (

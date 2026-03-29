@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import PageHeader from '../components/PageHeader.astro';
+import imgSubscribeHeader from '../assets/images/header-images/img-header-subscribe.webp';
 
 // Page metadata
 const pageDescription = "Subscribe to Proof of Concept, a digital newsletter publication that explores experimentation and maximizing your creative output. Free issue every Sunday.";
@@ -11,7 +12,7 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
 <MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
   <PageHeader
     title="Subscribe"
-    image="/images/header-images/img-header-subscribe.webp"
+    image={imgSubscribeHeader}
     alt="Subscribe to Proof of Concept"
   />
   <div class="container">

@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import AiDisclaimer from '../components/AiDisclaimer.astro';
+import imgAboutHeader from '../assets/images/header-images/img-about.webp';
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -131,7 +132,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
   <PageHeader
     title="About"
-    image="/images/header-images/img-about.webp"
+    image={imgAboutHeader}
     alt="David Hoang"
     priority={true}
   />

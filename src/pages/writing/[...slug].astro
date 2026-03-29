@@ -82,7 +82,9 @@ function extractFirstImageUrl(markdown: string): string | undefined {
 // Prefer the first image a reader sees: the post cover image (if set),
 // otherwise the first image embedded in the markdown content.
 // Fall back to any legacy `ogImage` value if present.
-const inferredOgImage = post.data.coverImage || extractFirstImageUrl(post.body) || post.data.ogImage;
+// coverImage is now ImageMetadata from image() schema — extract .src for OG meta tag
+const coverSrc = post.data.coverImage?.src;
+const inferredOgImage = coverSrc || extractFirstImageUrl(post.body) || post.data.ogImage;
 const postData = {
   ...post.data,
   ogImage: inferredOgImage,
