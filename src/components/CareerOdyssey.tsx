@@ -5237,7 +5237,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           overflow-y: auto;
           background: var(--color-bg, #ffffff);
           border: 1px solid var(--color-border);
-          border-radius: 16px;
+          border-radius: var(--radius-xl);
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
           position: relative;
         }
@@ -5266,7 +5266,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           overflow-y: auto;
           background: var(--color-bg, #ffffff);
           border: 1px solid var(--color-border);
-          border-radius: 16px;
+          border-radius: var(--radius-xl);
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
           position: relative;
         }
@@ -5278,7 +5278,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         .node-card {
           background: var(--color-bg, #ffffff);
           border: 1px solid var(--color-border);
-          border-radius: 12px;
+          border-radius: var(--radius-lg);
           width: 100%;
           height: auto;
           overflow-y: auto;
@@ -5305,7 +5305,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
 
         .node-card::-webkit-scrollbar-thumb {
           background: var(--color-border);
-          border-radius: 4px;
+          border-radius: var(--radius-sm);
         }
 
         .node-card::-webkit-scrollbar-thumb:hover {
@@ -5363,7 +5363,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
         .node-card-embed {
           width: 100%;
           margin: 1.5rem 0;
-          border-radius: 12px;
+          border-radius: var(--radius-lg);
           overflow: hidden;
           background: #000;
           position: relative;
@@ -5704,7 +5704,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           z-index: 1001;
           background: var(--color-bg);
           border: 1px solid var(--color-border);
-          border-radius: 8px;
+          border-radius: var(--radius-md);
           padding: 0.5rem;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
@@ -5806,7 +5806,7 @@ const CareerOdyssey: React.FC<CareerOdysseyProps> = ({ careerData }) => {
           letter-spacing: 0.025em;
           background: rgba(250, 248, 245, 0.5);
           border: 1px solid var(--color-border);
-          border-radius: 9999px;
+          border-radius: var(--radius-full);
           backdrop-filter: blur(10px);
           pointer-events: auto;
           height: auto;
