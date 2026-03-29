@@ -45,21 +45,27 @@ const { person, size = 24 } = Astro.props;
     aria-label={`Visit ${person.name}'s website`}
     style={`--avatar-size: ${size}px;`}
   >
-    <img 
-      src={person.image} 
-      alt={person.name} 
-      class="person-avatar-image" 
+    <img
+      src={person.image}
+      alt={person.name}
+      class="person-avatar-image"
       loading="lazy"
+      decoding="async"
+      width={size}
+      height={size}
     />
     <span class="person-avatar-name">{person.name}</span>
   </a>
 ) : (
   <div class="person-avatar-wrapper" style={`--avatar-size: ${size}px;`}>
-    <img 
-      src={person.image} 
-      alt={person.name} 
-      class="person-avatar-image" 
+    <img
+      src={person.image}
+      alt={person.name}
+      class="person-avatar-image"
       loading="lazy"
+      decoding="async"
+      width={size}
+      height={size}
     />
     <span class="person-avatar-name">{person.name}</span>
   </div>

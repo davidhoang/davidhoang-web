@@ -71,7 +71,7 @@ const articleJsonLd = {
   <article class="blog-post" transition:animate={blogContent}>
     {coverImage && (
       <div class="hero-section">
-        <img src={coverImage} alt={title} loading="eager" decoding="async" width="1200" height="630" />
+        <img src={coverImage} alt={title} loading="eager" decoding="async" width="1200" height="630" fetchpriority="high" />
       </div>
     )}
     <div class="content-grid">

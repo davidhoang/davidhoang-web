@@ -3,28 +3,56 @@
    ============================================ */
 
 /* Classic-only decoration (Footer.astro) — hide for alternate footer layouts */
-[data-footer-style="minimal"] footer::before,
-[data-footer-style="brutalist"] footer::before,
-[data-footer-style="inverted"] footer::before,
-[data-footer-style="marquee"] footer::before,
-[data-footer-style="stacked"] footer::before,
-[data-footer-style="editorial"] footer::before,
-[data-footer-style="gradient"] footer::before,
-[data-footer-style="boxed"] footer::before,
-[data-footer-style="retro"] footer::before,
-[data-footer-style="split"] footer::before,
-[data-footer-style="minimal"] footer::after,
-[data-footer-style="brutalist"] footer::after,
-[data-footer-style="inverted"] footer::after,
-[data-footer-style="marquee"] footer::after,
-[data-footer-style="stacked"] footer::after,
-[data-footer-style="editorial"] footer::after,
-[data-footer-style="gradient"] footer::after,
-[data-footer-style="boxed"] footer::after,
-[data-footer-style="retro"] footer::after,
-[data-footer-style="split"] footer::after {
+:is(
+  [data-footer-style="minimal"],
+  [data-footer-style="brutalist"],
+  [data-footer-style="inverted"],
+  [data-footer-style="marquee"],
+  [data-footer-style="stacked"],
+  [data-footer-style="editorial"],
+  [data-footer-style="gradient"],
+  [data-footer-style="boxed"],
+  [data-footer-style="retro"],
+  [data-footer-style="split"]
+) footer::before,
+:is(
+  [data-footer-style="minimal"],
+  [data-footer-style="brutalist"],
+  [data-footer-style="inverted"],
+  [data-footer-style="marquee"],
+  [data-footer-style="stacked"],
+  [data-footer-style="editorial"],
+  [data-footer-style="gradient"],
+  [data-footer-style="boxed"],
+  [data-footer-style="retro"],
+  [data-footer-style="split"]
+) footer::after {
   display: none;
   content: none;
+}
+
+/* Shared email section reset — most non-classic footer styles strip the email card styling */
+:is(
+  [data-footer-style="minimal"],
+  [data-footer-style="marquee"],
+  [data-footer-style="stacked"],
+  [data-footer-style="editorial"],
+  [data-footer-style="inverted"]
+) footer .footer-section-email {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Shared: hide email eyebrow in compact footer styles */
+:is(
+  [data-footer-style="minimal"],
+  [data-footer-style="marquee"],
+  [data-footer-style="stacked"],
+  [data-footer-style="editorial"]
+) footer .footer-email-eyebrow {
+  display: none;
 }
 
 /* Minimal - centered, sparse, elegant */
@@ -65,14 +93,6 @@
   font-size: 1rem;
   margin-bottom: 2rem;
   padding: 24px 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-[data-footer-style="minimal"] footer .footer-email-eyebrow {
-  display: none;
 }
 
 /* Brutalist - heavy, loud, monospace */
@@ -150,10 +170,6 @@
 
 [data-footer-style="inverted"] footer .footer-section-email {
   padding: 0.75rem 0 1.5rem;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
 }
 
 /* Marquee - animated scrolling feel */
@@ -167,14 +183,6 @@
   white-space: nowrap;
   animation: marquee-scroll 20s linear infinite;
   padding: 2rem 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-[data-footer-style="marquee"] footer .footer-email-eyebrow {
-  display: none;
 }
 
 @keyframes marquee-scroll {
@@ -205,15 +213,7 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
   padding: 1rem 0;
-}
-
-[data-footer-style="stacked"] footer .footer-email-eyebrow {
-  display: none;
 }
 
 [data-footer-style="stacked"] footer::after {
@@ -236,21 +236,8 @@
   font-style: italic;
   text-align: center;
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: 2rem;
+  padding: 0 0 2rem;
   margin-bottom: 2rem;
-  background: transparent;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-}
-
-[data-footer-style="editorial"] footer .footer-email-eyebrow {
-  display: none;
 }
 
 [data-footer-style="editorial"] footer .footer-grid {

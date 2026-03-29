@@ -30,6 +30,15 @@ export default defineConfig({
   site: 'https://www.davidhoang.com',
   trailingSlash: 'never',
   viewTransitions: true,
+  image: {
+    // Use sharp for automatic WebP/AVIF conversion on ESM-imported images
+    service: { entrypoint: 'astro/assets/services/sharp' },
+  },
+  prefetch: {
+    // Prefetch links on hover for near-instant navigation
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
   integrations: [
     react(),
     sitemap({

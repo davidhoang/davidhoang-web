@@ -159,9 +159,8 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Intelligent Font Preloading System -->
     <FontPreloader pageType={detectedPageType} priority={detectedPageType === 'home'} />
     
-    <!-- Resource hints for font loading optimization -->
+    <!-- Resource hints for Google Fonts (used by daily themes) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Preload today's daily theme fonts to reduce FOUT -->
@@ -367,114 +366,21 @@ const ogImageUrl = ogImage.startsWith('http')
       })();
     </script>
     
-    <!-- Font Loading Optimization Script -->
+    <!-- Font loading: rely on preload hints + font-display:swap. Mark loaded for CSS hooks. -->
     <script>
-      // Critical font loading optimization for LCP improvement
       (function() {
-        'use strict';
-        
-        // Font loading state management
-        var fontState = {
-          critical: false,
-          theme: false,
-          all: false
-        };
-        
-        // Critical fonts for immediate loading
-        var criticalFonts = [
-          '/fonts/ABCDiatypeVariable.woff2',
-          '/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2'
-        ];
-        
-        function updateFontLoadingState() {
-          var allCriticalLoaded = criticalFonts.every(function(font) {
-            return document.querySelector('link[href="' + font + '"]');
-          });
-          
-          if (allCriticalLoaded && !fontState.critical) {
-            fontState.critical = true;
-            document.documentElement.classList.add('critical-fonts-loaded');
-            document.documentElement.classList.remove('font-loading');
-          }
-        }
-        
-        // Monitor font loading with Font Loading API
         if ('fonts' in document) {
           document.fonts.ready.then(function() {
-            fontState.all = true;
-            document.documentElement.classList.add('fonts-loaded');
-            
-            // Performance mark for LCP measurement
-            if ('performance' in window && 'mark' in window.performance) {
-              try {
-                performance.mark('fonts-loaded');
-              } catch(e) {}
-            }
-          });
-          
-          // Check specific critical fonts
-          criticalFonts.forEach(function(fontUrl) {
-            var fontName = fontUrl.includes('ABCDiatype') ? 'ABC Diatype' : 'Inter';
-            document.fonts.load('400 16px ' + fontName).then(function() {
-              updateFontLoadingState();
-            }).catch(function() {
-              // Fallback - mark as loaded after timeout
-              setTimeout(updateFontLoadingState, 2000);
-            });
+            document.documentElement.classList.add('critical-fonts-loaded', 'fonts-loaded');
+            document.documentElement.classList.remove('font-loading');
           });
         } else {
-          // Fallback for browsers without Font Loading API
+          // Fallback for very old browsers
           setTimeout(function() {
-            fontState.critical = true;
-            fontState.all = true;
             document.documentElement.classList.add('critical-fonts-loaded', 'fonts-loaded');
             document.documentElement.classList.remove('font-loading');
           }, 2000);
         }
-        
-        // Theme-specific font preloading
-        function preloadThemeFonts() {
-          var dailyTheme = document.documentElement.getAttribute('data-daily-theme');
-          var themeMode = localStorage.getItem('daily-theme-mode');
-          
-          if (themeMode === 'daily' && dailyTheme && dailyTheme !== 'default') {
-            // Preload theme-specific fonts lazily
-            var themeLink = document.createElement('link');
-            themeLink.rel = 'preload';
-            themeLink.href = '/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2'; // Cormorant Garamond
-            themeLink.as = 'font';
-            themeLink.type = 'font/woff2';
-            themeLink.crossOrigin = 'anonymous';
-            
-            // Add with low priority to not block critical fonts
-            requestIdleCallback(function() {
-              document.head.appendChild(themeLink);
-            }, { timeout: 1000 });
-          }
-        }
-        
-        // Initial theme font check
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', preloadThemeFonts);
-        } else {
-          preloadThemeFonts();
-        }
-        
-        // Monitor theme changes for font optimization
-        var observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && 
-                mutation.attributeName === 'data-daily-theme') {
-              preloadThemeFonts();
-            }
-          });
-        });
-        
-        observer.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ['data-daily-theme']
-        });
-        
       })();
     </script>
 
@@ -554,38 +460,32 @@ const ogImageUrl = ogImage.startsWith('http')
         updateBrowserThemeColor(e.detail.theme);
       });
 
-      // Lazy loading with fade-in effect
-      function observeImage(img) {
-        if (img.classList.contains('loaded')) return;
-        if (img.complete && img.naturalWidth > 0) {
-          img.classList.add('loaded');
-        } else {
-          img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
-          // Safety: if load event never fires, show the image after 4s
-          img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
-        }
-      }
-
-      function initLazyImages() {
-        document.querySelectorAll('img[loading="lazy"]').forEach(observeImage);
-      }
-
-      // Catch images added by client-side components (React, etc.)
-      const imgObserver = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-          for (const node of mutation.addedNodes) {
-            if (node instanceof HTMLImageElement && node.loading === 'lazy') {
-              observeImage(node);
+      // Fade-in effect for lazy images using IntersectionObserver
+      const lazyObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            if (img.complete) {
+              img.classList.add('loaded');
+            } else {
+              img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+              img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
             }
-            if (node instanceof HTMLElement) {
-              node.querySelectorAll?.('img[loading="lazy"]').forEach(observeImage);
-            }
+            lazyObserver.unobserve(img);
           }
         }
-      });
-      imgObserver.observe(document.body, { childList: true, subtree: true });
+      }, { rootMargin: '50px' });
 
-      // Init existing images
+      function initLazyImages() {
+        document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+          if ((img as HTMLImageElement).complete) {
+            img.classList.add('loaded');
+          } else {
+            lazyObserver.observe(img);
+          }
+        });
+      }
+
       initLazyImages();
     </script>
     <script>

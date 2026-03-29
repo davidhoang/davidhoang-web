@@ -30,10 +30,13 @@ const works = [
           <div class="work-item">
             <div class="work-image-container">
               <div class="work-image-wrapper">
-                <img 
-                  src={work.image} 
+                <img
+                  src={work.image}
                   alt={work.alt}
                   loading="lazy"
+                  decoding="async"
+                  width="1920"
+                  height="1080"
                 />
               </div>
               <div class="work-context">

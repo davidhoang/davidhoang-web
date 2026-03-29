@@ -44,6 +44,9 @@ const isImageVariant = variant === 'image' && image;
         class="page-header__image"
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
+        fetchpriority={priority ? 'high' : undefined}
+        width="1920"
+        height="600"
       />
       <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
       <h1 class="page-header__title">{title}</h1>
@@ -57,138 +60,7 @@ const isImageVariant = variant === 'image' && image;
   )}
 </header>
 
-<script>
-  // Parallax scroll effect with smooth inertia-based animation
-  function initPageHeaderParallax() {
-    const heroContainer = document.querySelector('.page-header__hero') as HTMLElement | null;
-    const shader = heroContainer?.querySelector(':scope > *:first-child') as HTMLElement | null;
-
-    if (!heroContainer || !shader) return;
-
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    // Skip on mobile
-    if (window.innerWidth <= 768) return;
-
-    let currentOffset = 0;
-    let targetOffset = 0;
-    let currentScale = 1;
-    let targetScale = 1;
-    let velocity = 0;
-    let lastTime = performance.now();
-    let animationFrameId: number | null = null;
-    let isScrolling = false;
-    let scrollTimeout: number | null = null;
-
-    function lerp(start: number, end: number, factor: number) {
-      return start + (end - start) * factor;
-    }
-
-    function calculateParallaxValues() {
-      if (!heroContainer) return { offset: 0, scale: 1 };
-
-      const rect = heroContainer.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const containerHeight = heroContainer.offsetHeight;
-      const scrolled = window.scrollY;
-      const containerTop = heroContainer.offsetTop;
-
-      if (rect.bottom >= 0 && rect.top <= windowHeight) {
-        const scrollDistance = scrolled - containerTop;
-        const parallaxSpeed = 0.3;
-        const offset = scrollDistance * parallaxSpeed;
-
-        const scrollProgress = Math.max(0, Math.min(1,
-          (scrollDistance + windowHeight) / (containerHeight + windowHeight)
-        ));
-        const scale = 1 + (scrollProgress * 0.3);
-
-        return { offset, scale };
-      } else if (rect.top > windowHeight) {
-        return { offset: 0, scale: 1 };
-      }
-      return { offset: currentOffset, scale: currentScale };
-    }
-
-    function animate() {
-      const now = performance.now();
-      lastTime = now;
-
-      const { offset, scale } = calculateParallaxValues();
-      targetOffset = offset;
-      targetScale = scale;
-
-      const lerpFactor = isScrolling ? 0.15 : 0.08;
-      currentOffset = lerp(currentOffset, targetOffset, lerpFactor);
-      currentScale = lerp(currentScale, targetScale, lerpFactor);
-
-      if (!isScrolling) {
-        const difference = targetOffset - currentOffset;
-        velocity = lerp(velocity, difference * 0.5, 0.1);
-        currentOffset += velocity;
-        velocity *= 0.92;
-
-        if (Math.abs(targetOffset - currentOffset) < 0.1 && Math.abs(velocity) < 0.1) {
-          currentOffset = targetOffset;
-          currentScale = targetScale;
-          velocity = 0;
-        }
-      }
-
-      if (shader) {
-        shader.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
-      }
-
-      if (isScrolling || Math.abs(targetOffset - currentOffset) > 0.1 || Math.abs(targetScale - currentScale) > 0.001 || Math.abs(velocity) > 0.1) {
-        animationFrameId = requestAnimationFrame(animate);
-      } else {
-        animationFrameId = null;
-      }
-    }
-
-    function onScroll() {
-      isScrolling = true;
-
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-
-      if (!animationFrameId) {
-        lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(animate);
-      }
-
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-        if (!animationFrameId) {
-          lastTime = performance.now();
-          animationFrameId = requestAnimationFrame(animate);
-        }
-      }, 50) as unknown as number;
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    // Initial setup
-    const initialValues = calculateParallaxValues();
-    targetOffset = initialValues.offset;
-    currentOffset = targetOffset;
-    targetScale = initialValues.scale;
-    currentScale = targetScale;
-    lastTime = performance.now();
-    animate();
-  }
-
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPageHeaderParallax);
-  } else {
-    initPageHeaderParallax();
-  }
-
-  // Re-initialize after navigation
-  document.addEventListener('astro:page-load', initPageHeaderParallax);
-</script>
+<!-- Parallax is handled via CSS scroll-driven animations below -->
 
 <style>
   .page-header {
@@ -225,10 +97,28 @@ const isImageVariant = variant === 'image' && image;
     object-position: center;
   }
 
-  /* Shader/image container - parallax transform applied via JS */
+  /* Shader/image container — CSS scroll-driven parallax (no JS) */
   .page-header--image .page-header__hero > :global(*:first-child) {
-    will-change: transform;
     transform-origin: center center;
+  }
+
+  /* Parallax via scroll-driven animation — runs entirely on compositor thread */
+  @supports (animation-timeline: scroll()) {
+    .page-header--image .page-header__hero {
+      view-timeline-name: --page-hero;
+      view-timeline-axis: block;
+    }
+
+    .page-header--image .page-header__image {
+      animation: parallax-shift linear both;
+      animation-timeline: --page-hero;
+      animation-range: entry 0% exit 100%;
+    }
+
+    @keyframes parallax-shift {
+      from { transform: translateY(-8%) scale(1); }
+      to   { transform: translateY(8%) scale(1.12); }
+    }
   }
 
   /* Overlay for text legibility */
@@ -297,6 +187,10 @@ const isImageVariant = variant === 'image' && image;
     /* Disable parallax on mobile */
     .page-header--image .page-header__hero > :global(*:first-child) {
       transform: none !important;
+    }
+
+    .page-header--image .page-header__image {
+      animation: none !important;
     }
   }
 

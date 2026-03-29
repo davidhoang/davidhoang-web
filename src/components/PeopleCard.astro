@@ -15,10 +15,10 @@ const { person } = Astro.props;
   <div class="people-card-image">
     {person.url ? (
       <a href={person.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${person.name}'s website`}>
-        <img src={person.image} alt={person.name} loading="lazy" />
+        <img src={person.image} alt={person.name} loading="lazy" decoding="async" width="80" height="80" />
       </a>
     ) : (
-      <img src={person.image} alt={person.name} loading="lazy" />
+      <img src={person.image} alt={person.name} loading="lazy" decoding="async" width="80" height="80" />
     )}
   </div>
   <div class="people-card-info">

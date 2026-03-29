@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { Image } from 'astro:assets';
 import imgDavidSydney from '../assets/images/img-david-sydney.webp';
 import imgDavidNow from '../assets/images/img-david-now.webp';
 import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
@@ -21,13 +22,13 @@ const ogImage = "/images/img-david-now.webp";
     <div class="now-section">
       <div class="now-grid">
         <div class="now-grid-item">
-          <img src={imgDavidSydney.src} alt="David Hoang standing in Sydney, Australia with city skyline in the background" />
+          <Image src={imgDavidSydney} alt="David Hoang standing in Sydney, Australia with city skyline in the background" width={600} height={400} loading="lazy" />
         </div>
         <div class="now-grid-item">
-          <img src={imgDavidNow.src} alt="David Hoang portrait photo, current headshot" />
+          <Image src={imgDavidNow} alt="David Hoang portrait photo, current headshot" width={600} height={400} loading="lazy" />
         </div>
         <div class="now-grid-item">
-          <img src={imgDavidHawaii.src} alt="David Hoang in Hawaii, casual outdoor setting" />
+          <Image src={imgDavidHawaii} alt="David Hoang in Hawaii, casual outdoor setting" width={600} height={400} loading="lazy" />
         </div>
       </div>
     </div>

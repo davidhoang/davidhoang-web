@@ -29,6 +29,25 @@
   --mood-brightness: 1;
   --mood-hue-rotate: 0deg;
   --mood-transition-speed: 0.4s;
+
+  /* Intensity modification variables */
+  --intensity: 50;
+  --intensity-saturation: 1;
+  --intensity-contrast: 1;
+  --intensity-type-scale: 1;
+  --intensity-shadow-scale: 1;
+
+  /* Font variation + type scale */
+  --font-variation-settings: normal;
+  --scale-ratio: 1.333;
+  --text-micro: calc(1rem / var(--scale-ratio) / var(--scale-ratio));
+  --text-sm: calc(1rem / var(--scale-ratio));
+  --text-base: 1rem;
+  --text-lg: calc(1rem * var(--scale-ratio));
+  --text-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio));
+  --text-2xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
+  --text-jumbo: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
+  --text-display-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
 }
 
 /* Mood: Focus - reduced visual noise, high clarity */
@@ -62,13 +81,7 @@
    Adjustable theme drama from subtle to bold
    ============================================ */
 
-:root {
-  --intensity: 50;
-  --intensity-saturation: 1;
-  --intensity-contrast: 1;
-  --intensity-type-scale: 1;
-  --intensity-shadow-scale: 1;
-}
+/* Intensity values now in single :root block above */
 
 /* Apply combined mood + intensity filters to content wrapper
    NOTE: Cannot apply filter to body because it breaks position: fixed
@@ -348,9 +361,7 @@ html[data-e-ink="true"][data-theme="dark"] {
    Applied via --font-variation-settings custom property
    ============================================ */
 
-:root {
-  --font-variation-settings: normal;
-}
+/* --font-variation-settings now in single :root block above */
 
 [data-daily-theme] :is(h1, h2, h3, h4, h5, h6) {
   font-variation-settings: var(--font-variation-settings);
@@ -361,17 +372,7 @@ html[data-e-ink="true"][data-theme="dark"] {
    Applied via --scale-ratio custom property
    ============================================ */
 
-:root {
-  --scale-ratio: 1.333;
-  --text-micro: calc(1rem / var(--scale-ratio) / var(--scale-ratio));
-  --text-sm: calc(1rem / var(--scale-ratio));
-  --text-base: 1rem;
-  --text-lg: calc(1rem * var(--scale-ratio));
-  --text-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio));
-  --text-2xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
-  --text-jumbo: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
-  --text-display-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
-}
+/* --scale-ratio and --text-* now in single :root block above */
 
 /* Scale-driven sizes (.text-micro, .text-jumbo, .text-display-xl) are defined
    in design-system.css using --text-* variables derived from --scale-ratio.
