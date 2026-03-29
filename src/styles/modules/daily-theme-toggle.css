@@ -70,7 +70,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   right: 0;
   background: var(--color-bg);
   border: var(--border-default);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-hover);
   padding: 1rem;
   width: 380px;
@@ -133,7 +133,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -165,7 +165,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   display: flex;
   background: var(--color-sidebar-bg);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 2px;
   gap: 2px;
 }
@@ -304,7 +304,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   min-height: 44px;
   padding: 0.5rem;
   color: var(--color-muted);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   transition: color 0.2s ease;
 }
 

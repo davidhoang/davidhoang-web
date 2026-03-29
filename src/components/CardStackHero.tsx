@@ -557,7 +557,7 @@ export default function CardStackHero() {
           font-size: 0.9rem;
           padding: 10px 16px;
           background: rgba(255, 255, 255, 0.15);
-          border-radius: 8px;
+          border-radius: var(--radius-md);
           transition: background 0.2s;
         }
 
