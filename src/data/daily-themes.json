@@ -1,6 +1,242 @@
 {
   "themes": [
     {
+      "name": "Neon Rain",
+      "description": "Electric Tokyo nights where hot pink neon bleeds into rain-slicked streets",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1a1a2e",
+          "--color-bg": "#f8f6ff",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00d4ff",
+          "--color-border": "#e0ddf0",
+          "--color-muted": "#8b87a3",
+          "--color-sidebar-bg": "#f0eef8",
+          "--color-nav-bg": "#faf9ff",
+          "--color-nav-text": "#1a1a2e",
+          "--color-card-bg": "#fbfaff"
+        },
+        "dark": {
+          "--color-text": "#e8e6f0",
+          "--color-bg": "#16213e",
+          "--color-link": "#FF3198",
+          "--color-link-hover": "#00d4ff",
+          "--color-border": "#2a3658",
+          "--color-muted": "#7a8ba8",
+          "--color-sidebar-bg": "#1a2544",
+          "--color-nav-bg": "#14203a",
+          "--color-nav-text": "#e8e6f0",
+          "--color-card-bg": "#192242"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(255, 0, 128, 0.08)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "mesh-gradient",
+        "colors": [
+          "#ff0080",
+          "#00d4ff",
+          "#16213e"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-03-31",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Neon Rain",
+              "subtitle": "Electric Tokyo nights"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9006D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00d4ff",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#1a1a2e",
+                  "label": "text"
+                },
+                {
+                  "hex": "#8b87a3",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#f8f6ff",
+                  "label": "bg"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "l1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Rain-slicked Streets",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Neon bleeds into the night",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Ando's Blade",
       "description": "Raw concrete meets sacred light in architectural minimalism",
       "colors": {
@@ -1420,230 +1656,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Deep burgundy elegance meets electric gold accents in a sophisticated editorial layout with dramatic serif typography.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D1B2E",
-          "--color-bg": "#FDF8F5",
-          "--color-link": "#BF5028",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#E8D5D2",
-          "--color-muted": "#8B7D7B",
-          "--color-sidebar-bg": "#FCF5F2",
-          "--color-nav-bg": "#FDF8F5",
-          "--color-nav-text": "#2D1B2E",
-          "--color-card-bg": "#FEFBF8"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFA500",
-          "--color-border": "#3D2A1F",
-          "--color-muted": "#A68B7A",
-          "--color-sidebar-bg": "#221611",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#1F1208"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 700, 'opsz' 72"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-03-24",
-      "showcase": {
-        "root": "rt",
-        "elements": {
-          "rt": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Thunder",
-              "subtitle": "Burgundy elegance meets electric gold"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "bg",
-              "s2",
-              "dv",
-              "s3"
-            ]
-          },
-          "bg": {
-            "type": "Badge",
-            "props": {
-              "text": "Editorial Serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "ts",
-              "lp"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Thunder Strikes",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "dv": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "cp",
-              "ts2"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2D1B2E",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#FDF8F5",
-                  "label": "Background"
-                },
-                {
-                  "hex": "#BF5028",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#E63946",
-                  "label": "Hover"
-                },
-                {
-                  "hex": "#E8D5D2",
-                  "label": "Border"
-                }
-              ]
-            },
-            "children": []
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sophisticated serif typography with dramatic presence",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-30"
+  "currentDate": "2026-03-31"
 }
