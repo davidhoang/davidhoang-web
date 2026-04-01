@@ -5,23 +5,28 @@
  * Prioritizes fonts based on theme and page type.
  */
 
+// Font families already self-hosted in /public/fonts/ (no external request needed)
+export const SELF_HOSTED_FONT_FAMILIES = new Set([
+  'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Bodoni Moda', 'Crimson Text',
+]);
+
 // Critical font files that should always be preloaded
 export const CRITICAL_FONTS = {
-  // Primary system fonts (always needed)
+  // Primary brand fonts (always needed)
   primary: [
     '/fonts/ABCDiatypeVariable.woff2',
     '/fonts/ABCDiatypeMonoVariable.woff2',
   ],
-  
-  // Most common self-hosted Google Fonts (Latin)
-  google: [
-    // Inter Regular (most common)
+
+  // Self-hosted fonts commonly used by themes (Latin subsets)
+  selfHosted: [
+    // Inter Regular
     '/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2',
-    // Cormorant Garamond Regular (popular theme font)  
+    // Cormorant Garamond Regular
     '/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2',
     // Inter Medium (headings)
     '/fonts/UcC73FwrK3iLTeHuS_nVMrMrMxCp50SjIa1ZL7.woff2',
-    // Space Grotesk Regular (theme font)
+    // Space Grotesk Regular
     '/fonts/N4duVc9C58uwPiY8_59Fz4TTiuj4xTzsSvF.woff2',
   ]
 };
@@ -49,7 +54,7 @@ export const PAGE_FONT_PRIORITIES = {
  */
 export function getCriticalFonts(pageType: keyof typeof PAGE_FONT_PRIORITIES = 'home'): string[] {
   const priorities = PAGE_FONT_PRIORITIES[pageType] || PAGE_FONT_PRIORITIES.home;
-  const allCritical = [...CRITICAL_FONTS.primary, ...CRITICAL_FONTS.google];
+  const allCritical = [...CRITICAL_FONTS.primary, ...CRITICAL_FONTS.selfHosted];
   
   // Return fonts in priority order, removing duplicates
   const prioritySet = new Set(priorities);
@@ -118,7 +123,7 @@ export function getFontLoadingStrategy(fontPath: string): typeof FONT_LOADING_ST
     return FONT_LOADING_STRATEGIES.critical;
   }
   
-  if (CRITICAL_FONTS.google.some(f => fontPath.includes(f))) {
+  if (CRITICAL_FONTS.selfHosted.some(f => fontPath.includes(f))) {
     return FONT_LOADING_STRATEGIES.theme;
   }
   
