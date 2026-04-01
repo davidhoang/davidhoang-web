@@ -1,6 +1,202 @@
 {
   "themes": [
     {
+      "name": "Dawn Shaft",
+      "description": "Precise beams of morning light cutting through raw architectural volumes",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2520",
+          "--color-bg": "#F8F5F0",
+          "--color-link": "#945E07",
+          "--color-link-hover": "#B8711D",
+          "--color-border": "#E6DDD4",
+          "--color-muted": "#7A6F62",
+          "--color-sidebar-bg": "#F4F1EC",
+          "--color-nav-bg": "#F8F5F0",
+          "--color-nav-text": "#2C2520",
+          "--color-card-bg": "#FDFCFA"
+        },
+        "dark": {
+          "--color-text": "#F0EAE2",
+          "--color-bg": "#1A1714",
+          "--color-link": "#FFB84D",
+          "--color-link-hover": "#FFC970",
+          "--color-border": "#3A342D",
+          "--color-muted": "#968A7D",
+          "--color-sidebar-bg": "#211E1A",
+          "--color-nav-bg": "#1A1714",
+          "--color-nav-text": "#F0EAE2",
+          "--color-card-bg": "#201D19"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "General Sans",
+          "url": "https://fonts.googleapis.com/css2?family=General+Sans:wght@300..700&display=swap",
+          "category": "sans-serif",
+          "stack": "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "General Sans",
+        "url": "https://fonts.googleapis.com/css2?family=General+Sans:wght@300..700&display=swap",
+        "category": "sans-serif",
+        "stack": "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-04-01",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Dawn Shaft",
+              "subtitle": "Precise beams cutting through raw volumes"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "t1",
+              "p1",
+              "s2",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "MORNING LIGHT",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F8F5F0",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FDFCFA",
+                  "label": "card"
+                },
+                {
+                  "hex": "#945E07",
+                  "label": "link"
+                },
+                {
+                  "hex": "#2C2520",
+                  "label": "text"
+                },
+                {
+                  "hex": "#E6DDD4",
+                  "label": "border"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "l1",
+              "b1"
+            ]
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Neon Rain",
       "description": "Electric Tokyo nights where hot pink neon bleeds into rain-slicked streets",
       "colors": {
@@ -1435,228 +1631,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Church of Light",
-      "description": "Raw concrete meets ethereal daylight in sacred minimalism",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F2EC",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8935F",
-          "--color-border": "#D0C7B8",
-          "--color-muted": "#8A8A8A",
-          "--color-sidebar-bg": "#F0EDE5",
-          "--color-nav-bg": "#F5F2EC",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#EFEFEA"
-        },
-        "dark": {
-          "--color-text": "#E8E8E8",
-          "--color-bg": "#1A1816",
-          "--color-link": "#E6B673",
-          "--color-link-hover": "#F2C78A",
-          "--color-border": "#2F2D2A",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#1E1C19",
-          "--color-nav-bg": "#1A1816",
-          "--color-nav-text": "#E8E8E8",
-          "--color-card-bg": "#1F1D1A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-03-25",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Church of Light",
-              "subtitle": "Raw concrete meets ethereal daylight in sacred minimalism"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "p1",
-              "d1",
-              "b1"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SACRED SPACE",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b2",
-              "b3",
-              "l1"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2EC",
-                  "label": "altar"
-                },
-                {
-                  "hex": "#F0EDE5",
-                  "label": "nave"
-                },
-                {
-                  "hex": "#D0C7B8",
-                  "label": "stone"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "shadow"
-                },
-                {
-                  "hex": "#B8935F",
-                  "label": "light"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Silence becomes luminous in these hallowed walls where concrete and spirit converge.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "minimal",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-03-31"
+  "currentDate": "2026-04-01"
 }
