@@ -1,6 +1,255 @@
 {
   "themes": [
     {
+      "name": "Pixel Monsoon",
+      "description": "Rain-slicked Tokyo streets where katakana neon bleeds into midnight fog.",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F6FF",
+          "--color-link": "#D9117D",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#E8DAEF",
+          "--color-muted": "#8E44AD",
+          "--color-sidebar-bg": "#eeecf7",
+          "--color-nav-bg": "#1A1A2E",
+          "--color-nav-text": "#FF1493",
+          "--color-card-bg": "#fefefe"
+        },
+        "dark": {
+          "--color-text": "#E8DAEF",
+          "--color-bg": "#1A1A2E",
+          "--color-link": "#FF1493",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#2D132C",
+          "--color-muted": "#944DB1",
+          "--color-sidebar-bg": "#16213E",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#00BFFF",
+          "--color-card-bg": "#1B1B3A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(255, 20, 147, 0.15)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "mesh-gradient",
+        "colors": [
+          "#FF1493",
+          "#00BFFF",
+          "#1A1A2E"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-02",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Pixel Monsoon",
+              "subtitle": "Rain-slicked Tokyo streets where katakana neon bleeds into midnight fog"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "p1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "animated-underline",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9117D",
+                  "label": "neon"
+                },
+                {
+                  "hex": "#00BFFF",
+                  "label": "cyber"
+                },
+                {
+                  "hex": "#8E44AD",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#FF1493",
+                  "label": "nav"
+                },
+                {
+                  "hex": "#E8DAEF",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F8F6FF",
+                  "label": "bg"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "ネオン雨",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Digital dreams cascade through glass reflections",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Dawn Shaft",
       "description": "Precise beams of morning light cutting through raw architectural volumes",
       "colors": {
@@ -1405,233 +1654,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Diner",
-      "description": "1970s American diner booth with burgundy vinyl and chrome fixtures under warm amber light.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C61236",
-          "--color-link-hover": "#B22222",
-          "--color-border": "#D4AF37",
-          "--color-muted": "#8B4513",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#fcefe4",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FADBD8"
-        },
-        "dark": {
-          "--color-text": "#F5DEB3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B6B",
-          "--color-link-hover": "#FF8E8E",
-          "--color-border": "#CD853F",
-          "--color-muted": "#A0522D",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#261A11",
-          "--color-nav-text": "#F5DEB3",
-          "--color-card-bg": "#1C1410"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "400",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(220, 20, 60, 0.15)",
-        "borderWidth": "2px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-03-26",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Diner",
-              "subtitle": "Retro diner charm with burgundy vinyl & chrome"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "t1",
-              "p1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "l1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "retro",
-              "variant": "outlined"
-            }
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "CLASSIC AMERICANA",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "cream"
-                },
-                {
-                  "hex": "#C61236",
-                  "label": "burgundy"
-                },
-                {
-                  "hex": "#D4AF37",
-                  "label": "chrome"
-                },
-                {
-                  "hex": "#8B4513",
-                  "label": "leather"
-                },
-                {
-                  "hex": "#FADBD8",
-                  "label": "blush"
-                }
-              ]
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t2",
-              "t3"
-            ]
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Warm amber lighting creates the perfect nostalgic atmosphere",
-              "variant": "body"
-            }
-          },
-          "t3": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Est. 1972",
-              "variant": "caption"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-01"
+  "currentDate": "2026-04-02"
 }
