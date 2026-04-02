@@ -66,12 +66,21 @@ const blogContent = {
   },
 };
 
+// Fonts already self-hosted in /public/fonts/ (no external request needed)
+const SELF_HOSTED_FONTS = new Set([
+  'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Bodoni Moda', 'Crimson Text',
+]);
+
 // Get today's theme fonts for early preloading (reduces FOUT)
 const today = new Date().toISOString().split('T')[0];
 const todayTheme = (themesData as any).themes.find((t: any) => t.date === today) || (themesData as any).themes[0];
 const themeFonts = [todayTheme?.fonts?.heading, todayTheme?.fonts?.body]
   .filter((f: any) => f?.url)
   .filter((f: any, i: number, arr: any[]) => arr.findIndex((x: any) => x.url === f.url) === i);
+
+// Only fonts that aren't already self-hosted need external loading
+const externalThemeFonts = themeFonts.filter((f: any) => !SELF_HOSTED_FONTS.has(f.name));
+const needsGoogleFonts = externalThemeFonts.length > 0;
 
 interface Props {
   title: string;
@@ -159,17 +168,18 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Intelligent Font Preloading System -->
     <FontPreloader pageType={detectedPageType} priority={detectedPageType === 'home'} />
     
-    <!-- Resource hints for font loading optimization -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect to Google Fonts only when today's theme needs external fonts -->
+    {needsGoogleFonts && (
+      <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    )}
+    {needsGoogleFonts && (
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    )}
 
-    <!-- Preload today's daily theme fonts to reduce FOUT -->
-    {themeFonts.map((font: any) => (
+    <!-- Preload today's daily theme fonts to reduce FOUT (skip already self-hosted) -->
+    {externalThemeFonts.map((font: any) => (
       <link rel="stylesheet" href={font.url} media="print" onload="this.media='all'" />
     ))}
-
-    <!-- DNS prefetch for external resources -->
 
     <!-- Browser theme color - blends browser UI with site -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
