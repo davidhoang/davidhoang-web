@@ -677,7 +677,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className = '' }) => {
                 className="winamp-spectrum-bar"
                 style={{
                   height: `${value * 100}%`,
-                  backgroundColor: value > 0.7 ? '#ff0000' : value > 0.4 ? '#ff8800' : '#00ff00'
+                  backgroundImage: `repeating-linear-gradient(to top, transparent 0px, transparent 1px, rgba(0,0,0,0.6) 1px, rgba(0,0,0,0.6) 2px)`,
+                  backgroundColor: value > 0.7 ? '#c80000' : value > 0.4 ? '#c8c800' : '#00c800'
                 }}
               />
             ))}
