@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 // Artwork data
 interface Artwork {
@@ -29,11 +30,8 @@ const pageDescription = "A curated collection of artwork that inspires and moves
 ---
 
 <MainLayout title="Art Collection | David Hoang" description={pageDescription}>
+  <PageHeader title="Art Collection" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Art Collection" />
   <div class="art-collection-page">
-    <header class="art-collection-header">
-      <h1>Art Collection</h1>
-      <p class="art-collection-intro">A curated collection of artwork that inspires and moves me.</p>
-    </header>
 
     <div class="art-split-view">
       <!-- Left: Thumbnail list -->
@@ -94,25 +92,6 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       max-width: 1400px;
       margin: 0 auto;
       padding: var(--spacing-xl) var(--spacing-lg);
-    }
-
-    .art-collection-header {
-      margin-bottom: var(--spacing-2xl);
-      text-align: center;
-    }
-
-    .art-collection-header h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: var(--spacing-md);
-      color: var(--color-text);
-    }
-
-    .art-collection-intro {
-      font-size: 1.25rem;
-      color: var(--color-muted);
-      max-width: 600px;
-      margin: 0 auto;
     }
 
     /* Split View Layout */
@@ -314,14 +293,6 @@ const pageDescription = "A curated collection of artwork that inspires and moves
     @media (max-width: 768px) {
       .art-collection-page {
         padding: var(--spacing-lg) var(--spacing-md);
-      }
-
-      .art-collection-header h1 {
-        font-size: 2rem;
-      }
-
-      .art-collection-intro {
-        font-size: 1.1rem;
       }
 
       .art-detail-title {

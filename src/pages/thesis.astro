@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 // Page metadata
 const pageDescription = "My convictions on the future of software design, AI-native management, the post-IDE world, and human x AI collaboration.";
@@ -7,10 +8,8 @@ const ogImage = "/images/img-dh.webp";
 ---
 
 <MainLayout title="Thesis" description={pageDescription} ogImage={ogImage}>
+  <PageHeader title="Conviction" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Conviction" />
   <div class="container">
-    <div class="hero-title">
-      <h1>Conviction</h1>
-    </div>
     <section><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p></section>
     <section class="toc" aria-labelledby="toc-heading">
       

@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 
 // Page metadata
 const pageDescription = "A collection of my work and projects.";
@@ -23,6 +24,7 @@ const works = [
 ---
 
 <MainLayout title="Works" description={pageDescription} ogImage={ogImage}>
+  <PageHeader title="Works" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Works" />
   <div class="works-container">
     <div class="works-inner">
       <div class="works-grid">

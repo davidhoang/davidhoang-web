@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 import ThemeShowcase from '../components/generative-ui/ThemeShowcase';
 import themesData from '../data/daily-themes.json';
 
@@ -16,11 +17,8 @@ const themes = themesData.themes.map((t: any) => ({
 ---
 
 <MainLayout title="Labs - David Hoang" description={pageDescription} ogImage={ogImage}>
+  <PageHeader title="Labs" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Labs" />
   <div class="container">
-    <div class="hero-title">
-      <h1>Labs</h1>
-    </div>
-
     <div class="labs-grid">
       <!-- Generative Theme Preview -->
       <div class="lab-item">
