@@ -262,24 +262,24 @@ html[data-e-ink="true"][data-theme="dark"] {
   filter: grayscale(1) contrast(1.2) !important;
 }
 
-/* E-Ink: Navigation bar - explicit background, no effects */
-[data-e-ink="true"] nav {
+/* E-Ink: Main navigation bar only (not in-page <nav> regions) */
+[data-e-ink="true"] nav.glass-border {
   background: #e8e8e3 !important;
   border-color: #000000 !important;
   box-shadow: none !important;
 }
 
-[data-e-ink="true"][data-theme="dark"] nav {
+[data-e-ink="true"][data-theme="dark"] nav.glass-border {
   background: #1a1a1a !important;
   border-color: #e0e0e0 !important;
 }
 
-[data-e-ink="true"] nav .noise-canvas,
-[data-e-ink="true"] nav .particle-canvas {
+[data-e-ink="true"] nav.glass-border .noise-canvas,
+[data-e-ink="true"] nav.glass-border .particle-canvas {
   display: none !important;
 }
 
-[data-e-ink="true"] nav::after {
+[data-e-ink="true"] nav.glass-border::after {
   display: none !important;
 }
 
@@ -396,7 +396,7 @@ html[data-e-ink="true"][data-theme="dark"] {
    ============================================ */
 
 /* Full-width navigation */
-[data-nav-style="full-width"] nav {
+[data-nav-style="full-width"] nav.glass-border {
   width: 100%;
   max-width: 100%;
   left: 0;
@@ -407,7 +407,7 @@ html[data-e-ink="true"][data-theme="dark"] {
 }
 
 /* Minimal navigation */
-[data-nav-style="minimal"] nav {
+[data-nav-style="minimal"] nav.glass-border {
   background: transparent;
   border: none;
   box-shadow: none;
@@ -415,7 +415,7 @@ html[data-e-ink="true"][data-theme="dark"] {
 }
 
 /* Bold bar navigation */
-[data-nav-style="bold-bar"] nav {
+[data-nav-style="bold-bar"] nav.glass-border {
   background: var(--color-nav-bg);
   min-height: var(--nav-height, 60px);
   padding: var(--nav-padding);
