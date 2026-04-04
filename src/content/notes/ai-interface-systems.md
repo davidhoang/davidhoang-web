@@ -2,8 +2,9 @@
 title: "AI Interface Systems"
 description: "Exploring how AI is reshaping interface design and interaction patterns"
 pubDate: 2025-01-15
-stage: seedling
+stage: thoughts
 tags: ["ai", "interface-design", "systems"]
+coverImage: "/images/highlights/img-highlights-replit.webp"
 ---
 
 Early thoughts on how AI is fundamentally changing interface design...

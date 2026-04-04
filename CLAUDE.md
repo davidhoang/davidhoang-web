@@ -28,12 +28,12 @@ Site: https://www.davidhoang.com
 
 ## Content conventions
 - Writing posts use `draft: true` to hide from production
-- Notes use stage system: seedling → budding → evergreen
+- Notes: `stage`, optional `overview` (markdown), `description` as Overview fallback; optional `overviewYoutube` (URL or id) embeds below overview prose inside the Overview card; optional `links`
 - Images use WebP format, stored in `public/images/blog/{year}/`
 - OG images auto-generated via `/api/og` endpoint for posts without custom ogImage/coverImage
 
 ## Architecture notes
-- RSS feed at `/rss.xml` with full content (content:encoded), XSL stylesheet for browser display
+- RSS: `/rss.xml` is **writing only** (full content, same scope as `/rss/writing.xml`). Notes: `/rss/notes.xml`. Per-tag feeds `/rss/tag/{tag}.xml` are **writing** posts with that tag only (not notes).
 - Sitemap auto-generated via @astrojs/sitemap (excludes /node-test, /signup-examples)
 - Performance: font LCP optimizer, responsive image srcset, aggressive bundle splitting, terser minification
 - Vercel Speed Insights for real-world Core Web Vitals monitoring

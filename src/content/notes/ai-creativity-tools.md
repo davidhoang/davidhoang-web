@@ -2,7 +2,7 @@
 title: "AI as Creative Partner"
 description: "Early thoughts on how AI changes the creative process"
 pubDate: 2025-01-03
-stage: seedling
+stage: thoughts
 tags: ["ai", "creativity", "tools"]
 ---
 

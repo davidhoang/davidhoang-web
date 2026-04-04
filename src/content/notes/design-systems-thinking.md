@@ -5,6 +5,7 @@ pubDate: 2024-12-15
 updatedDate: 2025-01-02
 stage: evergreen
 tags: ["design", "systems", "process"]
+coverImage: "/images/highlights/img-highlights-proof-of-concept.webp"
 ---
 
 Design systems are often reduced to component libraries, but that misses the forest for the trees. A true design system is a **way of thinking**—a shared language and set of principles that guide how a team approaches problems.

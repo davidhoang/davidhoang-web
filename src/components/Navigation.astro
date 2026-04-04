@@ -24,6 +24,9 @@ const searchIndex = [
   { title: 'Labs', description: 'Experiments and prototypes', path: '/labs', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
   { title: 'Search', description: 'Full-text search across all content', path: '/search', type: 'page' },
+  { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
+  { title: 'Works', description: 'Selected work and projects', path: '/works', type: 'page' },
+  { title: 'Art Collection', description: 'Curated artwork collection', path: '/art-collection', type: 'page' },
   // Writing posts
   ...writingPosts.map(post => ({
     title: post.data.title,
@@ -54,7 +57,7 @@ const searchIndex = [
         </li>
       ))}
       <li>
-        <a href="/rss.xml" class="rss-link" aria-label="RSS feed" title="RSS feed">
+        <a href="/rss.xml" class="rss-link" aria-label="Writing RSS feed" title="Writing RSS feed">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <circle cx="6.18" cy="17.82" r="2.18"/>
             <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>

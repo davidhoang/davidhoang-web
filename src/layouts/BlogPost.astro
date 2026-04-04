@@ -37,6 +37,10 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 const isoDate = pubDate instanceof Date ? pubDate.toISOString() : new Date(pubDate).toISOString();
 
+const isNote = Astro.url.pathname.startsWith('/notes/');
+const sectionLabel = isNote ? 'Notes' : 'Writing';
+const sectionPath = isNote ? '/notes' : '/writing';
+
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -56,10 +60,21 @@ const articleJsonLd = {
     "name": "David Hoang"
   }
 };
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": sectionLabel, "item": `${siteUrl}${sectionPath}` },
+    { "@type": "ListItem", "position": 3, "name": title, "item": canonicalUrl }
+  ]
+};
 ---
 
 <MainLayout title={title} description={pageDescription} ogImage={ogImage} disableContentMoodFilter>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <BlogMeta
     title={title}
     description={description}

@@ -1,6 +1,22 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
+import MarkdownIt from 'markdown-it';
+import sanitizeHtml from 'sanitize-html';
+import {
+  noteStageInfo,
+  resolveNoteStage,
+  defaultNoteMetaDescription,
+} from '../../utils/noteStages';
+import { parseYoutubeVideoId } from '../../utils/youtube';
+
+const overviewMd = new MarkdownIt({ html: false, linkify: true, breaks: true });
+
+function renderNoteOverview(source: string): string {
+  return sanitizeHtml(overviewMd.render(source.trim()), {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+  });
+}
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes');
@@ -13,62 +29,28 @@ export async function getStaticPaths() {
 const { note } = Astro.props;
 const { Content } = await note.render();
 
-// Find related content by shared tags
-const currentTags = note.data.tags || [];
-const allNotes = await getCollection('notes');
-const allWriting = await getCollection('writing');
-
-const relatedNotes = currentTags.length > 0
-  ? allNotes
-      .filter(n => n.slug !== note.slug && !n.data.draft)
-      .map(n => {
-        const shared = (n.data.tags || []).filter(t => currentTags.includes(t));
-        return { ...n, sharedCount: shared.length };
-      })
-      .filter(n => n.sharedCount > 0)
-      .sort((a, b) => b.sharedCount - a.sharedCount)
-      .slice(0, 3)
-  : [];
-
-const relatedWriting = currentTags.length > 0
-  ? allWriting
-      .filter(p => !p.data.draft)
-      .map(p => {
-        const shared = (p.data.tags || []).filter(t => currentTags.includes(t));
-        return { ...p, sharedCount: shared.length };
-      })
-      .filter(p => p.sharedCount > 0)
-      .sort((a, b) => b.sharedCount - a.sharedCount)
-      .slice(0, 3)
-  : [];
-
-// Stage info - using dots instead of emoji
-const stageInfo = {
-  seedling: { icon: '○', label: 'Seedling', description: 'Just planted—rough ideas and early thoughts' },
-  budding: { icon: '◐', label: 'Budding', description: 'Growing and developing, but not yet complete' },
-  evergreen: { icon: '●', label: 'Evergreen', description: 'Mature, stable, and regularly maintained' },
-};
-
-const stage = stageInfo[note.data.stage || 'seedling'];
+const stageKey = resolveNoteStage(note.data.stage);
+const stage = noteStageInfo[stageKey];
 const tags = note.data.tags || [];
+const inspirationLinks = note.data.links || [];
 
-// Format dates
-const plantedDate = note.data.pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
+function linkAttrs(url: string) {
+  return /^https?:\/\//i.test(url)
+    ? { target: '_blank' as const, rel: 'noopener noreferrer' }
+    : {};
+}
 
-const updatedDate = note.data.updatedDate
-  ? note.data.updatedDate.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  : null;
+const pageDescription =
+  note.data.description || defaultNoteMetaDescription(stageKey, note.data.title);
 
-const pageDescription = note.data.description || `A ${stage.label.toLowerCase()} note on ${note.data.title}`;
-const ogImage = note.data.ogImage || `/api/og?title=${encodeURIComponent(note.data.title)}&description=${encodeURIComponent(pageDescription)}&type=notes`;
+const overviewSource = (note.data.overview ?? note.data.description ?? '').trim();
+const overviewHtml = overviewSource ? renderNoteOverview(overviewSource) : '';
+const overviewYoutubeId = parseYoutubeVideoId(note.data.overviewYoutube);
+const coverImage = note.data.coverImage;
+const ogImage =
+  note.data.ogImage ||
+  coverImage ||
+  `/api/og?title=${encodeURIComponent(note.data.title)}&description=${encodeURIComponent(pageDescription)}&type=notes`;
 
 // Structured data for notes
 const siteUrl = 'https://www.davidhoang.com';
@@ -100,101 +82,159 @@ const noteJsonLd = {
 
 <MainLayout title={`${note.data.title} | Notes`} description={pageDescription} ogImage={ogImage}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
-  <article class="note-article">
+  {coverImage && (
+    <div class="note-hero">
+      <img
+        src={coverImage}
+        alt=""
+        loading="eager"
+        decoding="async"
+        width="1200"
+        height="630"
+      />
+    </div>
+  )}
+  <article class:list={['note-article', { 'note-article--with-hero': !!coverImage }]}>
+    <aside class="note-stage-callout" aria-label={`This note is in the ${stage.label} stage`}>
+      <span class="note-stage-callout__icon" aria-hidden="true">{stage.icon}</span>
+      <p>
+        {stage.description} Like the rest of this garden, it may change as I learn.
+      </p>
+    </aside>
+
     <header class="note-header">
-      <a href="/notes" class="back-link">&larr; Notes</a>
       <h1>{note.data.title}</h1>
-      <div class="note-meta-row">
-        <time datetime={note.data.pubDate.toISOString()}>{plantedDate}</time>
-        <span class="meta-separator">·</span>
-        <span class="note-stage" title={stage.description}>
-          {stage.icon} {stage.label}
-        </span>
-        {tags.length > 0 && (
-          <>
-            <span class="meta-separator">·</span>
-            <span class="note-tags-inline">
-              {tags.map((tag, i) => (
-                <span class="tag">{tag}{i < tags.length - 1 ? ', ' : ''}</span>
-              ))}
-            </span>
-          </>
-        )}
-      </div>
-      {note.data.description && (
-        <p class="note-description">{note.data.description}</p>
+      {tags.length > 0 && (
+        <div class="note-meta-row">
+          <span class="note-tags-inline">
+            {tags.map((tag, i) => (
+              <span class="tag">{tag}{i < tags.length - 1 ? ', ' : ''}</span>
+            ))}
+          </span>
+        </div>
       )}
     </header>
 
-    <div class="note-content">
-      <Content />
-    </div>
-
-    {(relatedNotes.length > 0 || relatedWriting.length > 0) && (
-      <nav class="related-content" aria-label="Related content">
-        <h2 class="related-heading">Related</h2>
-        {relatedNotes.length > 0 && (
-          <div class="related-section">
-            <h3 class="related-label">Notes</h3>
-            <ul class="related-list">
-              {relatedNotes.map(n => (
-                <li>
-                  <a href={`/notes/${n.slug}`}>{n.data.title}</a>
-                </li>
-              ))}
-            </ul>
+    <section class="note-section note-section--overview" aria-labelledby="overview-heading">
+      <h2 id="overview-heading" class="note-section__heading">Overview</h2>
+      <div class="note-overview">
+        {overviewHtml ? (
+          <div class="note-content note-section__prose" set:html={overviewHtml} />
+        ) : !overviewYoutubeId ? (
+          <p class="note-section__empty">No overview yet.</p>
+        ) : null}
+        {overviewYoutubeId && (
+          <div class="note-youtube">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${overviewYoutubeId}`}
+              title={`Video — ${note.data.title}`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            />
           </div>
         )}
-        {relatedWriting.length > 0 && (
-          <div class="related-section">
-            <h3 class="related-label">Writing</h3>
-            <ul class="related-list">
-              {relatedWriting.map(p => (
-                <li>
-                  <a href={`/writing/${p.slug}`}>{p.data.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </nav>
-    )}
-
-    <footer class="note-footer">
-      <div class="growth-notice">
-        <span class="growth-icon">{stage.icon}</span>
-        <p>
-          This is a <strong>{stage.label.toLowerCase()}</strong> note—{stage.description.toLowerCase()}.
-          Notes in my digital garden are meant to be tended over time.
-        </p>
       </div>
-      <a href="/notes" class="back-link">&larr; Back to all notes</a>
-    </footer>
+    </section>
+
+    <section class="note-section note-section--notes" aria-labelledby="notes-heading">
+      <h2 id="notes-heading" class="note-section__heading">Notes</h2>
+      <div class="note-content">
+        <Content />
+      </div>
+    </section>
+
+    <section class="note-section" aria-labelledby="links-heading">
+      <h2 id="links-heading" class="note-section__heading">Links</h2>
+      {inspirationLinks.length > 0 ? (
+        <ul class="note-links__list">
+          {inspirationLinks.map((item) => (
+            <li>
+              <a href={item.url} {...linkAttrs(item.url)}>
+                {item.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="note-section__empty">No links listed yet.</p>
+      )}
+    </section>
   </article>
 </MainLayout>
 
 <style>
+  .note-hero {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    max-height: min(52vh, 420px);
+    overflow: hidden;
+    margin-top: calc(-1 * var(--content-top-padding, 4rem));
+    margin-bottom: 2rem;
+  }
+
+  .note-hero img {
+    width: 100%;
+    height: min(52vh, 420px);
+    object-fit: cover;
+    display: block;
+  }
+
   .note-article {
     max-width: 720px;
     margin: 0 auto;
     padding-top: 6rem;
   }
 
+  .note-article--with-hero {
+    padding-top: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .note-hero {
+      margin-top: 0;
+      max-height: 40vh;
+    }
+
+    .note-hero img {
+      height: 40vh;
+    }
+
+    .note-article--with-hero {
+      padding-top: 1.5rem;
+    }
+  }
+
+  .note-stage-callout {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.1rem;
+    background: var(--color-sidebar-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    margin-bottom: 1.75rem;
+  }
+
+  .note-stage-callout__icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    line-height: 1.4;
+    color: var(--color-muted);
+  }
+
+  .note-stage-callout p {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.55;
+  }
+
   .note-header {
     margin-bottom: 2rem;
-  }
-
-  .back-link {
-    font-size: 0.875rem;
-    color: var(--color-muted);
-    text-decoration: none;
-    transition: color 0.2s var(--ease-inertia);
-    display: inline-block;
-    margin-bottom: 1.5rem;
-  }
-
-  .back-link:hover {
-    color: var(--color-link);
   }
 
   .note-header h1 {
@@ -204,25 +244,9 @@ const noteJsonLd = {
   }
 
   .note-meta-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
     font-size: 0.875rem;
     color: var(--color-muted);
     margin-bottom: 1rem;
-  }
-
-  .note-meta-row time {
-    color: var(--color-muted);
-  }
-
-  .meta-separator {
-    color: var(--color-border);
-  }
-
-  .note-stage {
-    cursor: help;
   }
 
   .note-tags-inline {
@@ -233,13 +257,81 @@ const noteJsonLd = {
     color: var(--color-muted);
   }
 
-  .note-description {
-    font-size: 1.125rem;
-    color: var(--color-muted);
-    line-height: 1.5;
-    margin: 1rem 0 0 0;
-    padding-top: 1rem;
+  .note-section {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
     border-top: 1px solid var(--color-border);
+  }
+
+  .note-section__heading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .note-section__empty {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    font-style: italic;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .note-section--overview .note-section__heading {
+    margin-bottom: 0.75rem;
+  }
+
+  .note-overview {
+    position: relative;
+    padding: 1.25rem 1.35rem 1.35rem 1.5rem;
+    background: color-mix(in srgb, var(--color-link) 5%, var(--color-sidebar-bg));
+    border: 1px solid color-mix(in srgb, var(--color-link) 12%, var(--color-border));
+    border-radius: var(--radius-md, 8px);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 5%, transparent);
+  }
+
+  .note-overview::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85rem;
+    bottom: 0.85rem;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: var(--color-link);
+    opacity: 0.85;
+  }
+
+  .note-overview .note-section__empty {
+    margin: 0;
+  }
+
+  .note-overview .note-section__prose + .note-youtube {
+    margin-top: 1.25rem;
+  }
+
+  .note-youtube {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md, 8px);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-text) 6%, var(--color-sidebar-bg));
+    border: 1px solid var(--color-border);
+  }
+
+  .note-youtube iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .note-section--notes .note-content :global(.note-youtube) {
+    margin: 1.5rem 0 1.75rem;
   }
 
   .note-content {
@@ -263,14 +355,164 @@ const noteJsonLd = {
     margin-bottom: 1.25rem;
   }
 
-  .note-content :global(ul),
-  .note-content :global(ol) {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
+  /* Ordered lists — stepped rows with numeric badges */
+  .note-article .note-content :global(ol) {
+    list-style: none;
+    padding-left: 0;
+    margin: 1.15rem 0 1.5rem;
+    counter-reset: note-ol;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
   }
 
-  .note-content :global(li) {
-    margin-bottom: 0.5rem;
+  .note-article .note-content :global(ol > li) {
+    counter-increment: note-ol;
+    margin: 0;
+    position: relative;
+    padding: 0.85rem 1rem 0.95rem 3.15rem;
+    background: color-mix(in srgb, var(--color-bg) 55%, var(--color-sidebar-bg));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    box-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 5%, transparent);
+    transition:
+      border-color 0.2s var(--ease-inertia),
+      box-shadow 0.2s var(--ease-inertia);
+  }
+
+  .note-overview .note-section__prose.note-content :global(ol > li) {
+    background: color-mix(in srgb, var(--color-bg) 40%, var(--color-sidebar-bg));
+  }
+
+  .note-article .note-content :global(ol > li:hover) {
+    border-color: color-mix(in srgb, var(--color-link) 35%, var(--color-border));
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-link) 8%, transparent);
+  }
+
+  .note-article .note-content :global(ol > li::before) {
+    content: counter(note-ol);
+    position: absolute;
+    left: 0.75rem;
+    top: 0.8rem;
+    min-width: 1.65rem;
+    height: 1.65rem;
+    padding: 0 0.35rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-bg);
+    background: var(--color-link);
+    border-radius: var(--radius-sm, 6px);
+    line-height: 1;
+  }
+
+  .note-article .note-content :global(ol > li p) {
+    margin: 0;
+  }
+
+  .note-article .note-content :global(ol > li p + p) {
+    margin-top: 0.5rem;
+  }
+
+  .note-article .note-content :global(ol > li em) {
+    display: inline;
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    font-weight: 400;
+  }
+
+  .note-article .note-content :global(ol a) {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 650;
+    text-underline-offset: 0.14em;
+  }
+
+  .note-article .note-content :global(ol a:hover) {
+    text-decoration: underline;
+    color: var(--color-link-hover, var(--color-link));
+  }
+
+  .note-article .note-content :global(ol ol) {
+    margin: 0.65rem 0 0;
+    gap: 0.45rem;
+  }
+
+  .note-article .note-content :global(ol ol > li) {
+    padding-left: 2.65rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.7rem;
+    background: color-mix(in srgb, var(--color-sidebar-bg) 80%, var(--color-bg));
+    box-shadow: none;
+  }
+
+  .note-article .note-content :global(ol ol > li::before) {
+    font-size: 0.6875rem;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    left: 0.65rem;
+    top: 0.65rem;
+    opacity: 0.92;
+  }
+
+  /* Unordered lists — accent bar + markers */
+  .note-article .note-content :global(ul) {
+    list-style: none;
+    padding-left: 0;
+    margin: 1.1rem 0 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .note-article .note-content :global(ul > li) {
+    margin: 0 0 0 0.12rem;
+    padding: 0.4rem 0 0.45rem 1.15rem;
+    position: relative;
+    border-left: 3px solid color-mix(in srgb, var(--color-link) 45%, var(--color-border));
+  }
+
+  .note-article .note-content :global(ul > li::before) {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0.75em;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--color-link);
+    transform: rotate(45deg);
+    opacity: 0.9;
+  }
+
+  .note-article .note-content :global(ul ul) {
+    margin: 0.4rem 0 0;
+    gap: 0.3rem;
+  }
+
+  .note-article .note-content :global(ul ul > li) {
+    border-left-color: color-mix(in srgb, var(--color-muted) 40%, var(--color-border));
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .note-article .note-content :global(ul ul > li::before) {
+    width: 5px;
+    height: 5px;
+    opacity: 0.65;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .note-article .note-content :global(ol > li) {
+      transition: none;
+    }
+
+    .note-article .note-content :global(ol > li:hover) {
+      box-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 5%, transparent);
+    }
   }
 
   .note-content :global(blockquote) {
@@ -301,94 +543,42 @@ const noteJsonLd = {
     padding: 0;
   }
 
-  .related-content {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
+  .note-section__prose.note-content :global(p:first-child) {
+    margin-top: 0;
   }
 
-  .related-heading {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-muted);
-    margin: 0 0 1rem;
+  .note-section__prose.note-content :global(p:last-child) {
+    margin-bottom: 0;
   }
 
-  .related-section {
-    margin-bottom: 1rem;
+  .note-section--notes .note-content :global(> *:first-child) {
+    margin-top: 0;
   }
 
-  .related-label {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-muted);
-    margin: 0 0 0.5rem;
-  }
-
-  .related-list {
+  .note-links__list {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .related-list li {
-    padding: 0.375rem 0;
+  .note-links__list li {
+    padding: 0.4rem 0;
   }
 
-  .related-list a {
+  .note-links__list a {
     font-size: 0.9375rem;
-    color: var(--color-text);
-    text-decoration: none;
-    transition: color 0.2s var(--ease-inertia);
-  }
-
-  .related-list a:hover {
     color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
-  .note-footer {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .growth-notice {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: var(--color-sidebar-bg);
-    border-radius: var(--radius-md, 8px);
-    margin-bottom: 1.5rem;
-  }
-
-  .growth-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-    color: var(--color-muted);
-  }
-
-  .growth-notice p {
-    font-size: 0.875rem;
-    color: var(--color-muted);
-    margin: 0;
-    line-height: 1.5;
+  .note-links__list a:hover {
+    color: var(--color-link-hover, var(--color-link));
   }
 
   @media (max-width: 640px) {
     .note-header h1 {
       font-size: 1.75rem;
-    }
-
-    .note-meta-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
-    }
-
-    .meta-separator {
-      display: none;
     }
   }
 </style>

@@ -2,7 +2,7 @@
 title: "A New MVC is Emerging"
 description: "How AI and protocols are reshaping the classic Model-View-Controller pattern"
 pubDate: 2025-01-04
-stage: seedling
+stage: thoughts
 tags: ["software", "ai", "architecture"]
 ---
 

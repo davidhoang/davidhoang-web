@@ -3,112 +3,199 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import PageHeader from '../../components/PageHeader.astro';
 import SearchInput from '../../components/SearchInput.astro';
+import { noteStageInfo, NOTE_STAGE_VALUES, resolveNoteStage } from '../../utils/noteStages';
 
 const allNotes = await getCollection('notes');
-// Filter out drafts in production, show in dev
 const notes = (import.meta.env.PROD
   ? allNotes.filter((note) => !note.data.draft)
   : allNotes
 ).sort((a, b) => {
-  // Sort by updatedDate if available, otherwise pubDate
   const dateA = a.data.updatedDate || a.data.pubDate;
   const dateB = b.data.updatedDate || b.data.pubDate;
   return dateB.valueOf() - dateA.valueOf();
 });
 
-// Get unique tags for filtering
-const allTags = [...new Set(notes.flatMap(note => note.data.tags || []))].sort();
+const allTags = [...new Set(notes.flatMap((note) => note.data.tags || []))].sort();
 
-// Stage info - using dots instead of emoji
-const stageInfo = {
-  seedling: { icon: '○', label: 'Seedling', description: 'Just planted, rough ideas' },
-  budding: { icon: '◐', label: 'Budding', description: 'Growing, needs more work' },
-  evergreen: { icon: '●', label: 'Evergreen', description: 'Mature and stable' },
-};
+const pageDescription =
+  'Evergreen notes from my digital garden. Ideas I come back to, tend, and grow over time.';
+const pageOgImage = '/images/highlights/img-highlights-play.webp';
 
-const pageDescription = "Evergreen notes from my digital garden. Ideas I come back to, tend, and grow over time.";
+const notesPlaceholderSketch =
+  '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
+
+function formatRelative(date: Date) {
+  const now = Date.now();
+  const diff = now - date.getTime();
+  const day = 86400000;
+  if (diff < day) return 'Today';
+  if (diff < day * 2) return 'Yesterday';
+  if (diff < day * 7) return `${Math.floor(diff / day)} days ago`;
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
+  });
+}
 ---
 
-<MainLayout title="Notes | David Hoang" description={pageDescription}>
+<MainLayout title="Notes | David Hoang" description={pageDescription} ogImage={pageOgImage}>
   <PageHeader
     title="Notes"
-    variant="text-only"
-    subtitle="Welcome to my digital garden. These are evergreen notes—ideas I plant, tend, and revisit over time. Unlike blog posts, they grow and evolve."
-  >
+    image="/images/highlights/img-highlights-play.webp"
+    alt=""
+    priority={true}
+  />
+
+  <section class="notes-intro" aria-labelledby="notes-intro-heading">
+    <h2 id="notes-intro-heading" class="visually-hidden">About this garden</h2>
+    <p class="notes-intro__lede">
+      A living collection of ideas—unlike linear blog posts, these pages grow, split, and merge as I learn.
+      Filter by topic or stage, or search across everything.
+    </p>
     <div class="stage-legend">
-      {Object.entries(stageInfo).map(([key, info]) => (
-        <span class="stage-item">
+      {Object.entries(noteStageInfo).map(([key, info]) => (
+        <span class="stage-item" title={info.description}>
           <span class="stage-icon">{info.icon}</span>
           <span class="stage-label">{info.label}</span>
         </span>
       ))}
     </div>
-  </PageHeader>
+  </section>
 
-  {allTags.length > 0 && (
-    <div class="tags-filter">
-      <button class="tag-btn active" data-tag="all">All</button>
-      {allTags.map(tag => (
-        <button class="tag-btn" data-tag={tag}>{tag}</button>
-      ))}
+  <div class="notes-toolbar">
+    <nav class="filter-panel" aria-label="Filter by topic">
+      <h3 class="filter-panel__title">Topics</h3>
+      <div class="filter-chips filter-chips--topics" id="topic-chips">
+        <button type="button" class="chip chip--topic active" data-tag="all">All topics</button>
+        {allTags.map((tag) => (
+          <button type="button" class="chip chip--topic" data-tag={tag}>
+            {tag}
+          </button>
+        ))}
+      </div>
+    </nav>
+
+    <nav class="filter-panel" aria-label="Filter by note stage">
+      <h3 class="filter-panel__title">Stage</h3>
+      <div class="filter-chips filter-chips--stages" id="stage-chips">
+        <button type="button" class="chip chip--stage active" data-stage="all">All stages</button>
+        {NOTE_STAGE_VALUES.map((s) => (
+          <button type="button" class="chip chip--stage" data-stage={s}>
+            <span class="chip__glyph">{noteStageInfo[s].icon}</span>
+            {noteStageInfo[s].label}
+          </button>
+        ))}
+      </div>
+    </nav>
+
+    <div class="notes-search-wrap">
+      <SearchInput id="notes-search" placeholder="Search titles and descriptions…" />
     </div>
-  )}
-
-  <SearchInput id="notes-search" placeholder="Search notes..." />
+  </div>
 
   <div class="notes-grid" id="notes-grid">
     {notes.length === 0 ? (
       <p class="empty-state">No notes yet. Check back soon!</p>
     ) : (
-      notes.map(note => {
-        const stage = stageInfo[note.data.stage || 'seedling'];
+      notes.map((note, index) => {
+        const stageKey = resolveNoteStage(note.data.stage);
+        const stage = noteStageInfo[stageKey];
         const tags = note.data.tags || [];
+        const cover = note.data.coverImage;
+        const isSpotlight = index === 0;
+        const sortDate = note.data.updatedDate || note.data.pubDate;
 
         return (
-          <a href={`/notes/${note.slug}`} class="note-card" data-tags={tags.join(',')} data-title={note.data.title.toLowerCase()} data-description={(note.data.description || '').toLowerCase()}>
-
-            <div class="note-header">
-              <span class="note-stage" title={stage.description}>
-                {stage.icon}
-              </span>
-            </div>
-            <h2 class="note-title">{note.data.title}</h2>
-            {note.data.description && (
-              <p class="note-description">{note.data.description}</p>
-            )}
-            {tags.length > 0 && (
-              <div class="note-tags">
-                {tags.map(tag => (
-                  <span class="note-tag">{tag}</span>
-                ))}
+          <a
+            href={`/notes/${note.slug}`}
+            class:list={['note-card', { 'note-card--spotlight': isSpotlight, 'note-card--cover': !!cover }]}
+            data-tags={tags.join(',')}
+            data-stage={stageKey}
+            data-title={note.data.title.toLowerCase()}
+            data-description={(note.data.description || '').toLowerCase()}
+          >
+            {cover ? (
+              <div class="note-card__media">
+                <img src={cover} alt="" loading={isSpotlight ? 'eager' : 'lazy'} decoding="async" />
+              </div>
+            ) : (
+              <div class="note-card__media note-card__media--placeholder">
+                <img
+                  src={notesPlaceholderSketch}
+                  alt=""
+                  loading={isSpotlight ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
               </div>
             )}
+            <div class="note-card__body">
+              <div class="note-card__meta">
+                <span class="note-card__stage" title={stage.description}>
+                  {stage.icon} {stage.label}
+                </span>
+                <time datetime={sortDate.toISOString()}>{formatRelative(sortDate)}</time>
+              </div>
+              <h2 class="note-card__title">{note.data.title}</h2>
+              {note.data.description && <p class="note-card__description">{note.data.description}</p>}
+              {tags.length > 0 && (
+                <div class="note-card__tags">
+                  {tags.map((tag) => (
+                    <span class="note-card__tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
           </a>
         );
       })
     )}
   </div>
-  <p class="no-results" id="notes-no-results">No notes match your search.</p>
+  <p class="no-results" id="notes-no-results">No notes match your filters.</p>
 </MainLayout>
 
 <style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .notes-intro {
+    max-width: var(--container-max-width, 72rem);
+    margin: 0 auto 2.5rem;
+    padding: 0 var(--content-padding, 1.25rem);
+  }
+
+  .notes-intro__lede {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+    max-width: 42rem;
+  }
+
   .stage-legend {
-    margin-top: 1rem;
     display: flex;
-    gap: 1.5rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
   }
 
   .stage-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     color: var(--color-muted);
   }
 
   .stage-icon {
-    font-size: 0.875rem;
     color: var(--color-muted);
   }
 
@@ -116,18 +203,43 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     font-weight: 500;
   }
 
-  .tags-filter {
+  .notes-toolbar {
+    max-width: var(--container-max-width, 72rem);
+    margin: 0 auto 2rem;
+    padding: 0 var(--content-padding, 1.25rem);
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
-  .tag-btn {
+  .filter-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-panel__title {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-content: flex-start;
+  }
+
+  .chip {
     background: var(--color-sidebar-bg);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-md);
+    padding: 0.4rem 0.85rem;
     font-size: 0.8125rem;
     cursor: pointer;
     color: var(--color-text);
@@ -137,84 +249,172 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
       border-color 0.2s var(--ease-inertia);
   }
 
-  .tag-btn:hover {
+  .chip:hover {
     border-color: var(--color-link);
   }
 
-  .tag-btn.active {
+  .chip.active {
     background: var(--color-link);
     color: var(--color-bg);
     border-color: var(--color-link);
   }
 
+  .chip--stage {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .chip__glyph {
+    font-size: 0.875rem;
+    opacity: 0.85;
+  }
+
+  .chip--stage.active .chip__glyph {
+    opacity: 1;
+  }
+
+  .notes-search-wrap {
+    max-width: 24rem;
+  }
+
   .notes-grid {
+    max-width: var(--container-max-width, 72rem);
+    margin: 0 auto;
+    padding: 0 var(--content-padding, 1.25rem) 3rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(12, 1fr);
     gap: 1.25rem;
   }
 
   .note-card {
+    grid-column: span 4;
     display: flex;
     flex-direction: column;
-    padding: 1.25rem;
+    min-height: 100%;
     background-color: var(--color-sidebar-bg) !important;
     background-image: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    opacity: 1 !important;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
+    overflow: hidden;
     transition:
-      transform 0.3s var(--ease-inertia),
-      box-shadow 0.3s var(--ease-inertia),
-      border-color 0.3s var(--ease-inertia);
+      transform 0.25s var(--ease-inertia),
+      box-shadow 0.25s var(--ease-inertia),
+      border-color 0.25s var(--ease-inertia);
   }
 
   .note-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: var(--card-shadow);
     border-color: var(--color-link);
   }
 
-  .note-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
+  .note-card--spotlight {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 220px;
   }
 
-  .note-stage {
-    font-size: 1.25rem;
+  .note-card--spotlight .note-card__media,
+  .note-card--spotlight .note-card__media--placeholder {
+    flex: 0 0 42%;
+    max-width: 420px;
+    min-height: 220px;
+  }
+
+  .note-card--spotlight .note-card__body {
+    flex: 1;
+    justify-content: center;
+    padding: 1.75rem;
+  }
+
+  .note-card--spotlight.note-card--cover .note-card__body {
+    padding-left: 0;
+  }
+
+  .note-card--spotlight .note-card__title {
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  }
+
+  .note-card__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .note-card--spotlight .note-card__media {
+    aspect-ratio: auto;
+  }
+
+  .note-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .note-card__media--placeholder {
+    background: var(--color-bg);
+  }
+
+  .note-card__body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.1rem 1.15rem 1.25rem;
+    flex: 1;
+  }
+
+  .note-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .note-card__meta time {
+    flex-shrink: 0;
+  }
+
+  .note-card__stage {
     cursor: help;
   }
 
-  .note-title {
-    font-size: 1.125rem;
+  .note-card__title {
+    font-size: 1.0625rem;
     font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.5rem;
     line-height: 1.3;
   }
 
-  .note-description {
+  .note-card__description {
     font-size: 0.875rem;
     color: var(--color-muted);
     line-height: 1.5;
     margin: 0;
     flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .note-tags {
+  .note-card__tags {
     display: flex;
     gap: 0.375rem;
     flex-wrap: wrap;
-    margin-top: 0.75rem;
+    margin-top: 0.85rem;
   }
 
-  .note-tag {
+  .note-card__tag {
     font-size: 0.6875rem;
-    padding: 0.125rem 0.5rem;
+    padding: 0.15rem 0.5rem;
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm, 4px);
@@ -232,30 +432,69 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
     display: none;
     text-align: center;
     color: var(--color-muted);
-    padding: 2rem 0;
+    padding: 2rem var(--content-padding, 1.25rem);
     font-size: 0.9375rem;
   }
 
-  @media (max-width: 640px) {
-    .notes-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 1024px) {
+    .note-card {
+      grid-column: span 6;
     }
 
-    .stage-legend {
-      gap: 1rem;
+    .note-card--spotlight {
+      flex-direction: column;
+    }
+
+    .note-card--spotlight .note-card__media,
+    .note-card--spotlight .note-card__media--placeholder {
+      flex: none;
+      max-width: none;
+      width: 100%;
+      min-height: 200px;
+      aspect-ratio: 16 / 9;
+    }
+
+  .note-card--spotlight .note-card__body {
+      padding: 1.25rem;
+    }
+
+    .note-card--spotlight.note-card--cover .note-card__body {
+      padding-left: 1.25rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .note-card {
+      grid-column: 1 / -1;
+    }
+
+    .filter-chips--topics {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      mask-image: linear-gradient(to right, black 92%, transparent);
+    }
+
+    .notes-intro__lede {
+      font-size: 1rem;
     }
   }
 </style>
 
 <script>
   function initNotesFilters() {
-    const tagBtns = document.querySelectorAll('.tag-btn');
+    const tagBtns = document.querySelectorAll('#topic-chips .chip--topic');
+    const stageBtns = document.querySelectorAll('#stage-chips .chip--stage');
     const noteCards = document.querySelectorAll('.note-card');
     const searchInput = document.getElementById('notes-search') as HTMLInputElement;
     const noResults = document.getElementById('notes-no-results');
     const clearBtn = searchInput?.parentElement?.querySelector('.search-clear') as HTMLElement;
 
     let activeTag = 'all';
+    let activeStage = 'all';
 
     function applyFilters() {
       const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
@@ -265,28 +504,43 @@ const pageDescription = "Evergreen notes from my digital garden. Ideas I come ba
         clearBtn.style.display = query ? 'flex' : 'none';
       }
 
-      noteCards.forEach(card => {
+      noteCards.forEach((card) => {
         const cardTags = card.getAttribute('data-tags') || '';
+        const cardStage = card.getAttribute('data-stage') || 'thoughts';
         const title = card.getAttribute('data-title') || '';
         const description = card.getAttribute('data-description') || '';
 
-        const matchesTag = activeTag === 'all' || cardTags.split(',').includes(activeTag);
-        const matchesSearch = !query || title.includes(query) || description.includes(query);
+        const tagList = cardTags ? cardTags.split(',') : [];
+        const matchesTag =
+          activeTag === 'all' || tagList.includes(activeTag);
+        const matchesStage = activeStage === 'all' || cardStage === activeStage;
+        const matchesSearch =
+          !query || title.includes(query) || description.includes(query);
 
-        const visible = matchesTag && matchesSearch;
+        const visible = matchesTag && matchesStage && matchesSearch;
         (card as HTMLElement).style.display = visible ? '' : 'none';
         if (visible) visibleCount++;
       });
 
       if (noResults) {
-        (noResults as HTMLElement).style.display = visibleCount === 0 ? 'block' : 'none';
+        (noResults as HTMLElement).style.display =
+          visibleCount === 0 ? 'block' : 'none';
       }
     }
 
-    tagBtns.forEach(btn => {
+    tagBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         activeTag = btn.getAttribute('data-tag') || 'all';
-        tagBtns.forEach(b => b.classList.remove('active'));
+        tagBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+      });
+    });
+
+    stageBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeStage = btn.getAttribute('data-stage') || 'all';
+        stageBtns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
         applyFilters();
       });

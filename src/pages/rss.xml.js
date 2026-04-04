@@ -7,44 +7,27 @@ const md = new MarkdownIt();
 
 export async function GET(context) {
   const allPosts = await getCollection('writing');
-  const allNotes = await getCollection('notes');
 
   const posts = (import.meta.env.PROD
     ? allPosts.filter((post) => !post.data.draft)
     : allPosts
-  );
+  ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-  const notes = (import.meta.env.PROD
-    ? allNotes.filter((note) => !note.data.draft)
-    : allNotes
-  );
-
-  const items = [
-    ...posts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.pubDate,
-      description: post.data.description,
-      link: `/writing/${post.slug}/`,
-      content: sanitizeHtml(md.render(post.body), {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-      }),
-      categories: ['writing', ...(post.data.tags || [])],
-    })),
-    ...notes.map((note) => ({
-      title: note.data.title,
-      pubDate: note.data.pubDate,
-      description: note.data.description || `A note on ${note.data.title}`,
-      link: `/notes/${note.slug}/`,
-      content: sanitizeHtml(md.render(note.body), {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-      }),
-      categories: ['notes', ...(note.data.tags || [])],
-    })),
-  ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+  const items = posts.map((post) => ({
+    title: post.data.title,
+    pubDate: post.data.pubDate,
+    description: post.data.description,
+    link: `/writing/${post.slug}/`,
+    content: sanitizeHtml(md.render(post.body), {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+    }),
+    categories: ['writing', ...(post.data.tags || [])],
+  }));
 
   return rss({
-    title: 'David Hoang',
-    description: 'Writing about design, technology, and building products.',
+    title: 'David Hoang — Writing',
+    description:
+      'Essays and articles on design, technology, and building products. Notes live separately at /rss/notes.xml.',
     site: context.site,
     items,
     customData: [
