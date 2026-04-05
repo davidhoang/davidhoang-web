@@ -188,10 +188,14 @@ const portfolioItems = [
       border-radius: var(--radius-md, 8px);
     }
 
-    /* Newsletter Section */
+    /* Newsletter: always horizontal inset — .container side padding is 0 under [data-shader] on this page */
     .newsletter-section {
       width: 100%;
-      padding: 0;
+      box-sizing: border-box;
+      padding-left: max(1rem, var(--content-padding, 1.25rem));
+      padding-right: max(1rem, var(--content-padding, 1.25rem));
+      padding-top: 0;
+      padding-bottom: 0;
     }
 
     /* Responsive */
@@ -239,7 +243,10 @@ const portfolioItems = [
       }
 
       .newsletter-section {
-        padding: var(--spacing-lg) var(--spacing-md);
+        padding-top: var(--spacing-lg);
+        padding-bottom: var(--spacing-lg);
+        padding-left: max(1rem, var(--content-padding, 1.25rem));
+        padding-right: max(1rem, var(--content-padding, 1.25rem));
       }
     }
 
