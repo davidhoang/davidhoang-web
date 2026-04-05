@@ -5,6 +5,8 @@ interface Props {
   showTitle?: boolean;
   /** Set when this block is the sole newsletter region (avoids duplicate ids on example pages). */
   headingId?: string;
+  /** Tighter typography and spacing (e.g. dedicated subscribe page). */
+  compact?: boolean;
 }
 
 const {
@@ -12,23 +14,27 @@ const {
   description = 'Get my newsletter every Sunday about design, technology, and entrepreneurship.',
   showTitle = true,
   headingId,
+  compact = false,
 } = Astro.props;
 
 const isBrandTitle = title === 'Proof of Concept';
+const showHeader = showTitle || Boolean(description?.trim());
 ---
 
-<div class="substack-signup">
-  <div class="signup-header">
-    {
-      showTitle && isBrandTitle && (
-        <h2 class="signup-title signup-title--brand" id={headingId}>
-          Proof of Concept
-        </h2>
-      )
-    }
-    {showTitle && !isBrandTitle && <h2 class="signup-title signup-title--custom" id={headingId}>{title}</h2>}
-    {description && <p class="signup-description">{description}</p>}
-  </div>
+<div class:list={['substack-signup', { compact }]}>
+  {
+    showHeader && (
+      <div class="signup-header">
+        {showTitle && isBrandTitle && (
+          <h2 class="signup-title signup-title--brand" id={headingId}>
+            Proof of Concept
+          </h2>
+        )}
+        {showTitle && !isBrandTitle && <h2 class="signup-title signup-title--custom" id={headingId}>{title}</h2>}
+        {description && <p class="signup-description">{description}</p>}
+      </div>
+    )
+  }
 
   <form
     action="https://www.proofofconcept.pub/api/v1/free"

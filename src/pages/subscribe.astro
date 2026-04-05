@@ -3,9 +3,9 @@ import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import PageHeader from '../components/PageHeader.astro';
 
-// Page metadata
-const pageDescription = "Subscribe to Proof of Concept, a digital newsletter publication that explores experimentation and maximizing your creative output. Free issue every Sunday.";
-const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
+const pageDescription =
+  'Subscribe to Proof of Concept, a digital newsletter publication that explores experimentation and maximizing your creative output. Free issue every Sunday.';
+const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
 <MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
@@ -14,100 +14,100 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
     image="/images/header-images/img-header-subscribe.webp"
     alt="Subscribe to Proof of Concept"
   />
-  <div class="container">
-    <div class="hero-grid">
-      <div class="subscribe-content-intro">
-        <p>Proof of Concept is digital newsletter publication that explores experimentation and maximizing your creative output. You'll receive a free issue every Sunday. I appreciate your readership!</p>
-      </div>
-    </div>
-    <!-- Newsletter Section -->
-    <section class="newsletter-section" aria-labelledby="newsletter-heading">
-        <SubstackSignup
-          headingId="newsletter-heading"
-          title="Subscribe to my newsletter"
-          description="Get a free issue every Sunday about design, technology, and entrepreneurship."
-        />
+
+  <div class="container container-narrow subscribe-page">
+    <div class="subscribe-page__stack">
+      <header class="subscribe-page__intro">
+        <p class="subscribe-page__eyebrow">Proof of Concept</p>
+        <h2 class="subscribe-page__title">A newsletter about experimentation and creative output</h2>
+        <p class="subscribe-page__lead">
+          One free issue every Sunday — design, technology, and entrepreneurship. Thanks for reading.
+        </p>
+      </header>
+
+      <section class="subscribe-page__panel" aria-labelledby="subscribe-form-title">
+        <h3 class="subscribe-page__panel-title" id="subscribe-form-title">Join the list</h3>
+        <p class="subscribe-page__panel-hint">Enter your email below. You can unsubscribe anytime.</p>
+        <SubstackSignup showTitle={false} description="" compact />
       </section>
+    </div>
   </div>
 </MainLayout>
 
 <style>
-
-  .subscribe-content-intro {
-    max-width: var(--container-narrow-width);
-    width: 100%;
+  .subscribe-page {
+    padding-bottom: clamp(3rem, 8vw, 5rem);
   }
 
-
-  .subscribe-wrapper {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
+  .subscribe-page__stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 5vw, 3rem);
   }
 
-  .subscribe-content {
-    background: var(--color-bg);
-    padding: 2rem;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--card-shadow);
+  .subscribe-page__intro {
+    padding-top: 0.25rem;
   }
 
-  .subscribe-form {
-    margin-top: 2rem;
+  .subscribe-page__eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
 
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
+  .subscribe-page__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+    font-weight: var(--heading-weight, 600);
+    line-height: 1.25;
+    letter-spacing: var(--heading-letter-spacing, -0.02em);
     color: var(--color-text);
+    max-width: 28ch;
   }
 
-  input[type="text"],
-  input[type="email"] {
-    width: 100%;
-    padding: 0.75rem;
+  .subscribe-page__lead {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+    max-width: 52ch;
+  }
+
+  .subscribe-page__panel {
+    background: var(--color-card-bg, var(--color-bg));
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    background: var(--color-bg);
+    border-radius: var(--radius-lg, 12px);
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    box-shadow: var(--card-shadow, 0 1px 0 color-mix(in srgb, var(--color-text) 6%, transparent));
+  }
+
+  .subscribe-page__panel-title {
+    margin: 0 0 0.35rem;
+    font-size: 1.125rem;
+    font-weight: 600;
     color: var(--color-text);
   }
 
-  .subscribe-button {
-    background: var(--color-link);
-    color: var(--color-bg);
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.2s var(--ease-inertia);
+  .subscribe-page__panel-hint {
+    margin: 0 0 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    max-width: 42ch;
   }
 
-  .subscribe-button:hover {
-    background: var(--color-link-hover);
-  }
-
-  @media (max-width: 768px) {
-    .hero-grid {
-      padding: 0 1rem;
-    }
-
-    .subscribe-content-intro {
-      max-width: 100%;
-    }
+  /* Form block: no top rule inside the card; compact variant already scales type */
+  .subscribe-page__panel :global(.substack-signup) {
+    border-top: none;
+    padding: 0;
   }
 
   @media (max-width: 480px) {
-    .subscribe-content-intro {
-      max-width: 100%;
+    .subscribe-page__title {
+      max-width: none;
     }
   }
 </style>
-
- 

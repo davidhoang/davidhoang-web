@@ -153,6 +153,20 @@ const hasThemes = themes.length > 0;
     return path.split('.').reduce((o, k) => o && o[k], obj);
   }
 
+  /** Daily themes must never set --content-padding below 1rem (flush text when .container side padding is zeroed for shaders). */
+  function clampMinContentPadding(raw) {
+    if (raw == null || raw === '') return '1rem';
+    const s = String(raw).trim();
+    const m = s.match(/^([\d.]+)\s*(rem|px|em)?$/i);
+    if (!m) return '1rem';
+    let n = parseFloat(m[1]);
+    const unit = (m[2] || 'rem').toLowerCase();
+    if (Number.isNaN(n) || n <= 0) return '1rem';
+    if (unit === 'px') n = n / 16;
+    const clamped = Math.max(1, n);
+    return `${clamped}rem`;
+  }
+
   /** Parse CSS font-weight 100–900 from theme strings */
   function parseThemeFontWeight(val) {
     if (val == null || val === '') return null;
@@ -425,7 +439,12 @@ const hasThemes = themes.length > 0;
     // Apply mapped CSS properties
     THEME_PROPS.forEach(([path, prop]) => {
       const val = getNestedValue(themeData, path);
-      if (val) root.style.setProperty(prop, val);
+      if (!val) return;
+      if (prop === '--content-padding') {
+        root.style.setProperty(prop, clampMinContentPadding(val));
+        return;
+      }
+      root.style.setProperty(prop, val);
     });
 
     enforceTypographyWeightHierarchy(root, themeData);
