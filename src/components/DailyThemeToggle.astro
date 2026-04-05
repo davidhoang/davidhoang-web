@@ -8,26 +8,11 @@ const hasThemes = themes.length > 0;
 
 {hasThemes && (
   <div class="daily-theme-toggle">
-    <button
-      id="daily-theme-toggle"
-      aria-label="Toggle daily AI theme"
-      aria-pressed="false"
-      title="Toggle Daily AI Theme"
-    >
-      <svg class="palette-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"></circle>
-        <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"></circle>
-        <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"></circle>
-        <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"></circle>
-        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"></path>
-      </svg>
-      <span class="toggle-label">Daily</span>
-    </button>
-
+    <!-- Calendar before FAB in DOM so the button paints on top (closed panel was stealing hits). -->
     <div id="theme-calendar" class="theme-calendar" role="dialog" aria-label="Theme calendar">
       <div class="calendar-header">
         <span class="calendar-title">Daily themes</span>
-        <button id="close-calendar" class="close-btn" aria-label="Close calendar">
+        <button type="button" id="close-calendar" class="close-btn" aria-label="Close calendar">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -110,11 +95,29 @@ const hasThemes = themes.length > 0;
         </div>
       </div>
     </div>
+    <button
+      type="button"
+      id="daily-theme-toggle"
+      data-daily-theme-trigger
+      aria-label="Toggle daily AI theme"
+      aria-pressed="false"
+      title="Toggle Daily AI Theme"
+    >
+      <svg class="palette-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"></circle>
+        <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"></circle>
+        <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"></circle>
+        <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"></circle>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"></path>
+      </svg>
+      <span class="toggle-label">Daily</span>
+    </button>
   </div>
 )}
 
 
 <script define:vars={{ themes, currentDate }}>
+  // NOTE: This block is inlined into HTML as plain JS — no TypeScript (e.g. `as Foo`) or the whole script fails to parse and nothing runs.
   // Property maps — single source of truth for theme application and removal
   const THEME_PROPS = [
     ['typography.headingWeight', '--heading-weight'],
@@ -186,6 +189,53 @@ const hasThemes = themes.length > 0;
     });
   }
 
+  /**
+   * pointerdown + capture: runs before click handlers (e.g. command palette) and before the
+   * closed calendar can participate in hit-testing quirks. Toggle uses pointerdown so we still
+   * open if something cancels click.
+   * FAB is last in DOM + z-index + pointer-events on closed panel so the trigger receives the hit.
+   */
+  function bindDailyThemePointerDelegationOnce() {
+    if (globalThis.__dhDailyThemePointerDelegation) return;
+    globalThis.__dhDailyThemePointerDelegation = true;
+
+    document.addEventListener(
+      'pointerdown',
+      (e) => {
+        if (e.button !== 0) return;
+        if (!(e.target instanceof Element)) return;
+        const cal = document.getElementById('theme-calendar');
+        if (!cal) return;
+
+        if (e.target.closest('[data-daily-theme-trigger]')) {
+          e.stopPropagation();
+          cal.classList.toggle('open');
+          return;
+        }
+
+        if (!cal.classList.contains('open')) return;
+        if (cal.contains(e.target)) return;
+        cal.classList.remove('open');
+      },
+      true
+    );
+  }
+
+  function bindDailyThemeEscapeOnce() {
+    if (globalThis.__dhDailyThemeEscape) return;
+    globalThis.__dhDailyThemeEscape = true;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const cal = document.getElementById('theme-calendar');
+      const tb = document.getElementById('daily-theme-toggle');
+      if (!cal || !cal.classList.contains('open')) return;
+      e.preventDefault();
+      cal.classList.remove('open');
+      tb?.focus();
+    });
+  }
+
   function initDailyTheme() {
     const toggleBtn = document.getElementById('daily-theme-toggle');
     const calendar = document.getElementById('theme-calendar');
@@ -224,12 +274,6 @@ const hasThemes = themes.length > 0;
     if (toggleBtn.dataset.initialized === 'true') return;
     toggleBtn.dataset.initialized = 'true';
 
-    // Toggle calendar visibility
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      calendar.classList.toggle('open');
-    });
-
     // Close button
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
@@ -237,22 +281,6 @@ const hasThemes = themes.length > 0;
         calendar.classList.remove('open');
       });
     }
-
-    // Escape key closes the calendar
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && calendar.classList.contains('open')) {
-        e.preventDefault();
-        calendar.classList.remove('open');
-        toggleBtn.focus();
-      }
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!calendar.contains(e.target) && !toggleBtn.contains(e.target)) {
-        calendar.classList.remove('open');
-      }
-    });
 
     // Default theme button
     if (defaultBtn) {
@@ -312,8 +340,11 @@ const hasThemes = themes.length > 0;
           next = (current - 1 + buttons.length) % buttons.length;
         }
         if (next >= 0) {
-          (buttons[next] as HTMLElement).focus();
-          (buttons[next] as HTMLElement).click();
+          const nextBtn = buttons[next];
+          if (nextBtn) {
+            nextBtn.focus();
+            nextBtn.click();
+          }
         }
       });
 
@@ -533,13 +564,20 @@ const hasThemes = themes.length > 0;
     }
   });
 
-  // Initialize
-  initDailyTheme();
+  bindDailyThemePointerDelegationOnce();
+  bindDailyThemeEscapeOnce();
 
-  // Re-initialize after navigation
-  document.addEventListener('astro:page-load', () => {
-    initDailyTheme();
-  });
+  function scheduleInitDailyTheme() {
+    const run = () => initDailyTheme();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run, { once: true });
+    } else {
+      run();
+    }
+  }
+
+  scheduleInitDailyTheme();
+  document.addEventListener('astro:page-load', scheduleInitDailyTheme);
 </script>
 
 <script>
