@@ -42,7 +42,7 @@ export const cards: Card[] = [
     id: 'poc',
     title: 'Proof of Concept',
     subtitle: 'Newsletter',
-    description: 'A weekly newsletter about design, technology, and entrepreneurship. Exploring the intersection of creativity, code, and community.',
+    description: 'A weekly newsletter about design, technology, and experimentation. Exploring the intersection of creativity, code, and community.',
     color: '#E85D04',
     pattern: 'lines',
     link: 'https://www.proofofconcept.pub',
