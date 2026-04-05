@@ -15,6 +15,9 @@ const initialRoleIndex = Math.floor(Math.random() * rotatingRoles.length);
 export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTitleProps) {
   const [roleIndex] = useState(initialRoleIndex);
   const role = rotatingRoles[roleIndex];
+  const roleAriaLabel = role.link.startsWith('http')
+    ? `${role.label} — Proof of Concept newsletter (opens in new tab)`
+    : `${role.label} — Investing (opens in new tab)`;
 
   return (
     <motion.h1
@@ -29,7 +32,17 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
         opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
       }}
     >
-      {`David Hoang is a Designer and ${role.label}.`}
+      David Hoang is a Designer and{' '}
+      <a
+        href={role.link}
+        className="role-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={roleAriaLabel}
+      >
+        {role.label}
+      </a>
+      .
     </motion.h1>
   );
 }

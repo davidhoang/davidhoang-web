@@ -6,15 +6,20 @@
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  z-index: var(--z-theme-toggle);
+  z-index: var(--z-daily-theme-ui);
+  pointer-events: auto;
+  isolation: isolate;
 }
 
 button#daily-theme-toggle {
+  position: relative;
+  z-index: 2;
   background: var(--color-sidebar-bg);
   border: var(--border-default);
   border-radius: 24px;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  touch-action: manipulation;
   transition:
     color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -79,12 +84,16 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Must not intercept taps on the FAB while closed (sibling paints under the button but hit-test can still bite). */
+  pointer-events: none;
 }
 
 .theme-calendar.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .calendar-header {
@@ -361,6 +370,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 
   .theme-calendar.open {
     transform: translateY(0);
+    z-index: 1;
   }
 }
 
@@ -392,10 +402,15 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Do not clear .theme-calendar transform — mobile uses translateY(100%) when closed; stripping
+   * it leaves a full-width fixed sheet over the FAB (pointer-events + hit-testing bugs). */
   button#daily-theme-toggle,
-  .theme-calendar,
   .calendar-day {
     transition: none !important;
     transform: none !important;
+  }
+
+  .theme-calendar {
+    transition: none !important;
   }
 }
