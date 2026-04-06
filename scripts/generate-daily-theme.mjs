@@ -241,7 +241,7 @@ Mix up these dramatically (within that rule):
 ## LAYOUT - CREATE DISTINCT PERSONALITIES!
 - borderRadius: "0px" (brutalist) vs "24px" (soft) vs "9999px" (pill)
 - sectionSpacing: "2rem" (compact) vs "6rem" (dramatic whitespace)
-- contentPadding: "0.5rem" (edge-to-edge) vs "2rem" (cushioned)
+- contentPadding: "1rem" (minimum inset) vs "2rem" (cushioned) — never below 1rem
 - containerMaxWidth: "640px" (narrow/focused) to "1200px" (wide/expansive)
 
 LAYOUT + GRID HARMONY RULES:
@@ -251,7 +251,7 @@ LAYOUT + GRID HARMONY RULES:
   - "magazine": use 1100px-1200px
   - "sidebar": use 1000px-1200px
 - sectionSpacing is used as grid gap — keep ≤4rem for containers under 900px
-- contentPadding max 2rem to avoid compressing column content
+- contentPadding: minimum 1rem, max 2rem (never 0 or tiny values — looks broken next to full-width hero)
 - Body text and grids MUST stay within the viewport — no accidental horizontal overflow
 
 CRITICAL LAYOUT RULES:
@@ -264,7 +264,7 @@ BACKGROUND COLOR + PADDING HARMONY RULES:
 5. --color-card-bg should be within ~5% lightness of --color-bg. Cards should feel embedded in the page, not floating on a mismatched surface.
 6. --color-sidebar-bg should also be a close tonal neighbor of --color-bg — same hue, slightly shifted lightness.
 7. --color-nav-bg should blend seamlessly with the page. Never use a nav background that creates a harsh band of color against the page bg.
-8. When contentPadding is low (< 1rem), avoid high-contrast card styles like "outlined" or "filled" — the tight padding makes color boundaries feel cramped and jarring. Low padding works best with "flat", "elevated", or "glass" cards.
+8. When contentPadding is at the minimum (1rem), avoid high-contrast card styles like "outlined" or "filled" — tight inset makes color boundaries feel cramped. Minimum-padding themes work best with "flat", "elevated", or "glass" cards.
 9. sectionSpacing must be >= "2rem" when using tinted backgrounds to give visual breathing room between content blocks. Dense themes (sectionSpacing < 2rem) should only use neutral/white backgrounds.
 
 ## HERO LAYOUT - SET THE TONE!
@@ -399,7 +399,7 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "borderRadius": "0px-24px",
     "containerMaxWidth": "640px-1200px",
     "sectionSpacing": "2rem-8rem",
-    "contentPadding": "0.5rem-3rem",
+    "contentPadding": "1rem-2rem",
     "gridStyle": "standard|asymmetric|split|magazine|sidebar"
   },
   "hero": {
@@ -625,6 +625,10 @@ async function generateTheme(options = {}) {
     themeData.layout.sectionSpacing = '6rem';
   }
   const contentPx = parseFloat(themeData.layout.contentPadding) || 1.5;
+  if (contentPx < 1) {
+    themeData.layout.contentPadding = '1rem';
+    console.log(`  contentPadding raised to minimum 1rem (was ${contentPx}rem)`);
+  }
   if (contentPx > 2) {
     themeData.layout.contentPadding = '2rem';
   }
@@ -726,9 +730,9 @@ async function generateTheme(options = {}) {
   // Enforce padding/card style harmony
   const contentPadVal = parseFloat(themeData.layout?.contentPadding) || 1.5;
   const cardStyle = themeData.cards?.style;
-  if (contentPadVal < 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
+  if (contentPadVal <= 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
     themeData.cards.style = 'elevated';
-    console.log(`  Card style changed from "${cardStyle}" to "elevated" (low contentPadding ${contentPadVal}rem conflicts with ${cardStyle} cards)`);
+    console.log(`  Card style changed from "${cardStyle}" to "elevated" (contentPadding ${contentPadVal}rem at minimum — ${cardStyle} cards feel cramped)`);
   }
 
   // Enforce minimum section spacing with tinted backgrounds

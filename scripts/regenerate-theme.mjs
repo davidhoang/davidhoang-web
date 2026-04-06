@@ -116,7 +116,7 @@ Generate a JSON object with this structure (no markdown):
   "typography": { "headingWeight": "500-900 (must exceed bodyWeight)", "bodyWeight": "300-500 (must be less than headingWeight)", "bodyLineHeight": "1.5-2.0", "letterSpacing": "-0.02em to 0.03em", "headingLetterSpacing": "-0.03em to 0.05em", "headingTransform": "none|uppercase" },
   "navigation": { "style": "floating|full-width|minimal|bold-bar", "height": "48-80px", "padding": "CSS" },
   "cards": { "style": "flat|elevated|glass|outlined|filled", "shadow": "CSS or none", "borderWidth": "0-3px", "padding": "1-3rem" },
-  "layout": { "borderRadius": "0-24px", "containerMaxWidth": "640-1200px", "sectionSpacing": "2-8rem", "contentPadding": "0.5-3rem" },
+  "layout": { "borderRadius": "0-24px", "containerMaxWidth": "640-1200px", "sectionSpacing": "2-8rem", "contentPadding": "1-2rem" },
   "hero": { "layout": "centered|left-aligned|minimal|bold" },
   "links": { "style": "underline|highlight|animated-underline|color-only|bracket" },
   "background": { "texture": "none|grain|dots|grid|gradient" },

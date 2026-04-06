@@ -132,7 +132,8 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed for davidhoang.com" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="David Hoang — Writing (RSS)" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="David Hoang — Notes (RSS)" href="/rss/notes.xml" />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Primary Meta Tags -->
@@ -265,13 +266,14 @@ const ogImageUrl = ogImage.startsWith('http')
       [data-e-ink="true"][data-theme="dark"] body {
         background-color: #121212;
       }
-      nav {
+      /* Main site nav only — other pages use <nav> for TOCs, filters, etc. */
+      nav.glass-border {
         height: var(--nav-height);
       }
-      [data-e-ink="true"] nav {
+      [data-e-ink="true"] nav.glass-border {
         background: #e8e8e3 !important;
       }
-      [data-e-ink="true"][data-theme="dark"] nav {
+      [data-e-ink="true"][data-theme="dark"] nav.glass-border {
         background: #1a1a1a !important;
       }
       /* Page transition keyframes */

@@ -118,8 +118,8 @@ These rules prevent broken layouts. They always apply regardless of grid style.
 - For "split" grid, gap is always 0 (content padding creates separation)
 
 ### Content Padding
-- `contentPadding` adds internal padding to sections
-- Range: 0.5rem–2rem. Values above 2rem compress content too much in narrow columns
+- `contentPadding` maps to `--content-padding` (section inset). **Never below 1rem** — values like `0`, `0.25rem`, or `0.5rem` cause text and forms to sit flush against the edge when the main container uses zero horizontal padding (e.g. shader themes on the home page).
+- Range: **1rem–2rem**. Cap at 2rem so narrow columns do not feel cramped.
 
 ### Horizontal Overflow Policy
 - Content MUST NOT overflow the viewport horizontally by accident

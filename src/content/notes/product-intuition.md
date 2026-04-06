@@ -3,7 +3,7 @@ title: "Building Product Intuition"
 description: "Notes on developing the instinct for what makes products resonate"
 pubDate: 2024-11-20
 updatedDate: 2024-12-28
-stage: budding
+stage: sketching
 tags: ["product", "craft", "learning"]
 ---
 

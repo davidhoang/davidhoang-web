@@ -1,6 +1,480 @@
 {
   "themes": [
     {
+      "name": "Midnight Circuit",
+      "description": "Rain-soaked Tokyo streets where analog warmth meets digital glow, neon bleeding into shadow.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F6FF",
+          "--color-link": "#D9117D",
+          "--color-link-hover": "#FF6B35",
+          "--color-border": "#E0D9FF",
+          "--color-muted": "#6B6B8A",
+          "--color-sidebar-bg": "#F2F0FF",
+          "--color-nav-bg": "#FDFCFF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FEFEFF"
+        },
+        "dark": {
+          "--color-text": "#E8E6FF",
+          "--color-bg": "#0F1419",
+          "--color-link": "#FF2098",
+          "--color-link-hover": "#FFB347",
+          "--color-border": "#2A2F3A",
+          "--color-muted": "#8A8B99",
+          "--color-sidebar-bg": "#1A1F2E",
+          "--color-nav-bg": "#141925",
+          "--color-nav-text": "#E8E6FF",
+          "--color-card-bg": "#1C212B"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(255, 20, 147, 0.1)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "neuro",
+        "colors": [
+          "#FF1493",
+          "#FFB347",
+          "#1A1A2E"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-05",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Midnight Circuit",
+              "subtitle": "analog warmth meets digital glow"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "lp",
+              "s4"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "t1",
+              "cp"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "NEON BLEEDING INTO SHADOW",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9117D",
+                  "label": "neon"
+                },
+                {
+                  "hex": "#FF6B35",
+                  "label": "glow"
+                },
+                {
+                  "hex": "#1A1A2E",
+                  "label": "shadow"
+                },
+                {
+                  "hex": "#6B6B8A",
+                  "label": "rain"
+                },
+                {
+                  "hex": "#E0D9FF",
+                  "label": "mist"
+                }
+              ]
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Velvet Thunder",
+      "description": "Rich burgundy depths meet electric copper accents in a luxurious editorial statement",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2D1B2E",
+          "--color-bg": "#FDF8F5",
+          "--color-link": "#B3591A",
+          "--color-link-hover": "#FF7F50",
+          "--color-border": "#E8D5C4",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#FAF5F0",
+          "--color-nav-bg": "#FDF8F5",
+          "--color-nav-text": "#2D1B2E",
+          "--color-card-bg": "#FEFBF8"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#2D1B2E",
+          "--color-link": "#FF8C42",
+          "--color-link-hover": "#FFB366",
+          "--color-border": "#4A3A4B",
+          "--color-muted": "#A68B5B",
+          "--color-sidebar-bg": "#342040",
+          "--color-nav-bg": "#2D1B2E",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#342040"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 700, 'opsz' 72"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 12px 24px rgba(0,0,0,0.15)",
+        "borderWidth": "0px",
+        "padding": "2.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-04-04",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Velvet Thunder",
+              "subtitle": "Luxurious editorial statement"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "p1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2D1B2E",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#B3591A",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#FF7F50",
+                  "label": "Accent"
+                },
+                {
+                  "hex": "#8B7355",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E8D5C4",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#FDF8F5",
+                  "label": "Background"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Serif Editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Magazine",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sophisticated Depths",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Rich burgundy meets electric copper in elegant harmony",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Shibuya Reflection",
       "description": "Neon typography meets midnight rain — electric contrasts in wet asphalt tones",
       "colors": {
@@ -1149,486 +1623,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Copper Circuit",
-      "description": "Industrial warmth meets digital precision in oxidized metal tones and geometric clarity",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C5303C",
-          "--color-link-hover": "#C5303D",
-          "--color-border": "#D4A574",
-          "--color-muted": "#8B6F47",
-          "--color-sidebar-bg": "#F9E7D0",
-          "--color-nav-bg": "#F5DFC1",
-          "--color-nav-text": "#2D1810",
-          "--color-card-bg": "#FBEAD5"
-        },
-        "dark": {
-          "--color-text": "#E8DAEF",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A65",
-          "--color-border": "#8B4A42",
-          "--color-muted": "#A67C6A",
-          "--color-sidebar-bg": "#2A1611",
-          "--color-nav-bg": "#221410",
-          "--color-nav-text": "#E8DAEF",
-          "--color-card-bg": "#201309"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#E63946",
-          "#D4A574"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-03-29",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Copper Circuit",
-              "subtitle": "Industrial warmth meets digital precision"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2D1810",
-                  "label": "text"
-                },
-                {
-                  "hex": "#FDF2E9",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#C5303C",
-                  "label": "link"
-                },
-                {
-                  "hex": "#D4A574",
-                  "label": "border"
-                },
-                {
-                  "hex": "#8B6F47",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#F9E7D0",
-                  "label": "sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Oxidized Precision",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "industrial",
-              "variant": "outlined"
-            },
-            "children": []
-          }
-        }
-      }
-    },
-    {
-      "name": "Indigo Neon",
-      "description": "Rain-soaked Tokyo streets where electric signs blur into atmospheric haze.",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F0F2F8",
-          "--color-link": "#CC1076",
-          "--color-link-hover": "#FF6B35",
-          "--color-border": "#E0E6ED",
-          "--color-muted": "#6B7280",
-          "--color-sidebar-bg": "#E8EBF0",
-          "--color-nav-bg": "#ffffff",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FAFBFC"
-        },
-        "dark": {
-          "--color-text": "#E8EBF0",
-          "--color-bg": "#0F1419",
-          "--color-link": "#FF1493",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2A2D3A",
-          "--color-muted": "#9CA3AF",
-          "--color-sidebar-bg": "#1A1F29",
-          "--color-nav-bg": "#0A0E13",
-          "--color-nav-text": "#E8EBF0",
-          "--color-card-bg": "#161B24"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "full-width",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(0,0,0,0.16)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF1493",
-          "#00BFFF",
-          "#1A1A2E"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-03-28",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Indigo Neon",
-              "subtitle": "Rain-soaked Tokyo streets where electric signs blur into atmospheric haze"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "p1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A1A2E",
-                  "label": "text"
-                },
-                {
-                  "hex": "#CC1076",
-                  "label": "link"
-                },
-                {
-                  "hex": "#FF6B35",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#F0F2F8",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#E8EBF0",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#6B7280",
-                  "label": "muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Electric Dreams",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Neon reflections dance on wet pavement",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-03"
+  "currentDate": "2026-04-05"
 }
