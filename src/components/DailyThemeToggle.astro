@@ -563,6 +563,51 @@ const hasThemes = themes.length > 0;
     ].forEach(attr => root.removeAttribute(attr));
   }
 
+  /**
+   * Shareable URLs for the default (non–daily) layout:
+   * - Any page: add `?layout=default` — query is stripped after applying; preference persists.
+   * - `/default-layout` — sets preference and redirects to `/`.
+   */
+  function applyDefaultLayoutFromUrl() {
+    try {
+      const url = new URL(window.location.href);
+      const layout = url.searchParams.get('layout');
+      const path = url.pathname.replace(/\/$/, '') || '/';
+
+      if (layout === 'default') {
+        localStorage.setItem('daily-theme-mode', 'false');
+        localStorage.setItem('e-ink-mode', 'false');
+        document.documentElement.setAttribute('data-e-ink', 'false');
+        removeDailyTheme();
+        url.searchParams.delete('layout');
+        const qs = url.searchParams.toString();
+        const clean = url.pathname + (qs ? '?' + qs : '') + url.hash;
+        history.replaceState(null, '', clean);
+        const toggleBtn = document.getElementById('daily-theme-toggle');
+        const calendar = document.getElementById('theme-calendar');
+        const defaultBtn = document.getElementById('default-theme-btn');
+        const eInkBtn = document.getElementById('e-ink-theme-btn');
+        if (toggleBtn) toggleBtn.setAttribute('aria-pressed', 'false');
+        if (eInkBtn) eInkBtn.classList.remove('active');
+        if (calendar) {
+          clearCalendarSelections(calendar);
+          if (defaultBtn) defaultBtn.classList.add('active');
+        }
+        return;
+      }
+
+      if (path === '/default-layout') {
+        localStorage.setItem('daily-theme-mode', 'false');
+        localStorage.setItem('e-ink-mode', 'false');
+        document.documentElement.setAttribute('data-e-ink', 'false');
+        removeDailyTheme();
+        location.replace('/');
+      }
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
   // Listen for theme toggle changes to update daily theme colors
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
