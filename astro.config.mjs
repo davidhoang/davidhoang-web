@@ -35,7 +35,8 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/node-test') &&
-        !page.includes('/signup-examples'),
+        !page.includes('/signup-examples') &&
+        !page.includes('/default-layout'),
     }),
   ],
   vite: {

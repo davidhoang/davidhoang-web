@@ -90,6 +90,8 @@ interface Props {
   pageType?: 'home' | 'blog' | 'about';
   /** When true, skip mood filter on .content-filter-wrapper so position:sticky works (filter breaks sticky/fixed descendants). */
   disableContentMoodFilter?: boolean;
+  /** Value for `<meta name="robots">` (e.g. `noindex, nofollow` for utility routes). */
+  robots?: string;
 }
 
 const { 
@@ -99,6 +101,7 @@ const {
   hideFooter = false,
   pageType,
   disableContentMoodFilter = false,
+  robots = 'index, follow',
 } = Astro.props;
 
 // Auto-detect page type from URL if not provided
@@ -140,7 +143,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -506,17 +509,17 @@ const ogImageUrl = ogImage.startsWith('http')
       </filter>
     </svg>
 
-    <!-- Filter wrapper for mood/intensity effects - fixed UI elements must be outside -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <!-- Outside .content-filter-wrapper so position:fixed is viewport-based (filter on wrapper breaks fixed descendants). -->
+    <Navigation />
+    <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
       <ShaderBackground client:visible />
-      <a href="#main-content" class="skip-link">Skip to main content</a>
-      <Navigation />
       <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" data-pagefind-body transition:animate={contentSlide}>
         <slot />
       </main>
       {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}
     </div>
-    <!-- Fixed UI elements outside filter wrapper to maintain position: fixed -->
     <DailyThemeToggle />
 
     <MusicPlayer />
