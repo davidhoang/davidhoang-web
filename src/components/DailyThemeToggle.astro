@@ -251,6 +251,8 @@ const hasThemes = themes.length > 0;
   }
 
   function initDailyTheme() {
+    applyDefaultLayoutFromUrl();
+
     const toggleBtn = document.getElementById('daily-theme-toggle');
     const calendar = document.getElementById('theme-calendar');
     const closeBtn = document.getElementById('close-calendar');
@@ -477,6 +479,8 @@ const hasThemes = themes.length > 0;
     // Special cases: font variation settings
     if (themeData.typography && themeData.typography.fontVariationSettings && themeData.typography.fontVariationSettings !== 'normal') {
       root.style.setProperty('--font-variation-settings', themeData.typography.fontVariationSettings);
+    } else {
+      root.style.removeProperty('--font-variation-settings');
     }
 
     // Special cases: card shadow

@@ -79,7 +79,13 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   box-shadow: var(--shadow-hover);
   padding: 1rem;
   width: 380px;
-  max-width: calc(100vw - 2rem);
+  max-width: min(380px, calc(100vw - 2rem));
+  /* Keep panel in viewport when many theme cards; scroll inside instead of growing off-screen. */
+  max-height: min(70vh, calc(100dvh - 6rem));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
@@ -361,11 +367,15 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
     right: 0;
     width: 100%;
     max-width: 100%;
+    max-height: min(88dvh, calc(100dvh - env(safe-area-inset-top, 0px) - 0.5rem));
     border-radius: 16px 16px 0 0;
     padding: 0.875rem;
     padding-bottom: calc(0.875rem + env(safe-area-inset-bottom, 0px));
     transform: translateY(100%);
     box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .theme-calendar.open {
