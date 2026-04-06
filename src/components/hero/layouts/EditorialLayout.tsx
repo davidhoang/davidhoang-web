@@ -36,7 +36,7 @@ export default function EditorialLayout({
             }}
             whileHover={!isSelected ? {
               x: 8,
-              transition: { type: 'spring', stiffness: 400, damping: 25 }
+              transition: { type: 'tween', duration: 0.28, ease: [0.22, 1, 0.36, 1] },
             } : {}}
             whileTap={!isSelected ? { scale: 0.98 } : {}}
             transition={{
@@ -44,6 +44,9 @@ export default function EditorialLayout({
               stiffness: hasAnimatedIn ? 300 : 120,
               damping: hasAnimatedIn ? 20 : 14,
               delay: !hasAnimatedIn && isLoaded ? index * 0.06 : 0,
+              ...(hasAnimatedIn && {
+                x: { type: 'tween' as const, duration: 0.32, ease: [0.22, 1, 0.36, 1] as const },
+              }),
             }}
             onMouseEnter={() => !selectedCard && onCardHover(card.id)}
             onMouseLeave={() => onCardHover(null)}

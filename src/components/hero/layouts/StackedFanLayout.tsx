@@ -76,7 +76,6 @@ export default function StackedFanLayout({
                 backgroundColor: isGlass ? 'transparent' : card.color,
                 zIndex: cards.length - index,
               }}
-              layout
               initial={{
                 x: 0,
                 y: 50,
@@ -95,16 +94,24 @@ export default function StackedFanLayout({
                 selectedCard
                   ? undefined
                   : {
+                      // Keep x/rotate explicit on hover so y/scale easing does not pull x off the fan arc.
+                      x: position.x,
                       y: position.y - 10,
+                      rotate: position.rotation,
                       scale: 1.025,
-                      transition: { type: 'spring', stiffness: 280, damping: 32 },
+                      transition: {
+                        type: 'spring',
+                        stiffness: 260,
+                        damping: 36,
+                        mass: 0.85,
+                      },
                     }
               }
               whileTap={selectedCard ? undefined : { scale: 0.99 }}
               transition={{
                 type: 'spring',
-                stiffness: hasAnimatedIn ? 220 : 85,
-                damping: hasAnimatedIn ? 24 : 14,
+                stiffness: hasAnimatedIn ? 200 : 80,
+                damping: hasAnimatedIn ? 28 : 16,
                 delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
               }}
               onMouseEnter={() => !selectedCard && onCardHover(card.id)}
