@@ -167,12 +167,12 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
     overflow: visible;
   }
 
-  /* Vertical spine */
+  /* Vertical spine — starts below the first row dot so the dot caps the line (no segment above). */
   .speaking-timeline::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 0.2rem;
+    top: calc(0.85em + 3px);
     bottom: 0.35rem;
     width: 2px;
     border-radius: 999px;
