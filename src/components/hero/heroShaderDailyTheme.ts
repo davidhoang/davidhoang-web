@@ -148,7 +148,7 @@ export function dailyGrainGradientBundle(
   };
 }
 
-/** Career Odyssey — voronoi */
+/** Hatch Conference (hero fallback) — voronoi */
 export function dailyVoronoiBundle(c: string, ctx: HeroDailyShaderContext): {
   colors: string[];
   colorGap: string;

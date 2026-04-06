@@ -11,13 +11,18 @@ interface Props {
 
 const {
   title = 'Proof of Concept',
-  description = 'Get my newsletter every Sunday about design, technology, and entrepreneurship.',
+  description = 'Get the weekly newsletter about design, technology, and experimentation.',
   showTitle = true,
   headingId,
   compact = false,
 } = Astro.props;
 
 const isBrandTitle = title === 'Proof of Concept';
+
+const emailFieldId = headingId
+  ? `${headingId.replace(/\s+/g, '-')}-email`
+  : `poc-email-${Math.random().toString(36).slice(2, 11)}`;
+
 const showHeader = showTitle || Boolean(description?.trim());
 ---
 
@@ -40,46 +45,50 @@ const showHeader = showTitle || Boolean(description?.trim());
     action="https://www.proofofconcept.pub/api/v1/free"
     method="post"
     class="signup-form"
-    id="substack-signup-form"
+    data-substack-signup
   >
-    <div class="form-group">
-      <div class="email-input-shell">
-        <label for="email" class="visually-hidden">Email address</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="email address"
-          required
-          class="email-input"
-          aria-label="Email address for newsletter signup"
-          autocomplete="email"
-          data-placeholder-rotate
-        />
-        <div class="email-input-rail" aria-hidden="true"></div>
+    <div class="signup-form-row">
+      <div class="form-group">
+        <div class="email-input-shell">
+          <label for={emailFieldId} class="visually-hidden">Email for newsletter</label>
+          <input
+            type="email"
+            id={emailFieldId}
+            name="email"
+            placeholder="you@vibes-and-prototypes.dev"
+            required
+            class="email-input"
+            aria-label="Email address for newsletter signup"
+            autocomplete="email"
+            data-placeholder-rotate
+          />
+          <div class="email-input-rail" aria-hidden="true"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="form-actions">
-      <button type="submit" class="subscribe-button">
-        <span class="subscribe-button-label">Subscribe</span>
-        <span class="subscribe-button-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </span>
-      </button>
+      <div class="form-actions">
+        <button type="submit" class="subscribe-button">
+          <span class="subscribe-button-label">Subscribe</span>
+          <span class="subscribe-button-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
     </div>
   </form>
 </div>
 
 <style>
   .substack-signup {
+    container-type: inline-size;
+    container-name: substack-signup;
     border-top: 1px solid var(--color-border);
     padding: 4rem 0 3rem 0;
     width: 100%;
@@ -91,7 +100,6 @@ const showHeader = showTitle || Boolean(description?.trim());
 
   .signup-title {
     margin: 0 0 0.75rem 0;
-    font-size: clamp(4rem, 14vw, 12rem);
     font-weight: 700;
     color: var(--color-text);
     letter-spacing: -0.04em;
@@ -99,43 +107,62 @@ const showHeader = showTitle || Boolean(description?.trim());
   }
 
   .signup-title--brand {
-    text-wrap: balance;
+    white-space: nowrap;
+    font-size: clamp(1.45rem, min(5.4cqw + 0.45rem, 4.25vw + 1rem), 12rem);
   }
 
   .signup-title--custom {
+    font-size: clamp(2rem, 8vw, 4rem);
     max-width: 20ch;
   }
 
   .signup-description {
     margin: 0;
+    width: 100%;
+    max-width: none;
     color: var(--color-muted);
     font-size: 1.15rem;
     line-height: 1.5;
-    max-width: 36ch;
   }
 
   .signup-form {
+    width: 100%;
+  }
+
+  .signup-form-row {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1rem 1.25rem;
     width: 100%;
   }
 
   .form-group {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
   }
 
   .email-input-shell {
     position: relative;
     width: 100%;
+    min-width: 0;
   }
 
   .email-input {
     width: 100%;
+    min-width: 0;
     padding: 0.25em 0;
     border: none;
     border-radius: 0;
-    font-size: clamp(2rem, 7vw, 5rem);
+    font-size: clamp(1.35rem, min(2.65cqw + 0.65rem, 3.8vw), 3.35rem);
     font-family: var(--font-primary);
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -187,13 +214,6 @@ const showHeader = showTitle || Boolean(description?.trim());
     transform: scaleX(1);
     opacity: 1;
     background: var(--color-link-hover);
-  }
-
-  .form-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
   }
 
   .subscribe-button {
@@ -316,6 +336,12 @@ const showHeader = showTitle || Boolean(description?.trim());
     margin-bottom: 0.25rem;
   }
 
+  .substack-signup.compact .signup-title--brand {
+    white-space: normal;
+    font-size: 1.5rem;
+    width: auto;
+  }
+
   .substack-signup.compact .signup-description {
     font-size: 0.95rem;
     margin-bottom: 1rem;
@@ -325,10 +351,16 @@ const showHeader = showTitle || Boolean(description?.trim());
     font-size: 1.5rem;
   }
 
+  .substack-signup.compact .signup-form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .substack-signup.compact .subscribe-button {
     padding: 0.75rem 1.25rem 0.75rem 1.5rem;
     font-size: 1rem;
     box-shadow: none;
+    width: 100%;
   }
 
   .substack-signup.compact .subscribe-button:hover {
@@ -341,14 +373,28 @@ const showHeader = showTitle || Boolean(description?.trim());
       padding: 3rem 0 2rem 0;
     }
 
-    .form-actions {
+    .signup-title--brand {
+      white-space: nowrap;
+      font-size: clamp(1.2rem, 5.25vw + 0.65rem, 3.5rem);
+    }
+
+    .signup-form-row {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
+      align-items: stretch;
+      gap: 1.25rem;
+    }
+
+    .form-actions {
+      width: 100%;
     }
 
     .subscribe-button {
       width: 100%;
+      justify-content: center;
+    }
+
+    .email-input {
+      font-size: clamp(1.5rem, 6.5vw, 2.25rem);
     }
   }
 
@@ -381,14 +427,19 @@ const showHeader = showTitle || Boolean(description?.trim());
     .email-input-shell:focus-within .email-input {
       transform: none;
     }
-
   }
 </style>
 
 <script>
-  const form = document.getElementById('substack-signup-form') as HTMLFormElement | null;
+  const PLACEHOLDER_ROTATION = [
+    'you@vibes-and-prototypes.dev',
+    'ship-it@experimental.news',
+    'curious@late-sunday-reads.com',
+    'hot-takes@inbox.engineering',
+    'maybe@subscribe-anyway.org',
+  ];
 
-  if (form) {
+  document.querySelectorAll('form[data-substack-signup]').forEach((form) => {
     form.addEventListener('submit', () => {
       const button = form.querySelector('.subscribe-button') as HTMLButtonElement | null;
       if (button) {
@@ -396,21 +447,15 @@ const showHeader = showTitle || Boolean(description?.trim());
         button.disabled = true;
       }
     });
-  }
 
-  const rotateInput = form?.querySelector('[data-placeholder-rotate]') as HTMLInputElement | null;
-  if (rotateInput && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const placeholders = [
-      'email address',
-      'you@something.fun',
-      'your inbox is waiting',
-      'best email ever',
-    ];
-    let i = 0;
-    window.setInterval(() => {
-      if (document.activeElement === rotateInput) return;
-      i = (i + 1) % placeholders.length;
-      rotateInput.placeholder = placeholders[i];
-    }, 3200);
-  }
+    const rotateInput = form.querySelector('[data-placeholder-rotate]') as HTMLInputElement | null;
+    if (rotateInput && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let i = 0;
+      window.setInterval(() => {
+        if (document.activeElement === rotateInput) return;
+        i = (i + 1) % PLACEHOLDER_ROTATION.length;
+        rotateInput.placeholder = PLACEHOLDER_ROTATION[i];
+      }, 3200);
+    }
+  });
 </script>

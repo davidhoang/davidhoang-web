@@ -3,7 +3,7 @@
  *
  * Generates a json-render spec for a theme preview card using Claude.
  * The spec uses components from the theme showcase catalog
- * (src/components/generative-ui/catalog.ts) and is rendered on the Labs page.
+ * (src/components/generative-ui/catalog.ts). Used for daily theme showcase data (Labs page deprecated).
  */
 
 /**

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { type LayoutProps, cardHasShaderSurface } from '../types';
+import { type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 
 export default function RolodexLayout({
@@ -48,7 +48,7 @@ export default function RolodexLayout({
         return (
           <motion.div
             key={card.id}
-            className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
+            className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasHeroLayout(card) ? 'card-has-hero-layout' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
             style={{
               backgroundColor: isGlass ? 'transparent' : card.color,
               zIndex: isSelected ? 20 : (isFront ? 10 : (isAdjacent ? 5 : 1)),
@@ -104,6 +104,7 @@ export default function RolodexLayout({
               card={card}
               isSelected={isSelected}
               isGlass={isGlass}
+              isHeroMediaActive={hoveredCard === card.id || isSelected}
               onLinkClick={(e) => e.stopPropagation()}
             />
           </motion.div>
