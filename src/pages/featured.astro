@@ -61,9 +61,9 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     </div>
 
     <aside class="featured-editorial__media" aria-label="Media and publications">
-      <h2 class="featured-editorial__section-title">Media and publications</h2>
+      <h2 class="featured-editorial__section-title featured-editorial__section-title--media">Media &amp; publications</h2>
       <p class="featured-editorial__lede featured-editorial__lede--compact">
-        Essays and appearances — previews pulled from each site when the build runs.
+        Essays and appearances — titles and descriptions are pulled from each page when the build runs.
       </p>
       <div class="media-stack">
         {mediaResolved.map((item) => <EditorialMediaCard {...item} />)}
@@ -75,7 +75,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 <style>
   .featured-editorial {
     display: grid;
-    grid-template-columns: minmax(0, 1.65fr) minmax(18rem, 1fr);
+    grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 1.12fr);
     gap: clamp(2rem, 5vw, 3.5rem);
     margin: 1.25rem 0 3rem;
     align-items: start;
@@ -87,6 +87,11 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     line-height: var(--h2-line-height);
     letter-spacing: var(--h2-letter-spacing);
     overflow-wrap: break-word;
+  }
+
+  .featured-editorial__section-title--media {
+    text-wrap: balance;
+    max-width: 22ch;
   }
 
   .featured-editorial__speaking .featured-editorial__section-title {
@@ -108,13 +113,37 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .speaking-timeline {
-    border-left: 1px solid var(--color-border);
-    padding-left: clamp(1rem, 3vw, 1.75rem);
-    margin-left: 0.15rem;
+    --tl-pad: clamp(1.2rem, 3.2vw, 2rem);
+    --tl-spine-x: 1px;
+    position: relative;
+    margin-left: 0.2rem;
+    padding-left: var(--tl-pad);
+    border-left: none;
+    overflow: visible;
+  }
+
+  /* Vertical spine */
+  .speaking-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.2rem;
+    bottom: 0.35rem;
+    width: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-link) 42%, var(--color-border)) 0%,
+      var(--color-border) 42%,
+      color-mix(in srgb, var(--color-border) 88%, var(--color-bg)) 100%
+    );
+    opacity: 0.95;
   }
 
   .speaking-year {
+    position: relative;
     margin-bottom: 2rem;
+    z-index: 0;
   }
 
   .speaking-year:last-child {
@@ -122,24 +151,32 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .speaking-year__label {
-    margin: 0 0 0.85rem;
+    margin: 0 0 0.75rem;
     font-size: clamp(1.15rem, 2.2vw, 1.45rem);
     line-height: 1.2;
     letter-spacing: var(--letter-spacing-heading-md);
     font-weight: var(--heading-weight);
     color: var(--color-text);
     position: relative;
+    padding-left: 0.15rem;
   }
 
+  /* Year marker — ring on the spine */
   .speaking-year__label::before {
     content: '';
     position: absolute;
-    left: calc(-1 * clamp(1rem, 3vw, 1.75rem) - 0.15rem);
-    top: 0.55em;
-    width: 0.55rem;
-    height: 1px;
-    background: var(--color-border);
-    transform: translateX(-100%);
+    left: calc(-1 * var(--tl-pad) + var(--tl-spine-x));
+    top: 0.42em;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 2px solid var(--color-link);
+    transform: translate(-50%, 0);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--color-bg) 92%, transparent),
+      0 1px 3px color-mix(in srgb, var(--color-text) 8%, transparent);
+    z-index: 2;
   }
 
   .speaking-year__list {
@@ -152,12 +189,29 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .speaking-entry {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(4.5rem, 6.5rem) minmax(0, 1fr);
     gap: 0.75rem 1.25rem;
-    padding: 0.55rem 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
+    padding: 0.5rem 0 0.6rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
     align-items: baseline;
+  }
+
+  /* Event dot on spine */
+  .speaking-entry::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--tl-pad) + var(--tl-spine-x));
+    top: 0.85em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-muted) 55%, var(--color-bg));
+    border: 1px solid color-mix(in srgb, var(--color-border) 70%, var(--color-bg));
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-bg) 85%, transparent);
   }
 
   .speaking-year__list li:last-child {

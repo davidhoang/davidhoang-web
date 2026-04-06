@@ -157,21 +157,12 @@ export async function resolveFeaturedMedia(items: FeaturedMediaSource[]): Promis
       description = `${description.slice(0, 277).trim()}…`;
     }
 
-    let imageUrl: string | null = null;
-    if (og.image) {
-      try {
-        imageUrl = new URL(og.image, item.url).href;
-      } catch {
-        imageUrl = null;
-      }
-    }
-    const image = imageUrl ?? item.fallbackImage ?? null;
-
+    // Featured media cards are text-only; skip resolving OG / fallback images.
     out.push({
       ...item,
       title,
       description,
-      image,
+      image: null,
       hostname,
     });
   }
