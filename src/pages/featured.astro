@@ -11,6 +11,8 @@ const pageDescription =
 const ogImage = '/images/highlights/img-highlights-hatch-conference.webp';
 
 const mediaResolved = await resolveFeaturedMedia(featuredMedia);
+
+const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
 ---
 
 <MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
@@ -23,8 +25,51 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     <div class="featured-editorial__speaking">
       <h2 class="featured-editorial__section-title">Speaking</h2>
       <div class="speaking-timeline">
+        <div
+          class="speaking-inquiry speaking-entry speaking-entry--inquiry"
+          role="region"
+          aria-label="Speaking inquiries"
+        >
+          <span class="speaking-entry__meta">Future</span>
+          <p class="speaking-inquiry__copy">
+            For speaking inquiries, email{' '}
+            <a class="speaking-inquiry__link" href="mailto:david@davidhoang.com">david@davidhoang.com</a>.
+          </p>
+        </div>
+
+        <section class="speaking-year" aria-labelledby={`speaking-${firstSpeakingYear.year}`}>
+          <h3 class="speaking-year__label" id={`speaking-${firstSpeakingYear.year}`}>
+            {firstSpeakingYear.year}
+          </h3>
+          <ul class="speaking-year__list">
+            {firstSpeakingYear.entries.map((entry) => (
+              <li class="speaking-entry">
+                {entry.meta ? (
+                  <span class="speaking-entry__meta">{entry.meta}</span>
+                ) : (
+                  <span class="speaking-entry__meta speaking-entry__meta--empty" />
+                )}
+                <span class="speaking-entry__title">
+                  {entry.href ? (
+                    <a
+                      class="speaking-entry__link"
+                      href={entry.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {entry.title}
+                    </a>
+                  ) : (
+                    entry.title
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {
-          featuredSpeaking.map((block) => (
+          restSpeakingYears.map((block) => (
             <section class="speaking-year" aria-labelledby={`speaking-${block.year}`}>
               <h3 class="speaking-year__label" id={`speaking-${block.year}`}>
                 {block.year}
@@ -245,6 +290,33 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
   .featured-editorial .speaking-entry__title a.speaking-entry__link:hover {
     color: var(--color-link-hover);
+  }
+
+  .speaking-inquiry.speaking-entry--inquiry {
+    margin-bottom: 2rem;
+    padding: 0.5rem 0 0.6rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
+  }
+
+  .speaking-inquiry__copy {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
+  }
+
+  .featured-editorial .speaking-inquiry__link {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--duration-normal) ease;
+  }
+
+  .featured-editorial .speaking-inquiry__link:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   .media-stack {
