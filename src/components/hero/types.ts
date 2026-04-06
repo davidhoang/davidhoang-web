@@ -9,11 +9,22 @@ export interface Card {
   linkText?: string;
   image?: string;
   thumbnail?: string;
+  /** Optional hero image above unified title / copy (local URL or absolute). */
+  heroImage?: string;
+  /** Static frame while idle (hover off / collapsed). Shown until hover or open; then `heroImage` (or video) is used. */
+  heroImageStill?: string;
+  /** Optional looping video (webm/mp4); uses heroImage as poster. Plays on hover + expanded view. */
+  heroVideo?: string;
 }
 
 /** True when the card uses a generative shader in the header (title can overlap busy art). */
-export function cardHasShaderSurface(card: Pick<Card, 'image' | 'thumbnail'>): boolean {
-  return !card.image && !card.thumbnail;
+export function cardHasShaderSurface(card: Pick<Card, 'image' | 'thumbnail' | 'heroImage'>): boolean {
+  return !card.image && !card.thumbnail && !card.heroImage;
+}
+
+/** Hero image + single body panel (title, subtitle, description, CTA). */
+export function cardHasHeroLayout(card: Pick<Card, 'heroImage'>): card is Card & { heroImage: string } {
+  return Boolean(card.heroImage);
 }
 
 export interface LayoutProps {
@@ -36,13 +47,14 @@ export const cards: Card[] = [
     color: '#0052CC',
     pattern: 'waves',
     link: 'https://www.atlassian.com/software/rovo',
-    linkText: 'Learn about Rovo'
+    linkText: 'Learn about Rovo',
+    heroImage: '/images/hero/placeholder.svg',
   },
   {
     id: 'poc',
     title: 'Proof of Concept',
     subtitle: 'Newsletter',
-    description: 'A weekly newsletter about design, technology, and entrepreneurship. Exploring the intersection of creativity, code, and community.',
+    description: 'A weekly newsletter about design, technology, and experimentation. Exploring the intersection of creativity, code, and community.',
     color: '#E85D04',
     pattern: 'lines',
     link: 'https://proofofconcept.pub',
@@ -56,7 +68,10 @@ export const cards: Card[] = [
     color: '#2D6A4F',
     pattern: 'dots',
     link: 'https://youtu.be/piGC-iFwmrk',
-    linkText: 'Watch talk'
+    linkText: 'Watch talk',
+    heroImage: '/images/davidhoang-web-config.webp',
+    /** Static first frame — animated hero only while hovered / expanded (see CardHeroMedia). */
+    heroImageStill: '/images/davidhoang-web-config-still.webp',
   },
   {
     id: 'diveclub',
@@ -66,17 +81,21 @@ export const cards: Card[] = [
     color: '#1e3a5f',
     pattern: 'waves',
     link: 'https://www.youtube.com/watch?v=6Z88rLjF-lc',
-    linkText: 'Listen'
+    linkText: 'Listen',
+    heroImage: '/images/davidhoang-web-ridd.webp',
+    heroImageStill: '/images/davidhoang-web-ridd-still.png',
   },
   {
-    id: 'odyssey',
-    title: 'Career Odyssey',
-    subtitle: 'Interactive Canvas',
-    description: 'An explorable visualization of my 20-year journey from art school to leading design teams. A map of paths taken and not taken.',
-    color: '#9D4EDD',
+    id: 'hatch',
+    title: 'Design & (Blank)',
+    subtitle: 'Hatch Conference',
+    description:
+      'Keynote at Hatch Conference on design, creativity, and what we put in the blank—how constraints and openness shape the work we ship.',
+    color: '#7c3aed',
     pattern: 'grid',
-    link: '/career-odyssey',
-    linkText: 'Explore'
+    link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
+    linkText: 'Watch keynote',
+    heroImage: '/images/davidhoang-web-hatch.webp',
   },
   {
     id: 'about',

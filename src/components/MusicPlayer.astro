@@ -7,49 +7,67 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
 </div>
 
 <style is:global>
-  /* Winamp Color Palette - Authentic Classic Winamp Colors */
+  /* ========================================
+     Winamp 2.x Classic Skin — Authentic Colors
+     ======================================== */
   :root {
-    --winamp-bg: #232323; /* Main charcoal background - the iconic Winamp gray */
-    --winamp-bg-panel: #2b2b2b; /* Slightly lighter panel background */
-    --winamp-button-bg: #3a3a3a; /* Neutral gray button background */
-    --winamp-button-face: #4a4a4a; /* Button face color */
-    --winamp-dark: #1a1a1a; /* Dark areas */
-    --winamp-darker: #0f0f0f; /* Deepest shadows */
-    --winamp-light: #525252; /* Lighter gray for hover states */
-    --winamp-lighter: #5a5a5a; /* Even lighter for highlights */
-    --winamp-green: #00ff00; /* Bright green LCD text */
-    --winamp-green-dim: #00c800; /* Slightly dimmer green */
-    --winamp-green-dark: #009800; /* Dark green for inactive elements */
-    --winamp-green-glow: rgba(0, 255, 0, 0.4); /* Green glow effect */
-    --winamp-orange: #ff6600; /* Orange for stereo indicator */
-    --winamp-slider-track: #1e3c1e; /* Dark green-tinted track */
-    --winamp-slider-thumb: #a0a078; /* Olive/khaki slider thumb - classic Winamp */
-    --winamp-slider-thumb-highlight: #c0c0a0; /* Lighter olive for highlight */
-    --winamp-text: #d4d4d4; /* Light gray text */
-    --winamp-text-light: #ffffff; /* White text */
-    --winamp-text-dark: #000000; /* Black text */
-    --winamp-border: #0a0a0a; /* Near-black borders */
-    --winamp-border-light: #3a3a3a; /* Lighter border for 3D effect */
-    --winamp-highlight: #4a4a4a; /* 3D highlight edge */
-    --winamp-shadow: #000000; /* 3D shadow edge */
-    --winamp-titlebar-start: #0a0a4a; /* Title bar gradient start */
-    --winamp-titlebar-end: #000080; /* Title bar gradient end */
-    --winamp-display-bg: #000000; /* Black display background */
-    --winamp-selected: #0000c0; /* Blue for selected items */
-    --winamp-selected-text: #ffffff; /* White text on selected */
+    /* Core chassis — the textured dark gray body */
+    --wa-chassis: #29292d;
+    --wa-chassis-light: #3a3a40;
+    --wa-chassis-dark: #1a1a1e;
+    --wa-chassis-highlight: #484850;
+    --wa-chassis-shadow: #101014;
+
+    /* Title bar — deep navy blue gradient */
+    --wa-titlebar-from: #000040;
+    --wa-titlebar-to: #0000c0;
+
+    /* Display — the black LCD area */
+    --wa-display-bg: #000000;
+    --wa-display-border: #0e0e12;
+
+    /* Green LCD palette */
+    --wa-green: #00ff00;
+    --wa-green-bright: #66ff66;
+    --wa-green-dim: #00b800;
+    --wa-green-dark: #006400;
+    --wa-green-ghost: #002200;
+
+    /* Spectrum analyzer palette */
+    --wa-spectrum-low: #00c800;
+    --wa-spectrum-mid: #c8c800;
+    --wa-spectrum-high: #c80000;
+
+    /* Slider thumbs — olive/khaki classic look */
+    --wa-thumb: #9ca078;
+    --wa-thumb-hi: #c0c0a0;
+    --wa-thumb-lo: #606048;
+
+    /* Playlist */
+    --wa-pl-bg: #1a1a2e;
+    --wa-pl-text: #00ff00;
+    --wa-pl-current: #ffffff;
+    --wa-pl-highlight: #0000c0;
+
+    /* Misc */
+    --wa-orange: #ff8800;
+    --wa-red: #ff0000;
   }
 
-  /* Main Winamp Container */
+  /* ========================================
+     Container & Toggle
+     ======================================== */
   .winamp-player {
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: var(--z-texture);
-    font-family: 'MS Sans Serif', 'Arial', sans-serif;
+    font-family: 'Tahoma', 'MS Sans Serif', 'Arial', sans-serif;
     font-size: 11px;
     user-select: none;
     transform: translateZ(0);
     will-change: transform;
+    image-rendering: pixelated;
   }
 
   .winamp-player.dragging {
@@ -71,76 +89,115 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     z-index: var(--z-texture);
   }
 
-  .winamp-toggle-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
-    padding: 4px 8px;
-    font-size: 10px;
+  .winamp-minimized .winamp-toggle-btn {
+    background: linear-gradient(180deg, #3a3a40 0%, #29292d 60%, #1a1a1e 100%);
+    border: 1px solid #101014;
+    border-top-color: #484850;
+    border-left-color: #484850;
+    padding: 5px 10px;
+    font-size: 9px;
     font-weight: bold;
+    letter-spacing: 1px;
     cursor: pointer;
-    color: var(--winamp-text);
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    color: #b0b0b0;
+    text-shadow: 0 1px 0 #000;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.5);
   }
 
-  .winamp-toggle-btn:hover {
-    background: var(--winamp-light);
+  .winamp-minimized .winamp-toggle-btn:hover {
+    color: var(--wa-green);
+    text-shadow: 0 0 6px rgba(0, 255, 0, 0.4);
   }
 
-  .winamp-toggle-btn:active {
-    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border-top: 1px solid var(--winamp-shadow);
-    border-left: 1px solid var(--winamp-shadow);
-  }
-
-  /* Main Player Window */
-  .winamp-main {
+  /* ========================================
+     Shared Panel Skin — textured embossed metal
+     ======================================== */
+  .winamp-main,
+  .winamp-equalizer,
+  .winamp-playlist {
     width: 275px;
-    background: var(--winamp-bg);
-    border: 2px solid var(--winamp-border);
-    border-bottom: none;
-    box-shadow: 
-      inset -1px -1px 0 var(--winamp-shadow),
-      inset 1px 1px 0 var(--winamp-highlight),
-      2px 2px 4px rgba(0, 0, 0, 0.3);
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 1px,
+        rgba(255, 255, 255, 0.015) 1px,
+        rgba(255, 255, 255, 0.015) 2px
+      ),
+      linear-gradient(180deg, #33333a 0%, #29292d 40%, #222228 100%);
+    border: 1px solid var(--wa-chassis-shadow);
+    box-shadow:
+      inset 1px 1px 0 var(--wa-chassis-highlight),
+      inset -1px -1px 0 var(--wa-chassis-shadow),
+      0 2px 8px rgba(0, 0, 0, 0.5);
   }
 
+  .winamp-main {
+    border-bottom: none;
+  }
+
+  .winamp-equalizer {
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .winamp-playlist {
+    border-top: none;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ========================================
+     Title Bar — deep navy gradient with emboss
+     ======================================== */
   .winamp-titlebar {
-    background: linear-gradient(to bottom, var(--winamp-titlebar-start), var(--winamp-titlebar-end));
-    color: var(--winamp-text-light);
+    background: linear-gradient(90deg, var(--wa-titlebar-from) 0%, var(--wa-titlebar-to) 50%, var(--wa-titlebar-from) 100%);
+    color: #fff;
     padding: 2px 4px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: bold;
+    letter-spacing: 0.5px;
     cursor: move;
-    border-bottom: 1px solid var(--winamp-border);
+    border-bottom: 1px solid #000020;
+    box-shadow:
+      inset 0 1px 0 rgba(100, 100, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    min-height: 16px;
   }
 
   .winamp-logo {
-    font-size: 8px;
-    letter-spacing: 1px;
+    font-size: 7px;
+    letter-spacing: 1.5px;
+    opacity: 0.7;
   }
 
   .winamp-title {
     flex: 1;
     text-align: center;
+    text-shadow: 0 0 4px rgba(100, 100, 255, 0.4);
   }
 
   .winamp-window-controls {
     display: flex;
-    gap: 2px;
+    gap: 1px;
   }
 
   .winamp-btn-minimize,
   .winamp-btn-close {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    width: 16px;
-    height: 14px;
-    font-size: 12px;
+    background: linear-gradient(180deg, #4a4a52 0%, #2a2a30 100%);
+    border: 1px solid #000;
+    border-top-color: #5a5a62;
+    border-left-color: #5a5a62;
+    width: 9px;
+    height: 9px;
+    font-size: 8px;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -148,84 +205,96 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     justify-content: center;
     padding: 0;
     line-height: 1;
-    color: var(--winamp-text);
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    color: #ccc;
+    box-shadow: inset -1px -1px 0 #111;
   }
 
   .winamp-btn-minimize:hover,
   .winamp-btn-close:hover {
-    background: var(--winamp-light);
+    background: linear-gradient(180deg, #5a5a64 0%, #3a3a44 100%);
+    color: #fff;
   }
 
   .winamp-btn-close:hover {
-    background: #ff0000;
-    color: white;
+    background: linear-gradient(180deg, #cc0000 0%, #880000 100%);
+    color: #fff;
   }
 
-  /* Display Area */
+  /* ========================================
+     Display Area — the black LCD panel
+     ======================================== */
   .winamp-display {
-    background: #000;
-    padding: 8px;
-    border: 2px inset var(--winamp-dark);
-    margin: 4px;
-    min-height: 150px;
+    background: var(--wa-display-bg);
+    padding: 6px;
+    margin: 3px 4px;
+    border: 1px solid var(--wa-display-border);
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.8),
+      inset 2px 2px 4px rgba(0, 0, 0, 0.5);
+    min-height: 140px;
   }
 
-  /* Enhanced Time Display - LED/Segment Style */
+  /* ========================================
+     Time Display — green LED segment style
+     ======================================== */
   .winamp-time-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
-    background: var(--winamp-darker);
-    padding: 4px 8px;
-    border: 1px inset var(--winamp-dark);
+    margin-bottom: 4px;
+    padding: 3px 6px;
   }
 
   .winamp-time-display {
     font-family: 'Courier New', monospace;
-    font-size: 20px;
-    color: var(--winamp-green);
+    font-size: 26px;
+    color: var(--wa-green);
     text-shadow:
-      0 0 8px var(--winamp-green),
-      0 0 12px var(--winamp-green),
-      0 0 4px rgba(0, 255, 0, 0.8);
+      0 0 6px var(--wa-green),
+      0 0 12px rgba(0, 255, 0, 0.4);
     font-weight: bold;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     display: flex;
-    gap: 2px;
+    gap: 1px;
   }
 
   .winamp-digit {
     display: inline-block;
-    min-width: 12px;
+    min-width: 16px;
     text-align: center;
-    background: rgba(0, 20, 0, 0.3);
-    padding: 2px 4px;
-    border-radius: 2px;
+    background: var(--wa-green-ghost);
+    padding: 1px 2px;
   }
 
   .winamp-digit.colon {
-    min-width: 6px;
+    min-width: 8px;
     background: transparent;
+    animation: blink-colon 1s step-end infinite;
+  }
+
+  @keyframes blink-colon {
+    50% { opacity: 0.3; }
   }
 
   .winamp-time-remaining {
     font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: var(--winamp-green-dark);
-    text-shadow: 0 0 4px var(--winamp-green-dark);
+    font-size: 11px;
+    color: var(--wa-green-dim);
+    text-shadow: 0 0 3px var(--wa-green-dark);
     font-weight: bold;
   }
 
-  /* Position/Seek Slider */
+  /* ========================================
+     Seek Bar — thin groove with colored fill
+     ======================================== */
   .winamp-seek-container {
     position: relative;
-    height: 10px;
-    background: var(--winamp-darker);
-    border: 1px inset var(--winamp-dark);
-    margin-bottom: 6px;
+    height: 8px;
+    background: #0a0a0a;
+    border: 1px solid #050505;
+    margin: 0 2px 5px;
     cursor: pointer;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
   }
 
   .winamp-seek-slider {
@@ -235,55 +304,60 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     opacity: 0;
     cursor: pointer;
     z-index: 2;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
   }
 
   .winamp-seek-progress {
     position: absolute;
     height: 100%;
-    background: linear-gradient(to bottom, #90c090 0%, #60a060 50%, #408040 100%);
-    box-shadow: 0 0 2px rgba(100, 180, 100, 0.5);
-    transition: width 0.1s linear;
+    background: linear-gradient(180deg, #80c080 0%, #40a040 50%, #208020 100%);
+    box-shadow: 0 0 3px rgba(0, 200, 0, 0.3);
+    transition: width 0.15s linear;
     pointer-events: none;
   }
 
   .winamp-seek-slider:disabled + .winamp-seek-progress {
-    background: var(--winamp-dark);
+    background: #1a1a1a;
     box-shadow: none;
   }
 
-  /* Track Info with Marquee */
+  /* ========================================
+     Track Info Marquee
+     ======================================== */
   .winamp-track-info-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
-    height: 16px;
+    margin-bottom: 4px;
+    gap: 6px;
   }
 
   .winamp-track-info {
     flex: 1;
-    color: var(--winamp-green);
-    font-size: 9px;
+    color: var(--wa-green);
+    font-size: 8px;
+    font-family: 'Tahoma', 'Arial', sans-serif;
     overflow: hidden;
     position: relative;
-    background: rgba(0, 20, 0, 0.2);
-    padding: 2px 4px;
-    border: 1px solid rgba(0, 255, 0, 0.2);
+    padding: 2px 0;
+    text-shadow: 0 0 4px rgba(0, 255, 0, 0.3);
+    height: 14px;
+    line-height: 14px;
   }
 
   .winamp-track-scrolling {
     display: inline-block;
     white-space: nowrap;
-    animation: marquee 15s linear infinite;
+    animation: wa-marquee 12s linear infinite;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+  @keyframes wa-marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
   }
 
   .winamp-track-info:hover .winamp-track-scrolling {
@@ -292,327 +366,317 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
 
   .winamp-bitrate-display {
     display: flex;
-    gap: 6px;
-    color: var(--winamp-green);
-    font-size: 8px;
+    gap: 4px;
+    color: var(--wa-green);
+    font-size: 7px;
     font-family: 'Courier New', monospace;
-    background: rgba(0, 20, 0, 0.3);
-    padding: 2px 6px;
-    border: 1px solid rgba(0, 255, 0, 0.2);
+    white-space: nowrap;
   }
 
   .winamp-bitrate::after {
     content: 'kbps';
-    margin-left: 2px;
+    margin-left: 1px;
+    color: var(--wa-green-dim);
   }
 
   .winamp-khz::after {
     content: 'kHz';
-    margin-left: 2px;
+    margin-left: 1px;
+    color: var(--wa-green-dim);
   }
 
+  /* ========================================
+     Spectrum Analyzer — segmented colored bars
+     ======================================== */
   .winamp-spectrum {
     display: flex;
     align-items: flex-end;
-    gap: 2px;
-    height: 30px;
-    margin-bottom: 6px;
+    gap: 1px;
+    height: 26px;
+    margin-bottom: 5px;
+    padding: 2px;
+    background: rgba(0, 10, 0, 0.3);
   }
 
   .winamp-spectrum-bar {
     flex: 1;
-    min-height: 2px;
-    background: var(--winamp-green);
-    transition: height 0.1s ease;
-    border-radius: 1px;
+    min-height: 1px;
+    transition: height 0.08s ease-out;
+    /* Segmented look via repeating-gradient */
+    background:
+      repeating-linear-gradient(
+        to top,
+        transparent 0px,
+        transparent 1px,
+        rgba(0, 0, 0, 0.6) 1px,
+        rgba(0, 0, 0, 0.6) 2px
+      );
+    background-color: var(--wa-green);
+    border-radius: 0;
   }
 
-  /* Volume and Balance Controls */
+  /* ========================================
+     Volume & Balance
+     ======================================== */
   .winamp-volume-balance-container {
     display: flex;
-    gap: 12px;
-    margin-bottom: 6px;
-    padding: 4px;
-    background: var(--winamp-darker);
-    border: 1px inset var(--winamp-dark);
+    gap: 8px;
+    margin-bottom: 4px;
+    padding: 3px 4px;
+    align-items: center;
   }
 
   .winamp-volume-control,
   .winamp-balance-control {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    flex: 1;
   }
 
   .winamp-label {
-    font-size: 8px;
-    color: var(--winamp-green);
+    font-size: 7px;
+    color: var(--wa-green-dim);
     font-weight: bold;
-    min-width: 24px;
+    min-width: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .winamp-volume-slider {
-    width: 80px;
-    height: 8px;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  .winamp-volume-slider::-webkit-slider-track {
-    background: var(--winamp-slider-track);
-    border: 1px solid var(--winamp-border);
-    height: 6px;
-    border-radius: 0;
-  }
-
-  .winamp-volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 10px;
-    height: 16px;
-    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-slider-thumb-highlight);
-    border-left: 1px solid var(--winamp-slider-thumb-highlight);
-    cursor: pointer;
-    box-shadow: inset -1px -1px 0 #606040;
-  }
-
-  .winamp-volume-slider::-moz-range-track {
-    background: var(--winamp-slider-track);
-    border: 1px solid var(--winamp-border);
-    height: 6px;
-    border-radius: 0;
-  }
-
-  .winamp-volume-slider::-moz-range-thumb {
-    width: 10px;
-    height: 16px;
-    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-slider-thumb-highlight);
-    border-left: 1px solid var(--winamp-slider-thumb-highlight);
-    cursor: pointer;
-    box-shadow: inset -1px -1px 0 #606040;
-    border-radius: 0;
-  }
-
+  /* -- Horizontal slider shared styles -- */
+  .winamp-volume-slider,
   .winamp-balance-slider {
-    width: 80px;
-    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 68px;
+    height: 10px;
     background: transparent;
     cursor: pointer;
   }
 
-  .winamp-balance-slider::-webkit-slider-track {
-    background: var(--winamp-slider-track);
-    border: 1px solid var(--winamp-border);
-    height: 6px;
-    border-radius: 0;
+  .winamp-volume-slider::-webkit-slider-runnable-track,
+  .winamp-balance-slider::-webkit-slider-runnable-track {
+    background:
+      linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 40%, #0a0a0a 100%);
+    border: 1px solid #000;
+    height: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
   }
 
+  .winamp-volume-slider::-webkit-slider-thumb,
   .winamp-balance-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 10px;
-    height: 16px;
-    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-slider-thumb-highlight);
-    border-left: 1px solid var(--winamp-slider-thumb-highlight);
+    width: 14px;
+    height: 12px;
+    margin-top: -5px;
+    background: linear-gradient(180deg, var(--wa-thumb-hi) 0%, var(--wa-thumb) 50%, var(--wa-thumb-lo) 100%);
+    border: 1px solid #2a2a20;
+    border-top-color: var(--wa-thumb-hi);
+    border-left-color: var(--wa-thumb-hi);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 #606040;
+    box-shadow:
+      inset -1px -1px 0 var(--wa-thumb-lo),
+      0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
+  .winamp-volume-slider::-moz-range-track,
   .winamp-balance-slider::-moz-range-track {
-    background: var(--winamp-slider-track);
-    border: 1px solid var(--winamp-border);
-    height: 6px;
-    border-radius: 0;
+    background:
+      linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 40%, #0a0a0a 100%);
+    border: 1px solid #000;
+    height: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
   }
 
+  .winamp-volume-slider::-moz-range-thumb,
   .winamp-balance-slider::-moz-range-thumb {
-    width: 10px;
-    height: 16px;
-    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-slider-thumb-highlight);
-    border-left: 1px solid var(--winamp-slider-thumb-highlight);
+    width: 14px;
+    height: 12px;
+    background: linear-gradient(180deg, var(--wa-thumb-hi) 0%, var(--wa-thumb) 50%, var(--wa-thumb-lo) 100%);
+    border: 1px solid #2a2a20;
+    border-top-color: var(--wa-thumb-hi);
+    border-left-color: var(--wa-thumb-hi);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 #606040;
+    box-shadow:
+      inset -1px -1px 0 var(--wa-thumb-lo),
+      0 1px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 0;
   }
 
   .winamp-volume-display,
   .winamp-balance-display {
-    font-size: 8px;
-    color: var(--winamp-green);
+    font-size: 7px;
+    color: var(--wa-green-dim);
     font-family: 'Courier New', monospace;
-    min-width: 20px;
-    text-align: center;
+    min-width: 18px;
+    text-align: right;
   }
 
+  /* ========================================
+     Mode Buttons (mono/stereo) & Toggle (EQ/PL)
+     ======================================== */
   .winamp-mode-buttons {
     display: flex;
-    gap: 4px;
-    margin-bottom: 4px;
+    gap: 3px;
+    margin-bottom: 3px;
   }
 
   .winamp-mode-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    color: var(--winamp-text);
-    padding: 2px 6px;
-    font-size: 8px;
+    background: transparent;
+    border: none;
+    color: var(--wa-green-dark);
+    padding: 1px 4px;
+    font-size: 7px;
+    font-family: 'Tahoma', sans-serif;
     cursor: pointer;
-    text-transform: lowercase;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.1s;
   }
 
   .winamp-mode-btn.active {
-    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
-    color: var(--winamp-text-light);
+    color: var(--wa-green);
+    text-shadow: 0 0 6px rgba(0, 255, 0, 0.5);
     font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   .winamp-toggle-buttons {
     display: flex;
-    gap: 4px;
+    gap: 3px;
   }
 
   .winamp-toggle-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    color: var(--winamp-text);
-    padding: 2px 8px;
-    font-size: 9px;
+    background: transparent;
+    border: 1px solid var(--wa-chassis-dark);
+    color: var(--wa-green-dark);
+    padding: 1px 6px;
+    font-size: 8px;
     font-weight: bold;
+    font-family: 'Tahoma', sans-serif;
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    letter-spacing: 0.5px;
+    transition: all 0.1s;
+  }
+
+  .winamp-toggle-btn:hover {
+    color: var(--wa-green-dim);
   }
 
   .winamp-toggle-btn.active {
-    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
-    color: var(--winamp-text-light);
-    font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+    color: var(--wa-green);
+    text-shadow: 0 0 6px rgba(0, 255, 0, 0.5);
+    border-color: var(--wa-green-dark);
   }
 
-  /* Controls */
+  /* ========================================
+     Transport Controls — chunky beveled buttons
+     ======================================== */
   .winamp-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    padding: 6px;
-    background: var(--winamp-bg);
-    border-top: 1px solid var(--winamp-shadow);
+    gap: 2px;
+    padding: 4px 6px 5px;
+    background: linear-gradient(180deg, #2e2e34 0%, #26262c 100%);
+    border-top: 1px solid var(--wa-chassis-shadow);
   }
 
   .winamp-control-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
-    padding: 6px 10px;
-    font-size: 12px;
-    font-weight: bold;
+    background: linear-gradient(180deg, #4a4a52 0%, #36363c 40%, #2a2a30 100%);
+    border: 1px solid #101014;
+    border-top-color: #5a5a64;
+    border-left-color: #5a5a64;
+    padding: 0;
+    font-size: 11px;
     cursor: pointer;
-    min-width: 28px;
-    height: 24px;
+    width: 28px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--winamp-text);
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
-    transition: all 0.05s ease;
+    color: #c0c0c0;
+    box-shadow:
+      inset -1px -1px 0 #151518,
+      inset 0 0 0 0.5px rgba(255, 255, 255, 0.03);
+    transition: none;
   }
 
   .winamp-control-btn:hover:not(:disabled) {
-    background: var(--winamp-light);
+    background: linear-gradient(180deg, #5a5a64 0%, #44444c 40%, #36363c 100%);
+    color: #fff;
   }
 
   .winamp-control-btn:active:not(:disabled) {
-    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border-top: 1px solid var(--winamp-shadow);
-    border-left: 1px solid var(--winamp-shadow);
-    transform: translateY(1px);
+    background: linear-gradient(180deg, #222228 0%, #2a2a30 100%);
+    border-top-color: #101014;
+    border-left-color: #101014;
+    border-bottom-color: #5a5a64;
+    border-right-color: #5a5a64;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.6);
+    padding-top: 1px;
+    padding-left: 1px;
   }
 
   .winamp-control-btn:disabled {
-    opacity: 0.4;
+    opacity: 0.3;
     cursor: not-allowed;
   }
 
-  .winamp-control-btn.active {
-    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
-    color: var(--winamp-text-light);
-    font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: inset -1px -1px 0 #405040;
-  }
-
-  /* Equalizer Window */
-  .winamp-equalizer {
-    width: 275px;
-    background: var(--winamp-bg);
-    border: 2px solid var(--winamp-border);
-    border-top: none;
-    box-shadow: 
-      inset -1px -1px 0 var(--winamp-shadow),
-      inset 1px 1px 0 var(--winamp-highlight),
-      2px 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
+  /* ========================================
+     Equalizer Window
+     ======================================== */
   .winamp-eq-controls {
     display: flex;
-    gap: 4px;
-    padding: 4px;
-    background: var(--winamp-bg);
+    gap: 3px;
+    padding: 3px 4px;
   }
 
   .winamp-eq-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
-    padding: 2px 8px;
-    font-size: 9px;
+    background: linear-gradient(180deg, #4a4a52 0%, #36363c 40%, #2a2a30 100%);
+    border: 1px solid #101014;
+    border-top-color: #5a5a64;
+    border-left-color: #5a5a64;
+    padding: 2px 6px;
+    font-size: 8px;
     font-weight: bold;
     cursor: pointer;
-    color: var(--winamp-text);
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    color: #a0a0a0;
+    font-family: 'Tahoma', sans-serif;
+    box-shadow: inset -1px -1px 0 #151518;
   }
 
   .winamp-eq-btn:hover {
-    background: var(--winamp-light);
+    color: #d0d0d0;
+    background: linear-gradient(180deg, #5a5a64 0%, #44444c 40%, #36363c 100%);
   }
 
   .winamp-eq-btn:active {
+    background: linear-gradient(180deg, #222228 0%, #2a2a30 100%);
+    border-top-color: #101014;
+    border-left-color: #101014;
     box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border-top: 1px solid var(--winamp-shadow);
-    border-left: 1px solid var(--winamp-shadow);
   }
 
   .winamp-eq-btn.active {
-    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
-    color: var(--winamp-text-light);
-    font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+    color: var(--wa-green);
+    text-shadow: 0 0 4px rgba(0, 255, 0, 0.3);
   }
 
   .winamp-eq-sliders {
     display: flex;
-    padding: 8px;
-    gap: 8px;
+    padding: 6px 8px;
+    gap: 6px;
   }
 
   .winamp-eq-scale {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-size: 8px;
-    color: var(--winamp-text);
+    font-size: 7px;
+    color: var(--wa-green-dark);
     padding-right: 4px;
-    height: 120px;
+    height: 100px;
+    font-family: 'Courier New', monospace;
   }
 
   .winamp-eq-scale-label {
@@ -621,7 +685,7 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
 
   .winamp-eq-slider-group {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     flex: 1;
   }
 
@@ -629,77 +693,65 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
   }
 
   .winamp-eq-slider-container label {
-    font-size: 8px;
-    color: var(--winamp-text);
+    font-size: 7px;
+    color: var(--wa-green-dark);
     font-weight: bold;
+    font-family: 'Tahoma', sans-serif;
   }
 
   .winamp-eq-slider {
     -webkit-appearance: slider-vertical;
     writing-mode: bt-lr;
-    width: 20px;
-    height: 100px;
+    width: 16px;
+    height: 80px;
     background: transparent;
     cursor: pointer;
   }
 
   .winamp-eq-slider::-webkit-slider-track {
-    background: linear-gradient(to bottom, var(--winamp-slider-track), #2a4a2a);
-    border: 1px solid var(--winamp-border);
-    width: 8px;
-    border-radius: 0;
+    background: linear-gradient(180deg, #0a0a0a, #1a1a1a);
+    border: 1px solid #000;
+    width: 6px;
   }
 
   .winamp-eq-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 10px;
-    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-slider-thumb-highlight);
-    border-left: 1px solid var(--winamp-slider-thumb-highlight);
+    width: 14px;
+    height: 8px;
+    background: linear-gradient(180deg, var(--wa-thumb-hi) 0%, var(--wa-thumb) 50%, var(--wa-thumb-lo) 100%);
+    border: 1px solid #2a2a20;
+    border-top-color: var(--wa-thumb-hi);
+    border-left-color: var(--wa-thumb-hi);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 #606040;
+    box-shadow: inset -1px -1px 0 var(--wa-thumb-lo);
   }
 
   .winamp-eq-slider::-moz-range-track {
-    background: linear-gradient(to bottom, var(--winamp-slider-track), #2a4a2a);
-    border: 1px solid var(--winamp-border);
-    width: 8px;
-    border-radius: 0;
+    background: linear-gradient(180deg, #0a0a0a, #1a1a1a);
+    border: 1px solid #000;
+    width: 6px;
   }
 
   .winamp-eq-slider::-moz-range-thumb {
-    width: 18px;
-    height: 10px;
-    background: linear-gradient(to bottom, var(--winamp-slider-thumb-highlight) 0%, var(--winamp-slider-thumb) 50%, #808060 100%);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-slider-thumb-highlight);
-    border-left: 1px solid var(--winamp-slider-thumb-highlight);
+    width: 14px;
+    height: 8px;
+    background: linear-gradient(180deg, var(--wa-thumb-hi) 0%, var(--wa-thumb) 50%, var(--wa-thumb-lo) 100%);
+    border: 1px solid #2a2a20;
+    border-top-color: var(--wa-thumb-hi);
+    border-left-color: var(--wa-thumb-hi);
     cursor: pointer;
-    box-shadow: inset -1px -1px 0 #606040;
+    box-shadow: inset -1px -1px 0 var(--wa-thumb-lo);
+    border-radius: 0;
   }
 
-  /* Playlist Window */
-  .winamp-playlist {
-    width: 275px;
-    background: var(--winamp-bg);
-    border: 2px solid var(--winamp-border);
-    border-top: none;
-    box-shadow: 
-      inset -1px -1px 0 var(--winamp-shadow),
-      inset 1px 1px 0 var(--winamp-highlight),
-      2px 2px 4px rgba(0, 0, 0, 0.3);
-    max-height: 300px;
-    display: flex;
-    flex-direction: column;
-  }
-
+  /* ========================================
+     Playlist Window — dark bg, green text
+     ======================================== */
   .winamp-playlist-content {
     display: flex;
     flex-direction: column;
@@ -711,77 +763,85 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     flex: 1;
     overflow-y: auto;
     padding: 2px;
-    background: #fff;
-    border: 1px inset var(--winamp-dark);
-    margin: 4px;
+    background: var(--wa-pl-bg);
+    border: 1px solid #0a0a14;
+    margin: 3px 4px;
     font-size: 10px;
-    color: #000;
+    font-family: 'Tahoma', 'Arial', sans-serif;
+    color: var(--wa-pl-text);
     max-height: 200px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
   }
 
   .winamp-playlist-track {
-    padding: 2px 4px;
+    padding: 1px 4px;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
   }
 
   .winamp-playlist-track:hover {
-    background: var(--winamp-light);
+    background: rgba(0, 100, 200, 0.2);
   }
 
   .winamp-playlist-track.active {
-    background: var(--winamp-selected);
-    color: var(--winamp-selected-text);
+    background: var(--wa-pl-highlight);
+    color: var(--wa-pl-current);
   }
 
   .winamp-playlist-controls {
     display: flex;
-    gap: 4px;
-    padding: 4px;
-    background: var(--winamp-bg);
+    gap: 2px;
+    padding: 3px 4px;
   }
 
   .winamp-playlist-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
-    padding: 2px 6px;
-    font-size: 8px;
+    background: linear-gradient(180deg, #4a4a52 0%, #36363c 40%, #2a2a30 100%);
+    border: 1px solid #101014;
+    border-top-color: #5a5a64;
+    border-left-color: #5a5a64;
+    padding: 2px 5px;
+    font-size: 7px;
     font-weight: bold;
     cursor: pointer;
-    color: var(--winamp-text);
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    color: #a0a0a0;
+    font-family: 'Tahoma', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    box-shadow: inset -1px -1px 0 #151518;
   }
 
   .winamp-playlist-btn:hover {
-    background: var(--winamp-light);
+    color: #d0d0d0;
+    background: linear-gradient(180deg, #5a5a64 0%, #44444c 40%, #36363c 100%);
   }
 
   .winamp-playlist-btn:active {
+    background: linear-gradient(180deg, #222228 0%, #2a2a30 100%);
+    border-top-color: #101014;
+    border-left-color: #101014;
     box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border-top: 1px solid var(--winamp-shadow);
-    border-left: 1px solid var(--winamp-shadow);
   }
 
   .winamp-playlist-summary {
     padding: 2px 8px;
-    font-size: 9px;
-    color: var(--winamp-text);
-    background: var(--winamp-bg);
-    border-top: 1px solid var(--winamp-shadow);
+    font-size: 8px;
+    color: var(--wa-green-dim);
+    font-family: 'Courier New', monospace;
     text-align: center;
+    border-top: 1px solid var(--wa-chassis-shadow);
   }
 
   .winamp-playlist-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px;
-    background: var(--winamp-bg);
-    border-top: 1px solid var(--winamp-shadow);
+    padding: 3px 4px;
+    border-top: 1px solid var(--wa-chassis-shadow);
   }
 
   .winamp-mini-controls {
@@ -790,74 +850,72 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
   }
 
   .winamp-mini-btn {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
-    padding: 2px 4px;
+    background: linear-gradient(180deg, #4a4a52 0%, #36363c 40%, #2a2a30 100%);
+    border: 1px solid #101014;
+    border-top-color: #5a5a64;
+    border-left-color: #5a5a64;
+    padding: 0;
     font-size: 8px;
-    font-weight: bold;
     cursor: pointer;
-    min-width: 18px;
-    height: 16px;
+    width: 18px;
+    height: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--winamp-text);
-    box-shadow: inset -1px -1px 0 var(--winamp-shadow);
+    color: #b0b0b0;
+    box-shadow: inset -1px -1px 0 #151518;
   }
 
   .winamp-mini-btn:hover {
-    background: var(--winamp-light);
+    background: linear-gradient(180deg, #5a5a64 0%, #44444c 40%, #36363c 100%);
+    color: #fff;
   }
 
   .winamp-mini-btn:active {
+    background: linear-gradient(180deg, #222228 0%, #2a2a30 100%);
+    border-top-color: #101014;
+    border-left-color: #101014;
     box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border-top: 1px solid var(--winamp-shadow);
-    border-left: 1px solid var(--winamp-shadow);
-  }
-
-  .winamp-mini-btn.active {
-    background: linear-gradient(to bottom, #80a080 0%, #608060 100%);
-    color: var(--winamp-text-light);
-    font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   /* Scrollbar styling for playlist */
   .winamp-playlist-tracks::-webkit-scrollbar {
-    width: 16px;
+    width: 12px;
   }
 
   .winamp-playlist-tracks::-webkit-scrollbar-track {
-    background: var(--winamp-button-bg);
-    border: 1px solid var(--winamp-border);
+    background: #14141e;
+    border-left: 1px solid #0a0a12;
   }
 
   .winamp-playlist-tracks::-webkit-scrollbar-thumb {
-    background: var(--winamp-dark);
-    border: 1px solid var(--winamp-border);
-    border-top: 1px solid var(--winamp-highlight);
-    border-left: 1px solid var(--winamp-highlight);
+    background: linear-gradient(180deg, #4a4a52, #2a2a30);
+    border: 1px solid #101014;
+    border-top-color: #5a5a64;
+    border-left-color: #5a5a64;
   }
 
   .winamp-playlist-tracks::-webkit-scrollbar-thumb:hover {
-    background: var(--winamp-darker);
+    background: linear-gradient(180deg, #5a5a64, #3a3a44);
   }
 
-  /* Ensure player stays in place during transitions */
+  /* ========================================
+     Astro transition preservation
+     ======================================== */
   [data-astro-transition-scope="music-player"] {
     position: fixed !important;
     z-index: var(--z-texture) !important;
     pointer-events: auto !important;
   }
 
-  /* Prevent Astro view transitions from affecting the player */
   .winamp-player,
   .winamp-player * {
     view-transition-name: none !important;
   }
 
+  /* ========================================
+     Mobile responsive
+     ======================================== */
   @media (max-width: 768px) {
     .winamp-main,
     .winamp-equalizer,
@@ -872,14 +930,14 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     }
 
     .winamp-control-btn {
-      min-width: 24px;
-      padding: 4px 6px;
-      font-size: 10px;
+      width: 24px;
+      height: 16px;
+      font-size: 9px;
     }
 
     .winamp-volume-balance-container {
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
     }
 
     .winamp-volume-slider,
@@ -888,12 +946,11 @@ import MusicPlayerLazy from './MusicPlayerLazy.tsx';
     }
 
     .winamp-time-display {
-      font-size: 16px;
+      font-size: 20px;
     }
 
     .winamp-digit {
-      min-width: 10px;
-      padding: 1px 2px;
+      min-width: 12px;
     }
   }
 </style>

@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion';
-import { type LayoutProps, cardHasShaderSurface } from '../types';
+import { Fragment, useLayoutEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
+import { type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 
 const cardPositions = [
@@ -10,6 +12,25 @@ const cardPositions = [
   { x: 240, y: 14, rotation: 5.5 },
   { x: 400, y: 28, rotation: 9 },
 ];
+
+function cardClassName(
+  card: LayoutProps['cards'][number],
+  isSelected: boolean,
+  isGlass: boolean,
+  extra?: string
+) {
+  return [
+    'card',
+    isSelected ? 'card-selected' : '',
+    card.image ? 'card-with-image' : '',
+    cardHasHeroLayout(card) ? 'card-has-hero-layout' : '',
+    cardHasShaderSurface(card) ? 'card-has-shader' : '',
+    isGlass ? 'card-glass-mode' : '',
+    extra,
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
 
 export default function StackedFanLayout({
   cards,
@@ -22,62 +43,117 @@ export default function StackedFanLayout({
   onCardHover,
 }: LayoutProps) {
   const isGlass = cardStyle === 'glass';
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  useLayoutEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
+
+  const expandTransition = prefersReducedMotion
+    ? { duration: 0.2, ease: [0.32, 0.72, 0, 1] as const }
+    : {
+        type: 'spring' as const,
+        stiffness: 155,
+        damping: 30,
+        mass: 0.88,
+      };
 
   return (
     <div className="cards-wrapper">
-      {cards.map((card, index) => {
-        const position = cardPositions[index];
-        const isSelected = selectedCard === card.id;
-        const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
+      <LayoutGroup id="hero-stacked-fan">
+        {cards.map((card, index) => {
+          const position = cardPositions[index];
+          const isSelected = selectedCard === card.id;
+          const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
+          const layoutId = `hero-card-${card.id}`;
 
-        return (
-          <motion.div
-            key={card.id}
-            className={`card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
-            style={{
-              backgroundColor: isGlass ? 'transparent' : card.color,
-              zIndex: isSelected ? 20 : cards.length - index,
-            }}
-            layout
-            initial={{
-              x: 0,
-              y: 50,
-              rotate: 0,
-              scale: 0.9,
-              opacity: 0
-            }}
-            animate={{
-              x: isSelected ? 0 : (isLoaded ? position.x : 0),
-              y: isSelected ? -52 : (isLoaded ? position.y : 50),
-              rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-              scale: isSelected ? 1.06 : (isLoaded ? 1 : 0.9),
-              opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
-            }}
-            whileHover={!isSelected ? {
-              y: position.y - 10,
-              scale: 1.025,
-              transition: { type: 'spring', stiffness: 280, damping: 32 }
-            } : {}}
-            whileTap={!isSelected ? { scale: 0.99 } : {}}
-            transition={{
-              type: 'spring',
-              stiffness: hasAnimatedIn ? 220 : 85,
-              damping: hasAnimatedIn ? 24 : 14,
-              delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
-            }}
-            onMouseEnter={() => !selectedCard && onCardHover(card.id)}
-            onMouseLeave={() => onCardHover(null)}
-            onClick={() => onCardClick(card.id, card.link)}
-          >
-            <CardBaseContent
-              card={card}
-              isSelected={isSelected}
-              isGlass={isGlass}
-              onLinkClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        );
-      })}
+          const fanCard = (
+            <motion.div
+              layoutId={layoutId}
+              className={cardClassName(card, false, isGlass)}
+              style={{
+                backgroundColor: isGlass ? 'transparent' : card.color,
+                zIndex: cards.length - index,
+              }}
+              layout
+              initial={{
+                x: 0,
+                y: 50,
+                rotate: 0,
+                scale: 0.9,
+                opacity: 0,
+              }}
+              animate={{
+                x: isLoaded ? position.x : 0,
+                y: isLoaded ? position.y : 50,
+                rotate: isLoaded ? position.rotation : 0,
+                scale: isLoaded ? 1 : 0.9,
+                opacity: isOtherSelected ? 0.3 : isLoaded ? 1 : 0,
+              }}
+              whileHover={
+                selectedCard
+                  ? undefined
+                  : {
+                      y: position.y - 10,
+                      scale: 1.025,
+                      transition: { type: 'spring', stiffness: 280, damping: 32 },
+                    }
+              }
+              whileTap={selectedCard ? undefined : { scale: 0.99 }}
+              transition={{
+                type: 'spring',
+                stiffness: hasAnimatedIn ? 220 : 85,
+                damping: hasAnimatedIn ? 24 : 14,
+                delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
+              }}
+              onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+              onMouseLeave={() => onCardHover(null)}
+              onClick={() => onCardClick(card.id, card.link)}
+            >
+              <CardBaseContent
+                card={card}
+                isSelected={false}
+                isGlass={isGlass}
+                isHeroMediaActive={hoveredCard === card.id && !selectedCard}
+                onLinkClick={(e) => e.stopPropagation()}
+              />
+            </motion.div>
+          );
+
+          const fullscreenCard =
+            portalRoot &&
+            createPortal(
+              <div className="card-hero-fullscreen-stage">
+                <motion.div
+                  layoutId={layoutId}
+                  className={cardClassName(card, true, isGlass, 'card-hero-fullscreen')}
+                  style={{
+                    backgroundColor: isGlass ? 'transparent' : card.color,
+                  }}
+                  transition={expandTransition}
+                  onClick={() => onCardClick(card.id, card.link)}
+                >
+                  <CardBaseContent
+                    card={card}
+                    isSelected
+                    isGlass={isGlass}
+                    isHeroMediaActive
+                    onLinkClick={(e) => e.stopPropagation()}
+                  />
+                </motion.div>
+              </div>,
+              portalRoot
+            );
+
+          return (
+            <Fragment key={card.id}>
+              {!isSelected && fanCard}
+              {isSelected && fullscreenCard}
+            </Fragment>
+          );
+        })}
+      </LayoutGroup>
     </div>
   );
 }

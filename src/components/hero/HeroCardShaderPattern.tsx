@@ -169,7 +169,7 @@ export function HeroCardShaderPattern({ cardId, pattern, color }: HeroCardShader
         />
       );
     }
-    case 'odyssey': {
+    case 'hatch': {
       const c = color;
       const v = dailyCtx ? dailyVoronoiBundle(c, dailyCtx) : voronoiDefault(c);
       return (

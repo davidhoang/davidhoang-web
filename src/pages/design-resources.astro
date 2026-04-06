@@ -55,9 +55,9 @@ const designStack = [
 
 const resources = [
   {
-    category: "Books I Come Back To",
+    category: "Favorite books",
     items: [
-      { name: "The Design of Everyday Things", url: "https://www.amazon.com/Design-Everyday-Things-Revised-Expanded/dp/0465050654", description: "Don Norman's classic on human-centered design thinking." },
+      { name: "The Humane Interface", url: "https://www.amazon.com/Humane-Interface-Directions-Designing-Interactive/dp/0201379376", description: "Jef Raskin on designing interactions that fit human cognition and eliminate unnecessary complexity." },
       { name: "Thinking in Systems", url: "https://www.amazon.com/Thinking-Systems-Donella-H-Meadows/dp/1603580557", description: "Donella Meadows on understanding complex systems — applicable well beyond design." },
       { name: "Creative Selection", url: "https://www.amazon.com/Creative-Selection-Inside-Apples-Process/dp/1250194466", description: "Ken Kocienda's inside look at Apple's design process and demo culture." },
       { name: "Grid Systems in Graphic Design", url: "https://www.amazon.com/Grid-Systems-Graphic-Design-Communication/dp/3721201450", description: "Josef Müller-Brockmann's foundational work on typographic grids." },
@@ -70,7 +70,6 @@ const resources = [
       { name: "Google Fonts", url: "https://fonts.google.com", description: "Free, open-source fonts. Great for prototyping and web projects." },
       { name: "Future Fonts", url: "https://www.futurefonts.xyz", description: "Work-in-progress typefaces from independent designers. Support them early." },
       { name: "Typewolf", url: "https://www.typewolf.com", description: "Typography inspiration and font recommendations from real sites." },
-      { name: "Fonts In Use", url: "https://fontsinuse.com", description: "A searchable archive of typography in the wild." },
     ]
   },
 ];
@@ -92,9 +91,9 @@ const resources = [
       <DesignStackGrid items={designStack} />
     </section>
 
-    <div class="design-resources-sources">
-      <section aria-labelledby="more-sources-heading">
-        <h2 id="more-sources-heading" class="section-heading">More Sources</h2>
+    <div class="additional-resources">
+      <section aria-labelledby="additional-resources-heading">
+        <h2 id="additional-resources-heading" class="section-heading">Additional resources</h2>
         <p class="resources-intro">Books and typography — go-to references I use and recommend.</p>
 
         {resources.map((section) => (
@@ -121,7 +120,7 @@ const resources = [
     min-height: calc(100dvh - clamp(9rem, 22vh, 14rem));
   }
 
-  .design-resources-sources {
+  .additional-resources {
     max-width: var(--container-narrow-width);
     width: 100%;
     margin-inline: auto;
@@ -228,7 +227,7 @@ const resources = [
   }
 
   @media (max-width: 768px) {
-    .design-resources-sources {
+    .additional-resources {
       padding: var(--spacing-md);
     }
 
@@ -248,7 +247,7 @@ const resources = [
   }
 
   @media (max-width: 480px) {
-    .design-resources-sources {
+    .additional-resources {
       padding: var(--spacing-sm);
     }
   }

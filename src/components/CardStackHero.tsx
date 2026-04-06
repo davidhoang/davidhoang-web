@@ -111,12 +111,29 @@ export default function CardStackHero() {
     };
   }, [isInView]);
 
+  // Fullscreen hero card (stacked-fan portal) should lock page scroll
+  useEffect(() => {
+    if (!selectedCard || heroLayout !== 'stacked-fan') return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [selectedCard, heroLayout]);
+
   const handleCardClick = (cardId: string, link?: string) => {
     if (cardId === 'about' && link) {
       window.location.href = link;
       return;
     }
-    setSelectedCard(selectedCard === cardId ? null : cardId);
+    setSelectedCard((prev) => {
+      const closing = prev === cardId;
+      // Opening or switching cards: fan unmounts without mouseleave, so hover state can go stale.
+      if (!closing) {
+        setHoveredCard(null);
+      }
+      return closing ? null : cardId;
+    });
   };
 
   // Keyboard navigation
@@ -132,10 +149,12 @@ export default function CardStackHero() {
         e.preventDefault();
         const nextIndex = (currentIndex + 1) % cards.length;
         setSelectedCard(cards[nextIndex].id);
+        setHoveredCard(null);
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
         const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
         setSelectedCard(cards[prevIndex].id);
+        setHoveredCard(null);
       }
     };
 
@@ -166,8 +185,9 @@ export default function CardStackHero() {
 
       {selectedCard && (
         <div
-          className="click-outside-overlay"
+          className={`click-outside-overlay${heroLayout === 'stacked-fan' ? ' click-outside-overlay--hero-fullscreen' : ''}`}
           onClick={() => setSelectedCard(null)}
+          aria-hidden="true"
         />
       )}
 
@@ -317,10 +337,13 @@ export default function CardStackHero() {
         }
 
         .card {
-          /* Concentric nested radii: inner = outer − inset (see shader expanded panel). */
+          /* Nested radii: inner = outer − inset (shader panels + hero frame). See: nested rounded corners */
           --card-radius: 20px;
-          --card-panel-inset: 12px;
+          --card-panel-inset: 4px;
+          --card-hero-frame: 1px;
+          --card-hero-inner-radius: calc(var(--card-radius) - var(--card-hero-frame));
           --card-panel-inner-radius: max(0px, calc(var(--card-radius) - var(--card-panel-inset)));
+          box-sizing: border-box;
           position: absolute;
           width: 240px;
           height: 320px;
@@ -330,7 +353,7 @@ export default function CardStackHero() {
           box-shadow:
             0 8px 32px rgba(0, 0, 0, 0.12),
             0 2px 8px rgba(0, 0, 0, 0.08),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            inset 0 0 0 0.5px rgba(255, 255, 255, 0.28);
           display: flex;
           flex-direction: column;
           left: 50%;
@@ -346,7 +369,7 @@ export default function CardStackHero() {
           box-shadow:
             0 20px 50px rgba(0, 0, 0, 0.2),
             0 8px 24px rgba(0, 0, 0, 0.12),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+            inset 0 0 0 0.5px rgba(255, 255, 255, 0.38);
         }
 
         .card:focus-visible {
@@ -362,11 +385,109 @@ export default function CardStackHero() {
           box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.15);
         }
 
+        /* Portaled large card (stacked-fan): escapes scaled .cards-wrapper; centered stage, not edge-to-edge */
+        .card-hero-fullscreen-stage {
+          position: fixed;
+          inset: 0;
+          z-index: 10050;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: max(1rem, env(safe-area-inset-top, 0px))
+            max(1rem, env(safe-area-inset-right, 0px))
+            max(1rem, env(safe-area-inset-bottom, 0px))
+            max(1rem, env(safe-area-inset-left, 0px));
+          box-sizing: border-box;
+          pointer-events: none;
+        }
+
+        .card-hero-fullscreen-stage .card-hero-fullscreen {
+          pointer-events: auto;
+          flex-shrink: 0;
+        }
+
+        /* Same proportions as fan cards (240×320): width : height = 3 : 4 */
+        .card.card-selected.card-hero-fullscreen {
+          position: relative;
+          left: auto;
+          top: auto;
+          margin: 0;
+          box-sizing: border-box;
+          width: min(94vw, 480px, calc(min(88dvh, 720px) * 3 / 4));
+          max-width: 100%;
+          aspect-ratio: 3 / 4;
+          height: auto;
+          max-height: min(88dvh, 720px);
+          border-radius: var(--card-radius);
+          box-shadow:
+            0 28px 80px rgba(0, 0, 0, 0.28),
+            0 12px 36px rgba(0, 0, 0, 0.18),
+            inset 0 0 0 0.5px rgba(255, 255, 255, 0.26);
+          overflow-x: hidden;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .card-hero-fullscreen .card-pattern,
+        .card-hero-fullscreen .card-thumbnail-area {
+          height: 40%;
+        }
+
+        .card-hero-fullscreen.card-with-image .card-image {
+          bottom: 40%;
+        }
+
+        .card-hero-fullscreen .card-content {
+          padding: clamp(1.1rem, 3vw, 1.5rem) clamp(1.25rem, 4vw, 1.75rem) 0.75rem;
+        }
+
+        .card-hero-fullscreen .card-title {
+          font-size: clamp(1.5rem, 4.2vw, 2.25rem);
+        }
+
+        .card-hero-fullscreen .card-subtitle {
+          font-size: clamp(0.95rem, 2vw, 1.1rem);
+        }
+
+        .card-hero-fullscreen .card-expanded-content {
+          padding: 0 clamp(1.25rem, 4vw, 1.75rem) clamp(1.25rem, 3.5vw, 1.75rem);
+        }
+
+        .card-hero-fullscreen .card-description {
+          font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+          line-height: 1.62;
+        }
+
+        .card-hero-fullscreen.card-has-shader .card-content {
+          padding-top: clamp(1.35rem, 3.5vw, 1.85rem);
+        }
+
+        .card-hero-fullscreen.card-has-shader .card-expanded-content {
+          margin: 0 var(--card-panel-inset) var(--card-panel-inset) var(--card-panel-inset);
+          padding: 16px calc(24px - var(--card-panel-inset)) calc(24px - var(--card-panel-inset))
+            calc(24px - var(--card-panel-inset));
+          border-radius: 0 0 var(--card-panel-inner-radius) var(--card-panel-inner-radius);
+          max-width: none;
+        }
+
+        .card-hero-fullscreen.card-has-hero-layout .card-hero-image-wrap {
+          height: min(36vh, 260px);
+          min-height: 120px;
+        }
+
+        .card-hero-fullscreen.card-has-hero-layout .card-unified-panel {
+          padding: clamp(1rem, 3vw, 1.35rem) clamp(1.1rem, 3.5vw, 1.5rem) clamp(1.1rem, 3vw, 1.35rem);
+        }
+
+        .card-hero-fullscreen.card-has-hero-layout .card-title {
+          font-size: clamp(1.5rem, 4.2vw, 2.1rem);
+        }
+
         .card-glass-mode {
           background-color: rgba(255, 255, 255, 0.05) !important;
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 0.5px solid rgba(255, 255, 255, 0.12);
         }
 
         .card-glass-overlay {
@@ -528,6 +649,148 @@ export default function CardStackHero() {
           background: rgba(0, 0, 0, 0.55);
         }
 
+        /* === Hero image + unified panel (title, subtitle, description, CTA in one container) === */
+        .card-has-hero-layout {
+          overflow: hidden;
+          /* Thin outer ring: card bg shows in frame; inner radius = outer − frame (nested corners). */
+          padding: var(--card-hero-frame);
+        }
+
+        .card-hero-image-wrap {
+          position: relative;
+          flex-shrink: 0;
+          width: 100%;
+          height: 42%;
+          min-height: 96px;
+          overflow: hidden;
+          border-radius: var(--card-hero-inner-radius) var(--card-hero-inner-radius) 0 0;
+        }
+
+        .card-hero-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+          transition: filter 0.35s ease;
+        }
+
+        .card-hero-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+          transition: filter 0.35s ease;
+        }
+
+        .card-hero-image-wrap:not(.card-hero-image-wrap--active) .card-hero-image,
+        .card-hero-image-wrap:not(.card-hero-image-wrap--active) .card-hero-video {
+          filter: brightness(0.9) saturate(0.94);
+        }
+
+        .card-hero-image-wrap--active .card-hero-image,
+        .card-hero-image-wrap--active .card-hero-video {
+          filter: brightness(1) saturate(1);
+        }
+
+        @keyframes card-hero-drift {
+          0% {
+            transform: scale(1.06) translate(0%, 0%);
+          }
+          100% {
+            transform: scale(1.14) translate(-2.5%, -1.5%);
+          }
+        }
+
+        .card-hero-image-wrap--drift .card-hero-image {
+          animation: card-hero-drift 9s ease-in-out infinite alternate;
+          will-change: transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .card-hero-image-wrap--drift .card-hero-image {
+            animation: none;
+          }
+        }
+
+        .card-unified-panel {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 14px 16px 16px;
+          background: rgba(0, 18, 51, 0.55);
+          border-top: 0.5px solid rgba(255, 255, 255, 0.14);
+          position: relative;
+          z-index: 1;
+        }
+
+        .card-has-hero-layout .card-unified-panel {
+          border-radius: 0 0 var(--card-hero-inner-radius) var(--card-hero-inner-radius);
+        }
+
+        .card-unified-panel .card-title {
+          text-shadow: none;
+        }
+
+        .card-unified-panel .card-subtitle {
+          text-shadow: none;
+          opacity: 0.88;
+        }
+
+        .card-unified-details {
+          margin-top: 10px;
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .card-unified-details .card-description {
+          margin-bottom: 16px;
+          opacity: 0.95;
+        }
+
+        .card-unified-details .card-links {
+          margin-top: auto;
+        }
+
+        .card-link--primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          align-self: flex-start;
+          color: #0c1929;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.9rem;
+          padding: 11px 18px;
+          background: rgba(255, 255, 255, 0.96);
+          border: none;
+          border-radius: var(--radius-md);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          transition: background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+        }
+
+        .card-link--primary:hover {
+          color: #061018;
+          background: #ffffff;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.24);
+        }
+
+        .card-selected.card-has-hero-layout .card-unified-panel {
+          padding: 16px 18px 18px;
+        }
+
+        .card-selected.card-has-hero-layout .card-title {
+          font-size: 1.75rem;
+        }
+
+        .card-selected.card-has-hero-layout .card-subtitle {
+          font-size: 1rem;
+        }
+
         .card-expanded-content {
           padding: 16px 24px 24px 24px;
           color: white;
@@ -572,6 +835,20 @@ export default function CardStackHero() {
           right: 0;
           bottom: 0;
           z-index: 10;
+        }
+
+        .click-outside-overlay--hero-fullscreen {
+          z-index: 10040;
+          background: rgba(0, 0, 0, 0.35);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .click-outside-overlay--hero-fullscreen {
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+          }
         }
 
         /* === Editorial layout overrides === */
@@ -687,7 +964,7 @@ export default function CardStackHero() {
             transform: scale(0.75);
           }
 
-          .card-selected {
+          .card-selected:not(.card-hero-fullscreen) {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -701,15 +978,15 @@ export default function CardStackHero() {
             height: auto;
           }
 
-          .card-selected .card-title {
+          .card-selected:not(.card-hero-fullscreen) .card-title {
             font-size: 1.6rem;
           }
 
-          .card-selected .card-subtitle {
+          .card-selected:not(.card-hero-fullscreen) .card-subtitle {
             font-size: 1.05rem;
           }
 
-          .click-outside-overlay {
+          .click-outside-overlay:not(.click-outside-overlay--hero-fullscreen) {
             background: rgba(0, 0, 0, 0.4);
           }
 
@@ -740,7 +1017,7 @@ export default function CardStackHero() {
             margin-bottom: clamp(1.75rem, 6vw, 2.75rem);
           }
 
-          .card-selected {
+          .card-selected:not(.card-hero-fullscreen) {
             width: calc(100vw - 1.5rem);
             max-width: 360px;
           }
