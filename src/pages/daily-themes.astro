@@ -1,0 +1,211 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ThemesExplorer from '../components/generative-ui/ThemesExplorer.tsx';
+import dailyThemes from '../data/daily-themes.json';
+
+const pageDescription =
+  'Explore AI-generated daily themes for davidhoang.com — color palettes, typography, and layouts rendered with json-render.';
+---
+
+<MainLayout title="Daily Themes" description={pageDescription}>
+  <PageHeader
+    title="Daily Themes"
+    variant="text-only"
+    subtitle="AI-generated themes rendered with json-render"
+  />
+  <ThemesExplorer client:load themes={dailyThemes.themes} />
+</MainLayout>
+
+<style>
+  .themes-explorer {
+    max-width: var(--container-max-width, 1100px);
+    margin: 0 auto;
+    padding: 0 var(--content-padding, 1.5rem) 3rem;
+  }
+
+  .themes-explorer__query {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .themes-explorer__input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    background: var(--color-card-bg, var(--color-sidebar-bg));
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .themes-explorer__input:focus {
+    border-color: var(--color-link);
+  }
+
+  .themes-explorer__input::placeholder {
+    color: var(--color-muted);
+  }
+
+  .themes-explorer__submit {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: var(--font-body);
+    background: var(--color-link);
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-md, 8px);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .themes-explorer__submit:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  .themes-explorer__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .themes-explorer__error {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: #c53030;
+    background: #fff5f5;
+    border: 1px solid #fc8181;
+    border-radius: var(--radius-md, 8px);
+  }
+
+  [data-theme="dark"] .themes-explorer__error {
+    color: #feb2b2;
+    background: #1a0000;
+    border-color: #742a2a;
+  }
+
+  .themes-explorer__ai-result {
+    margin-bottom: 2rem;
+    border: 1px solid var(--color-link);
+    border-radius: var(--radius-md, 8px);
+    padding: 1rem;
+    background: var(--color-card-bg, var(--color-sidebar-bg));
+  }
+
+  .themes-explorer__ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .themes-explorer__ai-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-link);
+  }
+
+  .themes-explorer__ai-dismiss {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    font-family: var(--font-body);
+  }
+
+  .themes-explorer__ai-dismiss:hover {
+    color: var(--color-text);
+  }
+
+  .themes-explorer__filters {
+    display: flex;
+    gap: 0.35rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .themes-explorer__filter {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border-radius: var(--radius-lg, 999px);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .themes-explorer__filter:hover {
+    border-color: var(--color-link);
+  }
+
+  .themes-explorer__filter.active {
+    background: var(--color-link);
+    color: var(--color-bg);
+    border-color: var(--color-link);
+  }
+
+  .themes-explorer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .themes-explorer__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .theme-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    padding: 0 0.25rem;
+  }
+
+  .theme-meta-dot {
+    opacity: 0.5;
+  }
+
+  .themes-explorer__empty {
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    padding: 2rem 0;
+  }
+
+  .themes-explorer__footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin-top: 2.5rem;
+  }
+
+  .themes-explorer__footer a {
+    color: var(--color-link);
+  }
+
+  @media (max-width: 640px) {
+    .themes-explorer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .themes-explorer__query {
+      flex-direction: column;
+    }
+  }
+</style>
