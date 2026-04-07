@@ -102,78 +102,31 @@
       },
       "date": "2026-04-06",
       "showcase": {
-        "root": "r1",
+        "root": "tc",
         "elements": {
-          "r1": {
+          "tc": {
             "type": "ThemeCard",
             "props": {
               "title": "Marrakech Tiles",
               "subtitle": "Warm terracotta meets geometric patterns"
             },
             "children": [
-              "s1"
+              "s1",
+              "d1",
+              "s2"
             ]
           },
           "s1": {
             "type": "Stack",
             "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "p1",
-              "d1",
-              "s3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Morning Light Patterns",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
               "direction": "horizontal",
-              "gap": "sm",
+              "gap": "md",
               "align": "center"
             },
             "children": [
-              "b1",
-              "b2",
-              "b3"
+              "p1",
+              "s3"
             ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "balanced",
-              "variant": "outlined"
-            },
-            "children": []
           },
           "p1": {
             "type": "ColorPalette",
@@ -203,37 +156,75 @@
             },
             "children": []
           },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
           "s3": {
             "type": "Stack",
             "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
             },
             "children": [
-              "t1",
-              "l1"
+              "b1",
+              "b2",
+              "lp"
             ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "t1"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Desert Sunrise",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
           },
           "t1": {
             "type": "TypeSample",
             "props": {
-              "text": "Geometric warmth in terracotta hues",
+              "text": "Ancient patterns dance across sun-warmed surfaces",
               "variant": "body"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
             },
             "children": []
           }
@@ -347,13 +338,13 @@
       },
       "date": "2026-04-05",
       "showcase": {
-        "root": "c1",
+        "root": "tc",
         "elements": {
-          "c1": {
+          "tc": {
             "type": "ThemeCard",
             "props": {
               "title": "Midnight Circuit",
-              "subtitle": "analog warmth meets digital glow"
+              "subtitle": "Neon bleeding into shadow"
             },
             "children": [
               "s1"
@@ -367,40 +358,23 @@
               "align": "stretch"
             },
             "children": [
-              "s2",
+              "br",
+              "p1",
               "d1",
-              "s3"
+              "s2"
             ]
           },
-          "s2": {
+          "br": {
             "type": "Stack",
             "props": {
               "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "lp",
-              "s4"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
               "gap": "sm",
               "align": "start"
             },
             "children": [
               "b1",
-              "b2"
+              "b2",
+              "b3"
             ]
           },
           "b1": {
@@ -419,6 +393,46 @@
             },
             "children": []
           },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "asymmetric",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9117D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#FF6B35",
+                  "label": "accent"
+                },
+                {
+                  "hex": "#1A1A2E",
+                  "label": "text"
+                },
+                {
+                  "hex": "#6B6B8A",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#E0D9FF",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F8F6FF",
+                  "label": "bg"
+                }
+              ]
+            },
+            "children": []
+          },
           "d1": {
             "type": "Divider",
             "props": {
@@ -426,52 +440,31 @@
             },
             "children": []
           },
-          "s3": {
+          "s2": {
             "type": "Stack",
             "props": {
-              "direction": "vertical",
+              "direction": "horizontal",
               "gap": "lg",
-              "align": "stretch"
+              "align": "center"
             },
             "children": [
               "t1",
-              "cp"
+              "lp"
             ]
           },
           "t1": {
             "type": "TypeSample",
             "props": {
-              "text": "NEON BLEEDING INTO SHADOW",
+              "text": "Digital Glow",
               "variant": "heading",
               "weight": "bold"
             },
             "children": []
           },
-          "cp": {
-            "type": "ColorPalette",
+          "lp": {
+            "type": "LayoutPreview",
             "props": {
-              "colors": [
-                {
-                  "hex": "#D9117D",
-                  "label": "neon"
-                },
-                {
-                  "hex": "#FF6B35",
-                  "label": "glow"
-                },
-                {
-                  "hex": "#1A1A2E",
-                  "label": "shadow"
-                },
-                {
-                  "hex": "#6B6B8A",
-                  "label": "rain"
-                },
-                {
-                  "hex": "#E0D9FF",
-                  "label": "mist"
-                }
-              ]
+              "style": "asymmetric"
             },
             "children": []
           }
@@ -587,7 +580,7 @@
             "type": "ThemeCard",
             "props": {
               "title": "Velvet Thunder",
-              "subtitle": "Luxurious editorial statement"
+              "subtitle": "Rich burgundy depths with electric copper"
             },
             "children": [
               "s1",
@@ -600,42 +593,17 @@
             "props": {
               "direction": "horizontal",
               "gap": "md",
-              "align": "start"
+              "align": "center"
             },
             "children": [
-              "p1",
+              "lp",
               "s3"
             ]
           },
-          "p1": {
-            "type": "ColorPalette",
+          "lp": {
+            "type": "LayoutPreview",
             "props": {
-              "colors": [
-                {
-                  "hex": "#2D1B2E",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#B3591A",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#FF7F50",
-                  "label": "Accent"
-                },
-                {
-                  "hex": "#8B7355",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#E8D5C4",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#FDF8F5",
-                  "label": "Background"
-                }
-              ]
+              "style": "magazine"
             },
             "children": []
           },
@@ -644,18 +612,17 @@
             "props": {
               "direction": "vertical",
               "gap": "sm",
-              "align": "end"
+              "align": "start"
             },
             "children": [
               "b1",
-              "b2",
-              "lp"
+              "b2"
             ]
           },
           "b1": {
             "type": "Badge",
             "props": {
-              "text": "Serif Editorial",
+              "text": "Editorial",
               "variant": "filled"
             },
             "children": []
@@ -663,15 +630,8 @@
           "b2": {
             "type": "Badge",
             "props": {
-              "text": "Magazine",
+              "text": "Serif",
               "variant": "outlined"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
             },
             "children": []
           },
@@ -686,28 +646,52 @@
             "type": "Stack",
             "props": {
               "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
+              "gap": "md",
+              "align": "stretch"
             },
             "children": [
-              "t1",
-              "t2"
+              "ts",
+              "cp"
             ]
           },
-          "t1": {
+          "ts": {
             "type": "TypeSample",
             "props": {
-              "text": "Sophisticated Depths",
+              "text": "Burgundy Elegance",
               "variant": "heading",
               "weight": "bold"
             },
             "children": []
           },
-          "t2": {
-            "type": "TypeSample",
+          "cp": {
+            "type": "ColorPalette",
             "props": {
-              "text": "Rich burgundy meets electric copper in elegant harmony",
-              "variant": "body"
+              "colors": [
+                {
+                  "hex": "#2D1B2E",
+                  "label": "Deep Burgundy"
+                },
+                {
+                  "hex": "#B3591A",
+                  "label": "Copper Link"
+                },
+                {
+                  "hex": "#FF7F50",
+                  "label": "Electric Coral"
+                },
+                {
+                  "hex": "#8B7355",
+                  "label": "Muted Bronze"
+                },
+                {
+                  "hex": "#E8D5C4",
+                  "label": "Warm Border"
+                },
+                {
+                  "hex": "#FDF8F5",
+                  "label": "Cream Base"
+                }
+              ]
             },
             "children": []
           }
@@ -821,13 +805,13 @@
       },
       "date": "2026-04-03",
       "showcase": {
-        "root": "r1",
+        "root": "c1",
         "elements": {
-          "r1": {
+          "c1": {
             "type": "ThemeCard",
             "props": {
               "title": "Shibuya Reflection",
-              "subtitle": "Electric contrasts in wet asphalt tones"
+              "subtitle": "Electric contrasts in midnight rain"
             },
             "children": [
               "s1"
@@ -841,20 +825,11 @@
               "align": "stretch"
             },
             "children": [
-              "h1",
               "s2",
+              "d1",
               "p1",
               "s3"
             ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Neon Dreams",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
           },
           "s2": {
             "type": "Stack",
@@ -866,13 +841,13 @@
             "children": [
               "b1",
               "b2",
-              "l1"
+              "b3"
             ]
           },
           "b1": {
             "type": "Badge",
             "props": {
-              "text": "display",
+              "text": "glass",
               "variant": "outlined"
             },
             "children": []
@@ -880,15 +855,23 @@
           "b2": {
             "type": "Badge",
             "props": {
-              "text": "glass",
+              "text": "display",
               "variant": "filled"
             },
             "children": []
           },
-          "l1": {
-            "type": "LayoutPreview",
+          "b3": {
+            "type": "Badge",
             "props": {
-              "style": "asymmetric"
+              "text": "neon",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
             },
             "children": []
           },
@@ -898,23 +881,23 @@
               "colors": [
                 {
                   "hex": "#D91778",
-                  "label": "link"
+                  "label": "electric"
                 },
                 {
                   "hex": "#6B46C1",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#D1C4E9",
-                  "label": "border"
+                  "label": "neon"
                 },
                 {
                   "hex": "#1A0F2E",
-                  "label": "text"
+                  "label": "midnight"
+                },
+                {
+                  "hex": "#D1C4E9",
+                  "label": "mist"
                 },
                 {
                   "hex": "#F8F6FA",
-                  "label": "bg"
+                  "label": "reflection"
                 }
               ]
             },
@@ -929,22 +912,31 @@
             },
             "children": [
               "t1",
-              "t2"
+              "t2",
+              "l1"
             ]
           },
           "t1": {
             "type": "TypeSample",
             "props": {
-              "text": "Midnight rain on electric streets",
-              "variant": "body"
+              "text": "Neon Dreams",
+              "variant": "heading",
+              "weight": "bold"
             },
             "children": []
           },
           "t2": {
             "type": "TypeSample",
             "props": {
-              "text": "Inter • animated underlines",
-              "variant": "caption"
+              "text": "Wet asphalt reflects the city lights",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
             },
             "children": []
           }
@@ -1058,103 +1050,55 @@
       },
       "date": "2026-04-02",
       "showcase": {
-        "root": "c1",
+        "root": "tc",
         "elements": {
-          "c1": {
+          "tc": {
             "type": "ThemeCard",
             "props": {
               "title": "Pixel Monsoon",
-              "subtitle": "Rain-slicked Tokyo streets where katakana neon bleeds into midnight fog"
+              "subtitle": "Rain-slicked Tokyo streets"
             },
             "children": [
-              "s1"
+              "s1",
+              "d1",
+              "s2"
             ]
           },
           "s1": {
             "type": "Stack",
             "props": {
-              "direction": "vertical",
+              "direction": "horizontal",
               "gap": "md",
-              "align": "stretch"
+              "align": "start"
             },
             "children": [
-              "s2",
-              "d1",
               "p1",
               "s3"
             ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "animated-underline",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
           },
           "p1": {
             "type": "ColorPalette",
             "props": {
               "colors": [
                 {
+                  "hex": "#1A1A2E",
+                  "label": "Text"
+                },
+                {
                   "hex": "#D9117D",
-                  "label": "neon"
+                  "label": "Link"
                 },
                 {
                   "hex": "#00BFFF",
-                  "label": "cyber"
+                  "label": "Hover"
                 },
                 {
                   "hex": "#8E44AD",
-                  "label": "muted"
+                  "label": "Muted"
                 },
                 {
                   "hex": "#FF1493",
-                  "label": "nav"
-                },
-                {
-                  "hex": "#E8DAEF",
-                  "label": "border"
-                },
-                {
-                  "hex": "#F8F6FF",
-                  "label": "bg"
+                  "label": "Nav"
                 }
               ]
             },
@@ -1165,18 +1109,60 @@
             "props": {
               "direction": "vertical",
               "gap": "sm",
-              "align": "start"
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
             },
             "children": [
               "t1",
-              "t2",
-              "l1"
+              "t2"
             ]
           },
           "t1": {
             "type": "TypeSample",
             "props": {
-              "text": "ネオン雨",
+              "text": "カタカナ NEON",
               "variant": "heading",
               "weight": "bold"
             },
@@ -1185,15 +1171,8 @@
           "t2": {
             "type": "TypeSample",
             "props": {
-              "text": "Digital dreams cascade through glass reflections",
+              "text": "Midnight fog bleeds through animated glass",
               "variant": "body"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
             },
             "children": []
           }
@@ -1323,20 +1302,32 @@
               "align": "stretch"
             },
             "children": [
-              "t1",
-              "p1",
+              "h1",
               "s2",
-              "l1"
+              "d1",
+              "s3"
             ]
           },
-          "t1": {
+          "h1": {
             "type": "TypeSample",
             "props": {
-              "text": "MORNING LIGHT",
+              "text": "FIRST LIGHT",
               "variant": "heading",
               "weight": "bold"
             },
             "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "p1",
+              "s4"
+            ]
           },
           "p1": {
             "type": "ColorPalette",
@@ -1347,26 +1338,61 @@
                   "label": "bg"
                 },
                 {
-                  "hex": "#FDFCFA",
-                  "label": "card"
+                  "hex": "#2C2520",
+                  "label": "text"
                 },
                 {
                   "hex": "#945E07",
                   "label": "link"
                 },
                 {
-                  "hex": "#2C2520",
-                  "label": "text"
-                },
-                {
                   "hex": "#E6DDD4",
                   "label": "border"
+                },
+                {
+                  "hex": "#7A6F62",
+                  "label": "muted"
                 }
               ]
             },
             "children": []
           },
-          "s2": {
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
             "type": "Stack",
             "props": {
               "direction": "horizontal",
@@ -1374,22 +1400,22 @@
               "align": "center"
             },
             "children": [
-              "l1",
-              "b1"
+              "t1",
+              "l1"
             ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Architectural precision meets morning warmth",
+              "variant": "body"
+            },
+            "children": []
           },
           "l1": {
             "type": "LayoutPreview",
             "props": {
               "style": "asymmetric"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
             },
             "children": []
           }
@@ -1512,22 +1538,50 @@
               "subtitle": "Electric Tokyo nights"
             },
             "children": [
-              "s1",
-              "d1",
-              "s2"
+              "s1"
             ]
           },
           "s1": {
             "type": "Stack",
             "props": {
-              "direction": "horizontal",
+              "direction": "vertical",
               "gap": "md",
               "align": "stretch"
             },
             "children": [
+              "s2",
               "p1",
               "s3"
             ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "t1",
+              "b1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Electric Pulse",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "outlined"
+            },
+            "children": []
           },
           "p1": {
             "type": "ColorPalette",
@@ -1535,23 +1589,23 @@
               "colors": [
                 {
                   "hex": "#D9006D",
-                  "label": "link"
+                  "label": "neon"
                 },
                 {
                   "hex": "#00d4ff",
-                  "label": "hover"
+                  "label": "electric"
                 },
                 {
                   "hex": "#1a1a2e",
-                  "label": "text"
+                  "label": "night"
                 },
                 {
                   "hex": "#8b87a3",
-                  "label": "muted"
+                  "label": "mist"
                 },
                 {
                   "hex": "#f8f6ff",
-                  "label": "bg"
+                  "label": "glow"
                 }
               ]
             },
@@ -1560,31 +1614,14 @@
           "s3": {
             "type": "Stack",
             "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
             },
             "children": [
-              "b1",
-              "b2",
-              "l1"
+              "l1",
+              "s4"
             ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
           },
           "l1": {
             "type": "LayoutPreview",
@@ -1593,14 +1630,7 @@
             },
             "children": []
           },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
+          "s4": {
             "type": "Stack",
             "props": {
               "direction": "vertical",
@@ -1608,24 +1638,23 @@
               "align": "start"
             },
             "children": [
-              "t1",
-              "t2"
+              "t2",
+              "b2"
             ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rain-slicked Streets",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
           },
           "t2": {
             "type": "TypeSample",
             "props": {
-              "text": "Neon bleeds into the night",
+              "text": "Rain-slicked streets shimmer with digital dreams",
               "variant": "body"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Syne",
+              "variant": "filled"
             },
             "children": []
           }
