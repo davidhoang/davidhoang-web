@@ -1,6 +1,253 @@
 {
   "themes": [
     {
+      "name": "Voltage Gallery",
+      "description": "Stark gallery walls electrified with cyberpunk neon accents and sharp digital typography",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F9FB",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#E0E4E7",
+          "--color-muted": "#6B7280",
+          "--color-sidebar-bg": "#F3F4F6",
+          "--color-nav-bg": "#ffffff",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FDFDFE"
+        },
+        "dark": {
+          "--color-text": "#F0F2F5",
+          "--color-bg": "#0F1419",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#2D3748",
+          "--color-muted": "#A0AEC0",
+          "--color-sidebar-bg": "#1A202C",
+          "--color-nav-bg": "#0D1117",
+          "--color-nav-text": "#F0F2F5",
+          "--color-card-bg": "#161B22"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.04em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 95"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-04-07",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Voltage Gallery",
+              "subtitle": "Cyberpunk neon meets stark digital minimalism"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "lp",
+              "s3"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "br"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "[VOLTAGE]",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "t1"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A1A2E",
+                  "label": "text"
+                },
+                {
+                  "hex": "#D9006D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00D4FF",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#F8F9FB",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#E0E4E7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#6B7280",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Digital exhibitions powered by neon energy",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Marrakech Tiles",
       "description": "Warm terracotta meets geometric patterns in morning light.",
       "colors": {
@@ -1421,246 +1668,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Neon Rain",
-      "description": "Electric Tokyo nights where hot pink neon bleeds into rain-slicked streets",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1a1a2e",
-          "--color-bg": "#f8f6ff",
-          "--color-link": "#D9006D",
-          "--color-link-hover": "#00d4ff",
-          "--color-border": "#e0ddf0",
-          "--color-muted": "#8b87a3",
-          "--color-sidebar-bg": "#f0eef8",
-          "--color-nav-bg": "#faf9ff",
-          "--color-nav-text": "#1a1a2e",
-          "--color-card-bg": "#fbfaff"
-        },
-        "dark": {
-          "--color-text": "#e8e6f0",
-          "--color-bg": "#16213e",
-          "--color-link": "#FF3198",
-          "--color-link-hover": "#00d4ff",
-          "--color-border": "#2a3658",
-          "--color-muted": "#7a8ba8",
-          "--color-sidebar-bg": "#1a2544",
-          "--color-nav-bg": "#14203a",
-          "--color-nav-text": "#e8e6f0",
-          "--color-card-bg": "#192242"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 85"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(255, 0, 128, 0.08)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "mesh-gradient",
-        "colors": [
-          "#ff0080",
-          "#00d4ff",
-          "#16213e"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-03-31",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Neon Rain",
-              "subtitle": "Electric Tokyo nights"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "p1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "t1",
-              "b1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Electric Pulse",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#D9006D",
-                  "label": "neon"
-                },
-                {
-                  "hex": "#00d4ff",
-                  "label": "electric"
-                },
-                {
-                  "hex": "#1a1a2e",
-                  "label": "night"
-                },
-                {
-                  "hex": "#8b87a3",
-                  "label": "mist"
-                },
-                {
-                  "hex": "#f8f6ff",
-                  "label": "glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "l1",
-              "s4"
-            ]
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t2",
-              "b2"
-            ]
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rain-slicked streets shimmer with digital dreams",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Syne",
-              "variant": "filled"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-06"
+  "currentDate": "2026-04-07"
 }
