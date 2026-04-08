@@ -1,6 +1,238 @@
 {
   "themes": [
     {
+      "name": "Copper Gallery",
+      "description": "Warm desert mornings meet industrial elegance in a sophisticated copper-toned sanctuary",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#C5303C",
+          "--color-link-hover": "#C62D3A",
+          "--color-border": "#E6C2A6",
+          "--color-muted": "#8B7355",
+          "--color-sidebar-bg": "#FCF0E5",
+          "--color-nav-bg": "rgba(253, 242, 233, 0.95)",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FBEEE3"
+        },
+        "dark": {
+          "--color-text": "#F4E6D7",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8A5B",
+          "--color-border": "#3D2A1F",
+          "--color-muted": "#9B8471",
+          "--color-sidebar-bg": "#1F1208",
+          "--color-nav-bg": "rgba(26, 15, 10, 0.95)",
+          "--color-nav-text": "#F4E6D7",
+          "--color-card-bg": "#1F130B"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "DM Serif Display",
+          "url": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400&display=swap",
+          "category": "serif",
+          "stack": "'DM Serif Display', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(44, 24, 16, 0.12)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "DM Serif Display",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400&display=swap",
+        "category": "serif",
+        "stack": "'DM Serif Display', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-04-08",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Copper Gallery",
+              "subtitle": "Warm desert mornings meet industrial elegance"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#C5303C",
+                  "label": "link"
+                },
+                {
+                  "hex": "#E6C2A6",
+                  "label": "border"
+                },
+                {
+                  "hex": "#8B7355",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#2C1810",
+                  "label": "text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Industrial Sanctuary",
+              "variant": "heading",
+              "weight": "regular"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "t2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Copper warmth & precision",
+              "variant": "caption"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Voltage Gallery",
       "description": "Stark gallery walls electrified with cyberpunk neon accents and sharp digital typography",
       "colors": {
@@ -1425,250 +1657,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Dawn Shaft",
-      "description": "Precise beams of morning light cutting through raw architectural volumes",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2520",
-          "--color-bg": "#F8F5F0",
-          "--color-link": "#945E07",
-          "--color-link-hover": "#B8711D",
-          "--color-border": "#E6DDD4",
-          "--color-muted": "#7A6F62",
-          "--color-sidebar-bg": "#F4F1EC",
-          "--color-nav-bg": "#F8F5F0",
-          "--color-nav-text": "#2C2520",
-          "--color-card-bg": "#FDFCFA"
-        },
-        "dark": {
-          "--color-text": "#F0EAE2",
-          "--color-bg": "#1A1714",
-          "--color-link": "#FFB84D",
-          "--color-link-hover": "#FFC970",
-          "--color-border": "#3A342D",
-          "--color-muted": "#968A7D",
-          "--color-sidebar-bg": "#211E1A",
-          "--color-nav-bg": "#1A1714",
-          "--color-nav-text": "#F0EAE2",
-          "--color-card-bg": "#201D19"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "General Sans",
-          "url": "https://fonts.googleapis.com/css2?family=General+Sans:wght@300..700&display=swap",
-          "category": "sans-serif",
-          "stack": "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "General Sans",
-        "url": "https://fonts.googleapis.com/css2?family=General+Sans:wght@300..700&display=swap",
-        "category": "sans-serif",
-        "stack": "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-04-01",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Dawn Shaft",
-              "subtitle": "Precise beams cutting through raw volumes"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "FIRST LIGHT",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "p1",
-              "s4"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F8F5F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#2C2520",
-                  "label": "text"
-                },
-                {
-                  "hex": "#945E07",
-                  "label": "link"
-                },
-                {
-                  "hex": "#E6DDD4",
-                  "label": "border"
-                },
-                {
-                  "hex": "#7A6F62",
-                  "label": "muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Architectural precision meets morning warmth",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-07"
+  "currentDate": "2026-04-08"
 }
