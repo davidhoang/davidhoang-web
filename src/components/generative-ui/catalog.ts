@@ -70,6 +70,31 @@ export const themeCatalog = defineCatalog(schema, {
       slots: [],
       description: 'A horizontal visual separator.',
     },
+    TimelineEntry: {
+      props: z.object({
+        year: z.string().describe('Year or date range, e.g. "2019" or "2019-2023"'),
+        title: z.string().describe('Event or role title'),
+        description: z.string().optional().describe('Brief description of the event'),
+        type: z.enum(['career', 'inspiration', 'event', 'spark', 'possiblePath']).describe('Node type from career odyssey'),
+      }),
+      slots: [],
+      description: 'A timeline entry showing a career event, inspiration, or milestone. Color-coded by type.',
+    },
+    Heading: {
+      props: z.object({
+        text: z.string(),
+        level: z.enum(['h2', 'h3', 'h4']).default('h3'),
+      }),
+      slots: [],
+      description: 'A section heading. Use to introduce groups of timeline entries or narrative sections.',
+    },
+    Prose: {
+      props: z.object({
+        text: z.string().describe('Narrative text or commentary'),
+      }),
+      slots: [],
+      description: 'A paragraph of narrative text. Use for AI-generated commentary connecting career events.',
+    },
   },
   actions: {},
 });
