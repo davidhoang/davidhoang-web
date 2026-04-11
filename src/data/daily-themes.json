@@ -1,6 +1,238 @@
 {
   "themes": [
     {
+      "name": "Concrete Poetry",
+      "description": "Raw brutalist structure meets warm morning light through geometric apertures",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2D2D2D",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#C0BDB8",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#F5F3F0",
+          "--color-nav-text": "#2D2D2D",
+          "--color-card-bg": "#FAFAF9"
+        },
+        "dark": {
+          "--color-text": "#E8E6E3",
+          "--color-bg": "#1C1B19",
+          "--color-link": "#F4D03F",
+          "--color-link-hover": "#F7DC6F",
+          "--color-border": "#3C3A37",
+          "--color-muted": "#7A7772",
+          "--color-sidebar-bg": "#211F1D",
+          "--color-nav-bg": "#1C1B19",
+          "--color-nav-text": "#E8E6E3",
+          "--color-card-bg": "#252320"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Anton",
+          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Anton",
+        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-11",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Poetry",
+              "subtitle": "Brutalist structure meets morning light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "lp",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "ts",
+              "cp"
+            ]
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "APERTURES",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F3F0",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "link"
+                },
+                {
+                  "hex": "#C0BDB8",
+                  "label": "border"
+                },
+                {
+                  "hex": "#8B8680",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#FAFAF9",
+                  "label": "card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Church of Light",
       "description": "Raw concrete meets ethereal daylight in minimal spiritual architecture",
       "colors": {
@@ -1399,234 +1631,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Rich burgundy depths meet electric copper accents in a luxurious editorial statement",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D1B2E",
-          "--color-bg": "#FDF8F5",
-          "--color-link": "#B3591A",
-          "--color-link-hover": "#FF7F50",
-          "--color-border": "#E8D5C4",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#FAF5F0",
-          "--color-nav-bg": "#FDF8F5",
-          "--color-nav-text": "#2D1B2E",
-          "--color-card-bg": "#FEFBF8"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#2D1B2E",
-          "--color-link": "#FF8C42",
-          "--color-link-hover": "#FFB366",
-          "--color-border": "#4A3A4B",
-          "--color-muted": "#A68B5B",
-          "--color-sidebar-bg": "#342040",
-          "--color-nav-bg": "#2D1B2E",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#342040"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 700, 'opsz' 72"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 12px 24px rgba(0,0,0,0.15)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-04-04",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Thunder",
-              "subtitle": "Rich burgundy depths with electric copper"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "lp",
-              "s3"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "ts",
-              "cp"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Burgundy Elegance",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2D1B2E",
-                  "label": "Deep Burgundy"
-                },
-                {
-                  "hex": "#B3591A",
-                  "label": "Copper Link"
-                },
-                {
-                  "hex": "#FF7F50",
-                  "label": "Electric Coral"
-                },
-                {
-                  "hex": "#8B7355",
-                  "label": "Muted Bronze"
-                },
-                {
-                  "hex": "#E8D5C4",
-                  "label": "Warm Border"
-                },
-                {
-                  "hex": "#FDF8F5",
-                  "label": "Cream Base"
-                }
-              ]
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-10"
+  "currentDate": "2026-04-11"
 }
