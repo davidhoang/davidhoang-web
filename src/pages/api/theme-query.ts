@@ -135,6 +135,7 @@ Texture: ${t.texture}`).join('\n\n')}
 
 Based on the user's query, compose a json-render spec that presents the relevant themes in an interesting, editorial layout. If the query is general, include all themes. If specific, filter to the most relevant ones. Make it visually compelling.`;
 
+    // Stream from Anthropic API
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -145,6 +146,7 @@ Based on the user's query, compose a json-render spec that presents the relevant
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 4096,
+        stream: true,
         system: CATALOG_PROMPT,
         messages: [{ role: 'user', content: userPrompt }],
       }),
@@ -158,42 +160,46 @@ Based on the user's query, compose a json-render spec that presents the relevant
       );
     }
 
-    const data = await response.json();
-    const responseText = data.content?.[0]?.text?.trim();
+    // Pipe the SSE stream, extracting text deltas and forwarding as raw text
+    const reader = response.body!.getReader();
+    const decoder = new TextDecoder();
 
-    if (!responseText) {
-      return new Response(
-        JSON.stringify({ error: 'Empty response from Claude' }),
-        { status: 502, headers: { 'Content-Type': 'application/json' } },
-      );
-    }
+    const stream = new ReadableStream({
+      async pull(controller) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            controller.close();
+            return;
+          }
 
-    // Parse the spec from the response
-    const jsonMatch =
-      responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/) ||
-      responseText.match(/(\{[\s\S]*\})/);
-    let jsonStr = jsonMatch ? jsonMatch[1] : responseText;
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
 
-    // Clean common LLM JSON issues
-    jsonStr = jsonStr
-      .replace(/,\s*([}\]])/g, '$1')
-      .replace(/\/\/[^\n]*/g, '');
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const data = line.slice(6);
+            if (data === '[DONE]') continue;
 
-    const spec = JSON.parse(jsonStr);
+            try {
+              const event = JSON.parse(data);
+              if (event.type === 'content_block_delta' && event.delta?.text) {
+                controller.enqueue(new TextEncoder().encode(event.delta.text));
+              }
+            } catch {
+              // skip unparseable lines
+            }
+          }
+        }
+      },
+    });
 
-    if (!spec.root || !spec.elements || !spec.elements[spec.root]) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid spec: missing root or elements' }),
-        { status: 502, headers: { 'Content-Type': 'application/json' } },
-      );
-    }
-
-    // Stream the spec back as JSON
-    return new Response(JSON.stringify(spec), {
+    return new Response(stream, {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-cache',
+        'Transfer-Encoding': 'chunked',
       },
     });
   } catch (error: any) {

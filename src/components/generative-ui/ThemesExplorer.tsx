@@ -58,6 +58,42 @@ function matchesFilter(theme: ThemeData, filter: FilterKey): boolean {
   return true;
 }
 
+/** Apply a theme site-wide by triggering the DailyThemeToggle calendar button. */
+function applyThemeSiteWide(date: string) {
+  // Find the calendar button with this date and click it
+  const btn = document.querySelector(`[data-date="${date}"]`) as HTMLElement | null;
+  if (btn) {
+    btn.click();
+    return;
+  }
+  // Fallback: set localStorage directly and dispatch event
+  localStorage.setItem('daily-theme-mode', 'true');
+  localStorage.setItem('daily-theme-date', date);
+  localStorage.setItem('e-ink-mode', 'false');
+  window.dispatchEvent(new CustomEvent('theme-selected', { detail: { date } }));
+  // Reload to apply
+  window.location.reload();
+}
+
+/** Try to parse a partial JSON spec, returning null if not yet valid. */
+function tryParseSpec(buffer: string): Spec | null {
+  try {
+    // Clean common LLM artifacts
+    let cleaned = buffer
+      .replace(/```(?:json)?\s*/g, '')
+      .replace(/```\s*$/g, '')
+      .replace(/,\s*([}\]])/g, '$1')
+      .replace(/\/\/[^\n]*/g, '');
+    const parsed = JSON.parse(cleaned);
+    if (parsed.root && parsed.elements && parsed.elements[parsed.root]) {
+      return parsed;
+    }
+  } catch {
+    // Not valid yet
+  }
+  return null;
+}
+
 function ThemeSpecRenderer({ spec }: { spec: Spec }) {
   return (
     <StateProvider initialState={{}}>
@@ -70,7 +106,16 @@ function ThemeSpecRenderer({ spec }: { spec: Spec }) {
   );
 }
 
-function ThemeMetaRow({ theme }: { theme: ThemeData }) {
+function ThemeMetaRow({
+  theme,
+  activeDate,
+  onApply,
+}: {
+  theme: ThemeData;
+  activeDate: string | null;
+  onApply: (date: string) => void;
+}) {
+  const isActive = activeDate === theme.date;
   return (
     <div className="theme-meta-row">
       <span className="theme-meta-date">{theme.date}</span>
@@ -78,6 +123,13 @@ function ThemeMetaRow({ theme }: { theme: ThemeData }) {
       <span className="theme-meta-fonts">
         {theme.fonts.heading.name} + {theme.fonts.body.name}
       </span>
+      <button
+        className={`theme-apply-btn ${isActive ? 'active' : ''}`}
+        onClick={() => onApply(theme.date)}
+        title={isActive ? 'Currently active' : `Apply ${theme.name}`}
+      >
+        {isActive ? 'Active' : 'Apply'}
+      </button>
     </div>
   );
 }
@@ -88,10 +140,21 @@ export default function ThemesExplorer({ themes }: Props) {
   const [aiSpec, setAiSpec] = useState<Spec | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [activeDate, setActiveDate] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('daily-theme-date') || null;
+    }
+    return null;
+  });
   const abortRef = useRef<AbortController | null>(null);
 
   const themesWithShowcase = themes.filter((t) => t.showcase);
   const filtered = themesWithShowcase.filter((t) => matchesFilter(t, filter));
+
+  const handleApplyTheme = useCallback((date: string) => {
+    setActiveDate(date);
+    applyThemeSiteWide(date);
+  }, []);
 
   const handleAiQuery = useCallback(
     async (e: React.FormEvent) => {
@@ -131,27 +194,19 @@ export default function ThemesExplorer({ themes }: Props) {
           if (done) break;
           buffer += decoder.decode(value, { stream: true });
 
-          // Try to parse complete JSON from the buffer
-          try {
-            const parsed = JSON.parse(buffer);
-            if (parsed.root && parsed.elements) {
-              setAiSpec(parsed);
-            }
-          } catch {
-            // Not complete yet, keep accumulating
+          // Progressively try to parse and render
+          const spec = tryParseSpec(buffer);
+          if (spec) {
+            setAiSpec(spec);
           }
         }
 
         // Final parse
-        try {
-          const finalSpec = JSON.parse(buffer);
-          if (finalSpec.root && finalSpec.elements) {
-            setAiSpec(finalSpec);
-          }
-        } catch {
-          if (!aiSpec) {
-            throw new Error('Failed to parse AI response');
-          }
+        const finalSpec = tryParseSpec(buffer);
+        if (finalSpec) {
+          setAiSpec(finalSpec);
+        } else if (!aiSpec) {
+          throw new Error('Failed to parse AI response');
         }
       } catch (err: any) {
         if (err.name !== 'AbortError') {
@@ -191,18 +246,29 @@ export default function ThemesExplorer({ themes }: Props) {
           {aiError}
         </div>
       )}
-      {aiSpec && (
+      {(aiSpec || aiLoading) && (
         <div className="themes-explorer__ai-result">
           <div className="themes-explorer__ai-header">
-            <span className="themes-explorer__ai-label">AI-composed layout</span>
-            <button
-              className="themes-explorer__ai-dismiss"
-              onClick={() => setAiSpec(null)}
-            >
-              Dismiss
-            </button>
+            <span className="themes-explorer__ai-label">
+              {aiLoading ? 'Composing layout...' : 'AI-composed layout'}
+            </span>
+            {!aiLoading && (
+              <button
+                className="themes-explorer__ai-dismiss"
+                onClick={() => setAiSpec(null)}
+              >
+                Dismiss
+              </button>
+            )}
           </div>
-          <ThemeSpecRenderer spec={aiSpec} />
+          {aiSpec && <ThemeSpecRenderer spec={aiSpec} />}
+          {aiLoading && !aiSpec && (
+            <div className="themes-explorer__streaming-placeholder">
+              <div className="streaming-dot" />
+              <div className="streaming-dot" />
+              <div className="streaming-dot" />
+            </div>
+          )}
         </div>
       )}
 
@@ -224,7 +290,11 @@ export default function ThemesExplorer({ themes }: Props) {
         {filtered.map((theme) => (
           <div key={theme.date} className="themes-explorer__card">
             <ThemeSpecRenderer spec={theme.showcase!} />
-            <ThemeMetaRow theme={theme} />
+            <ThemeMetaRow
+              theme={theme}
+              activeDate={activeDate}
+              onApply={handleApplyTheme}
+            />
           </div>
         ))}
       </div>

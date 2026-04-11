@@ -248,5 +248,90 @@ export const { registry } = defineRegistry(themeCatalog, {
         }}
       />
     ),
+
+    TimelineEntry: ({ props }) => {
+      const typeColors: Record<string, string> = {
+        career: 'var(--color-link)',
+        inspiration: '#e67e22',
+        event: 'var(--color-muted)',
+        spark: '#9b59b6',
+        possiblePath: '#95a5a6',
+      };
+      const dotColor = typeColors[props.type] || 'var(--color-muted)';
+      return (
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+          <div style={{
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            background: dotColor,
+            marginTop: '0.35rem',
+            flexShrink: 0,
+          }} />
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <span style={{
+                fontSize: '0.7rem',
+                fontWeight: 600,
+                color: dotColor,
+                fontFamily: 'var(--font-body)',
+                letterSpacing: '0.02em',
+              }}>
+                {props.year}
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-heading)',
+                fontWeight: 'var(--heading-weight, 600)' as any,
+                fontSize: '0.95rem',
+                color: 'var(--color-text)',
+              }}>
+                {props.title}
+              </span>
+            </div>
+            {props.description && (
+              <p style={{
+                fontSize: '0.8rem',
+                color: 'var(--color-muted)',
+                margin: '0.2rem 0 0',
+                lineHeight: 1.5,
+                fontFamily: 'var(--font-body)',
+              }}>
+                {props.description}
+              </p>
+            )}
+          </div>
+        </div>
+      );
+    },
+
+    Heading: ({ props }) => {
+      const Tag = (props.level || 'h3') as keyof JSX.IntrinsicElements;
+      const sizes: Record<string, string> = { h2: '1.4rem', h3: '1.15rem', h4: '1rem' };
+      return (
+        <Tag style={{
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 'var(--heading-weight, 700)' as any,
+          fontSize: sizes[props.level || 'h3'],
+          letterSpacing: 'var(--heading-letter-spacing, -0.02em)',
+          color: 'var(--color-text)',
+          margin: 0,
+          lineHeight: 1.3,
+        }}>
+          {props.text}
+        </Tag>
+      );
+    },
+
+    Prose: ({ props }) => (
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: '0.9rem',
+        lineHeight: 'var(--body-line-height, 1.6)',
+        color: 'var(--color-text)',
+        margin: 0,
+      }}>
+        {props.text}
+      </p>
+    ),
   },
 });

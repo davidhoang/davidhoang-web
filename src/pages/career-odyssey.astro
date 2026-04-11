@@ -1,16 +1,27 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import CareerOdysseyWrapper from '../components/CareerOdysseyWrapper.tsx';
+import CareerNarrator from '../components/generative-ui/CareerNarrator.tsx';
 import careerData from '../data/career-odyssey.json';
 
-// Page metadata
 const pageDescription = "An interactive canvas exploring my 20-year career journey from art school to leading design teams at Atlassian, Replit, Webflow, and One Medical.";
 const ogImage = "/images/img-dh.webp";
 ---
 
 <MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true}>
-  {/* @ts-ignore - JSON import types don't match exactly */}
-  <CareerOdysseyWrapper client:load careerData={careerData} />
+  <div class="odyssey-view-toggle" id="odyssey-view-toggle">
+    <button class="odyssey-view-btn active" data-view="canvas">Canvas</button>
+    <button class="odyssey-view-btn" data-view="narrator">AI Narrator</button>
+  </div>
+
+  <div id="odyssey-canvas-view">
+    {/* @ts-ignore - JSON import types don't match exactly */}
+    <CareerOdysseyWrapper client:load careerData={careerData} />
+  </div>
+
+  <div id="odyssey-narrator-view" class="odyssey-narrator-view" style="display: none;">
+    <CareerNarrator client:load />
+  </div>
 </MainLayout>
 
 <style>
@@ -21,5 +32,235 @@ const ogImage = "/images/img-dh.webp";
     padding: 0;
     margin: 0;
   }
+
+  .odyssey-view-toggle {
+    position: fixed;
+    top: 80px;
+    right: 1.5rem;
+    z-index: 100;
+    display: flex;
+    gap: 2px;
+    background: var(--color-card-bg, var(--color-sidebar-bg));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    padding: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .odyssey-view-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    color: var(--color-muted);
+    border-radius: calc(var(--radius-md, 8px) - 2px);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .odyssey-view-btn:hover {
+    color: var(--color-text);
+  }
+
+  .odyssey-view-btn.active {
+    background: var(--color-link);
+    color: var(--color-bg);
+  }
+
+  .odyssey-narrator-view {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Career Narrator styles */
+  .career-narrator__query {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .career-narrator__input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    background: var(--color-card-bg, var(--color-sidebar-bg));
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .career-narrator__input:focus {
+    border-color: var(--color-link);
+  }
+
+  .career-narrator__input::placeholder {
+    color: var(--color-muted);
+  }
+
+  .career-narrator__submit {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: var(--font-body);
+    background: var(--color-link);
+    color: var(--color-bg);
+    border: none;
+    border-radius: var(--radius-md, 8px);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .career-narrator__submit:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  .career-narrator__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .career-narrator__suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+  }
+
+  .career-narrator__chip {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+    border: 1px solid var(--color-border);
+    background: var(--color-card-bg, var(--color-sidebar-bg));
+    color: var(--color-text);
+    border-radius: var(--radius-lg, 999px);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .career-narrator__chip:hover {
+    border-color: var(--color-link);
+    color: var(--color-link);
+  }
+
+  .career-narrator__error {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: #c53030;
+    background: #fff5f5;
+    border: 1px solid #fc8181;
+    border-radius: var(--radius-md, 8px);
+  }
+
+  [data-theme="dark"] .career-narrator__error {
+    color: #feb2b2;
+    background: #1a0000;
+    border-color: #742a2a;
+  }
+
+  .career-narrator__result {
+    margin-bottom: 1.5rem;
+  }
+
+  .career-narrator__loading {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+
+  .streaming-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-link);
+    opacity: 0.3;
+    animation: streaming-pulse 1.2s ease-in-out infinite;
+  }
+
+  .streaming-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .streaming-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes streaming-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  .career-narrator__actions {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .career-narrator__reset {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-muted);
+    border-radius: var(--radius-md, 8px);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .career-narrator__reset:hover {
+    border-color: var(--color-link);
+    color: var(--color-link);
+  }
+
+  @media (max-width: 640px) {
+    .odyssey-view-toggle {
+      top: auto;
+      bottom: 1rem;
+      right: 50%;
+      transform: translateX(50%);
+    }
+
+    .career-narrator__query {
+      flex-direction: column;
+    }
+  }
 </style>
 
+<script>
+  function initViewToggle() {
+    const toggle = document.getElementById('odyssey-view-toggle');
+    const canvasView = document.getElementById('odyssey-canvas-view');
+    const narratorView = document.getElementById('odyssey-narrator-view');
+
+    if (!toggle || !canvasView || !narratorView) return;
+
+    toggle.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.odyssey-view-btn');
+      if (!btn) return;
+
+      const view = btn.getAttribute('data-view');
+      toggle.querySelectorAll('.odyssey-view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (view === 'narrator') {
+        canvasView.style.display = 'none';
+        narratorView.style.display = 'block';
+      } else {
+        canvasView.style.display = '';
+        narratorView.style.display = 'none';
+      }
+    });
+  }
+
+  initViewToggle();
+  document.addEventListener('astro:page-load', initViewToggle);
+</script>
