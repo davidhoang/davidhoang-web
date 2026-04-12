@@ -1,192 +1,170 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { CareerOdysseyData, PositionedNode, Connection } from './types';
-import { calculateLayout, buildConnections, getCanvasBounds, getYearRange } from './layout';
+import { calculateLayout, buildConnections, getCanvasBounds, getYearRange, getYear } from './layout';
 import { CareerNode } from './CareerNode';
 import { ConnectionLine } from './ConnectionLine';
 import { NodeDetailModal } from './NodeDetailModal';
-
-// ─── Pan / Zoom state ─────────────────────────────────────────────────────────
-
-interface Transform {
-  x: number;
-  y: number;
-  scale: number;
-}
-
-const MIN_SCALE = 0.2;
-const MAX_SCALE = 2.5;
-const ZOOM_STEP = 0.15;
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 interface Props {
   careerData: CareerOdysseyData;
 }
 
 const CareerCanvas: React.FC<Props> = ({ careerData }) => {
-  // ── Layout (computed once) ──────────────────────────────────────────────────
+  // ── Layout ─────────────────────────────────────────────────────────────────
+  const [nodePositions, setNodePositions] = useState<PositionedNode[]>([]);
+  const baseNodes = useMemo(() => calculateLayout(careerData.nodes), [careerData]);
 
-  const nodes = useMemo(() => calculateLayout(careerData.nodes), [careerData]);
+  // Initialize positions from layout
+  useEffect(() => {
+    setNodePositions(baseNodes);
+  }, [baseNodes]);
+
   const nodeMap = useMemo(() => {
     const m = new Map<string, PositionedNode>();
-    for (const n of nodes) m.set(n.id, n);
+    for (const n of nodePositions) m.set(n.id, n);
     return m;
-  }, [nodes]);
+  }, [nodePositions]);
+
   const connections = useMemo(() => buildConnections(careerData.nodes), [careerData]);
-  const bounds = useMemo(() => getCanvasBounds(nodes), [nodes]);
+  const bounds = useMemo(() => getCanvasBounds(nodePositions), [nodePositions]);
   const yearRange = useMemo(() => getYearRange(careerData.nodes), [careerData]);
 
-  // ── Interaction state ───────────────────────────────────────────────────────
+  // Year markers for the timeline ruler
+  const yearMarkers = useMemo(() => {
+    const markers: { year: number; x: number }[] = [];
+    if (nodePositions.length === 0) return markers;
 
-  const [transform, setTransform] = useState<Transform>({ x: 0, y: 0, scale: 1 });
+    // Group nodes by year to find average X position per year
+    const yearXs = new Map<number, number[]>();
+    for (const n of nodePositions) {
+      const year = getYear(n.date);
+      if (!yearXs.has(year)) yearXs.set(year, []);
+      yearXs.get(year)!.push(n.x);
+    }
+    for (const [year, xs] of yearXs) {
+      markers.push({ year, x: xs.reduce((a, b) => a + b, 0) / xs.length });
+    }
+    markers.sort((a, b) => a.year - b.year);
+    return markers;
+  }, [nodePositions]);
+
+  // ── Interaction state ──────────────────────────────────────────────────────
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedNode, setSelectedNode] = useState<PositionedNode | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
+  const [draggingId, setDraggingId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const dragStart = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null);
+  const dragRef = useRef<{ nodeId: string; startX: number; startY: number; origX: number; origY: number } | null>(null);
+  const panRef = useRef<{ startX: number; startY: number; scrollLeft: number; scrollTop: number } | null>(null);
+  const [isPanning, setIsPanning] = useState(false);
 
-  // ── Fit to viewport on mount ────────────────────────────────────────────────
-
-  useEffect(() => {
+  // ── Canvas panning (drag on empty space) ───────────────────────────────────
+  const handleCanvasPointerDown = useCallback((e: React.PointerEvent) => {
+    // Only pan if clicking on empty canvas, not on a node
+    if ((e.target as HTMLElement).closest('.co-node')) return;
     const el = containerRef.current;
     if (!el) return;
-    const vw = el.clientWidth;
-    const vh = el.clientHeight;
-    setIsMobile(vw < 640);
+    e.preventDefault();
+    panRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      scrollLeft: el.scrollLeft,
+      scrollTop: el.scrollTop,
+    };
+    setIsPanning(true);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }, []);
 
-    const canvasW = bounds.maxX - bounds.minX;
-    const canvasH = bounds.maxY - bounds.minY;
-    const scale = Math.min(vw / canvasW, vh / canvasH, 1) * 0.9;
-    const x = (vw - canvasW * scale) / 2 - bounds.minX * scale;
-    const y = (vh - canvasH * scale) / 2 - bounds.minY * scale;
-    setTransform({ x, y, scale });
-  }, [bounds]);
+  const handleCanvasPointerMove = useCallback((e: React.PointerEvent) => {
+    if (!panRef.current) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const dx = e.clientX - panRef.current.startX;
+    const dy = e.clientY - panRef.current.startY;
+    el.scrollLeft = panRef.current.scrollLeft - dx;
+    el.scrollTop = panRef.current.scrollTop - dy;
+  }, []);
 
-  // ── Resize listener ─────────────────────────────────────────────────────────
+  const handleCanvasPointerUp = useCallback(() => {
+    panRef.current = null;
+    setIsPanning(false);
+  }, []);
 
+  // ── Resize ─────────────────────────────────────────────────────────────────
   useEffect(() => {
     const onResize = () => {
-      if (containerRef.current) {
-        setIsMobile(containerRef.current.clientWidth < 640);
-      }
+      if (containerRef.current) setIsMobile(containerRef.current.clientWidth < 640);
     };
+    onResize();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // ── Pan handlers ────────────────────────────────────────────────────────────
-
-  const onPointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      // Ignore if clicking inside a node (it handles its own clicks)
-      if ((e.target as HTMLElement).closest('.co-node')) return;
-      e.preventDefault();
-      dragStart.current = { x: e.clientX, y: e.clientY, tx: transform.x, ty: transform.y };
-      setIsDragging(true);
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    },
-    [transform.x, transform.y],
-  );
-
-  const onPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragStart.current) return;
-      const dx = e.clientX - dragStart.current.x;
-      const dy = e.clientY - dragStart.current.y;
-      setTransform((t) => ({ ...t, x: dragStart.current!.tx + dx, y: dragStart.current!.ty + dy }));
-    },
-    [],
-  );
-
-  const onPointerUp = useCallback(() => {
-    dragStart.current = null;
-    setIsDragging(false);
-  }, []);
-
-  // ── Zoom & Pan (wheel / trackpad) ───────────────────────────────────────────
-  // ctrlKey is set for trackpad pinch-to-zoom and Ctrl+scroll on mouse → zoom
-  // Plain wheel events (trackpad two-finger scroll, mouse scroll) → pan
-
+  // Center viewport on active node on mount
   useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
+    if (!el || nodePositions.length === 0) return;
+    const activeNode = nodePositions.find(n => n.active) || nodePositions[nodePositions.length - 1];
+    if (activeNode) {
+      const nodeCanvasX = activeNode.x - bounds.minX;
+      const nodeCanvasY = activeNode.y - bounds.minY;
+      el.scrollLeft = nodeCanvasX - el.clientWidth / 2;
+      el.scrollTop = nodeCanvasY - el.clientHeight / 2;
+    }
+  }, [nodePositions.length > 0]); // only on first render
 
-      if (e.ctrlKey || e.metaKey) {
-        // Zoom (trackpad pinch or Ctrl/Cmd+scroll)
-        const rect = el.getBoundingClientRect();
-        const mx = e.clientX - rect.left;
-        const my = e.clientY - rect.top;
-        // Pinch events send small deltaY values; scale sensitivity accordingly
-        const zoomIntensity = e.ctrlKey ? 0.01 : ZOOM_STEP;
-        const delta = -e.deltaY * zoomIntensity;
-
-        setTransform((t) => {
-          const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, t.scale * (1 + delta)));
-          const ratio = newScale / t.scale;
-          return {
-            scale: newScale,
-            x: mx - (mx - t.x) * ratio,
-            y: my - (my - t.y) * ratio,
-          };
-        });
-      } else {
-        // Pan (trackpad two-finger scroll or mouse scroll wheel)
-        setTransform((t) => ({
-          ...t,
-          x: t.x - e.deltaX,
-          y: t.y - e.deltaY,
-        }));
-      }
+  // ── Node dragging ──────────────────────────────────────────────────────────
+  const handleDragStart = useCallback((e: React.PointerEvent, node: PositionedNode) => {
+    e.preventDefault();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    dragRef.current = {
+      nodeId: node.id,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: node.x,
+      origY: node.y,
     };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
+    setDraggingId(node.id);
   }, []);
 
-  // ── Zoom buttons ────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      if (!dragRef.current) return;
+      const dx = e.clientX - dragRef.current.startX;
+      const dy = e.clientY - dragRef.current.startY;
+      const newX = dragRef.current.origX + dx;
+      const newY = dragRef.current.origY + dy;
 
-  const zoomIn = useCallback(() => {
-    setTransform((t) => {
-      const newScale = Math.min(MAX_SCALE, t.scale * (1 + ZOOM_STEP));
-      const el = containerRef.current;
-      if (!el) return { ...t, scale: newScale };
-      const cx = el.clientWidth / 2;
-      const cy = el.clientHeight / 2;
-      const ratio = newScale / t.scale;
-      return { scale: newScale, x: cx - (cx - t.x) * ratio, y: cy - (cy - t.y) * ratio };
-    });
-  }, []);
+      setNodePositions(prev =>
+        prev.map(n => n.id === dragRef.current!.nodeId ? { ...n, x: newX, y: newY } : n)
+      );
+    };
 
-  const zoomOut = useCallback(() => {
-    setTransform((t) => {
-      const newScale = Math.max(MIN_SCALE, t.scale * (1 - ZOOM_STEP));
-      const el = containerRef.current;
-      if (!el) return { ...t, scale: newScale };
-      const cx = el.clientWidth / 2;
-      const cy = el.clientHeight / 2;
-      const ratio = newScale / t.scale;
-      return { scale: newScale, x: cx - (cx - t.x) * ratio, y: cy - (cy - t.y) * ratio };
-    });
-  }, []);
+    const onUp = (e: PointerEvent) => {
+      if (!dragRef.current) return;
+      const dx = Math.abs(e.clientX - dragRef.current.startX);
+      const dy = Math.abs(e.clientY - dragRef.current.startY);
 
-  const fitToView = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const vw = el.clientWidth;
-    const vh = el.clientHeight;
-    const canvasW = bounds.maxX - bounds.minX;
-    const canvasH = bounds.maxY - bounds.minY;
-    const scale = Math.min(vw / canvasW, vh / canvasH, 1) * 0.9;
-    const x = (vw - canvasW * scale) / 2 - bounds.minX * scale;
-    const y = (vh - canvasH * scale) / 2 - bounds.minY * scale;
-    setTransform({ x, y, scale });
-  }, [bounds]);
+      // If barely moved, treat as click
+      if (dx < 4 && dy < 4) {
+        const node = nodePositions.find(n => n.id === dragRef.current!.nodeId);
+        if (node) setSelectedNode(node);
+      }
 
-  // ── Highlight connected nodes ───────────────────────────────────────────────
+      dragRef.current = null;
+      setDraggingId(null);
+    };
 
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    };
+  }, [nodePositions]);
+
+  // ── Highlight connected nodes ──────────────────────────────────────────────
   const connectedIds = useMemo(() => {
     if (!hoveredId) return new Set<string>();
     const ids = new Set<string>();
@@ -195,12 +173,11 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
     if (hovered?.connections) {
       for (const c of hovered.connections) ids.add(c);
     }
-    // Also add nodes that connect TO hovered
-    for (const n of nodes) {
+    for (const n of nodePositions) {
       if (n.connections?.includes(hoveredId)) ids.add(n.id);
     }
     return ids;
-  }, [hoveredId, nodeMap, nodes]);
+  }, [hoveredId, nodeMap, nodePositions]);
 
   const isConnectionHighlighted = useCallback(
     (conn: Connection) => {
@@ -210,66 +187,67 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
     [hoveredId, connectedIds],
   );
 
-  // ── Navigate to node (from modal) ──────────────────────────────────────────
-
+  // ── Navigate to node ───────────────────────────────────────────────────────
   const navigateToNode = useCallback(
     (node: PositionedNode) => {
       setSelectedNode(node);
       const el = containerRef.current;
       if (!el) return;
-      const vw = el.clientWidth;
-      const vh = el.clientHeight;
-      setTransform((t) => ({
-        ...t,
-        x: vw / 2 - node.x * t.scale,
-        y: vh / 2 - node.y * t.scale,
-      }));
+      const scrollX = node.x - el.clientWidth / 2 - bounds.minX;
+      el.scrollTo({ left: Math.max(0, scrollX), behavior: 'smooth' });
     },
-    [],
+    [bounds.minX],
   );
 
-  // ── Canvas content dimensions (for SVG) ─────────────────────────────────────
-
-  const svgWidth = bounds.maxX - bounds.minX;
-  const svgHeight = bounds.maxY - bounds.minY;
-
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // ── Canvas dimensions ──────────────────────────────────────────────────────
+  const canvasWidth = bounds.maxX - bounds.minX;
+  const canvasHeight = bounds.maxY - bounds.minY;
 
   return (
     <div className="career-odyssey-wrapper">
       <div
         ref={containerRef}
-        className={`career-odyssey-container${isDragging ? ' is-dragging' : ''}`}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
+        className={`career-odyssey-container${isPanning ? ' is-panning' : ''}`}
+        onPointerDown={handleCanvasPointerDown}
+        onPointerMove={handleCanvasPointerMove}
+        onPointerUp={handleCanvasPointerUp}
+        onPointerCancel={handleCanvasPointerUp}
       >
-        {/* Transformed layer: all nodes & connections */}
         <div
           className="co-canvas"
           style={{
-            transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
-            transformOrigin: '0 0',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            willChange: 'transform',
+            width: canvasWidth,
+            minHeight: canvasHeight,
+            position: 'relative',
           }}
         >
-          {/* SVG layer for connections (behind nodes) */}
+          {/* Year markers (floating, subtle) */}
+          {yearMarkers.map(({ year, x }) => (
+            <div
+              key={year}
+              className="co-year-marker"
+              style={{
+                left: x - bounds.minX,
+                top: 20,
+              }}
+            >
+              {year}
+            </div>
+          ))}
+
+          {/* SVG connections */}
           <svg
             className="co-connections"
             style={{
               position: 'absolute',
-              left: bounds.minX,
-              top: bounds.minY,
-              width: svgWidth,
-              height: svgHeight,
+              left: 0,
+              top: 0,
+              width: canvasWidth,
+              height: canvasHeight,
               overflow: 'visible',
               pointerEvents: 'none',
             }}
-            viewBox={`${bounds.minX} ${bounds.minY} ${svgWidth} ${svgHeight}`}
+            viewBox={`${bounds.minX} ${bounds.minY} ${canvasWidth} ${canvasHeight}`}
           >
             {connections.map((conn) => (
               <ConnectionLine
@@ -281,31 +259,24 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
             ))}
           </svg>
 
-          {/* DOM nodes */}
-          {nodes.map((node) => (
+          {/* Nodes */}
+          {nodePositions.map((node) => (
             <CareerNode
               key={node.id}
-              node={node}
+              node={{
+                ...node,
+                x: node.x - bounds.minX,
+                y: node.y - bounds.minY,
+              }}
               isHovered={hoveredId === node.id}
               isConnected={hoveredId !== null && connectedIds.has(node.id)}
+              isDragging={draggingId === node.id}
               onHover={setHoveredId}
               onClick={setSelectedNode}
+              onDragStart={handleDragStart}
             />
           ))}
         </div>
-      </div>
-
-      {/* Zoom controls */}
-      <div className="zoom-controls">
-        <button className="zoom-control-btn" onClick={zoomIn} aria-label="Zoom in" title="Zoom in">
-          +
-        </button>
-        <button className="zoom-control-btn" onClick={zoomOut} aria-label="Zoom out" title="Zoom out">
-          −
-        </button>
-        <button className="zoom-control-btn" onClick={fitToView} aria-label="Fit to view" title="Fit to view">
-          ⌂
-        </button>
       </div>
 
       {/* Timeline pill */}
@@ -317,7 +288,7 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
         </div>
       </div>
 
-      {/* Detail modal */}
+      {/* Detail panel */}
       <NodeDetailModal
         node={selectedNode}
         allNodes={nodeMap}

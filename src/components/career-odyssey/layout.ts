@@ -1,15 +1,13 @@
-import {
-  forceSimulation,
-  forceLink,
-  forceManyBody,
-  forceCollide,
-  forceX,
-  forceY,
-  type SimulationNodeDatum,
-  type SimulationLinkDatum,
-} from 'd3-force';
-import type { CareerNode, PositionedNode, Connection, NODE_DIMENSIONS } from './types';
-import { NODE_DIMENSIONS as DIMS } from './types';
+/**
+ * Organic node-graph layout.
+ *
+ * A lightweight force simulation (no D3) that uses the timeline as a
+ * loose horizontal guide but lets connections pull related nodes together,
+ * producing a non-linear, exploratory graph.
+ */
+
+import type { CareerNode, PositionedNode, Connection } from './types';
+import { NODE_DIMENSIONS } from './types';
 
 // ─── Date utilities ───────────────────────────────────────────────────────────
 
@@ -27,7 +25,7 @@ export const getYear = (dateStr?: string): number => {
   return parseInt(dateStr.split('-')[0], 10);
 };
 
-// ─── Build connection list ────────────────────────────────────────────────────
+// ─── Connections ──────────────────────────────────────────────────────────────
 
 export function buildConnections(nodes: CareerNode[]): Connection[] {
   const connections: Connection[] = [];
@@ -46,141 +44,167 @@ export function buildConnections(nodes: CareerNode[]): Connection[] {
 
 // ─── Layout constants ─────────────────────────────────────────────────────────
 
-const MAIN_PATH_Y = 300;
-const X_SCALE = 120;           // px per year
-const SIMULATION_TICKS = 300;  // run simulation to completion synchronously
+const X_PER_YEAR = 100;    // tight horizontal spacing
+const X_PAD = 300;        // center the cluster
+const Y_CENTER = 360;
+const ITERATIONS = 150;
 
-// ─── Force-directed layout ────────────────────────────────────────────────────
+// ─── Force simulation ─────────────────────────────────────────────────────────
 
-interface SimNode extends SimulationNodeDatum {
+interface SimNode {
   id: string;
-  nodeData: CareerNode;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  targetX: number;
   width: number;
   height: number;
-  timestamp: number;
-  pinned: boolean;
-}
-
-interface SimLink extends SimulationLinkDatum<SimNode> {
-  pathTaken: boolean;
+  data: CareerNode;
 }
 
 export function calculateLayout(nodes: CareerNode[]): PositionedNode[] {
   if (nodes.length === 0) return [];
 
-  // Find the earliest year for X positioning
   const years = nodes.map(n => getYear(n.date));
   const minYear = Math.min(...years);
 
-  // Create simulation nodes
-  const simNodes: SimNode[] = nodes.map((node) => {
-    const dims = DIMS[node.type] || DIMS.event;
-    const year = getYear(node.date);
-    const hasPinX = node.x !== undefined;
-    const hasPinY = node.y !== undefined;
-    const pinned = hasPinX && hasPinY;
-
-    // Initial X: place by year on timeline; Y: main path center
-    const initialX = hasPinX ? node.x! : (year - minYear) * X_SCALE + 100;
-    const initialY = hasPinY
-      ? node.y!
-      : node.pathTaken === false
-        ? MAIN_PATH_Y - 120 // branches above main path
-        : MAIN_PATH_Y;
-
-    return {
-      id: node.id,
-      nodeData: node,
-      x: initialX,
-      y: initialY,
-      width: dims.width,
-      height: dims.height,
-      timestamp: parseDate(node.date),
-      pinned,
-      // d3-force uses fx/fy to pin nodes
-      ...(pinned ? { fx: node.x, fy: node.y } : {}),
-    };
-  });
-
-  // Build a quick lookup
-  const nodeIndex = new Map<string, number>();
-  simNodes.forEach((n, i) => nodeIndex.set(n.id, i));
-
-  // Create simulation links
-  const simLinks: SimLink[] = [];
+  // Build adjacency for connection forces
+  const adjacency = new Map<string, string[]>();
   for (const node of nodes) {
     if (!node.connections) continue;
     for (const sourceId of node.connections) {
-      const si = nodeIndex.get(sourceId);
-      const ti = nodeIndex.get(node.id);
-      if (si !== undefined && ti !== undefined) {
-        simLinks.push({
-          source: si,
-          target: ti,
-          pathTaken: node.pathTaken !== false,
-        });
-      }
+      if (!adjacency.has(node.id)) adjacency.set(node.id, []);
+      adjacency.get(node.id)!.push(sourceId);
+      if (!adjacency.has(sourceId)) adjacency.set(sourceId, []);
+      adjacency.get(sourceId)!.push(node.id);
     }
   }
 
-  // ─── Configure forces ───────────────────────────────────────────────────────
+  // Initialize simulation nodes
+  const simNodes: SimNode[] = nodes.map((node, i) => {
+    const dim = NODE_DIMENSIONS[node.type] || NODE_DIMENSIONS.moment;
+    const year = getYear(node.date);
+    const targetX = (year - minYear) * X_PER_YEAR + X_PAD;
 
-  const simulation = forceSimulation<SimNode>(simNodes)
-    // Links pull connected nodes together
-    .force(
-      'link',
-      forceLink<SimNode, SimLink>(simLinks)
-        .id((_, i) => i!)
-        .distance(160)
-        .strength(0.4)
-    )
-    // Gentle repulsion so nodes don't pile up
-    .force('charge', forceManyBody<SimNode>().strength(-200).distanceMax(500))
-    // Rectangular collision: use the larger dimension as radius
-    .force(
-      'collide',
-      forceCollide<SimNode>()
-        .radius((d) => Math.max(d.width, d.height) / 2 + 20)
-        .strength(0.8)
-        .iterations(3)
-    )
-    // Pull nodes toward their date-based X position (timeline gravity)
-    .force(
-      'x',
-      forceX<SimNode>()
-        .x((d) => (getYear(d.nodeData.date) - minYear) * X_SCALE + 100)
-        .strength((d) => (d.pinned ? 0 : 0.15))
-    )
-    // Pull main-path nodes toward center Y, branches slightly above
-    .force(
-      'y',
-      forceY<SimNode>()
-        .y((d) => (d.nodeData.pathTaken === false ? MAIN_PATH_Y - 100 : MAIN_PATH_Y))
-        .strength((d) => (d.pinned ? 0 : 0.08))
-    )
-    .alphaDecay(0.02)
-    .velocityDecay(0.4);
+    // Tight initial spread — keep nodes close from the start
+    const yOffset = ((i * 137.5) % 160) - 80;
 
-  // Run synchronously to completion
-  simulation.tick(SIMULATION_TICKS);
-  simulation.stop();
+    return {
+      id: node.id,
+      x: targetX + (Math.sin(i * 2.3) * 20),
+      y: Y_CENTER + yOffset,
+      vx: 0,
+      vy: 0,
+      targetX,
+      width: dim.width,
+      height: dim.height,
+      data: node,
+    };
+  });
 
-  // ─── Build output ─────────────────────────────────────────────────────────
+  const nodeIndex = new Map<string, number>();
+  simNodes.forEach((n, i) => nodeIndex.set(n.id, i));
 
-  return simNodes.map((sn) => ({
-    ...sn.nodeData,
-    x: Math.round(sn.x!),
-    y: Math.round(sn.y!),
+  // Run simulation
+  for (let iter = 0; iter < ITERATIONS; iter++) {
+    const alpha = 1 - iter / ITERATIONS; // cooling
+    const strength = alpha * 0.3;
+
+    // 1. X gravity — pull toward year-based position (loose)
+    for (const n of simNodes) {
+      n.vx += (n.targetX - n.x) * 0.03 * alpha;
+    }
+
+    // 2. Y gravity — pull toward center (stronger to keep cluster tight)
+    for (const n of simNodes) {
+      n.vy += (Y_CENTER - n.y) * 0.04 * alpha;
+    }
+
+    // 3. Connection attraction — pull connected nodes close together
+    for (const [id, neighbors] of adjacency) {
+      const i = nodeIndex.get(id);
+      if (i === undefined) continue;
+      const a = simNodes[i];
+      for (const nid of neighbors) {
+        const j = nodeIndex.get(nid);
+        if (j === undefined) continue;
+        const b = simNodes[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const targetDist = 140; // tight cluster
+        if (dist > targetDist) {
+          const force = (dist - targetDist) * 0.006 * alpha;
+          a.vx += (dx / dist) * force;
+          a.vy += (dy / dist) * force;
+          b.vx -= (dx / dist) * force;
+          b.vy -= (dy / dist) * force;
+        }
+      }
+    }
+
+    // 4. Repulsion — push overlapping/close nodes apart
+    for (let i = 0; i < simNodes.length; i++) {
+      for (let j = i + 1; j < simNodes.length; j++) {
+        const a = simNodes[i];
+        const b = simNodes[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+        // Collision avoidance — only push apart when overlapping
+        const minDist = (Math.max(a.width, a.height) + Math.max(b.width, b.height)) / 2 + 16;
+
+        if (dist < minDist) {
+          const force = ((minDist - dist) / dist) * strength;
+          a.vx -= dx * force;
+          a.vy -= dy * force;
+          b.vx += dx * force;
+          b.vy += dy * force;
+        }
+
+        // Gentle short-range repulsion (keeps nodes from stacking exactly)
+        if (dist < 200) {
+          const repulse = (10 / (dist * dist)) * alpha;
+          a.vx -= dx * repulse;
+          a.vy -= dy * repulse;
+          b.vx += dx * repulse;
+          b.vy += dy * repulse;
+        }
+      }
+    }
+
+    // Apply velocities with damping
+    for (const n of simNodes) {
+      n.x += n.vx;
+      n.y += n.vy;
+      n.vx *= 0.6;
+      n.vy *= 0.6;
+    }
+  }
+
+  // Re-center the whole graph so the active node sits at the origin
+  const activeNode = simNodes.find(n => n.data.active) || simNodes[simNodes.length - 1];
+  const centerX = 600; // target center X in canvas space
+  const centerY = 400; // target center Y
+  const offsetX = centerX - activeNode.x;
+  const offsetY = centerY - activeNode.y;
+
+  return simNodes.map(sn => ({
+    ...sn.data,
+    x: Math.round(sn.x + offsetX),
+    y: Math.round(sn.y + offsetY),
     width: sn.width,
     height: sn.height,
-    timestamp: sn.timestamp,
+    timestamp: parseDate(sn.data.date),
   }));
 }
 
-// ─── Compute canvas bounds from positioned nodes ──────────────────────────────
+// ─── Canvas bounds ────────────────────────────────────────────────────────────
 
 export function getCanvasBounds(nodes: PositionedNode[]) {
-  if (nodes.length === 0) return { minX: 0, minY: 0, maxX: 2000, maxY: 600 };
+  if (nodes.length === 0) return { minX: 0, minY: 0, maxX: 2000, maxY: 720 };
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
   for (const n of nodes) {
     minX = Math.min(minX, n.x - n.width / 2);
@@ -192,11 +216,9 @@ export function getCanvasBounds(nodes: PositionedNode[]) {
   return { minX: minX - pad, minY: minY - pad, maxX: maxX + pad, maxY: maxY + pad };
 }
 
-// ─── Year range for timeline ──────────────────────────────────────────────────
+// ─── Year range ───────────────────────────────────────────────────────────────
 
 export function getYearRange(nodes: CareerNode[]): { min: number; max: number } {
-  const years = nodes
-    .filter((n) => n.date)
-    .map((n) => getYear(n.date));
+  const years = nodes.filter(n => n.date).map(n => getYear(n.date));
   return { min: Math.min(...years), max: Math.max(...years) };
 }

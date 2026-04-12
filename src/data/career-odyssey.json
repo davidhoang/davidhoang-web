@@ -1,187 +1,9 @@
 {
   "nodes": [
     {
-      "id": "terminator-2",
-      "label": "Watched Terminator 2: Judgment Day",
-      "description": "Watched the summer blockbuster in theaters as a kid, became inspired by special effects, and later discovered the work of the legendary Stan Winston.",
-      "type": "inspiration",
-      "date": "1991",
-      "dateRange": "1991",
-      "pathTaken": true
-    },
-    {
-      "id": "got-sega-genesis",
-      "label": "Got a Sega Genesis",
-      "type": "event",
-      "date": "1992",
-      "dateRange": "1992",
-      "pathTaken": true,
-      "connections": ["streets-of-rage-2"]
-    },
-    {
-      "id": "streets-of-rage-2",
-      "label": "Streets of Rage 2",
-      "type": "inspiration",
-      "date": "1993",
-      "dateRange": "1993",
-      "pathTaken": true,
-      "image": "/images/odyssey/img-sor-2.webp",
-      "connections": ["maximum-carnage"]
-    },
-    {
-      "id": "maximum-carnage",
-      "label": "Maximum Carnage",
-      "description": "Bought the comic where Carnage first appears in Spider-Man; making me passionate about drawing comics.",
-      "type": "event",
-      "date": "1993",
-      "dateRange": "1993",
-      "pathTaken": true,
-      "image": "/images/odyssey/img-maximum-carnage.webp"
-    },
-    {
-      "id": "personal-computer",
-      "label": "Personal Computer",
-      "type": "event",
-      "date": "1992",
-      "dateRange": "1992",
-      "pathTaken": true,
-      "connections": ["quake", "visual-basic-design-tool"]
-    },
-    {
-      "id": "visual-basic-design-tool",
-      "label": "Thought Visual Basic was a Design Tool",
-      "type": "inspiration",
-      "date": "1993",
-      "dateRange": "1993",
-      "pathTaken": true
-    },
-    {
-      "id": "command-and-conquer",
-      "label": "Command and Conquer",
-      "type": "inspiration",
-      "date": "1995",
-      "dateRange": "1995",
-      "pathTaken": true,
-      "image": "/images/odyssey/img-command-and-conquer.webp"
-    },
-    {
-      "id": "quake",
-      "label": "Quake and computing",
-      "description": "The game that got me into computing. This was the moment I realized cheat codes were just debug tools in the console; also discovered the Music of Nine\u00A0Inch\u00A0Nails.",
-      "type": "event",
-      "date": "1996",
-      "dateRange": "1996",
-      "pathTaken": true,
-      "image": "/images/odyssey/img-quake.webp",
-      "iframe": "https://playclassic.games/games/first-person-shooter-dos-games-online/play-quake-online/play/",
-      "connections": ["command-and-conquer"]
-    },
-    {
-      "id": "built-websites-dreamweaver",
-      "label": "Built websites with Macromedia Dreamweaver",
-      "type": "event",
-      "date": "1998",
-      "dateRange": "1998",
-      "connections": ["quake", "studied-art"],
-      "pathTaken": true
-    },
-    {
-      "id": "metal-gear-solid",
-      "label": "Metal Gear Solid on Playstation",
-      "description": "Discovered the cinematic storytelling through the media of video games by Hideo Kojima.",
-      "type": "inspiration",
-      "date": "1998",
-      "dateRange": "1998",
-      "pathTaken": true,
-      "image": "/images/odyssey/img-ody-mgs.webp"
-    },
-    {
-      "id": "art-history",
-      "label": "Studied Art History in high school",
-      "description": "Studied Art History in a running start program and was introduced to \"The Conversion of St. Paul\" by Caravaggio. This propelled me to learn art history and major in Studio Art when I went to college.",
-      "type": "event",
-      "date": "2001",
-      "dateRange": "2001",
-      "connections": ["built-websites-dreamweaver", "studied-art"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-caravaggio.webp"
-    },
-    {
-      "id": "bought-ipod-classic",
-      "label": "Bought iPod Classic",
-      "type": "event",
-      "date": "2002",
-      "dateRange": "2002",
-      "connections": ["art-history"],
-      "pathTaken": true
-    },
-    {
-      "id": "studied-art",
-      "label": "Studied Art",
-      "description": "Graduated with a BFA in Drawing and Painting, with interdisciplinary studies in Computer Science, Art History, and the Humanities. Took a gap year to prepare for an MFA, but never went—instead designing app interfaces for a new device called the iPhone.",
-      "type": "event",
-      "date": "2002",
-      "dateRange": "2002-2006",
-      "connections": ["bought-ipod-classic", "move-to-sf", "exacttarget"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-studied-art.webp"
-    },
-    {
-      "id": "wilson-joins-family",
-      "label": "Wilson joins the family",
-      "type": "spark",
-      "date": "2003",
-      "dateRange": "2003",
-      "connections": [],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-wilson-kitten.webp"
-    },
-    {
-      "id": "created-myspace",
-      "label": "Created MySpace page",
-      "description": "Created a MySpace page—my first heavily used social media site in the Web 2.0 era. I learned the z-index property as a way to overlay a custom layout on top of the MySpace page.",
-      "type": "spark",
-      "date": "2004",
-      "dateRange": "2004",
-      "connections": ["studied-art"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-myspace-tom.webp"
-    },
-    {
-      "id": "go-to-cca-grad-school",
-      "label": "Go to CCA for Grad School",
-      "description": "A potential path that wasn't taken—exploring what might have happened if I had pursued an MFA at California College of the Arts.",
-      "type": "possiblePath",
-      "date": "2006",
-      "dateRange": "2006-2008",
-      "connections": ["studied-art"],
-      "pathTaken": false
-    },
-    {
-      "id": "move-to-sf",
-      "label": "Move to San Francisco",
-      "description": "A potential path that wasn't taken—exploring what might have happened with an earlier move to the Bay Area.",
-      "type": "possiblePath",
-      "date": "2007",
-      "connections": ["go-to-cca-grad-school"],
-      "pathTaken": false
-    },
-    {
-      "id": "deployed-rails-heroku",
-      "label": "Deployed first Ruby on Rails app on Heroku",
-      "description": "Built a Rails app with my friend Adam called Twote.it. The idea is to generate different quotes that you could automatically post on multiple Twitter accounts.",
-      "type": "spark",
-      "date": "2011-09",
-      "dateRange": "2011",
-      "pathTaken": true,
-      "image": "/images/odyssey/img-twote-it.webp",
-      "x": 1400,
-      "y": 300
-    },
-    {
       "id": "exacttarget",
       "label": "ExactTarget",
-      "type": "career",
+      "type": "moment",
       "date": "2009",
       "dateRange": "2009-2011",
       "connections": ["xhatch"],
@@ -189,63 +11,21 @@
     },
     {
       "id": "xhatch",
-      "label": "Started Xhatch, my own company",
+      "label": "Xhatch",
       "description": "Started my own company, learning firsthand what it means to build products, work with clients, and run a business. This experience shaped my understanding of entrepreneurship and the challenges of building something from scratch.",
-      "type": "career",
+      "type": "moment",
       "date": "2011",
       "dateRange": "2011-2015",
-      "connections": ["deployed-rails-heroku"],
       "pathTaken": true
-    },
-    {
-      "id": "started-designing-with-origami",
-      "label": "Started designing with Origami",
-      "type": "event",
-      "date": "2012",
-      "dateRange": "2012",
-      "connections": ["xhatch"],
-      "pathTaken": true
-    },
-    {
-      "id": "continue-xhatch",
-      "label": "Continue Xhatch",
-      "description": "A potential path that wasn't taken—exploring what might have happened if I had continued building and growing Xhatch instead of moving on.",
-      "type": "possiblePath",
-      "date": "2015",
-      "dateRange": "2015",
-      "connections": ["xhatch"],
-      "pathTaken": false
-    },
-    {
-      "id": "bret-victor",
-      "label": "Watched Bret Victor's 'Inventing on Principle'",
-      "description": "Fell in love with creative tools after watching this inspiring talk in the worst hotel conference room ever.",
-      "type": "spark",
-      "date": "2012",
-      "dateRange": "2012",
-      "connections": ["xhatch"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-bret-victor.webp",
-      "link": "https://www.youtube.com/watch?v=PUv66718DII"
-    },
-    {
-      "id": "read-humane-interface",
-      "label": "Read Jef Raskin's 'The Humane Interface'",
-      "type": "event",
-      "date": "2013",
-      "dateRange": "2013",
-      "connections": ["bret-victor", "xhatch"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-odyssey-humane-interface.webp"
     },
     {
       "id": "black-pixel",
       "label": "Black Pixel",
-      "description": "Joined as a designer, helping build the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet. Built processes and systems that would support the company's long-term vision while shipping features that delighted users.",
-      "type": "career",
+      "description": "Joined as a designer, helping build the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet.",
+      "type": "moment",
       "date": "2015",
       "dateRange": "2015-2019",
-      "connections": ["moved-to-sf-2025", "bret-victor"],
+      "connections": ["xhatch"],
       "pathTaken": true,
       "workedWith": [
         {
@@ -256,108 +36,31 @@
       ]
     },
     {
-      "id": "moved-to-sf-2025",
-      "label": "Moved to San Francisco",
-      "type": "event",
-      "date": "2015",
-      "dateRange": "2015",
-      "connections": ["one-medical"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-san-francisco.webp"
-    },
-    {
       "id": "one-medical",
       "label": "One Medical",
-      "description": "Led product design during One Medical's critical transition to virtual care and eventual IPO. Designed experiences that transformed how primary care is delivered, making healthcare more accessible and human-centered. The work reinforced my belief that design can transform industries, even ones as complex and regulated as healthcare.",
-      "type": "career",
+      "description": "Led product design during One Medical's critical transition to virtual care and eventual IPO. Designed experiences that transformed how primary care is delivered, making healthcare more accessible and human-centered.",
+      "type": "moment",
       "date": "2019-09",
       "dateRange": "2015-2019",
-      "connections": [],
-      "pathTaken": true,
-      "sequence": 1
-    },
-    {
-      "id": "explored-ios-developer",
-      "label": "Explored iOS Developer career path",
-      "description": "A potential path that wasn't taken—exploring what might have happened if I had pursued iOS development instead of product design.",
-      "type": "possiblePath",
-      "date": "2016",
-      "dateRange": "2016",
-      "connections": ["one-medical"],
-      "pathTaken": false,
-      "sequence": 2
+      "connections": ["black-pixel"],
+      "pathTaken": true
     },
     {
       "id": "webflow",
       "label": "Webflow",
-      "description": "Joined as the first Head of Design, building the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet. Built processes and systems that would support the company's long-term vision while shipping features that delighted users.",
-      "type": "career",
+      "description": "Joined as the first Head of Design, building the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet.",
+      "type": "moment",
       "date": "2019-10",
-      "dateRange": "2019-10-2023",
-      "connections": ["one-medical", "on-deck-design"],
+      "dateRange": "2019-2023",
+      "connections": ["one-medical"],
       "pathTaken": true,
       "image": "/images/odyssey/img-webflow.webp"
     },
     {
-      "id": "on-deck-design",
-      "label": "On Deck Design",
-      "type": "event",
-      "date": "2021",
-      "dateRange": "2021-2022",
-      "pathTaken": true
-    },
-    {
-      "id": "config-talk",
-      "label": "Spoke at Config",
-      "description": "Gave a talk at Figma's Config conference titled 'The Universal Challenges of Every Scaling Design Team', sharing insights from experience leading design teams.",
-      "type": "event",
-      "date": "2021",
-      "dateRange": "2021",
-      "connections": ["webflow"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-david-hoang-config.avif",
-      "iframe": "https://www.youtube.com/embed/piGC-iFwmrk",
-      "link": "https://www.youtube.com/watch?v=piGC-iFwmrk&t=1s"
-    },
-    {
-      "id": "first-angel-investment",
-      "label": "Made first Angel Investment",
-      "description": "Made my first angel investment, beginning a journey that would lead to investing in over 30 companies by 2024. Focused on early-stage startups at the intersection of creativity, code, and community.",
-      "type": "event",
-      "date": "2020",
-      "dateRange": "2020",
-      "connections": ["webflow"],
-      "pathTaken": true
-    },
-    {
-      "id": "proof-of-concept",
-      "label": "Proof of Concept Newsletter",
-      "description": "Started writing Proof of Concept, a newsletter about design, technology, and entrepreneurship. Weekly publication exploring the intersection of creativity, code, and community.",
-      "type": "event",
-      "date": "2020-08",
-      "dateRange": "2020-08-Present",
-      "connections": ["first-angel-investment"],
-      "pathTaken": true,
-      "link": "https://www.proofofconcept.pub",
-      "x": 4450,
-      "y": 400
-    },
-    {
-      "id": "angel-investing",
-      "label": "Angel Investing",
-      "type": "event",
-      "date": "2020",
-      "dateRange": "2020-Present",
-      "connections": ["first-angel-investment"],
-      "pathTaken": true,
-      "x": 4700,
-      "y": 250
-    },
-    {
       "id": "replit",
       "label": "Replit",
-      "description": "Served as VP of Marketing and Design, leading the rebrand that repositioned Replit from a hobby app to a professional AI-native software development platform. Launched developer events and pushed forward new ways to ship AI-native products. The rebrand honored the history of software while embracing the future of AI.",
-      "type": "career",
+      "description": "Served as VP of Marketing and Design, leading the rebrand that repositioned Replit from a hobby app to a professional AI-native software development platform.",
+      "type": "moment",
       "date": "2023",
       "dateRange": "2023-2024",
       "connections": ["webflow"],
@@ -365,85 +68,16 @@
       "image": "/images/odyssey/img-replit.webp"
     },
     {
-      "id": "play-advisor",
-      "label": "Play",
-      "description": "Started advising Play, contributing strategic guidance and insights to help shape the company's direction.",
-      "type": "event",
-      "date": "2023",
-      "dateRange": "2023-Present",
-      "connections": ["replit"],
-      "pathTaken": true,
-      "x": 4700,
-      "y": 400
-    },
-    {
       "id": "atlassian",
-      "label": "Joined Atlassian",
-      "description": "Currently serving as VP and Head of Design, AI, helping shape the future of work through generative AI and systems design. Leading design for Rovo, Atlassian's AI-powered knowledge assistant that breaks down silos by connecting teams, work, and applications across the entire SaaS ecosystem.",
-      "type": "career",
+      "label": "Atlassian",
+      "description": "Currently serving as VP and Head of Design, AI, helping shape the future of work through generative AI and systems design. Leading design for Rovo, Atlassian's AI-powered knowledge assistant.",
+      "type": "moment",
       "date": "2024",
       "dateRange": "2024-Present",
       "active": true,
       "connections": ["replit"],
       "pathTaken": true,
-      "image": "/images/odyssey/img-rovo.webp",
-      "x": 4450,
-      "y": 250
-    },
-    {
-      "id": "hatch-conference",
-      "label": "Spoke at Hatch Conference",
-      "description": "Keynote speaker at Hatch Conference 2024, delivering 'Design & (Blank)'—a talk exploring the evolving role of design and its intersections with technology, AI, and the future of creative work.",
-      "type": "event",
-      "date": "2024-09",
-      "dateRange": "2024-09",
-      "connections": ["atlassian"],
-      "pathTaken": true,
-      "link": "/work/hatch-conference"
-    },
-    {
-      "id": "kai-joins-family",
-      "label": "Kai joins the family",
-      "type": "event",
-      "date": "2025-05",
-      "dateRange": "2025-05",
-      "connections": ["atlassian"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-kai.webp",
-      "link": "https://blog.davidhoang.com/2025/06/10/the-cat-distribution-system-at-work/"
-    },
-    {
-      "id": "now",
-      "label": "Now",
-      "type": "event",
-      "date": "2026",
-      "dateRange": "Now",
-      "connections": ["venture-studio", "retire-in-barcelona", "proof-of-concept", "angel-investing", "play-advisor", "atlassian"],
-      "pathTaken": true,
-      "link": "/now",
-      "x": 4200,
-      "y": 450
-    },
-    {
-      "id": "venture-studio",
-      "label": "Venture Studio",
-      "type": "event",
-      "date": "2026",
-      "dateRange": "Future",
-      "pathTaken": true,
-      "x": 4950,
-      "y": 250
-    },
-    {
-      "id": "retire-in-barcelona",
-      "label": "Retire in Barcelona",
-      "description": "A dream for the future—retiring in Barcelona, enjoying the vibrant culture, beautiful architecture, and Mediterranean lifestyle.",
-      "type": "event",
-      "date": "2040",
-      "dateRange": "Future",
-      "pathTaken": true,
-      "x": 4950,
-      "y": 400
+      "image": "/images/odyssey/img-rovo.webp"
     }
   ]
 }
