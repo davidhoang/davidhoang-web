@@ -13,7 +13,7 @@ Container card. Props: { title: string, subtitle?: string }
 Accepts children.
 
 ### TimelineEntry
-A career milestone. Props: { year: string, title: string, description?: string, type: "career" | "inspiration" | "event" | "spark" | "possiblePath" }
+A career milestone. Props: { year: string, title: string, description?: string, type: "moment" }
 No children. Color-coded dot by type.
 
 ### Heading

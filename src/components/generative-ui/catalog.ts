@@ -75,7 +75,7 @@ export const themeCatalog = defineCatalog(schema, {
         year: z.string().describe('Year or date range, e.g. "2019" or "2019-2023"'),
         title: z.string().describe('Event or role title'),
         description: z.string().optional().describe('Brief description of the event'),
-        type: z.enum(['career', 'inspiration', 'event', 'spark', 'possiblePath']).describe('Node type from career odyssey'),
+        type: z.enum(['moment']).default('moment').describe('Node type'),
       }),
       slots: [],
       description: 'A timeline entry showing a career event, inspiration, or milestone. Color-coded by type.',
