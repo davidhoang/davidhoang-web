@@ -1,6 +1,250 @@
 {
   "themes": [
     {
+      "name": "Concrete Cathedral",
+      "description": "Raw concrete meets divine light in minimalist architectural reverence",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F2EE",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8935F",
+          "--color-border": "#E0DDD9",
+          "--color-muted": "#8B8B8B",
+          "--color-sidebar-bg": "#F0EDE9",
+          "--color-nav-bg": "#F5F2EE",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#EFEBE7"
+        },
+        "dark": {
+          "--color-text": "#E8E8E8",
+          "--color-bg": "#1A1A1A",
+          "--color-link": "#E6B876",
+          "--color-link-hover": "#F2C88A",
+          "--color-border": "#333333",
+          "--color-muted": "#999999",
+          "--color-sidebar-bg": "#252525",
+          "--color-nav-bg": "#1A1A1A",
+          "--color-nav-text": "#E8E8E8",
+          "--color-card-bg": "#222222"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#D4A574",
+          "#8B8B8B"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-17",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Cathedral",
+              "subtitle": "Raw concrete meets divine light in minimalist architectural reverence"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "p1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "monospace",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F2EE",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "link"
+                },
+                {
+                  "hex": "#B8935F",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#E0DDD9",
+                  "label": "border"
+                },
+                {
+                  "hex": "#EFEBE7",
+                  "label": "card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sacred Geometry",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "/* divine light through raw stone */",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Moss Telegraph",
       "description": "Forest floor communication network where ancient moss sends digital signals through morning mist",
       "colors": {
@@ -1391,276 +1635,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Crimson Dusk",
-      "description": "A warm, sophisticated evening atmosphere with rich burgundy accents and elegant typography.",
-      "colors": {
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDEDEC",
-          "--color-link": "#B91C1C",
-          "--color-link-hover": "#7F1D1D",
-          "--color-border": "#F1C2C2",
-          "--color-muted": "#8B4513",
-          "--color-sidebar-bg": "#FDF2E9",
-          "--color-nav-bg": "#FDEBD0",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FFFFFF"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#EF4444",
-          "--color-link-hover": "#F87171",
-          "--color-border": "#4A2C2A",
-          "--color-muted": "#A3A3A3",
-          "--color-sidebar-bg": "#1C1410",
-          "--color-nav-bg": "#261A11",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Playfair Display",
-          "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Playfair Display', Georgia, serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "0 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0, 0, 0, 0.1)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "960px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem"
-      },
-      "hero": {
-        "layout": "left-aligned"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.95",
-        "borderRadius": "8px"
-      },
-      "font": {
-        "name": "Playfair Display",
-        "url": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Playfair Display', Georgia, serif"
-      },
-      "date": "2026-04-08",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Crimson Dusk",
-              "subtitle": "Sophisticated evening elegance"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "br",
-              "ts",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Evening Sophistication",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "cp",
-              "s4"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDEDEC",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#B91C1C",
-                  "label": "link"
-                },
-                {
-                  "hex": "#F1C2C2",
-                  "label": "border"
-                },
-                {
-                  "hex": "#8B4513",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#FDF2E9",
-                  "label": "sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "cs1",
-              "cs2"
-            ]
-          },
-          "cs1": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#2C1810",
-              "label": "text"
-            },
-            "children": []
-          },
-          "cs2": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#7F1D1D",
-              "label": "hover"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "ts2",
-              "ts3"
-            ]
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rich burgundy accents dance with warm undertones",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "ts3": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Animated underlines • 12px radius",
-              "variant": "caption"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-16"
+  "currentDate": "2026-04-17"
 }
