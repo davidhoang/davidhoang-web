@@ -1,6 +1,255 @@
 {
   "themes": [
     {
+      "name": "Neon Monsoon",
+      "description": "Rain-slicked Tokyo streets where digital glow meets organic flow",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A0B2E",
+          "--color-bg": "#F8F6FF",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#E8E4FF",
+          "--color-muted": "#6B7280",
+          "--color-sidebar-bg": "#F3F0FF",
+          "--color-nav-bg": "#FEFCFF",
+          "--color-nav-text": "#1A0B2E",
+          "--color-card-bg": "#FDFBFF"
+        },
+        "dark": {
+          "--color-text": "#E8E4FF",
+          "--color-bg": "#0F0A1E",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#2A1B3D",
+          "--color-muted": "#9CA3AF",
+          "--color-sidebar-bg": "#140F26",
+          "--color-nav-bg": "#0A0515",
+          "--color-nav-text": "#E8E4FF",
+          "--color-card-bg": "#1A0F2A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.04em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(255, 0, 128, 0.1)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "neuro",
+        "colors": [
+          "#FF0080",
+          "#00D4FF",
+          "#0F0A1E"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-04-19",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Neon Monsoon",
+              "subtitle": "Rain-slicked Tokyo streets where digital glow meets organic flow"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "p1",
+              "d1",
+              "t1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "asymmetric",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9006D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00D4FF",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#1A0B2E",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F8F6FF",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#E8E4FF",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F3F0FF",
+                  "label": "sidebar"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Digital Rain Falls in Neon",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "l1",
+              "t2"
+            ]
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Where cyberpunk aesthetics meet flowing organic forms in a cascade of electric color.",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Thunder",
       "description": "Rich burgundy depths with electric gold accents, like lightning illuminating a theater curtain",
       "colors": {
@@ -1411,236 +1660,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Digital Monsoon",
-      "description": "Rain-soaked Tokyo streetscapes with electric neon bleeding through atmospheric haze",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F0F2F8",
-          "--color-link": "#CC1076",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#E0E3EB",
-          "--color-muted": "#6B7280",
-          "--color-sidebar-bg": "#E8EBF3",
-          "--color-nav-bg": "#F5F7FC",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FAFBFD"
-        },
-        "dark": {
-          "--color-text": "#F8FAFC",
-          "--color-bg": "#0F1419",
-          "--color-link": "#FF1493",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2D3748",
-          "--color-muted": "#A0AEC0",
-          "--color-sidebar-bg": "#1A202C",
-          "--color-nav-bg": "#171B23",
-          "--color-nav-text": "#F8FAFC",
-          "--color-card-bg": "#1A2028"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(255, 20, 147, 0.1)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "mesh-gradient",
-        "colors": [
-          "#FF1493",
-          "#00BFFF",
-          "#4B0082"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-12",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Digital Monsoon",
-              "subtitle": "Rain-soaked Tokyo streetscapes"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "b1",
-              "t1",
-              "p1",
-              "d1",
-              "s2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Electric neon bleeding through haze",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#CC1076",
-                  "label": "link"
-                },
-                {
-                  "hex": "#00BFFF",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#1A1A2E",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F0F2F8",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#6B7280",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#E8EBF3",
-                  "label": "sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "l1",
-              "t2",
-              "b2"
-            ]
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Atmospheric streetscape typography",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-18"
+  "currentDate": "2026-04-19"
 }
