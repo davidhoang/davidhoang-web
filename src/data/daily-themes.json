@@ -1,6 +1,242 @@
 {
   "themes": [
     {
+      "name": "Midnight Neon Grid",
+      "description": "Electric precision meets rainy Tokyo streets in a cyberpunk typography experiment.",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#0F1419",
+          "--color-bg": "#F8F5FF",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#E0D6FF",
+          "--color-muted": "#6B7280",
+          "--color-sidebar-bg": "#F3F0FF",
+          "--color-nav-bg": "#FEFCFF",
+          "--color-nav-text": "#0F1419",
+          "--color-card-bg": "#FDFBFF"
+        },
+        "dark": {
+          "--color-text": "#E5E7EB",
+          "--color-bg": "#0A0F1C",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#1F2937",
+          "--color-muted": "#9CA3AF",
+          "--color-sidebar-bg": "#0F1419",
+          "--color-nav-bg": "#111827",
+          "--color-nav-text": "#E5E7EB",
+          "--color-card-bg": "#0D1117"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 0 24px rgba(255, 0, 128, 0.1)",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#FF0080",
+          "#00D4FF",
+          "#0A0F1C"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-04-20",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Midnight Neon Grid",
+              "subtitle": "Electric precision meets rainy Tokyo streets"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "h1",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "CYBERPUNK NEON",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "t1"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9006D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00D4FF",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#E0D6FF",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F3F0FF",
+                  "label": "sidebar"
+                },
+                {
+                  "hex": "#6B7280",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Electric precision typography experiment",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Neon Monsoon",
       "description": "Rain-slicked Tokyo streets where digital glow meets organic flow",
       "colors": {
@@ -1448,219 +1684,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Church of Light",
-      "description": "Raw concrete meets ethereal daylight in Tadao Ando's spiritual minimalism",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F3F0",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#E8E6E3",
-          "--color-muted": "#8B8680",
-          "--color-sidebar-bg": "#F0EDE9",
-          "--color-nav-bg": "#F5F3F0",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FAFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8E6E3",
-          "--color-bg": "#1A1A1A",
-          "--color-link": "#F4D03F",
-          "--color-link-hover": "#F7DC6F",
-          "--color-border": "#333333",
-          "--color-muted": "#999999",
-          "--color-sidebar-bg": "#222222",
-          "--color-nav-bg": "#1A1A1A",
-          "--color-nav-text": "#E8E6E3",
-          "--color-card-bg": "#252525"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 95"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "2rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-13",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Church of Light",
-              "subtitle": "Raw concrete meets ethereal daylight"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "d1",
-              "p1"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Minimalism",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "l1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F3F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#FAFAF8",
-                  "label": "card"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "link"
-                },
-                {
-                  "hex": "#E8E6E3",
-                  "label": "border"
-                },
-                {
-                  "hex": "#2C2C2C",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-19"
+  "currentDate": "2026-04-20"
 }
