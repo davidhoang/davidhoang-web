@@ -57,7 +57,7 @@ export const cards: Card[] = [
     description: 'A weekly newsletter about design, technology, and experimentation. Exploring the intersection of creativity, code, and community.',
     color: '#E85D04',
     pattern: 'lines',
-    link: 'https://proofofconcept.pub',
+    link: 'https://www.proofofconcept.pub',
     linkText: 'Subscribe'
   },
   {
@@ -112,7 +112,7 @@ export const cards: Card[] = [
 
 export const rotatingRoles = [
   { label: 'Investor', link: '/investing' },
-  { label: 'Writer', link: 'https://proofofconcept.pub' },
+  { label: 'Writer', link: 'https://www.proofofconcept.pub' },
 ];
 
 // Legacy hero layout mapping
