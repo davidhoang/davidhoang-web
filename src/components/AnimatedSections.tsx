@@ -1,4 +1,11 @@
-import { motion, useInView } from 'framer-motion';
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from 'framer-motion';
 import { useRef, type ReactNode } from 'react';
 import { createResponsiveImage } from '../utils/responsive-images';
 
@@ -61,6 +68,95 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
   );
 }
 
+function PortfolioCard({ item }: { item: PortfolioItem }) {
+  const prefersReducedMotion = useReducedMotion();
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const springX = useSpring(pointerX, { stiffness: 220, damping: 22, mass: 0.6 });
+  const springY = useSpring(pointerY, { stiffness: 220, damping: 22, mass: 0.6 });
+  const tiltX = useTransform(springY, [-0.5, 0.5], [6, -6]);
+  const tiltY = useTransform(springX, [-0.5, 0.5], [-6, 6]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (prefersReducedMotion) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    pointerX.set((e.clientX - rect.left) / rect.width - 0.5);
+    pointerY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
+
+  const responsiveImage = createResponsiveImage(
+    {
+      src: item.image,
+      alt: item.imageAlt,
+      loading: 'lazy',
+    },
+    'content'
+  );
+
+  return (
+    <motion.div
+      className="portfolio-content"
+      role="listitem"
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1],
+          },
+        },
+      }}
+    >
+      <div className="portfolio-item-text">
+        <p>
+          {item.text.split(item.linkText)[0]}
+          <a href={item.link} target="_blank" rel="noopener noreferrer">
+            {item.linkText}
+          </a>
+          {item.text.split(item.linkText)[1] || ''}
+        </p>
+      </div>
+      <motion.div
+        className="portfolio-images"
+        style={{
+          rotateX: prefersReducedMotion ? 0 : tiltX,
+          rotateY: prefersReducedMotion ? 0 : tiltY,
+          transformPerspective: 1000,
+          willChange: 'transform',
+        }}
+        whileHover={
+          prefersReducedMotion
+            ? undefined
+            : {
+                scale: 1.015,
+                transition: { type: 'spring', stiffness: 260, damping: 30, mass: 0.7 },
+              }
+        }
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <img
+          src={responsiveImage.src}
+          srcSet={responsiveImage.srcSet}
+          sizes={responsiveImage.sizes}
+          alt={responsiveImage.alt}
+          loading={responsiveImage.loading}
+          decoding="async"
+          width="1200"
+          height="800"
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function AnimatedPortfolioGrid({
   items,
 }: {
@@ -87,58 +183,7 @@ export function AnimatedPortfolioGrid({
       }}
     >
       {items.map((item, index) => (
-        <motion.div
-          key={index}
-          className="portfolio-content"
-          role="listitem"
-          variants={{
-            hidden: { opacity: 0, y: 30 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.6,
-                ease: [0.25, 0.1, 0.25, 1],
-              },
-            },
-          }}
-        >
-          <div className="portfolio-item-text">
-            <p>
-              {item.text.split(item.linkText)[0]}
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {item.linkText}
-              </a>
-              {item.text.split(item.linkText)[1] || ''}
-            </p>
-          </div>
-          <div className="portfolio-images">
-            {(() => {
-              const responsiveImage = createResponsiveImage({
-                src: item.image,
-                alt: item.imageAlt,
-                loading: 'lazy'
-              }, 'content');
-              
-              return (
-                <img
-                  src={responsiveImage.src}
-                  srcSet={responsiveImage.srcSet}
-                  sizes={responsiveImage.sizes}
-                  alt={responsiveImage.alt}
-                  loading={responsiveImage.loading}
-                  decoding="async"
-                  width="1200"
-                  height="800"
-                />
-              );
-            })()}
-          </div>
-        </motion.div>
+        <PortfolioCard key={index} item={item} />
       ))}
     </motion.div>
   );
