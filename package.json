@@ -13,7 +13,11 @@
     "bio:generate": "node scripts/test-bio-summary.js generate",
     "generate-theme": "node scripts/generate-daily-theme.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "generate-responsive": "node scripts/generate-responsive-images.js"
+    "generate-responsive": "node scripts/generate-responsive-images.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "astro check"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -46,9 +50,11 @@
     "@astrojs/check": "^0.9.6",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "@vitest/coverage-v8": "^4.1.5",
     "baseline-browser-mapping": "^2.10.0",
     "sharp": "^0.34.5",
     "terser": "^5.46.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5"
   }
 }

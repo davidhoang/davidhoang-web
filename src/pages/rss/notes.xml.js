@@ -2,15 +2,13 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
+import { prepareRssEntries } from '../../utils/rss-helpers.ts';
 
 const md = new MarkdownIt();
 
 export async function GET(context) {
   const allNotes = await getCollection('notes');
-  const notes = (import.meta.env.PROD
-    ? allNotes.filter((note) => !note.data.draft)
-    : allNotes
-  ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const notes = prepareRssEntries(allNotes, import.meta.env.PROD);
 
   return rss({
     title: 'David Hoang — Notes',

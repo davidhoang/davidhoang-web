@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { ImageResponse } from '@vercel/og';
+import { clampTitleFontSize, truncateDescription, typeLabel as toTypeLabel } from './og-helpers';
 
 export const prerender = false;
 
@@ -8,12 +9,8 @@ export const GET: APIRoute = async ({ url }) => {
   const description = url.searchParams.get('description') || '';
   const type = url.searchParams.get('type') || 'writing';
 
-  // Clamp font size for long titles
-  const titleLength = title.length;
-  const titleFontSize = titleLength > 80 ? 40 : titleLength > 50 ? 48 : 56;
-
-  // Type label for the badge
-  const typeLabel = type === 'notes' ? 'Notes' : 'Writing';
+  const titleFontSize = clampTitleFontSize(title.length);
+  const typeLabel = toTypeLabel(type);
 
   const html = {
     type: 'div',
@@ -116,10 +113,7 @@ export const GET: APIRoute = async ({ url }) => {
                           fontFamily: 'Inter, sans-serif',
                           maxWidth: '750px',
                         },
-                        children:
-                          description.length > 120
-                            ? description.slice(0, 117) + '...'
-                            : description,
+                        children: truncateDescription(description, 120),
                       },
                     },
                   ]

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { readFile, writeFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { stripHtmlComments, isAuthorized } from './bio-summary-helpers';
 
 export const prerender = false; // This needs to run on the server
 
@@ -56,7 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
     const authHeader = request.headers.get('authorization');
     const expectedToken = import.meta.env.BIO_UPDATE_SECRET || process.env.BIO_UPDATE_SECRET;
     
-    if (expectedToken && authHeader !== `Bearer ${expectedToken}`) {
+    if (!isAuthorized(authHeader, expectedToken)) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
@@ -69,11 +70,7 @@ export const POST: APIRoute = async ({ request }) => {
     const bioPath = join(__dirname, '../../content/bio.md');
     const bioContent = await readFile(bioPath, 'utf-8');
 
-    // Extract all bio content (everything after the initial HTML comment)
-    // The bio.md has sections like "## TLDR;", "## Speaker bio", etc.
-    // We want the actual content, not just headers
-    const contentWithoutComments = bioContent.replace(/<!--[\s\S]*?-->/g, '').trim();
-    const allBios = contentWithoutComments;
+    const allBios = stripHtmlComments(bioContent);
 
     // Get AI API key (supports OpenAI or Anthropic)
     const aiApiKey = import.meta.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY;
