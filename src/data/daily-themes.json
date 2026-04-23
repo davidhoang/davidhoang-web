@@ -1,6 +1,249 @@
 {
   "themes": [
     {
+      "name": "Paper Samurai",
+      "description": "Japanese minimalism meets sharp precision — rice paper warmth with sword-edge geometry",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF8F0",
+          "--color-link": "#CF333F",
+          "--color-link-hover": "#B91E2A",
+          "--color-border": "#D4A574",
+          "--color-muted": "#8B6914",
+          "--color-sidebar-bg": "#FAF3E8",
+          "--color-nav-bg": "#FDF8F0",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#FFFCF7"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8A5B",
+          "--color-border": "#5D4037",
+          "--color-muted": "#A1887F",
+          "--color-sidebar-bg": "#241611",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#2D1B13"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "56px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-23",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Paper Samurai",
+              "subtitle": "Japanese minimalism meets sharp precision"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "刀の精神",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s4"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF8F0",
+                  "label": "rice"
+                },
+                {
+                  "hex": "#FAF3E8",
+                  "label": "parchment"
+                },
+                {
+                  "hex": "#D4A574",
+                  "label": "bamboo"
+                },
+                {
+                  "hex": "#CF333F",
+                  "label": "vermillion"
+                },
+                {
+                  "hex": "#2C1810",
+                  "label": "ink"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "t2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Precision in simplicity",
+              "variant": "caption"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Electric Tokyo",
       "description": "Shibuya at night after rain—neon reflections in wet asphalt, condensed geometry meets atmospheric haze",
       "colors": {
@@ -1422,247 +1665,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Moss Telegraph",
-      "description": "Forest floor communication network where ancient moss sends digital signals through morning mist",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C3E2D",
-          "--color-bg": "#F5F8F0",
-          "--color-link": "#008040",
-          "--color-link-hover": "#32CD32",
-          "--color-border": "#A8C09A",
-          "--color-muted": "#7A8471",
-          "--color-sidebar-bg": "#F0F5EA",
-          "--color-nav-bg": "#F8FAF5",
-          "--color-nav-text": "#2C3E2D",
-          "--color-card-bg": "#FAFCF7"
-        },
-        "dark": {
-          "--color-text": "#E8F5E8",
-          "--color-bg": "#1A2E1A",
-          "--color-link": "#00FF7F",
-          "--color-link-hover": "#32CD32",
-          "--color-border": "#4A6B4A",
-          "--color-muted": "#8BA68B",
-          "--color-sidebar-bg": "#203020",
-          "--color-nav-bg": "#162816",
-          "--color-nav-text": "#E8F5E8",
-          "--color-card-bg": "#1F331F"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fira Code",
-          "url": "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'Fira Code', 'SF Mono', Monaco, 'Courier New', monospace"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.01em",
-        "headingTransform": "lowercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 4px 16px rgba(0,0,0,0.06)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#00FF7F",
-          "#228B22",
-          "#90EE90"
-        ]
-      },
-      "font": {
-        "name": "Fira Code",
-        "url": "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap",
-        "category": "monospace",
-        "stack": "'Fira Code', 'SF Mono', Monaco, 'Courier New', monospace"
-      },
-      "date": "2026-04-16",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Moss Telegraph",
-              "subtitle": "Digital signals through forest mist"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "p1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C3E2D",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F5F8F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#008040",
-                  "label": "link"
-                },
-                {
-                  "hex": "#32CD32",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#A8C09A",
-                  "label": "border"
-                },
-                {
-                  "hex": "#7A8471",
-                  "label": "muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "l1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "monospace",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "[SIGNAL_RECEIVED]",
-              "variant": "heading",
-              "weight": "normal"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Ancient networks pulse beneath the forest floor",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-22"
+  "currentDate": "2026-04-23"
 }
