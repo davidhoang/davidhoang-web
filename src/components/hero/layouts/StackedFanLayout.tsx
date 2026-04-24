@@ -1,15 +1,9 @@
 import { Fragment, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import {
-  LayoutGroup,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from 'framer-motion';
+import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
+import { useMagneticTilt } from '../../useMagneticTilt';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -66,30 +60,8 @@ function FanCard({
   onCardClick,
   onCardHover,
 }: FanCardProps) {
-  const prefersReducedMotion = useReducedMotion();
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-
-  // Normalized cursor offset from card center, in [-0.5, 0.5].
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const springX = useSpring(pointerX, { stiffness: 220, damping: 22, mass: 0.6 });
-  const springY = useSpring(pointerY, { stiffness: 220, damping: 22, mass: 0.6 });
-
-  // Tilt away from cursor: top-of-card leans back when cursor is near top. Keep subtle (~8°).
-  const tiltX = useTransform(springY, [-0.5, 0.5], [9, -9]);
-  const tiltY = useTransform(springX, [-0.5, 0.5], [-9, 9]);
-
-  const resetTilt = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (prefersReducedMotion || selectedCard) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    pointerX.set((e.clientX - rect.left) / rect.width - 0.5);
-    pointerY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
+  const tilt = useMagneticTilt({ disabled: Boolean(selectedCard) });
 
   return (
     <motion.div
@@ -98,8 +70,8 @@ function FanCard({
       style={{
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: cardCount - index,
-        rotateX: prefersReducedMotion ? 0 : tiltX,
-        rotateY: prefersReducedMotion ? 0 : tiltY,
+        rotateX: tilt.rotateX,
+        rotateY: tilt.rotateY,
         transformPerspective: 900,
       }}
       initial={{
@@ -141,13 +113,13 @@ function FanCard({
         delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
-      onMouseMove={handleMouseMove}
+      onMouseMove={tilt.onMouseMove}
       onMouseLeave={() => {
-        resetTilt();
+        tilt.reset();
         onCardHover(null);
       }}
       onClick={() => {
-        resetTilt();
+        tilt.reset();
         onCardClick(card.id, card.link);
       }}
     >

@@ -1,13 +1,7 @@
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { useRef, type ReactNode } from 'react';
 import { createResponsiveImage } from '../utils/responsive-images';
+import { useMagneticTilt } from './useMagneticTilt';
 
 interface PhilosophyItem {
   content: string;
@@ -70,24 +64,7 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
 
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   const prefersReducedMotion = useReducedMotion();
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const springX = useSpring(pointerX, { stiffness: 220, damping: 22, mass: 0.6 });
-  const springY = useSpring(pointerY, { stiffness: 220, damping: 22, mass: 0.6 });
-  const tiltX = useTransform(springY, [-0.5, 0.5], [6, -6]);
-  const tiltY = useTransform(springX, [-0.5, 0.5], [-6, 6]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (prefersReducedMotion) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    pointerX.set((e.clientX - rect.left) / rect.width - 0.5);
-    pointerY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-
-  const handleMouseLeave = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
+  const tilt = useMagneticTilt({ amplitude: 6 });
 
   const responsiveImage = createResponsiveImage(
     {
@@ -126,8 +103,8 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       <motion.div
         className="portfolio-images"
         style={{
-          rotateX: prefersReducedMotion ? 0 : tiltX,
-          rotateY: prefersReducedMotion ? 0 : tiltY,
+          rotateX: tilt.rotateX,
+          rotateY: tilt.rotateY,
           transformPerspective: 1000,
           willChange: 'transform',
         }}
@@ -139,8 +116,8 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
                 transition: { type: 'spring', stiffness: 260, damping: 30, mass: 0.7 },
               }
         }
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
       >
         <img
           src={responsiveImage.src}
