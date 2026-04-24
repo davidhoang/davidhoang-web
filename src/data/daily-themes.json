@@ -1,6 +1,248 @@
 {
   "themes": [
     {
+      "name": "Analog Sunset",
+      "description": "Warm vinyl records and golden hour light filtering through dusty blinds",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#3D2914",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#C5303C",
+          "--color-link-hover": "#C1121F",
+          "--color-border": "#E6C79C",
+          "--color-muted": "#8B6914",
+          "--color-sidebar-bg": "#F8EBD8",
+          "--color-nav-bg": "#FAF0E6",
+          "--color-nav-text": "#3D2914",
+          "--color-card-bg": "#FAF0E6"
+        },
+        "dark": {
+          "--color-text": "#E6C79C",
+          "--color-bg": "#1C1410",
+          "--color-link": "#FF6B35",
+          "--color-link-hover": "#FF8C42",
+          "--color-border": "#3D2914",
+          "--color-muted": "#8B6914",
+          "--color-sidebar-bg": "#261A11",
+          "--color-nav-bg": "#2C1810",
+          "--color-nav-text": "#E6C79C",
+          "--color-card-bg": "#2C1810"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Righteous",
+          "url": "https://fonts.googleapis.com/css2?family=Righteous:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Righteous', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Vollkorn",
+          "url": "https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Vollkorn', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 24px rgba(61, 41, 20, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#E63946",
+          "#FF6B35",
+          "#8B6914"
+        ]
+      },
+      "font": {
+        "name": "Righteous",
+        "url": "https://fonts.googleapis.com/css2?family=Righteous:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Righteous', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-24",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Analog Sunset",
+              "subtitle": "Warm vinyl records and golden hour light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "br",
+              "p1",
+              "ts1",
+              "s2",
+              "lp"
+            ]
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#3D2914",
+                  "label": "text"
+                },
+                {
+                  "hex": "#C5303C",
+                  "label": "link"
+                },
+                {
+                  "hex": "#E6C79C",
+                  "label": "border"
+                },
+                {
+                  "hex": "#8B6914",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#F8EBD8",
+                  "label": "sidebar"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Golden Hour Sessions",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "ts2",
+              "lp"
+            ]
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Dust motes dance in the amber light as the needle finds its groove",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Paper Samurai",
       "description": "Japanese minimalism meets sharp precision — rice paper warmth with sword-edge geometry",
       "colors": {
@@ -1421,251 +1663,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Concrete Cathedral",
-      "description": "Raw concrete meets divine light in minimalist architectural reverence",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F2EE",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8935F",
-          "--color-border": "#E0DDD9",
-          "--color-muted": "#8B8B8B",
-          "--color-sidebar-bg": "#F0EDE9",
-          "--color-nav-bg": "#F5F2EE",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#EFEBE7"
-        },
-        "dark": {
-          "--color-text": "#E8E8E8",
-          "--color-bg": "#1A1A1A",
-          "--color-link": "#E6B876",
-          "--color-link-hover": "#F2C88A",
-          "--color-border": "#333333",
-          "--color-muted": "#999999",
-          "--color-sidebar-bg": "#252525",
-          "--color-nav-bg": "#1A1A1A",
-          "--color-nav-text": "#E8E8E8",
-          "--color-card-bg": "#222222"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "2px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D4A574",
-          "#8B8B8B"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-17",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Concrete Cathedral",
-              "subtitle": "Raw concrete meets divine light in minimalist architectural reverence"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "d1",
-              "p1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "monospace",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2EE",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8935F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#E0DDD9",
-                  "label": "border"
-                },
-                {
-                  "hex": "#EFEBE7",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Geometry",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "/* divine light through raw stone */",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-23"
+  "currentDate": "2026-04-24"
 }
