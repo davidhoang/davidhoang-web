@@ -1,6 +1,246 @@
 {
   "themes": [
     {
+      "name": "Moss & Copper",
+      "description": "Dawn light filtering through dense forest canopy, copper pennies scattered on velvet moss",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2C3E2D",
+          "--color-bg": "#F4F7F0",
+          "--color-link": "#9C622B",
+          "--color-link-hover": "#8B4513",
+          "--color-border": "#D4E5D0",
+          "--color-muted": "#7A8471",
+          "--color-sidebar-bg": "#EDF2E8",
+          "--color-nav-bg": "#F0F5ED",
+          "--color-nav-text": "#2C3E2D",
+          "--color-card-bg": "#FBFDF9"
+        },
+        "dark": {
+          "--color-text": "#D4E5D0",
+          "--color-bg": "#1A2B1D",
+          "--color-link": "#CD853F",
+          "--color-link-hover": "#DEB887",
+          "--color-border": "#3A4B3D",
+          "--color-muted": "#8A9B8D",
+          "--color-sidebar-bg": "#213324",
+          "--color-nav-bg": "#1F2E22",
+          "--color-nav-text": "#D4E5D0",
+          "--color-card-bg": "#212F24"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "'wght' 600, 'opsz' 48"
+      },
+      "navigation": {
+        "style": "floating",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 4px 16px rgba(44, 62, 45, 0.08)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "perlin",
+        "colors": [
+          "#7A8471",
+          "#B87333",
+          "#D4E5D0"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-04-25",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Moss & Copper",
+              "subtitle": "Dawn light through forest canopy"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C3E2D",
+                  "label": "Forest"
+                },
+                {
+                  "hex": "#F4F7F0",
+                  "label": "Mist"
+                },
+                {
+                  "hex": "#9C622B",
+                  "label": "Copper"
+                },
+                {
+                  "hex": "#8B4513",
+                  "label": "Auburn"
+                },
+                {
+                  "hex": "#D4E5D0",
+                  "label": "Sage"
+                },
+                {
+                  "hex": "#7A8471",
+                  "label": "Moss"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "t1",
+              "lp"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Whispered Woodlands",
+              "variant": "heading",
+              "weight": "medium"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Analog Sunset",
       "description": "Warm vinyl records and golden hour light filtering through dusty blinds",
       "colors": {
@@ -1424,246 +1664,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Rich burgundy depths with electric gold accents, like lightning illuminating a theater curtain",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C0B1A",
-          "--color-bg": "#FDF6F0",
-          "--color-link": "#B34B00",
-          "--color-link-hover": "#E55A00",
-          "--color-border": "#E8D5C4",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#FAF0E6",
-          "--color-nav-bg": "#FDF6F0",
-          "--color-nav-text": "#2C0B1A",
-          "--color-card-bg": "#FFFBF7"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFC300",
-          "--color-border": "#3D2817",
-          "--color-muted": "#8B7355",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#261A11"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 700, 'opsz' 48"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(44, 11, 26, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#2C0B1A",
-          "#FF6B00"
-        ]
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-04-18",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Thunder",
-              "subtitle": "Rich burgundy depths with electric gold accents"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "ts1",
-              "s3"
-            ]
-          },
-          "ts1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Lightning Illuminates the Theater",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "cp",
-              "ts2"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C0B1A",
-                  "label": "text"
-                },
-                {
-                  "hex": "#FDF6F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#B34B00",
-                  "label": "link"
-                },
-                {
-                  "hex": "#E8D5C4",
-                  "label": "border"
-                },
-                {
-                  "hex": "#8B7355",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#FFFBF7",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Crimson Text flows like velvet across the page with theatrical elegance",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-24"
+  "currentDate": "2026-04-25"
 }
