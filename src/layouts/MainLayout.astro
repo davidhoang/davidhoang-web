@@ -146,7 +146,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="robots" content={robots} />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={detectedPageType === 'blog' ? 'article' : 'website'} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -515,7 +515,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
       <ShaderBackground client:visible />
-      <main id="main-content" class="container" role="main" aria-label="Main content" tabindex="-1" data-pagefind-body transition:animate={contentSlide}>
+      <main id="main-content" class="container" tabindex="-1" data-pagefind-body transition:animate={contentSlide}>
         <slot />
       </main>
       {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}

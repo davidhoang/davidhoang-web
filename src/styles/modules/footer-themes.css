@@ -3,76 +3,14 @@
    ============================================ */
 
 /* Classic-only decoration (Footer.astro) — hide for alternate footer layouts */
-[data-footer-style="minimal"] footer::before,
 [data-footer-style="brutalist"] footer::before,
-[data-footer-style="inverted"] footer::before,
-[data-footer-style="marquee"] footer::before,
-[data-footer-style="stacked"] footer::before,
 [data-footer-style="editorial"] footer::before,
-[data-footer-style="gradient"] footer::before,
-[data-footer-style="boxed"] footer::before,
 [data-footer-style="retro"] footer::before,
-[data-footer-style="split"] footer::before,
-[data-footer-style="minimal"] footer::after,
 [data-footer-style="brutalist"] footer::after,
-[data-footer-style="inverted"] footer::after,
-[data-footer-style="marquee"] footer::after,
-[data-footer-style="stacked"] footer::after,
 [data-footer-style="editorial"] footer::after,
-[data-footer-style="gradient"] footer::after,
-[data-footer-style="boxed"] footer::after,
-[data-footer-style="retro"] footer::after,
-[data-footer-style="split"] footer::after {
+[data-footer-style="retro"] footer::after {
   display: none;
   content: none;
-}
-
-/* Minimal - centered, sparse, elegant */
-[data-footer-style="minimal"] footer {
-  border-top: none;
-  padding: 4rem 0;
-  text-align: center;
-}
-
-[data-footer-style="minimal"] footer .footer-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  grid-template-columns: none;
-}
-
-[data-footer-style="minimal"] footer .footer-col {
-  text-align: center;
-}
-
-[data-footer-style="minimal"] footer .footer-col h4 {
-  display: none;
-}
-
-[data-footer-style="minimal"] footer .footer-col ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-[data-footer-style="minimal"] footer .footer-col li {
-  margin: 0;
-}
-
-[data-footer-style="minimal"] footer .footer-section-email {
-  font-size: 1rem;
-  margin-bottom: 2rem;
-  padding: 24px 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-[data-footer-style="minimal"] footer .footer-email-eyebrow {
-  display: none;
 }
 
 /* Brutalist - heavy, loud, monospace */
@@ -126,105 +64,6 @@
   opacity: 0.7;
 }
 
-/* Inverted - swapped colors, bold band */
-[data-footer-style="inverted"] footer {
-  border-top: none;
-  background: var(--color-sidebar-bg);
-  padding: 3rem 0;
-  margin-top: 4rem;
-}
-
-[data-footer-style="inverted"] footer .footer-section-email a {
-  background: var(--color-link);
-  color: var(--color-bg) !important;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-md, 8px);
-  display: inline-block;
-  text-decoration: none !important;
-}
-
-[data-footer-style="inverted"] footer .footer-section-email a:hover {
-  background: var(--color-link-hover);
-  transform: translateY(-2px);
-}
-
-[data-footer-style="inverted"] footer .footer-section-email {
-  padding: 0.75rem 0 1.5rem;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-/* Marquee - animated scrolling feel */
-[data-footer-style="marquee"] footer {
-  border-top: 1px solid var(--color-border);
-  overflow: hidden;
-}
-
-[data-footer-style="marquee"] footer .footer-section-email {
-  font-size: 2rem;
-  white-space: nowrap;
-  animation: marquee-scroll 20s linear infinite;
-  padding: 2rem 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-[data-footer-style="marquee"] footer .footer-email-eyebrow {
-  display: none;
-}
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-[data-footer-style="marquee"] footer .footer-grid {
-  display: flex;
-  justify-content: space-between;
-  grid-template-columns: none;
-}
-
-/* Stacked - horizontal single row */
-[data-footer-style="stacked"] footer {
-  border-top: 1px solid var(--color-border);
-  padding: 2rem 0;
-}
-
-[data-footer-style="stacked"] footer .footer-grid {
-  display: none;
-}
-
-[data-footer-style="stacked"] footer .footer-section-email {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 1rem 0;
-}
-
-[data-footer-style="stacked"] footer .footer-email-eyebrow {
-  display: none;
-}
-
-[data-footer-style="stacked"] footer::after {
-  content: 'GitHub · LinkedIn · Twitter · RSS';
-  display: block;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--color-muted);
-  margin-top: 1rem;
-}
-
 /* Editorial - newspaper style with large CTA */
 [data-footer-style="editorial"] footer {
   border-top: 3px double var(--color-border);
@@ -265,29 +104,6 @@
   letter-spacing: 0;
 }
 
-/* Gradient - fading background */
-[data-footer-style="gradient"] footer {
-  border-top: none;
-  background: linear-gradient(to bottom, transparent, var(--color-sidebar-bg));
-  padding: 6rem 0 3rem;
-  margin-top: -2rem;
-}
-
-/* Boxed - contained in a card */
-[data-footer-style="boxed"] footer {
-  border-top: none;
-  padding: 0;
-  margin-top: 4rem;
-}
-
-[data-footer-style="boxed"] footer .container {
-  background: var(--color-sidebar-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg, 16px);
-  padding: 2rem;
-  max-width: 900px;
-}
-
 /* Retro - pixelated borders, 8-bit feel */
 [data-footer-style="retro"] footer {
   border-top: 4px dashed var(--color-link);
@@ -308,38 +124,4 @@
 [data-footer-style="retro"] footer .footer-section-email a::before {
   content: '> ';
   color: var(--color-link);
-}
-
-/* Split - two columns, asymmetric */
-[data-footer-style="split"] footer {
-  border-top: 1px solid var(--color-border);
-}
-
-[data-footer-style="split"] footer .container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-[data-footer-style="split"] footer .footer-section-email {
-  grid-column: 1;
-  font-size: 1.5rem;
-  position: sticky;
-  top: 2rem;
-}
-
-[data-footer-style="split"] footer .footer-grid {
-  grid-column: 2;
-}
-
-@media (max-width: 768px) {
-  [data-footer-style="split"] footer .container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  [data-footer-style="split"] footer .footer-section-email {
-    position: static;
-  }
 }
