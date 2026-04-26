@@ -51,6 +51,11 @@ const portfolioItems = [
 ---
 
 <MainLayout title="David Hoang" description={pageDescription} ogImage={ogImage}>
+  {/* Preload hero card images early — Astro SSR preloads <img> sources inside
+      the island, but the "about" thumbnail uses background-image (invisible to
+      the preload scanner) and config-still benefits from an earlier head hint. */}
+  <link slot="head" rel="preload" as="image" href="/images/img-dh-web-light.webp" type="image/webp" />
+  <link slot="head" rel="preload" as="image" href="/images/davidhoang-web-config-still.webp" type="image/webp" fetchpriority="high" />
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
     <CardStackHeroLazy client:idle />
