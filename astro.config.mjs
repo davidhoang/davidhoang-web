@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { cpSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 
@@ -40,7 +41,10 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [copyAssetsPlugin()],
+    plugins: [
+      copyAssetsPlugin(),
+      ...(process.env.ANALYZE ? [visualizer({ open: true, gzipSize: true, brotliSize: true })] : []),
+    ],
     // Disable caching in development to prevent stale module issues
     server: {
       hmr: {
