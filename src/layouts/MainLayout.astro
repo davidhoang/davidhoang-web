@@ -1,7 +1,6 @@
 ---
 import '../styles/reset.css';
 import '../styles/global.css';
-import '../styles/self-hosted-fonts.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
@@ -81,6 +80,28 @@ const themeFonts = [todayTheme?.fonts?.heading, todayTheme?.fonts?.body]
 // Only fonts that aren't already self-hosted need external loading
 const externalThemeFonts = themeFonts.filter((f: any) => !SELF_HOSTED_FONTS.has(f.name));
 const needsGoogleFonts = externalThemeFonts.length > 0;
+
+// Load only the @font-face declarations needed by today's theme (not all 1,900 lines)
+// Vite ?raw imports give us CSS as strings at build time
+import cormorantGaramondCSS from '../styles/fonts/cormorant-garamond.css?raw';
+import frauncesCSS from '../styles/fonts/fraunces.css?raw';
+import interCSS from '../styles/fonts/inter.css?raw';
+import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
+import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
+const FONT_CSS_RAW: Record<string, string> = {
+  'Cormorant Garamond': cormorantGaramondCSS,
+  'Fraunces': frauncesCSS,
+  'Inter': interCSS,
+  'Source Serif 4': sourceSerif4CSS,
+  'Space Grotesk': spaceGroteskCSS,
+};
+const neededFontFamilies = new Set<string>();
+if (todayTheme?.fonts?.heading?.name) neededFontFamilies.add(todayTheme.fonts.heading.name);
+if (todayTheme?.fonts?.body?.name) neededFontFamilies.add(todayTheme.fonts.body.name);
+let themeFontCSS = '';
+for (const name of neededFontFamilies) {
+  if (FONT_CSS_RAW[name]) themeFontCSS += FONT_CSS_RAW[name] + '\n';
+}
 
 // --- SSR daily theme: bake today's theme into HTML to prevent CLS ---
 function getNestedValue(obj: any, path: string) {
@@ -269,6 +290,8 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <meta name="generator" content={Astro.generator} />
 
+    {/* Inline @font-face declarations for today's theme fonts only */}
+    {themeFontCSS && <Fragment set:html={`<style>${themeFontCSS}</style>`} />}
     <!-- Intelligent Font Preloading System -->
     <FontPreloader pageType={detectedPageType} priority={detectedPageType === 'home'} />
     

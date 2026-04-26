@@ -197,24 +197,7 @@
   border: none;
 }
 
-/* Card with hover effect */
-.card-interactive:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-}
-
-/* Card header/body/footer */
-.card-header {
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--spacing-md);
-}
-
-.card-footer {
-  padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-border);
-  margin-top: var(--spacing-md);
-}
+/* card-interactive, card-header, card-footer — moved to design-guide.astro */
 
 /* --------------------------------------------
    3. SURFACES
@@ -231,37 +214,7 @@
   transition: background-color 0.3s var(--ease-inertia);
 }
 
-.surface-raised {
-  background: var(--color-sidebar-bg);
-  box-shadow: var(--card-shadow);
-}
-
-.surface-sunken {
-  background: var(--color-sidebar-bg);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-}
-
-.surface-glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  /* GPU acceleration for blur performance */
-  transform: translateZ(0);
-  will-change: backdrop-filter;
-}
-
-/* Reduce blur on mobile for better performance */
-@media (max-width: 768px) {
-  .surface-glass {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-}
-
-[data-theme="dark"] .surface-glass {
-  background: rgba(0, 0, 0, 0.2);
-}
+/* surface-raised, surface-sunken, surface-glass — moved to design-guide.astro */
 
 /* --------------------------------------------
    4. TYPOGRAPHY
@@ -324,28 +277,7 @@
 .text-2xl { font-size: 1.5rem; }
 .text-3xl { font-size: 2rem; }
 
-/* Extreme typography scales — driven by --scale-ratio from daily themes */
-.text-micro {
-  font-size: var(--text-micro, 0.5625rem);
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-}
-
-.text-jumbo {
-  font-size: var(--text-jumbo, 3.157rem);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  font-family: var(--font-heading);
-  font-weight: var(--heading-weight);
-}
-
-.text-display-xl {
-  font-size: var(--text-display-xl, 4.209rem);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  font-family: var(--font-heading);
-  font-weight: var(--heading-weight);
-}
+/* text-micro, text-jumbo, text-display-xl — moved to design-guide.astro */
 
 /* --------------------------------------------
    5. IMAGES
@@ -425,8 +357,7 @@ img {
   border: 2px solid var(--color-border);
 }
 
-.img-avatar-sm { width: var(--size-md); height: var(--size-md); }
-.img-avatar-lg { width: var(--size-xl); height: var(--size-xl); }
+/* img-avatar-sm, img-avatar-lg — moved to design-guide.astro */
 
 /* --------------------------------------------
    6. BADGES
@@ -477,13 +408,7 @@ img {
   margin: var(--spacing-xl) 0;
 }
 
-.divider-subtle {
-  opacity: 0.5;
-}
-
-.divider-thick {
-  height: 2px;
-}
+/* divider-subtle, divider-thick — moved to design-guide.astro */
 
 /* --------------------------------------------
    8. LINKS
@@ -611,84 +536,7 @@ img {
    Note: These complement [data-grid-style] from themes
    -------------------------------------------- */
 
-.grid-asymmetric {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--section-spacing, 2rem);
-}
-
-.grid-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-}
-
-.grid-split > *:nth-child(odd) {
-  padding-right: var(--content-padding, 2rem);
-}
-
-.grid-split > *:nth-child(even) {
-  padding-left: var(--content-padding, 2rem);
-  border-left: 1px solid var(--color-border);
-}
-
-.grid-magazine {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--section-spacing, 2rem);
-}
-
-.grid-magazine > *:first-child {
-  grid-column: 1 / -1;
-}
-
-.grid-sidebar {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: var(--section-spacing, 2rem);
-}
-
-.grid-sidebar > *:first-child {
-  position: sticky;
-  top: var(--content-top-padding);
-  align-self: start;
-}
-
-/* Responsive: all experimental grids collapse on mobile */
-@media (max-width: 768px) {
-  .grid-asymmetric,
-  .grid-split,
-  .grid-magazine,
-  .grid-sidebar {
-    grid-template-columns: 1fr;
-  }
-
-  .grid-split > *:nth-child(odd) {
-    padding-right: 0;
-  }
-
-  .grid-split > *:nth-child(even) {
-    padding-left: 0;
-    border-left: none;
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--content-padding, 2rem);
-  }
-
-  .grid-sidebar > *:first-child {
-    position: static;
-  }
-
-  .grid-magazine > *:first-child {
-    grid-column: auto;
-  }
-}
-
-/* Tablet: magazine falls to 2 columns */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .grid-magazine {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+/* grid-asymmetric, grid-split, grid-magazine, grid-sidebar — moved to design-guide.astro */
 
 /* ============================================
    DARK MODE FIXES
