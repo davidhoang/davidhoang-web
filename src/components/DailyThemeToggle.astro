@@ -275,7 +275,11 @@ const hasThemes = themes.length > 0;
       document.documentElement.setAttribute('data-shader', 'none');
     } else if (isDailyMode) {
       toggleBtn.setAttribute('aria-pressed', 'true');
-      applyDailyTheme(selectedDate);
+      // Skip re-applying if SSR already baked in the correct theme (avoids CLS from redundant style recalc)
+      const ssrDate = document.documentElement.getAttribute('data-daily-theme');
+      if (ssrDate !== selectedDate) {
+        applyDailyTheme(selectedDate);
+      }
 
       let selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
       if (!selectedBtn && themes.length > 0) {

@@ -82,6 +82,106 @@ const themeFonts = [todayTheme?.fonts?.heading, todayTheme?.fonts?.body]
 const externalThemeFonts = themeFonts.filter((f: any) => !SELF_HOSTED_FONTS.has(f.name));
 const needsGoogleFonts = externalThemeFonts.length > 0;
 
+// --- SSR daily theme: bake today's theme into HTML to prevent CLS ---
+function getNestedValue(obj: any, path: string) {
+  return path.split('.').reduce((o: any, k: string) => o && o[k], obj);
+}
+function clampMinContentPadding(raw: string | null) {
+  if (!raw) return '1rem';
+  const s = String(raw).trim();
+  const m = s.match(/^([\d.]+)\s*(rem|px|em)?$/i);
+  if (!m) return '1rem';
+  let n = parseFloat(m[1]);
+  const unit = (m[2] || 'rem').toLowerCase();
+  if (isNaN(n) || n <= 0) return '1rem';
+  if (unit === 'px') n = n / 16;
+  return `${Math.max(1, n)}rem`;
+}
+
+// Build CSS custom properties for today's theme (light mode default)
+const ssrThemeStyle: string[] = [];
+if (todayTheme) {
+  // Colors (light mode — dark mode applied by early client script)
+  const lightColors = todayTheme.colors?.light;
+  if (lightColors) {
+    for (const [key, value] of Object.entries(lightColors)) {
+      ssrThemeStyle.push(`${key}:${value}`);
+    }
+  }
+  // Typography + layout + nav + card + image properties
+  const THEME_PROPS: [string, string][] = [
+    ['typography.headingWeight', '--heading-weight'],
+    ['typography.bodyWeight', '--body-weight'],
+    ['typography.bodyLineHeight', '--body-line-height'],
+    ['typography.letterSpacing', '--letter-spacing'],
+    ['typography.headingLetterSpacing', '--heading-letter-spacing'],
+    ['typography.headingTransform', '--heading-transform'],
+    ['typography.scaleRatio', '--scale-ratio'],
+    ['navigation.height', '--nav-height'],
+    ['navigation.padding', '--nav-padding'],
+    ['cards.borderWidth', '--card-border-width'],
+    ['cards.padding', '--card-padding'],
+    ['layout.containerMaxWidth', '--container-max-width'],
+    ['layout.sectionSpacing', '--section-spacing'],
+    ['layout.contentPadding', '--content-padding'],
+    ['images.opacity', '--image-opacity'],
+    ['images.borderRadius', '--image-border-radius'],
+  ];
+  for (const [path, prop] of THEME_PROPS) {
+    const val = getNestedValue(todayTheme, path);
+    if (val) ssrThemeStyle.push(`${prop}:${prop === '--content-padding' ? clampMinContentPadding(val) : val}`);
+  }
+  // Fonts
+  if (todayTheme.fonts?.heading?.stack) ssrThemeStyle.push(`--font-heading:${todayTheme.fonts.heading.stack}`);
+  if (todayTheme.fonts?.body?.stack) {
+    ssrThemeStyle.push(`--font-body:${todayTheme.fonts.body.stack}`);
+    ssrThemeStyle.push(`--font-primary:${todayTheme.fonts.body.stack}`);
+  }
+  // Card shadow
+  if (todayTheme.cards?.shadow && todayTheme.cards.shadow !== 'none') {
+    ssrThemeStyle.push(`--card-shadow:${todayTheme.cards.shadow}`);
+  }
+  // Border radius
+  if (todayTheme.layout?.borderRadius) {
+    const br = todayTheme.layout.borderRadius;
+    ssrThemeStyle.push(`--radius-sm:${br === '0px' ? '0px' : `calc(${br} * 0.5)`}`);
+    ssrThemeStyle.push(`--radius-md:${br}`);
+    ssrThemeStyle.push(`--radius-lg:calc(${br} * 1.5)`);
+    ssrThemeStyle.push(`--radius-xl:calc(${br} * 2)`);
+  }
+  // Font variation settings
+  if (todayTheme.typography?.fontVariationSettings && todayTheme.typography.fontVariationSettings !== 'normal') {
+    ssrThemeStyle.push(`--font-variation-settings:${todayTheme.typography.fontVariationSettings}`);
+  }
+}
+
+// Build data attributes for today's theme
+const ssrThemeAttrs: Record<string, string> = {};
+if (todayTheme) {
+  const THEME_ATTRS: [string, string, string][] = [
+    ['navigation.style', 'data-nav-style', 'floating'],
+    ['cards.style', 'data-card-style', 'elevated'],
+    ['hero.layout', 'data-hero-layout', 'stacked-fan'],
+    ['links.style', 'data-link-style', 'underline'],
+    ['background.texture', 'data-bg-texture', 'none'],
+    ['images.style', 'data-image-style', 'vivid'],
+    ['images.hover', 'data-image-hover', 'zoom'],
+    ['footer.style', 'data-footer-style', 'classic'],
+  ];
+  for (const [path, attr, defaultVal] of THEME_ATTRS) {
+    ssrThemeAttrs[attr] = getNestedValue(todayTheme, path) || defaultVal;
+  }
+  ssrThemeAttrs['data-daily-theme'] = todayTheme.date || today;
+  ssrThemeAttrs['data-shader'] = todayTheme.shader?.type || 'none';
+  if (todayTheme.shader?.colors) ssrThemeAttrs['data-shader-colors'] = JSON.stringify(todayTheme.shader.colors);
+  if (todayTheme.layout?.gridStyle && todayTheme.layout.gridStyle !== 'standard') {
+    ssrThemeAttrs['data-grid-style'] = todayTheme.layout.gridStyle;
+  }
+  if (todayTheme.colors?.contrastMode && todayTheme.colors.contrastMode !== 'standard') {
+    ssrThemeAttrs['data-contrast-mode'] = todayTheme.colors.contrastMode;
+  }
+}
+
 interface Props {
   title: string;
   description?: string;
@@ -129,7 +229,7 @@ const ogImageUrl = ogImage.startsWith('http')
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style={ssrThemeStyle.join(';')} {...ssrThemeAttrs}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -352,30 +452,51 @@ const ogImageUrl = ogImage.startsWith('http')
       }
     </style>
     
-    <!-- Apply theme and e-ink mode before paint to avoid flash -->
-    <script>
+    <!-- Apply theme and e-ink mode before paint to avoid flash.
+         SSR bakes today's daily theme (light mode) into <html> style/attrs.
+         This script handles: dark mode color swap, e-ink override, daily-off. -->
+    <script define:vars={{ ssrDarkColors: todayTheme?.colors?.dark || {}, ssrThemeStyleKeys: ssrThemeStyle.map((s: string) => s.split(':')[0]) }}>
       (function(){
         try {
+          var root = document.documentElement;
           var stored = localStorage.getItem('theme');
           var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
           var theme = stored || (prefersDark ? 'dark' : 'light');
-          document.documentElement.setAttribute('data-theme', theme);
+          root.setAttribute('data-theme', theme);
 
-          // Apply e-ink mode if enabled
-          var eInkMode = localStorage.getItem('e-ink-mode');
-          if (eInkMode === 'true') {
-            document.documentElement.setAttribute('data-e-ink', 'true');
+          var eInkMode = localStorage.getItem('e-ink-mode') === 'true';
+          var dailyOff = localStorage.getItem('daily-theme-mode') === 'false';
+
+          if (eInkMode) {
+            // E-ink: strip daily theme, apply e-ink attribute
+            ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
+            root.setAttribute('data-e-ink', 'true');
+            root.setAttribute('data-shader', 'none');
+          } else if (dailyOff) {
+            // User disabled daily theme: strip SSR theme properties
+            ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
+            root.removeAttribute('data-daily-theme');
+            root.removeAttribute('data-shader');
+            root.removeAttribute('data-shader-colors');
+            root.removeAttribute('data-grid-style');
+            root.removeAttribute('data-contrast-mode');
+            ['data-nav-style','data-card-style','data-hero-layout','data-link-style',
+             'data-bg-texture','data-image-style','data-image-hover','data-footer-style'
+            ].forEach(function(a) { root.removeAttribute(a); });
+          } else if (theme === 'dark') {
+            // Dark mode: swap SSR light colors to dark
+            Object.keys(ssrDarkColors).forEach(function(k) {
+              root.style.setProperty(k, ssrDarkColors[k]);
+            });
           }
 
-          // Update browser theme-color to match current theme
+          // Update browser theme-color
           var themeColor = theme === 'dark' ? '#111111' : '#ffffff';
           var metaThemeColor = document.querySelector('meta[name="theme-color"]');
-          if (metaThemeColor) {
-            metaThemeColor.setAttribute('content', themeColor);
-          }
-          
+          if (metaThemeColor) metaThemeColor.setAttribute('content', themeColor);
+
           // Initialize font loading optimization early for better LCP
-          document.documentElement.classList.add('font-loading');
+          root.classList.add('font-loading');
         } catch(e) {
           // no-op
         }
