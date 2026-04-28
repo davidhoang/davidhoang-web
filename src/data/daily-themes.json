@@ -1,6 +1,262 @@
 {
   "themes": [
     {
+      "name": "Neon Midnight",
+      "description": "Rain-soaked Tokyo streets alive with electric colors and vertical rhythms",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F6FF",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00D4AA",
+          "--color-border": "#E6E0FF",
+          "--color-muted": "#6B7280",
+          "--color-sidebar-bg": "#F3F0FF",
+          "--color-nav-bg": "#FEFCFF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FDFDFF"
+        },
+        "dark": {
+          "--color-text": "#E6E0FF",
+          "--color-bg": "#0A0F1C",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#00D4AA",
+          "--color-border": "#1E2A3A",
+          "--color-muted": "#9CA3AF",
+          "--color-sidebar-bg": "#0D1420",
+          "--color-nav-bg": "#0F1724",
+          "--color-nav-text": "#E6E0FF",
+          "--color-card-bg": "#0C1218"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "glass",
+        "shadow": "0 8px 32px rgba(255, 0, 128, 0.15)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "neuro",
+        "colors": [
+          "#FF0080",
+          "#00D4AA",
+          "#1A1A2E"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-28",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Neon Midnight",
+              "subtitle": "Rain-soaked Tokyo streets alive with electric colors"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "h1",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Electric Nights",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "glass",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "p1",
+              "s4"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9006D",
+                  "label": "neon"
+                },
+                {
+                  "hex": "#00D4AA",
+                  "label": "cyan"
+                },
+                {
+                  "hex": "#1A1A2E",
+                  "label": "midnight"
+                },
+                {
+                  "hex": "#F8F6FF",
+                  "label": "glass"
+                },
+                {
+                  "hex": "#E6E0FF",
+                  "label": "glow"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "l1",
+              "t1"
+            ]
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Vertical rhythms dance through the city",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Desert Dawn",
       "description": "Southwestern awakening with terracotta warmth and golden hour serenity",
       "colors": {
@@ -1439,231 +1695,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Church of Light",
-      "description": "Raw concrete brutalism meets sacred golden illumination — architectural meditation on material and spirit",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F1EC",
-          "--color-link": "#8A6508",
-          "--color-link-hover": "#DAA520",
-          "--color-border": "#D4CFC7",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#F0EBE5",
-          "--color-nav-bg": "#F5F1EC",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#F8F4EF"
-        },
-        "dark": {
-          "--color-text": "#E8E4DF",
-          "--color-bg": "#1A1816",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFA500",
-          "--color-border": "#3A3632",
-          "--color-muted": "#A0A0A0",
-          "--color-sidebar-bg": "#211E1B",
-          "--color-nav-bg": "#1A1816",
-          "--color-nav-text": "#E8E4DF",
-          "--color-card-bg": "#222018"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#B8860B",
-          "#2C2C2C"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-21",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Church of Light",
-              "subtitle": "Architectural meditation on material and spirit"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "d1",
-              "p1",
-              "l1"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Concrete",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "brutalist",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F1EC",
-                  "label": "light"
-                },
-                {
-                  "hex": "#8A6508",
-                  "label": "gold"
-                },
-                {
-                  "hex": "#DAA520",
-                  "label": "radiant"
-                },
-                {
-                  "hex": "#2C2C2C",
-                  "label": "shadow"
-                },
-                {
-                  "hex": "#D4CFC7",
-                  "label": "stone"
-                }
-              ]
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-27"
+  "currentDate": "2026-04-28"
 }
