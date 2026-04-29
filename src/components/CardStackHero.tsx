@@ -914,7 +914,7 @@ export default function CardStackHero() {
           min-height: auto;
           display: flex;
           flex-direction: row;
-          gap: 1rem;
+          gap: 0.75rem;
           margin-top: 0;
           overflow: visible;
           align-items: stretch;
@@ -929,7 +929,7 @@ export default function CardStackHero() {
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 0.625rem;
+          gap: 0.5rem;
           min-width: 0;
         }
 
@@ -939,22 +939,31 @@ export default function CardStackHero() {
           top: auto;
           margin: 0;
           border-radius: var(--card-radius, 20px);
+          overflow: hidden;
         }
 
         .card-stack-hero--cinematic .card-featured {
           width: 100%;
           height: 380px;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
         .card-stack-hero--cinematic .card-filmstrip {
           width: 100%;
           height: 0;
           flex: 1;
-          min-height: 56px;
+          min-height: 52px;
           cursor: pointer;
+          border-radius: calc(var(--card-radius, 20px) * 0.6);
+          opacity: 0.85;
+          transition: opacity 0.2s ease;
         }
 
-        /* Filmstrip cards: hide expanded content, show compact info */
+        .card-stack-hero--cinematic .card-filmstrip:hover {
+          opacity: 1;
+        }
+
+        /* Filmstrip cards: hide expanded content, show compact */
         .card-stack-hero--cinematic .card-filmstrip .card-expanded-content,
         .card-stack-hero--cinematic .card-filmstrip .card-subtitle,
         .card-stack-hero--cinematic .card-filmstrip .card-description {
@@ -962,20 +971,24 @@ export default function CardStackHero() {
         }
 
         .card-stack-hero--cinematic .card-filmstrip .card-title {
-          font-size: 0.8125rem;
+          font-size: 0.75rem;
+          line-height: 1.3;
         }
 
         .card-stack-hero--cinematic .card-filmstrip .card-content {
-          padding: 0.5rem 0.75rem;
+          padding: 0.375rem 0.625rem;
         }
 
         .card-stack-hero--cinematic .card-filmstrip .card-unified-panel {
-          padding: 0.5rem 0.75rem;
+          padding: 0.375rem 0.625rem;
         }
 
-        /* Hero image in filmstrip: compact crop */
         .card-stack-hero--cinematic .card-filmstrip .card-hero-image-wrap {
-          max-height: 40px;
+          max-height: 32px;
+        }
+
+        .card-stack-hero--cinematic .card-filmstrip .card-pattern {
+          display: none;
         }
 
         .card-stack-hero--cinematic .card-selected {
@@ -986,6 +999,7 @@ export default function CardStackHero() {
         @media (max-width: 768px) {
           .card-stack-hero--cinematic .cards-wrapper {
             flex-direction: column;
+            gap: 0.5rem;
           }
 
           .cinematic-filmstrip {
@@ -993,10 +1007,15 @@ export default function CardStackHero() {
             overflow-x: auto;
             gap: 0.5rem;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+
+          .cinematic-filmstrip::-webkit-scrollbar {
+            display: none;
           }
 
           .card-stack-hero--cinematic .card-featured {
-            height: 280px;
+            height: 260px;
           }
 
           .card-stack-hero--cinematic .card-filmstrip {
