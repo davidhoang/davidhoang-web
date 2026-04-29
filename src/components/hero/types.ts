@@ -123,11 +123,11 @@ export const LAYOUT_MAP: Record<string, string> = {
   'bold': 'rolodex',
 };
 
-export type HeroLayout = 'stacked-fan' | 'editorial' | 'scattered' | 'rolodex';
+export type HeroLayout = 'stacked-fan' | 'editorial' | 'scattered' | 'rolodex' | 'cinematic';
 
 export function resolveLayout(raw: string | null): HeroLayout {
   if (!raw) return 'stacked-fan';
   if (raw in LAYOUT_MAP) return LAYOUT_MAP[raw] as HeroLayout;
-  const valid: HeroLayout[] = ['stacked-fan', 'editorial', 'scattered', 'rolodex'];
+  const valid: HeroLayout[] = ['stacked-fan', 'editorial', 'scattered', 'rolodex', 'cinematic'];
   return valid.includes(raw as HeroLayout) ? (raw as HeroLayout) : 'stacked-fan';
 }

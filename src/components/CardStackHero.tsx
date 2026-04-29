@@ -7,12 +7,14 @@ import StackedFanLayout from './hero/layouts/StackedFanLayout';
 import EditorialLayout from './hero/layouts/EditorialLayout';
 import ScatteredLayout from './hero/layouts/ScatteredLayout';
 import RolodexLayout from './hero/layouts/RolodexLayout';
+import CinematicLayout from './hero/layouts/CinematicLayout';
 
 const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
   'stacked-fan': StackedFanLayout,
   'editorial': EditorialLayout,
   'scattered': ScatteredLayout,
   'rolodex': RolodexLayout,
+  'cinematic': CinematicLayout,
 };
 
 export default function CardStackHero() {
@@ -245,6 +247,28 @@ export default function CardStackHero() {
 
         .card-stack-hero--rolodex .card-stack-container {
           perspective: 1200px;
+        }
+
+        .card-stack-hero--cinematic {
+          min-height: auto;
+        }
+
+        .card-stack-hero--cinematic .card-stack-container {
+          height: auto;
+          min-height: auto;
+          max-width: 100%;
+        }
+
+        .card-stack-hero--cinematic .card-stack-hero__intro {
+          align-items: flex-start;
+          text-align: left;
+        }
+
+        .card-stack-hero--cinematic .hero-title {
+          text-align: left;
+          margin-left: 0;
+          margin-right: 0;
+          padding-top: 0;
         }
 
         .card-stack-hero__intro {
@@ -881,6 +905,106 @@ export default function CardStackHero() {
           height: auto;
           min-height: 280px;
           margin-left: 0;
+        }
+
+        /* === Cinematic layout overrides === */
+        .card-stack-hero--cinematic .cards-wrapper {
+          width: 100%;
+          height: auto;
+          min-height: auto;
+          display: flex;
+          flex-direction: row;
+          gap: 1rem;
+          margin-top: 0;
+          overflow: visible;
+          align-items: stretch;
+        }
+
+        .cinematic-featured {
+          flex: 3;
+          min-width: 0;
+        }
+
+        .cinematic-filmstrip {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.625rem;
+          min-width: 0;
+        }
+
+        .card-stack-hero--cinematic .card {
+          position: relative;
+          left: auto;
+          top: auto;
+          margin: 0;
+          border-radius: var(--card-radius, 20px);
+        }
+
+        .card-stack-hero--cinematic .card-featured {
+          width: 100%;
+          height: 380px;
+        }
+
+        .card-stack-hero--cinematic .card-filmstrip {
+          width: 100%;
+          height: 0;
+          flex: 1;
+          min-height: 56px;
+          cursor: pointer;
+        }
+
+        /* Filmstrip cards: hide expanded content, show compact info */
+        .card-stack-hero--cinematic .card-filmstrip .card-expanded-content,
+        .card-stack-hero--cinematic .card-filmstrip .card-subtitle,
+        .card-stack-hero--cinematic .card-filmstrip .card-description {
+          display: none;
+        }
+
+        .card-stack-hero--cinematic .card-filmstrip .card-title {
+          font-size: 0.8125rem;
+        }
+
+        .card-stack-hero--cinematic .card-filmstrip .card-content {
+          padding: 0.5rem 0.75rem;
+        }
+
+        .card-stack-hero--cinematic .card-filmstrip .card-unified-panel {
+          padding: 0.5rem 0.75rem;
+        }
+
+        /* Hero image in filmstrip: compact crop */
+        .card-stack-hero--cinematic .card-filmstrip .card-hero-image-wrap {
+          max-height: 40px;
+        }
+
+        .card-stack-hero--cinematic .card-selected {
+          height: auto;
+          min-height: 380px;
+        }
+
+        @media (max-width: 768px) {
+          .card-stack-hero--cinematic .cards-wrapper {
+            flex-direction: column;
+          }
+
+          .cinematic-filmstrip {
+            flex-direction: row;
+            overflow-x: auto;
+            gap: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .card-stack-hero--cinematic .card-featured {
+            height: 280px;
+          }
+
+          .card-stack-hero--cinematic .card-filmstrip {
+            flex: 0 0 auto;
+            width: 100px;
+            height: 72px;
+            min-height: auto;
+          }
         }
 
         /* === Scattered layout overrides === */
