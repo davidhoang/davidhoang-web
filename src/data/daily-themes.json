@@ -1,6 +1,237 @@
 {
   "themes": [
     {
+      "name": "Bamboo Static",
+      "description": "Zen garden aesthetics meet retro CRT monitors with warm amber phosphor glow and organic imperfection",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2D3E1F",
+          "--color-bg": "#F7F5F0",
+          "--color-link": "#B34B25",
+          "--color-link-hover": "#E55A2B",
+          "--color-border": "#D4C5B0",
+          "--color-muted": "#839374",
+          "--color-sidebar-bg": "#F2F0E8",
+          "--color-nav-bg": "#F2F0E8",
+          "--color-nav-text": "#2D3E1F",
+          "--color-card-bg": "#FAF8F4"
+        },
+        "dark": {
+          "--color-text": "#E8E5D3",
+          "--color-bg": "#1A1B16",
+          "--color-link": "#FFB366",
+          "--color-link-hover": "#FFA04D",
+          "--color-border": "#3A3B2F",
+          "--color-muted": "#9B9B7F",
+          "--color-sidebar-bg": "#202118",
+          "--color-nav-bg": "#202118",
+          "--color-nav-text": "#E8E5D3",
+          "--color-card-bg": "#1F201A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Mono",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap",
+          "category": "monospace",
+          "stack": "'Space Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        },
+        "body": {
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.08em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#3A3B2F",
+          "#FF6B35"
+        ]
+      },
+      "font": {
+        "name": "Space Mono",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap",
+        "category": "monospace",
+        "stack": "'Space Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+      },
+      "date": "2026-04-29",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Bamboo Static",
+              "subtitle": "Zen garden aesthetics with amber phosphor glow"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "h1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "l1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "monospace",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "retro-crt",
+              "variant": "filled"
+            }
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            }
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            }
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "> zen_garden.exe",
+              "variant": "heading"
+            }
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "t1"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F7F5F0",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#2D3E1F",
+                  "label": "text"
+                },
+                {
+                  "hex": "#B34B25",
+                  "label": "link"
+                },
+                {
+                  "hex": "#D4C5B0",
+                  "label": "border"
+                },
+                {
+                  "hex": "#839374",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#FAF8F4",
+                  "label": "card"
+                }
+              ]
+            }
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "organic imperfection in digital harmony",
+              "variant": "body"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Neon Midnight",
       "description": "Rain-soaked Tokyo streets alive with electric colors and vertical rhythms",
       "colors": {
@@ -1464,238 +1695,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Electric Tokyo",
-      "description": "Shibuya at night after rain—neon reflections in wet asphalt, condensed geometry meets atmospheric haze",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F8F6FF",
-          "--color-link": "#D9006D",
-          "--color-link-hover": "#00D4FF",
-          "--color-border": "#E0DCF0",
-          "--color-muted": "#6B6B8A",
-          "--color-sidebar-bg": "#F0ECFF",
-          "--color-nav-bg": "#FBFAFF",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FDFCFF"
-        },
-        "dark": {
-          "--color-text": "#E8E8FF",
-          "--color-bg": "#0F1419",
-          "--color-link": "#FF0080",
-          "--color-link-hover": "#00D4FF",
-          "--color-border": "#2A2D3A",
-          "--color-muted": "#8A8CAA",
-          "--color-sidebar-bg": "#151A20",
-          "--color-nav-bg": "#0D1115",
-          "--color-nav-text": "#E8E8FF",
-          "--color-card-bg": "#12171D"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 400, 'wdth' 90"
-      },
-      "navigation": {
-        "style": "bold-bar",
-        "height": "72px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 8px 32px rgba(255, 0, 128, 0.15)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF0080",
-          "#00D4FF",
-          "#1A1A2E"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-22",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Electric Tokyo",
-              "subtitle": "Neon reflections in digital rain"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#D9006D",
-                  "label": "neon"
-                },
-                {
-                  "hex": "#00D4FF",
-                  "label": "cyan"
-                },
-                {
-                  "hex": "#1A1A2E",
-                  "label": "night"
-                },
-                {
-                  "hex": "#F8F6FF",
-                  "label": "mist"
-                },
-                {
-                  "hex": "#6B6B8A",
-                  "label": "haze"
-                },
-                {
-                  "hex": "#E0DCF0",
-                  "label": "glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SHIBUYA",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "split"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-28"
+  "currentDate": "2026-04-29"
 }
