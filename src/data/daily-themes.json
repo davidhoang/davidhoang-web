@@ -1,8 +1,239 @@
 {
   "themes": [
     {
+      "name": "Church of Light",
+      "description": "Raw concrete meets ethereal daylight in Tadao Ando's sacred minimalism",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#D0CCC7",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#EFEBE6",
+          "--color-nav-bg": "#F5F3F0",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#FAFAF8"
+        },
+        "dark": {
+          "--color-text": "#E8E6E3",
+          "--color-bg": "#1A1A1A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFC107",
+          "--color-border": "#3A3A3A",
+          "--color-muted": "#757575",
+          "--color-sidebar-bg": "#212121",
+          "--color-nav-bg": "#1A1A1A",
+          "--color-nav-text": "#E8E6E3",
+          "--color-card-bg": "#242424"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 95"
+      },
+      "navigation": {
+        "style": "minimal",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-04-30",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Church of Light",
+              "subtitle": "Tadao Ando's sacred minimalism"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "t1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "lp",
+              "p1"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F3F0",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FAFAF8",
+                  "label": "card"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "link"
+                },
+                {
+                  "hex": "#D0CCC7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#8B8680",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Raw concrete meets ethereal daylight",
+              "variant": "heading"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Deep Current",
-      "description": "Ocean depths where bioluminescent creatures drift through indigo pressure \u2014 cinematic scale meets fluid motion",
+      "description": "Ocean depths where bioluminescent creatures drift through indigo pressure — cinematic scale meets fluid motion",
       "colors": {
         "colorScheme": "analogous",
         "contrastMode": "standard",
@@ -1360,250 +1591,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Paper Samurai",
-      "description": "Japanese minimalism meets sharp precision \u2014 rice paper warmth with sword-edge geometry",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF8F0",
-          "--color-link": "#CF333F",
-          "--color-link-hover": "#B91E2A",
-          "--color-border": "#D4A574",
-          "--color-muted": "#8B6914",
-          "--color-sidebar-bg": "#FAF3E8",
-          "--color-nav-bg": "#FDF8F0",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FFFCF7"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8A5B",
-          "--color-border": "#5D4037",
-          "--color-muted": "#A1887F",
-          "--color-sidebar-bg": "#241611",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#2D1B13"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 85"
-      },
-      "navigation": {
-        "style": "minimal",
-        "height": "56px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-23",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Paper Samurai",
-              "subtitle": "Japanese minimalism meets sharp precision"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "\u5200\u306e\u7cbe\u795e",
-              "variant": "heading",
-              "weight": "600"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s4"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF8F0",
-                  "label": "rice"
-                },
-                {
-                  "hex": "#FAF3E8",
-                  "label": "parchment"
-                },
-                {
-                  "hex": "#D4A574",
-                  "label": "bamboo"
-                },
-                {
-                  "hex": "#CF333F",
-                  "label": "vermillion"
-                },
-                {
-                  "hex": "#2C1810",
-                  "label": "ink"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "t2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Precision in simplicity",
-              "variant": "caption"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-29"
+  "currentDate": "2026-04-30"
 }
