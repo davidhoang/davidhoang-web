@@ -20,6 +20,7 @@ const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
 export default function CardStackHero() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -123,6 +124,21 @@ export default function CardStackHero() {
     };
   }, [selectedCard, heroLayout]);
 
+  // Focus management: move focus to selected card, restore on close
+  useEffect(() => {
+    if (selectedCard) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      // Focus the selected card element
+      requestAnimationFrame(() => {
+        const card = containerRef.current?.querySelector('.card-selected') as HTMLElement;
+        if (card) card.focus();
+      });
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus();
+      previousFocusRef.current = null;
+    }
+  }, [selectedCard]);
+
   const handleCardClick = (cardId: string, link?: string) => {
     if (cardId === 'about' && link) {
       window.location.href = link;
@@ -189,7 +205,7 @@ export default function CardStackHero() {
         <div
           className={`click-outside-overlay${heroLayout === 'stacked-fan' ? ' click-outside-overlay--hero-fullscreen' : ''}`}
           onClick={() => setSelectedCard(null)}
-          aria-hidden="true"
+          role="presentation"
         />
       )}
 
