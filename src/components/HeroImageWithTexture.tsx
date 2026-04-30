@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { PaperTexture } from '@paper-design/shaders-react';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface HeroImageProps {
   src: string;
@@ -41,6 +42,7 @@ export default function HeroImageWithTexture({
 }: HeroImageProps) {
   const [mounted, setMounted] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { containerRef: modalRef, handleKeyDown: trapKeyDown } = useFocusTrap(showModal);
   const [settings, setSettings] = useState(defaultSettings);
   const [isDefaultTheme, setIsDefaultTheme] = useState(true);
 
@@ -248,7 +250,15 @@ export default function HeroImageWithTexture({
       </div>
 
       {showModal && (
-        <div style={overlayStyle} onClick={() => setShowModal(false)}>
+        <div
+          ref={modalRef}
+          style={overlayStyle}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Paper texture controls"
+          onKeyDown={trapKeyDown}
+          onClick={() => setShowModal(false)}
+        >
           <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
             <div style={imageContainerStyle}>
               {renderShader('large')}

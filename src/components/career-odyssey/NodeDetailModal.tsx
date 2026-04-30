@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import type { PositionedNode } from './types';
 import { PersonAvatar } from '../PersonAvatar';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface NodeDetailModalProps {
   node: PositionedNode | null;
@@ -17,7 +18,7 @@ export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
   onNavigate,
   isMobile,
 }) => {
-  const panelRef = useRef<HTMLDivElement>(null);
+  const { containerRef, handleKeyDown } = useFocusTrap(!!node);
 
   useEffect(() => {
     if (!node) return;
@@ -29,8 +30,9 @@ export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
   }, [node, onClose]);
 
   useEffect(() => {
-    if (node && panelRef.current) {
-      panelRef.current.scrollTop = 0;
+    if (node && containerRef.current) {
+      const panel = containerRef.current.querySelector('.node-panel');
+      if (panel) panel.scrollTop = 0;
     }
   }, [node?.id]);
 
@@ -38,12 +40,17 @@ export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
 
   return (
     <div
+      ref={containerRef}
       className={`node-panel-overlay ${isMobile ? 'node-panel-mobile' : 'node-panel-desktop'} node-panel-overlay--open`}
+      role="dialog"
+      aria-modal="true"
+      aria-label={node.label}
+      onKeyDown={handleKeyDown}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div ref={panelRef} className="node-panel">
+      <div className="node-panel">
         <button
           className="node-card-close"
           onClick={onClose}
