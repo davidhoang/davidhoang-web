@@ -1,6 +1,253 @@
 {
   "themes": [
     {
+      "name": "Concrete Poetry",
+      "description": "Minimalist brutalism meets warm daylight through structured space",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#D0CCC7",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#F8F6F3",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#F8F6F3"
+        },
+        "dark": {
+          "--color-text": "#E8E4DF",
+          "--color-bg": "#1A1816",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFC107",
+          "--color-border": "#3A3632",
+          "--color-muted": "#9A9288",
+          "--color-sidebar-bg": "#201E1B",
+          "--color-nav-bg": "#161412",
+          "--color-nav-text": "#E8E4DF",
+          "--color-card-bg": "#161412"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700"
+      },
+      "navigation": {
+        "style": "full-width",
+        "height": "64px",
+        "padding": "1rem 2rem"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-01",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Poetry",
+              "subtitle": "Minimalist brutalism meets warm daylight"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "lp",
+              "s3"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "ts",
+              "br"
+            ]
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "STRUCTURED SPACE",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "ts2"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F3F0",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#F8F6F3",
+                  "label": "card"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "link"
+                },
+                {
+                  "hex": "#2C2C2C",
+                  "label": "text"
+                },
+                {
+                  "hex": "#D0CCC7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#8B8680",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Warm daylight through angular forms",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Church of Light",
       "description": "Raw concrete meets ethereal daylight in Tadao Ando's sacred minimalism",
       "colors": {
@@ -1349,249 +1596,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Analog Sunset",
-      "description": "Warm vinyl records and golden hour light filtering through dusty blinds",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#3D2914",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C5303C",
-          "--color-link-hover": "#C1121F",
-          "--color-border": "#E6C79C",
-          "--color-muted": "#8B6914",
-          "--color-sidebar-bg": "#F8EBD8",
-          "--color-nav-bg": "#FAF0E6",
-          "--color-nav-text": "#3D2914",
-          "--color-card-bg": "#FAF0E6"
-        },
-        "dark": {
-          "--color-text": "#E6C79C",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C42",
-          "--color-border": "#3D2914",
-          "--color-muted": "#8B6914",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#2C1810",
-          "--color-nav-text": "#E6C79C",
-          "--color-card-bg": "#2C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Righteous",
-          "url": "https://fonts.googleapis.com/css2?family=Righteous:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Righteous', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Vollkorn",
-          "url": "https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Vollkorn', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 24px rgba(61, 41, 20, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#E63946",
-          "#FF6B35",
-          "#8B6914"
-        ]
-      },
-      "font": {
-        "name": "Righteous",
-        "url": "https://fonts.googleapis.com/css2?family=Righteous:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Righteous', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-04-24",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Analog Sunset",
-              "subtitle": "Warm vinyl records and golden hour light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "br",
-              "p1",
-              "ts1",
-              "s2",
-              "lp"
-            ]
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#3D2914",
-                  "label": "text"
-                },
-                {
-                  "hex": "#C5303C",
-                  "label": "link"
-                },
-                {
-                  "hex": "#E6C79C",
-                  "label": "border"
-                },
-                {
-                  "hex": "#8B6914",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#F8EBD8",
-                  "label": "sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "ts1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Golden Hour Sessions",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "ts2",
-              "lp"
-            ]
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Dust motes dance in the amber light as the needle finds its groove",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-04-30"
+  "currentDate": "2026-05-01"
 }
