@@ -83,7 +83,7 @@ export const cards: Card[] = [
     link: 'https://www.youtube.com/watch?v=6Z88rLjF-lc',
     linkText: 'Listen',
     heroImage: '/images/davidhoang-web-ridd.webp',
-    heroImageStill: '/images/davidhoang-web-ridd-still.png',
+    heroImageStill: '/images/davidhoang-web-ridd-still.webp',
   },
   {
     id: 'hatch',
@@ -96,6 +96,7 @@ export const cards: Card[] = [
     link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
     linkText: 'Watch keynote',
     heroImage: '/images/davidhoang-web-hatch.webp',
+    heroImageStill: '/images/davidhoang-web-hatch-still.webp',
   },
   {
     id: 'about',
