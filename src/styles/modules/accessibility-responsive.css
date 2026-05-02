@@ -28,6 +28,16 @@
   }
 }
 
+/* Touch devices: disable hover-triggered motion. iOS Safari applies :hover
+   briefly after a tap (sticky hover), which makes lift animations persist
+   and feel "stuck." Strip transforms inside :hover on devices without true
+   hover so taps don't trigger motion that has nowhere to go. */
+@media (hover: none) {
+  *:hover {
+    transform: none !important;
+  }
+}
+
 /* High Contrast Mode support */
 @media (forced-colors: active) {
   :root {
