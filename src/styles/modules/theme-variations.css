@@ -742,8 +742,9 @@ html:not([data-image-style]) .hero-portrait {
   border-radius: var(--radius-md, 8px);
 }
 
-/* Newsletter signup needs consistent background on shader pages */
-[data-shader] .substack-signup {
-  background: var(--color-card-bg, var(--color-sidebar-bg));
-  box-shadow: var(--card-shadow);
-}
+/* Newsletter signup is transparent on every theme so it blends with the
+   page background. (The previous rule painted a card panel via
+   var(--color-card-bg) which read as a jarring white block on light
+   themes — see design.md.) On heavy shaders the embed inherits the
+   compositing of whatever sits behind it; shader opacity is capped at
+   0.15 in the generator, so legibility holds without a panel. */
