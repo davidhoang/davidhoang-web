@@ -76,17 +76,17 @@ function FanCard({
       }}
       initial={{
         x: 0,
-        y: 50,
+        y: 0,
         rotate: 0,
-        scale: 0.9,
-        opacity: 0,
+        scale: 0.94,
+        opacity: 1,
       }}
       animate={{
         x: isLoaded ? position.x : 0,
-        y: isLoaded ? position.y : 50,
+        y: isLoaded ? position.y : 0,
         rotate: isLoaded ? position.rotation : 0,
-        scale: isLoaded ? 1 : 0.9,
-        opacity: isOtherSelected ? 0.3 : isLoaded ? 1 : 0,
+        scale: isLoaded ? 1 : 0.94,
+        opacity: isOtherSelected ? 0.3 : 1,
       }}
       whileHover={
         selectedCard

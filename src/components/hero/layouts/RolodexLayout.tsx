@@ -62,8 +62,8 @@ function RolodexCard({
         // rotateY here would conflict with the carousel's animated rotateY; tilt-Y is disabled on rolodex.
       }}
       initial={{
-        opacity: 0,
-        scale: 0.5,
+        opacity: 1,
+        scale: 0.92,
         rotateY: 0,
         x: 0,
         z: 0,
@@ -76,12 +76,12 @@ function RolodexCard({
           ? 1.1
           : (isLoaded
             ? (isFront ? 1 : (isAdjacent ? 0.85 : 0.7))
-            : 0.5),
+            : 0.92),
         opacity: isOtherSelected
           ? 0.2
           : (isLoaded
             ? (isFront ? 1 : (isAdjacent ? 0.7 : 0.4))
-            : 0),
+            : 1),
         y: isSelected ? -60 : 0,
       }}
       whileHover={!isSelected && isFront ? {
