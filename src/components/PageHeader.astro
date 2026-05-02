@@ -195,9 +195,11 @@ const isImageVariant = variant === 'image' && image;
     width: 100%;
   }
 
-  /* Image variant - full hero with shader */
+  /* Image variant - full hero with shader.
+     The hero is full-bleed and must start flush to the viewport top so the
+     nav floats over it. Negate main's nav-clearance padding exactly (no
+     fallback — --content-top-padding is always defined in :root). */
   .page-header--image .page-header__hero {
-    /* Full-bleed: break out of any parent container to span the viewport */
     width: 100vw;
     position: relative;
     left: 50%;
@@ -207,7 +209,7 @@ const isImageVariant = variant === 'image' && image;
     height: 75vh;
     min-height: 300px;
     max-height: 600px;
-    margin-top: calc(-1 * var(--content-top-padding, 4rem));
+    margin-top: calc(-1 * var(--content-top-padding));
     margin-bottom: var(--section-spacing, 4rem);
     overflow: hidden;
     display: flex;
@@ -283,7 +285,9 @@ const isImageVariant = variant === 'image' && image;
     .page-header--image .page-header__hero {
       height: 50vh;
       min-height: 250px;
-      margin-top: 0; /* No negative margin on mobile */
+      /* Same flush-to-top behavior as desktop — negate the mobile-overridden
+         --content-top-padding (set in accessibility-responsive.css). */
+      margin-top: calc(-1 * var(--content-top-padding));
     }
 
     .page-header--image .page-header__title {

@@ -108,6 +108,20 @@ The nav is a fixed floating-pill defined in `src/components/Navigation.astro`. T
 
 `--nav-height` is fixed at `40px` and `--nav-offset-top` at `24px`, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
 
+### Hero image padding
+
+Page hero images (writing/notes/about, anywhere `PageHeader variant="image"` is used) must sit flush to the viewport top with no padding above them — the floating nav pill should appear over the image, not below a strip of page background.
+
+This is achieved with `margin-top: calc(-1 * var(--content-top-padding))` (no fallback — the variable is always defined in `:root`). The hero negates `<main>`'s nav-clearance padding exactly, so the image starts at viewport top with the nav floating in front. The same pattern applies on mobile, where `--content-top-padding` is overridden in `accessibility-responsive.css` to a smaller value.
+
+Implementations: `PageHeader.astro`, `shared-components.css` (`.page-header__hero`), `notes/[...slug].astro` (`.note-hero`).
+
+### Background patterns
+
+**One geometric pattern at a time.** The home page hero owns its dot-grid background (`.card-stack-section::before` in `src/pages/index.astro`); when a theme also picks `background.texture: "dots"` or `"grid"`, both render and produce a muddy double-pattern. The CSS rule at the bottom of `theme-variations.css` suppresses the page-wide texture on any page that contains a `.card-stack-section` (currently just home). Other pages can still use any texture freely.
+
+`grain` and `gradient` textures don't conflict — they're allowed everywhere.
+
 ### Hero
 
 The hero (`src/components/CardStackHero.tsx`) renders one of four structural templates: `stacked-fan` (default), `editorial`, `scattered`, `rolodex`. The theme picks the template; the framework controls positioning.
