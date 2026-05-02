@@ -691,7 +691,7 @@ const searchIndex = [
       max-width: 400px;
       min-width: unset;
       border-radius: 999px;
-      padding: 0;
+      padding: 0 16px;
       height: 48px;
       border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
       box-shadow:
@@ -713,25 +713,9 @@ const searchIndex = [
       display: none;
     }
 
-    /* Disable hover effects on mobile */
-    nav:hover {
-      top: max(12px, env(safe-area-inset-top, 12px)) !important;
-      left: 50% !important;
-      right: auto !important;
-      transform: translateX(-50%) !important;
-      min-width: unset !important;
-      max-width: 400px !important;
-      width: calc(100% - 2rem) !important;
-      padding: 0 !important;
-      border-radius: 999px !important;
-      box-shadow:
-        0 4px 20px -4px color-mix(in srgb, var(--color-text) 12%, transparent),
-        0 0 0 0.5px color-mix(in srgb, var(--color-border) 30%, transparent) !important;
-    }
-
-    nav:hover .nav-container {
-      gap: 0.5rem !important;
-    }
+    /* Mobile: no hover overrides. Desktop hover rules are already gated by
+       min-width: 769px, and iOS sticky-hover would cause padding/gap jumps
+       if we re-asserted them here. */
 
     .nav-container {
       padding: 0 1.25rem;
@@ -753,7 +737,7 @@ const searchIndex = [
       transform: translateX(-50%) !important;
       border-radius: 20px !important;
       height: auto !important;
-      padding: 0 !important;
+      padding: 0 16px !important;
     }
 
     nav.cmd-palette-active.cmd-palette-has-results {
