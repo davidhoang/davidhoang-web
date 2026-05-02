@@ -585,6 +585,13 @@ html[data-e-ink="true"][data-theme="dark"] {
   background: radial-gradient(ellipse at top, var(--color-sidebar-bg) 0%, transparent 70%);
 }
 
+/* Home page already has the hero dot-grid (.card-stack-section::before in
+   index.astro). Suppress page-wide geometric textures there to keep a single
+   pattern source — see "Background patterns" in design.md. */
+html:has(.card-stack-section):is([data-bg-texture="dots"], [data-bg-texture="grid"])::before {
+  display: none;
+}
+
 /* ============================================
    Daily Theme: Image Treatment Variations
    ============================================ */
