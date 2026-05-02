@@ -193,20 +193,12 @@ Link colors - MUST be SATURATED and VIBRANT:
 - Electric: #FF6B35, #00D4AA, #FF3366, #00BFFF, #FFD700, #FF1493, #00FF7F, #FF4500
 - Rich: #E63946, #2A9D8F, #E9C46A, #F4A261, #264653, #023E8A, #9D4EDD
 
-## NAVIGATION STYLES - VARY THE STRUCTURE!
-Pick ONE navigation style that matches the theme personality:
-- "floating": Compact floating nav with rounded corners, centered or offset
-- "full-width": Edge-to-edge nav bar spanning full viewport width
-- "minimal": Ultra-minimal, just links with generous spacing
-- "bold-bar": Thick colored bar with prominent branding
-
-Nav size options:
-- navHeight: "48px" (compact) to "80px" (statement)
-- navPadding: "0.5rem 1rem" to "1.5rem 3rem"
+## NAVIGATION — DO NOT VARY
+The site nav is fixed across all themes. Do NOT include a \`navigation\` field in your JSON output. Nav style, height, and padding are off-limits — they cause layout breakage at small viewports. Express theme personality through typography, color, padding, and card treatments instead.
 
 ## CARD TREATMENTS - VARY THE FEEL!
 Cards can be: project cards, content blocks, any boxed element
-- cardStyle: "flat" (no shadow, border only) | "elevated" (shadow) | "glass" (blur + transparency) | "outlined" (strong border) | "filled" (solid bg)
+- cardStyle: "flat" (no shadow, border only) | "elevated" (shadow) | "outlined" (strong border) | "filled" (solid bg) — cards must always be opaque, never transparent
 - cardShadow: "none" | "0 2px 8px rgba(0,0,0,0.08)" | "0 8px 32px rgba(0,0,0,0.12)" | "0 24px 48px rgba(0,0,0,0.2)"
 - cardBorderWidth: "0px" | "1px" | "2px" | "3px"
 - cardPadding: "1rem" to "3rem"
@@ -264,7 +256,7 @@ BACKGROUND COLOR + PADDING HARMONY RULES:
 5. --color-card-bg should be within ~5% lightness of --color-bg. Cards should feel embedded in the page, not floating on a mismatched surface.
 6. --color-sidebar-bg should also be a close tonal neighbor of --color-bg — same hue, slightly shifted lightness.
 7. --color-nav-bg should blend seamlessly with the page. Never use a nav background that creates a harsh band of color against the page bg.
-8. When contentPadding is at the minimum (1rem), avoid high-contrast card styles like "outlined" or "filled" — tight inset makes color boundaries feel cramped. Minimum-padding themes work best with "flat", "elevated", or "glass" cards.
+8. When contentPadding is at the minimum (1rem), avoid high-contrast card styles like "outlined" or "filled" — tight inset makes color boundaries feel cramped. Minimum-padding themes work best with "flat" or "elevated" cards.
 9. sectionSpacing must be >= "2rem" when using tinted backgrounds to give visual breathing room between content blocks. Dense themes (sectionSpacing < 2rem) should only use neutral/white backgrounds.
 
 ## HERO LAYOUT - SET THE TONE!
@@ -384,13 +376,8 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "scaleRatio": "1.2|1.333|1.414|1.618|2.0 (type scale ratio)",
     "fontVariationSettings": "'wght' 100-900, 'wdth' 75-125, 'slnt' -12-0, 'opsz' 10-72 (optional, for variable fonts)"
   },
-  "navigation": {
-    "style": "floating|full-width|minimal|bold-bar",
-    "height": "48px-80px",
-    "padding": "CSS padding value"
-  },
   "cards": {
-    "style": "flat|elevated|glass|outlined|filled",
+    "style": "flat|elevated|outlined|filled",
     "shadow": "CSS shadow or none",
     "borderWidth": "0px-3px",
     "padding": "1rem-3rem"
@@ -733,6 +720,37 @@ async function generateTheme(options = {}) {
   if (contentPadVal <= 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
     themeData.cards.style = 'elevated';
     console.log(`  Card style changed from "${cardStyle}" to "elevated" (contentPadding ${contentPadVal}rem at minimum — ${cardStyle} cards feel cramped)`);
+  }
+
+  // Cards must never be transparent — strip the legacy "glass" style
+  if (themeData.cards?.style === 'glass') {
+    themeData.cards.style = 'elevated';
+    console.log(`  Card style "glass" promoted to "elevated" (cards must never be transparent — see design.md)`);
+  }
+
+  // Strip navigation field — nav layout is fixed across themes to keep responsive
+  // rendering correct. Theme personality flows through typography, color, padding.
+  if (themeData.navigation) {
+    delete themeData.navigation;
+    console.log(`  Stripped navigation field from theme output (nav is fixed across themes)`);
+  }
+
+  // Card padding: cap at 2rem so phones don't get oppressive insets
+  if (!themeData.cards) themeData.cards = {};
+  const cardPadVal = parseFloat(themeData.cards.padding) || 1.5;
+  if (cardPadVal > 2) {
+    themeData.cards.padding = '2rem';
+    console.log(`  cardPadding capped to 2rem (was ${cardPadVal}rem — oppressive on phones)`);
+  } else if (cardPadVal < 1) {
+    themeData.cards.padding = '1rem';
+    console.log(`  cardPadding raised to 1rem (was ${cardPadVal}rem — content sits flush against edges)`);
+  }
+
+  // Border radius: cap at 24px globally — pill values (9999px) are for nav/chips, not cards/images
+  const radiusVal = parseInt(themeData.layout?.borderRadius) || 8;
+  if (radiusVal > 24) {
+    themeData.layout.borderRadius = '24px';
+    console.log(`  borderRadius capped to 24px (was ${radiusVal}px — extreme values turn cards into ovals at non-1:1 aspect ratios)`);
   }
 
   // Enforce minimum section spacing with tinted backgrounds
