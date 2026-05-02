@@ -38,9 +38,9 @@ const cta =
       0 2px 4px rgba(0, 0, 0, 0.03);
     transform: translateY(0);
     transition:
-      transform 0.45s var(--ease-inertia, ease),
-      border-color 0.3s var(--ease-inertia, ease),
-      box-shadow 0.45s var(--ease-inertia, ease);
+      transform var(--duration-slower) var(--ease-inertia),
+      border-color var(--duration-slow) var(--ease-inertia),
+      box-shadow var(--duration-slower) var(--ease-inertia);
   }
 
   .editorial-media-card:hover {
@@ -58,8 +58,8 @@ const cta =
   }
 
   .editorial-media-card:focus-visible {
-    outline: 2px solid var(--color-link);
-    outline-offset: 3px;
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
   /* Opt out of global a::before glow + a::after gradient underline */
@@ -76,7 +76,7 @@ const cta =
     letter-spacing: var(--letter-spacing-heading-md, -0.01em);
     font-weight: var(--heading-weight, 600);
     color: var(--color-text);
-    transition: color var(--duration-normal, 0.2s) ease;
+    transition: color var(--duration-normal) ease;
   }
 
   .editorial-media-card:hover .editorial-media-card__title {
@@ -106,7 +106,7 @@ const cta =
     text-transform: uppercase;
     color: var(--color-link);
     text-decoration: none;
-    transition: color var(--duration-normal, 0.2s) ease;
+    transition: color var(--duration-normal) ease;
   }
 
   .editorial-media-card__cta::after {
@@ -114,7 +114,7 @@ const cta =
     display: inline-block;
     font-size: 0.95em;
     transform: translateX(0);
-    transition: transform 0.35s var(--ease-inertia, ease);
+    transition: transform var(--duration-slower) var(--ease-inertia);
   }
 
   .editorial-media-card:hover .editorial-media-card__cta {

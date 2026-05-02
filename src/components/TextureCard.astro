@@ -60,9 +60,9 @@ const isLink = Boolean(href);
     overflow: hidden;
     box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent);
     transition:
-      transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
-      border-color 0.25s ease,
-      box-shadow 0.28s ease;
+      transform var(--duration-slow) var(--ease-inertia-smooth),
+      border-color var(--duration-normal) ease,
+      box-shadow var(--duration-slow) ease;
   }
 
   .texture-card::after {
@@ -77,7 +77,7 @@ const isLink = Boolean(href);
     border-radius: inherit;
     overflow: hidden;
     opacity: 0;
-    transition: opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: opacity var(--duration-slower) var(--ease-inertia-smooth);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -112,7 +112,7 @@ const isLink = Boolean(href);
     height: clamp(2.75rem, 28%, 3.5rem);
     object-fit: contain;
     display: block;
-    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: transform var(--duration-slower) var(--ease-inertia-smooth);
   }
 
   .texture-card.texture-card--compact-logo :global(.texture-card__logo) {
@@ -189,7 +189,7 @@ const isLink = Boolean(href);
   }
 
   .texture-card:focus-visible {
-    outline: 2px solid var(--color-link);
-    outline-offset: 3px;
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 </style>
