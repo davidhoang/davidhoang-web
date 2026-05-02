@@ -105,6 +105,29 @@ const portfolioItems = [
       overflow: visible;
     }
 
+    /* Dot-grid notebook background — Leuchtturm-style lattice.
+       Spacing scales fluidly with viewport width: ~20px on phones,
+       ~24px at 1440px desktop, up to 36px on ultrawide displays.
+       Color derives from theme tokens so it tracks daily themes / dark mode. */
+    .card-stack-section::before {
+      content: '';
+      position: absolute;
+      top: calc(-1 * (var(--content-top-padding, 6rem) + 40px));
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--color-text) 15%, transparent) 1px,
+        transparent 1.4px
+      );
+      --dot-grid-size: clamp(20px, 1.7vw, 36px);
+      background-size: var(--dot-grid-size) var(--dot-grid-size);
+      background-position: 0 0;
+    }
+
     /* Section Headings - smaller than hero H1 */
     .design-philosophy h2,
     .portfolio-section h2 {
