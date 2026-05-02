@@ -56,12 +56,20 @@ export default function CardStackHero() {
     }));
   }, [cardPaletteRev]);
 
-  // Observe data-card-style and data-hero-layout on <html>
+  // Observe data-card-style and data-hero-layout on <html>.
+  // On mobile (≤768px), force stacked-fan regardless of theme — editorial,
+  // scattered, and rolodex assume desktop dimensions and overflow on phones.
   useEffect(() => {
+    const mql = window.matchMedia('(max-width: 768px)');
+
     const update = () => {
       const root = document.documentElement;
-      setCardStyle(root.getAttribute('data-card-style'));
-      setHeroLayout(resolveLayout(root.getAttribute('data-hero-layout')));
+      // Glass card style is banned (cards must never be transparent — see design.md).
+      // Normalize any legacy themes still emitting "glass" to "elevated".
+      const rawCardStyle = root.getAttribute('data-card-style');
+      setCardStyle(rawCardStyle === 'glass' ? 'elevated' : rawCardStyle);
+      const themeLayout = resolveLayout(root.getAttribute('data-hero-layout'));
+      setHeroLayout(mql.matches ? 'stacked-fan' : themeLayout);
     };
 
     update();
@@ -71,8 +79,12 @@ export default function CardStackHero() {
       attributes: true,
       attributeFilter: ['data-card-style', 'data-hero-layout'],
     });
+    mql.addEventListener('change', update);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      mql.removeEventListener('change', update);
+    };
   }, []);
 
   // IntersectionObserver for deferred animation

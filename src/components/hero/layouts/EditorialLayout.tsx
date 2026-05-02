@@ -42,11 +42,11 @@ function EditorialCard({
         rotateY: tilt.rotateY,
         transformPerspective: 1000,
       }}
-      initial={{ x: 80, opacity: 0 }}
+      initial={{ x: 40, scale: 0.96, opacity: 1 }}
       animate={{
-        x: isLoaded ? 0 : 80,
-        opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
-        scale: isSelected ? 1.02 : 1,
+        x: isLoaded ? 0 : 40,
+        opacity: isOtherSelected ? 0.3 : 1,
+        scale: isSelected ? 1.02 : (isLoaded ? 1 : 0.96),
       }}
       whileHover={!isSelected ? {
         x: 8,

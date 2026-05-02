@@ -83,15 +83,15 @@ function ScatteredCard({
         x: 0,
         y: 0,
         rotate: 0,
-        scale: 0.6,
-        opacity: 0,
+        scale: 0.92,
+        opacity: 1,
       }}
       animate={{
         x: isSelected ? 0 : (isLoaded ? position.x : 0),
         y: isSelected ? -40 : (isLoaded ? position.y : 0),
         rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-        scale: isSelected ? 1.15 : (isLoaded ? (isHovered ? 1.08 : 1) : 0.6),
-        opacity: isOtherSelected ? 0.2 : (isLoaded ? 1 : 0),
+        scale: isSelected ? 1.15 : (isLoaded ? (isHovered ? 1.08 : 1) : 0.92),
+        opacity: isOtherSelected ? 0.2 : 1,
       }}
       whileHover={!isSelected ? {
         scale: 1.1,

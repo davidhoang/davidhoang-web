@@ -51,10 +51,10 @@ function FeaturedCard({ card, isGlass, selectedCard, hoveredCard, isLoaded, onCa
       layout={!reducedMotion}
       layoutId={`cinematic-${card.id}`}
       initial={false}
-      animate={{ opacity: isLoaded ? 1 : 0 }}
+      animate={{ opacity: 1, scale: isLoaded ? 1 : 0.96 }}
       transition={{
         layout: { type: 'spring', stiffness: 220, damping: 26 },
-        opacity: { duration: 0.25 },
+        scale: { type: 'spring', stiffness: 180, damping: 24 },
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
@@ -105,8 +105,9 @@ function FilmstripCard({ card, index, cardCount, isGlass, selectedCard, hoveredC
       layoutId={`cinematic-${card.id}`}
       initial={false}
       animate={{
-        opacity: isOtherSelected ? 0.3 : (isLoaded ? 1 : 0),
-        x: isLoaded ? 0 : 30,
+        opacity: isOtherSelected ? 0.3 : 1,
+        x: isLoaded ? 0 : 24,
+        scale: isLoaded ? 1 : 0.96,
       }}
       whileHover={!reducedMotion ? {
         scale: 1.04,
