@@ -39,12 +39,12 @@
     cursor: pointer;
     /* Button hover consistency: only transition visual properties, not dimensions */
     transition:
-      color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      border-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color var(--duration-slower) var(--ease-standard),
+      background-color var(--duration-slower) var(--ease-standard),
+      border-color var(--duration-slower) var(--ease-standard),
+      border-width var(--duration-slower) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-standard),
+      box-shadow var(--duration-slower) var(--ease-standard);
     box-shadow: var(--shadow-default);
     position: relative;
     display: flex;

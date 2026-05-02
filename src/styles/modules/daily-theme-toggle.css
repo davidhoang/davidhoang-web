@@ -21,11 +21,11 @@ button#daily-theme-toggle {
   cursor: pointer;
   touch-action: manipulation;
   transition:
-    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    color var(--duration-slower) var(--ease-standard),
+    background-color var(--duration-slower) var(--ease-standard),
+    border-color var(--duration-slower) var(--ease-standard),
+    transform var(--duration-slower) var(--ease-standard),
+    box-shadow var(--duration-slower) var(--ease-standard);
   box-shadow: var(--shadow-default);
   display: flex;
   align-items: center;
@@ -89,7 +89,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--duration-slow) var(--ease-standard);
   /* Must not intercept taps on the FAB while closed (sibling paints under the button but hit-test can still bite). */
   pointer-events: none;
 }
@@ -149,7 +149,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--duration-slow) var(--ease-standard);
 }
 
 .close-btn:hover {
@@ -240,7 +240,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   border: 1px solid transparent;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--duration-slow) var(--ease-standard);
   min-width: 0;
 }
 

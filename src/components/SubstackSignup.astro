@@ -168,7 +168,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     letter-spacing: -0.02em;
     background: transparent;
     color: var(--color-text);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform var(--duration-slower) var(--ease-spring);
     box-sizing: border-box;
   }
 
@@ -205,9 +205,9 @@ const showHeader = showTitle || Boolean(description?.trim());
     transform-origin: left center;
     opacity: 0.45;
     transition:
-      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.35s ease,
-      background-color 0.35s ease;
+      transform var(--duration-slower) var(--ease-emphasized),
+      opacity var(--duration-slow) ease,
+      background-color var(--duration-slow) ease;
   }
 
   .email-input-shell:focus-within .email-input-rail::after {
@@ -232,16 +232,16 @@ const showHeader = showTitle || Boolean(description?.trim());
     cursor: pointer;
     white-space: nowrap;
     transition:
-      transform var(--duration-normal, 0.25s) cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow var(--duration-normal, 0.25s) ease,
-      background var(--duration-normal, 0.25s) ease;
+      transform var(--duration-normal) var(--ease-spring),
+      box-shadow var(--duration-normal) ease,
+      background var(--duration-normal) ease;
     flex-shrink: 0;
     box-shadow: 0 4px 0 color-mix(in srgb, var(--color-text) 18%, transparent);
   }
 
   .subscribe-button-icon {
     display: flex;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform var(--duration-slower) var(--ease-spring);
   }
 
   .subscribe-button:hover {
@@ -311,8 +311,8 @@ const showHeader = showTitle || Boolean(description?.trim());
   }
 
   .subscribe-button:focus-visible {
-    outline: 2px solid var(--color-link);
-    outline-offset: 3px;
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .visually-hidden {

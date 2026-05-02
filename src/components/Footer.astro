@@ -152,8 +152,8 @@
     position: relative;
     display: inline-block;
     transition:
-      color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      color var(--duration-slow) var(--ease-inertia-smooth),
+      transform var(--duration-slow) var(--ease-inertia-smooth);
   }
 
   footer a:hover,
@@ -179,7 +179,7 @@
     opacity: 0;
     filter: blur(8px);
     z-index: -1;
-    transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: opacity var(--duration-slow) var(--ease-inertia-smooth);
     pointer-events: none;
     border-radius: var(--radius-sm);
   }
@@ -199,9 +199,9 @@
   /* Email link - bigger magnetic effect */
   .footer-section-email a {
     transition:
-      color 0.4s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
-      letter-spacing 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+      color var(--duration-slower) var(--ease-inertia-smooth),
+      transform var(--duration-slower) var(--ease-inertia-smooth),
+      letter-spacing var(--duration-slower) var(--ease-inertia-smooth);
   }
 
   .footer-section-email a::before {

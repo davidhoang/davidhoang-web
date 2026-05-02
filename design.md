@@ -131,6 +131,47 @@ At ≤768px, the framework actively overrides risky theme-driven layout choices.
 
 **Why this exists:** themes that look striking on a 1440px laptop frequently break on a 390px phone — editorial split-screens cascade past the viewport, narrow containers ignore the actual viewport width, and asymmetric grids produce overflow when columns can't fit. Rather than ask each theme to declare mobile-correct behavior, we lock mobile to a conservative baseline.
 
+### Motion tokens
+
+All transition timings and easings live in `src/styles/modules/variables.css`. New components must use these tokens — never hardcode `0.3s` or `cubic-bezier(...)` literals in `transition:` declarations.
+
+**Easing tokens** (use `var(--ease-*)`):
+
+| Token | Curve | When to use |
+|---|---|---|
+| `--ease-inertia` | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | Default ease-out for general motion |
+| `--ease-inertia-smooth` | `cubic-bezier(0.33, 1, 0.68, 1)` | Softer ease-out for larger motion |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | Material standard — UI state changes |
+| `--ease-emphasized` | `cubic-bezier(0.22, 1, 0.36, 1)` | Decelerated — entrance reveals |
+| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Slight overshoot — buttons, inputs |
+
+**Duration tokens** (use `var(--duration-*)`):
+
+| Token | Value | When to use |
+|---|---|---|
+| `--duration-fast` | 0.15s | Micro-interactions, active states |
+| `--duration-normal` | 0.2s | Standard feedback (buttons, toggles) |
+| `--duration-slow` | 0.3s | Component transitions (cards, panels) |
+| `--duration-slower` | 0.4s | Layout shifts (nav, modals) |
+| `--duration-slowest` | 0.6s | Theme crossfades, page transitions |
+
+The View Transitions API (used in `MainLayout.astro` and `BlogPost.astro`) consumes easing as JS strings — those values can't reference CSS variables and stay literal.
+
+### Focus ring
+
+Keyboard focus indicators are sourced from a single token set. Component overrides MUST use these tokens — never hardcode `outline: 2px solid var(--color-link)`.
+
+```css
+--focus-ring-width: 2px;
+--focus-ring-offset: 3px;
+--focus-ring-color: var(--color-link);
+--focus-ring: var(--focus-ring-width) solid var(--focus-ring-color);
+```
+
+The global rule in `src/styles/modules/accessibility-responsive.css` covers all standard interactive elements via `:where()` (zero specificity, easy to override). When a component needs a custom focus treatment (e.g., inset outline on hero cards), override only the rules that need to change and inherit the rest.
+
+The `forced-colors` block (Windows High Contrast) intentionally uses system `Highlight` instead of the token — keep that.
+
 ### Hover states
 
 Hover affordances (lift, shadow growth, color shift) are **desktop-only**. iOS Safari applies `:hover` briefly after a tap and the styles persist until the user taps elsewhere — so on touch devices, lift animations get "stuck" and read as a broken selected state.

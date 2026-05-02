@@ -7,10 +7,11 @@
   scroll-margin-top: calc(var(--nav-height) + 3rem);
 }
 
-/* Accessible focus styles - consistent 2px ring */
+/* Accessible focus styles — consistent ring sourced from --focus-ring tokens.
+   Component overrides MUST use the same tokens (no hardcoded outline values). */
 :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--color-link);
-  outline-offset: 3px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
   border-radius: 2px;
 }
 
