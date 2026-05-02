@@ -1,6 +1,222 @@
 {
   "themes": [
     {
+      "name": "Steel Cathedral",
+      "description": "Cold precision meets sacred geometry in an industrial temple of light and shadow",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C3E50",
+          "--color-bg": "#F8F9FA",
+          "--color-link": "#2772A4",
+          "--color-link-hover": "#2980B9",
+          "--color-border": "#BDC3C7",
+          "--color-muted": "#7F8C8D",
+          "--color-sidebar-bg": "#ECF0F1",
+          "--color-nav-bg": "#ffffff",
+          "--color-nav-text": "#2C3E50",
+          "--color-card-bg": "#ffffff"
+        },
+        "dark": {
+          "--color-text": "#ECF0F1",
+          "--color-bg": "#1A252F",
+          "--color-link": "#5DADE2",
+          "--color-link-hover": "#85C1E9",
+          "--color-border": "#34495E",
+          "--color-muted": "#95A5A6",
+          "--color-sidebar-bg": "#212F3D",
+          "--color-nav-bg": "#1B2631",
+          "--color-nav-text": "#ECF0F1",
+          "--color-card-bg": "#212F3D"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-02",
+      "showcase": {
+        "root": "sc",
+        "elements": {
+          "sc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Steel Cathedral",
+              "subtitle": "Industrial precision meets sacred design"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "p1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C3E50",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F8F9FA",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#2772A4",
+                  "label": "link"
+                },
+                {
+                  "hex": "#BDC3C7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#ECF0F1",
+                  "label": "sidebar"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "GEOMETRIC SANCTITY",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cold precision meets sacred geometry in clean lines and structured hierarchy",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Concrete Poetry",
       "description": "Minimalist brutalism meets warm daylight through structured space",
       "colors": {
@@ -1356,247 +1572,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Moss & Copper",
-      "description": "Dawn light filtering through dense forest canopy, copper pennies scattered on velvet moss",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C3E2D",
-          "--color-bg": "#F4F7F0",
-          "--color-link": "#9C622B",
-          "--color-link-hover": "#8B4513",
-          "--color-border": "#D4E5D0",
-          "--color-muted": "#7A8471",
-          "--color-sidebar-bg": "#EDF2E8",
-          "--color-nav-bg": "#F0F5ED",
-          "--color-nav-text": "#2C3E2D",
-          "--color-card-bg": "#FBFDF9"
-        },
-        "dark": {
-          "--color-text": "#D4E5D0",
-          "--color-bg": "#1A2B1D",
-          "--color-link": "#CD853F",
-          "--color-link-hover": "#DEB887",
-          "--color-border": "#3A4B3D",
-          "--color-muted": "#8A9B8D",
-          "--color-sidebar-bg": "#213324",
-          "--color-nav-bg": "#1F2E22",
-          "--color-nav-text": "#D4E5D0",
-          "--color-card-bg": "#212F24"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "'wght' 600, 'opsz' 48"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "glass",
-        "shadow": "0 4px 16px rgba(44, 62, 45, 0.08)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "perlin",
-        "colors": [
-          "#7A8471",
-          "#B87333",
-          "#D4E5D0"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-04-25",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Moss & Copper",
-              "subtitle": "Dawn light through forest canopy"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C3E2D",
-                  "label": "Forest"
-                },
-                {
-                  "hex": "#F4F7F0",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#9C622B",
-                  "label": "Copper"
-                },
-                {
-                  "hex": "#8B4513",
-                  "label": "Auburn"
-                },
-                {
-                  "hex": "#D4E5D0",
-                  "label": "Sage"
-                },
-                {
-                  "hex": "#7A8471",
-                  "label": "Moss"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "t1",
-              "lp"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Whispered Woodlands",
-              "variant": "heading",
-              "weight": "medium"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "glass",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-01"
+  "currentDate": "2026-05-02"
 }
