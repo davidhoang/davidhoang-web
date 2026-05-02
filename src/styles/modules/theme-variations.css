@@ -391,37 +391,9 @@ html[data-e-ink="true"][data-theme="dark"] {
   --intensity-contrast: 0.85;
 }
 
-/* ============================================
-   Daily Theme: Navigation Style Variations
-   ============================================ */
-
-/* Full-width navigation */
-[data-nav-style="full-width"] nav.glass-border {
-  width: 100%;
-  max-width: 100%;
-  left: 0;
-  right: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: var(--nav-padding);
-}
-
-/* Minimal navigation */
-[data-nav-style="minimal"] nav.glass-border {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-/* Bold bar navigation */
-[data-nav-style="bold-bar"] nav.glass-border {
-  background: var(--color-nav-bg);
-  min-height: var(--nav-height, 60px);
-  padding: var(--nav-padding);
-  border-width: 0 0 3px 0;
-  border-radius: 0;
-}
+/* Navigation style variations were removed — nav is fixed across themes
+   to prevent layout breakage at small viewports. See Navigation.astro
+   for the canonical floating-pill styling and responsive breakpoints. */
 
 /* ============================================
    Daily Theme: Card Style Variations
@@ -440,25 +412,9 @@ html[data-e-ink="true"][data-theme="dark"] {
   border: var(--card-border-width, 2px) solid var(--color-text);
 }
 
-[data-card-style="glass"] :is(.card, .node-card) {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transform: translateZ(0);
-}
-
-@media (max-width: 768px) {
-  [data-card-style="glass"] :is(.card, .node-card) {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-}
-
-[data-theme="dark"][data-card-style="glass"] :is(.card, .node-card) {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+/* Glass card style was removed — cards must never be transparent.
+   Themes that still emit cards.style="glass" fall through to base
+   card styling (effectively the same as the "elevated" default). */
 
 [data-card-style="elevated"] :is(.card, .node-card) {
   box-shadow: var(--card-shadow, 0 4px 16px rgba(0,0,0,0.1));
@@ -484,6 +440,24 @@ html[data-e-ink="true"][data-theme="dark"] {
 }
 
 [data-hero-layout="centered"] .card-stack-section { overflow: hidden; }
+
+/* Mobile safety net: regardless of theme, hero must not push past viewport.
+   The React component swaps to stacked-fan at ≤768px (CardStackHero.tsx),
+   but this CSS belt-and-suspenders protects against any layout overflow
+   from theme-driven container-max-width or grid choices. */
+@media (max-width: 768px) {
+  .card-stack-section,
+  [data-hero-layout] .card-stack-section {
+    overflow-x: clip;
+  }
+
+  /* Theme-driven --container-max-width is irrelevant on mobile —
+     containers should fill the viewport with safe gutters. */
+  .container,
+  [data-grid-style] .container {
+    max-width: 100%;
+  }
+}
 
 /* ============================================
    Daily Theme: Link Style Variations

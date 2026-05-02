@@ -126,6 +126,37 @@ These rules prevent broken layouts. They always apply regardless of grid style.
 - If a layout creates intentional horizontal extension (e.g., oversized hero text, edge-to-edge imagery), that's fine — but body text and grids must stay contained
 - Multi-column grids collapse to single column on mobile (≤768px) automatically
 
+## Responsive Constraints (MUST FOLLOW)
+
+Every theme must render correctly across the full viewport range — 320px phones to 2560px ultrawide. Theme personality should come from **typography, color, and padding** — never from layout positioning. The site nav, hero structure, and section flow are fixed.
+
+### What themes vary
+- Typography: heading/body fonts, weights, letter-spacing, line-height, transforms, scale ratio
+- Color: full palette (bg, text, links, surfaces, borders) across light + dark modes
+- Padding & spacing: cardPadding, contentPadding, sectionSpacing, borderRadius
+- Surface treatments: card style (flat/elevated/glass/outlined/filled), shadow depth, image filters
+- Optional shaders + textures (sparingly)
+
+### What themes do NOT vary
+- **Navigation**: style, height, and padding are fixed. Do not emit a `navigation` field.
+- **Page positioning**: hero offset, nav clearance, section margins are framework-controlled.
+
+### Cards
+- `cardPadding` over **2rem** is dramatic on desktop but oppressive on phones — the framework does not auto-shrink it. Stay within **1rem–2rem**.
+- `borderRadius: "9999px"` is for pills/chips/avatars only. Never apply it as the global radius — it turns square cards into ovals at non-1:1 aspect ratios.
+- Card grids drop to single column ≤768px regardless of `gridStyle` — design assuming both states.
+
+### Spacing
+- `sectionSpacing` over **4rem** at desktop translates to excessive scroll on phones. Use 4–6rem only when the theme genuinely needs that breathing room and content density is low.
+- `letterSpacing > 0.05em` combined with `headingTransform: "uppercase"` can cause headings to overflow narrow viewports — pick one or the other for long words; use both only when titles are short.
+
+### Mental render check
+Before submitting, picture each of these:
+- **320px**: smallest phone — does padding leave room for body text? does heading fit on 1–2 lines?
+- **768px**: tablet — does multi-column collapse cleanly?
+- **1440px**: standard laptop — does it look finished, not stretched?
+- **1920px+**: large display — does `containerMaxWidth` cap dead space at the edges?
+
 ## Experimental Layout Patterns
 
 Don't default to centered single-column layouts. Explore these patterns to create visual drama:
