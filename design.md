@@ -108,6 +108,51 @@ The nav is a fixed floating-pill defined in `src/components/Navigation.astro`. T
 
 `--nav-height` is fixed at `40px` and `--nav-offset-top` at `24px`, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
 
+### Spacing scale
+
+All `padding`, `margin`, and `gap` declarations must come from one of two token sources. Hardcoded rem or px values are not permitted in new code. Existing files are migrating incrementally, prioritized by traffic and theme-sensitivity.
+
+**1. Fixed component spacing** — use `--spacing-*` from `variables.css`:
+
+| Token | Value | When to use |
+|---|---|---|
+| `--spacing-xs` | 0.25rem (4px) | Micro gaps (icon ↔ label) |
+| `--spacing-sm` | 0.5rem (8px) | Tight padding (chips, dense buttons) |
+| `--spacing-md` | 1rem (16px) | Standard inset (card body, list items) |
+| `--spacing-lg` | 1.5rem (24px) | Comfortable padding (default card) |
+| `--spacing-xl` | 2rem (32px) | Generous inset (section interior) |
+| `--spacing-2xl` | 3rem (48px) | Large gap (hero → next section) |
+| `--spacing-3xl` | 4rem (64px) | Dramatic break (page-level rhythm) |
+
+**2. Theme-overridable spacing** — use these for any value a theme should be able to tune:
+
+| Token | Default | Theme range | Maps to |
+|---|---|---|---|
+| `--card-padding` | 1.5rem | 1–2rem | `.card`, `.node-card` insets |
+| `--content-padding` | 2rem | 1–2rem | Section horizontal inset |
+| `--section-spacing` | 4rem | 2–6rem | Vertical rhythm between sections |
+| `--container-padding` | clamp(1rem, 3vw, 2rem) | (fluid) | Container outer padding |
+
+**Picking the right tier:** if a theme should be able to tune the value (e.g., dramatic vs dense layouts), use the theme-variable tokens. If it's purely local (a button's internal gap, a metadata row), use `--spacing-*`. When in doubt, `--spacing-*` is the safer default — it doesn't drift across themes.
+
+### Hover state hygiene
+
+Hover states must not change dimensional properties. The following are **immutable across `:hover`**:
+
+- `padding`, `margin`, `gap`
+- `width`, `height`
+- `min-width`, `max-width`, `min-height`, `max-height`
+- `border-width` (changes layout the same way as padding)
+
+The only properties allowed to change on hover are:
+
+- `color`, `background-color`, `border-color`
+- `box-shadow`
+- `transform` (auto-stripped on touch via the `(hover: none)` rule — see [Hover states](#hover-states))
+- `opacity`
+
+**Why:** dimensional hover changes cause iOS sticky-hover layout jumps after taps (the recurring nav padding bug), cumulative layout shift on desktop when hover triggers during scroll, and inconsistent feel between mouse, trackpad, and stylus pointers. The expand-on-hover sentient-nav animation in `Navigation.astro` predates this rule and is grandfathered, but the pattern is not extended elsewhere — when that file is refactored, dimensional hover effects move into `transform: scale()` so the layout stays stable.
+
 ### Hero image padding
 
 Page hero images (writing/notes/about, anywhere `PageHeader variant="image"` is used) must sit flush to the viewport top with no padding above them — the floating nav pill should appear over the image, not below a strip of page background.
