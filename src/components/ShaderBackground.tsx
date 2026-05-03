@@ -6,18 +6,20 @@
  */
 
 import { useEffect, useState } from 'react';
-import {
-  GrainGradient,
-  MeshGradient,
-  NeuroNoise,
-  Waves,
-  DotGrid,
-  Swirl,
-  PerlinNoise,
-  SimplexNoise,
-  PaperTexture,
-} from '@paper-design/shaders-react';
+import * as Shaders from '@paper-design/shaders-react';
 import MouseGlow from './MouseGlow';
+
+// Cast shader components to permissive types — the library's TS definitions
+// omit `style`, but it's accepted at runtime.
+const GrainGradient = Shaders.GrainGradient as any;
+const MeshGradient = Shaders.MeshGradient as any;
+const NeuroNoise = Shaders.NeuroNoise as any;
+const Waves = Shaders.Waves as any;
+const DotGrid = Shaders.DotGrid as any;
+const Swirl = Shaders.Swirl as any;
+const PerlinNoise = Shaders.PerlinNoise as any;
+const SimplexNoise = Shaders.SimplexNoise as any;
+const PaperTexture = Shaders.PaperTexture as any;
 
 interface ShaderBackgroundProps {
   shader?: string;
@@ -113,10 +115,12 @@ export default function ShaderBackground({
     opacity: opacity,
   };
 
+  // Cast: the @paper-design shader components accept `style` at runtime
+  // but their TS types omit it. One cast keeps every shader call site clean.
   const shaderStyle = {
     width: '100%',
     height: '100%',
-  };
+  } as any;
 
   // Get the link color for mouse glow (falls back to first shader color)
   const glowColor = currentColors[0] || '#ffffff';

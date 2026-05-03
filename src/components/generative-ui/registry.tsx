@@ -305,7 +305,7 @@ export const { registry } = defineRegistry(themeCatalog, {
     },
 
     Heading: ({ props }) => {
-      const Tag = (props.level || 'h3') as keyof JSX.IntrinsicElements;
+      const Tag = (props.level || 'h3') as keyof React.JSX.IntrinsicElements;
       const sizes: Record<string, string> = { h2: '1.4rem', h3: '1.15rem', h4: '1rem' };
       return (
         <Tag style={{

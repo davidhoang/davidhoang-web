@@ -7,7 +7,11 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Water, PaperTexture } from '@paper-design/shaders-react';
+import * as Shaders from '@paper-design/shaders-react';
+
+// Cast: the library types omit `style` but accept it at runtime.
+const Water = Shaders.Water as any;
+const PaperTexture = Shaders.PaperTexture as any;
 interface HeroImageShaderProps {
   src: string;
   alt: string;
@@ -60,14 +64,16 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     height: '100%',
   };
 
-  const shaderStyle: React.CSSProperties = {
+  // Cast: @paper-design shader components accept `style` at runtime but
+  // their TS types omit it.
+  const shaderStyle = {
     position: 'absolute',
     top: 0,
     left: 0,
     width: '100%',
     height: '100%',
     zIndex: 0,
-  };
+  } as any;
 
   // Hero image for shader overlay cases (SSR img already handles base display)
   const HeroImage = ({ className = '' }: { className?: string }) => (

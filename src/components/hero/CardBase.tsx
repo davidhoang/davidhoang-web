@@ -85,7 +85,7 @@ function CardHeroMedia({
             preload="metadata"
             aria-hidden
           >
-            <source src={card.heroVideo} type={videoMimeType(card.heroVideo) || 'video/mp4'} />
+            <source src={card.heroVideo} type={videoMimeType(card.heroVideo || '') || 'video/mp4'} />
           </video>
         ) : (
           <img

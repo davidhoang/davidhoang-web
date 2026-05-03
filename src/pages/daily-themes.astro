@@ -14,7 +14,7 @@ const pageDescription =
     variant="text-only"
     subtitle="AI-generated themes rendered with json-render"
   />
-  <ThemesExplorer client:load themes={dailyThemes.themes} />
+  <ThemesExplorer client:load themes={dailyThemes.themes as any} />
 </MainLayout>
 
 <style>

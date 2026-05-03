@@ -194,7 +194,7 @@ export const GET: APIRoute = async ({ url }) => {
     },
   };
 
-  return new ImageResponse(html, {
+  return new ImageResponse(html as any, {
     width: 1200,
     height: 630,
     headers: {

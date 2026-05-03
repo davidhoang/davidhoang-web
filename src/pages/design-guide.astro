@@ -725,12 +725,16 @@ import MainLayout from '../layouts/MainLayout.astro';
     const heroLayout = root.getAttribute('data-hero-layout') || 'default';
     const imageStyle = root.getAttribute('data-image-style') || 'default';
 
-    document.getElementById('theme-active').textContent = themeActive ? 'Yes (' + root.getAttribute('data-daily-theme') + ')' : 'No (using default)';
-    document.getElementById('theme-nav').textContent = navStyle;
-    document.getElementById('theme-card').textContent = cardStyle;
-    document.getElementById('theme-link').textContent = linkStyle;
-    document.getElementById('theme-hero').textContent = heroLayout;
-    document.getElementById('theme-image').textContent = imageStyle;
+    const set = (id: string, value: string) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+    set('theme-active', themeActive ? 'Yes (' + root.getAttribute('data-daily-theme') + ')' : 'No (using default)');
+    set('theme-nav', navStyle);
+    set('theme-card', cardStyle);
+    set('theme-link', linkStyle);
+    set('theme-hero', heroLayout);
+    set('theme-image', imageStyle);
   }
 
   // Update on load

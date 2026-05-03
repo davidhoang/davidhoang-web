@@ -40,7 +40,7 @@ export default function MouseGlow({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePos = useRef({ x: -1000, y: -1000 });
   const targetPos = useRef({ x: -1000, y: -1000 });
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const [isEnabled, setIsEnabled] = useState(true);
 
   useEffect(() => {
