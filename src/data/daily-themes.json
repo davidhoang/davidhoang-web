@@ -1,6 +1,270 @@
 {
   "themes": [
     {
+      "name": "Electric Tokyo",
+      "description": "Neon-soaked Shibuya after midnight, where geometric precision meets atmospheric haze",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F4F2FF",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#E0DCF0",
+          "--color-muted": "#8B7FB8",
+          "--color-sidebar-bg": "#EFEAFF",
+          "--color-nav-bg": "#F4F2FF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FAFAFF"
+        },
+        "dark": {
+          "--color-text": "#E8E6FF",
+          "--color-bg": "#0F1419",
+          "--color-link": "#FF2693",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#2A2D3E",
+          "--color-muted": "#7A7B8A",
+          "--color-sidebar-bg": "#161B22",
+          "--color-nav-bg": "#0F1419",
+          "--color-nav-text": "#E8E6FF",
+          "--color-card-bg": "#1C2128"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 0 20px rgba(255, 0, 128, 0.15)",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "0.95",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "neuro",
+        "colors": [
+          "#FF0080",
+          "#00D4FF",
+          "#FFB000"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-03",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Electric Tokyo",
+              "subtitle": "Neon-soaked Shibuya after midnight"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "s3",
+              "lp"
+            ]
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "p1",
+              "t1",
+              "s4"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9006D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00D4FF",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#8B7FB8",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#EFEAFF",
+                  "label": "sidebar"
+                },
+                {
+                  "hex": "#E0DCF0",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F4F2FF",
+                  "label": "bg"
+                }
+              ]
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "MIDNIGHT GLOW",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "geometric",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "neon",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "t2",
+              "t3"
+            ]
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Atmospheric haze meets precision",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "t3": {
+            "type": "TypeSample",
+            "props": {
+              "text": "sans-serif • 4px radius",
+              "variant": "caption"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Steel Cathedral",
       "description": "Cold precision meets sacred geometry in an industrial temple of light and shadow",
       "colors": {
@@ -1340,239 +1604,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Thunder",
-      "description": "Storm clouds gathering over royal opera house curtains, where lightning meets luxury in deep jewel tones.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0F1A",
-          "--color-bg": "#F8F4F8",
-          "--color-link": "#CC2952",
-          "--color-link-hover": "#E6004D",
-          "--color-border": "#D4C5D4",
-          "--color-muted": "#8B7A8B",
-          "--color-sidebar-bg": "#F3EDF3",
-          "--color-nav-bg": "#F5F0F5",
-          "--color-nav-text": "#1A0F1A",
-          "--color-card-bg": "#FDFBFD"
-        },
-        "dark": {
-          "--color-text": "#E8DCE8",
-          "--color-bg": "#1A0F1A",
-          "--color-link": "#FF6B35",
-          "--color-link-hover": "#FF8C5A",
-          "--color-border": "#3D2B3D",
-          "--color-muted": "#8B7A8B",
-          "--color-sidebar-bg": "#241624",
-          "--color-nav-bg": "#1F141F",
-          "--color-nav-text": "#E8DCE8",
-          "--color-card-bg": "#221622"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 700, 'opsz' 72"
-      },
-      "navigation": {
-        "style": "floating",
-        "height": "64px",
-        "padding": "1rem 2rem"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "2.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "perlin",
-        "colors": [
-          "#FF3366",
-          "#1A0F1A",
-          "#3D2B3D"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-04-26",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Thunder",
-              "subtitle": "Storm clouds gathering over royal opera house curtains"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "d1",
-              "s2",
-              "l1"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A0F1A",
-                  "label": "text"
-                },
-                {
-                  "hex": "#CC2952",
-                  "label": "link"
-                },
-                {
-                  "hex": "#F8F4F8",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#8B7A8B",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#D4C5D4",
-                  "label": "border"
-                },
-                {
-                  "hex": "#FDFBFD",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s3",
-              "l1"
-            ]
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "t1",
-              "b1"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Where Lightning Meets Luxury",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Royal elegance in deep jewel tones",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-02"
+  "currentDate": "2026-05-03"
 }
