@@ -715,7 +715,7 @@ const ogImageUrl = ogImage.startsWith('http')
       document.addEventListener('astro:page-load', syncBlogPostMoodFilterBypass);
 
       // Helper to update browser theme-color
-      function updateBrowserThemeColor(theme) {
+      function updateBrowserThemeColor(theme: string) {
         const themeColor = theme === 'dark' ? '#111111' : '#ffffff';
         let metaThemeColor = document.querySelector('meta[name="theme-color"]:not([media])');
         if (!metaThemeColor) {
@@ -745,12 +745,12 @@ const ogImageUrl = ogImage.startsWith('http')
       });
 
       // Listen for theme changes (from ThemeToggle component)
-      document.addEventListener('theme-changed', (e) => {
+      document.addEventListener('theme-changed', ((e: CustomEvent<{ theme: string }>) => {
         updateBrowserThemeColor(e.detail.theme);
-      });
+      }) as EventListener);
 
       // Lazy loading with fade-in effect
-      function observeImage(img) {
+      function observeImage(img: HTMLImageElement) {
         if (img.classList.contains('loaded')) return;
         if (img.complete && img.naturalWidth > 0) {
           img.classList.add('loaded');
@@ -762,7 +762,7 @@ const ogImageUrl = ogImage.startsWith('http')
       }
 
       function initLazyImages() {
-        document.querySelectorAll('img[loading="lazy"]').forEach(observeImage);
+        document.querySelectorAll('img[loading="lazy"]').forEach((el) => observeImage(el as HTMLImageElement));
       }
 
       // Catch images added by client-side components (React, etc.)
@@ -773,7 +773,7 @@ const ogImageUrl = ogImage.startsWith('http')
               observeImage(node);
             }
             if (node instanceof HTMLElement) {
-              node.querySelectorAll?.('img[loading="lazy"]').forEach(observeImage);
+              node.querySelectorAll?.('img[loading="lazy"]').forEach((el) => observeImage(el as HTMLImageElement));
             }
           }
         }

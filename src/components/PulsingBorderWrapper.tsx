@@ -5,7 +5,8 @@
  * Use on buttons, cards, or navigation elements for a glowing border effect.
  */
 
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { PulsingBorder } from '@paper-design/shaders-react';
 
 interface PulsingBorderWrapperProps {

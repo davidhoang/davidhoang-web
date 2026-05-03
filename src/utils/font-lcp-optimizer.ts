@@ -104,11 +104,11 @@ export class FontLCPOptimizer {
     if ('PerformanceObserver' in window) {
       this.observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (entry.entryType === 'resource' && entry.initiatorType === 'link') {
-            const resource = entry as PerformanceResourceTiming;
-            if (resource.name.includes('.woff2')) {
-              this.onFontLoaded(resource.name, resource.loadEnd - resource.loadStart);
-            }
+          if (entry.entryType !== 'resource') continue;
+          const resource = entry as PerformanceResourceTiming;
+          if (resource.initiatorType !== 'link') continue;
+          if (resource.name.includes('.woff2')) {
+            this.onFontLoaded(resource.name, resource.duration);
           }
         }
       });

@@ -66,7 +66,6 @@ function getColorTemperature(bgColor: string): 'warm' | 'cool' | 'neutral' {
   // Parse hex color
   const hex = bgColor.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
 
   // Warm colors have more red/yellow
@@ -237,7 +236,7 @@ export function computeAggregates(
   };
 
   // Color temperature average
-  const tempScores = selections.map((s) => {
+  const tempScores: number[] = selections.map((s) => {
     if (s.colorTemperature === 'warm') return 1;
     if (s.colorTemperature === 'cool') return -1;
     return 0;

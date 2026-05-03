@@ -1,13 +1,14 @@
 export function initScrollDetection(): void {
-  const nav = document.querySelector('nav');
+  const nav: HTMLElement | null = document.querySelector('nav');
   if (!nav) return;
+  const navEl: HTMLElement = nav;
 
   let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
   const SCROLL_STOP_DELAY = 150; // milliseconds to wait after scrolling stops
 
   function handleScroll() {
     // Add scrolling class
-    nav.classList.add('is-scrolling');
+    navEl.classList.add('is-scrolling');
 
     // Clear existing timeout
     if (scrollTimeout) {
@@ -16,7 +17,7 @@ export function initScrollDetection(): void {
 
     // Set timeout to remove class when scrolling stops
     scrollTimeout = setTimeout(() => {
-      nav.classList.remove('is-scrolling');
+      navEl.classList.remove('is-scrolling');
       scrollTimeout = null;
     }, SCROLL_STOP_DELAY);
   }
