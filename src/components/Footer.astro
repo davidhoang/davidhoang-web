@@ -3,15 +3,12 @@
 
 <footer role="contentinfo" aria-label="Site footer">
   <div class="container">
-    <section class="footer-section-email" aria-labelledby="footer-email-heading">
-      <p id="footer-email-heading" class="footer-email-eyebrow">Say hello</p>
-      <a href="mailto:david[at]davidhoang.com" aria-label="Email David Hoang">david[at]davidhoang.com</a>
-    </section>
     <section aria-label="Footer navigation">
       <div class="footer-grid">
         <div class="footer-col">
           <h4>Social</h4>
           <ul role="list">
+            <li><a href="mailto:david@davidhoang.com" aria-label="Email David Hoang">Email</a></li>
             <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on GitHub (opens in new tab)">GitHub</a></li>
             <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on LinkedIn (opens in new tab)">LinkedIn</a></li>
             <li><a href="https://sublime.app/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Sublime (opens in new tab)">Sublime</a></li>
@@ -196,57 +193,6 @@
     }
   }
 
-  /* Email link - bigger magnetic effect */
-  .footer-section-email a {
-    transition:
-      color var(--duration-slower) var(--ease-inertia-smooth),
-      transform var(--duration-slower) var(--ease-inertia-smooth),
-      letter-spacing var(--duration-slower) var(--ease-inertia-smooth);
-  }
-
-  .footer-section-email a::before {
-    inset: -8px -16px;
-    filter: blur(12px);
-  }
-
-  @media (hover: hover) {
-    .footer-section-email a:hover {
-      transform: translateY(-2px);
-      letter-spacing: 0.02em;
-    }
-
-    .footer-section-email a:hover::before {
-      opacity: 0.2;
-    }
-  }
-
-  .footer-email-eyebrow {
-    margin: 0 0 0.35rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: var(--heading-letter-spacing, 0.12em);
-    text-transform: uppercase;
-    color: var(--color-muted);
-    font-family: var(--font-body);
-  }
-
-  .footer-section-email {
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.75rem;
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    font-weight: 600;
-    border-radius: var(--radius-lg, 16px);
-    border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
-    background: color-mix(in srgb, var(--color-sidebar-bg) 55%, transparent);
-    box-shadow:
-      0 1px 0 color-mix(in srgb, var(--color-text) 4%, transparent),
-      0 12px 40px -28px color-mix(in srgb, var(--color-link) 35%, transparent);
-  }
-
-  .footer-section-email a {
-    font-size: 1.4em;
-  }
-
   .footer-section-meta {
     margin-top: 2.25rem;
     padding-top: 1.75rem;
@@ -380,14 +326,6 @@
   @media (min-width: 1920px) {
     footer {
       font-size: 1.2rem;
-    }
-
-    .footer-section-email {
-      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-    }
-
-    .footer-section-email a {
-      font-size: 1.4em;
     }
 
     .footer-copyright-line {
