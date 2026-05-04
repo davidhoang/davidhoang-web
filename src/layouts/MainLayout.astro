@@ -490,76 +490,91 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Apply theme and e-ink mode before paint to avoid flash.
          SSR bakes today's daily theme (light mode) into <html> style/attrs.
          This script handles: dark mode color swap, e-ink override, daily-off,
-         and swapping in the user's calendar selection when it's not today. -->
+         and swapping in the user's calendar selection when it's not today.
+         Also runs on astro:before-swap to apply preferences to the incoming
+         <html> before view transitions paint, eliminating the per-nav flash. -->
     <script define:vars={{
       ssrDarkColors: todayTheme?.colors?.dark || {},
       ssrThemeStyleKeys: ssrThemeStyle.map((s: string) => s.split(':')[0]),
       ssrDate: todayTheme?.date || today,
       themesApplyMap,
     }}>
+      // Apply user theme preferences (dark/e-ink/daily-off/calendar pick) to a given <html> root.
+      // Used twice: against `document.documentElement` on initial load (pre-paint) and against
+      // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).
+      function applyThemePreferencesToRoot(root, ssrDateOfRoot) {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        root.setAttribute('data-theme', theme);
+
+        var eInkMode = localStorage.getItem('e-ink-mode') === 'true';
+        var dailyOff = localStorage.getItem('daily-theme-mode') === 'false';
+        var selectedDate = localStorage.getItem('daily-theme-date');
+        var hasUserSelection = !eInkMode && !dailyOff && selectedDate && selectedDate !== ssrDateOfRoot && themesApplyMap[selectedDate];
+
+        if (eInkMode) {
+          ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
+          root.setAttribute('data-e-ink', 'true');
+          root.setAttribute('data-shader', 'none');
+        } else if (dailyOff) {
+          ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
+          root.removeAttribute('data-daily-theme');
+          root.removeAttribute('data-shader');
+          root.removeAttribute('data-shader-colors');
+          root.removeAttribute('data-grid-style');
+          root.removeAttribute('data-contrast-mode');
+          ['data-nav-style','data-card-style','data-hero-layout','data-link-style',
+           'data-bg-texture','data-image-style','data-image-hover','data-footer-style'
+          ].forEach(function(a) { root.removeAttribute(a); });
+        } else if (hasUserSelection) {
+          var apply = themesApplyMap[selectedDate];
+          ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
+          Object.keys(apply.styles).forEach(function(k) { root.style.setProperty(k, apply.styles[k]); });
+          var pickColors = theme === 'dark' ? apply.darkColors : apply.lightColors;
+          Object.keys(pickColors).forEach(function(k) { root.style.setProperty(k, pickColors[k]); });
+          Object.keys(apply.attrs).forEach(function(k) { root.setAttribute(k, apply.attrs[k]); });
+          if (!apply.attrs['data-shader-colors']) root.removeAttribute('data-shader-colors');
+          if (!apply.attrs['data-grid-style']) root.removeAttribute('data-grid-style');
+          if (!apply.attrs['data-contrast-mode']) root.removeAttribute('data-contrast-mode');
+        } else if (theme === 'dark') {
+          Object.keys(ssrDarkColors).forEach(function(k) {
+            root.style.setProperty(k, ssrDarkColors[k]);
+          });
+        }
+      }
+
       (function(){
         try {
-          var root = document.documentElement;
-          var stored = localStorage.getItem('theme');
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var theme = stored || (prefersDark ? 'dark' : 'light');
-          root.setAttribute('data-theme', theme);
+          applyThemePreferencesToRoot(document.documentElement, ssrDate);
 
-          var eInkMode = localStorage.getItem('e-ink-mode') === 'true';
-          var dailyOff = localStorage.getItem('daily-theme-mode') === 'false';
-          var selectedDate = localStorage.getItem('daily-theme-date');
-          var hasUserSelection = !eInkMode && !dailyOff && selectedDate && selectedDate !== ssrDate && themesApplyMap[selectedDate];
-
-          if (eInkMode) {
-            // E-ink: strip daily theme, apply e-ink attribute
-            ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
-            root.setAttribute('data-e-ink', 'true');
-            root.setAttribute('data-shader', 'none');
-          } else if (dailyOff) {
-            // User disabled daily theme: strip SSR theme properties
-            ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
-            root.removeAttribute('data-daily-theme');
-            root.removeAttribute('data-shader');
-            root.removeAttribute('data-shader-colors');
-            root.removeAttribute('data-grid-style');
-            root.removeAttribute('data-contrast-mode');
-            ['data-nav-style','data-card-style','data-hero-layout','data-link-style',
-             'data-bg-texture','data-image-style','data-image-hover','data-footer-style'
-            ].forEach(function(a) { root.removeAttribute(a); });
-          } else if (hasUserSelection) {
-            // User picked a non-today theme — swap SSR's today bake to their selection before paint.
-            var apply = themesApplyMap[selectedDate];
-            // Clear SSR styles that may not be present in the new theme so we don't bleed through.
-            ssrThemeStyleKeys.forEach(function(k) { root.style.removeProperty(k); });
-            // Apply target theme styles (non-color CSS vars).
-            Object.keys(apply.styles).forEach(function(k) { root.style.setProperty(k, apply.styles[k]); });
-            // Apply colors for the resolved color scheme.
-            var pickColors = theme === 'dark' ? apply.darkColors : apply.lightColors;
-            Object.keys(pickColors).forEach(function(k) { root.style.setProperty(k, pickColors[k]); });
-            // Apply data attributes.
-            Object.keys(apply.attrs).forEach(function(k) { root.setAttribute(k, apply.attrs[k]); });
-            // Clear conditional attrs not present in the new theme.
-            if (!apply.attrs['data-shader-colors']) root.removeAttribute('data-shader-colors');
-            if (!apply.attrs['data-grid-style']) root.removeAttribute('data-grid-style');
-            if (!apply.attrs['data-contrast-mode']) root.removeAttribute('data-contrast-mode');
-          } else if (theme === 'dark') {
-            // Dark mode: swap SSR light colors to dark
-            Object.keys(ssrDarkColors).forEach(function(k) {
-              root.style.setProperty(k, ssrDarkColors[k]);
-            });
-          }
-
-          // Update browser theme-color
+          // Update browser theme-color (only needed on initial load).
+          var theme = document.documentElement.getAttribute('data-theme');
           var themeColor = theme === 'dark' ? '#111111' : '#ffffff';
           var metaThemeColor = document.querySelector('meta[name="theme-color"]');
           if (metaThemeColor) metaThemeColor.setAttribute('content', themeColor);
 
           // Initialize font loading optimization early for better LCP
-          root.classList.add('font-loading');
+          document.documentElement.classList.add('font-loading');
         } catch(e) {
           // no-op
         }
       })();
+
+      // Apply preferences to the incoming <html> on view transition, before Astro paints it.
+      // Without this, the next page's SSR (today's theme) renders for a frame before
+      // initDailyTheme() re-applies on astro:page-load — visible as a flash, especially on home.
+      document.addEventListener('astro:before-swap', function(event) {
+        try {
+          var newDoc = event.newDocument;
+          if (!newDoc || !newDoc.documentElement) return;
+          var newRoot = newDoc.documentElement;
+          var newSsrDate = newRoot.getAttribute('data-daily-theme') || ssrDate;
+          applyThemePreferencesToRoot(newRoot, newSsrDate);
+        } catch(e) {
+          // no-op
+        }
+      });
     </script>
     
     <!-- Font Loading Optimization Script -->
