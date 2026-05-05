@@ -91,6 +91,7 @@ const breadcrumbJsonLd = {
     )}
     <div class="content-grid">
       <div class="main-content">
+        <a href={sectionPath} class="post-kicker">{sectionLabel}</a>
         <h1 transition:name={`title-${slug}`}>{title}</h1>
         <time datetime={pubDate}>
           {new Date(pubDate).toLocaleDateString()}
@@ -101,7 +102,7 @@ const breadcrumbJsonLd = {
         <SidebarWriting variant="meta-only" />
         {relatedPosts.length > 0 && (
           <section class="related-posts">
-            <h2 class="related-posts__heading">Related articles</h2>
+            <h2 class="related-posts__heading">Keep reading</h2>
             <div class="related-posts__grid">
               {relatedPosts.map((rp: any) => {
                 const thumb = rp.data.coverImage || rp.data.ogImage || `/api/og?title=${encodeURIComponent(rp.data.title)}&type=writing`;
@@ -208,6 +209,33 @@ const breadcrumbJsonLd = {
     border-radius: var(--radius-md);
   }
 
+  .post-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    transition: color var(--duration-normal, 0.2s) var(--ease-inertia, ease),
+                border-bottom-color var(--duration-normal, 0.2s) var(--ease-inertia, ease);
+  }
+
+  .post-kicker::after {
+    display: none !important;
+  }
+
+  .post-kicker:hover {
+    color: var(--color-link, var(--color-text));
+    border-bottom-color: currentColor;
+  }
+
+  .main-content > h1 {
+    text-wrap: balance;
+  }
+
   .main-content > time {
     color: var(--color-muted);
     font-size: 0.75rem;
@@ -242,12 +270,12 @@ const breadcrumbJsonLd = {
   }
 
   .related-posts__heading {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     color: var(--color-muted);
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.5rem;
   }
 
   .related-posts__grid {
@@ -298,13 +326,18 @@ const breadcrumbJsonLd = {
   }
 
   .related-posts__title {
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.25;
+    letter-spacing: var(--letter-spacing-heading-md, -0.01em);
+    text-wrap: balance;
   }
 
   .related-posts__card time {
-    font-size: 0.8125rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--color-muted);
     margin: 0;
   }
