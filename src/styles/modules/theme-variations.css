@@ -221,10 +221,10 @@ html[data-e-ink="true"][data-theme="dark"] {
   display: none !important;
 }
 
-/* Simplify hero title in e-ink mode */
+/* Simplify hero title in e-ink mode — strip any theme-applied gradient/background
+   so the headline sits flush on the page background, no grey block behind it. */
 [data-e-ink="true"] .hero-title {
-  background-image: none;
-  background-color: var(--color-sidebar-bg);
+  background: none;
 }
 
 /* Remove hover transforms in e-ink mode */
