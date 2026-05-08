@@ -413,15 +413,11 @@ export default function CardStackHero() {
           margin-left: -120px;
           margin-top: -160px;
           transform-origin: center center;
-          transition: box-shadow 0.3s ease;
           will-change: transform, opacity;
         }
 
         .card:hover {
-          box-shadow:
-            0 20px 50px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(0, 0, 0, 0.12),
-            inset 0 0 0 0.5px rgba(255, 255, 255, 0.38);
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
         }
 
         .card:focus-visible {
@@ -537,9 +533,17 @@ export default function CardStackHero() {
 
         .card-glass-mode {
           background-color: rgba(255, 255, 255, 0.05) !important;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           border: 0.5px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Reduce blur on touch devices for smoother hover interactions */
+        @media (pointer: coarse), (hover: none) {
+          .card-glass-mode {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+          }
         }
 
         .card-glass-overlay {
