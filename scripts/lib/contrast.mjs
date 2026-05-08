@@ -138,7 +138,7 @@ function validateMode(colors, modeName) {
   const checks = [
     ['--color-text', '--color-bg', 4.5, 'body text on background'],
     ['--color-link', '--color-bg', 4.5, 'link on background'],
-    ['--color-muted', '--color-bg', 3.0, 'muted text on background'],
+    ['--color-muted', '--color-bg', 4.5, 'muted text on background'],
     ['--color-text', '--color-card-bg', 4.5, 'text on card background'],
     ['--color-link', '--color-card-bg', 4.5, 'link on card background'],
     ['--color-nav-text', '--color-nav-bg', 4.5, 'nav text on nav background'],
