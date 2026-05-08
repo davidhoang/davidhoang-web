@@ -94,10 +94,9 @@ function ScatteredCard({
         opacity: isOtherSelected ? 0.2 : 1,
       }}
       whileHover={!isSelected ? {
-        scale: 1.1,
+        scale: 1.06,
         rotate: 0,
-        zIndex: 15,
-        transition: { type: 'spring', stiffness: 300, damping: 20 }
+        transition: { type: 'tween', duration: 0.25, ease: [0.22, 1, 0.36, 1] }
       } : {}}
       whileTap={!isSelected ? { scale: 0.95 } : {}}
       transition={{

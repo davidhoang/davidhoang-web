@@ -92,17 +92,11 @@ function FanCard({
         selectedCard
           ? undefined
           : {
-              // Keep x/rotate explicit on hover so y/scale easing does not pull x off the fan arc.
               x: position.x,
-              y: position.y - 10,
+              y: position.y - 8,
               rotate: position.rotation,
-              scale: 1.025,
-              transition: {
-                type: 'spring',
-                stiffness: 260,
-                damping: 36,
-                mass: 0.85,
-              },
+              scale: 1.02,
+              transition: { type: 'tween', duration: 0.25, ease: [0.22, 1, 0.36, 1] },
             }
       }
       whileTap={selectedCard ? undefined : { scale: 0.99 }}

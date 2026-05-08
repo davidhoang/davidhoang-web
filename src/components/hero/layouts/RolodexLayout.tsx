@@ -85,9 +85,9 @@ function RolodexCard({
         y: isSelected ? -60 : 0,
       }}
       whileHover={!isSelected && isFront ? {
-        scale: 1.05,
-        y: -10,
-        transition: { type: 'spring', stiffness: 400, damping: 25 }
+        scale: 1.03,
+        y: -8,
+        transition: { type: 'tween', duration: 0.25, ease: [0.22, 1, 0.36, 1] }
       } : {}}
       whileTap={!isSelected ? { scale: 0.98 } : {}}
       transition={{

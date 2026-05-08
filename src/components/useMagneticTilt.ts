@@ -1,3 +1,4 @@
+import { useCallback, useRef } from 'react';
 import { useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from 'framer-motion';
 
 interface MagneticTiltOptions {
@@ -23,6 +24,10 @@ interface MagneticTiltApi {
 /**
  * Cursor-driven 3D tilt on hover, smoothed by springs. Honors prefers-reduced-motion.
  * Wire returned `rotateX`/`rotateY` into a motion element's `style`, and the handlers onto the element.
+ *
+ * Performance: caches getBoundingClientRect per mouseEnter (not per mouseMove)
+ * and throttles updates to one per animation frame to prevent layout thrashing
+ * on high-frequency input devices (iPad trackpad reports at ~240Hz).
  */
 export function useMagneticTilt({
   amplitude = 9,
@@ -41,22 +46,43 @@ export function useMagneticTilt({
 
   const isFlat = Boolean(prefersReducedMotion || disabled);
 
-  const reset = () => {
+  // Cache rect on enter — avoids getBoundingClientRect() on every mouseMove
+  const rectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef(0);
+
+  const reset = useCallback(() => {
     pointerX.set(0);
     pointerY.set(0);
-  };
+    rectRef.current = null;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
+  }, [pointerX, pointerY]);
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (isFlat) return;
+    // Cache rect on first move (mouseEnter may not fire before mouseMove on some devices)
+    if (!rectRef.current) {
+      rectRef.current = e.currentTarget.getBoundingClientRect();
+    }
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    // Throttle to one update per frame
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        const rect = rectRef.current!;
+        pointerX.set((clientX - rect.left) / rect.width - 0.5);
+        pointerY.set((clientY - rect.top) / rect.height - 0.5);
+        rafRef.current = 0;
+      });
+    }
+  }, [isFlat, pointerX, pointerY]);
 
   return {
     rotateX: isFlat ? 0 : tiltX,
     rotateY: isFlat ? 0 : tiltY,
     isFlat,
     reset,
-    onMouseMove: (e) => {
-      if (isFlat) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      pointerX.set((e.clientX - rect.left) / rect.width - 0.5);
-      pointerY.set((e.clientY - rect.top) / rect.height - 0.5);
-    },
+    onMouseMove,
     onMouseLeave: reset,
   };
 }
