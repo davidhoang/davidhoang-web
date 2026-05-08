@@ -96,6 +96,13 @@ const breadcrumbJsonLd = {
         <time datetime={pubDate}>
           {new Date(pubDate).toLocaleDateString()}
         </time>
+        {tags && tags.length > 0 && (
+          <ul class="post-tags" aria-label="Tags">
+            {tags.map((tag: string) => (
+              <li class="post-tags__item">{tag}</li>
+            ))}
+          </ul>
+        )}
         <div class="prose-content">
           <slot />
         </div>
@@ -246,6 +253,38 @@ const breadcrumbJsonLd = {
     margin: 0.85rem 0 2rem;
   }
 
+  /* When a tag rail follows, tighten the dateline gap and let .post-tags own the spacing. */
+  .main-content > time:has(+ .post-tags) {
+    margin-bottom: 0.85rem;
+  }
+
+  .post-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.85rem;
+  }
+
+  .post-tags__item {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    position: relative;
+  }
+
+  .post-tags__item:not(:last-child)::after {
+    content: "·";
+    position: absolute;
+    right: -0.55rem;
+    color: var(--color-border);
+    font-weight: 400;
+  }
+
   /* "Originally posted on" attribution */
   .prose-content > hr:last-of-type {
     border: none;
@@ -287,21 +326,12 @@ const breadcrumbJsonLd = {
   .related-posts__card {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
-    overflow: hidden;
-    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
   }
 
   .related-posts__card::after {
     display: none !important;
-  }
-
-  .related-posts__card:hover {
-    box-shadow: var(--card-shadow, 0 4px 20px rgba(0, 0, 0, 0.06));
-    transform: translateY(-2px);
   }
 
   .related-posts__thumb {
@@ -309,6 +339,7 @@ const breadcrumbJsonLd = {
     aspect-ratio: 1200 / 630;
     overflow: hidden;
     background: var(--color-sidebar-bg);
+    border-radius: var(--radius-md);
   }
 
   .related-posts__thumb img {
@@ -316,13 +347,24 @@ const breadcrumbJsonLd = {
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s var(--ease-inertia);
+  }
+
+  @media (hover: hover) {
+    .related-posts__card:hover .related-posts__thumb img {
+      transform: scale(1.03);
+    }
+
+    .related-posts__card:hover .related-posts__title {
+      color: var(--color-link);
+    }
   }
 
   .related-posts__info {
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 0 0;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.4rem;
   }
 
   .related-posts__title {
@@ -331,6 +373,7 @@ const breadcrumbJsonLd = {
     line-height: 1.25;
     letter-spacing: var(--letter-spacing-heading-md, -0.01em);
     text-wrap: balance;
+    transition: color var(--duration-normal, 0.2s) var(--ease-inertia, ease);
   }
 
   .related-posts__card time {
@@ -442,6 +485,7 @@ const breadcrumbJsonLd = {
     .related-posts__info {
       flex: 1;
       justify-content: center;
+      padding: 0 0 0 1rem;
     }
 
     .related-posts__title {
