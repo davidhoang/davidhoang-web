@@ -1,8 +1,16 @@
 ---
+import { getImage } from 'astro:assets';
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid, AnimatedSection } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
+import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
+
+// Pre-resolve the 'about' card thumbnail to an optimized hashed URL so the
+// preload tag and the React-side card share the exact same href (cache hit
+// instead of double download). Card thumbnails render as CSS background-image,
+// so a single right-sized variant is what we want; no srcset needed.
+const dhWebOptimized = await getImage({ src: dhWebLightAsset, width: 480, format: 'webp' });
 
 // Page metadata
 const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -54,11 +62,11 @@ const portfolioItems = [
   {/* Preload hero card images early — Astro SSR preloads <img> sources inside
       the island, but the "about" thumbnail uses background-image (invisible to
       the preload scanner) and config-still benefits from an earlier head hint. */}
-  <link slot="head" rel="preload" as="image" href="/images/img-dh-web-light.webp" type="image/webp" />
+  <link slot="head" rel="preload" as="image" href={dhWebOptimized.src} type="image/webp" />
   <link slot="head" rel="preload" as="image" href="/images/davidhoang-web-config-still.webp" type="image/webp" fetchpriority="high" />
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
-    <CardStackHeroLazy client:idle />
+    <CardStackHeroLazy client:idle aboutThumbnailSrc={dhWebOptimized.src} />
   </section>
   <section class="design-philosophy" aria-labelledby="philosophy-heading">
     <h2 id="philosophy-heading" style="background: none;">Design philosophy</h2>

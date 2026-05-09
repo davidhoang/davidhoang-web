@@ -17,7 +17,11 @@ const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
   'cinematic': CinematicLayout,
 };
 
-export default function CardStackHero() {
+interface CardStackHeroProps {
+  aboutThumbnailSrc?: string;
+}
+
+export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps = {}) {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -49,12 +53,12 @@ export default function CardStackHero() {
 
   const displayCards: Card[] = useMemo(() => {
     const themed = deriveHeroCardPalette(cards.length);
-    if (!themed) return cards;
-    return cards.map((c, i) => ({
-      ...c,
-      color: themed[i] ?? c.color,
-    }));
-  }, [cardPaletteRev]);
+    return cards.map((c, i) => {
+      const color = themed?.[i] ?? c.color;
+      const thumbnail = c.id === 'about' && aboutThumbnailSrc ? aboutThumbnailSrc : c.thumbnail;
+      return { ...c, color, thumbnail };
+    });
+  }, [cardPaletteRev, aboutThumbnailSrc]);
 
   // Observe data-card-style and data-hero-layout on <html>.
   // On mobile (≤768px), force stacked-fan regardless of theme — editorial,
