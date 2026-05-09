@@ -20,7 +20,7 @@ function resolveAssetImage(path: string | undefined): ImageMetadata | undefined 
   return assetImages[`/src/assets${path}`]?.default;
 }
 
-const { data, relatedPosts = [], headings = [] } = Astro.props;
+const { data, relatedPosts = [], headings = [], readingTime } = Astro.props;
 const tocHeadings = headings.filter((h: { depth: number }) => h.depth === 2);
 const { title, description, pubDate, tags } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
@@ -121,9 +121,14 @@ const breadcrumbJsonLd = {
       <div class="main-content">
         <a href={sectionPath} class="post-kicker">{sectionLabel}</a>
         <h1 transition:name={`title-${slug}`}>{title}</h1>
-        <time datetime={pubDate}>
-          {new Date(pubDate).toLocaleDateString()}
-        </time>
+        <div class="post-meta">
+          <time datetime={pubDate}>
+            {new Date(pubDate).toLocaleDateString()}
+          </time>
+          {readingTime && (
+            <span class="reading-time" aria-label={`${readingTime} minute read`}> · {readingTime} min read</span>
+          )}
+        </div>
         {tags && tags.length > 0 && (
           <ul class="post-tags" aria-label="Tags">
             {tags.map((tag: string) => (
@@ -271,18 +276,17 @@ const breadcrumbJsonLd = {
     text-wrap: balance;
   }
 
-  .main-content > time {
+  .main-content > .post-meta {
     color: var(--color-muted);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    display: block;
     margin: 0.85rem 0 2rem;
   }
 
   /* When a tag rail follows, tighten the dateline gap and let .post-tags own the spacing. */
-  .main-content > time:has(+ .post-tags) {
+  .main-content > .post-meta:has(+ .post-tags) {
     margin-bottom: 0.85rem;
   }
 

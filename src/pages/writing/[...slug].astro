@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import { calculateReadingTime } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
@@ -88,9 +89,10 @@ const postData = {
   ogImage: inferredOgImage,
 };
 
+const readingTime = calculateReadingTime(post.body);
 const { Content, headings } = await render(post);
 ---
 
-<BlogPost data={postData} relatedPosts={relatedPosts} headings={headings}>
+<BlogPost data={postData} relatedPosts={relatedPosts} headings={headings} readingTime={readingTime}>
   <Content />
-</BlogPost> 
+</BlogPost>
