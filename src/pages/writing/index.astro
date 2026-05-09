@@ -39,9 +39,9 @@ function formatDate(date: Date) {
     <div class="posts-column">
       {/* Featured post hero */}
       {featuredPost && (
-        <a href={`/writing/${featuredPost.slug}`} class="featured-post" transition:name={`post-${featuredPost.slug}`}>
+        <a href={`/writing/${featuredPost.id}`} class="featured-post" transition:name={`post-${featuredPost.id}`}>
           <span class="featured-label">Latest</span>
-          <h2 class="featured-title" transition:name={`title-${featuredPost.slug}`}>{featuredPost.data.title}</h2>
+          <h2 class="featured-title" transition:name={`title-${featuredPost.id}`}>{featuredPost.data.title}</h2>
           {featuredPost.data.description && (
             <p class="featured-description">{featuredPost.data.description}</p>
           )}
@@ -57,8 +57,8 @@ function formatDate(date: Date) {
           <h3 class="section-label">Recent</h3>
           <div class="recent-grid">
             {recentPosts.map(post => (
-              <a href={`/writing/${post.slug}`} class="recent-card" transition:name={`post-${post.slug}`}>
-                <h3 class="recent-card-title" transition:name={`title-${post.slug}`}>{post.data.title}</h3>
+              <a href={`/writing/${post.id}`} class="recent-card" transition:name={`post-${post.id}`}>
+                <h3 class="recent-card-title" transition:name={`title-${post.id}`}>{post.data.title}</h3>
                 {post.data.description && (
                   <p class="recent-card-description">{post.data.description}</p>
                 )}
@@ -79,9 +79,9 @@ function formatDate(date: Date) {
           <ul class="posts-list" id="writing-list">
             {archivePosts.map(post => (
               <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
-                <a href={`/writing/${post.slug}`} class="post-link" transition:name={`post-${post.slug}`}>
+                <a href={`/writing/${post.id}`} class="post-link" transition:name={`post-${post.id}`}>
                   <div class="post-row">
-                    <span class="post-title" transition:name={`title-${post.slug}`}>{post.data.title}</span>
+                    <span class="post-title" transition:name={`title-${post.id}`}>{post.data.title}</span>
                     <time datetime={post.data.pubDate.toISOString()}>
                       {formatDate(post.data.pubDate)}
                     </time>

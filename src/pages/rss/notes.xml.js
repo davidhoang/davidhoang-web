@@ -20,7 +20,7 @@ export async function GET(context) {
       title: note.data.title,
       pubDate: note.data.pubDate,
       description: note.data.description || `A note on ${note.data.title}`,
-      link: `/notes/${note.slug}/`,
+      link: `/notes/${note.id}/`,
       content: sanitizeHtml(md.render(note.body), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
       }),

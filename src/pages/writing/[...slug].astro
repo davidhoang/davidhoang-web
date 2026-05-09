@@ -1,16 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
   // Filter out drafts in production, but show them in development
-  const filteredPosts = import.meta.env.PROD 
+  const filteredPosts = import.meta.env.PROD
     ? posts.filter((post) => !post.data.draft)
     : posts;
   return filteredPosts.map((post) => {
     return {
-      params: { slug: post.slug },
+      params: { slug: post.id },
       props: { post }
     };
   });
@@ -26,7 +26,7 @@ const allPosts = await getCollection('writing');
 const otherPosts = (import.meta.env.PROD
   ? allPosts.filter((p) => !p.data.draft)
   : allPosts
-).filter((p) => p.slug !== post.slug);
+).filter((p) => p.id !== post.id);
 
 function getKeywords(text: string): Set<string> {
   const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'it', 'its', 'with', 'as', 'by', 'from', 'that', 'this', 'was', 'are', 'be', 'has', 'had', 'have', 'not', 'what', 'how', 'you', 'your', 'we', 'our']);
@@ -88,7 +88,7 @@ const postData = {
   ogImage: inferredOgImage,
 };
 
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 ---
 
 <BlogPost data={postData} relatedPosts={relatedPosts} headings={headings}>

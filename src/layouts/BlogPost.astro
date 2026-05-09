@@ -114,7 +114,7 @@ const breadcrumbJsonLd = {
               {relatedPosts.map((rp: any) => {
                 const thumb = rp.data.coverImage || rp.data.ogImage || `/api/og?title=${encodeURIComponent(rp.data.title)}&type=writing`;
                 return (
-                  <a href={`/writing/${rp.slug}`} class="related-posts__card">
+                  <a href={`/writing/${rp.id}`} class="related-posts__card">
                     <div class="related-posts__thumb">
                       <img src={thumb} alt="" loading="lazy" decoding="async" />
                     </div>

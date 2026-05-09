@@ -108,7 +108,7 @@ function formatRelative(date: Date) {
 
         return (
           <a
-            href={`/notes/${note.slug}`}
+            href={`/notes/${note.id}`}
             class:list={['note-card', { 'note-card--spotlight': isSpotlight, 'note-card--cover': !!cover }]}
             data-tags={tags.join(',')}
             data-stage={stageKey}

@@ -30,14 +30,14 @@ const searchIndex = [
   ...writingPosts.map(post => ({
     title: post.data.title,
     description: post.data.description,
-    path: `/writing/${post.slug}`,
+    path: `/writing/${post.id}`,
     type: 'writing',
   })),
   // Notes
   ...notesPosts.map(note => ({
     title: note.data.title,
     description: note.data.description || '',
-    path: `/notes/${note.slug}`,
+    path: `/notes/${note.id}`,
     type: 'note',
   })),
 ];
