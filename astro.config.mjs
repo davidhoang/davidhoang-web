@@ -115,14 +115,6 @@ export default defineConfig({
             // Common utilities
             'utils': ['src/utils', 'src/plugins']
           }
-        },
-        external: (id) => {
-          // Don't bundle very large dependencies, let them be separate chunks
-          return id.includes('node_modules') && (
-            id.includes('three') ||
-            id.includes('babylonjs') ||
-            id.includes('fabric')
-          );
         }
       },
       // Increase chunk size warnings threshold
