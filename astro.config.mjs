@@ -130,7 +130,6 @@ export default defineConfig({
     },
     // Enable tree shaking
     esbuild: {
-      pure: ['console.log', 'console.info'],
       treeShaking: true
     }
   },
