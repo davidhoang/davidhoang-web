@@ -30,7 +30,6 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
   trailingSlash: 'never',
-  viewTransitions: true,
   integrations: [
     react(),
     sitemap({
