@@ -30,6 +30,10 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
   trailingSlash: 'never',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
   integrations: [
     react(),
     sitemap({
