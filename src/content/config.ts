@@ -1,7 +1,9 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 import { NOTE_STAGE_VALUES } from '../utils/noteStages';
 
 const writing = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/writing' }),
   schema: z.object({
     title: z.string(),
     pubDate: z.date(),
@@ -14,6 +16,7 @@ const writing = defineCollection({
 });
 
 const notes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
