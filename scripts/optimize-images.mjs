@@ -11,6 +11,7 @@ const rootDir = join(__dirname, '..');
 const QUALITY_WEBP = 82; // Good balance of quality and compression
 const MIN_SIZE_BYTES = 100 * 1024; // Only optimize files > 100KB
 const COMPRESS_THRESHOLD_BYTES = 300 * 1024; // Re-compress existing WebPs over 300KB
+const MIN_SAVINGS_RATIO = 0.05; // Skip if re-encoding saves <5% — sharp isn't byte-deterministic, so trivial deltas dirty the tree on every build
 const MAX_SAVINGS_RATIO = 0.80; // If sharp saves >80%, it likely stripped animation frames — reject
 const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
 
@@ -145,6 +146,10 @@ async function compressWebP(filePath) {
     }
 
     const savingsRatio = 1 - (buf.length / stats.size);
+    if (savingsRatio < MIN_SAVINGS_RATIO) {
+      results.skipped.push({ path: filePath, reason: `Converged (${(savingsRatio * 100).toFixed(1)}% delta below threshold)` });
+      return;
+    }
     if (savingsRatio > MAX_SAVINGS_RATIO) {
       // Almost certainly an animated WebP — sharp kept only the first frame
       results.skipped.push({ path: filePath, reason: `Likely animated (${(savingsRatio * 100).toFixed(0)}% reduction rejected)` });
