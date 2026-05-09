@@ -82,10 +82,14 @@ const CardStackHeroSkeleton = () => (
   </>
 );
 
-export default function CardStackHeroLazy() {
+interface CardStackHeroLazyProps {
+  aboutThumbnailSrc?: string;
+}
+
+export default function CardStackHeroLazy({ aboutThumbnailSrc }: CardStackHeroLazyProps = {}) {
   return (
     <Suspense fallback={<CardStackHeroSkeleton />}>
-      <CardStackHero />
+      <CardStackHero aboutThumbnailSrc={aboutThumbnailSrc} />
     </Suspense>
   );
 }
