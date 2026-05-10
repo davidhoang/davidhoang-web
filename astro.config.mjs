@@ -87,7 +87,6 @@ export default defineConfig({
             
             // Heavy React components (split by route/feature)
             'career-components': [
-              'src/components/CareerOdyssey.tsx',
               'src/components/CareerOdysseyWrapper.tsx'
             ],
             'hero-components': [
