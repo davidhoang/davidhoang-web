@@ -10,7 +10,22 @@
  *   <PageHeader title="Notes" variant="text-only" subtitle="Welcome to my digital garden" />
  */
 
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import HeroImageShader from './HeroImageShader.tsx';
+
+// Resolve string image paths to optimizable asset modules. Callers can keep
+// passing public-form paths (/images/...) while we transparently upgrade to
+// astro:assets <Image> when a matching src/assets/images file exists.
+const assetImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/**/*.{webp,jpg,jpeg,png,avif}',
+  { eager: true }
+);
+
+function resolveAssetImage(path: string | undefined): ImageMetadata | undefined {
+  if (!path || !path.startsWith('/images/')) return undefined;
+  return assetImages[`/src/assets${path}`]?.default;
+}
 
 interface Props {
   title: string;
@@ -33,18 +48,31 @@ const {
 } = Astro.props;
 
 const isImageVariant = variant === 'image' && image;
+const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 ---
 
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
     <div class="page-header__hero">
-      <img
-        src={image}
-        alt={alt}
-        class="page-header__image"
-        loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
-      />
+      {optimizedImage ? (
+        <Image
+          src={optimizedImage}
+          alt={alt}
+          class="page-header__image"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          widths={[600, 1200, 1800]}
+          sizes="100vw"
+        />
+      ) : (
+        <img
+          src={image}
+          alt={alt}
+          class="page-header__image"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      )}
       <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
       <h1 class="page-header__title">{title}</h1>
     </div>
