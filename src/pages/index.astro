@@ -1,10 +1,33 @@
 ---
 import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid, AnimatedSection } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
 import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
+import imgHatch from '../assets/images/highlights/img-highlights-hatch-conference.webp';
+import imgReplit from '../assets/images/highlights/img-highlights-replit.webp';
+import imgPlay from '../assets/images/highlights/img-highlights-play.webp';
+import imgPoc from '../assets/images/highlights/img-highlights-proof-of-concept.webp';
+
+const PORTFOLIO_SIZES = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px';
+
+async function optimizePortfolioImage(src: ImageMetadata) {
+  const result = await getImage({
+    src,
+    widths: [400, 800, 1200],
+    sizes: PORTFOLIO_SIZES,
+    format: 'webp',
+  });
+  return {
+    src: result.src,
+    srcSet: result.srcSet.attribute,
+    sizes: PORTFOLIO_SIZES,
+    width: src.width,
+    height: src.height,
+  };
+}
 
 // Pre-resolve the 'about' card thumbnail to an optimized hashed URL so the
 // preload tag and the React-side card share the exact same href (cache hit
@@ -25,34 +48,35 @@ const philosophyItems = [
   { content: '<strong>Iteration over perfectionism.</strong> The number one way to be more productive is to reduce the iteration cycle.' },
 ];
 
-// Portfolio items data
+// Portfolio items data — images pre-optimized via astro:assets so the React
+// component just renders the resolved src/srcSet without re-deriving them.
 const portfolioItems = [
   {
     text: 'September 2024: Keynote talk at Hatch Conference: Design & (Blank)',
     link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
     linkText: 'Keynote talk at Hatch Conference: Design & (Blank)',
-    image: '/images/highlights/img-highlights-hatch-conference.webp',
+    image: await optimizePortfolioImage(imgHatch),
     imageAlt: 'David Hoang speaking at Hatch Conference 2024, presenting on stage',
   },
   {
     text: 'April 2024: Replit Developer Day and rebrand.',
     link: 'https://www.youtube.com/watch?v=T6R9nx89bY4',
     linkText: 'Replit Developer Day',
-    image: '/images/highlights/img-highlights-replit.webp',
+    image: await optimizePortfolioImage(imgReplit),
     imageAlt: 'Replit Developer Day 2024 event branding and visual identity',
   },
   {
     text: 'April 2023: Joined Play as Advisor.',
     link: 'https://createwithplay.com',
     linkText: 'Play',
-    image: '/images/highlights/img-highlights-play.webp',
+    image: await optimizePortfolioImage(imgPlay),
     imageAlt: 'Play app interface and branding design',
   },
   {
     text: 'December 2019: Launched Proof of Concept, a newsletter about design, technology, and entrepreneurship.',
     link: 'https://www.proofofconcept.pub',
     linkText: 'Proof of Concept',
-    image: '/images/highlights/img-highlights-proof-of-concept.webp',
+    image: await optimizePortfolioImage(imgPoc),
     imageAlt: 'Proof of Concept newsletter branding and design layout',
   },
 ];
