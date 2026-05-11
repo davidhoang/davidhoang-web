@@ -1,6 +1,5 @@
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { useRef, type ReactNode } from 'react';
-import { createResponsiveImage } from '../utils/responsive-images';
 import { useMagneticTilt } from './useMagneticTilt';
 
 interface PhilosophyItem {
@@ -8,11 +7,19 @@ interface PhilosophyItem {
   id?: string;
 }
 
+interface OptimizedImage {
+  src: string;
+  srcSet: string;
+  sizes: string;
+  width: number;
+  height: number;
+}
+
 interface PortfolioItem {
   text: string;
   link: string;
   linkText: string;
-  image: string;
+  image: OptimizedImage;
   imageAlt: string;
 }
 
@@ -66,15 +73,6 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   const prefersReducedMotion = useReducedMotion();
   const tilt = useMagneticTilt({ amplitude: 6 });
 
-  const responsiveImage = createResponsiveImage(
-    {
-      src: item.image,
-      alt: item.imageAlt,
-      loading: 'lazy',
-    },
-    'content'
-  );
-
   return (
     <motion.div
       className="portfolio-content"
@@ -120,14 +118,14 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
         onMouseLeave={tilt.onMouseLeave}
       >
         <img
-          src={responsiveImage.src}
-          srcSet={responsiveImage.srcSet}
-          sizes={responsiveImage.sizes}
-          alt={responsiveImage.alt}
-          loading={responsiveImage.loading}
+          src={item.image.src}
+          srcSet={item.image.srcSet}
+          sizes={item.image.sizes}
+          alt={item.imageAlt}
+          loading="lazy"
           decoding="async"
-          width="1200"
-          height="800"
+          width={item.image.width}
+          height={item.image.height}
         />
       </motion.div>
     </motion.div>
