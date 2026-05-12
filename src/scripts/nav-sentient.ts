@@ -7,6 +7,13 @@ export function initSentientNav(): (() => void) | undefined {
 
   if (window.innerWidth <= 768) return;
 
+  // Sentient drift only makes sense with a precise hovering cursor. On
+  // touch-only iPad / hybrid devices there's no live mousemove, so the
+  // stale-cursor position keeps pulling the nav off-center during scroll.
+  // Gate on fine-pointer + hover so iPad-with-Magic-Keyboard still gets it
+  // but iPad-with-finger-touch gets a calm centered nav.
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
   let animationFrame: number | null = null;
   let isHovering = false;
   let mouseX = window.innerWidth / 2;
