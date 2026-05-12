@@ -219,7 +219,7 @@ const breadcrumbJsonLd = {
     grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
     gap: 3rem;
     align-items: start;
-    max-width: 56rem;
+    max-width: var(--prose-width);
     margin: 0 auto;
   }
 
@@ -458,21 +458,21 @@ const breadcrumbJsonLd = {
   /* Wide screens: slightly wider article + TOC track (sticky sidebar uses the extra 1fr column) */
   @media (min-width: 1024px) {
     .content-grid {
-      max-width: min(60rem, 100%);
+      max-width: min(var(--prose-width-md), 100%);
       gap: 3.5rem;
     }
   }
 
   @media (min-width: 1280px) {
     .content-grid {
-      max-width: min(62rem, 100%);
+      max-width: min(var(--prose-width-lg), 100%);
       gap: 4rem;
     }
   }
 
   @media (min-width: 1536px) {
     .content-grid {
-      max-width: min(64rem, calc(100vw - 2 * var(--container-padding, 2rem)));
+      max-width: min(var(--prose-width-xl), calc(100vw - 2 * var(--container-padding, 2rem)));
       gap: 4.5rem;
     }
   }

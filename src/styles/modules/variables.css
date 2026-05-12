@@ -26,12 +26,22 @@
   --container-narrow-width: 720px;
   --container-wide-width: 1400px;
 
-  /* Breakpoints */
+  /* Prose / article column widths. Used by BlogPost.astro. */
+  --prose-width: 56rem;
+  --prose-width-md: 60rem;     /* >=1024px */
+  --prose-width-lg: 62rem;     /* >=1280px */
+  --prose-width-xl: 64rem;     /* >=1536px */
+
+  /* Viewport breakpoints — reference values.
+     CSS does not support custom properties inside @media queries, so the
+     pixel values below must be inlined at each @media. Treat this block as
+     the canonical list; PRs adding new breakpoints should pick one of these. */
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1024px;
-  --breakpoint-desktop-large: 1440px;
-  --breakpoint-desktop-extra-large: 1920px;
+  --breakpoint-desktop-large: 1280px;
+  --breakpoint-desktop-xl: 1536px;
+  --breakpoint-desktop-2xl: 1920px;
 
   /* Animation easing — use these tokens, never hardcode cubic-bezier() */
   --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);    /* Smooth ease-out — default */
