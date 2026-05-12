@@ -1,0 +1,146 @@
+---
+/**
+ * iPad-only easter egg toast. Renders on every page but is hidden by
+ * default and only revealed when html[data-device='ipad'] (set by the
+ * inline detector in MainLayout). Dismissal persists via localStorage.
+ */
+---
+<div id="ipad-egg" class="ipad-egg" role="status" aria-live="polite" aria-atomic="true" hidden>
+  <span class="ipad-egg__emoji" aria-hidden="true">🎉</span>
+  <span class="ipad-egg__text">Congrats on being one of the dozen iPad visitors!</span>
+  <button type="button" class="ipad-egg__dismiss" aria-label="Dismiss message">×</button>
+</div>
+
+<style>
+  .ipad-egg {
+    position: fixed;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(24px);
+    z-index: 10100;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.55rem 0.55rem 1rem;
+    background: color-mix(in srgb, var(--color-nav-bg) 92%, transparent);
+    backdrop-filter: blur(22px) saturate(1.4);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+    border-radius: 999px;
+    box-shadow:
+      0 12px 36px color-mix(in srgb, var(--color-text) 16%, transparent),
+      0 2px 8px color-mix(in srgb, var(--color-text) 8%, transparent),
+      inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent);
+    font-family: var(--font-primary, system-ui), -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-text);
+    opacity: 0;
+    transition:
+      opacity 0.4s ease,
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    max-width: calc(100vw - 2rem);
+    pointer-events: none;
+  }
+
+  .ipad-egg.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+
+  .ipad-egg__emoji {
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .ipad-egg__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ipad-egg__dismiss {
+    background: transparent;
+    border: none;
+    color: var(--color-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .ipad-egg__dismiss:hover {
+    color: var(--color-text);
+    background: color-mix(in srgb, var(--color-text) 8%, transparent);
+  }
+
+  .ipad-egg__dismiss:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ipad-egg {
+      transition: opacity 0.2s linear;
+      transform: translateX(-50%);
+    }
+    .ipad-egg.is-visible {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ipad-egg {
+      font-size: 0.8125rem;
+      padding: 0.5rem 0.5rem 0.5rem 0.85rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    if (document.documentElement.getAttribute('data-device') !== 'ipad') return;
+    var KEY = 'ipad-egg-seen';
+    try {
+      if (localStorage.getItem(KEY) === '1') return;
+    } catch (_) { /* private mode → still show, just won't persist */ }
+
+    var egg = document.getElementById('ipad-egg');
+    if (!egg) return;
+    var dismissBtn = egg.querySelector('.ipad-egg__dismiss');
+
+    function hide() {
+      egg.classList.remove('is-visible');
+      setTimeout(function () { egg.setAttribute('hidden', ''); }, 600);
+      try { localStorage.setItem(KEY, '1'); } catch (_) {}
+    }
+
+    setTimeout(function () {
+      egg.removeAttribute('hidden');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          egg.classList.add('is-visible');
+        });
+      });
+    }, 1200);
+
+    var autoTimer = setTimeout(hide, 1200 + 8000);
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', function () {
+        clearTimeout(autoTimer);
+        hide();
+      });
+    }
+  })();
+</script>
