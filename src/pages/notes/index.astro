@@ -244,10 +244,20 @@ function formatRelative(date: Date) {
     font-size: 0.8125rem;
     cursor: pointer;
     color: var(--color-text);
+    touch-action: manipulation;
     transition:
       color 0.2s var(--ease-inertia),
       background-color 0.2s var(--ease-inertia),
       border-color 0.2s var(--ease-inertia);
+  }
+
+  /* iOS HIG / WCAG 2.5.5: minimum 44×44 tap target on touch. */
+  @media (pointer: coarse) {
+    .chip {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   .chip:hover {

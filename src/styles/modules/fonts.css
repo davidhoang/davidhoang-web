@@ -416,6 +416,20 @@ blockquote cite {
   margin: 1.75em 0;
   font-size: 0.875rem;
   line-height: 1.7;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-text) 12%, transparent) transparent;
+}
+
+.prose-content .astro-code::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose-content .astro-code::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-text) 15%, transparent);
+  border-radius: 3px;
 }
 
 /* Inline code */
