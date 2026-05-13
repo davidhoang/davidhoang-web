@@ -1,6 +1,245 @@
 {
   "themes": [
     {
+      "name": "Copper Archive",
+      "description": "Industrial elegance meets archival warmth — oxidized metal surfaces and amber preservation light in a forgotten museum basement.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1810",
+          "--color-bg": "#FDF7F0",
+          "--color-link": "#AA5519",
+          "--color-link-hover": "#A0522D",
+          "--color-border": "#CD853F",
+          "--color-muted": "#846D51",
+          "--color-sidebar-bg": "#F5F0E8",
+          "--color-nav-bg": "#FAF5ED",
+          "--color-nav-text": "#2C1810",
+          "--color-card-bg": "#F8F3EB"
+        },
+        "dark": {
+          "--color-text": "#E8D5C4",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FF8C42",
+          "--color-link-hover": "#FFB366",
+          "--color-border": "#8B4513",
+          "--color-muted": "#A0826D",
+          "--color-sidebar-bg": "#241611",
+          "--color-nav-bg": "#1F1309",
+          "--color-nav-text": "#E8D5C4",
+          "--color-card-bg": "#201208"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'opsz' 48"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(139, 69, 19, 0.15)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#D2691E",
+          "#8B4513"
+        ]
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-05-13",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Copper Archive",
+              "subtitle": "Industrial elegance meets archival warmth"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "t1",
+              "s2",
+              "d1",
+              "p1",
+              "s3"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Museum Artifacts",
+              "variant": "heading",
+              "weight": "normal"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "sidebar",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF7F0",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#AA5519",
+                  "label": "Copper"
+                },
+                {
+                  "hex": "#CD853F",
+                  "label": "Bronze"
+                },
+                {
+                  "hex": "#846D51",
+                  "label": "Patina"
+                },
+                {
+                  "hex": "#2C1810",
+                  "label": "Archive"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "t2",
+              "l1"
+            ]
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Preserved in amber light, these forgotten treasures await rediscovery in the vault below.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Thunder",
       "description": "Rich burgundy depths with electric copper accents, like lightning striking through wine-dark storm clouds",
       "colors": {
@@ -1413,247 +1652,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Neon Asphalt",
-      "description": "Rain-soaked Tokyo streets where sharp geometry meets atmospheric haze",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0F2E",
-          "--color-bg": "#F8F6FA",
-          "--color-link": "#CC2952",
-          "--color-link-hover": "#E62E5C",
-          "--color-border": "#D1C7DD",
-          "--color-muted": "#76697E",
-          "--color-sidebar-bg": "#F2EDF7",
-          "--color-nav-bg": "#F5F1F8",
-          "--color-nav-text": "#2D1B3D",
-          "--color-card-bg": "#FDFCFE"
-        },
-        "dark": {
-          "--color-text": "#E8DCF0",
-          "--color-bg": "#0F0A1C",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00BF9A",
-          "--color-border": "#2D1B3D",
-          "--color-muted": "#877A95",
-          "--color-sidebar-bg": "#151025",
-          "--color-nav-bg": "#12081F",
-          "--color-nav-text": "#D4C7E1",
-          "--color-card-bg": "#1A0F2E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.05em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 85"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 8px 32px rgba(255,51,102,0.1)",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#FF3366",
-          "#00D4AA",
-          "#2D1B3D"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-05-06",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Neon Asphalt",
-              "subtitle": "Rain-soaked Tokyo streets"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "cp",
-              "lp"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A0F2E",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#CC2952",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#8B7C94",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#D1C7DD",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#F2EDF7",
-                  "label": "Sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "th",
-              "s3",
-              "tb"
-            ]
-          },
-          "th": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sharp Geometry",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "scattered",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "tb": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Atmospheric haze drifts through neon-lit intersections",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-12"
+  "currentDate": "2026-05-13"
 }
