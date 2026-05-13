@@ -1,0 +1,56 @@
+---
+// Small kicker line above the hero. SSR renders an empty slot at the same
+// height so first paint doesn't shift; client-side JS fills in the greeting
+// for the viewer's local time bucket.
+---
+
+<p class="time-greeting" data-time-greeting aria-live="polite"></p>
+
+<script>
+  import { getTimeBucket, greetings, msUntilNextBucket } from '../utils/timeOfDay';
+
+  const el = document.querySelector<HTMLElement>('[data-time-greeting]');
+  if (el) {
+    const apply = () => {
+      const bucket = getTimeBucket();
+      el.textContent = greetings[bucket];
+      el.dataset.bucket = bucket;
+      el.classList.add('is-visible');
+    };
+    apply();
+
+    // Refresh exactly when the next bucket boundary is reached.
+    let timer: number | undefined;
+    const scheduleNext = () => {
+      timer = window.setTimeout(() => {
+        apply();
+        scheduleNext();
+      }, msUntilNextBucket() + 1_000);
+    };
+    scheduleNext();
+
+    // Clean up on Astro view transitions to avoid duplicate timers.
+    document.addEventListener('astro:before-swap', () => {
+      if (timer !== undefined) window.clearTimeout(timer);
+    }, { once: true });
+  }
+</script>
+
+<style>
+  .time-greeting {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--color-muted, currentColor);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    min-height: 1.2em;
+  }
+  .time-greeting.is-visible {
+    opacity: 0.75;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .time-greeting { transition: none; }
+  }
+</style>
