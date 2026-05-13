@@ -49,7 +49,7 @@ const scored = otherPosts.map((p) => {
 
 const relatedPosts = scored.slice(0, 3).map((s) => s.post);
 
-function extractFirstImageUrl(markdown: string): string | undefined {
+function extractFirstImageUrl(markdown: string | undefined): string | undefined {
   if (!markdown) return undefined;
 
   // Markdown image: ![alt](url "optional title")
