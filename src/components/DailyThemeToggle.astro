@@ -261,8 +261,8 @@ const hasThemes = themes.length > 0;
     // Check if e-ink mode is active
     const isEInkMode = localStorage.getItem('e-ink-mode') === 'true';
 
-    // Daily theme is ON by default (only off if explicitly set to 'false' or e-ink is on)
-    const isDailyMode = !isEInkMode && localStorage.getItem('daily-theme-mode') !== 'false';
+    // Daily theme is OPT-IN: only on when user has explicitly enabled it (or is in e-ink mode? no — e-ink disables daily).
+    const isDailyMode = !isEInkMode && localStorage.getItem('daily-theme-mode') === 'true';
     const selectedDate = localStorage.getItem('daily-theme-date') || currentDate;
 
     if (isEInkMode) {
