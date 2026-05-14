@@ -533,7 +533,8 @@ const ogImageUrl = ogImage.startsWith('http')
         root.setAttribute('data-theme', theme);
 
         var eInkMode = localStorage.getItem('e-ink-mode') === 'true';
-        var dailyOff = localStorage.getItem('daily-theme-mode') === 'false';
+        // Daily theme is OPT-IN: any absence (or 'false') means stay on the default layout.
+        var dailyOff = localStorage.getItem('daily-theme-mode') !== 'true';
         var selectedDate = localStorage.getItem('daily-theme-date');
         var hasUserSelection = !eInkMode && !dailyOff && selectedDate && selectedDate !== ssrDateOfRoot && themesApplyMap[selectedDate];
 
