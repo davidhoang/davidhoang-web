@@ -15,13 +15,6 @@ export const greetings: Record<TimeBucket, string> = {
   night: 'Up late?',
 };
 
-export const slotLabels: Record<TimeBucket, string> = {
-  morning: 'Hot off the press',
-  afternoon: 'From the garden',
-  evening: 'Most recent thinking',
-  night: 'From the archives',
-};
-
 // Milliseconds until the next bucket boundary, so a long-open page can refresh
 // without polling on a short timer.
 export function msUntilNextBucket(date: Date = new Date()): number {
