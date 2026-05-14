@@ -4,6 +4,8 @@ import { getCollection } from 'astro:content';
 import SidebarWriting from '../../components/SidebarWriting.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import SearchInput from '../../components/SearchInput.astro';
+import WritingGraph from '../../components/WritingGraph.astro';
+import { buildGraph } from '../../utils/writingGraph';
 
 const allPosts = await getCollection('writing');
 // Filter out drafts in production, but show them in development
@@ -11,6 +13,8 @@ const posts = (import.meta.env.PROD
   ? allPosts.filter((post) => !post.data.draft)
   : allPosts
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data })));
 
 // Featured post is the most recent
 const featuredPost = posts[0];
@@ -37,6 +41,29 @@ function formatDate(date: Date) {
   />
   <div class="content-grid">
     <div class="posts-column">
+      {/* View toggle: List vs Garden */}
+      <div class="view-tabs" role="tablist" aria-label="Writing view">
+        <button
+          type="button"
+          class="view-tab is-active"
+          role="tab"
+          aria-selected="true"
+          data-view-tab="list"
+        >List</button>
+        <button
+          type="button"
+          class="view-tab"
+          role="tab"
+          aria-selected="false"
+          data-view-tab="garden"
+        >Garden</button>
+      </div>
+
+      <div data-view-panel="garden" hidden>
+        <WritingGraph graph={graph} />
+      </div>
+
+      <div data-view-panel="list">
       {/* Featured post hero */}
       {featuredPost && (
         <a href={`/writing/${featuredPost.id}`} class="featured-post" transition:name={`post-${featuredPost.id}`}>
@@ -93,12 +120,55 @@ function formatDate(date: Date) {
           <p class="no-results" id="writing-no-results">No posts match your search.</p>
         </section>
       )}
+      </div>
     </div>
     <SidebarWriting />
   </div>
 </MainLayout>
 
 <style>
+  /* View toggle (List · Garden) */
+  .view-tabs {
+    display: inline-flex;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+    padding: 0.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-sidebar-bg, transparent);
+  }
+
+  .view-tab {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 0.4rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-muted, currentColor);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .view-tab:hover {
+    color: var(--color-text);
+  }
+
+  .view-tab.is-active {
+    background: var(--color-link);
+    color: var(--color-bg);
+  }
+
+  .view-tab:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .view-tab { transition: none; }
+  }
 
   .content-grid {
     display: grid;
@@ -384,4 +454,43 @@ function formatDate(date: Date) {
 
   initWritingSearch();
   document.addEventListener('astro:page-load', initWritingSearch);
+
+  function initWritingViewTabs() {
+    const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-tab]'));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
+    if (!tabs.length || !panels.length) return;
+
+    function setView(view: string, push: boolean) {
+      tabs.forEach((t) => {
+        const active = t.dataset.viewTab === view;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panels.forEach((p) => {
+        const active = p.dataset.viewPanel === view;
+        p.hidden = !active;
+        if (active && view === 'garden') {
+          // Tell the graph it's now visible so it can lazy-init.
+          p.querySelector('[data-writing-graph]')?.dispatchEvent(new CustomEvent('graph:show'));
+        }
+      });
+      if (push) {
+        const url = new URL(window.location.href);
+        if (view === 'garden') url.searchParams.set('view', 'garden');
+        else url.searchParams.delete('view');
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+
+    tabs.forEach((t) => {
+      t.addEventListener('click', () => setView(t.dataset.viewTab || 'list', true));
+    });
+
+    // Initial state from URL.
+    const initial = new URLSearchParams(window.location.search).get('view') === 'garden' ? 'garden' : 'list';
+    setView(initial, false);
+  }
+
+  initWritingViewTabs();
+  document.addEventListener('astro:page-load', initWritingViewTabs);
 </script> 
