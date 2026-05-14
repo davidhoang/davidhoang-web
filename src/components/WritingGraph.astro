@@ -1,0 +1,337 @@
+---
+import type { Graph } from '../utils/writingGraph';
+
+interface Props {
+  graph: Graph;
+}
+
+const { graph } = Astro.props;
+
+const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
+---
+
+<div class="writing-graph" data-writing-graph data-max-degree={maxDegree}>
+  <svg
+    class="writing-graph__svg"
+    viewBox="0 0 800 600"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    aria-label="Network of writing posts connected by shared tags and keyword overlap"
+  >
+    <g data-graph-edges class="writing-graph__edges"></g>
+    <g data-graph-nodes class="writing-graph__nodes"></g>
+  </svg>
+  <div class="writing-graph__tooltip" data-graph-tooltip aria-hidden="true"></div>
+  <p class="writing-graph__hint">Hover to highlight neighbors. Click a node to read.</p>
+</div>
+
+<script is:inline define:vars={{ graph }}>
+  (function () {
+    const root = document.querySelector('[data-writing-graph]');
+    if (!root) return;
+    const svg = root.querySelector('svg');
+    const edgesG = root.querySelector('[data-graph-edges]');
+    const nodesG = root.querySelector('[data-graph-nodes]');
+    const tooltip = root.querySelector('[data-graph-tooltip]');
+    if (!svg || !edgesG || !nodesG || !tooltip) return;
+
+    const W = 800;
+    const H = 600;
+    const CX = W / 2;
+    const CY = H / 2;
+
+    // Tight-graph constants. Short link distance + strong repulsion = compact.
+    const LINK_DIST = 70;
+    const LINK_STRENGTH = 0.08;
+    const REPULSION = 1800;
+    const CENTER_PULL = 0.012;
+    const DAMPING = 0.82;
+    const TICKS = 320;
+    const MAX_DEGREE = Number(root.getAttribute('data-max-degree')) || 1;
+
+    let initialized = false;
+
+    function initOnce() {
+      if (initialized) return;
+      initialized = true;
+      simulate();
+    }
+
+    // Init when the garden view is actually visible.
+    if (root.offsetParent !== null) {
+      initOnce();
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            initOnce();
+            io.disconnect();
+            break;
+          }
+        }
+      });
+      io.observe(root);
+      // Also init when the tab toggle fires a custom event.
+      root.addEventListener('graph:show', initOnce, { once: true });
+    }
+
+    function simulate() {
+      const nodes = graph.nodes.map((n, i) => {
+        // Seed in a ring so the sim has nice initial separation.
+        const angle = (i / graph.nodes.length) * Math.PI * 2;
+        const r = 180;
+        return {
+          ...n,
+          x: CX + Math.cos(angle) * r,
+          y: CY + Math.sin(angle) * r,
+          vx: 0,
+          vy: 0,
+        };
+      });
+      const byId = new Map(nodes.map((n) => [n.id, n]));
+      const edges = graph.edges
+        .map((e) => ({ source: byId.get(e.source), target: byId.get(e.target), weight: e.weight }))
+        .filter((e) => e.source && e.target);
+
+      for (let t = 0; t < TICKS; t++) {
+        // Repulsion (n²) — fine for ~30 nodes.
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            let dx = a.x - b.x;
+            let dy = a.y - b.y;
+            let d2 = dx * dx + dy * dy;
+            if (d2 < 1) d2 = 1;
+            const force = REPULSION / d2;
+            const d = Math.sqrt(d2);
+            const fx = (dx / d) * force;
+            const fy = (dy / d) * force;
+            a.vx += fx;
+            a.vy += fy;
+            b.vx -= fx;
+            b.vy -= fy;
+          }
+        }
+        // Spring on edges.
+        for (const e of edges) {
+          const dx = e.target.x - e.source.x;
+          const dy = e.target.y - e.source.y;
+          const d = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+          const diff = d - LINK_DIST;
+          const f = diff * LINK_STRENGTH;
+          const fx = (dx / d) * f;
+          const fy = (dy / d) * f;
+          e.source.vx += fx;
+          e.source.vy += fy;
+          e.target.vx -= fx;
+          e.target.vy -= fy;
+        }
+        // Center pull.
+        for (const n of nodes) {
+          n.vx += (CX - n.x) * CENTER_PULL;
+          n.vy += (CY - n.y) * CENTER_PULL;
+          n.vx *= DAMPING;
+          n.vy *= DAMPING;
+          n.x += n.vx;
+          n.y += n.vy;
+          // Soft margin so labels don't clip.
+          n.x = Math.max(40, Math.min(W - 40, n.x));
+          n.y = Math.max(40, Math.min(H - 40, n.y));
+        }
+      }
+
+      render(nodes, edges);
+    }
+
+    function render(nodes, edges) {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      // Edges
+      for (const e of edges) {
+        const line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', e.source.x);
+        line.setAttribute('y1', e.source.y);
+        line.setAttribute('x2', e.target.x);
+        line.setAttribute('y2', e.target.y);
+        line.setAttribute('data-edge', `${e.source.id}|${e.target.id}`);
+        line.setAttribute('stroke-width', Math.min(2, 0.4 + e.weight * 0.15));
+        edgesG.appendChild(line);
+      }
+      // Nodes
+      const adjacency = new Map();
+      for (const n of nodes) adjacency.set(n.id, new Set());
+      for (const e of edges) {
+        adjacency.get(e.source.id).add(e.target.id);
+        adjacency.get(e.target.id).add(e.source.id);
+      }
+
+      for (const n of nodes) {
+        const r = 5 + Math.sqrt(n.degree / MAX_DEGREE) * 9;
+        const a = document.createElementNS(svgNS, 'a');
+        a.setAttribute('href', n.url);
+        a.setAttribute('data-node-id', n.id);
+        a.classList.add('writing-graph__node');
+
+        const circle = document.createElementNS(svgNS, 'circle');
+        circle.setAttribute('cx', n.x);
+        circle.setAttribute('cy', n.y);
+        circle.setAttribute('r', r);
+        a.appendChild(circle);
+
+        // Show label for high-degree nodes by default; rest reveal on hover.
+        const showLabel = n.degree >= 3;
+        const label = document.createElementNS(svgNS, 'text');
+        label.setAttribute('x', n.x);
+        label.setAttribute('y', n.y - r - 6);
+        label.setAttribute('text-anchor', 'middle');
+        label.textContent = n.title;
+        label.classList.add('writing-graph__label');
+        if (!showLabel) label.classList.add('writing-graph__label--muted');
+        a.appendChild(label);
+
+        a.addEventListener('mouseenter', () => highlight(n.id, adjacency));
+        a.addEventListener('focus', () => highlight(n.id, adjacency));
+        a.addEventListener('mouseleave', clearHighlight);
+        a.addEventListener('blur', clearHighlight);
+
+        nodesG.appendChild(a);
+      }
+    }
+
+    function highlight(activeId, adjacency) {
+      const neighbors = adjacency.get(activeId) ?? new Set();
+      root.classList.add('is-highlighting');
+      nodesG.querySelectorAll('[data-node-id]').forEach((a) => {
+        const id = a.getAttribute('data-node-id');
+        a.classList.toggle('is-active', id === activeId);
+        a.classList.toggle('is-neighbor', neighbors.has(id));
+      });
+      edgesG.querySelectorAll('[data-edge]').forEach((l) => {
+        const [s, t] = l.getAttribute('data-edge').split('|');
+        l.classList.toggle('is-active', s === activeId || t === activeId);
+      });
+    }
+
+    function clearHighlight() {
+      root.classList.remove('is-highlighting');
+      nodesG.querySelectorAll('.is-active, .is-neighbor').forEach((el) => {
+        el.classList.remove('is-active', 'is-neighbor');
+      });
+      edgesG.querySelectorAll('.is-active').forEach((el) => el.classList.remove('is-active'));
+    }
+  })();
+</script>
+
+<style>
+  .writing-graph {
+    position: relative;
+    width: 100%;
+    margin: 1.5rem 0 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    background: var(--color-sidebar-bg, transparent);
+    overflow: hidden;
+  }
+
+  .writing-graph__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    cursor: grab;
+  }
+
+  .writing-graph__edges :global(line) {
+    stroke: var(--color-border);
+    stroke-opacity: 0.6;
+    transition: stroke 0.2s ease, stroke-opacity 0.2s ease;
+  }
+
+  .writing-graph.is-highlighting .writing-graph__edges :global(line) {
+    stroke-opacity: 0.15;
+  }
+
+  .writing-graph__edges :global(line.is-active) {
+    stroke: var(--color-link);
+    stroke-opacity: 0.9;
+  }
+
+  .writing-graph__nodes :global(.writing-graph__node) {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .writing-graph__nodes :global(circle) {
+    fill: var(--color-link);
+    stroke: var(--color-bg);
+    stroke-width: 1.5;
+    transition: fill 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .writing-graph.is-highlighting .writing-graph__nodes :global(.writing-graph__node) circle {
+    opacity: 0.25;
+  }
+
+  .writing-graph__nodes :global(.writing-graph__node.is-neighbor) circle,
+  .writing-graph__nodes :global(.writing-graph__node.is-active) circle {
+    opacity: 1;
+  }
+
+  .writing-graph__nodes :global(.writing-graph__node.is-active) circle {
+    fill: var(--color-link-hover, var(--color-link));
+    transform: scale(1.35);
+  }
+
+  .writing-graph__nodes :global(.writing-graph__node:hover) circle,
+  .writing-graph__nodes :global(.writing-graph__node:focus) circle {
+    fill: var(--color-link-hover, var(--color-link));
+  }
+
+  .writing-graph__nodes :global(.writing-graph__label) {
+    font-size: 10px;
+    font-family: var(--font-primary);
+    fill: var(--color-text);
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .writing-graph__nodes :global(.writing-graph__label--muted) {
+    opacity: 0;
+  }
+
+  .writing-graph.is-highlighting .writing-graph__nodes :global(.writing-graph__label) {
+    opacity: 0.15;
+  }
+
+  .writing-graph__nodes :global(.writing-graph__node.is-active .writing-graph__label),
+  .writing-graph__nodes :global(.writing-graph__node.is-neighbor .writing-graph__label) {
+    opacity: 1;
+  }
+
+  .writing-graph__hint {
+    margin: 0;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.75rem;
+    color: var(--color-muted, currentColor);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+    opacity: 0.7;
+  }
+
+  .writing-graph__tooltip {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .writing-graph__nodes :global(circle),
+    .writing-graph__edges :global(line),
+    .writing-graph__nodes :global(.writing-graph__label) {
+      transition: none;
+    }
+  }
+</style>
