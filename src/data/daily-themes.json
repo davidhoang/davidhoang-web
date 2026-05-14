@@ -1,6 +1,226 @@
 {
   "themes": [
     {
+      "name": "Chapel Slit",
+      "description": "Raw concrete meets divine light in minimal spiritual architecture",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2620",
+          "--color-bg": "#F5F1EA",
+          "--color-link": "#79641F",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#9B8B7A",
+          "--color-muted": "#6B5F54",
+          "--color-sidebar-bg": "#F0EBE3",
+          "--color-nav-bg": "#F5F1EA",
+          "--color-nav-text": "#2C2620",
+          "--color-card-bg": "#EFEAE1"
+        },
+        "dark": {
+          "--color-text": "#E8E0D6",
+          "--color-bg": "#1A1815",
+          "--color-link": "#F4C430",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#3A342A",
+          "--color-muted": "#8A7F72",
+          "--color-sidebar-bg": "#201D19",
+          "--color-nav-bg": "#1A1815",
+          "--color-nav-text": "#E8E0D6",
+          "--color-card-bg": "#242018"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Unbounded",
+          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Unbounded",
+        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-14",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Chapel Slit",
+              "subtitle": "Raw concrete meets divine light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "t1",
+              "d1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "l1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "minimal",
+              "variant": "filled"
+            }
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            }
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sacred Geometry",
+              "variant": "heading",
+              "weight": "bold"
+            }
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            }
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "t2"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F1EA",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#2C2620",
+                  "label": "text"
+                },
+                {
+                  "hex": "#79641F",
+                  "label": "link"
+                },
+                {
+                  "hex": "#9B8B7A",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F0EBE3",
+                  "label": "sidebar"
+                }
+              ]
+            }
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Light filtered through concrete",
+              "variant": "body"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Copper Archive",
       "description": "Industrial elegance meets archival warmth — oxidized metal surfaces and amber preservation light in a forgotten museum basement.",
       "colors": {
@@ -1407,252 +1627,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Golden Cross",
-      "description": "Raw concrete meets sacred light in a study of architectural minimalism and spiritual illumination",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D2D2D",
-          "--color-bg": "#F5F2EE",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8860B",
-          "--color-border": "#C4C4C4",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#F0EDE8",
-          "--color-nav-bg": "#F5F2EE",
-          "--color-nav-text": "#2D2D2D",
-          "--color-card-bg": "#FAFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8E8E8",
-          "--color-bg": "#1A1A1A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFC107",
-          "--color-border": "#404040",
-          "--color-muted": "#A0A0A0",
-          "--color-sidebar-bg": "#252525",
-          "--color-nav-bg": "#1A1A1A",
-          "--color-nav-text": "#E8E8E8",
-          "--color-card-bg": "#2A2A2A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 100"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D4AF37",
-          "#8B7355"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-07",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Golden Cross",
-              "subtitle": "Raw concrete meets sacred light"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "p1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2EE",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8860B",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#2D2D2D",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F0EDE8",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#FAFAF8",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s4",
-              "lp"
-            ]
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Architecture",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Minimalist forms cast in golden light",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-13"
+  "currentDate": "2026-05-14"
 }
