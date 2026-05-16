@@ -71,6 +71,8 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
           class="page-header__image"
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
+          width="1800"
+          height="1200"
         />
       )}
       <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
