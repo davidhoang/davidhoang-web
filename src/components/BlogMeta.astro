@@ -16,6 +16,8 @@ const imageUrl = ogImage
 
 const imageType = (() => {
   if (!imageUrl) return undefined;
+  // Dynamic OG images from /api/og are always PNG (@vercel/og output).
+  if (imageUrl.includes('/api/og')) return 'image/png';
   // Strip query/hash before checking extension
   const clean = imageUrl.split('#')[0].split('?')[0].toLowerCase();
   if (clean.endsWith('.png')) return 'image/png';
