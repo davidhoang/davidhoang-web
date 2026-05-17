@@ -1,6 +1,237 @@
 {
   "themes": [
     {
+      "name": "Ando's Chapel",
+      "description": "Raw concrete and sacred light in minimal harmony",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A1A",
+          "--color-bg": "#F5F1ED",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8965F",
+          "--color-border": "#D0CCC7",
+          "--color-muted": "#6B6B6B",
+          "--color-sidebar-bg": "#F0ECE8",
+          "--color-nav-bg": "#F5F1ED",
+          "--color-nav-text": "#1A1A1A",
+          "--color-card-bg": "#fafaf9"
+        },
+        "dark": {
+          "--color-text": "#E8E8E8",
+          "--color-bg": "#1C1B19",
+          "--color-link": "#D4A574",
+          "--color-link-hover": "#E6B985",
+          "--color-border": "#2A2926",
+          "--color-muted": "#9A9A9A",
+          "--color-sidebar-bg": "#161513",
+          "--color-nav-bg": "#1C1B19",
+          "--color-nav-text": "#E8E8E8",
+          "--color-card-bg": "#21201D"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "840px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-05-17",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Ando's Chapel",
+              "subtitle": "Raw concrete and sacred light in minimal harmony"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "d1",
+              "s2",
+              "ts1"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A1A1A",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F5F1ED",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "link"
+                },
+                {
+                  "hex": "#B8965F",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#F0ECE8",
+                  "label": "sidebar"
+                },
+                {
+                  "hex": "#fafaf9",
+                  "label": "card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "lp",
+              "s3"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "bracket",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "ts1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sacred geometry in concrete form",
+              "variant": "heading",
+              "weight": "medium"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Sacred Concrete",
       "description": "Brutalist architecture meets divine light through minimalist restraint and material honesty",
       "colors": {
@@ -1387,234 +1618,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Blade of Light",
-      "description": "Raw concrete meets ethereal illumination in Tadao Ando's architectural meditation",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2A2A2A",
-          "--color-bg": "#F5F3F0",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#C4C4C4",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#EFEBE6",
-          "--color-nav-bg": "#F5F3F0",
-          "--color-nav-text": "#2A2A2A",
-          "--color-card-bg": "#FAFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8E6E3",
-          "--color-bg": "#1A1918",
-          "--color-link": "#F4D03F",
-          "--color-link-hover": "#F7DC6F",
-          "--color-border": "#3A3938",
-          "--color-muted": "#A8A6A3",
-          "--color-sidebar-bg": "#201F1E",
-          "--color-nav-bg": "#1A1918",
-          "--color-nav-text": "#E8E6E3",
-          "--color-card-bg": "#212120"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 95"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-05-10",
-      "showcase": {
-        "root": "r",
-        "elements": {
-          "r": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Blade of Light",
-              "subtitle": "Concrete meets ethereal illumination"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Architectural Meditation",
-              "variant": "heading",
-              "weight": "medium"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "p1",
-              "l1"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F3F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#FAFAF8",
-                  "label": "card"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "link"
-                },
-                {
-                  "hex": "#2A2A2A",
-                  "label": "text"
-                },
-                {
-                  "hex": "#C4C4C4",
-                  "label": "border"
-                }
-              ]
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "t1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw concrete forms",
-              "variant": "caption"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-16"
+  "currentDate": "2026-05-17"
 }
