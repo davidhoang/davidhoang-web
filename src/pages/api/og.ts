@@ -198,7 +198,8 @@ export const GET: APIRoute = async ({ url }) => {
     width: 1200,
     height: 630,
     headers: {
-      'Cache-Control': 'public, max-age=31536000, immutable',
+      // s-maxage is required for Vercel edge caching; max-age covers the browser.
+      'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',
     },
   });
 };
