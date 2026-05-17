@@ -5,9 +5,10 @@
  * Prioritizes fonts based on theme and page type.
  */
 
-// Font families already self-hosted in /public/fonts/ (no external request needed)
+// Font families already self-hosted in /public/fonts/ with an inlined @font-face
+// (see MainLayout.astro FONT_CSS_RAW). Keep aligned with that map.
 export const SELF_HOSTED_FONT_FAMILIES = new Set([
-  'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Bodoni Moda', 'Crimson Text',
+  'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Source Serif 4',
 ]);
 
 // Critical font files that should always be preloaded

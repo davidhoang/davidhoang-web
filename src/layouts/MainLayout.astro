@@ -66,9 +66,10 @@ const blogContent = {
   },
 };
 
-// Fonts already self-hosted in /public/fonts/ (no external request needed)
+// Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
+// (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
 const SELF_HOSTED_FONTS = new Set([
-  'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Bodoni Moda', 'Crimson Text',
+  'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Source Serif 4',
 ]);
 
 // Get today's theme fonts for early preloading (reduces FOUT)
@@ -85,13 +86,11 @@ const needsGoogleFonts = externalThemeFonts.length > 0;
 // Load only the @font-face declarations needed by today's theme (not all 1,900 lines)
 // Vite ?raw imports give us CSS as strings at build time
 import cormorantGaramondCSS from '../styles/fonts/cormorant-garamond.css?raw';
-import frauncesCSS from '../styles/fonts/fraunces.css?raw';
 import interCSS from '../styles/fonts/inter.css?raw';
 import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
 import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
 const FONT_CSS_RAW: Record<string, string> = {
   'Cormorant Garamond': cormorantGaramondCSS,
-  'Fraunces': frauncesCSS,
   'Inter': interCSS,
   'Source Serif 4': sourceSerif4CSS,
   'Space Grotesk': spaceGroteskCSS,
