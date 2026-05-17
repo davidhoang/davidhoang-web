@@ -11,12 +11,15 @@ import { getCriticalFonts } from '../utils/font-preload';
 interface Props {
   pageType?: 'home' | 'blog' | 'about';
   priority?: boolean;
+  /** Font family names from today's theme (heading + body) — used to preload
+   * self-hosted latin subsets so theme typography paints without FOUT. */
+  themeFontNames?: string[];
 }
 
-const { pageType = 'home', priority = false } = Astro.props;
+const { pageType = 'home', priority = false, themeFontNames = [] } = Astro.props;
 
 // Get critical fonts for this page type
-const criticalFonts = getCriticalFonts(pageType);
+const criticalFonts = getCriticalFonts(pageType, themeFontNames);
 
 // Font priority mapping for fetchpriority attribute
 const highPriorityFonts = [

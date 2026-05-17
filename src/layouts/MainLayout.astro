@@ -328,7 +328,11 @@ const ogImageUrl = ogImage.startsWith('http')
     {/* Inline @font-face declarations for today's theme fonts only */}
     {themeFontCSS && <Fragment set:html={`<style>${themeFontCSS}</style>`} />}
     <!-- Intelligent Font Preloading System -->
-    <FontPreloader pageType={detectedPageType} priority={detectedPageType === 'home'} />
+    <FontPreloader
+      pageType={detectedPageType}
+      priority={detectedPageType === 'home'}
+      themeFontNames={Array.from(neededFontFamilies)}
+    />
     
     <!-- Preconnect to Google Fonts only when today's theme needs external fonts -->
     {needsGoogleFonts && (
