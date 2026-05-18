@@ -1,6 +1,247 @@
 {
   "themes": [
     {
+      "name": "Golden Slit",
+      "description": "Raw concrete meets sacred light in a minimalist cathedral of shadows and warmth.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2D2A26",
+          "--color-bg": "#F5F2ED",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8935F",
+          "--color-border": "#C7C1B8",
+          "--color-muted": "#6F6B66",
+          "--color-sidebar-bg": "#EFEBE4",
+          "--color-nav-bg": "#F5F2ED",
+          "--color-nav-text": "#2D2A26",
+          "--color-card-bg": "#F9F6F0"
+        },
+        "dark": {
+          "--color-text": "#E8E4DD",
+          "--color-bg": "#1A1815",
+          "--color-link": "#F2C078",
+          "--color-link-hover": "#E6B266",
+          "--color-border": "#3A3530",
+          "--color-muted": "#9B9289",
+          "--color-sidebar-bg": "#201D19",
+          "--color-nav-bg": "#1A1815",
+          "--color-nav-text": "#E8E4DD",
+          "--color-card-bg": "#1E1B17"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#D4A574",
+          "#8B8680"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-05-18",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Golden Slit",
+              "subtitle": "Sacred minimalism in concrete & light"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "lp",
+              "s3"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "ts",
+              "s4"
+            ]
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cathedral of Shadows",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "minimal",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "ts2"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F2ED",
+                  "label": "warmth"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "earth"
+                },
+                {
+                  "hex": "#B8935F",
+                  "label": "bronze"
+                },
+                {
+                  "hex": "#C7C1B8",
+                  "label": "stone"
+                },
+                {
+                  "hex": "#2D2A26",
+                  "label": "shadow"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Raw concrete meets sacred light in geometric harmony",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Ando's Chapel",
       "description": "Raw concrete and sacred light in minimal harmony",
       "colors": {
@@ -1388,237 +1629,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Electric Tokyo",
-      "description": "Neon-soaked streets after rain, where digital geometry meets atmospheric haze",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F0F3FF",
-          "--color-link": "#CC1076",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#E0E7FF",
-          "--color-muted": "#666C7A",
-          "--color-sidebar-bg": "#E8EEFF",
-          "--color-nav-bg": "#F0F3FF",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#ffffff"
-        },
-        "dark": {
-          "--color-text": "#E2E8F0",
-          "--color-bg": "#0F1419",
-          "--color-link": "#FF2098",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#1E293B",
-          "--color-muted": "#748297",
-          "--color-sidebar-bg": "#161B22",
-          "--color-nav-bg": "#0F1419",
-          "--color-nav-text": "#E2E8F0",
-          "--color-card-bg": "#1A202C"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wdth' 85"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 0 20px rgba(255, 20, 147, 0.1)",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF1493",
-          "#00BFFF",
-          "#FFD700"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-05-11",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Electric Tokyo",
-              "subtitle": "Neon-soaked streets after rain"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "p1",
-              "lp"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#CC1076",
-                  "label": "neon"
-                },
-                {
-                  "hex": "#00BFFF",
-                  "label": "cyber"
-                },
-                {
-                  "hex": "#1A1A2E",
-                  "label": "night"
-                },
-                {
-                  "hex": "#F0F3FF",
-                  "label": "haze"
-                },
-                {
-                  "hex": "#E0E7FF",
-                  "label": "glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "ts",
-              "s3"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Digital Rain",
-              "variant": "heading"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "animated",
-              "variant": "outlined"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-17"
+  "currentDate": "2026-05-18"
 }
