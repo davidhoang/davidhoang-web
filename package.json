@@ -13,7 +13,10 @@
     "bio:generate": "node scripts/test-bio-summary.js generate",
     "generate-theme": "node scripts/generate-daily-theme.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "audit-contrast": "node scripts/audit-theme-contrast.mjs"
+    "audit-contrast": "node scripts/audit-theme-contrast.mjs",
+    "check": "npx astro check",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -50,6 +53,7 @@
     "rollup-plugin-visualizer": "^7.0.1",
     "sharp": "^0.34.5",
     "terser": "^5.46.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.0.0"
   }
 }
