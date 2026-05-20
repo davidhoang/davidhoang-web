@@ -104,10 +104,6 @@ export default defineConfig({
             'shader-components': [
               'src/components/ShaderBackground.tsx'
             ],
-            'media-components': [
-              'src/components/MusicPlayer.tsx'
-            ],
-            
             // React core (separate from main bundle)
             'react-vendor': ['react', 'react-dom'],
             
