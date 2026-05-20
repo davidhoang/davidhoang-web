@@ -3,7 +3,6 @@ import '../styles/reset.css';
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
-import IpadEasterEgg from '../components/IpadEasterEgg.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import FontPreloader from '../components/FontPreloader.astro';
@@ -265,29 +264,6 @@ const ogImageUrl = ogImage.startsWith('http')
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    {/* Detect iPadOS + input method before paint. Sets data-device / data-input
-        on <html> so CSS and downstream JS can branch without an FOUC. */}
-    <script is:inline>
-      (function () {
-        var html = document.documentElement;
-        var ua = navigator.userAgent;
-        var maxTouch = navigator.maxTouchPoints || 0;
-        // iPadOS 13+ reports as Macintosh — disambiguate with maxTouchPoints.
-        var isIpad = /iPad/.test(ua) || (maxTouch > 1 && /Mac/.test(ua));
-        if (isIpad) html.setAttribute('data-device', 'ipad');
-
-        var fineHover = window.matchMedia('(hover: hover) and (pointer: fine)');
-        function update() {
-          var input = maxTouch > 1
-            ? (fineHover.matches ? 'trackpad' : 'touch')
-            : 'mouse';
-          html.setAttribute('data-input', input);
-        }
-        update();
-        // Catch Magic Keyboard / trackpad attach + detach on iPad.
-        fineHover.addEventListener('change', update);
-      })();
-    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title="David Hoang — Writing (RSS)" href="/rss.xml" />
@@ -713,7 +689,6 @@ const ogImageUrl = ogImage.startsWith('http')
     </div>
     <DailyThemeToggle />
 
-<IpadEasterEgg />
     <script>
       /** Mood filter on .content-filter-wrapper breaks position:sticky; disable on long-form posts (see theme-variations.css). */
       function syncBlogPostMoodFilterBypass() {
