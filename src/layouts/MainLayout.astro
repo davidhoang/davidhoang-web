@@ -357,15 +357,27 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "David Hoang",
-      "url": "https://www.davidhoang.com",
-      "description": description,
-      "author": {
-        "@type": "Person",
-        "name": "David Hoang",
-        "url": "https://www.davidhoang.com"
-      }
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://www.davidhoang.com/#person",
+          "name": "David Hoang",
+          "url": "https://www.davidhoang.com",
+          "sameAs": [
+            "https://twitter.com/davidhoang",
+            "https://github.com/davidhoang",
+            "https://linkedin.com/in/dhoang2"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.davidhoang.com/#website",
+          "name": "David Hoang",
+          "url": "https://www.davidhoang.com",
+          "description": description,
+          "author": { "@id": "https://www.davidhoang.com/#person" }
+        }
+      ]
     })} />
 
     <slot name="head" />
@@ -669,49 +681,6 @@ const ogImageUrl = ogImage.startsWith('http')
             document.documentElement.classList.remove('font-loading');
           }, 2000);
         }
-        
-        // Theme-specific font preloading
-        function preloadThemeFonts() {
-          var dailyTheme = document.documentElement.getAttribute('data-daily-theme');
-          var themeMode = localStorage.getItem('daily-theme-mode');
-          
-          if (themeMode === 'daily' && dailyTheme && dailyTheme !== 'default') {
-            // Preload theme-specific fonts lazily
-            var themeLink = document.createElement('link');
-            themeLink.rel = 'preload';
-            themeLink.href = '/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2'; // Cormorant Garamond
-            themeLink.as = 'font';
-            themeLink.type = 'font/woff2';
-            themeLink.crossOrigin = 'anonymous';
-            
-            // Add with low priority to not block critical fonts
-            requestIdleCallback(function() {
-              document.head.appendChild(themeLink);
-            }, { timeout: 1000 });
-          }
-        }
-        
-        // Initial theme font check
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', preloadThemeFonts);
-        } else {
-          preloadThemeFonts();
-        }
-        
-        // Monitor theme changes for font optimization
-        var observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && 
-                mutation.attributeName === 'data-daily-theme') {
-              preloadThemeFonts();
-            }
-          });
-        });
-        
-        observer.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ['data-daily-theme']
-        });
         
       })();
     </script>
