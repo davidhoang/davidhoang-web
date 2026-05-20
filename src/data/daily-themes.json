@@ -1,6 +1,236 @@
 {
   "themes": [
     {
+      "name": "Rain Static",
+      "description": "Dense pixel matrices dissolving into atmospheric blur, like analog TV snow mixed with neon haze",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2A1810",
+          "--color-bg": "#F8F5F2",
+          "--color-link": "#D9006D",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#E0D5CF",
+          "--color-muted": "#75695E",
+          "--color-sidebar-bg": "#F5F1ED",
+          "--color-nav-bg": "#F8F5F2",
+          "--color-nav-text": "#2A1810",
+          "--color-card-bg": "#FDFBF8"
+        },
+        "dark": {
+          "--color-text": "#E8E5E2",
+          "--color-bg": "#1A1A2E",
+          "--color-link": "#FF2693",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#2D2D4A",
+          "--color-muted": "#9B9BB7",
+          "--color-sidebar-bg": "#16213E",
+          "--color-nav-bg": "#1A1A2E",
+          "--color-nav-text": "#E8E5E2",
+          "--color-card-bg": "#1E1E33"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cabinet Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+          "category": "display",
+          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 800, 'wdth' 85"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#FF0080",
+          "#00BFFF",
+          "#2A1810"
+        ]
+      },
+      "font": {
+        "name": "Cabinet Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+        "category": "display",
+        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-20",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Rain Static",
+              "subtitle": "Pixel matrices in analog haze"
+            },
+            "children": [
+              "s1",
+              "d1",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "p1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2A1810",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F8F5F2",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#D9006D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00BFFF",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#75695E",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "l1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "monospace",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cabinet Grotesk Display",
+              "variant": "heading"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "IBM Plex Mono [bracketed links]",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Neon Shibuya",
       "description": "Electric Tokyo nights where neon bleeds into rain-soaked streets and digital dreams collide with urban poetry",
       "colors": {
@@ -1394,246 +1624,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Copper Archive",
-      "description": "Industrial elegance meets archival warmth — oxidized metal surfaces and amber preservation light in a forgotten museum basement.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF7F0",
-          "--color-link": "#AA5519",
-          "--color-link-hover": "#A0522D",
-          "--color-border": "#CD853F",
-          "--color-muted": "#846D51",
-          "--color-sidebar-bg": "#F5F0E8",
-          "--color-nav-bg": "#FAF5ED",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#F8F3EB"
-        },
-        "dark": {
-          "--color-text": "#E8D5C4",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FF8C42",
-          "--color-link-hover": "#FFB366",
-          "--color-border": "#8B4513",
-          "--color-muted": "#A0826D",
-          "--color-sidebar-bg": "#241611",
-          "--color-nav-bg": "#1F1309",
-          "--color-nav-text": "#E8D5C4",
-          "--color-card-bg": "#201208"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'opsz' 48"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(139, 69, 19, 0.15)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D2691E",
-          "#8B4513"
-        ]
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-05-13",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Copper Archive",
-              "subtitle": "Industrial elegance meets archival warmth"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "s2",
-              "d1",
-              "p1",
-              "s3"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Museum Artifacts",
-              "variant": "heading",
-              "weight": "normal"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "sidebar",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF7F0",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#AA5519",
-                  "label": "Copper"
-                },
-                {
-                  "hex": "#CD853F",
-                  "label": "Bronze"
-                },
-                {
-                  "hex": "#846D51",
-                  "label": "Patina"
-                },
-                {
-                  "hex": "#2C1810",
-                  "label": "Archive"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t2",
-              "l1"
-            ]
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Preserved in amber light, these forgotten treasures await rediscovery in the vault below.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-19"
+  "currentDate": "2026-05-20"
 }
