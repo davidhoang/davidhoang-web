@@ -55,7 +55,6 @@
   --duration-normal: 0.2s;   /* Standard feedback: buttons, toggles, color changes */
   --duration-slow: 0.3s;     /* Component transitions: links, cards, panels */
   --duration-slower: 0.4s;   /* Layout shifts: nav expand, modals, page transitions */
-  --duration-slowest: 0.6s;  /* Theme crossfades, page transitions */
 
   /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com) */
   --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -104,9 +103,6 @@
   --h6-line-height: 1.35;
   --h6-letter-spacing: 0.005em;  /* Slight opening for smallest headings */
 
-  /* Navigation */
-  --nav-padding: 0.5rem 1rem;
-
   /* Cards */
   --color-card-bg: var(--color-sidebar-bg);
   --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -141,27 +137,19 @@
   --focus-ring: var(--focus-ring-width) solid var(--focus-ring-color);
 
   /* Sizing scale */
-  --size-xs: 20px;
-  --size-sm: 24px;
   --size-md: 32px;
   --size-lg: 48px;
   --size-xl: 64px;
-  --size-2xl: 80px;
 
   /* Z-index scale — use these instead of magic numbers */
-  --z-below: -1;          /* Background layers (shader, decorative) */
   --z-base: 0;            /* Default stacking */
   --z-content: 1;         /* Raised content (overlays on hero, glass borders) */
-  --z-raised: 10;         /* Locally raised elements (sticky headers, cards) */
-  --z-controls: 100;      /* Floating controls (zoom, timeline) */
   --z-particle: 999;      /* Particle canvas */
   --z-nav: 1000;          /* Navigation bar */
   --z-theme-toggle: 1000; /* Theme/daily-theme toggles */
-  --z-modal: 1500;        /* Modals, mobile menu */
   --z-texture: 9999;      /* Background texture overlays (grain, dots, grid) */
   /* Daily theme FAB + calendar — above modals, texture layers, and dev overlays */
   --z-daily-theme-ui: 500000;
-  --z-skip-link: 10000;   /* Skip-to-content link */
 
   /* Shared component styles - Border and Shadow */
   --border-default: 1px solid var(--color-border);

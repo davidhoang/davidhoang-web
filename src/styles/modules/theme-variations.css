@@ -63,11 +63,8 @@
    ============================================ */
 
 :root {
-  --intensity: 50;
   --intensity-saturation: 1;
   --intensity-contrast: 1;
-  --intensity-type-scale: 1;
-  --intensity-shadow-scale: 1;
 }
 
 /* Apply combined mood + intensity filters to content wrapper
@@ -370,11 +367,6 @@ html[data-e-ink="true"][data-theme="dark"] {
 :root {
   --scale-ratio: 1.333;
   --text-micro: calc(1rem / var(--scale-ratio) / var(--scale-ratio));
-  --text-sm: calc(1rem / var(--scale-ratio));
-  --text-base: 1rem;
-  --text-lg: calc(1rem * var(--scale-ratio));
-  --text-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio));
-  --text-2xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
   --text-jumbo: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
   --text-display-xl: calc(1rem * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio) * var(--scale-ratio));
 }
