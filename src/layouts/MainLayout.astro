@@ -682,7 +682,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
       <ShaderBackground client:visible />
-      <main id="main-content" class="container" tabindex="-1" data-pagefind-body transition:animate={contentSlide}>
+      <main id="main-content" class="container" tabindex="-1" transition:animate={contentSlide}>
         <slot />
       </main>
       {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}
