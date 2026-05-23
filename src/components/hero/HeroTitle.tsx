@@ -50,11 +50,12 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
             aria-hidden="true"
           >
             <path
-              d="M1.5,6.5 C14,3.2 30,7.4 46,5.2 C62,3.4 78,7 98.5,4.8"
+              d="M2,5 L98,5"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="5"
+              stroke="var(--marker-color, #FF6B35)"
+              strokeWidth="6"
               strokeLinecap="round"
+              strokeOpacity="0.92"
               vectorEffect="non-scaling-stroke"
             />
           </svg>

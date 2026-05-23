@@ -385,6 +385,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         .role-link__label {
           position: relative;
           display: inline-block;
+          --marker-color: #FF6B35;
         }
 
         .role-link__underline {
@@ -394,14 +395,25 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           bottom: -0.18em;
           width: 100%;
           height: 0.32em;
-          color: currentColor;
-          opacity: 0.85;
           pointer-events: none;
           overflow: visible;
         }
 
-        .role-link:hover .role-link__underline {
-          opacity: 1;
+        .role-link__underline path {
+          stroke-dasharray: 220;
+          stroke-dashoffset: 220;
+          animation: roleUnderlineDraw 900ms cubic-bezier(0.65, 0, 0.35, 1) 550ms forwards;
+        }
+
+        @keyframes roleUnderlineDraw {
+          to { stroke-dashoffset: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .role-link__underline path {
+            animation: none;
+            stroke-dashoffset: 0;
+          }
         }
 
         .cards-wrapper {
