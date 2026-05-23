@@ -381,6 +381,29 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           display: none !important;
         }
 
+        /* Hand-drawn underline under the rotating role */
+        .role-link__label {
+          position: relative;
+          display: inline-block;
+        }
+
+        .role-link__underline {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -0.18em;
+          width: 100%;
+          height: 0.32em;
+          color: currentColor;
+          opacity: 0.85;
+          pointer-events: none;
+          overflow: visible;
+        }
+
+        .role-link:hover .role-link__underline {
+          opacity: 1;
+        }
+
         .cards-wrapper {
           position: relative;
           width: 240px;

@@ -40,7 +40,25 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
         rel="noopener noreferrer"
         aria-label={roleAriaLabel}
       >
-        {role.label}
+        <span className="role-link__label">
+          {role.label}
+          <svg
+            className="role-link__underline"
+            viewBox="0 0 100 10"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M1.5,6.5 C14,3.2 30,7.4 46,5.2 C62,3.4 78,7 98.5,4.8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="5"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </span>
       </a>
       .
     </motion.h1>
