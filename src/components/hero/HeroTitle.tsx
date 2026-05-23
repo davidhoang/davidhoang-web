@@ -27,12 +27,11 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
     if (!node) return;
 
     const measure = () => {
-      // Measure the actual rendered text width via Range so the underline tracks
-      // glyph layout (and re-measures after font swap / resize / role change).
-      const range = document.createRange();
-      range.selectNodeContents(node);
-      const rect = range.getBoundingClientRect();
-      if (rect.width > 0) setUnderlineWidth(rect.width);
+      const current = textRef.current;
+      if (!current) return;
+      // The span is display: inline-block, so its width = rendered text width.
+      const width = current.getBoundingClientRect().width;
+      if (width > 0) setUnderlineWidth(width);
     };
 
     measure();
