@@ -381,19 +381,21 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           display: none !important;
         }
 
-        /* Hand-drawn underline under the rotating role */
+        /* COPIC-marker underline under the rotating role */
         .role-link__label {
           position: relative;
           display: inline-block;
           --marker-color: #FF6B35;
         }
 
+        .role-link__text {
+          display: inline-block;
+        }
+
         .role-link__underline {
           position: absolute;
           left: 0;
-          right: 0;
           bottom: -0.18em;
-          width: 100%;
           height: 0.32em;
           pointer-events: none;
           overflow: visible;

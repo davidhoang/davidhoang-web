@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { rotatingRoles } from './types';
 
@@ -18,6 +18,29 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
   const roleAriaLabel = role.link.startsWith('http')
     ? `${role.label} — Proof of Concept newsletter (opens in new tab)`
     : `${role.label} — Investing (opens in new tab)`;
+
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [underlineWidth, setUnderlineWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    const node = textRef.current;
+    if (!node) return;
+
+    const measure = () => {
+      // Measure the actual rendered text width via Range so the underline tracks
+      // glyph layout (and re-measures after font swap / resize / role change).
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const rect = range.getBoundingClientRect();
+      if (rect.width > 0) setUnderlineWidth(rect.width);
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(node);
+    document.fonts?.ready.then(measure).catch(() => {});
+    return () => ro.disconnect();
+  }, [role.label]);
 
   return (
     <motion.h1
@@ -41,20 +64,21 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
         aria-label={roleAriaLabel}
       >
         <span className="role-link__label">
-          {role.label}
+          <span ref={textRef} className="role-link__text">{role.label}</span>
           <svg
             className="role-link__underline"
             viewBox="0 0 100 10"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
+            style={underlineWidth ? { width: `${underlineWidth}px` } : undefined}
           >
             <path
-              d="M2,5 L98,5"
+              d="M0,5 L100,5"
               fill="none"
               stroke="var(--marker-color, #FF6B35)"
               strokeWidth="6"
-              strokeLinecap="round"
+              strokeLinecap="butt"
               strokeOpacity="0.92"
               vectorEffect="non-scaling-stroke"
             />
