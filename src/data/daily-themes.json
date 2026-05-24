@@ -1,6 +1,221 @@
 {
   "themes": [
     {
+      "name": "Vinyl Reverie",
+      "description": "Warm analog nostalgia meets editorial sophistication in dusty amber hues",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2A1810",
+          "--color-bg": "#FDF5E6",
+          "--color-link": "#A85418",
+          "--color-link-hover": "#FF6347",
+          "--color-border": "#E8D5B7",
+          "--color-muted": "#846D51",
+          "--color-sidebar-bg": "#FAF0E6",
+          "--color-nav-bg": "#FDF5E6",
+          "--color-nav-text": "#2A1810",
+          "--color-card-bg": "#F5EDD3"
+        },
+        "dark": {
+          "--color-text": "#F5DEB3",
+          "--color-bg": "#1C1410",
+          "--color-link": "#DAA520",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#3D2F1F",
+          "--color-muted": "#978166",
+          "--color-sidebar-bg": "#231A12",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F5DEB3",
+          "--color-card-bg": "#211A14"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(139, 115, 85, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#D2691E",
+          "#8B7355"
+        ]
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-05-24",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Vinyl Reverie",
+              "subtitle": "Warm analog nostalgia meets editorial sophistication"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "cp",
+              "lp",
+              "s2",
+              "ts"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2A1810",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#A85418",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#FF6347",
+                  "label": "Accent"
+                },
+                {
+                  "hex": "#E8D5B7",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#FDF5E6",
+                  "label": "Canvas"
+                },
+                {
+                  "hex": "#F5EDD3",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Dusty Amber Dreams",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Light Blade",
       "description": "Raw concrete meets ethereal light in minimalist spiritual architecture",
       "colors": {
@@ -1403,235 +1618,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Midnight Sushi",
-      "description": "Late-night izakaya atmosphere with warm wood, paper lanterns, and subtle neon accents",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C1810",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#B34B25",
-          "--color-link-hover": "#E63946",
-          "--color-border": "#E8DAEF",
-          "--color-muted": "#86695E",
-          "--color-sidebar-bg": "#FCF3CF",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#2C1810",
-          "--color-card-bg": "#FDEBD0"
-        },
-        "dark": {
-          "--color-text": "#F5F5DC",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2D132C",
-          "--color-muted": "#A0A0A0",
-          "--color-sidebar-bg": "#261A11",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F5F5DC",
-          "--color-card-bg": "#1C1410"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 95"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "inverted"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-15",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Midnight Sushi",
-              "subtitle": "Late-night izakaya vibes"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "h1",
-              "p1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "温かい夜の居酒屋",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "cream"
-                },
-                {
-                  "hex": "#FDEBD0",
-                  "label": "lantern"
-                },
-                {
-                  "hex": "#B34B25",
-                  "label": "terracotta"
-                },
-                {
-                  "hex": "#E63946",
-                  "label": "neon"
-                },
-                {
-                  "hex": "#86695E",
-                  "label": "wood"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "l1",
-              "t1"
-            ]
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Warm wood meets paper lanterns in this cozy late-night atmosphere",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-23"
+  "currentDate": "2026-05-24"
 }
