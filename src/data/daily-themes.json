@@ -1,6 +1,204 @@
 {
   "themes": [
     {
+      "name": "Concrete Dawn",
+      "description": "Raw brutalist structure meets ethereal morning light through precise geometric cuts",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F2ED",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8935F",
+          "--color-border": "#E8E4DC",
+          "--color-muted": "#706B61",
+          "--color-sidebar-bg": "#F0ECE6",
+          "--color-nav-bg": "#F5F2ED",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#EFEBE4"
+        },
+        "dark": {
+          "--color-text": "#E8E4DC",
+          "--color-bg": "#1A1814",
+          "--color-link": "#E6B882",
+          "--color-link-hover": "#F2C999",
+          "--color-border": "#2D2A24",
+          "--color-muted": "#9A9184",
+          "--color-sidebar-bg": "#1F1B17",
+          "--color-nav-bg": "#1A1814",
+          "--color-nav-text": "#E8E4DC",
+          "--color-card-bg": "#201C18"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-25",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Dawn",
+              "subtitle": "Brutalist precision meets morning light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "t1",
+              "lp",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "filled"
+            }
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Geometric Cuts",
+              "variant": "heading",
+              "weight": "bold"
+            }
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            }
+          },
+          "s3": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C2C2C",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F5F2ED",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "link"
+                },
+                {
+                  "hex": "#B8935F",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#E8E4DC",
+                  "label": "border"
+                },
+                {
+                  "hex": "#706B61",
+                  "label": "muted"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Vinyl Reverie",
       "description": "Warm analog nostalgia meets editorial sophistication in dusty amber hues",
       "colors": {
@@ -1375,250 +1573,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Sacred Concrete",
-      "description": "Brutalist architecture meets divine light through minimalist restraint and material honesty",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F3F0",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8935F",
-          "--color-border": "#A8A5A0",
-          "--color-muted": "#6F6B66",
-          "--color-sidebar-bg": "#F0EDEA",
-          "--color-nav-bg": "#F5F3F0",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#FDFCFA"
-        },
-        "dark": {
-          "--color-text": "#E5E3E0",
-          "--color-bg": "#1A1816",
-          "--color-link": "#E6B886",
-          "--color-link-hover": "#F2C895",
-          "--color-border": "#3D3A35",
-          "--color-muted": "#898681",
-          "--color-sidebar-bg": "#201E1B",
-          "--color-nav-bg": "#1A1816",
-          "--color-nav-text": "#E5E3E0",
-          "--color-card-bg": "#242220"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 800"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-16",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Sacred Concrete",
-              "subtitle": "Material honesty meets divine restraint"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "d1",
-              "p1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "brutalist",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "filled"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "outlined"
-            }
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C2C2C",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F5F3F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8935F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#A8A5A0",
-                  "label": "border"
-                },
-                {
-                  "hex": "#6F6B66",
-                  "label": "muted"
-                }
-              ]
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s4",
-              "l1"
-            ]
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "MONUMENTAL FORMS",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw concrete textures dissolve into ethereal light, creating spaces where the sacred emerges through honest materials.",
-              "variant": "body"
-            }
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-24"
+  "currentDate": "2026-05-25"
 }
