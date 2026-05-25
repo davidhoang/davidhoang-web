@@ -64,24 +64,26 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
       >
         <span className="role-link__label">
           <span ref={textRef} className="role-link__text">{role.label}</span>
-          <svg
-            className="role-link__underline"
-            viewBox="0 0 100 10"
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            style={underlineWidth ? { width: `${underlineWidth}px` } : undefined}
-          >
-            <path
-              d="M0,5 L100,5"
-              fill="none"
-              stroke="var(--marker-color, #FF6B35)"
-              strokeWidth="6"
-              strokeLinecap="butt"
-              strokeOpacity="0.92"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
+          {isVisible && underlineWidth ? (
+            <svg
+              className="role-link__underline"
+              viewBox="0 0 100 10"
+              preserveAspectRatio="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              style={{ width: `${underlineWidth}px` }}
+            >
+              <path
+                d="M0,5 L100,5"
+                fill="none"
+                stroke="var(--marker-color, #FF6B35)"
+                strokeWidth="6"
+                strokeLinecap="butt"
+                strokeOpacity="0.92"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+          ) : null}
         </span>
       </a>
       .
