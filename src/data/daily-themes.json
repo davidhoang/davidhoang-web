@@ -1,6 +1,246 @@
 {
   "themes": [
     {
+      "name": "Rain Pixel",
+      "description": "Wet streets reflecting neon geometry in condensed digital frames",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2A1B3D",
+          "--color-bg": "#F8F5FF",
+          "--color-link": "#D9117D",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#E0D4F7",
+          "--color-muted": "#76688F",
+          "--color-sidebar-bg": "#F1EBFF",
+          "--color-nav-bg": "#F8F5FF",
+          "--color-nav-text": "#2A1B3D",
+          "--color-card-bg": "#FEFCFF"
+        },
+        "dark": {
+          "--color-text": "#E8E1F5",
+          "--color-bg": "#1A1A2E",
+          "--color-link": "#FF2C9E",
+          "--color-link-hover": "#00D4AA",
+          "--color-border": "#403859",
+          "--color-muted": "#9A8FB0",
+          "--color-sidebar-bg": "#16213E",
+          "--color-nav-bg": "#1A1A2E",
+          "--color-nav-text": "#E8E1F5",
+          "--color-card-bg": "#1F1F3A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "JetBrains Mono",
+          "url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap",
+          "category": "monospace",
+          "stack": "'JetBrains Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 85"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "dot-grid",
+        "colors": [
+          "#FF1493",
+          "#00BFFF",
+          "#1A1A2E"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-26",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Rain Pixel",
+              "subtitle": "Wet streets reflecting neon geometry"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s2",
+              "h1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2A1B3D",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F8F5FF",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#D9117D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#00BFFF",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#E0D4F7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#76688F",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "l1",
+              "s4"
+            ]
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "[NEON_GEOMETRY]",
+              "variant": "heading"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "monospace",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined",
+              "variant": "outlined"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Concrete Dawn",
       "description": "Raw brutalist structure meets ethereal morning light through precise geometric cuts",
       "colors": {
@@ -1342,238 +1582,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Ando's Chapel",
-      "description": "Raw concrete and sacred light in minimal harmony",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A1A",
-          "--color-bg": "#F5F1ED",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8965F",
-          "--color-border": "#D0CCC7",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#F0ECE8",
-          "--color-nav-bg": "#F5F1ED",
-          "--color-nav-text": "#1A1A1A",
-          "--color-card-bg": "#fafaf9"
-        },
-        "dark": {
-          "--color-text": "#E8E8E8",
-          "--color-bg": "#1C1B19",
-          "--color-link": "#D4A574",
-          "--color-link-hover": "#E6B985",
-          "--color-border": "#2A2926",
-          "--color-muted": "#9A9A9A",
-          "--color-sidebar-bg": "#161513",
-          "--color-nav-bg": "#1C1B19",
-          "--color-nav-text": "#E8E8E8",
-          "--color-card-bg": "#21201D"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "840px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-17",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Ando's Chapel",
-              "subtitle": "Raw concrete and sacred light in minimal harmony"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "d1",
-              "s2",
-              "ts1"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A1A1A",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F5F1ED",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8965F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#F0ECE8",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#fafaf9",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "lp",
-              "s3"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "bracket",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "ts1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred geometry in concrete form",
-              "variant": "heading",
-              "weight": "medium"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-25"
+  "currentDate": "2026-05-26"
 }
