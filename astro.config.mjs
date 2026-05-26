@@ -38,7 +38,6 @@ export default defineConfig({
     react(),
     sitemap({
       filter: (page) =>
-        !page.includes('/node-test') &&
         !page.includes('/signup-examples') &&
         !page.includes('/default-layout'),
     }),
@@ -81,7 +80,6 @@ export default defineConfig({
           // Manual chunks for heavy libraries and components
           manualChunks: {
             // Heavy React libraries
-            'react-konva': ['konva', 'react-konva'],
             'framer-motion': ['framer-motion'],
             'paper-shaders': ['@paper-design/shaders-react'],
             
