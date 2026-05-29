@@ -80,7 +80,7 @@ const noteJsonLd = {
 };
 ---
 
-<MainLayout title={`${note.data.title} | Notes`} description={pageDescription} ogImage={ogImage}>
+<MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
   {coverImage && (
     <div class="note-hero">
