@@ -1,6 +1,237 @@
 {
   "themes": [
     {
+      "name": "Concrete Cathedral",
+      "description": "Raw brutalist forms softened by golden dawn light cutting through architectural space",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F3F0",
+          "--color-link": "#7F6346",
+          "--color-link-hover": "#B8935F",
+          "--color-border": "#E0DDD8",
+          "--color-muted": "#6B6B6B",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#F5F3F0",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#FAFAF8"
+        },
+        "dark": {
+          "--color-text": "#E8E6E2",
+          "--color-bg": "#1A1918",
+          "--color-link": "#E6B876",
+          "--color-link-hover": "#F4C884",
+          "--color-border": "#2D2C2A",
+          "--color-muted": "#8A8884",
+          "--color-sidebar-bg": "#1F1E1C",
+          "--color-nav-bg": "#1A1918",
+          "--color-nav-text": "#E8E6E2",
+          "--color-card-bg": "#222120"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "-0.02em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-05-30",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Cathedral",
+              "subtitle": "Brutalist forms in golden light"
+            },
+            "children": [
+              "s1",
+              "div",
+              "s2"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "p1",
+              "lp"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C2C2C",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#F5F3F0",
+                  "label": "Background"
+                },
+                {
+                  "hex": "#7F6346",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#B8935F",
+                  "label": "Hover"
+                },
+                {
+                  "hex": "#E0DDD8",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#FAFAF8",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "div": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "ts",
+              "s3"
+            ]
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "DAWN BREAKS THROUGH CONCRETE",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Sacred Concrete",
       "description": "Tadao Ando's spiritual minimalism meets the raw honesty of brutalist architecture",
       "colors": {
@@ -1320,234 +1551,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Light Blade",
-      "description": "Raw concrete meets ethereal light in minimalist spiritual architecture",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2420",
-          "--color-bg": "#F5F2ED",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#BDB5A8",
-          "--color-muted": "#6B645C",
-          "--color-sidebar-bg": "#F0EDE6",
-          "--color-nav-bg": "#F5F2ED",
-          "--color-nav-text": "#2C2420",
-          "--color-card-bg": "#FAFAF7"
-        },
-        "dark": {
-          "--color-text": "#E8E4DC",
-          "--color-bg": "#1A1814",
-          "--color-link": "#F4D03F",
-          "--color-link-hover": "#F7DC6F",
-          "--color-border": "#3D3A34",
-          "--color-muted": "#8B8680",
-          "--color-sidebar-bg": "#1F1C17",
-          "--color-nav-bg": "#1A1814",
-          "--color-nav-text": "#E8E4DC",
-          "--color-card-bg": "#211E18"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "900px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D4AF37",
-          "#BDB5A8"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-23",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Light Blade",
-              "subtitle": "Ethereal minimalism in raw concrete"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "t1",
-              "d1",
-              "p1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans+serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            }
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred geometry in light",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2ED",
-                  "label": "BG"
-                },
-                {
-                  "hex": "#2C2420",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#BDB5A8",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#F0EDE6",
-                  "label": "Sidebar"
-                },
-                {
-                  "hex": "#FAFAF7",
-                  "label": "Card"
-                }
-              ]
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "t2",
-              "l1"
-            ]
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Minimalist sanctuary",
-              "variant": "body"
-            }
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-05-29"
+  "currentDate": "2026-05-30"
 }
