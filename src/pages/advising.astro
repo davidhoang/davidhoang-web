@@ -6,7 +6,7 @@ import PageHeader from '../components/PageHeader.astro';
 const advisingInquiryUrl = 'https://tally.so/r/D4M0lb';
 
 const pageDescription =
-  'Limited advising for Heads of Design at growth-stage startups (Series A–C). Application-only — a small number of relationships each year.';
+  'A small advisory practice for Heads of Design at growth-stage startups navigating org scale, executive partnership, and design as a strategic function.';
 const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 ---
 
@@ -15,53 +15,61 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   <div class="advising-content">
     <section class="advising-intro">
       <p>
-        I take on a very small number of advising relationships with Heads of Design at growth
-        startups. This isn't a coaching program or open office hours — it's focused, practical help
-        for leaders navigating org scale, exec partnership, and building design as a strategic
-        function.
+        Design leaders at growth-stage companies often hit the same inflection point: the work is no
+        longer just about better product quality. It becomes org design, executive influence,
+        operating cadence, hiring, and helping the company understand what design is accountable for.
+      </p>
+      <p>
+        I keep this intentionally small: a few advisory relationships at a time, only where my
+        experience maps closely to the leader's context. The goal is to help you build a design
+        function with stronger taste, operational clarity, executive trust, and a meaningful role in
+        company strategy.
       </p>
     </section>
 
     <section class="advising-section">
       <h2>Who it's for</h2>
       <ul>
-        <li>Head of Design (or equivalent) at a Series A–C company</li>
-        <li>You've built a team and are scaling the function, not starting from zero</li>
-        <li>You want a thought partner who's been in the seat — at Webflow, Replit, and Atlassian</li>
+        <li>You lead design at a Series A–C company</li>
+        <li>Your team is growing, but the operating model is still forming</li>
+        <li>You're navigating executive partnership, hiring, quality, or team structure</li>
+        <li>You want a practitioner-advisor, not generic leadership coaching</li>
       </ul>
     </section>
 
     <section class="advising-section">
-      <h2>What we might work on</h2>
+      <h2>Advisory themes</h2>
       <ul>
-        <li>Org design and team structure as you scale</li>
-        <li>Exec alignment and design's seat at the table</li>
-        <li>Hiring and developing senior design talent</li>
-        <li>Operating rhythm: reviews, critique, and raising the quality bar</li>
-        <li>Navigating AI and the changing craft of design leadership</li>
+        <li><strong>Design as a strategic function:</strong> earning trust and influence with founders, product, and engineering</li>
+        <li><strong>Operating rhythm:</strong> critique, reviews, rituals, and decision systems that raise the quality bar</li>
+        <li><strong>Team architecture:</strong> org design, senior hiring, leveling, and developing design leaders</li>
+        <li><strong>Product taste and craft:</strong> building a culture that can recognize and ship better work</li>
+        <li><strong>AI and the design function:</strong> adapting design leadership as software creation changes</li>
       </ul>
     </section>
 
     <section class="advising-section">
       <h2>How it works</h2>
       <ul>
-        <li>Limited capacity — I review every inquiry and respond to a subset</li>
-        <li>Typically monthly sessions with async support between meetings</li>
-        <li>Engagements are structured around your specific challenges, not a fixed curriculum</li>
+        <li>We start with the leadership challenge you are actively navigating</li>
+        <li>Most engagements are monthly sessions with async support between meetings</li>
+        <li>The work is practical and context-specific, not a fixed curriculum</li>
+        <li>I take on only a handful of advisory relationships each year</li>
+        <li>If I don't think I'm the right person to help, I'll say so directly</li>
       </ul>
     </section>
 
     <section class="advising-cta" aria-labelledby="advising-apply-heading">
       <h2 id="advising-apply-heading">Apply</h2>
       <p>
-        If this sounds like a fit, submit a short inquiry. A few questions up front help me
-        understand your context — and whether I can be useful right now.
+        Share a little about your company, your team, and the leadership challenge you're
+        navigating. I'll review it personally and follow up if I think I can be useful.
       </p>
       <a class="advising-cta__button" href={advisingInquiryUrl} target="_blank" rel="noopener noreferrer">
         Submit an inquiry
         <span class="advising-cta__arrow" aria-hidden="true">→</span>
       </a>
-      <p class="advising-cta__note">Opens in a new tab. I read every submission personally.</p>
+      <p class="advising-cta__note">Opens in a new tab. I read every submission, but only follow up where there is a clear fit.</p>
     </section>
   </div>
 </MainLayout>
@@ -78,9 +86,14 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-intro p {
+    margin: 0;
     font-size: 1.125rem;
     line-height: 1.7;
     color: var(--color-text);
+  }
+
+  .advising-intro p + p {
+    margin-top: 1.25rem;
   }
 
   .advising-section {
