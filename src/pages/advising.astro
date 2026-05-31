@@ -1,0 +1,207 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+// Set this to your Tally, Typeform, or other inquiry form URL once created.
+const advisingInquiryUrl = 'https://tally.so/r/D4M0lb';
+
+const pageDescription =
+  'Limited advising for Heads of Design at growth-stage startups (Series A–C). Application-only — a small number of relationships each year.';
+const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
+---
+
+<MainLayout title="Advising | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <PageHeader title="Advising" image={ogImage} alt="Low-fidelity design sketch" />
+  <div class="advising-content">
+    <section class="advising-intro">
+      <p>
+        I take on a very small number of advising relationships with Heads of Design at growth
+        startups. This isn't a coaching program or open office hours — it's focused, practical help
+        for leaders navigating org scale, exec partnership, and building design as a strategic
+        function.
+      </p>
+    </section>
+
+    <section class="advising-section">
+      <h2>Who it's for</h2>
+      <ul>
+        <li>Head of Design (or equivalent) at a Series A–C company</li>
+        <li>You've built a team and are scaling the function, not starting from zero</li>
+        <li>You want a thought partner who's been in the seat — at Webflow, Replit, and Atlassian</li>
+      </ul>
+    </section>
+
+    <section class="advising-section">
+      <h2>What we might work on</h2>
+      <ul>
+        <li>Org design and team structure as you scale</li>
+        <li>Exec alignment and design's seat at the table</li>
+        <li>Hiring and developing senior design talent</li>
+        <li>Operating rhythm: reviews, critique, and raising the quality bar</li>
+        <li>Navigating AI and the changing craft of design leadership</li>
+      </ul>
+    </section>
+
+    <section class="advising-section">
+      <h2>How it works</h2>
+      <ul>
+        <li>Limited capacity — I review every inquiry and respond to a subset</li>
+        <li>Typically monthly sessions with async support between meetings</li>
+        <li>Engagements are structured around your specific challenges, not a fixed curriculum</li>
+      </ul>
+    </section>
+
+    <section class="advising-cta" aria-labelledby="advising-apply-heading">
+      <h2 id="advising-apply-heading">Apply</h2>
+      <p>
+        If this sounds like a fit, submit a short inquiry. A few questions up front help me
+        understand your context — and whether I can be useful right now.
+      </p>
+      <a class="advising-cta__button" href={advisingInquiryUrl} target="_blank" rel="noopener noreferrer">
+        Submit an inquiry
+        <span class="advising-cta__arrow" aria-hidden="true">→</span>
+      </a>
+      <p class="advising-cta__note">Opens in a new tab. I read every submission personally.</p>
+    </section>
+  </div>
+</MainLayout>
+
+<style>
+  .advising-content {
+    max-width: var(--container-narrow-width, 720px);
+    margin: 0 auto;
+    padding: 0 0 4rem 0;
+  }
+
+  .advising-intro {
+    margin-bottom: 3rem;
+  }
+
+  .advising-intro p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+
+  .advising-section {
+    margin-bottom: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .advising-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .advising-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .advising-section li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .advising-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-link) 55%, var(--color-muted));
+  }
+
+  .advising-cta {
+    margin-top: 3rem;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg, 12px);
+    background: var(--color-card-bg, var(--color-bg));
+    box-shadow: var(--card-shadow, 0 1px 0 color-mix(in srgb, var(--color-text) 6%, transparent));
+  }
+
+  .advising-cta h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .advising-cta p {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+    max-width: 52ch;
+  }
+
+  .advising-cta__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-bg, #fff);
+    text-decoration: none;
+    background: var(--color-text);
+    border: 1px solid var(--color-text);
+    border-radius: var(--radius-md, 8px);
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s var(--ease-inertia, ease);
+  }
+
+  .advising-cta__button::after {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .advising-cta__button:hover {
+      background: color-mix(in srgb, var(--color-text) 88%, var(--color-link));
+      color: var(--color-bg, #fff);
+      transform: translateY(-1px);
+    }
+  }
+
+  .advising-cta__arrow {
+    transition: transform 0.2s var(--ease-inertia, ease);
+  }
+
+  @media (hover: hover) {
+    .advising-cta__button:hover .advising-cta__arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  .advising-cta__note {
+    margin: 1rem 0 0 !important;
+    font-size: 0.875rem !important;
+    color: var(--color-muted) !important;
+  }
+
+  @media (max-width: 768px) {
+    .advising-content {
+      padding: 0 1rem 3rem 1rem;
+    }
+
+    .advising-intro p {
+      font-size: 1rem;
+    }
+  }
+</style>
