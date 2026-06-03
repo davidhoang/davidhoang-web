@@ -1,6 +1,237 @@
 {
   "themes": [
     {
+      "name": "Neon Rain",
+      "description": "Electric Shibuya nights reflected in wet asphalt, where geometric neon bleeds through atmospheric haze",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F0F3FF",
+          "--color-link": "#CC2952",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#E0E6FF",
+          "--color-muted": "#666C7A",
+          "--color-sidebar-bg": "#E8ECFF",
+          "--color-nav-bg": "#F0F3FF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#ffffff"
+        },
+        "dark": {
+          "--color-text": "#E0E6FF",
+          "--color-bg": "#0F0F1F",
+          "--color-link": "#FF3366",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#2A2A3E",
+          "--color-muted": "#9CA3AF",
+          "--color-sidebar-bg": "#16162A",
+          "--color-nav-bg": "#0F0F1F",
+          "--color-nav-text": "#E0E6FF",
+          "--color-card-bg": "#1A1A2E"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(255, 51, 102, 0.1)",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "0.95",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "neuro",
+        "colors": [
+          "#FF3366",
+          "#00BFFF",
+          "#FFD700"
+        ]
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-06-03",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Neon Rain",
+              "subtitle": "Electric Shibuya nights in wet asphalt"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "p1",
+              "s2",
+              "d1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#CC2952",
+                  "label": "neon"
+                },
+                {
+                  "hex": "#00BFFF",
+                  "label": "electric"
+                },
+                {
+                  "hex": "#1A1A2E",
+                  "label": "night"
+                },
+                {
+                  "hex": "#F0F3FF",
+                  "label": "haze"
+                },
+                {
+                  "hex": "#E8ECFF",
+                  "label": "glow"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "t1",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Atmospheric Glow",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "t2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Geometric reflections bleeding through urban mist",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Ando's Chapel",
       "description": "Brutalist concrete embraced by ethereal golden light, where architectural restraint becomes spiritual expression",
       "colors": {
@@ -1340,242 +1571,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Midnight Frequency",
-      "description": "Radio waves and neon signs bleeding through the urban night",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0B2E",
-          "--color-bg": "#F8F3FF",
-          "--color-link": "#D9006D",
-          "--color-link-hover": "#00D4FF",
-          "--color-border": "#E0D4F7",
-          "--color-muted": "#7C5F99",
-          "--color-sidebar-bg": "#F0E8FF",
-          "--color-nav-bg": "#F5F0FF",
-          "--color-nav-text": "#2D1B4E",
-          "--color-card-bg": "#FDFBFF"
-        },
-        "dark": {
-          "--color-text": "#E8E3F0",
-          "--color-bg": "#0A0514",
-          "--color-link": "#FF0080",
-          "--color-link-hover": "#00D4FF",
-          "--color-border": "#2A1B3D",
-          "--color-muted": "#8B7AA8",
-          "--color-sidebar-bg": "#0F0A1A",
-          "--color-nav-bg": "#08030F",
-          "--color-nav-text": "#D4C7E8",
-          "--color-card-bg": "#12081F"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 0 24px rgba(255, 0, 128, 0.1)",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "2px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#FF0080",
-          "#00D4FF",
-          "#7C5F99"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-27",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Midnight Frequency",
-              "subtitle": "Radio waves and neon signs bleeding through the urban night"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#D9006D",
-                  "label": "link"
-                },
-                {
-                  "hex": "#00D4FF",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#7C5F99",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#E0D4F7",
-                  "label": "border"
-                },
-                {
-                  "hex": "#F0E8FF",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#1A0B2E",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SIGNAL RECEIVED",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t2",
-              "b1",
-              "b2"
-            ]
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Transmitting through the digital void...",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "filled"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-06-02"
+  "currentDate": "2026-06-03"
 }
