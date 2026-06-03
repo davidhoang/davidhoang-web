@@ -42,8 +42,8 @@ export const cards: Card[] = [
   {
     id: 'atlassian',
     title: 'Atlassian',
-    subtitle: 'VP, Head of Design, AI',
-    description: 'Leading design for Rovo, Atlassian\'s AI-powered knowledge assistant that connects teams, work, and applications across the SaaS ecosystem.',
+    subtitle: 'VP, Head of Design — Rovo & AI and Ecosystem',
+    description: 'Leading design for Rovo & AI and Ecosystem at Atlassian — building AI-powered tools that connect teams, work, and applications across the SaaS ecosystem.',
     color: '#0052CC',
     pattern: 'waves',
     link: 'https://www.atlassian.com/software/rovo',
