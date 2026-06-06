@@ -368,6 +368,85 @@ html[data-e-ink="true"] {
   display: block !important;
 }
 
+/* E-Ink: Tables. Collapsed 1px ink borders + roomy cell padding reads like
+   a printed data table. left-align everything; e-ink has no need for the
+   subtle banding/zebra-stripe patterns LCDs use to track rows. */
+[data-e-ink="true"] :is(.prose-content, .note-content) table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(th, td) {
+  border: 1px solid var(--color-text);
+  padding: 0.5em 0.75em;
+  text-align: left;
+  vertical-align: top;
+  background: transparent !important;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) th {
+  font-weight: 700;
+  border-bottom-width: 2px;
+}
+
+/* E-Ink: Code blocks. The Shiki theme paints each span an LCD-tuned color
+   (`style="color:#xyz"` inline); on e-ink these dither into noise. Flatten
+   everything to ink + bump weight slightly so the mono font holds. The
+   surrounding pre/.astro-code gets a thicker ink border instead of the
+   palette's muted gray rule, since code is meant to stand apart from prose. */
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(pre, .astro-code) {
+  background: var(--color-bg) !important;
+  border: 1px solid var(--color-text) !important;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(pre, .astro-code) :is(code, span) {
+  color: var(--color-text) !important;
+  background: transparent !important;
+  font-weight: 500;
+}
+
+/* E-Ink: Inline code. The 6%-of-text background washes out on cream; drop
+   it for a thin border that reads as "inline mono span" without dithering. */
+[data-e-ink="true"] :is(.prose-content, .note-content) code {
+  background: transparent !important;
+  border: 1px solid var(--color-border);
+  padding: 0.05em 0.35em;
+  font-weight: 500;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(pre, .astro-code) code {
+  border: none;
+}
+
+/* E-Ink: Form inputs. Solid 1.5px ink border, no rounded corners (zeroed
+   globally above), and a 2px solid focus outline instead of the default
+   translucent box-shadow ring — translucency ghosts on e-ink. */
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input) {
+  background: var(--color-bg) !important;
+  border: 1.5px solid var(--color-text) !important;
+  box-shadow: none !important;
+  color: var(--color-text) !important;
+}
+
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):focus,
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):focus-visible {
+  outline: 2px solid var(--color-text) !important;
+  outline-offset: 2px !important;
+  border-color: var(--color-text) !important;
+  box-shadow: none !important;
+}
+
+/* E-Ink: Horizontal rule. Single 1px ink line — no shadow, no gradient. */
+[data-e-ink="true"] hr {
+  border: none !important;
+  border-top: 1px solid var(--color-text) !important;
+  background: none !important;
+  height: 0 !important;
+  margin: 2em 0 !important;
+}
+
 /* ============================================
    Daily Theme: Grid Style Variations
    Applied via [data-grid-style] attribute
