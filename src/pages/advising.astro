@@ -106,11 +106,11 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-intro {
-    margin-bottom: 3rem;
+    margin-bottom: var(--spacing-2xl);
   }
 
   .advising-eyebrow {
-    margin-bottom: 0.9rem !important;
+    margin-bottom: var(--spacing-md) !important;
     font-size: 0.78rem !important;
     font-weight: 700;
     line-height: 1.2 !important;
@@ -127,16 +127,16 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-intro p:not(.advising-eyebrow) + p {
-    margin-top: 1.25rem;
+    margin-top: var(--spacing-lg);
   }
 
   .advising-capacity {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 1rem;
-    margin: -0.75rem 0 3rem;
-    padding: 0.875rem 0;
+    gap: var(--spacing-md);
+    margin: calc(-1 * var(--spacing-sm)) 0 var(--spacing-2xl);
+    padding: var(--spacing-md) 0;
     border-block: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
   }
 
@@ -156,15 +156,15 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-section {
-    margin-bottom: 2.5rem;
-    padding-top: 1.5rem;
+    margin-bottom: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
     border-top: 1px solid var(--color-border);
   }
 
   .advising-section h2 {
     font-size: 1.25rem;
     font-weight: 600;
-    margin: 0 0 1rem 0;
+    margin: 0 0 var(--spacing-md) 0;
     color: var(--color-text);
     letter-spacing: -0.01em;
   }
@@ -177,8 +177,8 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
   .advising-section li {
     position: relative;
-    padding-left: 1.25rem;
-    margin-bottom: 0.75rem;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
     font-size: 1.0625rem;
     line-height: 1.6;
     color: var(--color-muted);
@@ -201,7 +201,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-writing li {
-    margin-bottom: 0.95rem;
+    margin-bottom: var(--spacing-md);
   }
 
   .advising-writing a {
@@ -211,14 +211,14 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
   .advising-writing span {
     display: block;
-    margin-top: 0.125rem;
+    margin-top: var(--spacing-xs);
     color: var(--color-muted);
     font-size: 0.98rem;
     line-height: 1.5;
   }
 
   .advising-cta {
-    margin-top: 3rem;
+    margin-top: var(--spacing-2xl);
     padding: clamp(1.5rem, 4vw, 2.25rem);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg, 12px);
@@ -229,13 +229,13 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   .advising-cta h2 {
     font-size: 1.25rem;
     font-weight: 600;
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 var(--spacing-sm) 0;
     color: var(--color-text);
     letter-spacing: -0.01em;
   }
 
   .advising-cta p {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--spacing-lg) 0;
     font-size: 1.0625rem;
     line-height: 1.6;
     color: var(--color-muted);
@@ -245,8 +245,8 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   .advising-cta__button {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.2;
@@ -256,9 +256,9 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
     border: 1px solid var(--color-text);
     border-radius: var(--radius-md, 8px);
     transition:
-      background 0.2s ease,
-      color 0.2s ease,
-      transform 0.2s var(--ease-inertia, ease);
+      background-color var(--duration-normal) var(--ease-standard),
+      color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-inertia);
   }
 
   .advising-cta__button::after {
@@ -274,7 +274,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-cta__arrow {
-    transition: transform 0.2s var(--ease-inertia, ease);
+    transition: transform var(--duration-normal) var(--ease-inertia);
   }
 
   @media (hover: hover) {
@@ -284,7 +284,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-cta__note {
-    margin: 1rem 0 0 !important;
+    margin: var(--spacing-md) 0 0 !important;
     font-size: 0.875rem !important;
     color: var(--color-muted) !important;
   }
@@ -304,7 +304,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
     .advising-capacity strong {
       display: block;
-      margin-top: 0.35rem;
+      margin-top: var(--spacing-sm);
       text-align: left;
     }
   }

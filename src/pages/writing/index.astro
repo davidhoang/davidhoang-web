@@ -130,11 +130,11 @@ function formatDate(date: Date) {
   /* View toggle (List · Garden) */
   .view-tabs {
     display: inline-flex;
-    gap: 0.25rem;
-    margin-bottom: 1.5rem;
-    padding: 0.25rem;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-xs);
     border: 1px solid var(--color-border);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     background: var(--color-sidebar-bg, transparent);
   }
 
@@ -142,14 +142,16 @@ function formatDate(date: Date) {
     appearance: none;
     border: none;
     background: transparent;
-    padding: 0.4rem 1rem;
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--color-muted, currentColor);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      color var(--duration-normal) var(--ease-standard);
   }
 
   .view-tab:hover {
@@ -173,7 +175,7 @@ function formatDate(date: Date) {
   .content-grid {
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-    gap: 3rem;
+    gap: var(--spacing-2xl);
     align-items: start;
   }
 
@@ -188,14 +190,17 @@ function formatDate(date: Date) {
   /* Featured post hero card */
   .featured-post {
     display: block;
-    padding: 2.5rem;
-    margin-bottom: 3rem;
+    padding: clamp(var(--spacing-lg), 4vw, var(--spacing-2xl));
+    margin-bottom: var(--spacing-2xl);
     border: var(--border-default);
     border-radius: var(--radius-lg);
     text-decoration: none;
     color: inherit;
     background: var(--color-surface, var(--color-bg));
-    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
+    transition:
+      border-color var(--duration-slow) var(--ease-inertia),
+      box-shadow var(--duration-slow) var(--ease-inertia),
+      transform var(--duration-slow) var(--ease-inertia);
   }
 
   .featured-post::after {
@@ -203,7 +208,8 @@ function formatDate(date: Date) {
   }
 
   .featured-post:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border-color: color-mix(in srgb, var(--color-link) 24%, var(--color-border));
+    box-shadow: var(--card-shadow);
     transform: translateY(-2px);
   }
 
@@ -214,14 +220,14 @@ function formatDate(date: Date) {
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--color-link, #0066cc);
-    margin-bottom: 1.25rem;
+    margin-bottom: var(--spacing-lg);
   }
 
   .featured-title {
     font-size: clamp(2.25rem, 5vw, 3.75rem);
     font-weight: var(--heading-weight, 700);
     line-height: 1.08;
-    margin: 0 0 1.25rem;
+    margin: 0 0 var(--spacing-lg);
     letter-spacing: var(--letter-spacing-display, -0.03em);
     text-wrap: balance;
   }
@@ -230,7 +236,7 @@ function formatDate(date: Date) {
     font-size: 1.1875rem;
     line-height: 1.6;
     color: var(--color-muted);
-    margin: 0 0 1.75rem;
+    margin: 0 0 var(--spacing-xl);
     max-width: 52ch;
   }
 
@@ -246,13 +252,13 @@ function formatDate(date: Date) {
   .section-label {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: var(--spacing-md);
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--color-muted);
-    margin: 0 0 1.5rem;
+    margin: 0 0 var(--spacing-lg);
   }
 
   .section-label::after {
@@ -264,24 +270,27 @@ function formatDate(date: Date) {
 
   /* Recent posts magazine grid */
   .recent-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--spacing-2xl);
   }
 
   .recent-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
   }
 
   .recent-card {
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    padding: var(--spacing-lg);
     border: var(--border-default);
     border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
-    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
+    transition:
+      border-color var(--duration-slow) var(--ease-inertia),
+      box-shadow var(--duration-slow) var(--ease-inertia),
+      transform var(--duration-slow) var(--ease-inertia);
   }
 
   .recent-card::after {
@@ -289,7 +298,8 @@ function formatDate(date: Date) {
   }
 
   .recent-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border-color: color-mix(in srgb, var(--color-link) 22%, var(--color-border));
+    box-shadow: var(--card-shadow);
     transform: translateY(-2px);
   }
 
@@ -298,7 +308,7 @@ function formatDate(date: Date) {
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: var(--letter-spacing-heading-md, -0.01em);
-    margin: 0 0 0.85rem;
+    margin: 0 0 var(--spacing-md);
     text-wrap: balance;
   }
 
@@ -307,7 +317,7 @@ function formatDate(date: Date) {
     line-height: 1.6;
     color: var(--color-muted);
     margin: 0 0 auto;
-    padding-bottom: 1rem;
+    padding-bottom: var(--spacing-md);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -324,7 +334,7 @@ function formatDate(date: Date) {
 
   /* Archive section */
   .archive-section {
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
   }
 
   .posts-list {
@@ -333,8 +343,8 @@ function formatDate(date: Date) {
   }
 
   .posts-list li {
-    margin-bottom: 0.85rem;
-    padding-bottom: 0.85rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
     border-bottom: 1px dotted var(--color-border, #e5e5e5);
   }
 
@@ -357,7 +367,7 @@ function formatDate(date: Date) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
 
   .post-title {
@@ -365,7 +375,9 @@ function formatDate(date: Date) {
     font-size: 1.0625rem;
     line-height: 1.4;
     border-bottom: 1px dotted transparent;
-    transition: border-bottom-color 0.3s var(--ease-inertia);
+    transition:
+      border-bottom-color var(--duration-slow) var(--ease-inertia),
+      color var(--duration-slow) var(--ease-inertia);
   }
 
   .post-link:hover .post-title {
@@ -388,7 +400,7 @@ function formatDate(date: Date) {
     display: none;
     text-align: center;
     color: var(--color-muted);
-    padding: 2rem 0;
+    padding: var(--spacing-xl) 0;
     font-size: 0.9375rem;
   }
 
@@ -408,7 +420,7 @@ function formatDate(date: Date) {
     }
 
     .featured-post {
-      padding: 1.5rem;
+      padding: var(--spacing-lg);
     }
 
     .featured-title {
