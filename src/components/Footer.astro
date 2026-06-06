@@ -6,35 +6,36 @@
     <section aria-label="Footer navigation">
       <div class="footer-grid">
         <div class="footer-col">
-          <h4>Social</h4>
+          <h4>Contact</h4>
           <ul role="list">
             <li><a href="mailto:david@davidhoang.com" aria-label="Email David Hoang">Email</a></li>
-            <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on GitHub (opens in new tab)">GitHub</a></li>
             <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on LinkedIn (opens in new tab)">LinkedIn</a></li>
-            <li><a href="https://sublime.app/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Sublime (opens in new tab)">Sublime</a></li>
             <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Twitter (opens in new tab)">Twitter</a></li>
+            <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on GitHub (opens in new tab)">GitHub</a></li>
+            <li><a href="https://sublime.app/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Sublime (opens in new tab)">Sublime</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Links</h4>
-          <ul role="list">
-            <li><a href="/career-odyssey" aria-label="Career Odyssey">Career Odyssey</a></li>
-            <li><a href="https://curius.app/david-hoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Curius (opens in new tab)">Curius</a></li>
-            <li><a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer" aria-label="Proof of Concept newsletter (opens in new tab)">Newsletter</a></li>
-            <li><a href="http://blog.davidhoang.com" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's personal blog (opens in new tab)">Personal&nbsp;Blog</a></li>
-            <li><a href="/rss.xml" type="application/rss+xml" aria-label="Writing RSS feed">RSS (writing)</a></li>
-            <li><a href="/rss/notes.xml" type="application/rss+xml" aria-label="Notes RSS feed">RSS (notes)</a></li>
-            <li><a href="https://substack.com/@davidhoang/notes" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's Substack Notes (opens in new tab)">Substack Notes</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Resources</h4>
+          <h4>Practice</h4>
           <ul role="list">
             <li><a href="/about" aria-label="About David Hoang">About</a></li>
             <li><a href="/advising" aria-label="Advising for design leaders">Advising</a></li>
+            <li><a href="/career-odyssey" aria-label="Career Odyssey">Career Odyssey</a></li>
+            <li><a href="https://curius.app/david-hoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Curius (opens in new tab)">Curius</a></li>
+            <li><a href="/design-resources" aria-label="Design resources and tools">Design Resources</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Writing</h4>
+          <ul role="list">
+            <li><a href="/writing" aria-label="Writing">Writing</a></li>
             <li><a href="/notes" aria-label="Digital garden notes">Notes</a></li>
             <li><a href="/now" aria-label="What David is doing now">Now</a></li>
-            <li><a href="/design-resources" aria-label="Design resources and tools">Design Resources</a></li>
+            <li><a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer" aria-label="Proof of Concept newsletter (opens in new tab)">Newsletter</a></li>
+            <li><a href="http://blog.davidhoang.com" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's personal blog (opens in new tab)">Personal&nbsp;Blog</a></li>
+            <li><a href="https://substack.com/@davidhoang/notes" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's Substack Notes (opens in new tab)">Substack Notes</a></li>
+            <li><a href="/rss.xml" type="application/rss+xml" aria-label="Writing RSS feed">RSS (writing)</a></li>
+            <li><a href="/rss/notes.xml" type="application/rss+xml" aria-label="Notes RSS feed">RSS (notes)</a></li>
           </ul>
         </div>
       </div>
@@ -243,22 +244,23 @@
 
   .footer-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.05fr) minmax(0, 1.2fr);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
   }
 
   .footer-col h4 {
     position: relative;
-    font-size: 1.1rem;
+    font-size: 0.82rem;
     font-family: var(--font-heading);
     font-weight: 700;
-    margin-bottom: 0.85rem;
+    margin-bottom: var(--spacing-md);
     margin-top: 0;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--color-text);
     opacity: 0.9;
-    padding-bottom: 0.5rem;
+    padding-bottom: var(--spacing-sm);
   }
 
   .footer-col h4::after {
@@ -284,26 +286,26 @@
   }
 
   .footer-col li {
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--spacing-xs);
     font-size: 0.95rem;
     font-family: var(--font-body);
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   @media (max-width: 768px) {
     .footer-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: var(--spacing-lg);
     }
 
     .footer-col h4 {
-      font-size: 0.95rem;
-      margin-bottom: 0.4rem;
+      font-size: 0.76rem;
+      margin-bottom: var(--spacing-sm);
     }
 
     .footer-col li {
       font-size: 0.9rem;
-      margin-bottom: 0.2rem;
+      margin-bottom: var(--spacing-xs);
     }
 
     /* Disable hover effects on mobile */
