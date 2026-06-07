@@ -11,7 +11,7 @@ interface Props {
 const { person } = Astro.props;
 ---
 
-<div class="people-card">
+<div class="people-card card-interactive">
   <div class="people-card-image">
     {person.url ? (
       <a href={person.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${person.name}'s website`}>
@@ -53,12 +53,6 @@ const { person } = Astro.props;
     border-radius: var(--radius-md);
     background: var(--color-sidebar-bg);
     border: 1px solid var(--color-border);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .people-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .people-card-image {

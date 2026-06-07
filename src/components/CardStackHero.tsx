@@ -429,7 +429,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           margin-top: clamp(28px, 4vw, 56px);
         }
 
-        .card {
+        .hero-card {
           /* Nested radii: inner = outer − inset (shader panels + hero frame). See: nested rounded corners */
           --card-radius: 20px;
           --card-panel-inset: 4px;
@@ -457,11 +457,11 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           will-change: transform, opacity;
         }
 
-        .card:hover {
+        .hero-card:hover {
           box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
         }
 
-        .card:focus-visible {
+        .hero-card:focus-visible {
           outline: 2px solid rgba(255, 255, 255, 0.5);
           outline-offset: -4px;
         }
@@ -496,7 +496,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         /* Same proportions as fan cards (240×320): width : height = 3 : 4 */
-        .card.card-selected.card-hero-fullscreen {
+        .hero-card.card-selected.card-hero-fullscreen {
           position: relative;
           left: auto;
           top: auto;
@@ -961,7 +961,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           overflow: visible;
         }
 
-        .card-stack-hero--editorial .card {
+        .card-stack-hero--editorial .hero-card {
           position: relative;
           left: auto;
           top: auto;
@@ -1006,7 +1006,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           min-width: 0;
         }
 
-        .card-stack-hero--cinematic .card {
+        .card-stack-hero--cinematic .hero-card {
           position: relative;
           left: auto;
           top: auto;
@@ -1106,7 +1106,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           max-width: 1000px;
         }
 
-        .card-stack-hero--scattered .card {
+        .card-stack-hero--scattered .hero-card {
           width: 200px;
           height: 260px;
           margin-left: -100px;
@@ -1128,7 +1128,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           transform-style: preserve-3d;
         }
 
-        .card-stack-hero--rolodex .card {
+        .card-stack-hero--rolodex .hero-card {
           width: 280px;
           height: 360px;
           margin-left: -140px;
