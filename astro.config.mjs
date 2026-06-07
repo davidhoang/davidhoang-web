@@ -45,7 +45,12 @@ export default defineConfig({
   vite: {
     plugins: [
       copyAssetsPlugin(),
-      ...(process.env.ANALYZE ? [visualizer({ open: true, gzipSize: true, brotliSize: true })] : []),
+      ...(process.env.ANALYZE ? [visualizer({
+        filename: 'dist/bundle-stats.html',
+        open: process.env.ANALYZE_OPEN === 'true',
+        gzipSize: true,
+        brotliSize: true,
+      })] : []),
     ],
     // Disable caching in development to prevent stale module issues
     server: {
