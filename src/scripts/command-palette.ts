@@ -45,15 +45,88 @@ function scoreMatch(query: string, item: SearchItem): number {
   return 0;
 }
 
-function highlightQuery(text: string, query: string): string {
-  if (!query) return text;
+function appendHighlightedText(parent: HTMLElement, text: string, query: string) {
+  if (!query) {
+    parent.textContent = text;
+    return;
+  }
+
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return text;
-  return text.slice(0, idx)
-    + '<mark class="cmd-palette-highlight">'
-    + text.slice(idx, idx + query.length)
-    + '</mark>'
-    + text.slice(idx + query.length);
+  if (idx === -1) {
+    parent.textContent = text;
+    return;
+  }
+
+  parent.append(
+    text.slice(0, idx),
+    Object.assign(document.createElement('mark'), {
+      className: 'cmd-palette-highlight',
+      textContent: text.slice(idx, idx + query.length),
+    }),
+    text.slice(idx + query.length),
+  );
+}
+
+function createResultItem(item: SearchItem, resultIndex: number, query = '') {
+  const link = document.createElement('a');
+  link.href = item.path;
+  link.id = `cmd-palette-opt-${resultIndex}`;
+  link.className = `cmd-palette-item cmd-palette-item--${item.type}`;
+  link.role = 'option';
+  link.ariaSelected = 'false';
+  link.dataset.path = item.path;
+  link.style.setProperty('--cmd-palette-stagger', `${resultIndex * 0.02}s`);
+
+  const main = document.createElement('span');
+  main.className = 'cmd-palette-item__main';
+
+  const title = document.createElement('span');
+  title.className = 'cmd-palette-item__title';
+  appendHighlightedText(title, item.title, query);
+  main.append(title);
+
+  if (item.description) {
+    const desc = document.createElement('span');
+    desc.className = 'cmd-palette-item__desc';
+    desc.textContent = item.description;
+    main.append(desc);
+  }
+
+  link.append(main);
+  return link;
+}
+
+function createGroupLabel(type: string, count: number) {
+  const label = document.createElement('div');
+  label.className = 'cmd-group-label';
+  label.append(TYPE_LABELS[type], ' ');
+
+  const countEl = document.createElement('span');
+  countEl.className = 'cmd-group-count';
+  countEl.textContent = `(${count})`;
+  label.append(countEl);
+
+  return label;
+}
+
+function createEmptyState(query: string) {
+  const empty = document.createElement('div');
+  empty.className = 'cmd-empty';
+
+  const icon = document.createElement('span');
+  icon.className = 'cmd-empty-icon';
+  icon.textContent = '?';
+
+  const text = document.createElement('span');
+  text.className = 'cmd-empty-text';
+  text.textContent = `No results for "${query}"`;
+
+  const hint = document.createElement('span');
+  hint.className = 'cmd-empty-hint';
+  hint.textContent = 'Try a different search term';
+
+  empty.append(icon, text, hint);
+  return empty;
 }
 
 // Track cleanup function to tear down before reinitializing
@@ -66,11 +139,11 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     _cleanup = null;
   }
 
-  const nav = document.querySelector('.site-nav');
+  const nav = document.querySelector<HTMLElement>('.site-nav');
   const input = document.getElementById('cmdPaletteInput') as HTMLInputElement | null;
   const results = document.getElementById('cmdPaletteResults');
   const footer = document.getElementById('cmdPaletteFooter');
-  const desktopNav = document.querySelector('.desktop-nav');
+  const desktopNav = document.querySelector<HTMLElement>('.desktop-nav');
 
   const liveRegion = document.getElementById('cmdPaletteLive');
 
@@ -138,27 +211,9 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     const q = query.trim();
     let resultIndex = 0;
 
-    function resultHtml(item: SearchItem, type: string, title: string, desc?: string): string {
-      const delay = resultIndex * 0.02;
-      const optId = `cmd-palette-opt-${resultIndex}`;
-      const descHtml = desc
-        ? `<span class="cmd-palette-item__desc">${desc}</span>`
-        : '';
-      const html = `<a href="${item.path}" id="${optId}" class="cmd-palette-item cmd-palette-item--${type}" role="option" aria-selected="false" data-path="${item.path}" style="--cmd-palette-stagger:${delay}s">
-        <span class="cmd-palette-item__main">
-          <span class="cmd-palette-item__title">${title}</span>
-          ${descHtml}
-        </span>
-      </a>`;
-      resultIndex++;
-      return html;
-    }
-
     if (!q) {
       const pages = searchIndex.filter(i => i.type === 'page');
-      results!.innerHTML = pages
-        .map(item => resultHtml(item, 'page', item.title))
-        .join('');
+      results!.replaceChildren(...pages.map(item => createResultItem(item, resultIndex++)));
       if (liveRegion) liveRegion.textContent = `${pages.length} pages`;
       showResults();
       return;
@@ -171,11 +226,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
       .slice(0, 12);
 
     if (matches.length === 0) {
-      results!.innerHTML = `<div class="cmd-empty">
-        <span class="cmd-empty-icon">?</span>
-        <span class="cmd-empty-text">No results for "${q}"</span>
-        <span class="cmd-empty-hint">Try a different search term</span>
-      </div>`;
+      results!.replaceChildren(createEmptyState(q));
       if (liveRegion) liveRegion.textContent = `No results for ${q}`;
       showResults();
       return;
@@ -188,17 +239,16 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
       groups[item.type].push(item);
     });
 
-    let html = '';
+    const rendered: HTMLElement[] = [];
     TYPE_ORDER.forEach(type => {
       if (!groups[type]) return;
-      html += `<div class="cmd-group-label">${TYPE_LABELS[type]} <span class="cmd-group-count">(${groups[type].length})</span></div>`;
+      rendered.push(createGroupLabel(type, groups[type].length));
       groups[type].forEach(item => {
-        const title = highlightQuery(item.title, q);
-        html += resultHtml(item, type, title, item.description || undefined);
+        rendered.push(createResultItem(item, resultIndex++, q));
       });
     });
 
-    results!.innerHTML = html;
+    results!.replaceChildren(...rendered);
     if (liveRegion) liveRegion.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'} found`;
     showResults();
   }
