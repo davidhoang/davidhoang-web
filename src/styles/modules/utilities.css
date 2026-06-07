@@ -84,7 +84,7 @@
 }
 
 /* Screen-reader only utility */
-.sr-only {
+:is(.sr-only, .visually-hidden) {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -94,4 +94,9 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Suppress global magnetic link underline on card/link surfaces */
+.link-plain::after {
+  display: none !important;
 }

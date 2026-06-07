@@ -66,7 +66,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     _cleanup = null;
   }
 
-  const nav = document.querySelector('nav');
+  const nav = document.querySelector('.site-nav');
   const input = document.getElementById('cmdPaletteInput') as HTMLInputElement | null;
   const results = document.getElementById('cmdPaletteResults');
   const footer = document.getElementById('cmdPaletteFooter');
