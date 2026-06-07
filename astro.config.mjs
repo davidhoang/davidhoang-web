@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { cpSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
+import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 
 // Vite plugin to copy images from src/assets/images to public/images during build
 // This allows markdown files to continue using /images/ paths while components
@@ -30,6 +31,13 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
   trailingSlash: 'never',
+  image: {
+    layout: 'constrained',
+    responsiveStyles: true,
+  },
+  markdown: {
+    remarkPlugins: [remarkImagePath],
+  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover',

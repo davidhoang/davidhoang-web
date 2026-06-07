@@ -2,16 +2,64 @@
 // No props needed - calculate slug directly from URL
 ---
 
-<div class="comments-wrapper">
+<div class="comments-wrapper" data-comments-wrapper>
   <section class="comments">
     <div 
       data-replit-comments
+      data-comments-target
       data-post-id={Astro.url.pathname}
       data-base-url="https://astro-discuss--dh-design.replit.app"
     ></div>
   </section>
-  <script is:inline src="https://astro-discuss--dh-design.replit.app/embed.js"></script>
 </div>
+
+<script is:inline>
+  (() => {
+    const lazyCommentsKey = '__initLazyComments';
+    const commentsScriptUrl = 'https://astro-discuss--dh-design.replit.app/embed.js';
+
+    const loadComments = (wrapper) => {
+      if (!wrapper || wrapper.dataset.commentsLoaded === 'true') return;
+      wrapper.dataset.commentsLoaded = 'true';
+
+      const script = document.createElement('script');
+      script.src = commentsScriptUrl;
+      script.async = true;
+      script.dataset.commentsEmbedScript = 'true';
+      wrapper.append(script);
+    };
+
+    window[lazyCommentsKey] = window[lazyCommentsKey] || (() => {
+      const wrappers = document.querySelectorAll('[data-comments-wrapper]');
+      if (!wrappers.length) return;
+
+      if (!('IntersectionObserver' in window)) {
+        wrappers.forEach(loadComments);
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          loadComments(entry.target);
+        });
+      }, { rootMargin: '600px 0px' });
+
+      wrappers.forEach((wrapper) => {
+        if (wrapper.dataset.commentsLoaded === 'true') return;
+        observer.observe(wrapper);
+      });
+    });
+
+    if (window.__lazyCommentsPageLoadBound !== 'true') {
+      window.__lazyCommentsPageLoadBound = 'true';
+      document.addEventListener('astro:page-load', window[lazyCommentsKey]);
+    }
+
+    window[lazyCommentsKey]();
+  })();
+</script>
 
 <style>
   .comments-wrapper {
