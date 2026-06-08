@@ -17,6 +17,30 @@
  * selectors (e.g. [data-image-style][data-card-style] combinations).
  */
 
+@property --filter-saturate {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --filter-contrast {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --filter-brightness {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --filter-hue {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
 /* ============================================
    Mood Modification System
    Real-time theme adjustments based on user mood
@@ -29,6 +53,17 @@
   --mood-brightness: 1;
   --mood-hue-rotate: 0deg;
   --mood-transition-speed: 0.4s;
+
+  /* Registered filter tokens animate independently of the filter function list. */
+  --filter-saturate: calc(var(--mood-saturation) * var(--intensity-saturation));
+  --filter-contrast: calc(var(--mood-contrast) * var(--intensity-contrast));
+  --filter-brightness: var(--mood-brightness);
+  --filter-hue: var(--mood-hue-rotate);
+  transition:
+    --filter-saturate calc(var(--mood-transition-speed) * 2) var(--ease-inertia),
+    --filter-contrast calc(var(--mood-transition-speed) * 2) var(--ease-inertia),
+    --filter-brightness calc(var(--mood-transition-speed) * 2) var(--ease-inertia),
+    --filter-hue calc(var(--mood-transition-speed) * 2) var(--ease-inertia);
 }
 
 /* Mood: Focus - reduced visual noise, high clarity */
@@ -78,17 +113,20 @@
   min-height: 100dvh;
   width: 100%;
   filter:
-    saturate(calc(var(--mood-saturation) * var(--intensity-saturation)))
-    contrast(calc(var(--mood-contrast) * var(--intensity-contrast)))
-    brightness(var(--mood-brightness))
-    hue-rotate(var(--mood-hue-rotate));
-  transition: filter calc(var(--mood-transition-speed) * 2) var(--ease-inertia);
+    saturate(var(--filter-saturate))
+    contrast(var(--filter-contrast))
+    brightness(var(--filter-brightness))
+    hue-rotate(var(--filter-hue));
+  will-change: filter;
+  transform: translateZ(0);
 }
 
 /* Writing posts: sticky TOC needs an ancestor without filter (see .content-filter-wrapper note above). */
 body.layout-no-content-filter .content-filter-wrapper {
   filter: none !important;
   transition: none !important;
+  will-change: auto;
+  transform: none;
 }
 
 /* Focus mood: reduce animation/motion */
@@ -108,16 +146,29 @@ body.layout-no-content-filter .content-filter-wrapper {
   --shadow-hover: 0 8px 30px rgba(0,0,0,0.1);
 }
 
-/* E-ink mode overrides mood/intensity */
-[data-e-ink="true"] .content-filter-wrapper {
-  filter: none !important;
+/* E-ink mode smoothly desaturates the page instead of removing the filter chain. */
+[data-e-ink="true"] {
+  --filter-saturate: 0;
+  --filter-contrast: 1.1;
+  --filter-brightness: 1;
+  --filter-hue: 0deg;
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --filter-saturate: 1;
+    --filter-contrast: 1;
+    --filter-brightness: 1;
+    --filter-hue: 0deg;
+    transition: none;
+  }
+
   .content-filter-wrapper {
     filter: none !important;
     transition: none !important;
+    will-change: auto;
+    transform: none;
   }
 }
 
