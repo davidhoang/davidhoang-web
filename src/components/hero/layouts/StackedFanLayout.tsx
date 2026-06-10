@@ -21,7 +21,7 @@ function cardClassName(
   extra?: string
 ) {
   return [
-    'card',
+    'hero-card',
     isSelected ? 'card-selected' : '',
     card.image ? 'card-with-image' : '',
     cardHasHeroLayout(card) ? 'card-has-hero-layout' : '',

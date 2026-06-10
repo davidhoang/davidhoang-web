@@ -1,5 +1,5 @@
 export function initScrollDetection(): void {
-  const nav: HTMLElement | null = document.querySelector('nav');
+  const nav: HTMLElement | null = document.querySelector('.site-nav');
   if (!nav) return;
   const navEl: HTMLElement = nav;
 

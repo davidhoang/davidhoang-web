@@ -1,69 +1,69 @@
 {
   "themes": [
     {
-      "name": "Concrete Dawn",
-      "description": "Raw brutalist structure meets ethereal morning light through precise geometric cuts",
+      "name": "Deco Dawn",
+      "description": "Art Deco glamour meets soft morning light with gold geometric details and luxurious serif typography.",
       "colors": {
-        "colorScheme": "split-complementary",
+        "colorScheme": "complementary",
         "contrastMode": "high",
         "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F2ED",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8935F",
-          "--color-border": "#E8E4DC",
-          "--color-muted": "#706B61",
-          "--color-sidebar-bg": "#F0ECE6",
-          "--color-nav-bg": "#F5F2ED",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#EFEBE4"
+          "--color-text": "#1A0F0A",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#8A6508",
+          "--color-link-hover": "#DAA520",
+          "--color-border": "#E6D7C8",
+          "--color-muted": "#7D684D",
+          "--color-sidebar-bg": "#FAE5D3",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#1A0F0A",
+          "--color-card-bg": "#FEFAF6"
         },
         "dark": {
-          "--color-text": "#E8E4DC",
-          "--color-bg": "#1A1814",
-          "--color-link": "#E6B882",
-          "--color-link-hover": "#F2C999",
-          "--color-border": "#2D2A24",
-          "--color-muted": "#9A9184",
-          "--color-sidebar-bg": "#1F1B17",
-          "--color-nav-bg": "#1A1814",
-          "--color-nav-text": "#E8E4DC",
-          "--color-card-bg": "#201C18"
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFA500",
+          "--color-border": "#3D2A1A",
+          "--color-muted": "#A68B5B",
+          "--color-sidebar-bg": "#2C1810",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#261A11"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
         },
         "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
         }
       },
       "typography": {
         "headingWeight": "700",
         "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.03em",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.05em",
         "headingTransform": "uppercase",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
       },
       "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(184,134,11,0.15)",
+        "borderWidth": "1px",
         "padding": "2rem"
       },
       "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
         "sectionSpacing": "4rem",
         "contentPadding": "2rem",
         "gridStyle": "asymmetric"
@@ -78,217 +78,19 @@
         "texture": "grid"
       },
       "images": {
-        "style": "muted",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-05-25",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Concrete Dawn",
-              "subtitle": "Brutalist precision meets morning light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "t1",
-              "lp",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            }
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Geometric Cuts",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          },
-          "s3": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C2C2C",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F5F2ED",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8935F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#E8E4DC",
-                  "label": "border"
-                },
-                {
-                  "hex": "#706B61",
-                  "label": "muted"
-                }
-              ]
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "Vinyl Reverie",
-      "description": "Warm analog nostalgia meets editorial sophistication in dusty amber hues",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2A1810",
-          "--color-bg": "#FDF5E6",
-          "--color-link": "#A85418",
-          "--color-link-hover": "#FF6347",
-          "--color-border": "#E8D5B7",
-          "--color-muted": "#846D51",
-          "--color-sidebar-bg": "#FAF0E6",
-          "--color-nav-bg": "#FDF5E6",
-          "--color-nav-text": "#2A1810",
-          "--color-card-bg": "#F5EDD3"
-        },
-        "dark": {
-          "--color-text": "#F5DEB3",
-          "--color-bg": "#1C1410",
-          "--color-link": "#DAA520",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#3D2F1F",
-          "--color-muted": "#978166",
-          "--color-sidebar-bg": "#231A12",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F5DEB3",
-          "--color-card-bg": "#211A14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 4px 16px rgba(139, 115, 85, 0.15)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
+        "style": "duotone",
         "hover": "lift",
         "opacity": "0.9",
-        "borderRadius": "8px"
+        "borderRadius": "4px"
       },
       "footer": {
         "style": "editorial"
       },
       "shader": {
-        "type": "grain",
+        "type": "dot-grid",
         "colors": [
-          "#D2691E",
-          "#8B7355"
+          "#B8860B",
+          "#FFD700"
         ]
       },
       "font": {
@@ -297,15 +99,15 @@
         "category": "serif",
         "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
       },
-      "date": "2026-05-24",
+      "date": "2026-06-10",
       "showcase": {
-        "root": "tc",
+        "root": "r1",
         "elements": {
-          "tc": {
+          "r1": {
             "type": "ThemeCard",
             "props": {
-              "title": "Vinyl Reverie",
-              "subtitle": "Warm analog nostalgia meets editorial sophistication"
+              "title": "Deco Dawn",
+              "subtitle": "Art Deco glamour meets morning light"
             },
             "children": [
               "s1"
@@ -319,48 +121,19 @@
               "align": "stretch"
             },
             "children": [
-              "cp",
-              "lp",
+              "h1",
               "s2",
-              "ts"
+              "d1",
+              "p1",
+              "s3"
             ]
           },
-          "cp": {
-            "type": "ColorPalette",
+          "h1": {
+            "type": "TypeSample",
             "props": {
-              "colors": [
-                {
-                  "hex": "#2A1810",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#A85418",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#FF6347",
-                  "label": "Accent"
-                },
-                {
-                  "hex": "#E8D5B7",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#FDF5E6",
-                  "label": "Canvas"
-                },
-                {
-                  "hex": "#F5EDD3",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
+              "text": "Golden Geometries",
+              "variant": "heading",
+              "weight": "bold"
             },
             "children": []
           },
@@ -381,6 +154,448 @@
             "type": "Badge",
             "props": {
               "text": "serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "cream"
+                },
+                {
+                  "hex": "#DAA520",
+                  "label": "gold"
+                },
+                {
+                  "hex": "#8A6508",
+                  "label": "amber"
+                },
+                {
+                  "hex": "#7D684D",
+                  "label": "bronze"
+                },
+                {
+                  "hex": "#1A0F0A",
+                  "label": "espresso"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "l1"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Luxurious morning typography with geometric precision",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Kyoto Sunrise",
+      "description": "Temple bells through morning mist, golden light filtering through bamboo groves, serene awakening in an ancient garden.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2D4A22",
+          "--color-bg": "#FDF8F0",
+          "--color-link": "#8A6B4B",
+          "--color-link-hover": "#B8956A",
+          "--color-border": "#E8DDD1",
+          "--color-muted": "#687450",
+          "--color-sidebar-bg": "#FCF5E8",
+          "--color-nav-bg": "#FDF8F0",
+          "--color-nav-text": "#2D4A22",
+          "--color-card-bg": "#FEFBF5"
+        },
+        "dark": {
+          "--color-text": "#E8DDD1",
+          "--color-bg": "#1A251C",
+          "--color-link": "#D4A574",
+          "--color-link-hover": "#E6B885",
+          "--color-border": "#3A4A35",
+          "--color-muted": "#819075",
+          "--color-sidebar-bg": "#1E291F",
+          "--color-nav-bg": "#1A251C",
+          "--color-nav-text": "#E8DDD1",
+          "--color-card-bg": "#202B21"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.01em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 4px 16px rgba(0,0,0,0.06)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "900px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-06-09",
+      "showcase": {
+        "root": "tc",
+        "elements": {
+          "tc": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Kyoto Sunrise",
+              "subtitle": "Temple bells through morning mist"
+            },
+            "children": [
+              "mv",
+              "d1",
+              "ts",
+              "lp"
+            ]
+          },
+          "mv": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "cp",
+              "bt"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2D4A22",
+                  "label": "text"
+                },
+                {
+                  "hex": "#8A6B4B",
+                  "label": "link"
+                },
+                {
+                  "hex": "#687450",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#E8DDD1",
+                  "label": "border"
+                },
+                {
+                  "hex": "#FDF8F0",
+                  "label": "bg"
+                }
+              ]
+            },
+            "children": []
+          },
+          "bt": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "ts": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Golden light through bamboo",
+              "variant": "heading",
+              "weight": "regular"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Concrete Prayer",
+      "description": "Raw minimalism meets divine light in a meditation on material and spirit",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2D2D2D",
+          "--color-bg": "#F5F1ED",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#C8C0B8",
+          "--color-muted": "#6E6B66",
+          "--color-sidebar-bg": "#F0ECE6",
+          "--color-nav-bg": "#F5F1ED",
+          "--color-nav-text": "#2D2D2D",
+          "--color-card-bg": "#F8F4F0"
+        },
+        "dark": {
+          "--color-text": "#E8E4E0",
+          "--color-bg": "#1A1816",
+          "--color-link": "#F4C430",
+          "--color-link-hover": "#FFD700",
+          "--color-border": "#3A3632",
+          "--color-muted": "#8A8680",
+          "--color-sidebar-bg": "#201E1C",
+          "--color-nav-bg": "#1A1816",
+          "--color-nav-text": "#E8E4E0",
+          "--color-card-bg": "#211F1D"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "'wght' 700"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "date": "2026-06-08",
+      "showcase": {
+        "root": "r1",
+        "elements": {
+          "r1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Prayer",
+              "subtitle": "Raw minimalism meets divine light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "t1",
+              "s2",
+              "p1",
+              "s3"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Material & Spirit",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "lp1"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "syne",
               "variant": "outlined"
             },
             "children": []
@@ -393,20 +608,66 @@
             },
             "children": []
           },
-          "b3": {
-            "type": "Badge",
+          "lp1": {
+            "type": "LayoutPreview",
             "props": {
-              "text": "elevated",
-              "variant": "outlined"
+              "style": "asymmetric"
             },
             "children": []
           },
-          "ts": {
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2D2D2D",
+                  "label": "text"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "link"
+                },
+                {
+                  "hex": "#C8C0B8",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F5F1ED",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#F8F4F0",
+                  "label": "card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t2",
+              "t3"
+            ]
+          },
+          "t2": {
             "type": "TypeSample",
             "props": {
-              "text": "Dusty Amber Dreams",
-              "variant": "heading",
-              "weight": "bold"
+              "text": "Divine illumination through stark geometry",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "t3": {
+            "type": "TypeSample",
+            "props": {
+              "text": "zero radius • flat cards • inter body",
+              "variant": "caption"
             },
             "children": []
           }
@@ -414,113 +675,114 @@
       }
     },
     {
-      "name": "Light Blade",
-      "description": "Raw concrete meets ethereal light in minimalist spiritual architecture",
+      "name": "Electric Tokyo",
+      "description": "Shibuya neon reflections in rain-soaked streets, where digital noise meets atmospheric stillness",
       "colors": {
-        "colorScheme": "complementary",
+        "colorScheme": "triadic",
         "contrastMode": "high",
         "light": {
-          "--color-text": "#2C2420",
-          "--color-bg": "#F5F2ED",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#BDB5A8",
-          "--color-muted": "#6B645C",
-          "--color-sidebar-bg": "#F0EDE6",
-          "--color-nav-bg": "#F5F2ED",
-          "--color-nav-text": "#2C2420",
-          "--color-card-bg": "#FAFAF7"
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F5FF",
+          "--color-link": "#D9117D",
+          "--color-link-hover": "#FF6B35",
+          "--color-border": "#E0D4F7",
+          "--color-muted": "#7563A0",
+          "--color-sidebar-bg": "#F0EBFF",
+          "--color-nav-bg": "#F8F5FF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FEFCFF"
         },
         "dark": {
-          "--color-text": "#E8E4DC",
-          "--color-bg": "#1A1814",
-          "--color-link": "#F4D03F",
-          "--color-link-hover": "#F7DC6F",
-          "--color-border": "#3D3A34",
-          "--color-muted": "#8B8680",
-          "--color-sidebar-bg": "#1F1C17",
-          "--color-nav-bg": "#1A1814",
-          "--color-nav-text": "#E8E4DC",
-          "--color-card-bg": "#211E18"
+          "--color-text": "#E8E4F3",
+          "--color-bg": "#1A1A2E",
+          "--color-link": "#FF1493",
+          "--color-link-hover": "#00BFFF",
+          "--color-border": "#2D2B42",
+          "--color-muted": "#8D86C9",
+          "--color-sidebar-bg": "#16213E",
+          "--color-nav-bg": "#1A1A2E",
+          "--color-nav-text": "#E8E4F3",
+          "--color-card-bg": "#1B1B3A"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
         },
         "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }
       },
       "typography": {
-        "headingWeight": "800",
+        "headingWeight": "700",
         "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.01em",
         "headingLetterSpacing": "-0.02em",
         "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
       },
       "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "2rem"
+        "style": "outlined",
+        "shadow": "0 0 24px rgba(255, 20, 147, 0.1)",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
       },
       "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "900px",
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
         "sectionSpacing": "4rem",
         "contentPadding": "1.5rem",
-        "gridStyle": "standard"
+        "gridStyle": "asymmetric"
       },
       "hero": {
-        "layout": "editorial"
+        "layout": "scattered"
       },
       "links": {
-        "style": "bracket"
+        "style": "animated-underline"
       },
       "background": {
         "texture": "grain"
       },
       "images": {
-        "style": "muted",
-        "hover": "lift",
+        "style": "duotone",
+        "hover": "glow",
         "opacity": "0.9",
-        "borderRadius": "0px"
+        "borderRadius": "4px"
       },
       "footer": {
         "style": "brutalist"
       },
       "shader": {
-        "type": "grain",
+        "type": "neuro",
         "colors": [
-          "#D4AF37",
-          "#BDB5A8"
+          "#FF1493",
+          "#00BFFF",
+          "#1A1A2E"
         ]
       },
       "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
       },
-      "date": "2026-05-23",
+      "date": "2026-06-07",
       "showcase": {
-        "root": "c1",
+        "root": "tc",
         "elements": {
-          "c1": {
+          "tc": {
             "type": "ThemeCard",
             "props": {
-              "title": "Light Blade",
-              "subtitle": "Ethereal minimalism in raw concrete"
+              "title": "Electric Tokyo",
+              "subtitle": "Neon-soaked digital atmosphere"
             },
             "children": [
               "s1"
@@ -535,9 +797,8 @@
             },
             "children": [
               "s2",
-              "t1",
-              "d1",
               "p1",
+              "d1",
               "s3"
             ]
           },
@@ -545,6 +806,500 @@
             "type": "Stack",
             "props": {
               "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "SHIBUYA NIGHTS",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#D9117D",
+                  "label": "link"
+                },
+                {
+                  "hex": "#FF6B35",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#7563A0",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#E0D4F7",
+                  "label": "border"
+                },
+                {
+                  "hex": "#F0EBFF",
+                  "label": "sidebar"
+                },
+                {
+                  "hex": "#1A1A2E",
+                  "label": "text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "lp",
+              "t1"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Rain reflects the glow of digital billboards in Tokyo's electric maze",
+              "variant": "body"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Vermillion Manuscript",
+      "description": "Handcrafted warmth meets editorial precision in a sun-drenched scriptorium",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2D1B0F",
+          "--color-bg": "#FDF6F0",
+          "--color-link": "#CF333F",
+          "--color-link-hover": "#B91C1C",
+          "--color-border": "#E5D5C8",
+          "--color-muted": "#846943",
+          "--color-sidebar-bg": "#FCF1E8",
+          "--color-nav-bg": "#FDF6F0",
+          "--color-nav-text": "#2D1B0F",
+          "--color-card-bg": "#FEFAF6"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1C0F0A",
+          "--color-link": "#FF6B6B",
+          "--color-link-hover": "#FF8E8E",
+          "--color-border": "#3D2317",
+          "--color-muted": "#B8956A",
+          "--color-sidebar-bg": "#211106",
+          "--color-nav-bg": "#1C0F0A",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#241208"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "'wght' 700, 'opsz' 48"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 4px 16px rgba(139, 111, 71, 0.15)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "lift",
+        "opacity": "0.9",
+        "borderRadius": "6px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "grain",
+        "colors": [
+          "#E63946",
+          "#8B6F47"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "date": "2026-06-06",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Vermillion Manuscript",
+              "subtitle": "Handcrafted warmth meets editorial precision"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "t1",
+              "s3"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            }
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "magazine",
+              "variant": "outlined"
+            }
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            }
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sun-Drenched Scriptorium",
+              "variant": "heading",
+              "weight": "bold"
+            }
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "p1",
+              "l1"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#CF333F",
+                  "label": "link"
+                },
+                {
+                  "hex": "#2D1B0F",
+                  "label": "text"
+                },
+                {
+                  "hex": "#846943",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#E5D5C8",
+                  "label": "border"
+                },
+                {
+                  "hex": "#FDF6F0",
+                  "label": "bg"
+                }
+              ]
+            }
+          },
+          "l1": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Light Blade",
+      "description": "Raw concrete meets ethereal golden light in Ando's sacred minimalism",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2C2C",
+          "--color-bg": "#F5F2EE",
+          "--color-link": "#7F6921",
+          "--color-link-hover": "#B8941F",
+          "--color-border": "#E0D5C7",
+          "--color-muted": "#6F6B66",
+          "--color-sidebar-bg": "#F0EDE8",
+          "--color-nav-bg": "#F5F2EE",
+          "--color-nav-text": "#2C2C2C",
+          "--color-card-bg": "#FEFCF9"
+        },
+        "dark": {
+          "--color-text": "#E8E3DE",
+          "--color-bg": "#1A1918",
+          "--color-link": "#FFD700",
+          "--color-link-hover": "#FFF200",
+          "--color-border": "#3A3633",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#211F1E",
+          "--color-nav-bg": "#1A1918",
+          "--color-nav-text": "#E8E3DE",
+          "--color-card-bg": "#242220"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Clash Display",
+          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+          "category": "display",
+          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "'wght' 700, 'wdth' 95"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1000px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Clash Display",
+        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
+        "category": "display",
+        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "date": "2026-06-05",
+      "showcase": {
+        "root": "c1",
+        "elements": {
+          "c1": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Light Blade",
+              "subtitle": "Sacred minimalism meets golden light"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s2",
+              "d1",
+              "t1",
+              "lp"
+            ]
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "p1",
+              "s3"
+            ]
+          },
+          "p1": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F2EE",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FEFCF9",
+                  "label": "card"
+                },
+                {
+                  "hex": "#7F6921",
+                  "label": "link"
+                },
+                {
+                  "hex": "#B8941F",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#E0D5C7",
+                  "label": "border"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
               "gap": "sm",
               "align": "start"
             },
@@ -556,155 +1311,110 @@
           "b1": {
             "type": "Badge",
             "props": {
-              "text": "sans+serif",
+              "text": "display",
               "variant": "outlined"
-            }
+            },
+            "children": []
           },
           "b2": {
             "type": "Badge",
             "props": {
-              "text": "editorial",
+              "text": "flat",
               "variant": "filled"
-            }
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred geometry in light",
-              "variant": "heading",
-              "weight": "bold"
-            }
+            },
+            "children": []
           },
           "d1": {
             "type": "Divider",
             "props": {
               "style": "solid"
-            }
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2ED",
-                  "label": "BG"
-                },
-                {
-                  "hex": "#2C2420",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#BDB5A8",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#F0EDE6",
-                  "label": "Sidebar"
-                },
-                {
-                  "hex": "#FAFAF7",
-                  "label": "Card"
-                }
-              ]
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
             },
-            "children": [
-              "t2",
-              "l1"
-            ]
+            "children": []
           },
-          "t2": {
+          "t1": {
             "type": "TypeSample",
             "props": {
-              "text": "Minimalist sanctuary",
-              "variant": "body"
-            }
+              "text": "Concrete Cathedral",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
           },
-          "l1": {
+          "lp": {
             "type": "LayoutPreview",
             "props": {
-              "style": "standard"
-            }
+              "style": "asymmetric"
+            },
+            "children": []
           }
         }
       }
     },
     {
-      "name": "Rain Static",
-      "description": "Dense pixel matrices dissolving into atmospheric blur, like analog TV snow mixed with neon haze",
+      "name": "Neon Katakana",
+      "description": "Shibuya after midnight — electric signs reflected in rain-slicked streets, where geometric precision meets atmospheric glow.",
       "colors": {
         "colorScheme": "triadic",
         "contrastMode": "high",
         "light": {
-          "--color-text": "#2A1810",
-          "--color-bg": "#F8F5F2",
+          "--color-text": "#1A1A2E",
+          "--color-bg": "#F8F6FF",
           "--color-link": "#D9006D",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#E0D5CF",
-          "--color-muted": "#75695E",
-          "--color-sidebar-bg": "#F5F1ED",
-          "--color-nav-bg": "#F8F5F2",
-          "--color-nav-text": "#2A1810",
-          "--color-card-bg": "#FDFBF8"
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#E0DCF0",
+          "--color-muted": "#6F6693",
+          "--color-sidebar-bg": "#F0EDFF",
+          "--color-nav-bg": "#F8F6FF",
+          "--color-nav-text": "#1A1A2E",
+          "--color-card-bg": "#FEFCFF"
         },
         "dark": {
-          "--color-text": "#E8E5E2",
-          "--color-bg": "#1A1A2E",
-          "--color-link": "#FF2693",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2D2D4A",
-          "--color-muted": "#9B9BB7",
-          "--color-sidebar-bg": "#16213E",
-          "--color-nav-bg": "#1A1A2E",
-          "--color-nav-text": "#E8E5E2",
-          "--color-card-bg": "#1E1E33"
+          "--color-text": "#E8E6FF",
+          "--color-bg": "#0F0F1A",
+          "--color-link": "#FF0080",
+          "--color-link-hover": "#00D4FF",
+          "--color-border": "#2A2440",
+          "--color-muted": "#817796",
+          "--color-sidebar-bg": "#141226",
+          "--color-nav-bg": "#0F0F1A",
+          "--color-nav-text": "#E8E6FF",
+          "--color-card-bg": "#161428"
         }
       },
       "fonts": {
         "heading": {
-          "name": "Cabinet Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
-          "category": "display",
-          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         },
         "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
         }
       },
       "typography": {
-        "headingWeight": "800",
+        "headingWeight": "700",
         "bodyWeight": "400",
         "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.05em",
         "headingTransform": "uppercase",
         "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 800, 'wdth' 85"
+        "fontVariationSettings": "'wght' 700, 'wdth' 90"
       },
       "cards": {
         "style": "outlined",
-        "shadow": "none",
+        "shadow": "0 0 32px rgba(255, 0, 128, 0.15)",
         "borderWidth": "2px",
         "padding": "1.5rem"
       },
       "layout": {
         "borderRadius": "4px",
         "containerMaxWidth": "1000px",
-        "sectionSpacing": "3rem",
+        "sectionSpacing": "4rem",
         "contentPadding": "1.5rem",
         "gridStyle": "asymmetric"
       },
@@ -712,10 +1422,10 @@
         "layout": "scattered"
       },
       "links": {
-        "style": "bracket"
+        "style": "animated-underline"
       },
       "background": {
-        "texture": "dots"
+        "texture": "grid"
       },
       "images": {
         "style": "duotone",
@@ -724,31 +1434,31 @@
         "borderRadius": "4px"
       },
       "footer": {
-        "style": "retro"
+        "style": "brutalist"
       },
       "shader": {
-        "type": "dot-grid",
+        "type": "neuro",
         "colors": [
           "#FF0080",
-          "#00BFFF",
-          "#2A1810"
+          "#00D4FF",
+          "#FFB800"
         ]
       },
       "font": {
-        "name": "Cabinet Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
-        "category": "display",
-        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
-      "date": "2026-05-20",
+      "date": "2026-06-04",
       "showcase": {
         "root": "c1",
         "elements": {
           "c1": {
             "type": "ThemeCard",
             "props": {
-              "title": "Rain Static",
-              "subtitle": "Pixel matrices in analog haze"
+              "title": "Neon Katakana",
+              "subtitle": "Shibuya after midnight"
             },
             "children": [
               "s1",
@@ -761,7 +1471,7 @@
             "props": {
               "direction": "horizontal",
               "gap": "md",
-              "align": "start"
+              "align": "stretch"
             },
             "children": [
               "p1",
@@ -773,11 +1483,11 @@
             "props": {
               "colors": [
                 {
-                  "hex": "#2A1810",
+                  "hex": "#1A1A2E",
                   "label": "text"
                 },
                 {
-                  "hex": "#F8F5F2",
+                  "hex": "#F8F6FF",
                   "label": "bg"
                 },
                 {
@@ -785,11 +1495,15 @@
                   "label": "link"
                 },
                 {
-                  "hex": "#00BFFF",
+                  "hex": "#00D4FF",
                   "label": "hover"
                 },
                 {
-                  "hex": "#75695E",
+                  "hex": "#E0DCF0",
+                  "label": "border"
+                },
+                {
+                  "hex": "#6F6693",
                   "label": "muted"
                 }
               ]
@@ -812,7 +1526,7 @@
           "b1": {
             "type": "Badge",
             "props": {
-              "text": "monospace",
+              "text": "geometric",
               "variant": "outlined"
             },
             "children": []
@@ -835,7 +1549,7 @@
           "d1": {
             "type": "Divider",
             "props": {
-              "style": "dotted"
+              "style": "solid"
             },
             "children": []
           },
@@ -854,720 +1568,17 @@
           "t1": {
             "type": "TypeSample",
             "props": {
-              "text": "Cabinet Grotesk Display",
-              "variant": "heading"
+              "text": "Electric Signs Glow",
+              "variant": "heading",
+              "weight": "bold"
             },
             "children": []
           },
           "t2": {
             "type": "TypeSample",
             "props": {
-              "text": "IBM Plex Mono [bracketed links]",
+              "text": "Rain-slicked streets catch neon reflections",
               "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
-    },
-    {
-      "name": "Neon Shibuya",
-      "description": "Electric Tokyo nights where neon bleeds into rain-soaked streets and digital dreams collide with urban poetry",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0A2E",
-          "--color-bg": "#F8F5FF",
-          "--color-link": "#D9006D",
-          "--color-link-hover": "#00D4FF",
-          "--color-border": "#E0D8F0",
-          "--color-muted": "#766C8F",
-          "--color-sidebar-bg": "#F3F0FB",
-          "--color-nav-bg": "#FEFCFF",
-          "--color-nav-text": "#2D1B4E",
-          "--color-card-bg": "#FBFAFF"
-        },
-        "dark": {
-          "--color-text": "#E8E0FF",
-          "--color-bg": "#0F0A1A",
-          "--color-link": "#FF0080",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2A1F3D",
-          "--color-muted": "#877AA4",
-          "--color-sidebar-bg": "#141025",
-          "--color-nav-bg": "#0D081B",
-          "--color-nav-text": "#C8BAEB",
-          "--color-card-bg": "#1A1030"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Clash Display",
-          "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-          "category": "display",
-          "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 800, 'wdth' 85"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 8px 32px rgba(255, 0, 128, 0.15)",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.25rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#FF0080",
-          "#00D4FF",
-          "#0F0A1A"
-        ]
-      },
-      "font": {
-        "name": "Clash Display",
-        "url": "https://fonts.googleapis.com/css2?family=Clash+Display:wght@400..700&display=swap",
-        "category": "display",
-        "stack": "'Clash Display', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-05-19",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Neon Shibuya",
-              "subtitle": "Electric Tokyo nights"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "p1",
-              "s3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Digital Dreams",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "lp1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#D9006D",
-                  "label": "link"
-                },
-                {
-                  "hex": "#00D4FF",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#766C8F",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#E0D8F0",
-                  "label": "border"
-                },
-                {
-                  "hex": "#F3F0FB",
-                  "label": "sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "cs1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rain-soaked streets where neon bleeds into urban poetry",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "cs1": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#1A0A2E",
-              "label": "text"
-            },
-            "children": []
-          }
-        }
-      }
-    },
-    {
-      "name": "Golden Slit",
-      "description": "Raw concrete meets sacred light in a minimalist cathedral of shadows and warmth.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D2A26",
-          "--color-bg": "#F5F2ED",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8935F",
-          "--color-border": "#C7C1B8",
-          "--color-muted": "#6F6B66",
-          "--color-sidebar-bg": "#EFEBE4",
-          "--color-nav-bg": "#F5F2ED",
-          "--color-nav-text": "#2D2A26",
-          "--color-card-bg": "#F9F6F0"
-        },
-        "dark": {
-          "--color-text": "#E8E4DD",
-          "--color-bg": "#1A1815",
-          "--color-link": "#F2C078",
-          "--color-link-hover": "#E6B266",
-          "--color-border": "#3A3530",
-          "--color-muted": "#9B9289",
-          "--color-sidebar-bg": "#201D19",
-          "--color-nav-bg": "#1A1815",
-          "--color-nav-text": "#E8E4DD",
-          "--color-card-bg": "#1E1B17"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 700"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D4A574",
-          "#8B8680"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-18",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Golden Slit",
-              "subtitle": "Sacred minimalism in concrete & light"
-            },
-            "children": [
-              "s1",
-              "d1",
-              "s2"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "lp",
-              "s3"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "ts",
-              "s4"
-            ]
-          },
-          "ts": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Cathedral of Shadows",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "minimal",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "cp",
-              "ts2"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F2ED",
-                  "label": "warmth"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "earth"
-                },
-                {
-                  "hex": "#B8935F",
-                  "label": "bronze"
-                },
-                {
-                  "hex": "#C7C1B8",
-                  "label": "stone"
-                },
-                {
-                  "hex": "#2D2A26",
-                  "label": "shadow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw concrete meets sacred light in geometric harmony",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
-    },
-    {
-      "name": "Ando's Chapel",
-      "description": "Raw concrete and sacred light in minimal harmony",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A1A",
-          "--color-bg": "#F5F1ED",
-          "--color-link": "#7F6346",
-          "--color-link-hover": "#B8965F",
-          "--color-border": "#D0CCC7",
-          "--color-muted": "#6B6B6B",
-          "--color-sidebar-bg": "#F0ECE8",
-          "--color-nav-bg": "#F5F1ED",
-          "--color-nav-text": "#1A1A1A",
-          "--color-card-bg": "#fafaf9"
-        },
-        "dark": {
-          "--color-text": "#E8E8E8",
-          "--color-bg": "#1C1B19",
-          "--color-link": "#D4A574",
-          "--color-link-hover": "#E6B985",
-          "--color-border": "#2A2926",
-          "--color-muted": "#9A9A9A",
-          "--color-sidebar-bg": "#161513",
-          "--color-nav-bg": "#1C1B19",
-          "--color-nav-text": "#E8E8E8",
-          "--color-card-bg": "#21201D"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "840px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-05-17",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Ando's Chapel",
-              "subtitle": "Raw concrete and sacred light in minimal harmony"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "d1",
-              "s2",
-              "ts1"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A1A1A",
-                  "label": "text"
-                },
-                {
-                  "hex": "#F5F1ED",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#7F6346",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8965F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#F0ECE8",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#fafaf9",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "lp",
-              "s3"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "bracket",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "ts1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred geometry in concrete form",
-              "variant": "heading",
-              "weight": "medium"
             },
             "children": []
           }
@@ -1575,5 +1586,5 @@
       }
     }
   ],
-  "currentDate": "2026-05-25"
+  "currentDate": "2026-06-10"
 }

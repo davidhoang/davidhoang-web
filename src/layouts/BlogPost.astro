@@ -84,14 +84,7 @@ const breadcrumbJsonLd = {
 <MainLayout title={title} description={pageDescription} ogImage={ogImage} disableContentMoodFilter>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
-  <BlogMeta
-    title={title}
-    description={description}
-    ogImage={ogImage}
-    publishDate={pubDate}
-    url={Astro.url.pathname}
-    tags={tags}
-  />
+  <BlogMeta slot="head" ogImage={ogImage} publishDate={pubDate} tags={tags} />
   <article class="blog-post" transition:animate={blogContent}>
     {coverImage && (
       <div class="hero-section">
@@ -112,7 +105,7 @@ const breadcrumbJsonLd = {
     )}
     <div class="content-grid">
       <div class="main-content">
-        <a href={sectionPath} class="post-kicker">{sectionLabel}</a>
+        <a href={sectionPath} class="text-eyebrow text-eyebrow--link link-plain">{sectionLabel}</a>
         <h1 transition:name={`title-${slug}`}>{title}</h1>
         <div class="post-meta">
           <time datetime={pubDate}>
@@ -134,13 +127,13 @@ const breadcrumbJsonLd = {
         </div>
         <SidebarWriting variant="meta-only" />
         {relatedPosts.length > 0 && (
-          <section class="related-posts">
-            <h2 class="related-posts__heading">Keep reading</h2>
+          <section class="related-posts section-divider">
+            <h2 class="text-eyebrow related-posts__heading">Keep reading</h2>
             <div class="related-posts__grid">
               {relatedPosts.map((rp: any) => {
                 const thumb = rp.data.coverImage || rp.data.ogImage || `/api/og?title=${encodeURIComponent(rp.data.title)}&type=writing`;
                 return (
-                  <a href={`/writing/${rp.id}`} class="related-posts__card">
+                  <a href={`/writing/${rp.id}`} class="related-posts__card link-plain">
                     <div class="related-posts__thumb">
                       <img src={thumb} alt="" loading="lazy" decoding="async" width="1200" height="630" />
                     </div>
@@ -206,32 +199,6 @@ const breadcrumbJsonLd = {
     object-fit: cover;
   }
 
-  .content-grid {
-    display: grid;
-    /* minmax(0, …) lets columns shrink below min-content — avoids grid/track overflow */
-    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-    gap: 3rem;
-    align-items: start;
-    max-width: var(--prose-width);
-    margin: 0 auto;
-  }
-
-  .content-grid > .main-content {
-    min-width: 0;
-  }
-
-  /* Writing post: TOC slot + full sidebar both direct-child asides */
-  .content-grid > aside {
-    min-width: 0;
-    min-height: min-content;
-    align-self: start;
-  }
-
-  /* Stretch TOC column to full article row height so the inner panel can position:sticky */
-  .content-grid > aside.sidebar-toc-slot {
-    align-self: stretch;
-  }
-
   .post-image {
     margin: 2rem 0;
   }
@@ -240,29 +207,6 @@ const breadcrumbJsonLd = {
     width: 100%;
     height: auto;
     border-radius: var(--radius-md);
-  }
-
-  .post-kicker {
-    display: inline-block;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    margin: 0 0 1.25rem;
-    text-decoration: none;
-    border-bottom: 1px dotted transparent;
-    transition: color var(--duration-normal, 0.2s) var(--ease-inertia, ease),
-                border-bottom-color var(--duration-normal, 0.2s) var(--ease-inertia, ease);
-  }
-
-  .post-kicker::after {
-    display: none !important;
-  }
-
-  .post-kicker:hover {
-    color: var(--color-link, var(--color-text));
-    border-bottom-color: currentColor;
   }
 
   .main-content > h1 {
@@ -327,18 +271,11 @@ const breadcrumbJsonLd = {
 
   .related-posts {
     margin-top: var(--section-spacing, 4rem);
-    padding-top: var(--spacing-xl, 2rem);
-    border-top: 1px solid var(--color-border);
     content-visibility: auto;
     contain-intrinsic-size: 0 420px;
   }
 
   .related-posts__heading {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-muted);
     margin: 0 0 1.5rem;
   }
 
@@ -353,10 +290,6 @@ const breadcrumbJsonLd = {
     flex-direction: column;
     text-decoration: none;
     color: inherit;
-  }
-
-  .related-posts__card::after {
-    display: none !important;
   }
 
   .related-posts__thumb {
@@ -448,39 +381,7 @@ const breadcrumbJsonLd = {
     outline-offset: var(--focus-ring-offset);
   }
 
-  /* Wide screens: slightly wider article + TOC track (sticky sidebar uses the extra 1fr column) */
-  @media (min-width: 1024px) {
-    .content-grid {
-      max-width: min(var(--prose-width-md), 100%);
-      gap: 3.5rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .content-grid {
-      max-width: min(var(--prose-width-lg), 100%);
-      gap: 4rem;
-    }
-  }
-
-  @media (min-width: 1536px) {
-    .content-grid {
-      max-width: min(var(--prose-width-xl), calc(100vw - 2 * var(--container-padding, 2rem)));
-      gap: 4.5rem;
-    }
-  }
-
-  @media (min-width: 1920px) {
-    .content-grid {
-      gap: 5rem;
-    }
-  }
-
   @media (max-width: 768px) {
-    .content-grid {
-      grid-template-columns: 1fr;
-    }
-
     h1 {
       font-size: clamp(2rem, 7vw, 3rem);
       line-height: 1.15;

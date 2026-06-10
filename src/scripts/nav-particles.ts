@@ -133,7 +133,7 @@ export function initParticleTrail(): (() => void) | undefined {
   let lastMouseY = 0;
 
   function animate() {
-    const nav = document.querySelector('nav');
+    const nav = document.querySelector('.site-nav');
     if (nav) {
       const navRect = nav.getBoundingClientRect();
       const navCenterX = navRect.left + navRect.width / 2;

@@ -1,0 +1,93 @@
+/* ============================================
+   Layout Primitives
+   ============================================
+
+   Reusable page-structure classes. Prefer these over
+   one-off grid/container rules in page style blocks.
+
+   NAMING MAP (component-style):
+   - .layout-sidebar     → main + aside (3fr / 1fr)
+   - .layout-breakout      → full-bleed within .container
+   - .section-divider      → bordered section rhythm
+   ============================================ */
+
+/* Sidebar layout: article/index + sticky aside */
+:is(.layout-sidebar, .content-grid) {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  gap: var(--spacing-2xl);
+  align-items: start;
+}
+
+:is(.layout-sidebar, .content-grid) > * {
+  min-width: 0;
+}
+
+/* Article layout: centered prose column with responsive width */
+:is(.layout-sidebar--article, .blog-post .content-grid) {
+  max-width: var(--prose-width);
+  margin-inline: auto;
+  gap: 3rem;
+}
+
+:is(.layout-sidebar--article, .blog-post .content-grid) > aside {
+  min-height: min-content;
+  align-self: start;
+}
+
+:is(.layout-sidebar--article, .blog-post .content-grid) > aside.sidebar-toc-slot {
+  align-self: stretch;
+}
+
+@media (min-width: 1024px) {
+  :is(.layout-sidebar--article, .blog-post .content-grid) {
+    max-width: min(var(--prose-width-md), 100%);
+    gap: 3.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :is(.layout-sidebar--article, .blog-post .content-grid) {
+    max-width: min(var(--prose-width-lg), 100%);
+    gap: 4rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  :is(.layout-sidebar--article, .blog-post .content-grid) {
+    max-width: min(var(--prose-width-xl), calc(100vw - 2 * var(--container-padding, 2rem)));
+    gap: 4.5rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  :is(.layout-sidebar--article, .blog-post .content-grid) {
+    gap: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :is(.layout-sidebar, .content-grid) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Full-bleed breakout from centered .container */
+.layout-breakout {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Section rhythm: top border + padding */
+.section-divider {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing-xl);
+}
+
+.section-divider--loose {
+  padding-top: var(--section-spacing, 4rem);
+}

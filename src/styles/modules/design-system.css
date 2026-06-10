@@ -197,7 +197,22 @@
   border: none;
 }
 
-/* card-interactive, card-header, card-footer — moved to design-guide.astro */
+/* Interactive lift — shared by index cards, people cards, etc. */
+.card-interactive {
+  transition:
+    border-color var(--duration-slow) var(--ease-inertia),
+    box-shadow var(--duration-slow) var(--ease-inertia),
+    transform var(--duration-slow) var(--ease-inertia);
+}
+
+@media (hover: hover) {
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+}
+
+/* card-header, card-footer — design-guide.astro only */
 
 /* --------------------------------------------
    3. SURFACES

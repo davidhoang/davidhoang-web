@@ -50,7 +50,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     <div class="signup-form-row">
       <div class="form-group">
         <div class="email-input-shell">
-          <label for={emailFieldId} class="visually-hidden">Email for newsletter</label>
+          <label for={emailFieldId} class="sr-only">Email for newsletter</label>
           <input
             type="email"
             id={emailFieldId}
@@ -313,18 +313,6 @@ const showHeader = showTitle || Boolean(description?.trim());
   .subscribe-button:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
-  }
-
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
   }
 
   .substack-signup.compact {

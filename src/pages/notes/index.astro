@@ -48,7 +48,7 @@ function formatRelative(date: Date) {
   />
 
   <section class="notes-intro" aria-labelledby="notes-intro-heading">
-    <h2 id="notes-intro-heading" class="visually-hidden">About this garden</h2>
+    <h2 id="notes-intro-heading" class="sr-only">About this garden</h2>
     <p class="notes-intro__lede">
       A living collection of ideas—unlike linear blog posts, these pages grow, split, and merge as I learn.
       Filter by topic or stage, or search across everything.
@@ -155,18 +155,6 @@ function formatRelative(date: Date) {
 </MainLayout>
 
 <style>
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
   .notes-intro {
     max-width: var(--container-max-width, 72rem);
     margin: 0 auto 2.5rem;

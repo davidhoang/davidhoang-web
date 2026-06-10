@@ -7,7 +7,7 @@ import imgDavidNow from '../assets/images/img-david-now.webp';
 import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
 
 // Page metadata
-const pageDescription = "What I'm currently up to: working on AI at Atlassian, taking care of a new kitten, vibe coding Tapestry, writing Proof of Concept newsletter, and more.";
+const pageDescription = "What I'm currently up to: working on AI and Ecosystem at Atlassian, writing Proof of Concept, learning Agent Experience, angel investing, and traveling between California and Sydney.";
 const ogImage = "/images/img-david-now.webp";
 ---
 
@@ -18,7 +18,10 @@ const ogImage = "/images/img-david-now.webp";
     alt="David Hoang portrait photo, current headshot"
   />
   <div class="now-content">
-    <p>Last updated: Thursday, November 27, 2025. Learn more about <a href="https://nownownow.com/" target="_blank">Now pages</a></p>
+    <p class="now-meta">
+      Last updated: Saturday, June 6, 2026. Learn more about
+      <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
+    </p>
     <div class="now-section">
       <div class="now-grid">
         <div class="now-grid-item">
@@ -35,13 +38,11 @@ const ogImage = "/images/img-david-now.webp";
     <div class="now-section">
       <h2>What I'm currently up to</h2>
       <ul role="list" aria-label="Current activities and projects">
-          <li>Working on AI at Atlassian</li>
-          <li><a href="https://blog.davidhoang.com/2025/06/10/the-cat-distribution-system-at-work/" target="_blank" rel="noopener noreferrer">Taking care of a new kitten</a></li>
-          <li>Vibe coding <a href="https://tapestry.design" target="_blank" rel="noopener noreferrer">Tapestry</a></li>
-          <li>Writing lazy reviews on <a href="https://letterboxd.com/davidhoang/" target="_blank" rel="noopener noreferrer">Letterboxd</a></li>
-          <li>Aspiring to get the Juggernaught kill streak on Call of Duty</li>
-          <li>Writing a newsletter called <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a> focused on creativity and experimentation</li>
-          <li>Getting back into cycling with my <a href="https://www.instagram.com/p/Cq0-_0Jv-0/" target="_blank" rel="noopener noreferrer">Salsa bike</a></li>
+          <li>Working at Atlassian on AI and Ecosystem</li>
+          <li>Writing <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
+          <li>Learning Agent Experience</li>
+          <li>Angel investing</li>
+          <li>Living in California and traveling to Sydney</li>
       </ul>
     </div>
   </div>
@@ -52,81 +53,87 @@ const ogImage = "/images/img-david-now.webp";
   .now-content {
     max-width: var(--container-narrow-width);
     margin: 0 auto;
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-xl) 0 var(--spacing-3xl);
   }
 
-  .subtitle {
+  .now-meta {
+    margin: 0 0 var(--spacing-xl);
+    font-size: 0.95rem;
+    line-height: 1.6;
     color: var(--color-muted);
-    font-size: 1.2rem;
-    margin-bottom: var(--spacing-2xl);
   }
 
   .now-section {
-    margin-bottom: var(--spacing-2xl);
+    margin-bottom: var(--spacing-3xl);
   }
 
   .now-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-md);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: var(--letter-spacing-heading-md);
+    margin: 0 0 var(--spacing-lg);
     color: var(--color-text);
+    text-wrap: balance;
   }
 
   .now-section ul {
-    list-style-type: none;
     padding: 0;
     margin: 0;
+    list-style: none;
   }
 
   .now-section li {
-    margin-bottom: var(--spacing-sm);
-    margin-left: var(--spacing-xl);
-    font-size: 1.1rem;
-    list-style-type: disc;
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .now-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--color-link) 55%, var(--color-muted));
   }
 
   .now-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-xl);
-    margin: var(--spacing-xl) 0;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0 0;
   }
 
   .now-grid-item img {
     width: 100%;
-    height: auto;
+    aspect-ratio: 4 / 5;
+    height: 100%;
+    object-fit: cover;
     border-radius: var(--radius-md);
-  }
-
-  .now-footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.9rem;
-    color: var(--color-muted);
-  }
-
-  .now-page-info {
-    margin-top: 0.5rem;
-    font-style: italic;
+    border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
   }
 
   @media (max-width: 768px) {
     .now-content {
-      padding: var(--spacing-md);
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      margin-bottom: var(--spacing-xl);
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-2xl);
     }
 
     .now-section {
-      margin-bottom: var(--spacing-xl);
+      margin-bottom: var(--spacing-2xl);
     }
 
     .now-grid {
       grid-template-columns: 1fr;
       gap: var(--spacing-md);
+    }
+
+    .now-grid-item img {
+      aspect-ratio: 16 / 11;
     }
   }
 </style> 

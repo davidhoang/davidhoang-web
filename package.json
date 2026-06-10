@@ -6,6 +6,8 @@
     "dev": "npx astro dev",
     "start": "npx astro dev",
     "build": "node scripts/optimize-images.mjs && node scripts/audit-theme-contrast.mjs && npx astro build && node scripts/copy-assets.js",
+    "analyze": "ANALYZE=1 npm run build",
+    "budget": "node scripts/check-bundle-budget.mjs",
     "preview": "npx astro preview",
     "clean": "rm -rf dist .vercel node_modules",
     "rebuild": "npm run clean && npm install && npm run build",

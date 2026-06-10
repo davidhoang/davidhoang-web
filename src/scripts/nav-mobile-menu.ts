@@ -3,7 +3,7 @@ export function initMobileMenu(): void {
   if (!menuButton) return;
 
   function handleMenuClick() {
-    const nav = document.querySelector('nav');
+    const nav = document.querySelector('.site-nav');
     if (nav?.classList.contains('cmd-palette-active')) {
       const closePalette = (window as any).__cmdPaletteClose;
       if (typeof closePalette === 'function') closePalette();

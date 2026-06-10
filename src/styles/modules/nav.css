@@ -1,0 +1,486 @@
+/* ============================================
+   Site Navigation
+   ============================================
+
+   Root: .site-nav (main floating nav + command palette)
+   Imported globally; Navigation.astro adds the site-nav class.
+
+   ============================================ */
+
+.site-nav .noise-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  opacity: 1.0;
+  pointer-events: none;
+}
+
+.site-nav .particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  pointer-events: none;
+  z-index: var(--z-particle);
+}
+
+.site-nav {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  height: var(--nav-height);
+  z-index: var(--z-nav);
+  /* Pointer-follow spotlight + base fill (sentient vars set from nav-sentient.ts) */
+  background:
+    radial-gradient(
+      130% 200% at var(--nav-glow-x, 50%) var(--nav-glow-y, 50%),
+      color-mix(in srgb, var(--color-link) 16%, transparent) 0%,
+      transparent 55%
+    ),
+    var(--color-nav-bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  /* Below half the bar height so top/bottom stay clear of end-cap clip with backdrop-filter */
+  border-radius: 28px;
+  width: auto;
+  padding: 24px 34px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-default);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-nav-text, #000);
+  box-sizing: border-box;
+  /* Avoid clipping ⌘K / shadows when backdrop-filter + radius create a mask */
+  overflow: visible;
+  /* Sentient .site-nav: CSS custom properties for JS-controlled motion */
+  --nav-float-x: 0px;
+  --nav-float-y: 0px;
+  --nav-tilt: 0deg;
+  --nav-glow-opacity: 0;
+  --nav-glow-color: var(--color-link);
+  --nav-glow-x: 50%;
+  --nav-glow-y: 50%;
+  /* Base transform - all motion flows through this */
+  transform: translateX(-50%)
+             translateY(var(--nav-float-y))
+             translateX(var(--nav-float-x))
+             rotate(var(--nav-tilt));
+  /* Smooth transitions for all properties */
+  transition:
+    transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+    min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.35s ease,
+    backdrop-filter 0.45s ease,
+    -webkit-backdrop-filter 0.45s ease;
+}
+
+/* Reactive glow — follows pointer (ellipse center from --nav-glow-*) */
+.site-nav::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 95% 140% at var(--nav-glow-x, 50%) var(--nav-glow-y, 50%),
+    var(--nav-glow-color) 0%,
+    transparent 68%
+  );
+  opacity: var(--nav-glow-opacity);
+  filter: blur(18px);
+  z-index: -1;
+  transition: opacity 0.45s ease, filter 0.45s ease;
+  pointer-events: none;
+}
+
+/* Prevent horizontal overflow on smaller screens (between 520px and 768px) */
+@media (min-width: 521px) and (max-width: 768px) {
+  .site-nav {
+    min-width: unset;
+    width: calc(100% - 32px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Desktop floating .site-nav — never wider than viewport; scales down on narrow windows */
+@media (min-width: 769px) {
+  .site-nav {
+    min-width: min(480px, calc(100vw - 40px));
+    max-width: min(480px, calc(100vw - 40px));
+  }
+}
+
+/* Large tablet adjustments - keep desktop .site-nav but reduce size */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .site-nav {
+    min-width: min(440px, calc(100vw - 40px));
+    max-width: min(440px, calc(100vw - 40px));
+    padding: 24px 30px;
+    font-size: 1.2rem;
+  }
+
+  @media (hover: hover) and (min-width: 769px) {
+    .site-nav:hover {
+      min-width: min(520px, calc(100vw - 40px));
+      max-width: min(520px, calc(100vw - 40px));
+      padding: 24px 30px;
+    }
+  }
+}
+
+/* Scrolling state - add elevation with drop shadow */
+.site-nav.is-scrolling {
+  box-shadow: var(--shadow-scrolling);
+}
+
+/* Only apply hover effects on devices that support hover AND are not mobile */
+@media (hover: hover) and (min-width: 769px) {
+  .site-nav:hover {
+    top: 20px;
+    min-width: min(560px, calc(100vw - 40px));
+    max-width: min(560px, calc(100vw - 40px));
+    padding: 24px 34px;
+    box-shadow:
+      0 0 0 3px var(--color-border),
+      var(--shadow-hover);
+    cursor: pointer;
+    backdrop-filter: blur(10px) saturate(1.12);
+    -webkit-backdrop-filter: blur(10px) saturate(1.12);
+  }
+
+  .site-nav:hover::after {
+    filter: blur(24px);
+  }
+
+  .site-nav:hover .nav-container {
+    gap: clamp(0.65rem, 1.5vw, 1.5rem);
+    /* Avoid scale — it pushes glyphs into the rounded clip with backdrop-filter */
+    transform: none;
+  }
+
+  .site-nav:hover:active .nav-container {
+    transform: none;
+  }
+
+  .site-nav.cmd-palette-active:hover:active .nav-container,
+  .site-nav.cmd-palette-active:active .nav-container {
+    transform: none;
+  }
+
+  .site-nav:hover .rss-link {
+    opacity: 0.72;
+  }
+
+  .site-nav:hover .cmd-k-hint {
+    opacity: 0.72;
+    border-color: color-mix(in srgb, var(--color-link) 28%, transparent);
+    background: color-mix(in srgb, var(--color-link) 10%, transparent);
+  }
+
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 4px;
+  margin: 0 auto;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+  transition:
+    gap 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+  transform-origin: center center;
+}
+
+.logo {
+  font-weight: 800;
+  text-decoration: none;
+  border-bottom: none;
+  color: var(--color-nav-text);
+  font-size: 1.2rem;
+  opacity: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-right: 0;
+  position: relative;
+}
+
+.logo::after {
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(0.45rem, 1.4vw, 1rem);
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.nav-links li {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  border-bottom: none;
+  color: var(--color-nav-text);
+  border-radius: 6px;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    text-decoration-color 0.2s ease,
+    transform 0.28s cubic-bezier(0.33, 1, 0.68, 1);
+  font-size: 1rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  position: relative;
+}
+.nav-links a[aria-current="page"] {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Only apply hover effects on devices that support hover */
+@media (hover: hover) {
+  .nav-links a:hover {
+    text-decoration: underline;
+    background-color: color-mix(in srgb, var(--color-nav-bg) 85%, transparent);
+    color: var(--color-nav-text);
+  }
+
+  @media (min-width: 769px) {
+    .site-nav:hover .nav-links a:hover {
+      transform: translateY(-2px);
+      color: color-mix(in srgb, var(--color-nav-text) 92%, var(--color-link) 8%);
+    }
+  }
+}
+
+.nav-links a::after {
+  display: none;
+}
+
+.rss-link {
+  opacity: 0.5;
+  transition:
+    opacity 0.25s ease,
+    transform 0.28s cubic-bezier(0.33, 1, 0.68, 1) !important;
+  display: flex !important;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+.rss-link:hover {
+  opacity: 1;
+  text-decoration: none !important;
+  background-color: transparent !important;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .site-nav:hover .rss-link:hover {
+    transform: translateY(-2px) scale(1.06);
+  }
+}
+
+/* ⌘K hint in .site-nav */
+.cmd-k-hint {
+  font-size: 0.6rem;
+  font-family: var(--font-primary), system-ui, sans-serif;
+  color: var(--color-nav-text);
+  opacity: 0.5;
+  background: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
+  padding: 0.2rem 0.45rem;
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--color-nav-text) 15%, transparent);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    opacity 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.28s ease;
+  line-height: 1;
+}
+
+.cmd-k-item {
+  flex-shrink: 0;
+}
+
+@media (hover: hover) {
+  .cmd-k-hint:hover {
+    opacity: 0.8;
+    background: color-mix(in srgb, var(--color-nav-text) 12%, transparent);
+    border-color: color-mix(in srgb, var(--color-nav-text) 25%, transparent);
+  }
+
+  @media (min-width: 769px) {
+    .site-nav:hover .cmd-k-hint:hover {
+      /* No translateY — avoids clipping against rounded .site-nav + backdrop-filter mask */
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--color-link) 18%, transparent);
+    }
+  }
+}
+
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-nav-text);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Animated hamburger icon */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  position: relative;
+}
+
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-nav-text);
+  border-radius: 1px;
+  position: absolute;
+  left: 0;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.hamburger-line--top { top: 4px; }
+.hamburger-line--middle { top: 10px; }
+.hamburger-line--bottom { top: 16px; }
+
+.hamburger-icon.is-active .hamburger-line--top {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger-icon.is-active .hamburger-line--middle {
+  opacity: 0;
+}
+.hamburger-icon.is-active .hamburger-line--bottom {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile menu is now handled by the command palette */
+
+/* Tablet breakpoint - floating pill .site-nav on mobile */
+@media (max-width: 768px) {
+  .site-nav {
+    top: max(12px, env(safe-area-inset-top, 12px));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 2rem);
+    max-width: 400px;
+    min-width: unset;
+    border-radius: 999px;
+    padding: 0 16px;
+    height: 48px;
+    border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+    box-shadow:
+      0 4px 20px -4px color-mix(in srgb, var(--color-text) 12%, transparent),
+      0 0 0 0.5px color-mix(in srgb, var(--color-border) 30%, transparent);
+    transition:
+      border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease !important;
+  }
+
+  .site-nav::after {
+    display: none;
+  }
+
+  .particle-canvas {
+    display: none;
+  }
+
+  /* Mobile: no hover overrides. Desktop hover rules are already gated by
+     min-width: 769px, and iOS sticky-hover would cause padding/gap jumps
+     if we re-asserted them here. */
+
+  .nav-container {
+    padding: 0 1.25rem;
+    height: 48px;
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+  }
+
+  .mobile-menu-button:hover,
+  .mobile-menu-button:active,
+  .mobile-menu-button:focus {
+    background-color: transparent !important;
+  }
+
+  /* mobile menu handled by command palette */
+
+  /* Disable all hover effects on mobile for logo and links */
+  .logo:hover,
+  .logo:active,
+  .logo:focus {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Disable transform/motion transitions on .site-nav children; allow color and opacity */
+  .site-nav *:not(.hamburger-line):not(.hamburger-icon):not(.cmd-palette-input):not(#cmdPaletteInput) {
+    transition: color 0.2s ease, opacity 0.2s ease !important;
+  }
+}
+
+/* Ensure .site-nav elements use consistent font */
+.site-nav, 
+.nav-link,
+.nav-item {
+  font-family: var(--font-primary), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.no-transition {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  translate: none !important;
+}
