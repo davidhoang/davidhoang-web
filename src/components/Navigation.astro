@@ -1,153 +1,193 @@
----
-import { getCollection } from 'astro:content';
-import { commandPalettePages, navItems } from '../data/navigation';
+ import { getCollection } from 'astro:content';
+  import { commandPalettePages, navItems } from
+  '../data/navigation';
 
-const currentPath = Astro.url.pathname;
+  const currentPath = Astro.url.pathname;
 
-// Build search index at build time
-const writingPosts = await getCollection('writing', ({ data }) => !data.draft);
-const notesPosts = await getCollection('notes', ({ data }) => !data.draft);
+  // Build search index at build time
+  const writingPosts = await getCollection('writing', ({
+  data }) => !data.draft);
+  const notesPosts = await getCollection('notes', ({ data
+   }) => !data.draft);
 
-const searchIndex = [
-  ...commandPalettePages,
-  ...writingPosts.map(post => ({
-    title: post.data.title,
-    description: post.data.description,
-    path: `/writing/${post.id}`,
-    type: 'writing',
-  })),
-  // Notes
-  ...notesPosts.map(note => ({
-    title: note.data.title,
-    description: note.data.description || '',
-    path: `/notes/${note.id}`,
-    type: 'note',
-  })),
-];
----
+  const searchIndex = [
+    ...commandPalettePages,
+    ...writingPosts.map(post => ({
+      title: post.data.title,
+      description: post.data.description,
+      path: `/writing/${post.id}`,
+      type: 'writing',
+    })),
+    // Notes
+    ...notesPosts.map(note => ({
+      title: note.data.title,
+      description: note.data.description || '',
+      path: `/notes/${note.id}`,
+      type: 'note',
+    })),
+  ];
+  ---
 
-<nav class="site-nav glass-border" aria-label="Main navigation" transition:persist>
-  <canvas id="noiseCanvas" class="noise-canvas" aria-hidden="true"></canvas>
-  <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
-  <div class="container nav-container">
-    <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
-    <!-- Desktop Navigation -->
-    <ul class="nav-links desktop-nav" aria-label="Main menu">
-      {navItems.map(item => (
+  <nav class="site-nav glass-border" aria-label="Main
+  navigation" transition:persist>
+    <canvas id="noiseCanvas" class="noise-canvas"
+  aria-hidden="true"></canvas>
+    <canvas id="particleCanvas" class="particle-canvas"
+  aria-hidden="true"></canvas>
+    <div class="container nav-container">
+      <a href="/" class="logo no-transition"
+  aria-label="David Hoang homepage">DH</a>
+      <!-- Desktop Navigation -->
+      <ul class="nav-links desktop-nav" aria-label="Main
+  menu">
+        {navItems.map(item => (
+          <li>
+            <a href={item.path}
+  data-astro-transition="swap" aria-current={currentPath
+  === item.path ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
         <li>
-          <a href={item.path} data-astro-transition="swap" aria-current={currentPath === item.path ? 'page' : undefined}>{item.label}</a>
+          <a href="/rss.xml" class="rss-link"
+  aria-label="Writing RSS feed" title="Writing RSS feed">
+            <svg xmlns="http://www.w3.org/2000/svg"
+  width="14" height="14" viewBox="0 0 24 24"
+  fill="currentColor" aria-hidden="true">
+              <circle cx="6.18" cy="17.82" r="2.18"/>
+              <path d="M4 4.44v2.83c7.03 0 12.73 5.7
+  12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0
+  5.66v2.83c3.9 0 7.07 3.17 7.07
+  7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+            </svg>
+          </a>
         </li>
-      ))}
-      <li>
-        <a href="/rss.xml" class="rss-link" aria-label="Writing RSS feed" title="Writing RSS feed">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <circle cx="6.18" cy="17.82" r="2.18"/>
-            <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
-          </svg>
-        </a>
-      </li>
-      <li class="cmd-k-item">
-        <kbd class="cmd-k-hint" aria-label="Press Command K to search" title="Search (⌘K)">⌘K</kbd>
-      </li>
-    </ul>
-    <!-- Command Palette -->
-    <div class="cmd-palette-input" id="cmdPalette">
-      <input
-        type="text"
-        id="cmdPaletteInput"
-        placeholder="Search pages, writing, notes..."
-        autocomplete="off"
-        aria-label="Command palette"
-        role="combobox"
-        aria-controls="cmdPaletteResults"
-        aria-autocomplete="list"
-        aria-expanded="false"
-      />
-      <kbd class="cmd-palette-hint">esc</kbd>
+        <li class="cmd-k-item">
+          <kbd class="cmd-k-hint" aria-label="Press
+  Command K to search" title="Search (⌘K)">⌘K</kbd>
+        </li>
+      </ul>
+      <!-- Command Palette -->
+      <div class="cmd-palette-input" id="cmdPalette">
+        <input
+          type="text"
+          id="cmdPaletteInput"
+          placeholder="Search pages, writing, notes..."
+          autocomplete="off"
+          aria-label="Command palette"
+          role="combobox"
+          aria-controls="cmdPaletteResults"
+          aria-autocomplete="list"
+          aria-expanded="false"
+        />
+        <kbd class="cmd-palette-hint">esc</kbd>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button id="menuButton" class="mobile-menu-button"
+  aria-label="Open mobile menu" aria-expanded="false"
+  aria-controls="mobileMenu">
+        <span class="hamburger-icon" aria-hidden="true">
+          <span class="hamburger-line
+  hamburger-line--top"></span>
+          <span class="hamburger-line
+  hamburger-line--middle"></span>
+          <span class="hamburger-line
+  hamburger-line--bottom"></span>
+        </span>
+      </button>
     </div>
-    <!-- Mobile Menu Button -->
-    <button id="menuButton" class="mobile-menu-button" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
-      <span class="hamburger-icon" aria-hidden="true">
-        <span class="hamburger-line hamburger-line--top"></span>
-        <span class="hamburger-line hamburger-line--middle"></span>
-        <span class="hamburger-line hamburger-line--bottom"></span>
-      </span>
-    </button>
-  </div>
-  <!-- Command Palette Dropdown -->
-  <div class="cmd-palette-dropdown">
-    <div id="cmdPaletteLive" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
-    <div class="cmd-palette-results" id="cmdPaletteResults" role="listbox" aria-label="Command palette results"></div>
-    <div class="cmd-palette-footer" id="cmdPaletteFooter" aria-hidden="true">
-      <span><kbd>↑↓</kbd> navigate</span>
-      <span><kbd>↵</kbd> open</span>
-      <span><kbd>esc</kbd> close</span>
+    <!-- Command Palette Dropdown -->
+    <div class="cmd-palette-dropdown">
+      <div id="cmdPaletteLive" role="status"
+  aria-live="polite" aria-atomic="true"
+  class="sr-only"></div>
+      <div class="cmd-palette-results"
+  id="cmdPaletteResults" role="listbox"
+  aria-label="Command palette results"></div>
+      <div class="cmd-palette-footer"
+  id="cmdPaletteFooter" aria-hidden="true">
+        <span><kbd>↑↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> open</span>
+        <span><kbd>esc</kbd> close</span>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- Mobile menu is handled by the command palette — hamburger triggers it directly -->
-
-
-<script>
-  import { initShader } from '../scripts/nav-shader';
-  import { initMobileMenu } from '../scripts/nav-mobile-menu';
-  import { initScrollDetection } from '../scripts/nav-scroll';
-  import { initParticleTrail } from '../scripts/nav-particles';
-  import { initSentientNav } from '../scripts/nav-sentient';
-
-  let isInitialized = false;
-  let cleanupFunctions: Array<() => void> = [];
-
-  function init() {
-    if (isInitialized) return;
-    isInitialized = true;
-
-    cleanupFunctions.forEach(fn => fn());
-    cleanupFunctions = [];
-
-    initShader();
-    initMobileMenu();
-    initScrollDetection();
-
-    const sentientCleanup = initSentientNav();
-    if (sentientCleanup) cleanupFunctions.push(sentientCleanup);
-
-    const particleCleanup = initParticleTrail();
-    if (particleCleanup) cleanupFunctions.push(particleCleanup);
-  }
-
-  document.addEventListener('astro:before-swap', () => {
-    isInitialized = false;
-    cleanupFunctions.forEach(fn => fn());
-    cleanupFunctions = [];
-  });
-
-  init();
-  document.addEventListener('astro:page-load', init);
-</script>
+  <!-- Mobile menu is handled by the command palette —
+  hamburger triggers it directly -->
 
 
-<script define:vars={{ searchIndex }}>
-  // Pass search index to window for the command palette module.
-  // This inline script runs synchronously before module scripts,
-  // guaranteeing the index is available when initCommandPalette runs.
-  window.__cmdPaletteIndex = searchIndex;
-</script>
+  <script>
+    import { initShader } from '../scripts/nav-shader';
+    import { initMobileMenu } from
+  '../scripts/nav-mobile-menu';
+    import { initScrollDetection } from
+  '../scripts/nav-scroll';
+    import { initParticleTrail } from
+  '../scripts/nav-particles';
+    import { initSentientNav } from
+  '../scripts/nav-sentient';
 
-<script>
-  import { initCommandPalette } from '../scripts/command-palette';
+    let isInitialized = false;
+    let cleanupFunctions: Array<() => void> = [];
 
-  function init() {
-    const index = (window as any).__cmdPaletteIndex;
-    if (index) initCommandPalette(index);
-  }
+    function init() {
+      if (isInitialized) return;
+      isInitialized = true;
 
-  // Use astro:page-load which fires on initial load AND after each
-  // view transition navigation. This single listener handles both cases.
-  // Guard against duplicate registration with a flag.
-  if (!(window as any).__cmdPaletteListenerBound) {
-    (window as any).__cmdPaletteListenerBound = true;
+      cleanupFunctions.forEach(fn => fn());
+      cleanupFunctions = [];
+
+      initShader();
+      initMobileMenu();
+      initScrollDetection();
+
+      const sentientCleanup = initSentientNav();
+      if (sentientCleanup)
+  cleanupFunctions.push(sentientCleanup);
+
+      const particleCleanup = initParticleTrail();
+      if (particleCleanup)
+  cleanupFunctions.push(particleCleanup);
+    }
+
+    document.addEventListener('astro:before-swap', () =>
+  {
+      isInitialized = false;
+      cleanupFunctions.forEach(fn => fn());
+      cleanupFunctions = [];
+    });
+
+    init();
     document.addEventListener('astro:page-load', init);
-  }
-</script>
+  </script>
+
+
+  <script define:vars={{ searchIndex }}>
+    // Pass search index to window for the command
+  palette module.
+    // This inline script runs synchronously before
+  module scripts,
+    // guaranteeing the index is available when
+  initCommandPalette runs.
+    window.__cmdPaletteIndex = searchIndex;
+  </script>
+
+  <script>
+    import { initCommandPalette } from
+  '../scripts/command-palette';
+
+    function init() {
+      const index = (window as any).__cmdPaletteIndex;
+      if (index) initCommandPalette(index);
+    }
+
+    // Use astro:page-load which fires on initial load
+  AND after each
+    // view transition navigation. This single listener
+  handles both cases.
+    // Guard against duplicate registration with a flag.
+    if (!(window as any).__cmdPaletteListenerBound) {
+      (window as any).__cmdPaletteListenerBound = true;
+      document.addEventListener('astro:page-load', init);
+    }
+  </script>
