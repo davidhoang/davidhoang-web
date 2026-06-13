@@ -18,49 +18,43 @@ const fonts =
     </div>
 
     <div class="diagram-wrap diagram-epoch">
-      <div class="diagram-layout">
-        <aside class="legend-panel" aria-live="polite">
-          <div class="legend">
-            <div class="legend-item rust" data-stage="1">
-              <div class="key"><span class="swatch" style="background:#a8442a"></span>Stage I · Initial Uplift</div>
-              <div class="body">First contact between AI-native and incumbent models. Pressure builds at the edges; nothing dramatic at the surface yet. Incumbents still in charge — boards hire the previous archetype. <em>The wedge is beneath.</em></div>
-              <div class="legend-commentary" id="friction-stage-1">
-                <div class="legend-commentary__inner">
-                  <div class="legend-commentary__tag">Friction zone · 01</div>
-                  <div class="legend-commentary__num">CRAFT TRANSMISSION</div>
-                  <div class="legend-commentary__title">Who develops the next generation when succession is thinning?</div>
-                  <div class="legend-commentary__desc">The pipeline isn't looking great. High-potential future leaders need mentorship — but they need to trust you understand their craft before they'll accept your perspective on AI.</div>
-                </div>
-              </div>
-            </div>
-            <div class="legend-item teal" data-stage="2">
-              <div class="key"><span class="swatch" style="background:#2d5d63"></span>Stage II · Sustained Thrust</div>
-              <div class="body">The override plate gains momentum — hover to thrust left and compress the crust. Pressure builds at the collision zone, lifting the range above. <em>Horizontal force becomes vertical terrain.</em></div>
-              <div class="legend-commentary" id="friction-stage-2">
-                <div class="legend-commentary__inner">
-                  <div class="legend-commentary__tag">Friction zone · 02</div>
-                  <div class="legend-commentary__num">CREDENTIALING LAG</div>
-                  <div class="legend-commentary__title">Boards still hire for the last decade's archetype.</div>
-                  <div class="legend-commentary__desc">Standard credentialing feels lagging while market validation emerges. The summit forms faster than the org chart updates — mid-career leaders carry the new model into rooms still scoring the old one.</div>
-                </div>
-              </div>
-            </div>
-            <div class="legend-item gold" data-stage="3">
-              <div class="key"><span class="swatch" style="background:#b8893d"></span>Stage III · New Mountain Range</div>
-              <div class="body">The range rests on the override plate — low foothills at first, visible but not yet dominant. Hover to grow the terrain slowly into full relief. <em>When the new normal no longer needs a label.</em></div>
-              <div class="legend-commentary" id="friction-stage-3">
-                <div class="legend-commentary__inner">
-                  <div class="legend-commentary__tag">Friction zone · 03</div>
-                  <div class="legend-commentary__num">MELT-ZONE TALENT</div>
-                  <div class="legend-commentary__title">Adapt, resist, or become irrelevant?</div>
-                  <div class="legend-commentary__desc">Designers get submerged into the molten lava of irrelevance — recycled into founding roles, back to IC, or out of the industry. In the best case, experience becomes material for the multi-modal generations.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
+      <div class="legend">
+        <div class="legend-item rust" data-stage="1">
+          <div class="key"><span class="swatch" style="background:#a8442a"></span>Stage I · Initial Uplift</div>
+          <div class="body">First contact between AI-native and incumbent models. Pressure builds at the edges; nothing dramatic at the surface yet. Incumbents still in charge — boards hire the previous archetype. <em>The wedge is beneath.</em></div>
+        </div>
+        <div class="legend-item teal" data-stage="2">
+          <div class="key"><span class="swatch" style="background:#2d5d63"></span>Stage II · Sustained Thrust</div>
+          <div class="body">The override plate gains momentum — hover to thrust left and compress the crust. Pressure builds at the collision zone, lifting the range above. <em>Horizontal force becomes vertical terrain.</em></div>
+        </div>
+        <div class="legend-item gold" data-stage="3">
+          <div class="key"><span class="swatch" style="background:#b8893d"></span>Stage III · New Mountain Range</div>
+          <div class="body">The range rests on the override plate — low foothills at first, visible but not yet dominant. Hover to grow the terrain slowly into full relief. <em>When the new normal no longer needs a label.</em></div>
+        </div>
+      </div>
 
-        <div class="diagram-canvas">
+      <div class="diagram-canvas">
+        <div class="stage-popovers" aria-live="polite">
+          <div class="stage-popover stage-popover--rust" data-stage="1" id="friction-stage-1" role="tooltip">
+            <div class="stage-popover__tag">Friction zone · 01</div>
+            <div class="stage-popover__num">CRAFT TRANSMISSION</div>
+            <div class="stage-popover__title">Who develops the next generation when succession is thinning?</div>
+            <div class="stage-popover__desc">The pipeline isn't looking great. High-potential future leaders need mentorship — but they need to trust you understand their craft before they'll accept your perspective on AI.</div>
+          </div>
+          <div class="stage-popover stage-popover--teal" data-stage="2" id="friction-stage-2" role="tooltip">
+            <div class="stage-popover__tag">Friction zone · 02</div>
+            <div class="stage-popover__num">CREDENTIALING LAG</div>
+            <div class="stage-popover__title">Boards still hire for the last decade's archetype.</div>
+            <div class="stage-popover__desc">Standard credentialing feels lagging while market validation emerges. The summit forms faster than the org chart updates — mid-career leaders carry the new model into rooms still scoring the old one.</div>
+          </div>
+          <div class="stage-popover stage-popover--gold" data-stage="3" id="friction-stage-3" role="tooltip">
+            <div class="stage-popover__tag">Friction zone · 03</div>
+            <div class="stage-popover__num">MELT-ZONE TALENT</div>
+            <div class="stage-popover__title">Adapt, resist, or become irrelevant?</div>
+            <div class="stage-popover__desc">Designers get submerged into the molten lava of irrelevance — recycled into founding roles, back to IC, or out of the industry. In the best case, experience becomes material for the multi-modal generations.</div>
+          </div>
+        </div>
+
       <svg class="cross-section" viewBox="0 0 1200 660" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
@@ -156,20 +150,6 @@ const fonts =
 
         <!-- STAGE I · INITIAL UPLIFT -->
         <g class="stage-one-zone">
-          <rect
-            class="stage-one-hit"
-            x="0"
-            y="190"
-            width="580"
-            height="380"
-            fill="transparent"
-            pointer-events="all"
-            tabindex="0"
-            role="button"
-            aria-label="Stage I initial uplift"
-            aria-describedby="friction-stage-1"
-          />
-
           <g class="subducting-body" pointer-events="none">
             <g class="subducting-plate">
             <path d="
@@ -246,6 +226,20 @@ const fonts =
             <text x="120" y="240" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#1a1410">Stage I · Initial Uplift</text>
             <text x="120" y="220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#a8442a">— HOVER TO COMPRESS —</text>
           </g>
+
+          <rect
+            class="stage-one-hit"
+            x="0"
+            y="190"
+            width="580"
+            height="380"
+            fill="transparent"
+            pointer-events="all"
+            tabindex="0"
+            role="button"
+            aria-label="Stage I initial uplift"
+            aria-describedby="friction-stage-1"
+          />
         </g>
 
         <g class="subducting-sink" aria-hidden="true">
@@ -258,20 +252,6 @@ const fonts =
 
         <!-- STAGE II · SUSTAINED THRUST -->
         <g class="stage-two-zone">
-          <rect
-            class="stage-two-hit"
-            x="620"
-            y="120"
-            width="580"
-            height="360"
-            fill="transparent"
-            pointer-events="all"
-            tabindex="0"
-            role="button"
-            aria-label="Stage II sustained thrust"
-            aria-describedby="friction-stage-2"
-          />
-
           <g class="stage-two-plate" pointer-events="none">
             <path
               class="override-plate"
@@ -401,24 +381,24 @@ const fonts =
             <text x="930" y="148" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#1a1410">Stage II · Sustained Thrust</text>
             <text x="930" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#2d5d63">— HOVER TO THRUST —</text>
           </g>
-        </g>
 
-        <!-- STAGE III · NEW MOUNTAIN RANGE -->
-        <g class="stage-three-zone">
           <rect
-            class="stage-three-hit"
-            x="300"
-            y="0"
+            class="stage-two-hit"
+            x="620"
+            y="120"
             width="580"
-            height="340"
+            height="360"
             fill="transparent"
             pointer-events="all"
             tabindex="0"
             role="button"
-            aria-label="Reveal Stage III mountain range"
-            aria-describedby="friction-stage-3"
+            aria-label="Stage II sustained thrust"
+            aria-describedby="friction-stage-2"
           />
+        </g>
 
+        <!-- STAGE III · NEW MOUNTAIN RANGE -->
+        <g class="stage-three-zone">
           <g class="stage-three-range" pointer-events="none">
             <path
               class="range-foothills"
@@ -518,8 +498,21 @@ const fonts =
           <g class="stage-three-callout" pointer-events="none">
             <line x1="580" y1="58" x2="580" y2="22" stroke="#1a1410" stroke-width="0.8" stroke-dasharray="2 3"/>
             <text x="580" y="16" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="600" font-size="22" fill="#1a1410">Stage III · New Mountain Range</text>
-            <text x="580" y="36" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#b8893d">— HOVER TO GROW —</text>
           </g>
+
+          <rect
+            class="stage-three-hit"
+            x="300"
+            y="0"
+            width="580"
+            height="340"
+            fill="transparent"
+            pointer-events="all"
+            tabindex="0"
+            role="button"
+            aria-label="Reveal Stage III mountain range"
+            aria-describedby="friction-stage-3"
+          />
         </g>
 
         <!-- MANTLE -->
@@ -639,7 +632,6 @@ const fonts =
         </g>
         <text x="14" y="640" font-family="JetBrains Mono, monospace" font-size="8" fill="#3a4654" letter-spacing="2" transform="rotate(-90, 14, 640)" text-anchor="end">DEPTH · CAREER STRATA</text>
       </svg>
-        </div>
       </div>
     </div>
 
@@ -675,72 +667,34 @@ const fonts =
     if (!svg) return;
 
     const zones = [
-      { el: svg.querySelector('.stage-one-zone'), stage: '1' },
-      { el: svg.querySelector('.stage-two-zone'), stage: '2' },
-      { el: svg.querySelector('.stage-three-zone'), stage: '3' },
+      { el: svg.querySelector('.stage-one-hit'), stage: '1' },
+      { el: svg.querySelector('.stage-two-hit'), stage: '2' },
+      { el: svg.querySelector('.stage-three-hit'), stage: '3' },
     ].filter((z) => z.el);
 
-    const syncActiveStage = () => {
-      let active = 0;
-      for (const { el, stage } of zones) {
-        if (el.matches(':hover') || el.contains(document.activeElement)) {
-          active = Math.max(active, Number(stage));
-        }
-      }
-      if (active === 0) {
-        wrap.removeAttribute('data-active-stage');
-      } else {
-        wrap.dataset.activeStage = String(active);
-      }
-    };
-
-    for (const { el } of zones) {
-      el.addEventListener('mouseenter', syncActiveStage);
-      el.addEventListener('mouseleave', syncActiveStage);
-      el.addEventListener('focusin', syncActiveStage);
-      el.addEventListener('focusout', syncActiveStage);
-    }
-
-    const legendPanel = wrap.querySelector('.legend-panel');
-    const measureLayout = () => {
-      if (!legendPanel || window.innerWidth <= 900) {
-        wrap.style.removeProperty('--legend-panel-min-h');
-        wrap.style.removeProperty('--commentary-slot-h');
-        return;
-      }
-
-      const prevStage = wrap.dataset.activeStage;
-      let maxPanel = 0;
-      let maxCommentary = 0;
-
-      for (const stage of ['1', '2', '3']) {
-        wrap.dataset.activeStage = stage;
-        maxPanel = Math.max(maxPanel, legendPanel.scrollHeight);
-
-        const commentary = legendPanel.querySelector(
-          `.legend-item[data-stage="${stage}"] .legend-commentary__inner`
-        );
-        if (commentary) {
-          maxCommentary = Math.max(maxCommentary, commentary.scrollHeight);
-        }
-      }
-
-      if (prevStage) {
-        wrap.dataset.activeStage = prevStage;
+    const setActiveStage = (stage) => {
+      if (stage) {
+        wrap.dataset.activeStage = String(stage);
       } else {
         wrap.removeAttribute('data-active-stage');
       }
-
-      wrap.style.setProperty('--legend-panel-min-h', `${maxPanel}px`);
-      wrap.style.setProperty('--commentary-slot-h', `${maxCommentary}px`);
     };
 
-    const queueMeasure = () => window.requestAnimationFrame(measureLayout);
+    const resolveActiveStage = () => {
+      const hovered = [...zones].reverse().find(({ el }) => el.matches(':hover'));
+      if (hovered) return setActiveStage(hovered.stage);
 
-    queueMeasure();
-    window.addEventListener('resize', queueMeasure);
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(queueMeasure);
+      const focused = [...zones].reverse().find(({ el }) => el === document.activeElement);
+      if (focused) return setActiveStage(focused.stage);
+
+      setActiveStage(null);
+    };
+
+    for (const { el, stage } of zones) {
+      el.addEventListener('mouseenter', () => setActiveStage(stage));
+      el.addEventListener('mouseleave', () => window.requestAnimationFrame(resolveActiveStage));
+      el.addEventListener('focus', () => setActiveStage(stage));
+      el.addEventListener('blur', () => window.requestAnimationFrame(resolveActiveStage));
     }
   })();
 </script>
