@@ -1,0 +1,746 @@
+---
+import PrototypeLayout from '../../layouts/PrototypeLayout.astro';
+import '../../styles/prototypes/design-leadership-obduction.css';
+
+const pageTitle = 'The Plate Tectonics of Design Leadership — Tectonic Cross-Section';
+const pageDescription =
+  'A cross-section of design leadership geology: Stage I Initial Uplift, Stage II Sustained Thrust, and Stage III New Mountain Range.';
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap';
+---
+
+<PrototypeLayout title={pageTitle} description={pageDescription} fonts={fonts}>
+<div class="container">
+    <div class="header">
+      <div class="eyebrow">— Issue 302 · The Plate Tectonics of Design Leadership —</div>
+      <h1>Tectonic Cross-Section</h1>
+      <div class="subtitle">Three stages in one geology: compress, thrust, grow — hover each zone in order.</div>
+    </div>
+
+    <div class="diagram-wrap diagram-epoch">
+      <div class="diagram-layout">
+        <aside class="legend-panel" aria-live="polite">
+          <div class="legend">
+            <div class="legend-item rust" data-stage="1">
+              <div class="key"><span class="swatch" style="background:#a8442a"></span>Stage I · Initial Uplift</div>
+              <div class="body">First contact between AI-native and incumbent models. Pressure builds at the edges; nothing dramatic at the surface yet. Incumbents still in charge — boards hire the previous archetype. <em>The wedge is beneath.</em></div>
+              <div class="legend-commentary" id="friction-stage-1">
+                <div class="legend-commentary__inner">
+                  <div class="legend-commentary__tag">Friction zone · 01</div>
+                  <div class="legend-commentary__num">CRAFT TRANSMISSION</div>
+                  <div class="legend-commentary__title">Who develops the next generation when succession is thinning?</div>
+                  <div class="legend-commentary__desc">The pipeline isn't looking great. High-potential future leaders need mentorship — but they need to trust you understand their craft before they'll accept your perspective on AI.</div>
+                </div>
+              </div>
+            </div>
+            <div class="legend-item teal" data-stage="2">
+              <div class="key"><span class="swatch" style="background:#2d5d63"></span>Stage II · Sustained Thrust</div>
+              <div class="body">The override plate gains momentum — hover to thrust left and compress the crust. Pressure builds at the collision zone, lifting the range above. <em>Horizontal force becomes vertical terrain.</em></div>
+              <div class="legend-commentary" id="friction-stage-2">
+                <div class="legend-commentary__inner">
+                  <div class="legend-commentary__tag">Friction zone · 02</div>
+                  <div class="legend-commentary__num">CREDENTIALING LAG</div>
+                  <div class="legend-commentary__title">Boards still hire for the last decade's archetype.</div>
+                  <div class="legend-commentary__desc">Standard credentialing feels lagging while market validation emerges. The summit forms faster than the org chart updates — mid-career leaders carry the new model into rooms still scoring the old one.</div>
+                </div>
+              </div>
+            </div>
+            <div class="legend-item gold" data-stage="3">
+              <div class="key"><span class="swatch" style="background:#b8893d"></span>Stage III · New Mountain Range</div>
+              <div class="body">The range rests on the override plate — low foothills at first, visible but not yet dominant. Hover to grow the terrain slowly into full relief. <em>When the new normal no longer needs a label.</em></div>
+              <div class="legend-commentary" id="friction-stage-3">
+                <div class="legend-commentary__inner">
+                  <div class="legend-commentary__tag">Friction zone · 03</div>
+                  <div class="legend-commentary__num">MELT-ZONE TALENT</div>
+                  <div class="legend-commentary__title">Adapt, resist, or become irrelevant?</div>
+                  <div class="legend-commentary__desc">Designers get submerged into the molten lava of irrelevance — recycled into founding roles, back to IC, or out of the industry. In the best case, experience becomes material for the multi-modal generations.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="diagram-canvas">
+      <svg class="cross-section" viewBox="0 0 1200 660" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d4dbc8" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#f1e9d8" stop-opacity="0"/>
+          </linearGradient>
+
+          <!-- subducting plate (incumbent, rust) - now diving DOWN -->
+          <linearGradient id="subPlate" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#c89456" stop-opacity="0.75"/>
+            <stop offset="60%" stop-color="#a8442a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#5a2818" stop-opacity="0.85"/>
+          </linearGradient>
+
+          <!-- overriding plate (AI-native, teal) - riding on top -->
+          <linearGradient id="overPlate" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7aa5ab" stop-opacity="0.95"/>
+            <stop offset="50%" stop-color="#2d5d63" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#1a3d42" stop-opacity="0.95"/>
+          </linearGradient>
+          <linearGradient id="overSurface" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8c4c8" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#5a8a90" stop-opacity="0.3"/>
+          </linearGradient>
+
+          <!-- mantle -->
+          <linearGradient id="mantleG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6b5d4a" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#2a2218" stop-opacity="0.85"/>
+          </linearGradient>
+
+          <!-- new peak gold gradient -->
+          <linearGradient id="peakG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d4a857" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#8a6628" stop-opacity="0.9"/>
+          </linearGradient>
+          <linearGradient id="peakG2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c49a4a" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#7a5a22" stop-opacity="0.9"/>
+          </linearGradient>
+          <linearGradient id="peakG3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#b8893d" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#6e5420" stop-opacity="0.85"/>
+          </linearGradient>
+
+          <linearGradient id="rangeShelfG" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#7aa5ab" stop-opacity="0.95"/>
+            <stop offset="22%" stop-color="#8aacb0" stop-opacity="0.85"/>
+            <stop offset="55%" stop-color="#9a7530" stop-opacity="0.92"/>
+            <stop offset="100%" stop-color="#b8893d" stop-opacity="0.88"/>
+          </linearGradient>
+
+          <!-- melting / heat glow at subduction zone -->
+          <radialGradient id="melt" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stop-color="#d4632a" stop-opacity="0.7"/>
+            <stop offset="60%" stop-color="#a8442a" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#a8442a" stop-opacity="0"/>
+          </radialGradient>
+
+          <radialGradient id="meltPool" cx="0.45" cy="0.55" r="0.55">
+            <stop offset="0%" stop-color="#e87a3a" stop-opacity="0.95"/>
+            <stop offset="55%" stop-color="#c44e28" stop-opacity="0.65"/>
+            <stop offset="100%" stop-color="#5a2818" stop-opacity="0"/>
+          </radialGradient>
+
+          <radialGradient id="lavaFluid" cx="0.38" cy="0.42" r="0.65">
+            <stop offset="0%" stop-color="#ffe2a8" stop-opacity="1"/>
+            <stop offset="22%" stop-color="#ff9a45" stop-opacity="0.95"/>
+            <stop offset="50%" stop-color="#ef5a28" stop-opacity="0.82"/>
+            <stop offset="78%" stop-color="#b83218" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#5a1810" stop-opacity="0"/>
+          </radialGradient>
+
+          <filter id="lavaSoft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="lavaBloom" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="bloom"/>
+            <feMerge>
+              <feMergeNode in="bloom"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- sky -->
+        <rect x="0" y="0" width="1200" height="140" fill="url(#skyG)"/>
+
+        <!-- STAGE I · INITIAL UPLIFT -->
+        <g class="stage-one-zone">
+          <rect
+            class="stage-one-hit"
+            x="0"
+            y="190"
+            width="580"
+            height="380"
+            fill="transparent"
+            pointer-events="all"
+            tabindex="0"
+            role="button"
+            aria-label="Stage I initial uplift"
+            aria-describedby="friction-stage-1"
+          />
+
+          <g class="subducting-body" pointer-events="none">
+            <g class="subducting-plate">
+            <path d="
+              M 0 280
+              L 0 420
+              L 280 425
+              L 440 440
+              L 580 480
+              L 680 540
+              L 740 600
+              L 770 640
+              L 820 640
+              L 800 580
+              L 740 510
+              L 660 450
+              L 540 410
+              L 380 385
+              L 200 375
+              L 0 372
+              L 0 280 Z"
+              fill="url(#subPlate)"
+              stroke="#1a1410"
+              stroke-width="1.5"/>
+
+            <path d="
+              M 0 280
+              L 200 282
+              L 380 290
+              L 540 310
+              L 660 350
+              L 740 410
+              L 800 480
+              L 820 540
+              L 800 580
+              L 740 510
+              L 660 450
+              L 540 410
+              L 380 385
+              L 200 375
+              L 0 372 Z"
+              fill="#c89456"
+              fill-opacity="0.2"/>
+
+            <path class="subducting-strata" d="M 0 320 L 200 322 L 380 332 L 540 360 L 660 405 L 740 470" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 6"/>
+            <path class="subducting-strata subducting-strata--delay" d="M 0 350 L 200 350 L 380 358 L 540 388 L 660 432 L 740 500" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 6"/>
+            <path class="subducting-strata subducting-strata--limb" d="M 560 455 L 640 515 L 720 575 L 780 620" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.45" stroke-dasharray="4 6"/>
+            <path class="subducting-downdip" d="M 420 360 L 500 410 L 580 470 L 660 530 L 720 580" fill="none" stroke="#f1e9d8" stroke-width="0.7" opacity="0.22" stroke-dasharray="3 9"/>
+            <path class="subducting-downdip subducting-downdip--delay" d="M 460 395 L 540 445 L 620 505 L 690 555" fill="none" stroke="#f1e9d8" stroke-width="0.7" opacity="0.16" stroke-dasharray="3 9"/>
+            </g>
+          </g>
+
+          <!-- Fixed annotation field — horizontal labels, textbook leader style -->
+          <g class="subducting-annotations" pointer-events="none">
+            <g class="subducting-label-row subducting-label-row--1">
+              <text x="42" y="318" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.82">STAFFING RESOURCES</text>
+              <line x1="46" y1="316" x2="168" y2="332" stroke="#5a2818" stroke-width="0.7" opacity="0.45" stroke-dasharray="2 3"/>
+              <circle cx="168" cy="332" r="2" fill="#5a2818" opacity="0.55"/>
+            </g>
+            <g class="subducting-label-row subducting-label-row--2">
+              <text x="42" y="354" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.68">LAGGING WAYS OF WORK</text>
+              <line x1="46" y1="352" x2="328" y2="368" stroke="#5a2818" stroke-width="0.7" opacity="0.4" stroke-dasharray="2 3"/>
+              <circle cx="328" cy="368" r="2" fill="#5a2818" opacity="0.5"/>
+            </g>
+            <g class="subducting-label-row subducting-label-row--3">
+              <text x="42" y="392" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.55">PREVIOUS ERA PLAYBOOKS</text>
+              <line x1="46" y1="390" x2="508" y2="422" stroke="#5a2818" stroke-width="0.7" opacity="0.35" stroke-dasharray="2 3"/>
+              <circle cx="508" cy="422" r="2" fill="#5a2818" opacity="0.45"/>
+            </g>
+          </g>
+
+          <g class="subducting-callout" pointer-events="none">
+            <line x1="120" y1="365" x2="120" y2="250" stroke="#1a1410" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <circle cx="120" cy="365" r="3" fill="#1a1410"/>
+            <text x="120" y="240" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#1a1410">Stage I · Initial Uplift</text>
+            <text x="120" y="220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#a8442a">— HOVER TO COMPRESS —</text>
+          </g>
+        </g>
+
+        <g class="subducting-sink" aria-hidden="true">
+          <circle class="sink-particle" cx="500" cy="390" r="2.5" fill="#c89456"/>
+          <circle class="sink-particle sink-particle--2" cx="560" cy="420" r="2" fill="#a8442a"/>
+          <circle class="sink-particle sink-particle--3" cx="620" cy="455" r="2.5" fill="#c89456"/>
+          <circle class="sink-particle sink-particle--4" cx="680" cy="495" r="2" fill="#8a3d28"/>
+          <circle class="sink-particle sink-particle--5" cx="430" cy="365" r="2" fill="#a8442a"/>
+        </g>
+
+        <!-- STAGE II · SUSTAINED THRUST -->
+        <g class="stage-two-zone">
+          <rect
+            class="stage-two-hit"
+            x="620"
+            y="120"
+            width="580"
+            height="360"
+            fill="transparent"
+            pointer-events="all"
+            tabindex="0"
+            role="button"
+            aria-label="Stage II sustained thrust"
+            aria-describedby="friction-stage-2"
+          />
+
+          <g class="stage-two-plate" pointer-events="none">
+            <path
+              class="override-plate"
+              d="
+                M 1200 235
+                L 1200 480
+                L 700 480
+                L 620 470
+                L 560 450
+                L 500 420
+                L 470 380
+                L 460 340
+                L 470 290
+                L 490 250
+                L 530 220
+                L 600 200
+                L 700 195
+                L 850 205
+                L 1000 215
+                L 1200 235 Z"
+              fill="url(#overPlate)"
+              stroke="#1a1410"
+              stroke-width="1.5"
+            />
+
+            <path
+              class="override-surface"
+              d="
+                M 1200 235
+                L 1000 215
+                L 850 205
+                L 700 195
+                L 600 200
+                L 530 220
+                L 490 250
+                L 530 235
+                L 600 215
+                L 700 210
+                L 850 218
+                L 1000 230
+                L 1200 250 Z"
+              fill="url(#overSurface)"
+            />
+
+            <!-- Stage III foundation — welded to the override surface, under thrust front -->
+            <g class="stage-three-anchor" pointer-events="none">
+              <path
+                class="range-shadow"
+                d="M 332 278 L 468 293 L 490 253 L 530 238 L 600 218 L 700 213 L 850 221"
+                fill="none"
+                stroke="#1a3d42"
+                stroke-width="5"
+                stroke-linecap="round"
+                opacity="0.18"
+              />
+              <path
+                class="range-shelf"
+                d="
+                  M 332 278
+                  L 398 268
+                  L 470 290
+                  L 490 250
+                  L 530 235
+                  L 600 215
+                  L 700 210
+                  L 850 218
+                  L 842 218
+                  L 842 200
+                  L 850 200
+                  L 700 192
+                  L 600 197
+                  L 530 217
+                  L 490 232
+                  L 470 268
+                  L 398 250
+                  L 332 260
+                  Z"
+                fill="url(#rangeShelfG)"
+                stroke="#1a1410"
+                stroke-width="1.1"
+              />
+              <path
+                class="range-contact"
+                d="M 332 278 L 470 290 L 490 250 L 530 235 L 600 215 L 700 210 L 850 218"
+                fill="none"
+                stroke="#1a1410"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+            </g>
+
+            <path class="override-strata override-strata--lip" d="M 458 318 L 488 292 L 520 268 L 558 248 L 600 228" fill="none" stroke="#a8c4c8" stroke-width="0.9" opacity="0.55" stroke-dasharray="4 6"/>
+            <path class="override-strata" d="M 458 318 L 490 250 L 530 235 L 600 215 L 700 210 L 850 218 L 1000 230 L 1200 250" fill="none" stroke="#1a3d42" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 6"/>
+            <path class="override-strata override-strata--delay" d="M 470 290 L 530 285 L 600 275 L 700 270 L 850 280 L 1000 290 L 1200 305" fill="none" stroke="#1a3d42" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 6"/>
+            <path class="override-strata" d="M 460 340 L 600 335 L 850 340 L 1000 348 L 1200 360" fill="none" stroke="#1a3d42" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 6"/>
+            <path class="override-strata override-strata--delay" d="M 470 400 L 600 400 L 850 405 L 1000 410 L 1200 420" fill="none" stroke="#1a3d42" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 6"/>
+
+            <path
+              class="thrust-front"
+              d="
+                M 460 340
+                L 470 380
+                L 500 420
+                L 560 450
+                L 620 470
+                L 700 480"
+              fill="none"
+              stroke="#1a1410"
+              stroke-width="2"
+            />
+
+            <text class="override-label" x="900" y="280" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#f1e9d8" opacity="0.95">HUMAN TEAMS + AI ORCHESTRATION</text>
+            <text class="override-label" x="900" y="335" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#f1e9d8" opacity="0.8">PORTFOLIO OF INITIATIVES</text>
+            <text class="override-label" x="900" y="390" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#f1e9d8" opacity="0.65">PRACTICE · PLATFORM · PRODUCT</text>
+            <text class="override-label" x="900" y="445" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#f1e9d8" opacity="0.5">PUBLIC PRACTICE</text>
+          </g>
+
+          <g class="stage-two-arrow" pointer-events="none" transform="translate(880, 380)">
+            <line class="overriding-arrow__shaft" x1="80" y1="0" x2="0" y2="0" stroke="#f1e9d8" stroke-width="2"/>
+            <polygon points="0,0 12,-6 12,6" fill="#f1e9d8"/>
+            <text x="40" y="-12" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#f1e9d8" letter-spacing="1.5" font-weight="600">OVERRIDING</text>
+          </g>
+
+          <g class="stage-two-callout" pointer-events="none">
+            <line x1="930" y1="225" x2="930" y2="160" stroke="#f1e9d8" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <circle cx="930" cy="225" r="3" fill="#f1e9d8"/>
+            <text x="930" y="148" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#1a1410">Stage II · Sustained Thrust</text>
+            <text x="930" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#2d5d63">— HOVER TO THRUST —</text>
+          </g>
+        </g>
+
+        <!-- STAGE III · NEW MOUNTAIN RANGE -->
+        <g class="stage-three-zone">
+          <rect
+            class="stage-three-hit"
+            x="300"
+            y="0"
+            width="580"
+            height="340"
+            fill="transparent"
+            pointer-events="all"
+            tabindex="0"
+            role="button"
+            aria-label="Reveal Stage III mountain range"
+            aria-describedby="friction-stage-3"
+          />
+
+          <g class="stage-three-range" pointer-events="none">
+            <path
+              class="range-foothills"
+              d="
+                M 352 254
+                L 400 244
+                L 500 230
+                L 620 220
+                L 740 210
+                L 828 204
+                L 836 218
+                L 740 224
+                L 620 234
+                L 500 242
+                L 400 252
+                L 352 262
+                Z"
+              fill="#b8893d"
+              fill-opacity="0.35"
+              stroke="#1a1410"
+              stroke-width="0.8"
+            />
+
+            <path
+              class="range-surface-rim"
+              d="M 332 278 L 470 290 L 490 250 L 530 235 L 600 215 L 700 210 L 850 218"
+              fill="none"
+              stroke="#c8dce0"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              opacity="0.55"
+            />
+
+            <g class="range-peak range-peak--1">
+              <path
+                d="M 352 262 L 348 236 L 354 206 L 368 178 L 382 206 L 388 236 L 384 262 Z"
+                fill="url(#peakG3)"
+                stroke="#1a1410"
+                stroke-width="1.2"
+              />
+              <path d="M 368 178 L 378 202 L 374 224 L 364 242 Z" fill="#d4b06a" fill-opacity="0.55"/>
+            </g>
+
+            <g class="range-peak range-peak--2">
+              <path
+                d="M 428 252 L 442 218 L 458 168 L 478 118 L 498 84 L 520 70 L 542 84 L 562 118 L 582 168 L 598 218 L 612 252 L 582 252 L 542 248 L 502 250 L 462 252 L 428 252 Z"
+                fill="url(#peakG)"
+                stroke="#1a1410"
+                stroke-width="1.5"
+              />
+              <path
+                d="M 478 118 L 498 84 L 520 70 L 542 84 L 528 112 L 512 148 L 496 178 L 476 168 Z"
+                fill="#e8c47a"
+                fill-opacity="0.7"
+              />
+              <path d="M 442 218 L 458 168 L 478 118 L 498 84 L 520 70 L 542 84 L 562 118 L 582 168" fill="none" stroke="#1a1410" stroke-width="1.2"/>
+              <path d="M 498 84 L 520 70 L 542 84 L 528 98 L 514 94 L 504 98 Z" fill="#f1e9d8" fill-opacity="0.85"/>
+            </g>
+
+            <g class="range-peak range-peak--3">
+              <path
+                d="M 588 238 L 582 206 L 596 172 L 620 146 L 644 172 L 658 206 L 652 238 Z"
+                fill="url(#peakG2)"
+                stroke="#1a1410"
+                stroke-width="1.2"
+              />
+              <path d="M 620 146 L 630 172 L 626 202 L 612 226 Z" fill="#d4b06a" fill-opacity="0.6"/>
+              <path d="M 610 162 L 620 146 L 630 162 L 622 174 Z" fill="#f1e9d8" fill-opacity="0.7"/>
+            </g>
+
+            <g class="range-peak range-peak--4">
+              <path
+                d="M 742 228 L 736 210 L 748 194 L 772 182 L 796 194 L 804 210 L 798 228 Z"
+                fill="url(#peakG3)"
+                stroke="#1a1410"
+                stroke-width="1.1"
+              />
+              <path d="M 772 182 L 780 198 L 776 214 L 764 224 Z" fill="#c9a050" fill-opacity="0.5"/>
+            </g>
+
+            <g class="range-sparkles" aria-hidden="true">
+              <circle class="range-sparkle range-sparkle--1" cx="372" cy="186" r="1.1" fill="#f1e9d8"/>
+              <circle class="range-sparkle range-sparkle--2" cx="385" cy="208" r="0.8" fill="#e8c47a"/>
+              <circle class="range-sparkle range-sparkle--3" cx="498" cy="78" r="1.2" fill="#f1e9d8"/>
+              <circle class="range-sparkle range-sparkle--4" cx="538" cy="92" r="0.9" fill="#e8c47a"/>
+              <circle class="range-sparkle range-sparkle--5" cx="518" cy="118" r="0.7" fill="#f1e9d8"/>
+              <circle class="range-sparkle range-sparkle--6" cx="622" cy="152" r="1" fill="#f1e9d8"/>
+              <circle class="range-sparkle range-sparkle--7" cx="776" cy="192" r="0.8" fill="#e8c47a"/>
+              <path class="range-fragment range-fragment--1" d="M 404 256 L 412 250 L 408 259 Z" fill="#d4a857"/>
+              <path class="range-fragment range-fragment--2" d="M 448 252 L 456 246 L 452 255 Z" fill="#c9a050"/>
+              <path class="range-fragment range-fragment--3" d="M 556 244 L 564 238 L 560 247 Z" fill="#d4a857"/>
+              <path class="range-fragment range-fragment--4" d="M 612 232 L 620 226 L 616 235 Z" fill="#b8893d"/>
+              <path class="range-fragment range-fragment--5" d="M 728 218 L 736 212 L 732 221 Z" fill="#c9a050"/>
+            </g>
+          </g>
+
+          <g class="stage-three-callout" pointer-events="none">
+            <line x1="580" y1="58" x2="580" y2="22" stroke="#1a1410" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <text x="580" y="16" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="600" font-size="22" fill="#1a1410">Stage III · New Mountain Range</text>
+            <text x="580" y="36" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#b8893d">— HOVER TO GROW —</text>
+          </g>
+        </g>
+
+        <!-- MANTLE -->
+        <path d="
+          M 0 420
+          L 0 660
+          L 1200 660
+          L 1200 480
+          L 700 480
+          L 740 600
+          L 820 640
+          L 820 640
+          L 1200 640
+          L 1200 660
+          L 0 660 Z"
+          fill="url(#mantleG)"
+          stroke="#1a1410"
+          stroke-width="1.5"/>
+
+        <!-- additional mantle fill under subducting plate -->
+        <path d="
+          M 0 420
+          L 280 425
+          L 440 440
+          L 580 480
+          L 680 540
+          L 740 600
+          L 820 640
+          L 1200 640
+          L 1200 480
+          L 700 480
+          L 620 470
+          L 560 450
+          L 500 420
+          L 470 380
+          L 460 340
+          L 460 340
+          L 0 340 Z"
+          fill="url(#mantleG)"
+          opacity="0.3"/>
+
+        <!-- mantle convection arrows -->
+        <g opacity="0.4">
+          <path d="M 150 580 Q 250 540 350 580" fill="none" stroke="#2a2218" stroke-width="0.8"/>
+          <path d="M 900 580 Q 1000 540 1100 580" fill="none" stroke="#2a2218" stroke-width="0.8"/>
+          <path d="M 300 620 Q 400 600 500 620" fill="none" stroke="#2a2218" stroke-width="0.8"/>
+        </g>
+
+        <!-- MELTING / heat at deep subduction zone — aligned to downgoing slab -->
+        <g class="subducting-melt" transform="rotate(36 702 568)">
+          <g class="melt-fluid" filter="url(#lavaSoft)">
+            <path
+              class="melt-pool"
+              d="
+                M 586 552
+                C 618 564, 662 584, 708 606
+                C 742 622, 766 636, 754 642
+                C 728 628, 684 602, 642 580
+                C 612 564, 592 554, 586 552
+                Z"
+              fill="url(#lavaFluid)"
+              opacity="0.78"
+            />
+            <ellipse class="melt-blob melt-blob--base" cx="698" cy="584" rx="88" ry="32" fill="#ef5a28" opacity="0.55"/>
+            <ellipse class="melt-blob melt-blob--core" cx="712" cy="576" rx="52" ry="20" fill="#ff9a45" opacity="0.82"/>
+            <ellipse class="melt-blob melt-blob--hot" cx="724" cy="568" rx="28" ry="12" fill="#ffe2a8" opacity="0.9"/>
+            <ellipse class="melt-blob melt-blob--wing" cx="662" cy="560" rx="46" ry="20" fill="#d94a22" opacity="0.5"/>
+          </g>
+
+          <g class="melt-ripples" filter="url(#lavaBloom)" opacity="0.65">
+            <path class="melt-ripple" d="M 608 558 Q 655 578 702 598 Q 738 612 762 624" fill="none" stroke="#ffd080" stroke-width="2" opacity="0.5"/>
+            <path class="melt-ripple melt-ripple--delay" d="M 622 568 Q 668 586 712 604 Q 742 616 752 622" fill="none" stroke="#ffae66" stroke-width="1.4" opacity="0.35"/>
+          </g>
+
+          <ellipse class="melt-glow melt-glow--primary" cx="702" cy="574" rx="98" ry="34" fill="url(#melt)" opacity="0.55" filter="url(#lavaBloom)"/>
+          <ellipse class="melt-glow melt-glow--secondary" cx="668" cy="548" rx="62" ry="24" fill="url(#melt)" opacity="0.35" filter="url(#lavaBloom)"/>
+
+          <circle class="melt-bubble" cx="694" cy="578" r="4" fill="#ffc04d" opacity="0.75"/>
+          <circle class="melt-bubble melt-bubble--2" cx="718" cy="562" r="3" fill="#ff8c42" opacity="0.65"/>
+          <circle class="melt-bubble melt-bubble--3" cx="672" cy="568" r="2.5" fill="#ffe2a8" opacity="0.7"/>
+          <circle class="melt-bubble melt-bubble--4" cx="706" cy="548" r="2" fill="#ffc04d" opacity="0.55"/>
+          <circle class="magma-rise" cx="688" cy="552" r="3" fill="#ffb347" opacity="0.85"/>
+          <circle class="magma-rise magma-rise--delay-1" cx="662" cy="532" r="2.5" fill="#ff8c42" opacity="0.75"/>
+          <circle class="magma-rise magma-rise--delay-2" cx="714" cy="524" r="2" fill="#ffc04d" opacity="0.65"/>
+        </g>
+
+        <!-- DIRECTIONAL ARROWS -->
+        <!-- subducting plate going down -->
+        <g class="subducting-arrow">
+          <g transform="translate(640, 480)">
+            <line class="subducting-arrow__shaft" x1="0" y1="0" x2="35" y2="60" stroke="#1a1410" stroke-width="1.5"/>
+            <polygon class="subducting-arrow__head" points="35,60 22,55 30,42" fill="#1a1410"/>
+            <text x="-20" y="40" font-family="JetBrains Mono, monospace" font-size="10" fill="#1a1410" letter-spacing="1.5" font-weight="600">SUBDUCTING</text>
+          </g>
+        </g>
+
+        <!-- LABELS -->
+        <!-- melting zone label -->
+        <g class="melt-zone-label" pointer-events="none">
+          <line x1="752" y1="602" x2="958" y2="638" stroke="#1a1410" stroke-width="0.8" stroke-dasharray="2 3"/>
+          <circle cx="752" cy="602" r="2.5" fill="#d4632a"/>
+          <rect x="963" y="626" width="180" height="24" fill="#f1e9d8" stroke="#1a1410" stroke-width="1"/>
+          <text x="1053" y="641" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#1a1410">MELT ZONE · RESIST · IRRELEVANCE</text>
+        </g>
+
+        <!-- depth ticks -->
+        <g font-family="JetBrains Mono, monospace" font-size="8" fill="#3a4654" letter-spacing="1">
+          <line x1="20" y1="195" x2="14" y2="195" stroke="#3a4654" stroke-width="0.8"/>
+          <text x="10" y="198" text-anchor="end">0</text>
+          <line x1="20" y1="340" x2="14" y2="340" stroke="#3a4654" stroke-width="0.8"/>
+          <text x="10" y="343" text-anchor="end">5y</text>
+          <line x1="20" y1="480" x2="14" y2="480" stroke="#3a4654" stroke-width="0.8"/>
+          <text x="10" y="483" text-anchor="end">10y</text>
+          <line x1="20" y1="600" x2="14" y2="600" stroke="#3a4654" stroke-width="0.8"/>
+          <text x="10" y="603" text-anchor="end">20y</text>
+          <line x1="20" y1="195" x2="20" y2="630" stroke="#3a4654" stroke-width="0.6"/>
+        </g>
+        <text x="14" y="640" font-family="JetBrains Mono, monospace" font-size="8" fill="#3a4654" letter-spacing="2" transform="rotate(-90, 14, 640)" text-anchor="end">DEPTH · CAREER STRATA</text>
+      </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="footnote">
+      <div>Issue 302 · Proof of Concept · Hoang · 2026</div>
+      <div><em>To survive disruption, you must become disruption.</em></div>
+      <div>Stages I–III · Tectonic Cross-Section · v1</div>
+    </div>
+  </div>
+</PrototypeLayout>
+
+<script is:inline>
+  (() => {
+    const wrap = document.querySelector('.diagram-wrap');
+    if (!wrap) return;
+
+    const INTRO_MS = 13200;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarse = window.matchMedia('(hover: none)').matches;
+
+    const settle = () => {
+      wrap.classList.remove('diagram-epoch');
+      wrap.classList.add('diagram-settled');
+    };
+
+    if (reduced || coarse) {
+      settle();
+    } else {
+      window.setTimeout(settle, INTRO_MS);
+    }
+
+    const svg = wrap.querySelector('svg.cross-section');
+    if (!svg) return;
+
+    const zones = [
+      { el: svg.querySelector('.stage-one-zone'), stage: '1' },
+      { el: svg.querySelector('.stage-two-zone'), stage: '2' },
+      { el: svg.querySelector('.stage-three-zone'), stage: '3' },
+    ].filter((z) => z.el);
+
+    const syncActiveStage = () => {
+      let active = 0;
+      for (const { el, stage } of zones) {
+        if (el.matches(':hover') || el.contains(document.activeElement)) {
+          active = Math.max(active, Number(stage));
+        }
+      }
+      if (active === 0) {
+        wrap.removeAttribute('data-active-stage');
+      } else {
+        wrap.dataset.activeStage = String(active);
+      }
+    };
+
+    for (const { el } of zones) {
+      el.addEventListener('mouseenter', syncActiveStage);
+      el.addEventListener('mouseleave', syncActiveStage);
+      el.addEventListener('focusin', syncActiveStage);
+      el.addEventListener('focusout', syncActiveStage);
+    }
+
+    const legendPanel = wrap.querySelector('.legend-panel');
+    const measureLayout = () => {
+      if (!legendPanel || window.innerWidth <= 900) {
+        wrap.style.removeProperty('--legend-panel-min-h');
+        wrap.style.removeProperty('--commentary-slot-h');
+        return;
+      }
+
+      const prevStage = wrap.dataset.activeStage;
+      let maxPanel = 0;
+      let maxCommentary = 0;
+
+      for (const stage of ['1', '2', '3']) {
+        wrap.dataset.activeStage = stage;
+        maxPanel = Math.max(maxPanel, legendPanel.scrollHeight);
+
+        const commentary = legendPanel.querySelector(
+          `.legend-item[data-stage="${stage}"] .legend-commentary__inner`
+        );
+        if (commentary) {
+          maxCommentary = Math.max(maxCommentary, commentary.scrollHeight);
+        }
+      }
+
+      if (prevStage) {
+        wrap.dataset.activeStage = prevStage;
+      } else {
+        wrap.removeAttribute('data-active-stage');
+      }
+
+      wrap.style.setProperty('--legend-panel-min-h', `${maxPanel}px`);
+      wrap.style.setProperty('--commentary-slot-h', `${maxCommentary}px`);
+    };
+
+    const queueMeasure = () => window.requestAnimationFrame(measureLayout);
+
+    queueMeasure();
+    window.addEventListener('resize', queueMeasure);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(queueMeasure);
+    }
+  })();
+</script>
