@@ -1,0 +1,176 @@
+---
+import PrototypeLayout from '../../layouts/PrototypeLayout.astro';
+
+const prototypes = [
+  {
+    slug: 'design-leadership-obduction',
+    title: 'Tectonic Cross-Section',
+    stage: 'Stages I–III',
+    subtitle: 'Initial uplift, sustained thrust, and the new mountain range — in one geology.',
+    series: 'Issue 302 · The Plate Tectonics of Design Leadership',
+  },
+];
+
+const upcomingStages = [
+  { stage: 'Stage I', title: 'Initial Uplift', note: 'Standalone contact-zone view. Pressure at the wedge.' },
+  { stage: 'Stage III', title: 'New Mountain Range', note: 'Standalone range view. Multiple archetypes at the summit.' },
+];
+
+const pageTitle = 'Prototypes — David Hoang';
+const pageDescription = 'Standalone proof-of-concept visuals and experiments.';
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&display=swap';
+---
+
+<PrototypeLayout title={pageTitle} description={pageDescription} fonts={fonts}>
+  <main class="prototype-index">
+    <header class="prototype-index__header">
+      <p class="prototype-index__eyebrow">Proof of Concept</p>
+      <h1>Prototypes</h1>
+      <p class="prototype-index__lead">
+        Companion visuals for Issue 302 — the emerging tectonic shifts in design leadership.
+      </p>
+    </header>
+
+    <ul class="prototype-index__list">
+      {
+        prototypes.map((prototype) => (
+          <li>
+            <a href={`/prototypes/${prototype.slug}`} class="prototype-index__card">
+              <span class="prototype-index__series">{prototype.series}</span>
+              <span class="prototype-index__stage">{prototype.stage}</span>
+              <span class="prototype-index__title">{prototype.title}</span>
+              <span class="prototype-index__subtitle">{prototype.subtitle}</span>
+            </a>
+          </li>
+        ))
+      }
+      {
+        upcomingStages.map((item) => (
+          <li>
+            <div class="prototype-index__card prototype-index__card--upcoming" aria-disabled="true">
+              <span class="prototype-index__series">Issue 302 · The Plate Tectonics of Design Leadership</span>
+              <span class="prototype-index__stage">{item.stage}</span>
+              <span class="prototype-index__title">{item.title}</span>
+              <span class="prototype-index__subtitle">{item.note}</span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</PrototypeLayout>
+
+<style is:global>
+  .prototype-index {
+    --paper: #f1e9d8;
+    --ink: #1a1410;
+    --slate: #3a4654;
+    --teal: #2d5d63;
+    --rust: #a8442a;
+
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 72px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Fraunces', Georgia, serif;
+    min-height: 100vh;
+  }
+
+  .prototype-index__header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .prototype-index__eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .prototype-index h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
+  .prototype-index__lead {
+    color: var(--slate);
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  .prototype-index__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+
+  .prototype-index__card {
+    display: block;
+    padding: 20px 22px;
+    border: 1.5px solid var(--ink);
+    text-decoration: none;
+    color: inherit;
+    background: var(--paper);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .prototype-index__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .prototype-index__series {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .prototype-index__stage {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 6px;
+  }
+
+  .prototype-index__title {
+    display: block;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .prototype-index__subtitle {
+    display: block;
+    font-size: 14px;
+    color: var(--slate);
+    line-height: 1.45;
+  }
+
+  .prototype-index__card--upcoming {
+    opacity: 0.72;
+    cursor: default;
+  }
+
+  .prototype-index__card--upcoming:hover {
+    transform: none;
+    box-shadow: none;
+  }
+</style>
