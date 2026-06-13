@@ -235,6 +235,17 @@ const {
   robots = 'index, follow',
 } = Astro.props;
 
+// Build the document <title> and clean social titles.
+// The `<title>` element always carries the brand suffix for SEO/recognition;
+// og/twitter titles stay clean (no brand) for nicer social cards.
+const SITE_NAME = 'David Hoang';
+const rawTitle = title.trim();
+// Drop a trailing " | / - / – / — David Hoang" suffix some pages already include,
+// so titles normalize to a single consistent em-dash format.
+const pageTitle = rawTitle.replace(/\s*[|\-–—]\s*David Hoang\s*$/i, '').trim() || SITE_NAME;
+// Append the brand unless the title already references the site name (e.g. home tagline).
+const fullTitle = /david hoang/i.test(pageTitle) ? pageTitle : `${pageTitle} — ${SITE_NAME}`;
+
 // Auto-detect page type from URL if not provided
 const detectedPageType = pageType || (() => {
   const pathname = Astro.url.pathname;
@@ -271,20 +282,20 @@ const ogImageUrl = ogImage.startsWith('http')
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Primary Meta Tags -->
-    <title>{title}</title>
-    <meta name="title" content={title} />
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={detectedPageType === 'blog' ? 'article' : 'website'} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={title} />
+    <meta property="og:image:alt" content={pageTitle} />
     <meta property="og:site_name" content="davidhoang.com" />
     <meta property="og:locale" content="en_US" />
 
@@ -293,10 +304,10 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="twitter:site" content="@davidhoang" />
     <meta name="twitter:creator" content="@davidhoang" />
     <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content={title} />
+    <meta name="twitter:image:alt" content={pageTitle} />
 
     <meta name="generator" content={Astro.generator} />
 
@@ -482,6 +493,12 @@ const ogImageUrl = ogImage.startsWith('http')
           animation-duration: 0.01s !important;
           animation-delay: 0s !important;
         }
+      }
+      /* E-ink: crossfades cause refresh ghosting on real e-reader hardware. */
+      html[data-e-ink="true"]::view-transition-group(*),
+      html[data-e-ink="true"]::view-transition-old(*),
+      html[data-e-ink="true"]::view-transition-new(*) {
+        animation: none !important;
       }
       /* Skip to main content link for keyboard users */
       .skip-link {

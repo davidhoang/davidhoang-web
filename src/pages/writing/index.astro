@@ -66,8 +66,8 @@ function formatDate(date: Date) {
       <div data-view-panel="list">
       {/* Featured post hero */}
       {featuredPost && (
-        <a href={`/writing/${featuredPost.id}`} class="featured-post" transition:name={`post-${featuredPost.id}`}>
-          <span class="featured-label">Latest</span>
+        <a href={`/writing/${featuredPost.id}`} class="featured-post card-interactive link-plain" transition:name={`post-${featuredPost.id}`}>
+          <span class="text-eyebrow text-eyebrow--accent">Latest</span>
           <h2 class="featured-title" transition:name={`title-${featuredPost.id}`}>{featuredPost.data.title}</h2>
           {featuredPost.data.description && (
             <p class="featured-description">{featuredPost.data.description}</p>
@@ -84,7 +84,7 @@ function formatDate(date: Date) {
           <h3 class="section-label">Recent</h3>
           <div class="recent-grid">
             {recentPosts.map(post => (
-              <a href={`/writing/${post.id}`} class="recent-card" transition:name={`post-${post.id}`}>
+              <a href={`/writing/${post.id}`} class="recent-card card-interactive link-plain" transition:name={`post-${post.id}`}>
                 <h3 class="recent-card-title" transition:name={`title-${post.id}`}>{post.data.title}</h3>
                 {post.data.description && (
                   <p class="recent-card-description">{post.data.description}</p>
@@ -106,7 +106,7 @@ function formatDate(date: Date) {
           <ul class="posts-list" id="writing-list">
             {archivePosts.map(post => (
               <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
-                <a href={`/writing/${post.id}`} class="post-link" transition:name={`post-${post.id}`}>
+                <a href={`/writing/${post.id}`} class="post-link link-plain" transition:name={`post-${post.id}`}>
                   <div class="post-row">
                     <span class="post-title" transition:name={`title-${post.id}`}>{post.data.title}</span>
                     <time datetime={post.data.pubDate.toISOString()}>
@@ -130,11 +130,11 @@ function formatDate(date: Date) {
   /* View toggle (List · Garden) */
   .view-tabs {
     display: inline-flex;
-    gap: 0.25rem;
-    margin-bottom: 1.5rem;
-    padding: 0.25rem;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-xs);
     border: 1px solid var(--color-border);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     background: var(--color-sidebar-bg, transparent);
   }
 
@@ -142,14 +142,16 @@ function formatDate(date: Date) {
     appearance: none;
     border: none;
     background: transparent;
-    padding: 0.4rem 1rem;
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--color-muted, currentColor);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      color var(--duration-normal) var(--ease-standard);
   }
 
   .view-tab:hover {
@@ -170,58 +172,31 @@ function formatDate(date: Date) {
     .view-tab { transition: none; }
   }
 
-  .content-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-    gap: 3rem;
-    align-items: start;
-  }
-
-  .content-grid > .posts-column {
-    min-width: 0;
-  }
-
-  .content-grid > aside.sidebar {
-    min-width: 0;
-  }
-
   /* Featured post hero card */
   .featured-post {
     display: block;
-    padding: 2.5rem;
-    margin-bottom: 3rem;
+    padding: clamp(var(--spacing-lg), 4vw, var(--spacing-2xl));
+    margin-bottom: var(--spacing-2xl);
     border: var(--border-default);
     border-radius: var(--radius-lg);
     text-decoration: none;
     color: inherit;
     background: var(--color-surface, var(--color-bg));
-    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
   }
 
-  .featured-post::after {
-    display: none !important;
+  .featured-post .text-eyebrow {
+    margin-bottom: var(--spacing-lg);
   }
 
   .featured-post:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-  }
-
-  .featured-label {
-    display: inline-block;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-link, #0066cc);
-    margin-bottom: 1.25rem;
+    border-color: color-mix(in srgb, var(--color-link) 24%, var(--color-border));
   }
 
   .featured-title {
     font-size: clamp(2.25rem, 5vw, 3.75rem);
     font-weight: var(--heading-weight, 700);
     line-height: 1.08;
-    margin: 0 0 1.25rem;
+    margin: 0 0 var(--spacing-lg);
     letter-spacing: var(--letter-spacing-display, -0.03em);
     text-wrap: balance;
   }
@@ -230,59 +205,42 @@ function formatDate(date: Date) {
     font-size: 1.1875rem;
     line-height: 1.6;
     color: var(--color-muted);
-    margin: 0 0 1.75rem;
+    margin: 0 0 var(--spacing-xl);
     max-width: 52ch;
   }
 
-  .featured-post time {
-    font-size: 0.6875rem;
+  .featured-post time,
+  .recent-card time {
+    font-size: var(--text-eyebrow-size, 0.6875rem);
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--text-eyebrow-tracking, 0.14em);
     text-transform: uppercase;
     color: var(--color-muted);
-  }
-
-  /* Section labels */
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-muted);
-    margin: 0 0 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--color-border, #e5e5e5);
   }
 
   /* Recent posts magazine grid */
   .recent-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--spacing-2xl);
   }
 
   .recent-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
   }
 
   .recent-card {
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    padding: var(--spacing-lg);
     border: var(--border-default);
     border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
-    transition: box-shadow 0.3s var(--ease-inertia), transform 0.3s var(--ease-inertia);
-  }
-
-  .recent-card::after {
-    display: none !important;
   }
 
   .recent-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-link) 22%, var(--color-border));
   }
 
   .recent-card-title {
@@ -290,7 +248,7 @@ function formatDate(date: Date) {
     font-weight: 600;
     line-height: 1.25;
     letter-spacing: var(--letter-spacing-heading-md, -0.01em);
-    margin: 0 0 0.85rem;
+    margin: 0 0 var(--spacing-md);
     text-wrap: balance;
   }
 
@@ -299,24 +257,16 @@ function formatDate(date: Date) {
     line-height: 1.6;
     color: var(--color-muted);
     margin: 0 0 auto;
-    padding-bottom: 1rem;
+    padding-bottom: var(--spacing-md);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .recent-card time {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-
   /* Archive section */
   .archive-section {
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
   }
 
   .posts-list {
@@ -325,8 +275,8 @@ function formatDate(date: Date) {
   }
 
   .posts-list li {
-    margin-bottom: 0.85rem;
-    padding-bottom: 0.85rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
     border-bottom: 1px dotted var(--color-border, #e5e5e5);
   }
 
@@ -341,15 +291,11 @@ function formatDate(date: Date) {
     border-bottom: none !important;
   }
 
-  .post-link::after {
-    display: none !important;
-  }
-
   .post-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
 
   .post-title {
@@ -357,7 +303,9 @@ function formatDate(date: Date) {
     font-size: 1.0625rem;
     line-height: 1.4;
     border-bottom: 1px dotted transparent;
-    transition: border-bottom-color 0.3s var(--ease-inertia);
+    transition:
+      border-bottom-color var(--duration-slow) var(--ease-inertia),
+      color var(--duration-slow) var(--ease-inertia);
   }
 
   .post-link:hover .post-title {
@@ -380,7 +328,7 @@ function formatDate(date: Date) {
     display: none;
     text-align: center;
     color: var(--color-muted);
-    padding: 2rem 0;
+    padding: var(--spacing-xl) 0;
     font-size: 0.9375rem;
   }
 
@@ -391,16 +339,12 @@ function formatDate(date: Date) {
   }
 
   @media (max-width: 768px) {
-    .content-grid {
-      grid-template-columns: 1fr;
-    }
-
     .recent-grid {
       grid-template-columns: 1fr;
     }
 
     .featured-post {
-      padding: 1.5rem;
+      padding: var(--spacing-lg);
     }
 
     .featured-title {

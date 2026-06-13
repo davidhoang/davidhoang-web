@@ -1,5 +1,5 @@
 export function initSentientNav(): (() => void) | undefined {
-  const nav = document.querySelector('nav') as HTMLElement | null;
+  const nav = document.querySelector('.site-nav') as HTMLElement | null;
   if (!nav) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

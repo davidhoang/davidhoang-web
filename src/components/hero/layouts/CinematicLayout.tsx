@@ -14,7 +14,7 @@ import { useMagneticTilt } from '../../useMagneticTilt';
 
 function cardClassName(card: Card, extra: string, isGlass: boolean) {
   return [
-    'card',
+    'hero-card',
     card.image ? 'card-with-image' : '',
     cardHasHeroLayout(card) ? 'card-has-hero-layout' : '',
     cardHasShaderSurface(card) ? 'card-has-shader' : '',

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import { join } from 'path';
 
 // Page metadata
-const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, AI at Atlassian. Previously at Replit, Webflow, and One Medical.";
+const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian. Previously at Replit, Webflow, and One Medical.";
 const ogImage = "/images/img-david-sf.webp";
 
 // HTML escape helper to prevent XSS
@@ -179,7 +179,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
           <ul class="work-list" role="list">
             <li class="work-entry">
               <span class="work-company">Atlassian</span>
-              <span class="work-role">VP of Design, AI</span>
+              <span class="work-role">VP of Design, Rovo & AI and Ecosystem</span>
               <span class="work-years">2024–</span>
             </li>
             <li class="work-entry">
@@ -218,6 +218,14 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
               <span class="work-years">2006–08</span>
             </li>
           </ul>
+        </section>
+
+        <section class="about-advising" aria-label="Advising">
+          <p>
+            I keep a small <a href="/advising">advisory practice</a> for Heads of Design at
+            growth-stage companies navigating org scale, executive partnership, and design's role in
+            company strategy.
+          </p>
         </section>
       </div>
     </div>
@@ -403,6 +411,24 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     margin-left: auto;
     flex-shrink: 0;
     font-variant-numeric: tabular-nums;
+  }
+
+  .about-advising {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about-advising p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .about-advising a {
+    color: var(--color-link);
+    font-weight: 600;
   }
 
   /* Ensure images in content stay in container */

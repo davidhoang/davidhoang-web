@@ -128,16 +128,16 @@ body.layout-no-content-filter .content-filter-wrapper {
    ============================================ */
 
 [data-e-ink="true"] {
-  /* High contrast colors - cream background like real e-ink.
-     Border is a paper-hairline grey (not jet black) so 1px lines feel like
-     printed rules, not pen strokes. The nav's solid black edge (set in the
-     glass-border override below) keeps the nav crisp where definition matters. */
+  /* E-ink renders ~16 levels of gray and dithers between them, so mid-grays
+     look blotchy on real hardware. Snap every tone to a 4-step palette:
+     ink (#000), strong (#333), rule (#777), paper (#f5f5f0). Nothing lighter
+     than #777 on cream — it stops being readable once dithered. */
   --color-text: #000000;
   --color-bg: #f5f5f0;
   --color-link: #000000;
-  --color-link-hover: #444444;
-  --color-border: #999999;
-  --color-muted: #555555;
+  --color-link-hover: #333333;
+  --color-border: #777777;
+  --color-muted: #333333;
   --color-sidebar-bg: #e8e8e3;
   --color-nav-bg: #e8e8e3;
   --color-nav-text: #000000;
@@ -160,12 +160,14 @@ html[data-e-ink="true"] {
 
 /* E-Ink dark mode */
 [data-e-ink="true"][data-theme="dark"] {
+  /* Inverted 4-step palette: paper (#e0e0e0), rule (#888), strong (#bbb),
+     ink-bg (#121212). Same logic — no near-bg grays that dither into mud. */
   --color-text: #e0e0e0;
   --color-bg: #121212;
   --color-link: #e0e0e0;
   --color-link-hover: #ffffff;
-  --color-border: #555555;
-  --color-muted: #aaaaaa;
+  --color-border: #888888;
+  --color-muted: #bbbbbb;
   --color-sidebar-bg: #1a1a1a;
   --color-nav-bg: #1a1a1a;
   --color-nav-text: #e0e0e0;
@@ -178,9 +180,11 @@ html[data-e-ink="true"][data-theme="dark"] {
   background-color: #121212;
 }
 
-/* Force grayscale on all images in e-ink mode */
+/* Force grayscale on all images in e-ink mode.
+   Higher contrast + slight brightness lift compensates for e-ink's compressed
+   tonal range — soft photos otherwise read as a muddy mid-gray block. */
 [data-e-ink="true"] img {
-  filter: grayscale(1) contrast(1.1) !important;
+  filter: grayscale(1) contrast(1.25) brightness(1.05) !important;
 }
 
 /* Disable all transitions and animations in e-ink mode */
@@ -237,22 +241,23 @@ html[data-e-ink="true"][data-theme="dark"] {
 /* E-Ink: Card Stack Hero — paper cards on cream/dark, no shadows.
    Use --color-card-bg so cards sit in the page tonal hierarchy, with a
    thin border for definition. Real e-readers don't render drop-shadows. */
-[data-e-ink="true"] .card-stack-hero .card {
+[data-e-ink="true"] .card-stack-hero .hero-card {
   background-color: var(--color-card-bg) !important;
   box-shadow: none !important;
-  border: 1px solid #999999 !important;
+  border: 1px solid var(--color-border) !important;
 }
 
-[data-e-ink="true"][data-theme="dark"] .card-stack-hero .card {
+[data-e-ink="true"][data-theme="dark"] .card-stack-hero .hero-card {
   background-color: var(--color-card-bg) !important;
   box-shadow: none !important;
-  border: 1px solid #555555 !important;
+  border: 1px solid var(--color-border) !important;
 }
 
-/* E-Ink: Card thumbnails — soft grayscale, gentle contrast bump for legibility. */
+/* E-Ink: Card thumbnails — boosted contrast so dithered photos hold their
+   subject. Brightness lift keeps midtones from collapsing to gray. */
 [data-e-ink="true"] .card-stack-hero .card-thumbnail,
 [data-e-ink="true"] .card-stack-hero .card-image {
-  filter: grayscale(1) contrast(1.1) !important;
+  filter: grayscale(1) contrast(1.25) brightness(1.05) !important;
 }
 
 /* E-Ink: WebGL hero card shaders add visual noise with no value here — hide. */
@@ -260,9 +265,11 @@ html[data-e-ink="true"][data-theme="dark"] {
   display: none !important;
 }
 
-/* E-Ink: Hero portrait/images and background images — light grayscale. */
+/* E-Ink: Hero portrait/images and background images — push contrast harder
+   since these are the largest photos on the page and dither artifacts are
+   most visible at scale. */
 [data-e-ink="true"] :is(.hero-portrait, .hero-image-bg, .node-card-image, [style*="background-image"]) {
-  filter: grayscale(1) contrast(1.05) !important;
+  filter: grayscale(1) contrast(1.3) brightness(1.05) !important;
 }
 
 /* E-Ink: Main navigation bar only (not in-page <nav> regions) */
@@ -284,6 +291,160 @@ html[data-e-ink="true"][data-theme="dark"] {
 
 [data-e-ink="true"] nav.glass-border::after {
   display: none !important;
+}
+
+/* E-Ink: System font stack. ABC Diatype (and Cormorant, Inter, Space Grotesk)
+   are variable fonts with thin strokes that disappear on e-ink displays.
+   Georgia / system-ui are tuned for low-DPI rendering and ship with the OS,
+   so they also avoid font-loading FOIT on slow e-reader browsers. */
+[data-e-ink="true"] {
+  --font-body: Georgia, 'Times New Roman', 'Liberation Serif', serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+/* E-Ink: Minimum readable weight and size. E-ink can't render sub-400 weights —
+   they ghost into the background. Bumping body to 450 and pushing min size up
+   matches typical e-reader defaults (~18px). */
+[data-e-ink="true"] body,
+[data-e-ink="true"] p,
+[data-e-ink="true"] li,
+[data-e-ink="true"] blockquote {
+  font-weight: 450 !important;
+  font-size: max(1.0625rem, 1em);
+}
+
+[data-e-ink="true"] :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 700 !important;
+  font-variation-settings: normal !important;
+}
+
+/* E-Ink: Let the OS/display do its own anti-aliasing. Subpixel smoothing
+   tuned for LCDs makes type look fuzzy on e-ink controllers. */
+[data-e-ink="true"] {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+/* E-Ink: Justified + hyphenated prose matches e-reader convention and
+   reduces ragged right-edge that looks unfinished at e-ink contrast. */
+[data-e-ink="true"] :is(.prose-content, .note-content, article p, article li) {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* E-Ink: Constrain selection to pure ink/paper. The browser default selection
+   color (often a translucent blue) leaves ghost artifacts when the e-ink
+   controller redraws. Pure inversion refreshes cleanly. */
+[data-e-ink="true"] ::selection {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* E-Ink: No smooth scroll. Each smooth-scroll frame is a full e-ink refresh —
+   that's a flicker storm. Snap-jump instead. */
+html[data-e-ink="true"] {
+  scroll-behavior: auto !important;
+}
+
+/* E-Ink: Sharp rectangles. Rounded corners dither into jagged staircases at
+   e-ink's bit depth; flat edges read as "paper" instead of "screen widget". */
+[data-e-ink="true"] *,
+[data-e-ink="true"] *::before,
+[data-e-ink="true"] *::after {
+  border-radius: 0 !important;
+}
+
+/* E-Ink: Hide YouTube embeds — iframes don't render on Kindle/reMarkable
+   browsers, and the empty box is just dead space. The .note-youtube-fallback
+   link (rendered in notes/[...slug].astro) takes over. */
+[data-e-ink="true"] .note-youtube {
+  display: none !important;
+}
+
+[data-e-ink="true"] .note-youtube-fallback {
+  display: block !important;
+}
+
+/* E-Ink: Tables. Collapsed 1px ink borders + roomy cell padding reads like
+   a printed data table. left-align everything; e-ink has no need for the
+   subtle banding/zebra-stripe patterns LCDs use to track rows. */
+[data-e-ink="true"] :is(.prose-content, .note-content) table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(th, td) {
+  border: 1px solid var(--color-text);
+  padding: 0.5em 0.75em;
+  text-align: left;
+  vertical-align: top;
+  background: transparent !important;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) th {
+  font-weight: 700;
+  border-bottom-width: 2px;
+}
+
+/* E-Ink: Code blocks. The Shiki theme paints each span an LCD-tuned color
+   (`style="color:#xyz"` inline); on e-ink these dither into noise. Flatten
+   everything to ink + bump weight slightly so the mono font holds. The
+   surrounding pre/.astro-code gets a thicker ink border instead of the
+   palette's muted gray rule, since code is meant to stand apart from prose. */
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(pre, .astro-code) {
+  background: var(--color-bg) !important;
+  border: 1px solid var(--color-text) !important;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(pre, .astro-code) :is(code, span) {
+  color: var(--color-text) !important;
+  background: transparent !important;
+  font-weight: 500;
+}
+
+/* E-Ink: Inline code. The 6%-of-text background washes out on cream; drop
+   it for a thin border that reads as "inline mono span" without dithering. */
+[data-e-ink="true"] :is(.prose-content, .note-content) code {
+  background: transparent !important;
+  border: 1px solid var(--color-border);
+  padding: 0.05em 0.35em;
+  font-weight: 500;
+}
+
+[data-e-ink="true"] :is(.prose-content, .note-content) :is(pre, .astro-code) code {
+  border: none;
+}
+
+/* E-Ink: Form inputs. Solid 1.5px ink border, no rounded corners (zeroed
+   globally above), and a 2px solid focus outline instead of the default
+   translucent box-shadow ring — translucency ghosts on e-ink. */
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input) {
+  background: var(--color-bg) !important;
+  border: 1.5px solid var(--color-text) !important;
+  box-shadow: none !important;
+  color: var(--color-text) !important;
+}
+
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):focus,
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):focus-visible {
+  outline: 2px solid var(--color-text) !important;
+  outline-offset: 2px !important;
+  border-color: var(--color-text) !important;
+  box-shadow: none !important;
+}
+
+/* E-Ink: Horizontal rule. Single 1px ink line — no shadow, no gradient. */
+[data-e-ink="true"] hr {
+  border: none !important;
+  border-top: 1px solid var(--color-text) !important;
+  background: none !important;
+  height: 0 !important;
+  margin: 2em 0 !important;
 }
 
 /* ============================================
@@ -606,31 +767,31 @@ html:not([data-image-style]) .hero-portrait {
 
 /* Image style filters — applied to hero images via data attribute.
    Uses :is() to target both portrait and hero image containers. */
-[data-image-style="vivid"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="vivid"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: saturate(1.25) contrast(1.1) brightness(1.02);
 }
 
-[data-image-style="muted"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="muted"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: saturate(0.6) contrast(0.9) brightness(1.05);
 }
 
-[data-image-style="grayscale"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="grayscale"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: grayscale(1);
 }
 
-[data-image-style="duotone"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="duotone"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: grayscale(1) sepia(0.4) saturate(1.2);
 }
 
-[data-image-style="warm"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="warm"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: sepia(0.15) saturate(1.1) brightness(1.02);
 }
 
-[data-image-style="cool"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="cool"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: saturate(0.9) brightness(1.05) hue-rotate(-10deg);
 }
 
-[data-image-style="contrast"] :is(.portrait-container img, .hero-image-container .hero-image-bg) {
+[data-image-style="contrast"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: contrast(1.3) saturate(1.1);
 }
 

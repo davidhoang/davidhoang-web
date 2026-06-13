@@ -1,0 +1,380 @@
+---
+  import MainLayout from '../layouts/MainLayout.astro';
+  import PageHeader from
+  '../components/PageHeader.astro';
+
+  // Set this to your Tally, Typeform, or other inquiry
+  form URL once created.
+  const advisingInquiryUrl = 'https://tally.so/r/D4M0lb';
+
+  const pageDescription =
+    'A small advisory practice for Heads of Design at
+  growth-stage startups navigating org scale, executive
+  partnership, and design as a strategic function.';
+  const ogImage = '/images/blog/2022/img-2022-10-16-artif
+  acts-one-medical.webp';
+  ---
+
+  <MainLayout title="Advising | David Hoang"
+  description={pageDescription} ogImage={ogImage}>
+    <PageHeader title="Advising" image={ogImage}
+  alt="Low-fidelity design sketch" />
+    <div class="advising-content">
+      <section class="advising-intro">
+        <p class="advising-eyebrow">Low-volume advisory
+  for design leaders</p>
+        <p>
+          I've spent 20 years building and scaling design
+   teams — currently as VP of AI Design at
+          Atlassian, and previously as VP of Marketing
+  and Design at Replit, the first Head of Design
+          at Webflow, and Head of Product Design at One
+  Medical through its IPO. At each company I've
+          grown teams, built operating cadence, and
+  worked directly with founders and executives as
+          the org scaled.
+        </p>
+        <p>
+          Design leaders at growth-stage companies often
+  hit the same inflection point: the work is no
+          longer just about better product quality. It
+  becomes org design, executive influence,
+          operating cadence, hiring, and helping the
+  company understand what design is accountable for.
+        </p>
+        <p>
+          I keep this intentionally small: a few advisory
+   relationships at a time, only where my
+          experience maps closely to the leader's
+  context. The goal is to help you build a design
+          function with stronger taste, operational
+  clarity, executive trust, and a meaningful role in
+          company strategy.
+        </p>
+      </section>
+
+      <section class="advising-capacity"
+  aria-label="Advising capacity">
+        <span>Capacity</span>
+        <strong>A handful of relationships each
+  year</strong>
+      </section>
+
+      <section class="advising-section">
+        <h2>Who it's for</h2>
+        <ul>
+          <li>You lead design at a Series A–C
+  company</li>
+          <li>Your team is growing, but the operating
+  model is still forming</li>
+          <li>You're navigating executive partnership,
+  hiring, quality, or team structure</li>
+          <li>You want a practitioner-advisor, not
+  generic leadership coaching</li>
+        </ul>
+      </section>
+
+      <section class="advising-section">
+        <h2>Advisory themes</h2>
+        <ul>
+          <li><strong>Design as a strategic
+  function:</strong> earning trust and influence with
+  founders, product, and engineering</li>
+          <li><strong>Operating rhythm:</strong>
+  critique, reviews, rituals, and decision systems that
+  raise the quality bar</li>
+          <li><strong>Team architecture:</strong> org
+  design, senior hiring, leveling, and developing design
+  leaders</li>
+          <li><strong>Product taste and craft:</strong>
+  building a culture that can recognize and ship better
+  work</li>
+          <li><strong>AI and the design
+  function:</strong> adapting design leadership as
+  software creation changes</li>
+        </ul>
+      </section>
+
+      <section class="advising-section">
+        <h2>How it works</h2>
+        <ul>
+          <li>We start with the leadership challenge you
+  are actively navigating</li>
+          <li>Most engagements are monthly sessions with
+  async support between meetings</li>
+          <li>The work is practical and context-specific,
+   not a fixed curriculum</li>
+          <li>I take on only a handful of advisory
+  relationships each year</li>
+          <li>If I don't think I'm the right person to
+  help, I'll say so directly</li>
+        </ul>
+      </section>
+
+      <section class="advising-section advising-writing">
+        <h2>Related writing</h2>
+        <ul>
+          <li>
+            <a href="/writing/designs-seat-at-the-cap-tab
+  le-part-i">Design's Seat at the Cap Table</a>
+            <span>on design leadership, advising, and
+  strategic influence</span>
+          </li>
+          <li>
+            <a href="/writing/design-engineering">Design
+  Engineering</a>
+            <span>on the changing shape of design,
+  software, and technical craft</span>
+          </li>
+          <li>
+            <a href="/writing/email-updates-to-career-adv
+  isors">Keeping an advisory close</a>
+            <span>on building durable advisory
+  relationships</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="advising-cta"
+  aria-labelledby="advising-apply-heading">
+        <h2 id="advising-apply-heading">Apply</h2>
+        <p>
+          Share a little about your company, your team,
+  and the leadership challenge you're
+          navigating. I'll review it personally and
+  follow up if I think I can be useful.
+        </p>
+        <a class="advising-cta__button"
+  href={advisingInquiryUrl} target="_blank" rel="noopener
+   noreferrer">
+          Submit an inquiry
+          <span class="advising-cta__arrow"
+  aria-hidden="true">→</span>
+        </a>
+        <p class="advising-cta__note">Opens in a new tab.
+   I read every submission, but only follow up where
+  there is a clear fit.</p>
+      </section>
+    </div>
+  </MainLayout>
+
+  <style>
+    .advising-content {
+      max-width: var(--container-narrow-width, 720px);
+      margin: 0 auto;
+      padding: 0 0 4rem 0;
+    }
+
+    .advising-intro {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .advising-eyebrow {
+      margin-bottom: var(--spacing-md) !important;
+      font-size: 0.78rem !important;
+      font-weight: 700;
+      line-height: 1.2 !important;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted) !important;
+    }
+
+    .advising-intro p {
+      margin: 0;
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--color-text);
+    }
+
+    .advising-intro p:not(.advising-eyebrow) + p {
+      margin-top: var(--spacing-lg);
+    }
+
+    .advising-capacity {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--spacing-md);
+      margin: calc(-1 * var(--spacing-sm)) 0
+  var(--spacing-2xl);
+      padding: var(--spacing-md) 0;
+      border-block: 1px solid color-mix(in srgb,
+  var(--color-border) 75%, transparent);
+    }
+
+    .advising-capacity span {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .advising-capacity strong {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--color-text);
+      text-align: right;
+    }
+
+    .advising-section {
+      margin-bottom: var(--spacing-2xl);
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .advising-section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 var(--spacing-md) 0;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+    }
+
+    .advising-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .advising-section li {
+      position: relative;
+      padding-left: var(--spacing-lg);
+      margin-bottom: var(--spacing-sm);
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: var(--color-muted);
+    }
+
+    .advising-section li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--color-link)
+  55%, var(--color-muted));
+    }
+
+    .advising-section li strong {
+      color: var(--color-text);
+      font-weight: 650;
+    }
+
+    .advising-writing li {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .advising-writing a {
+      color: var(--color-link);
+      font-weight: 650;
+    }
+
+    .advising-writing span {
+      display: block;
+      margin-top: var(--spacing-xs);
+      color: var(--color-muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .advising-cta {
+      margin-top: var(--spacing-2xl);
+      padding: clamp(1.5rem, 4vw, 2.25rem);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg, 12px);
+      background: var(--color-card-bg, var(--color-bg));
+      box-shadow: var(--card-shadow, 0 1px 0 color-mix(in
+   srgb, var(--color-text) 6%, transparent));
+    }
+
+    .advising-cta h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 var(--spacing-sm) 0;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+    }
+
+    .advising-cta p {
+      margin: 0 0 var(--spacing-lg) 0;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: var(--color-muted);
+      max-width: 52ch;
+    }
+
+    .advising-cta__button {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) var(--spacing-lg);
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--color-bg, #fff);
+      text-decoration: none;
+      background: var(--color-text);
+      border: 1px solid var(--color-text);
+      border-radius: var(--radius-md, 8px);
+      transition:
+        background-color var(--duration-normal)
+  var(--ease-standard),
+        color var(--duration-normal)
+  var(--ease-standard),
+        transform var(--duration-normal)
+  var(--ease-inertia);
+    }
+
+    .advising-cta__button::after {
+      display: none;
+    }
+
+    @media (hover: hover) {
+      .advising-cta__button:hover {
+        background: color-mix(in srgb, var(--color-text)
+  88%, var(--color-link));
+        color: var(--color-bg, #fff);
+        transform: translateY(-1px);
+      }
+    }
+
+    .advising-cta__arrow {
+      transition: transform var(--duration-normal)
+  var(--ease-inertia);
+    }
+
+    @media (hover: hover) {
+      .advising-cta__button:hover .advising-cta__arrow {
+        transform: translateX(3px);
+      }
+    }
+
+    .advising-cta__note {
+      margin: var(--spacing-md) 0 0 !important;
+      font-size: 0.875rem !important;
+      color: var(--color-muted) !important;
+    }
+
+    @media (max-width: 768px) {
+      .advising-content {
+        padding: 0 1rem 3rem 1rem;
+      }
+
+      .advising-intro p {
+        font-size: 1rem;
+      }
+
+      .advising-capacity {
+        display: block;
+      }
+
+      .advising-capacity strong {
+        display: block;
+        margin-top: var(--spacing-sm);
+        text-align: left;
+      }
+    }
+  </style>

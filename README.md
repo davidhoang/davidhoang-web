@@ -40,6 +40,13 @@ This starts the development server at `http://localhost:4321`.
 npm run build
 ```
 
+### Performance
+
+```bash
+npm run analyze   # Build and write dist/bundle-stats.html
+npm run budget    # Check built JS assets against bundle budgets
+```
+
 ### Preview Production Build
 
 ```bash

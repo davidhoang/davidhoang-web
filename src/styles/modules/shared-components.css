@@ -1,10 +1,37 @@
 /* ============================================
    Shared Component Styles
+   ============================================
+
+   COMPONENT NAMING GUIDE
+   ----------------------
+   Hero family:
+     .hero-media          Full-bleed image/video hero (PageHeader canonical)
+     .hero-media__overlay Gradient/dim overlay on media heroes
+     .hero-media__title   Centered display title on media heroes
+     .hero-box            Centered text-only hero block (legacy: .hero-title)
+     .hero-layout         Centered hero wrapper (legacy: .hero-grid)
+     .hero-card           Interactive homepage card tiles (CardStackHero)
+
+   Surface family:
+     .glass-border        Inner highlight pseudo-border
+     .glass-border-button Sidebar/nav CTA button surface
+
+   Typography family:
+     .text-eyebrow        Uppercase micro-label (kickers, section labels)
+     .text-meta           Uppercase dateline / metadata
+
+   Layout family (see layout.css):
+     .layout-sidebar, .layout-breakout, .section-divider
+
+   Navigation (see nav.css):
+     .site-nav            Main floating nav shell
+     .cmd-palette-*       Search palette UI
    ============================================ */
 
-/* Glass-like border effect - reusable class */
-/* Adds a white inner border for a glass-like appearance using a pseudo-element */
-/* This allows it to work alongside existing box-shadows without overriding them */
+/* --------------------------------------------
+   SURFACES
+   -------------------------------------------- */
+
 .glass-border {
   position: relative;
 }
@@ -19,8 +46,6 @@
   z-index: var(--z-content);
 }
 
-/* Glass-like border effect for buttons - optimized for both light and dark modes */
-/* Follows BUTTON HOVER CONSISTENCY RULE - no dimension transitions */
 .glass-border-button {
   position: relative;
   border: 1px solid var(--color-border);
@@ -43,20 +68,21 @@
   z-index: var(--z-content);
 }
 
-/* Hover state for glass-border buttons */
 @media (hover: hover) {
   .glass-border-button:hover {
-    /* Use box-shadow to create thicker border effect without layout shift */
-    /* The box-shadow creates a 3px additional border (total 4px) */
-    box-shadow: 
+    box-shadow:
       0 0 0 3px var(--color-border),
       var(--shadow-hover),
       var(--inner-border-button);
   }
 }
 
-/* Hero title (shared across pages) */
-.hero-title {
+/* --------------------------------------------
+   HERO: Text box (centered display title)
+   Legacy alias: .hero-title
+   -------------------------------------------- */
+
+:is(.hero-box, .hero-title) {
   margin-top: 1rem;
   height: 300px;
   display: flex;
@@ -68,7 +94,7 @@
   border-radius: var(--radius-md);
 }
 
-.hero-title h1 {
+:is(.hero-box, .hero-title) h1 {
   font-family: var(--font-heading);
   font-size: clamp(5rem, 8vw, 8rem);
   font-weight: 500;
@@ -76,20 +102,25 @@
   text-align: center;
 }
 
-/* Hero grid (shared across pages) */
-.hero-grid {
+/* Legacy alias: .hero-grid */
+:is(.hero-layout, .hero-grid) {
   display: flex;
   justify-content: center;
   margin: 2rem 0;
 }
 
-/* Hero image container (shared across pages) */
-.hero-image-container {
+/* --------------------------------------------
+   HERO: Media (full-bleed image + overlay + title)
+   Legacy alias: .hero-image-container
+   Canonical twin: PageHeader .page-header__hero
+   -------------------------------------------- */
+
+:is(.hero-media, .hero-image-container) {
   width: 100%;
   max-width: 100%;
-  height: 75vh;
+  height: var(--hero-height, 75vh);
   min-height: 200px;
-  margin-top: calc(-1 * var(--content-top-padding)); /* Negate main padding to reach viewport edge — no fallback, --content-top-padding is always defined */
+  margin-top: calc(-1 * var(--content-top-padding));
   margin-bottom: 2rem;
   margin-left: 0;
   margin-right: 0;
@@ -100,7 +131,7 @@
   justify-content: center;
 }
 
-/* Background image layer for parallax effect */
+.hero-media__bg,
 .hero-image-bg {
   position: absolute;
   top: 0;
@@ -114,20 +145,15 @@
   z-index: var(--z-base);
 }
 
-/* Overlay - covers entire container */
-.hero-image-container::before {
+:is(.hero-media, .hero-image-container)::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  inset: 0;
+  background: var(--hero-overlay, rgba(0, 0, 0, 0.3));
   z-index: var(--z-content);
 }
 
-/* Text content - with padding for white space */
-.hero-image-container h1 {
+:is(.hero-media, .hero-image-container) :is(h1, .hero-media__title) {
   position: relative;
   z-index: calc(var(--z-content) + 1);
   color: white;
@@ -140,7 +166,108 @@
   letter-spacing: -0.02em;
 }
 
-/* PersonAvatar Component */
+@media (max-width: 768px) {
+  :is(.hero-media, .hero-image-container) {
+    height: var(--hero-height-mobile, 50vh);
+  }
+}
+
+/* --------------------------------------------
+   TYPOGRAPHY: Eyebrows & meta
+   -------------------------------------------- */
+
+.text-eyebrow {
+  display: inline-block;
+  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-weight: 600;
+  letter-spacing: var(--text-eyebrow-tracking, 0.14em);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.text-eyebrow--accent {
+  color: var(--color-link);
+}
+
+.text-eyebrow--hairline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin: 0 0 var(--spacing-lg);
+}
+
+.text-eyebrow--hairline::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* Link-style eyebrow (section kicker above article title) */
+.text-eyebrow--link {
+  margin: 0 0 1.25rem;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition:
+    color var(--duration-normal) var(--ease-inertia),
+    border-bottom-color var(--duration-normal) var(--ease-inertia);
+}
+
+.text-eyebrow--link:hover {
+  color: var(--color-link, var(--color-text));
+  border-bottom-color: currentColor;
+}
+
+.text-meta {
+  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-weight: 600;
+  letter-spacing: var(--text-eyebrow-tracking, 0.14em);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Legacy aliases — migrate to .text-eyebrow modifiers */
+:is(.post-kicker, .featured-label, .related-posts__heading, .subscribe-page__eyebrow, .advising-eyebrow) {
+  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-weight: 600;
+  letter-spacing: var(--text-eyebrow-tracking, 0.14em);
+  text-transform: uppercase;
+}
+
+.featured-label,
+.subscribe-page__eyebrow,
+.advising-eyebrow {
+  color: var(--color-link);
+}
+
+.post-kicker,
+.related-posts__heading {
+  color: var(--color-muted);
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--text-eyebrow-tracking, 0.14em);
+  color: var(--color-muted);
+  margin: 0 0 var(--spacing-lg);
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* --------------------------------------------
+   PersonAvatar
+   -------------------------------------------- */
+
 .person-avatar-link,
 .person-avatar-wrapper {
   display: inline-flex;
@@ -160,7 +287,7 @@
 }
 
 .person-avatar-link::after {
-  display: none; /* Disable global link underline */
+  display: none;
 }
 
 .person-avatar-image {
