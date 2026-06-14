@@ -116,19 +116,23 @@
    -------------------------------------------- */
 
 :is(.hero-media, .hero-image-container) {
-  width: 100%;
-  max-width: 100%;
   height: var(--hero-height, 75vh);
   min-height: 200px;
   margin-top: calc(-1 * var(--content-top-padding));
   margin-bottom: 2rem;
-  margin-left: 0;
-  margin-right: 0;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Contained width — skip when .layout-breakout handles full-bleed */
+:is(.hero-media, .hero-image-container):not(.layout-breakout) {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .hero-media__bg,
