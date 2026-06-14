@@ -58,15 +58,21 @@ const fonts =
       <svg class="cross-section" viewBox="0 0 1200 660" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#d4dbc8" stop-opacity="0.65"/>
+            <stop offset="0%" stop-color="#c8d4e0" stop-opacity="0.35"/>
+            <stop offset="55%" stop-color="#d4dbc8" stop-opacity="0.55"/>
             <stop offset="100%" stop-color="#f1e9d8" stop-opacity="0"/>
           </linearGradient>
 
-          <!-- subducting plate (incumbent, rust) - now diving DOWN -->
-          <linearGradient id="subPlate" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#c89456" stop-opacity="0.75"/>
-            <stop offset="60%" stop-color="#a8442a" stop-opacity="0.7"/>
-            <stop offset="100%" stop-color="#5a2818" stop-opacity="0.85"/>
+          <radialGradient id="cloudSoft" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stop-color="#f1e9d8" stop-opacity="0.85"/>
+            <stop offset="70%" stop-color="#e8e4d8" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#f1e9d8" stop-opacity="0"/>
+          </radialGradient>
+
+          <linearGradient id="subPlate" x1="180" y1="340" x2="900" y2="760" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#c89456" stop-opacity="0.82"/>
+            <stop offset="42%" stop-color="#a8442a" stop-opacity="0.78"/>
+            <stop offset="100%" stop-color="#5a2818" stop-opacity="0.9"/>
           </linearGradient>
 
           <!-- overriding plate (AI-native, teal) - riding on top -->
@@ -80,19 +86,38 @@ const fonts =
             <stop offset="100%" stop-color="#5a8a90" stop-opacity="0.3"/>
           </linearGradient>
 
-          <!-- mantle -->
+          <!-- mantle / asthenosphere — warm at collision, deep brown below -->
           <linearGradient id="mantleG" x1="0" y1="400" x2="0" y2="660" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#6b5d4a" stop-opacity="0.58"/>
-            <stop offset="100%" stop-color="#2a2218" stop-opacity="0.9"/>
+            <stop offset="0%" stop-color="#8a5238" stop-opacity="0.52"/>
+            <stop offset="28%" stop-color="#b85a32" stop-opacity="0.48"/>
+            <stop offset="55%" stop-color="#a8442a" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#2a2218" stop-opacity="0.92"/>
           </linearGradient>
 
-          <radialGradient id="mantleMeltFade" cx="710" cy="575" r="150" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#a8442a" stop-opacity="0.42"/>
-            <stop offset="40%" stop-color="#7a3820" stop-opacity="0.22"/>
+          <linearGradient id="asthenosphereGlow" x1="480" y1="420" x2="920" y2="660" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#e87a3a" stop-opacity="0.22"/>
+            <stop offset="45%" stop-color="#c44e28" stop-opacity="0.38"/>
+            <stop offset="100%" stop-color="#5a2818" stop-opacity="0"/>
+          </linearGradient>
+
+          <linearGradient id="subLimbFade" x1="580" y1="480" x2="960" y2="780" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#a8442a" stop-opacity="0"/>
+            <stop offset="55%" stop-color="#c45e28" stop-opacity="0.28"/>
+            <stop offset="100%" stop-color="#e87a3a" stop-opacity="0.55"/>
+          </linearGradient>
+
+          <linearGradient id="magmaVeinG" x1="780" y1="640" x2="540" y2="400" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#e87a3a" stop-opacity="0.85"/>
+            <stop offset="55%" stop-color="#c44e28" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#a8442a" stop-opacity="0.15"/>
+          </linearGradient>
+
+          <radialGradient id="mantleMeltFade" cx="620" cy="520" r="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#a8442a" stop-opacity="0.28"/>
+            <stop offset="55%" stop-color="#7a3820" stop-opacity="0.14"/>
             <stop offset="100%" stop-color="#2a2218" stop-opacity="0"/>
           </radialGradient>
 
-          <!-- new peak gold gradient -->
           <linearGradient id="peakG" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#d4a857" stop-opacity="1"/>
             <stop offset="100%" stop-color="#8a6628" stop-opacity="0.9"/>
@@ -133,16 +158,42 @@ const fonts =
             <stop offset="100%" stop-color="#5a2818" stop-opacity="0"/>
           </radialGradient>
 
+          <filter id="smokeSoft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2.5"/>
+          </filter>
+
           <filter id="lavaSoft" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
             <feMerge>
               <feMergeNode in="blur"/>
             </feMerge>
           </filter>
+
+          <clipPath id="magmaClip" clipPathUnits="userSpaceOnUse">
+            <path d="
+              M 470 380
+              L 552 468
+              L 680 580
+              L 860 720
+              L 980 810
+              L 1200 660
+              L 1200 480
+              L 700 480
+              L 620 470
+              L 560 450
+              L 500 420
+              L 470 380 Z"/>
+          </clipPath>
         </defs>
 
         <!-- sky -->
         <rect x="0" y="0" width="1200" height="140" fill="url(#skyG)"/>
+        <g class="sky-clouds" pointer-events="none" opacity="0.55">
+          <ellipse cx="180" cy="52" rx="72" ry="18" fill="url(#cloudSoft)"/>
+          <ellipse cx="248" cy="48" rx="48" ry="14" fill="url(#cloudSoft)"/>
+          <ellipse cx="920" cy="38" rx="88" ry="20" fill="url(#cloudSoft)"/>
+          <ellipse cx="1020" cy="44" rx="56" ry="15" fill="url(#cloudSoft)"/>
+        </g>
 
         <!-- MANTLE — behind crust; top surface meets subducting limb, warms into melt zone -->
         <g class="mantle-zone" pointer-events="none">
@@ -157,12 +208,14 @@ const fonts =
               L 560 450
               L 500 420
               L 470 380
-              L 580 480
-              L 680 540
-              L 740 600
-              L 820 640
-              L 680 580
-              L 540 500
+              L 552 468
+              L 650 535
+              L 720 590
+              L 800 660
+              L 880 730
+              L 960 810
+              L 620 550
+              L 498 428
               L 440 440
               L 280 425
               L 0 420
@@ -173,17 +226,62 @@ const fonts =
             class="mantle-melt-fade"
             d="
               M 470 380
-              L 580 480
-              L 680 540
-              L 740 600
-              L 820 640
-              L 680 580
-              L 540 500
+              L 505 418
+              L 552 468
+              L 498 428
               L 440 440
-              L 500 420
               L 470 380 Z"
             fill="url(#mantleMeltFade)"
           />
+          <path
+            class="asthenosphere-glow"
+            d="
+              M 470 380
+              L 552 468
+              L 650 535
+              L 800 660
+              L 1200 660
+              L 1200 480
+              L 700 480
+              L 620 470
+              L 560 450
+              L 500 420
+              L 470 380 Z"
+            fill="url(#asthenosphereGlow)"
+          />
+          <text
+            class="mantle-layer-label"
+            x="1040"
+            y="598"
+            text-anchor="middle"
+            font-family="JetBrains Mono, monospace"
+            font-size="9"
+            letter-spacing="2"
+            fill="#f1e9d8"
+            opacity="0.42"
+          >ASTHENOSPHERE</text>
+
+          <!-- Magma conduit — behind crust; clipped to mantle wedge only -->
+          <g class="magma-conduit" clip-path="url(#magmaClip)" pointer-events="none">
+            <path
+              class="magma-vein magma-vein--primary"
+              d="M 820 648 C 760 580, 680 500, 590 430 C 560 408, 538 398, 520 388"
+              fill="none"
+              stroke="url(#magmaVeinG)"
+              stroke-width="5"
+              stroke-linecap="round"
+              opacity="0.42"
+            />
+            <path
+              class="magma-vein magma-vein--branch"
+              d="M 720 560 C 660 480, 580 420, 510 395"
+              fill="none"
+              stroke="url(#magmaVeinG)"
+              stroke-width="3"
+              stroke-linecap="round"
+              opacity="0.22"
+            />
+          </g>
         </g>
 
         <!-- STAGE I · INITIAL UPLIFT -->
@@ -195,15 +293,22 @@ const fonts =
               L 0 420
               L 280 425
               L 440 440
-              L 580 480
-              L 680 540
-              L 740 600
-              L 770 640
-              L 820 640
+              L 498 428
+              L 552 468
+              L 650 535
+              L 720 590
+              L 790 645
+              L 860 700
+              L 930 755
+              L 980 795
+              L 930 710
+              L 880 660
+              L 830 610
               L 800 580
               L 740 510
               L 660 450
-              L 540 410
+              L 538 408
+              L 498 428
               L 380 385
               L 200 375
               L 0 372
@@ -218,50 +323,64 @@ const fonts =
               L 540 310
               L 660 350
               L 740 410
-              L 800 480
-              L 820 540
-              L 800 580
-              L 740 510
-              L 660 450
-              L 540 410
+              L 498 428
               L 380 385
               L 200 375
               L 0 372 Z"
               fill="#c89456"
               fill-opacity="0.2"/>
 
-            <path class="subducting-strata" d="M 0 320 L 200 322 L 380 332 L 540 360 L 660 405 L 740 470" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 6"/>
-            <path class="subducting-strata subducting-strata--delay" d="M 0 350 L 200 350 L 380 358 L 540 388 L 660 432 L 740 500" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 6"/>
-            <path class="subducting-strata subducting-strata--limb" d="M 560 455 L 640 515 L 720 575 L 780 620" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.45" stroke-dasharray="4 6"/>
-            <path class="subducting-downdip" d="M 420 360 L 500 410 L 580 470 L 660 530 L 720 580" fill="none" stroke="#f1e9d8" stroke-width="0.7" opacity="0.22" stroke-dasharray="3 9"/>
-            <path class="subducting-downdip subducting-downdip--delay" d="M 460 395 L 540 445 L 620 505 L 690 555" fill="none" stroke="#f1e9d8" stroke-width="0.7" opacity="0.16" stroke-dasharray="3 9"/>
+            <path class="subducting-strata" d="M 0 320 L 200 322 L 380 332 L 540 360 L 620 398 L 688 448" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 6"/>
+            <path class="subducting-strata subducting-strata--delay" d="M 0 350 L 200 350 L 380 358 L 540 388 L 620 428 L 688 478" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 6"/>
+            <path class="subducting-strata subducting-strata--limb" d="M 548 448 L 618 502 L 688 556 L 758 610" fill="none" stroke="#5a2818" stroke-width="0.8" opacity="0.45" stroke-dasharray="4 6"/>
+            <path class="subducting-downdip" d="M 420 360 L 500 410 L 552 468 L 620 522 L 688 576 L 758 630" fill="none" stroke="#f1e9d8" stroke-width="0.7" opacity="0.22" stroke-dasharray="3 9"/>
+            <path class="subducting-downdip subducting-downdip--delay" d="M 460 395 L 528 442 L 598 498 L 668 552 L 738 606" fill="none" stroke="#f1e9d8" stroke-width="0.7" opacity="0.16" stroke-dasharray="3 9"/>
+
+            <!-- Slab limb dissolves into asthenosphere (textbook fade) -->
+            <path
+              class="subducting-limb-fade"
+              d="
+                M 552 468
+                L 650 535
+                L 720 590
+                L 790 645
+                L 860 700
+                L 930 755
+                L 980 795
+                L 960 810
+                L 880 730
+                L 800 660
+                L 720 590
+                L 650 535
+                L 552 468 Z"
+              fill="url(#subLimbFade)"
+            />
+            </g>
+
+            <g class="subducting-sink" aria-hidden="true">
+              <circle class="sink-particle" cx="500" cy="390" r="2.5" fill="#c89456"/>
+              <circle class="sink-particle sink-particle--2" cx="560" cy="420" r="2" fill="#a8442a"/>
+              <circle class="sink-particle sink-particle--3" cx="620" cy="455" r="2.5" fill="#c89456"/>
+              <circle class="sink-particle sink-particle--4" cx="680" cy="495" r="2" fill="#8a3d28"/>
+              <circle class="sink-particle sink-particle--5" cx="430" cy="365" r="2" fill="#a8442a"/>
+              <circle class="sink-particle sink-particle--6" cx="720" cy="555" r="2" fill="#a8442a"/>
+              <circle class="sink-particle sink-particle--7" cx="800" cy="615" r="2.5" fill="#8a3d28"/>
             </g>
           </g>
 
-          <!-- Fixed annotation field — horizontal labels, textbook leader style -->
-          <g class="subducting-annotations" pointer-events="none">
-            <g class="subducting-label-row subducting-label-row--1">
-              <text x="248" y="318" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.82">STAFFING RESOURCES</text>
-              <line x1="252" y1="316" x2="168" y2="332" stroke="#5a2818" stroke-width="0.7" opacity="0.45" stroke-dasharray="2 3"/>
-              <circle cx="168" cy="332" r="2" fill="#5a2818" opacity="0.55"/>
-            </g>
-            <g class="subducting-label-row subducting-label-row--2">
-              <text x="248" y="354" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.68">LAGGING WAYS OF WORK</text>
-              <line x1="252" y1="352" x2="328" y2="368" stroke="#5a2818" stroke-width="0.7" opacity="0.4" stroke-dasharray="2 3"/>
-              <circle cx="328" cy="368" r="2" fill="#5a2818" opacity="0.5"/>
-            </g>
-            <g class="subducting-label-row subducting-label-row--3">
-              <text x="248" y="392" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.55">PREVIOUS ERA PLAYBOOKS</text>
-              <line x1="252" y1="390" x2="508" y2="422" stroke="#5a2818" stroke-width="0.7" opacity="0.35" stroke-dasharray="2 3"/>
-              <circle cx="508" cy="422" r="2" fill="#5a2818" opacity="0.45"/>
-            </g>
+          <!-- In-plate strata labels — textbook layer style (no leaders) -->
+          <g class="subducting-labels" pointer-events="none">
+            <text class="subducting-label" x="280" y="318" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#1a1410" opacity="0.88">STAFFING RESOURCES</text>
+            <text class="subducting-label" x="280" y="354" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#1a1410" opacity="0.78">LAGGING WAYS OF WORK</text>
+            <text class="subducting-label" x="280" y="392" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#1a1410" opacity="0.68">PREVIOUS ERA PLAYBOOKS</text>
+            <text class="subducting-label subducting-label--layer" x="140" y="408" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="2" fill="#1a1410" opacity="0.52">LITHOSPHERE</text>
           </g>
 
           <g class="subducting-callout" pointer-events="none">
-            <line x1="120" y1="365" x2="120" y2="250" stroke="#1a1410" stroke-width="0.8" stroke-dasharray="2 3"/>
-            <circle cx="120" cy="365" r="3" fill="#1a1410"/>
-            <text x="120" y="240" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#1a1410">Stage I · Initial Uplift</text>
-            <text x="120" y="220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#a8442a">— HOVER TO COMPRESS —</text>
+            <line x1="120" y1="282" x2="120" y2="138" stroke="#1a1410" stroke-width="0.8" stroke-dasharray="2 3"/>
+            <circle cx="120" cy="282" r="3" fill="#1a1410"/>
+            <text x="120" y="128" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#1a1410">Stage I · Initial Uplift</text>
+            <text x="120" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="2" fill="#a8442a">— HOVER TO COMPRESS —</text>
           </g>
 
           <rect
@@ -274,14 +393,6 @@ const fonts =
             pointer-events="all"
             aria-hidden="true"
           />
-        </g>
-
-        <g class="subducting-sink" aria-hidden="true">
-          <circle class="sink-particle" cx="500" cy="390" r="2.5" fill="#c89456"/>
-          <circle class="sink-particle sink-particle--2" cx="560" cy="420" r="2" fill="#a8442a"/>
-          <circle class="sink-particle sink-particle--3" cx="620" cy="455" r="2.5" fill="#c89456"/>
-          <circle class="sink-particle sink-particle--4" cx="680" cy="495" r="2" fill="#8a3d28"/>
-          <circle class="sink-particle sink-particle--5" cx="430" cy="365" r="2" fill="#a8442a"/>
         </g>
 
         <!-- STAGE II · SUSTAINED THRUST -->
@@ -435,6 +546,11 @@ const fonts =
               />
               <path d="M 442 222 L 458 172 L 478 122 L 498 88 L 520 74 L 542 88 L 562 122 L 582 172" fill="none" stroke="#1a1410" stroke-width="1.3"/>
               <path d="M 498 88 L 520 74 L 542 88 L 528 102 L 514 98 L 504 102 Z" fill="#f1e9d8" fill-opacity="0.9"/>
+              <g class="volcanic-smoke" filter="url(#smokeSoft)" aria-hidden="true">
+                <path class="smoke-wisp smoke-wisp--1" d="M 518 68 C 512 52, 508 36, 514 22" fill="none" stroke="#8a9098" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
+                <path class="smoke-wisp smoke-wisp--2" d="M 526 66 C 534 48, 538 30, 530 14" fill="none" stroke="#9aa0a8" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+                <path class="smoke-wisp smoke-wisp--3" d="M 522 62 C 520 44, 524 28, 518 10" fill="none" stroke="#7a8088" stroke-width="3.5" stroke-linecap="round" opacity="0.18"/>
+              </g>
             </g>
 
             <g class="range-peak range-peak--3">
@@ -466,11 +582,6 @@ const fonts =
               <circle class="range-sparkle range-sparkle--5" cx="518" cy="122" r="0.7" fill="#f1e9d8"/>
               <circle class="range-sparkle range-sparkle--6" cx="622" cy="156" r="1" fill="#f1e9d8"/>
               <circle class="range-sparkle range-sparkle--7" cx="776" cy="196" r="0.8" fill="#e8c47a"/>
-              <path class="range-fragment range-fragment--1" d="M 404 260 L 412 254 L 408 263 Z" fill="#d4a857"/>
-              <path class="range-fragment range-fragment--2" d="M 448 256 L 456 250 L 452 259 Z" fill="#c9a050"/>
-              <path class="range-fragment range-fragment--3" d="M 556 248 L 564 242 L 560 251 Z" fill="#d4a857"/>
-              <path class="range-fragment range-fragment--4" d="M 612 236 L 620 230 L 616 239 Z" fill="#b8893d"/>
-              <path class="range-fragment range-fragment--5" d="M 728 222 L 736 216 L 732 225 Z" fill="#c9a050"/>
             </g>
             </g>
             </g>
@@ -487,7 +598,7 @@ const fonts =
             <text class="override-label" x="900" y="445" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#f1e9d8" opacity="0.5">PUBLIC PRACTICE</text>
           </g>
 
-          <g class="stage-two-arrow" pointer-events="none" transform="translate(880, 380)">
+          <g class="stage-two-arrow" pointer-events="none" transform="translate(900, 308)">
             <line class="overriding-arrow__shaft" x1="80" y1="0" x2="0" y2="0" stroke="#f1e9d8" stroke-width="2"/>
             <polygon points="0,0 12,-6 12,6" fill="#f1e9d8"/>
             <text x="40" y="-12" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#f1e9d8" letter-spacing="1.5" font-weight="600">OVERRIDING</text>
@@ -532,33 +643,33 @@ const fonts =
         </g>
 
         <!-- MELTING / heat at deep subduction zone — aligned to downgoing slab -->
-        <g class="subducting-melt" transform="rotate(36 702 568)" pointer-events="none">
+        <g class="subducting-melt" transform="rotate(38 755 610)" pointer-events="none">
           <g class="melt-fluid" filter="url(#lavaSoft)">
             <path
               class="melt-pool"
               d="
-                M 586 552
-                C 618 564, 662 584, 708 606
-                C 742 622, 766 636, 754 642
-                C 728 628, 684 602, 642 580
-                C 612 564, 592 554, 586 552
+                M 668 598
+                C 708 612, 758 636, 812 662
+                C 848 680, 872 694, 858 700
+                C 828 684, 776 654, 728 628
+                C 694 610, 672 598, 668 598
                 Z"
               fill="url(#lavaFluid)"
               opacity="0.38"
             />
-            <ellipse class="melt-blob melt-blob--base" cx="698" cy="584" rx="72" ry="26" fill="#a8442a" opacity="0.28"/>
+            <ellipse class="melt-blob melt-blob--base" cx="798" cy="636" rx="78" ry="28" fill="#a8442a" opacity="0.28"/>
           </g>
 
-          <ellipse class="melt-glow melt-glow--primary" cx="702" cy="574" rx="88" ry="30" fill="url(#melt)" opacity="0.28"/>
+          <ellipse class="melt-glow melt-glow--primary" cx="802" cy="626" rx="94" ry="32" fill="url(#melt)" opacity="0.28"/>
         </g>
 
         <!-- DIRECTIONAL ARROWS -->
         <!-- subducting plate going down -->
         <g class="subducting-arrow">
-          <g transform="translate(640, 480)">
-            <line class="subducting-arrow__shaft" x1="0" y1="0" x2="35" y2="60" stroke="#1a1410" stroke-width="1.5"/>
-            <polygon class="subducting-arrow__head" points="35,60 22,55 30,42" fill="#1a1410"/>
-            <text x="-20" y="40" font-family="JetBrains Mono, monospace" font-size="10" fill="#1a1410" letter-spacing="1.5" font-weight="600">SUBDUCTING</text>
+          <g transform="translate(700, 530)">
+            <line class="subducting-arrow__shaft" x1="0" y1="0" x2="38" y2="68" stroke="#1a1410" stroke-width="1.5"/>
+            <polygon class="subducting-arrow__head" points="38,68 24,62 32,48" fill="#1a1410"/>
+            <text x="-20" y="44" font-family="JetBrains Mono, monospace" font-size="10" fill="#1a1410" letter-spacing="1.5" font-weight="600">SUBDUCTING</text>
           </g>
         </g>
 
@@ -566,8 +677,8 @@ const fonts =
         <!-- melting zone label -->
         <g class="melt-zone-label" pointer-events="none">
           <text x="968" y="638" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5" fill="#3a2a20" opacity="0.72">MELT ZONE · RESIST · IRRELEVANCE</text>
-          <line x1="964" y1="636" x2="754" y2="604" stroke="#5a2818" stroke-width="0.7" opacity="0.38" stroke-dasharray="2 3"/>
-          <circle cx="752" cy="602" r="2" fill="#d4632a" opacity="0.55"/>
+          <line x1="964" y1="636" x2="848" y2="648" stroke="#5a2818" stroke-width="0.7" opacity="0.38" stroke-dasharray="2 3"/>
+          <circle cx="846" cy="646" r="2" fill="#d4632a" opacity="0.55"/>
         </g>
       </svg>
       </div>
@@ -581,18 +692,35 @@ const fonts =
   </div>
 </PrototypeLayout>
 
-<script is:inline>
-  (() => {
-    const wrap = document.querySelector('.diagram-wrap');
-    if (!wrap) return;
+<script>
+  import { initObductionPhysics } from '../../scripts/obduction-physics';
 
-    const INTRO_MS = 13200;
+  const wrap = document.querySelector('.diagram-wrap');
+  if (wrap) {
+    const INTRO_MS = 8800;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const coarse = window.matchMedia('(hover: none)').matches;
+
+    const svg = wrap.querySelector('svg.cross-section');
+
+    const physics =
+      svg &&
+      initObductionPhysics({
+        wrap,
+        svg,
+        onStageChange: (stage) => {
+          if (stage) {
+            wrap.dataset.activeStage = String(stage);
+          } else {
+            wrap.removeAttribute('data-active-stage');
+          }
+        },
+      });
 
     const settle = () => {
       wrap.classList.remove('diagram-epoch');
       wrap.classList.add('diagram-settled');
+      physics?.enable();
     };
 
     if (reduced || coarse) {
@@ -601,31 +729,22 @@ const fonts =
       window.setTimeout(settle, INTRO_MS);
     }
 
-    const svg = wrap.querySelector('svg.cross-section');
-    if (!svg) return;
+    if (svg && physics) {
+      const zones = [
+        { el: svg.querySelector('.stage-one-hit'), stage: '1' as const },
+        { el: svg.querySelector('.stage-two-hit'), stage: '2' as const },
+        { el: svg.querySelector('.stage-three-hit'), stage: '3' as const },
+      ].filter((z) => z.el);
 
-    const zones = [
-      { el: svg.querySelector('.stage-one-hit'), stage: '1' },
-      { el: svg.querySelector('.stage-two-hit'), stage: '2' },
-      { el: svg.querySelector('.stage-three-hit'), stage: '3' },
-    ].filter((z) => z.el);
+      const resolveActiveStage = () => {
+        const hovered = [...zones].reverse().find(({ el }) => el?.matches(':hover'));
+        physics.setStage(hovered ? hovered.stage : null);
+      };
 
-    const setActiveStage = (stage) => {
-      if (stage) {
-        wrap.dataset.activeStage = String(stage);
-      } else {
-        wrap.removeAttribute('data-active-stage');
+      for (const { el, stage } of zones) {
+        el.addEventListener('mouseenter', () => physics.setStage(stage));
+        el.addEventListener('mouseleave', () => window.requestAnimationFrame(resolveActiveStage));
       }
-    };
-
-    const resolveActiveStage = () => {
-      const hovered = [...zones].reverse().find(({ el }) => el.matches(':hover'));
-      setActiveStage(hovered ? hovered.stage : null);
-    };
-
-    for (const { el, stage } of zones) {
-      el.addEventListener('mouseenter', () => setActiveStage(stage));
-      el.addEventListener('mouseleave', () => window.requestAnimationFrame(resolveActiveStage));
     }
-  })();
+  }
 </script>

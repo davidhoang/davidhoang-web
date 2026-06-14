@@ -103,11 +103,13 @@ h1 {
   border: 1.5px solid var(--ink);
   padding: 20px 22px 18px;
   position: relative;
+  --collision-thrust: 0;
+  --range-grow: 0;
   --range-peak-rest: 0.36;
   --range-peak-nudge: 0.44;
   --range-peak-hover: 1;
   --range-peak-hover-main: 1.12;
-  --range-grow-duration: 2.8s;
+  --range-grow-duration: 1.8s;
   --range-grow-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -320,7 +322,7 @@ svg.cross-section {
   display: block;
   position: relative;
   z-index: 1;
-  overflow: visible;
+  overflow: hidden;
   shape-rendering: geometricPrecision;
 }
 
@@ -333,21 +335,55 @@ svg.cross-section .stage-three-hit {
 
 svg.cross-section .subducting-body {
   transform-box: view-box;
-  transform-origin: 580px 440px;
+  transform-origin: 525px 448px;
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 svg.cross-section .stage-two-plate,
 svg.cross-section .stage-two-arrow {
   transform-box: view-box;
-  transform-origin: 520px 400px;
+  transform-origin: 525px 400px;
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 svg.cross-section .stage-three-anchor {
   transform-box: view-box;
-  transform-origin: 580px 282px;
+  transform-origin: 525px 282px;
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* JS physics owns stack motion once settled */
+.diagram-wrap.diagram-physics.diagram-settled .subducting-body,
+.diagram-wrap.diagram-physics.diagram-settled .stage-two-plate,
+.diagram-wrap.diagram-physics.diagram-settled .stage-two-arrow,
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor {
+  transition: none;
+}
+
+/* Stage III growth follows thrust — partial on Stage II, full on Stage III */
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-foothills {
+  transform: scaleY(calc(0.9 + var(--range-grow) * 0.13));
+  opacity: calc(0.88 + var(--range-grow) * 0.12);
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--1 {
+  transform: scaleY(calc(var(--range-peak-rest) + var(--range-grow) * 0.56));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--2 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover-main) - var(--range-peak-rest)) * var(--range-grow)));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--3 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover) - var(--range-peak-rest)) * var(--range-grow)));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--4 {
+  transform: scaleY(calc(var(--range-peak-rest) + var(--range-grow) * 0.54));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-surface-rim {
+  opacity: calc(0.72 - var(--range-grow) * 0.37);
 }
 
 svg.cross-section .stage-three-anchor .range-foothills,
@@ -361,27 +397,52 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   transition: opacity 0.8s ease-out;
 }
 
-/* Stage hover — overrides settled resting state */
-.diagram-wrap.diagram-settled[data-active-stage='1'] .subducting-body {
-  transform: translateY(-18px) translateX(8px);
+/* Stage hover — fallback when physics is unavailable */
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] .subducting-body {
+  transform: rotate(-2deg) translateX(14px) translateY(-2px);
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='1'] .stage-two-plate,
-.diagram-wrap.diagram-settled[data-active-stage='1'] .stage-two-arrow {
-  transform: translateY(-12px) translateX(-6px);
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] {
+  --collision-thrust: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] .stage-two-plate,
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] .stage-two-arrow {
+  transform: translateY(-30px) translateX(-5px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-two-plate,
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-two-arrow {
+  transform: rotate(-0.48deg) translateY(-16px) translateX(-20px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor {
+  transform: translateY(-26px) translateX(-10px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] {
+  --range-grow: 0.62;
+  --collision-thrust: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor .range-foothills {
+  transform: scaleY(calc(0.9 + var(--range-grow) * 0.13));
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor .range-peak--2 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover-main) - var(--range-peak-rest)) * var(--range-grow)));
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor .range-peak--3 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover) - var(--range-peak-rest)) * var(--range-grow) * 0.85));
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] {
+  --range-grow: 1;
 }
 
 .diagram-wrap[data-active-stage='1'] .subducting-callout text:last-child {
   fill: #7a3020;
-}
-
-.diagram-wrap.diagram-settled[data-active-stage='2'] .stage-two-plate,
-.diagram-wrap.diagram-settled[data-active-stage='2'] .stage-two-arrow {
-  transform: translateY(-14px) translateX(-10px);
-}
-
-.diagram-wrap.diagram-settled[data-active-stage='2'] .stage-three-anchor {
-  transform: translateY(-12px);
 }
 
 .diagram-wrap[data-active-stage='2'] .stage-two-callout text:last-child {
@@ -392,32 +453,32 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   animation-duration: 0.85s;
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='3'] .stage-three-anchor .range-foothills {
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-foothills {
   transform: scaleY(1.03);
   opacity: 1;
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='3'] .stage-three-anchor .range-peak--1 {
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--1 {
   transform: scaleY(0.92);
   opacity: 1;
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='3'] .stage-three-anchor .range-peak--2 {
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--2 {
   transform: scaleY(var(--range-peak-hover-main));
   opacity: 1;
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='3'] .stage-three-anchor .range-peak--3 {
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--3 {
   transform: scaleY(var(--range-peak-hover));
   opacity: 1;
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='3'] .stage-three-anchor .range-peak--4 {
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--4 {
   transform: scaleY(0.9);
   opacity: 1;
 }
 
-.diagram-wrap.diagram-settled[data-active-stage='3'] .stage-three-anchor .range-surface-rim {
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-surface-rim {
   opacity: 0.35;
 }
 
@@ -486,6 +547,14 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
     animation-delay: 2s;
   }
 
+  .diagram-epoch .sink-particle--6 {
+    animation-delay: 2.5s;
+  }
+
+  .diagram-epoch .sink-particle--7 {
+    animation-delay: 3s;
+  }
+
   .diagram-epoch .melt-glow--primary {
     animation: intro-melt-glow 4.2s ease-out forwards;
   }
@@ -494,13 +563,13 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   .diagram-epoch .stage-two-arrow {
     transform-box: view-box;
     transform-origin: 520px 400px;
-    animation: intro-stage-two 4s cubic-bezier(0.22, 1, 0.36, 1) 2s forwards;
+    animation: intro-stage-two 3.2s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
   }
 
   .diagram-epoch .stage-three-anchor {
     transform-box: view-box;
     transform-origin: 580px 282px;
-    animation: intro-stage-three-lift 4s cubic-bezier(0.22, 1, 0.36, 1) 3.2s forwards;
+    animation: intro-stage-three-lift 2.2s cubic-bezier(0.22, 1, 0.36, 1) 2.2s forwards;
   }
 
   .diagram-epoch .overriding-arrow__shaft {
@@ -512,40 +581,40 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   .diagram-epoch .range-foothills {
     transform-box: view-box;
     transform-origin: 580px 282px;
-    animation: intro-range-base 2.4s cubic-bezier(0.22, 1, 0.36, 1) 8.2s forwards;
+    animation: intro-range-base 1.4s cubic-bezier(0.22, 1, 0.36, 1) 5.2s forwards;
   }
 
   .diagram-epoch .range-peak {
     transform-box: view-box;
-    animation: intro-range-peak 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: intro-range-peak 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .diagram-epoch .range-peak--1 {
     transform-origin: 368px 266px;
-    animation-delay: 8.8s;
+    animation-delay: 5.7s;
   }
 
   .diagram-epoch .range-peak--2 {
     transform-origin: 520px 256px;
-    animation-delay: 9.3s;
+    animation-delay: 5.95s;
   }
 
   .diagram-epoch .range-peak--3 {
     transform-origin: 620px 242px;
-    animation-delay: 9.8s;
+    animation-delay: 6.2s;
   }
 
   .diagram-epoch .range-peak--4 {
     transform-origin: 772px 232px;
-    animation-delay: 10.3s;
+    animation-delay: 6.45s;
   }
 
   /* ── Settled: ambient motion + diagram resting state ── */
   /* Slab holds a fixed dip; downdip motion reads through strata + drift lines */
-  .diagram-settled .subducting-body {
+  .diagram-settled:not(.diagram-physics) .subducting-body {
     transform-box: view-box;
-    transform-origin: 580px 440px;
-    transform: translateY(-12px) translateX(5px);
+    transform-origin: 525px 448px;
+    transform: rotate(-1.2deg) translateX(8px) translateY(-2px);
     transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -598,6 +667,14 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
     animation-delay: 3.2s;
   }
 
+  .diagram-settled .sink-particle--6 {
+    animation-delay: 4s;
+  }
+
+  .diagram-settled .sink-particle--7 {
+    animation-delay: 4.8s;
+  }
+
   .diagram-settled .melt-pool {
     animation: melt-pool-surge 8s ease-in-out infinite;
   }
@@ -608,6 +685,53 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
 
   .diagram-settled .mantle-melt-fade {
     animation: mantle-melt-fade-breathe 6s ease-in-out infinite;
+  }
+
+  .diagram-settled .asthenosphere-glow {
+    opacity: calc(0.5 + var(--collision-thrust) * 0.5);
+    animation: asthenosphere-breathe 7s ease-in-out infinite;
+  }
+
+  .diagram-settled .subducting-limb-fade {
+    opacity: calc(0.55 + var(--collision-thrust) * 0.35);
+  }
+
+  .diagram-settled .magma-vein--primary {
+    stroke-dasharray: 12 18;
+    animation: magma-vein-flow 5s linear infinite;
+  }
+
+  .diagram-settled .magma-vein--branch {
+    stroke-dasharray: 8 14;
+    animation: magma-vein-flow 6.5s linear infinite reverse;
+    animation-delay: -2s;
+  }
+
+  .diagram-settled .sky-clouds {
+    animation: sky-cloud-drift 28s ease-in-out infinite alternate;
+  }
+
+  .diagram-settled .volcanic-smoke {
+    opacity: 0.3;
+    transition: opacity 0.6s ease;
+  }
+
+  .diagram-wrap[data-active-stage='3'] .volcanic-smoke {
+    opacity: 0.92;
+  }
+
+  .diagram-settled .smoke-wisp--1 {
+    animation: smoke-rise 7s ease-in-out infinite;
+  }
+
+  .diagram-settled .smoke-wisp--2 {
+    animation: smoke-rise 8.5s ease-in-out infinite;
+    animation-delay: -2.5s;
+  }
+
+  .diagram-settled .smoke-wisp--3 {
+    animation: smoke-rise 6s ease-in-out infinite;
+    animation-delay: -1s;
   }
 
   .diagram-settled .range-sparkle {
@@ -640,35 +764,12 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
     animation-delay: 0.9s;
   }
 
-  .diagram-settled .range-fragment {
-    transform-box: fill-box;
-    transform-origin: center bottom;
-    animation: range-fragment-settle 5s ease-out infinite;
-    opacity: 0;
-  }
-
-  .diagram-settled .range-fragment--2 {
-    animation-delay: 0.8s;
-  }
-
-  .diagram-settled .range-fragment--3 {
-    animation-delay: 1.6s;
-  }
-
-  .diagram-settled .range-fragment--4 {
-    animation-delay: 2.4s;
-  }
-
-  .diagram-settled .range-fragment--5 {
-    animation-delay: 3.2s;
-  }
-
-  .diagram-settled svg.cross-section .stage-two-plate,
-  .diagram-settled svg.cross-section .stage-two-arrow {
+  .diagram-settled:not(.diagram-physics) svg.cross-section .stage-two-plate,
+  .diagram-settled:not(.diagram-physics) svg.cross-section .stage-two-arrow {
     transform: translateY(-8px) translateX(-5px);
   }
 
-  .diagram-settled svg.cross-section .stage-three-anchor {
+  .diagram-settled:not(.diagram-physics) svg.cross-section .stage-three-anchor {
     transform: translateY(-6px);
   }
 
@@ -747,6 +848,7 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
     .diagram-settled .range-foothills {
       transform: scaleY(1);
       opacity: 1;
+
     }
 
     .diagram-epoch .range-peak,
@@ -774,6 +876,7 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   .diagram-epoch .range-foothills {
     transform: scaleY(1);
     opacity: 1;
+
   }
 
   .diagram-settled .range-peak,
@@ -782,8 +885,7 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
     opacity: 1;
   }
 
-  .diagram-settled .range-sparkle,
-  .diagram-settled .range-fragment {
+  .diagram-settled .range-sparkle {
     animation: none;
     opacity: 0.35;
   }
@@ -873,15 +975,15 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
 
 @keyframes intro-stage-one {
   0% {
-    transform: translateY(0) translateX(0);
+    transform: rotate(0deg) translate(0, 0);
   }
 
   45% {
-    transform: translateY(-8px) translateX(3px);
+    transform: rotate(-0.7deg) translate(5px, -1px);
   }
 
   100% {
-    transform: translateY(-12px) translateX(5px);
+    transform: rotate(-1.2deg) translate(8px, -2px);
   }
 }
 
@@ -952,6 +1054,49 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   }
 }
 
+@keyframes asthenosphere-breathe {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes magma-vein-flow {
+  to {
+    stroke-dashoffset: -60;
+  }
+}
+
+@keyframes sky-cloud-drift {
+  from {
+    transform: translateX(-6px);
+  }
+
+  to {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes smoke-rise {
+  0% {
+    opacity: 0.15;
+    transform: translateY(6px);
+  }
+
+  45% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+
 @keyframes range-sparkle-twinkle {
   0%,
   100% {
@@ -967,28 +1112,6 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   68% {
     opacity: 0.25;
     transform: scale(0.75);
-  }
-}
-
-@keyframes range-fragment-settle {
-  0% {
-    opacity: 0;
-    transform: translateY(-5px) scale(0.85);
-  }
-
-  35% {
-    opacity: 0.75;
-    transform: translateY(0) scale(1);
-  }
-
-  70% {
-    opacity: 0.45;
-    transform: translateY(0) scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(2px) scale(0.9);
   }
 }
 
@@ -1032,11 +1155,13 @@ svg.cross-section .stage-three-anchor .range-surface-rim {
   0% {
     transform: scaleY(0);
     opacity: 0;
+
   }
 
   100% {
     transform: scaleY(1);
     opacity: 1;
+
   }
 }
 
