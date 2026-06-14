@@ -40,6 +40,14 @@ Site: https://www.davidhoang.com
 - View transitions enabled with custom animations and reduced-motion support
 - Daily theme system with auto-generated themes
 
+## CI / type checking
+- GitHub Actions (`.github/workflows/ci.yml`) runs `npm run check` (astro check → TypeScript) and `npm test` on every push/PR. **Both must pass for the run to go green.**
+- **Gotcha:** `npm run build` (the command Vercel runs) does **not** type-check, so a build can pass locally and on Vercel while CI still fails on `npm run check`. Always run `npm run check` before pushing — a green local build is not enough.
+- Inline `<script>` blocks in `.astro` files are type-checked too. Common pitfalls:
+  - `document.querySelector('…')` returns `Element`; pass the type param (`querySelector<HTMLElement>('…')`, `querySelector<SVGSVGElement>('…')`) when you need DOM-specific APIs (`.dataset`, etc.) or to satisfy a typed function signature.
+  - `Array.prototype.filter((x) => x.el)` does **not** narrow `el` from `T | null` to `T`. Use a type predicate (`.filter((z): z is {…} => z.el !== null)`) when the filtered values are used without optional chaining.
+- Astro/TS warnings and hints (e.g. unused vars, `is:inline` script hints) do not fail CI — only `error`-level diagnostics do.
+
 ## Code style
 - Prefer minimal changes; don't over-engineer
 - Use existing patterns — check similar components before creating new ones
