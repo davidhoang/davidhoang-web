@@ -2,6 +2,8 @@ import { motion, useInView, useReducedMotion, MotionConfig } from 'framer-motion
 import { useRef, type ReactNode } from 'react';
 import { useMagneticTilt } from './useMagneticTilt';
 
+const EASE_STANDARD = [0.25, 0.1, 0.25, 1] as const;
+
 interface PhilosophyItem {
   content: string;
   id?: string;
@@ -37,7 +39,7 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
           y: 0,
           transition: {
             duration: 0.5,
-            ease: [0.25, 0.1, 0.25, 1],
+            ease: EASE_STANDARD,
           },
         },
       };
@@ -87,7 +89,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           y: 0,
           transition: {
             duration: 0.6,
-            ease: [0.25, 0.1, 0.25, 1],
+            ease: EASE_STANDARD,
           },
         },
       };
@@ -199,7 +201,7 @@ export function AnimatedSection({
           : {
               duration: 0.6,
               delay,
-              ease: [0.25, 0.1, 0.25, 1],
+              ease: EASE_STANDARD,
             }
       }
     >

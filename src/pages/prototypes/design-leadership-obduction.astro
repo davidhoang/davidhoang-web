@@ -779,13 +779,13 @@ const pageDescription =
 <script>
   import { initObductionPhysics } from '../../scripts/obduction-physics';
 
-  const wrap = document.querySelector('.diagram-wrap');
+  const wrap = document.querySelector<HTMLElement>('.diagram-wrap');
   if (wrap) {
     const INTRO_MS = 8800;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const coarse = window.matchMedia('(hover: none)').matches;
 
-    const svg = wrap.querySelector('svg.cross-section');
+    const svg = wrap.querySelector<SVGSVGElement>('svg.cross-section');
 
     const physics =
       svg &&
@@ -815,10 +815,10 @@ const pageDescription =
 
     if (svg && physics) {
       const zones = [
-        { el: svg.querySelector('.stage-one-hit'), stage: '1' as const },
-        { el: svg.querySelector('.stage-two-hit'), stage: '2' as const },
-        { el: svg.querySelector('.stage-three-hit'), stage: '3' as const },
-      ].filter((z) => z.el);
+        { el: svg.querySelector<SVGElement>('.stage-one-hit'), stage: '1' as const },
+        { el: svg.querySelector<SVGElement>('.stage-two-hit'), stage: '2' as const },
+        { el: svg.querySelector<SVGElement>('.stage-three-hit'), stage: '3' as const },
+      ].filter((z): z is { el: SVGElement; stage: '1' | '2' | '3' } => Boolean(z.el));
 
       const resolveActiveStage = () => {
         const hovered = [...zones].reverse().find(({ el }) => el?.matches(':hover'));
