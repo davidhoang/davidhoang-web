@@ -174,9 +174,7 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  /* GPU acceleration for blur performance */
   transform: translateZ(0);
-  will-change: backdrop-filter;
 }
 
 /* Reduce blur on mobile for better performance */

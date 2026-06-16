@@ -38,9 +38,15 @@ export default function ShaderBackground({
   const [currentShader, setCurrentShader] = useState(shader);
   const [currentColors, setCurrentColors] = useState(colors);
   const [isEInkMode, setIsEInkMode] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncMotionPreference = () => setPrefersReducedMotion(motionQuery.matches);
+    syncMotionPreference();
+    motionQuery.addEventListener('change', syncMotionPreference);
 
     let observer: MutationObserver | null = null;
 
@@ -96,11 +102,14 @@ export default function ShaderBackground({
       setTimeout(initObserver, 1);
     }
 
-    return () => observer?.disconnect();
+    return () => {
+      motionQuery.removeEventListener('change', syncMotionPreference);
+      observer?.disconnect();
+    };
   }, []);
 
-  // Don't render shaders in e-ink mode or if shader is none
-  if (!mounted || currentShader === 'none' || isEInkMode) {
+  // Don't render shaders in e-ink mode, reduced motion, or if shader is none
+  if (!mounted || currentShader === 'none' || isEInkMode || prefersReducedMotion) {
     return null;
   }
 
