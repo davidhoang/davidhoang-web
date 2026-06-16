@@ -1,4 +1,4 @@
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion, MotionConfig } from 'framer-motion';
 import { useRef, type ReactNode } from 'react';
 import { useMagneticTilt } from './useMagneticTilt';
 
@@ -26,8 +26,24 @@ interface PortfolioItem {
 export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const prefersReducedMotion = useReducedMotion();
+
+  const itemVariants = prefersReducedMotion
+    ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
+    : {
+        hidden: { opacity: 0, y: 25 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.5,
+            ease: [0.25, 0.1, 0.25, 1],
+          },
+        },
+      };
 
   return (
+    <MotionConfig reducedMotion="user">
     <motion.div
       ref={ref}
       className="philosophy-grid"
@@ -38,9 +54,7 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
       variants={{
         hidden: {},
         visible: {
-          transition: {
-            staggerChildren: 0.12,
-          },
+          transition: prefersReducedMotion ? undefined : { staggerChildren: 0.12 },
         },
       }}
     >
@@ -50,22 +64,13 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
           className="philosophy-item"
           role="listitem"
           id={item.id}
-          variants={{
-            hidden: { opacity: 0, y: 25 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.5,
-                ease: [0.25, 0.1, 0.25, 1],
-              },
-            },
-          }}
+          variants={itemVariants}
         >
           <p dangerouslySetInnerHTML={{ __html: item.content }} />
         </motion.div>
       ))}
     </motion.div>
+    </MotionConfig>
   );
 }
 
@@ -73,11 +78,9 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   const prefersReducedMotion = useReducedMotion();
   const tilt = useMagneticTilt({ amplitude: 6 });
 
-  return (
-    <motion.div
-      className="portfolio-content"
-      role="listitem"
-      variants={{
+  const itemVariants = prefersReducedMotion
+    ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
+    : {
         hidden: { opacity: 0, y: 30 },
         visible: {
           opacity: 1,
@@ -87,7 +90,13 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
             ease: [0.25, 0.1, 0.25, 1],
           },
         },
-      }}
+      };
+
+  return (
+    <motion.div
+      className="portfolio-content"
+      role="listitem"
+      variants={itemVariants}
     >
       <div className="portfolio-item-text">
         <p>
@@ -104,7 +113,6 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           rotateX: tilt.rotateX,
           rotateY: tilt.rotateY,
           transformPerspective: 1000,
-          willChange: 'transform',
         }}
         whileHover={
           prefersReducedMotion
@@ -139,8 +147,10 @@ export function AnimatedPortfolioGrid({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const prefersReducedMotion = useReducedMotion();
 
   return (
+    <MotionConfig reducedMotion="user">
     <motion.div
       ref={ref}
       className="portfolio-grid"
@@ -151,9 +161,7 @@ export function AnimatedPortfolioGrid({
       variants={{
         hidden: {},
         visible: {
-          transition: {
-            staggerChildren: 0.15,
-          },
+          transition: prefersReducedMotion ? undefined : { staggerChildren: 0.15 },
         },
       }}
     >
@@ -161,6 +169,7 @@ export function AnimatedPortfolioGrid({
         <PortfolioCard key={index} item={item} />
       ))}
     </motion.div>
+    </MotionConfig>
   );
 }
 
@@ -175,20 +184,27 @@ export function AnimatedSection({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const prefersReducedMotion = useReducedMotion();
 
   return (
+    <MotionConfig reducedMotion="user">
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{
-        duration: 0.6,
-        delay,
-        ease: [0.25, 0.1, 0.25, 1],
-      }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : {
+              duration: 0.6,
+              delay,
+              ease: [0.25, 0.1, 0.25, 1],
+            }
+      }
     >
       {children}
     </motion.div>
+    </MotionConfig>
   );
 }

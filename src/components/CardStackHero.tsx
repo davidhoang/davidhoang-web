@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
@@ -200,6 +201,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const LayoutComponent = layoutComponents[heroLayout];
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className={`card-stack-hero card-stack-hero--${heroLayout}`} ref={containerRef}>
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
@@ -454,7 +456,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           margin-left: -120px;
           margin-top: -160px;
           transform-origin: center center;
-          will-change: transform, opacity;
         }
 
         .hero-card:hover {
@@ -802,7 +803,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
 
         .card-hero-image-wrap--drift .card-hero-image {
           animation: card-hero-drift 9s ease-in-out infinite alternate;
-          will-change: transform;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1248,5 +1248,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
       `}</style>
     </div>
+    </MotionConfig>
   );
 }

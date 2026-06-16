@@ -132,13 +132,35 @@ export function initParticleTrail(): (() => void) | undefined {
   let lastMouseX = 0;
   let lastMouseY = 0;
 
-  function animate() {
-    const nav = document.querySelector('.site-nav');
-    if (nav) {
-      const navRect = nav.getBoundingClientRect();
-      const navCenterX = navRect.left + navRect.width / 2;
-      const navCenterY = navRect.top + navRect.height / 2;
+  // Cache nav rect — invalidate on resize/scroll instead of reading every frame
+  let navRect: DOMRect | null = null;
+  let navCenterX = 0;
+  let navCenterY = 0;
 
+  function refreshNavRect() {
+    const nav = document.querySelector('.site-nav');
+    if (!nav) {
+      navRect = null;
+      return;
+    }
+    navRect = nav.getBoundingClientRect();
+    navCenterX = navRect.left + navRect.width / 2;
+    navCenterY = navRect.top + navRect.height / 2;
+  }
+
+  let scrollRaf: number | null = null;
+  function handleScroll() {
+    if (scrollRaf !== null) return;
+    scrollRaf = requestAnimationFrame(() => {
+      scrollRaf = null;
+      refreshNavRect();
+    });
+  }
+
+  refreshNavRect();
+
+  function animate() {
+    if (navRect) {
       const distanceToNavY = Math.abs(mouseY - navCenterY);
       const distanceToNavX = Math.abs(mouseX - navCenterX);
       isNearNav = distanceToNavY < NAV_PROXIMITY && distanceToNavX < navRect.width / 2 + NAV_PROXIMITY;
@@ -181,6 +203,7 @@ export function initParticleTrail(): (() => void) | undefined {
   // Resize handler
   window.addEventListener('resize', () => {
     resize();
+    refreshNavRect();
     if (window.innerWidth <= 768) {
       canvas.style.display = 'none';
       if (animationFrame) cancelAnimationFrame(animationFrame);
@@ -191,6 +214,7 @@ export function initParticleTrail(): (() => void) | undefined {
   });
 
   document.addEventListener('mousemove', handleMouseMove, { passive: true });
+  window.addEventListener('scroll', handleScroll, { passive: true });
 
   // Pause animation when tab is not visible
   function handleVisibilityChange() {
@@ -216,6 +240,8 @@ export function initParticleTrail(): (() => void) | undefined {
   return () => {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('visibilitychange', handleVisibilityChange);
+    window.removeEventListener('scroll', handleScroll);
+    if (scrollRaf !== null) cancelAnimationFrame(scrollRaf);
     if (animationFrame) cancelAnimationFrame(animationFrame);
   };
 }

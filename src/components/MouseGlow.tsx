@@ -172,7 +172,6 @@ export default function MouseGlow({
         pointerEvents: 'none',
         mixBlendMode: 'screen',
         opacity: intensity,
-        willChange: 'transform',
       }}
       aria-hidden="true"
     />

@@ -39,6 +39,27 @@ export function initSentientNav(): (() => void) | undefined {
   let breathePhase = 0;
   let lastTime = performance.now();
 
+  // Cache nav rect — invalidate on resize/scroll instead of reading every frame
+  let navRect = nav.getBoundingClientRect();
+  let navCenterX = navRect.left + navRect.width / 2;
+  let navCenterY = navRect.top + navRect.height / 2;
+
+  function refreshNavRect() {
+    if (!nav) return;
+    navRect = nav.getBoundingClientRect();
+    navCenterX = navRect.left + navRect.width / 2;
+    navCenterY = navRect.top + navRect.height / 2;
+  }
+
+  let scrollRaf: number | null = null;
+  function handleScroll() {
+    if (scrollRaf !== null) return;
+    scrollRaf = requestAnimationFrame(() => {
+      scrollRaf = null;
+      refreshNavRect();
+    });
+  }
+
   const MAGNETIC_RANGE = 380;
   const MAX_OFFSET = 4.5;
   const MAX_TILT = 0.65;
@@ -61,10 +82,9 @@ export function initSentientNav(): (() => void) | undefined {
 
   function updateNavLocalFromEvent(e: MouseEvent) {
     if (!nav) return;
-    const r = nav.getBoundingClientRect();
-    if (r.width < 1 || r.height < 1) return;
-    navLocalX = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-    navLocalY = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+    if (navRect.width < 1 || navRect.height < 1) return;
+    navLocalX = Math.max(0, Math.min(1, (e.clientX - navRect.left) / navRect.width));
+    navLocalY = Math.max(0, Math.min(1, (e.clientY - navRect.top) / navRect.height));
   }
 
   function animate(time: number) {
@@ -72,10 +92,6 @@ export function initSentientNav(): (() => void) | undefined {
     lastTime = time;
 
     if (!nav) return;
-
-    const navRect = nav.getBoundingClientRect();
-    const navCenterX = navRect.left + navRect.width / 2;
-    const navCenterY = navRect.top + navRect.height / 2;
 
     const deltaX = mouseX - navCenterX;
     const deltaY = mouseY - navCenterY;
@@ -137,6 +153,7 @@ export function initSentientNav(): (() => void) | undefined {
 
   function handleNavPointerEnter(e: MouseEvent) {
     isHovering = true;
+    refreshNavRect();
     updateNavLocalFromEvent(e);
   }
 
@@ -145,6 +162,8 @@ export function initSentientNav(): (() => void) | undefined {
   }
 
   document.addEventListener('mousemove', handleMouseMove, { passive: true });
+  window.addEventListener('resize', refreshNavRect, { passive: true });
+  window.addEventListener('scroll', handleScroll, { passive: true });
   nav.addEventListener('mouseenter', handleNavPointerEnter);
   nav.addEventListener('mousemove', updateNavLocalFromEvent, { passive: true });
   nav.addEventListener('mouseleave', handleNavPointerLeave);
@@ -171,6 +190,9 @@ export function initSentientNav(): (() => void) | undefined {
   return () => {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('visibilitychange', handleVisibilityChange);
+    window.removeEventListener('resize', refreshNavRect);
+    window.removeEventListener('scroll', handleScroll);
+    if (scrollRaf !== null) cancelAnimationFrame(scrollRaf);
     nav.removeEventListener('mouseenter', handleNavPointerEnter);
     nav.removeEventListener('mousemove', updateNavLocalFromEvent);
     nav.removeEventListener('mouseleave', handleNavPointerLeave);
