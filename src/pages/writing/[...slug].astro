@@ -2,10 +2,10 @@
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { calculateReadingTime } from '../../utils/readingTime';
+import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
-  // Filter out drafts in production, but show them in development
   const filteredPosts = import.meta.env.PROD
     ? posts.filter((post) => !post.data.draft)
     : posts;
@@ -22,41 +22,29 @@ if (!post) {
   throw new Error('Post is undefined');
 }
 
-// Find related posts by keyword overlap in title + description
-const allPosts = await getCollection('writing');
-const otherPosts = (import.meta.env.PROD
-  ? allPosts.filter((p) => !p.data.draft)
-  : allPosts
-).filter((p) => p.id !== post.id);
+const includeDrafts = !import.meta.env.PROD;
+const allPosts = filterPublished(await getCollection('writing'), includeDrafts);
+const allNotes = filterPublished(await getCollection('notes'), includeDrafts);
 
-function getKeywords(text: string): Set<string> {
-  const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'it', 'its', 'with', 'as', 'by', 'from', 'that', 'this', 'was', 'are', 'be', 'has', 'had', 'have', 'not', 'what', 'how', 'you', 'your', 'we', 'our']);
-  return new Set(
-    text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w))
-  );
-}
-
-const currentKeywords = getKeywords(`${post.data.title} ${post.data.description || ''}`);
-
-const scored = otherPosts.map((p) => {
-  const keywords = getKeywords(`${p.data.title} ${p.data.description || ''}`);
-  let overlap = 0;
-  for (const word of keywords) {
-    if (currentKeywords.has(word)) overlap++;
-  }
-  return { post: p, score: overlap };
-}).sort((a, b) => b.score - a.score || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf());
-
-const relatedPosts = scored.slice(0, 3).map((s) => s.post);
+const relatedContent = findRelatedContent({
+  kind: 'writing',
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags,
+  relatedWriting: post.data.relatedWriting,
+  relatedNotes: post.data.relatedNotes,
+  writingEntries: allPosts.filter((entry) => entry.id !== post.id),
+  noteEntries: allNotes,
+  limit: 4,
+});
 
 function extractFirstImageUrl(markdown: string | undefined): string | undefined {
   if (!markdown) return undefined;
 
-  // Markdown image: ![alt](url "optional title")
   const mdImageMatch = markdown.match(/!\[[^\]]*]\(([^)]+)\)/m);
   if (mdImageMatch?.[1]) {
     const inner = mdImageMatch[1].trim();
-    // Take the URL token before any optional title.
     let url = inner.split(/\s+/)[0]?.trim();
     if (url?.startsWith('<') && url.endsWith('>')) url = url.slice(1, -1).trim();
     if (!url) return undefined;
@@ -66,7 +54,6 @@ function extractFirstImageUrl(markdown: string | undefined): string | undefined 
     return `/${url}`;
   }
 
-  // HTML image: <img src="...">
   const htmlImageMatch = markdown.match(/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["'][^>]*>/i);
   if (htmlImageMatch?.[1]) {
     const url = htmlImageMatch[1].trim();
@@ -80,9 +67,6 @@ function extractFirstImageUrl(markdown: string | undefined): string | undefined 
   return undefined;
 }
 
-// Prefer the first image a reader sees: the post cover image (if set),
-// otherwise the first image embedded in the markdown content.
-// Fall back to any legacy `ogImage` value if present.
 const inferredOgImage = post.data.coverImage || extractFirstImageUrl(post.body) || post.data.ogImage;
 const postData = {
   ...post.data,
@@ -93,6 +77,11 @@ const readingTime = calculateReadingTime(post.body);
 const { Content, headings } = await render(post);
 ---
 
-<BlogPost data={postData} relatedPosts={relatedPosts} headings={headings} readingTime={readingTime}>
+<BlogPost
+  data={postData}
+  relatedContent={relatedContent}
+  headings={headings}
+  readingTime={readingTime}
+>
   <Content />
 </BlogPost>

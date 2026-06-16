@@ -9,6 +9,8 @@ import {
   defaultNoteMetaDescription,
 } from '../../utils/noteStages';
 import { parseYoutubeVideoId } from '../../utils/youtube';
+import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
+import RelatedContentSection from '../../components/RelatedContentSection.astro';
 
 const overviewMd = new MarkdownIt({ html: false, linkify: true, breaks: true });
 
@@ -34,14 +36,31 @@ const stage = noteStageInfo[stageKey];
 const tags = note.data.tags || [];
 const inspirationLinks = note.data.links || [];
 
+const pageDescription =
+  note.data.description || defaultNoteMetaDescription(stageKey, note.data.title);
+
+const includeDrafts = !import.meta.env.PROD;
+const allPosts = filterPublished(await getCollection('writing'), includeDrafts);
+const allNotes = filterPublished(await getCollection('notes'), includeDrafts);
+
+const relatedContent = findRelatedContent({
+  kind: 'notes',
+  id: note.id,
+  title: note.data.title,
+  description: pageDescription,
+  tags: note.data.tags,
+  relatedWriting: note.data.relatedWriting,
+  relatedNotes: note.data.relatedNotes,
+  writingEntries: allPosts,
+  noteEntries: allNotes.filter((entry) => entry.id !== note.id),
+  limit: 4,
+});
+
 function linkAttrs(url: string) {
   return /^https?:\/\//i.test(url)
     ? { target: '_blank' as const, rel: 'noopener noreferrer' }
     : {};
 }
-
-const pageDescription =
-  note.data.description || defaultNoteMetaDescription(stageKey, note.data.title);
 
 const overviewSource = (note.data.overview ?? note.data.description ?? '').trim();
 const overviewHtml = overviewSource ? renderNoteOverview(overviewSource) : '';
@@ -153,6 +172,8 @@ const noteJsonLd = {
         <Content />
       </div>
     </section>
+
+    <RelatedContentSection items={relatedContent} heading="Related" />
 
     <section class="note-section" aria-labelledby="links-heading">
       <h2 id="links-heading" class="note-section__heading">Links</h2>

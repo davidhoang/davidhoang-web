@@ -43,7 +43,7 @@ function formatRelative(date: Date) {
   <PageHeader
     title="Notes"
     image="/images/highlights/img-highlights-play.webp"
-    alt=""
+    alt="Abstract sketch representing notes and ideas"
     priority={true}
   />
 
@@ -52,6 +52,7 @@ function formatRelative(date: Date) {
     <p class="notes-intro__lede">
       A living collection of ideas—unlike linear blog posts, these pages grow, split, and merge as I learn.
       Filter by topic or stage, or search across everything.
+      <a href="/rss/notes.xml" class="notes-intro__rss">RSS feed</a>
     </p>
     <div class="stage-legend">
       {Object.entries(noteStageInfo).map(([key, info]) => (
@@ -168,6 +169,13 @@ function formatRelative(date: Date) {
     color: var(--color-muted);
     margin: 0 0 1.5rem;
     max-width: 48rem;
+  }
+
+  .notes-intro__rss {
+    white-space: nowrap;
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .stage-legend {
