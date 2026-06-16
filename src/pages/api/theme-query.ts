@@ -3,9 +3,6 @@ import dailyThemes from '../../data/daily-themes.json';
 
 export const prerender = false;
 
-/**
- * Catalog prompt — must stay in sync with catalog.ts and showcase-generator.mjs.
- */
 const CATALOG_PROMPT = `You are generating a JSON UI spec that composes a visual layout from daily website themes.
 The spec uses a flat element tree format with the following components.
 
@@ -30,6 +27,30 @@ No children.
 ### LayoutPreview
 Mini wireframe of grid style. Props: { style: "standard" | "asymmetric" | "split" | "magazine" | "sidebar" }
 No children.
+
+### HeroLayoutPreview
+Mini preview of the hero composition. Props: { layout: "stacked-fan" | "editorial" | "scattered" | "rolodex" | "cinematic", label?: string }
+No children.
+
+### ShaderPreview
+Mini shader/motion mood panel. Props: { type: "none" | "grain" | "mesh-gradient" | "neuro" | "waves" | "dot-grid" | "swirl" | "perlin" | "simplex", colors: string[] }
+No children.
+
+### ThemeManifesto
+Short expressive editorial statement. Props: { text: string, emphasis: "quiet" | "bold" | "experimental" }
+No children.
+
+### ThemeMeta
+Compact key-value list. Props: { items: [{ label: string, value: string }, ...] }
+No children.
+
+### TokenGrid
+Compact token readout. Props: { tokens: [{ name: string, value: string }, ...] }
+No children.
+
+### ThemeActionButton
+Interactive button. Props: { label: string, action: "apply-theme" | "copy-palette", date?: string, payload?: string }
+No children. Use action "apply-theme" with a theme date when recommending a concrete theme.
 
 ### Stack
 Flex container. Props: { direction: "horizontal" | "vertical", gap: "none" | "sm" | "md" | "lg", align: "start" | "center" | "end" | "stretch" }
@@ -70,9 +91,11 @@ No children.
 - Use descriptive keys like "palette", "heading-sample", "badge-row"
 - Show relevant color palettes from the theme data provided
 - Include TypeSample elements with the theme names or evocative phrases
-- Include Badges for font categories, card styles, etc.
+- Include ThemeManifesto, ThemeMeta, HeroLayoutPreview, or ShaderPreview where they improve the answer
+- Include ThemeActionButton elements for themes the user may want to apply
+- Include Badges for font categories, card styles, contrast, shader, etc.
 - Output ONLY raw JSON, no markdown fences
-- Keep specs reasonable: 8-20 elements total depending on how many themes match
+- Keep specs reasonable: 10-24 elements total depending on how many themes match
 - Do NOT add comments in the JSON
 - VARY the layout — make it feel curated and editorial, not just a list`;
 
@@ -113,7 +136,11 @@ export const POST: APIRoute = async ({ request }) => {
       cardStyle: t.cards?.style,
       gridStyle: t.layout?.gridStyle,
       heroLayout: t.hero?.layout,
+      linkStyle: t.links?.style,
       texture: t.background?.texture,
+      footerStyle: t.footer?.style,
+      shaderType: t.shader?.type,
+      shaderColors: t.shader?.colors || [],
     }));
 
     const userPrompt = `User query: "${query}"
@@ -131,9 +158,12 @@ Body font: ${t.bodyFont}
 Card style: ${t.cardStyle}
 Grid: ${t.gridStyle}
 Hero: ${t.heroLayout}
-Texture: ${t.texture}`).join('\n\n')}
+Links: ${t.linkStyle}
+Texture: ${t.texture}
+Footer: ${t.footerStyle}
+Shader: ${t.shaderType} (${t.shaderColors.join(', ') || 'no shader colors'})`).join('\n\n')}
 
-Based on the user's query, compose a json-render spec that presents the relevant themes in an interesting, editorial layout. If the query is general, include all themes. If specific, filter to the most relevant ones. Make it visually compelling.`;
+Based on the user's query, compose a json-render spec that presents the relevant themes in an interesting, editorial layout. If the query is general, include all themes. If specific, filter to the most relevant ones. Make it visually compelling and include apply-theme buttons for the strongest recommendations.`;
 
     // Stream from Anthropic API
     const response = await fetch('https://api.anthropic.com/v1/messages', {

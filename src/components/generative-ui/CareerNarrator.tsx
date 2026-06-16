@@ -1,12 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
-import {
-  Renderer,
-  StateProvider,
-  VisibilityProvider,
-  ActionProvider,
-  type Spec,
-} from '@json-render/react';
-import { registry } from './registry';
+import type { Spec } from '@json-render/react';
+import ThemeSpecRenderer from './ThemeSpecRenderer';
 
 interface Props {
   /** Suggested queries shown as quick-action chips */
@@ -36,18 +30,6 @@ function tryParseSpec(buffer: string): Spec | null {
     // Not valid yet
   }
   return null;
-}
-
-function SpecRenderer({ spec }: { spec: Spec }) {
-  return (
-    <StateProvider initialState={{}}>
-      <VisibilityProvider>
-        <ActionProvider handlers={{}}>
-          <Renderer spec={spec} registry={registry} />
-        </ActionProvider>
-      </VisibilityProvider>
-    </StateProvider>
-  );
 }
 
 export default function CareerNarrator({ suggestions = DEFAULT_SUGGESTIONS }: Props) {
@@ -163,7 +145,7 @@ export default function CareerNarrator({ suggestions = DEFAULT_SUGGESTIONS }: Pr
       {/* Result */}
       {(spec || loading) && (
         <div className="career-narrator__result">
-          {spec && <SpecRenderer spec={spec} />}
+          {spec && <ThemeSpecRenderer spec={spec} />}
           {loading && !spec && (
             <div className="career-narrator__loading">
               <div className="streaming-dot" />

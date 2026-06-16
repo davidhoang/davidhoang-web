@@ -46,6 +46,60 @@ export const themeCatalog = defineCatalog(schema, {
       slots: [],
       description: 'A mini wireframe preview of a grid layout style.',
     },
+    HeroLayoutPreview: {
+      props: z.object({
+        layout: z.enum(['stacked-fan', 'editorial', 'scattered', 'rolodex', 'cinematic']),
+        label: z.string().optional(),
+      }),
+      slots: [],
+      description: 'A compact visual preview of the generated hero layout direction.',
+    },
+    ShaderPreview: {
+      props: z.object({
+        type: z.enum(['none', 'grain', 'mesh-gradient', 'neuro', 'waves', 'dot-grid', 'swirl', 'perlin', 'simplex']),
+        colors: z.array(z.string()).default([]),
+      }),
+      slots: [],
+      description: 'A miniature shader/motion mood preview using theme colors.',
+    },
+    ThemeManifesto: {
+      props: z.object({
+        text: z.string().describe('A short editorial statement about the theme mood'),
+        emphasis: z.enum(['quiet', 'bold', 'experimental']).default('bold'),
+      }),
+      slots: [],
+      description: 'A short expressive manifesto or mood statement for a generated daily theme.',
+    },
+    ThemeMeta: {
+      props: z.object({
+        items: z.array(z.object({
+          label: z.string(),
+          value: z.string(),
+        })),
+      }),
+      slots: [],
+      description: 'A compact key-value list for theme attributes like hero, grid, shader, or color scheme.',
+    },
+    TokenGrid: {
+      props: z.object({
+        tokens: z.array(z.object({
+          name: z.string(),
+          value: z.string(),
+        })),
+      }),
+      slots: [],
+      description: 'A compact grid of generated design token names and values.',
+    },
+    ThemeActionButton: {
+      props: z.object({
+        label: z.string(),
+        action: z.enum(['apply-theme', 'copy-palette']),
+        date: z.string().optional(),
+        payload: z.string().optional(),
+      }),
+      slots: [],
+      description: 'An interactive button for applying a theme or copying generated theme details.',
+    },
     Stack: {
       props: z.object({
         direction: z.enum(['horizontal', 'vertical']).default('vertical'),
@@ -75,7 +129,7 @@ export const themeCatalog = defineCatalog(schema, {
         year: z.string().describe('Year or date range, e.g. "2019" or "2019-2023"'),
         title: z.string().describe('Event or role title'),
         description: z.string().optional().describe('Brief description of the event'),
-        type: z.enum(['moment']).default('moment').describe('Node type'),
+        type: z.enum(['moment', 'career', 'inspiration', 'event', 'spark', 'possiblePath']).default('moment').describe('Node type'),
       }),
       slots: [],
       description: 'A timeline entry showing a career event, inspiration, or milestone. Color-coded by type.',
