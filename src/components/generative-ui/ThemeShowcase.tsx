@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Renderer, StateProvider, VisibilityProvider, ActionProvider, type Spec } from '@json-render/react';
-import { registry } from './registry';
+import type { Spec } from '@json-render/react';
+import ThemeSpecRenderer from './ThemeSpecRenderer';
 
 interface ThemeInfo {
   name: string;
@@ -37,13 +37,7 @@ export default function ThemeShowcase({ themes }: Props) {
   return (
     <div>
       <div style={{ marginBottom: '0.75rem' }}>
-        <StateProvider initialState={{}}>
-          <VisibilityProvider>
-            <ActionProvider handlers={{}}>
-              <Renderer spec={current.showcase!} registry={registry} />
-            </ActionProvider>
-          </VisibilityProvider>
-        </StateProvider>
+        <ThemeSpecRenderer spec={current.showcase!} />
       </div>
       {themesWithShowcase.length > 1 && (
         <div style={{

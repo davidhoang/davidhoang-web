@@ -1,59 +1,47 @@
-import React, { useState, useRef, useCallback } from 'react';
-import {
-  Renderer,
-  StateProvider,
-  VisibilityProvider,
-  ActionProvider,
-  type Spec,
-} from '@json-render/react';
-import { registry } from './registry';
-
-interface ThemeData {
-  name: string;
-  date: string;
-  description: string;
-  colors: {
-    colorScheme: string;
-    contrastMode: string;
-    light: Record<string, string>;
-    dark: Record<string, string>;
-  };
-  fonts: {
-    heading: { name: string; category: string };
-    body: { name: string; category: string };
-  };
-  cards: { style: string };
-  background: { texture: string };
-  hero: { layout: string };
-  showcase?: Spec;
-}
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import type { Spec } from '@json-render/react';
+import ThemeSpecRenderer, { type ThemeData } from './ThemeSpecRenderer';
 
 interface Props {
   themes: ThemeData[];
 }
 
-type FilterKey = 'all' | 'serif' | 'sans-serif' | 'display' | 'glass' | 'elevated' | 'flat';
+type FilterKey =
+  | 'all'
+  | 'serif'
+  | 'sans-serif'
+  | 'display'
+  | 'elevated'
+  | 'flat'
+  | 'outlined'
+  | 'filled'
+  | 'high-contrast';
 
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'all', label: 'All' },
   { key: 'serif', label: 'Serif' },
   { key: 'sans-serif', label: 'Sans-serif' },
   { key: 'display', label: 'Display' },
-  { key: 'glass', label: 'Glass' },
   { key: 'elevated', label: 'Elevated' },
   { key: 'flat', label: 'Flat' },
+  { key: 'outlined', label: 'Outlined' },
+  { key: 'filled', label: 'Filled' },
+  { key: 'high-contrast', label: 'High contrast' },
 ];
 
 function matchesFilter(theme: ThemeData, filter: FilterKey): boolean {
   if (filter === 'all') return true;
   if (['serif', 'sans-serif', 'display'].includes(filter)) {
     return (
-      theme.fonts.heading.category === filter ||
-      theme.fonts.body.category === filter
+      theme.fonts?.heading?.category === filter ||
+      theme.fonts?.body?.category === filter
     );
   }
-  if (['glass', 'elevated', 'flat'].includes(filter)) {
-    return theme.cards.style === filter;
+  if (['elevated', 'flat', 'outlined', 'filled'].includes(filter)) {
+    return theme.cards?.style === filter;
+  }
+  if (filter === 'high-contrast') {
+    return theme.colors?.contrastMode === 'high';
   }
   return true;
 }
@@ -94,18 +82,6 @@ function tryParseSpec(buffer: string): Spec | null {
   return null;
 }
 
-function ThemeSpecRenderer({ spec }: { spec: Spec }) {
-  return (
-    <StateProvider initialState={{}}>
-      <VisibilityProvider>
-        <ActionProvider handlers={{}}>
-          <Renderer spec={spec} registry={registry} />
-        </ActionProvider>
-      </VisibilityProvider>
-    </StateProvider>
-  );
-}
-
 function ThemeMetaRow({
   theme,
   activeDate,
@@ -121,7 +97,7 @@ function ThemeMetaRow({
       <span className="theme-meta-date">{theme.date}</span>
       <span className="theme-meta-dot">&middot;</span>
       <span className="theme-meta-fonts">
-        {theme.fonts.heading.name} + {theme.fonts.body.name}
+        {theme.fonts?.heading?.name} + {theme.fonts?.body?.name}
       </span>
       <button
         className={`theme-apply-btn ${isActive ? 'active' : ''}`}
@@ -148,13 +124,36 @@ export default function ThemesExplorer({ themes }: Props) {
   });
   const abortRef = useRef<AbortController | null>(null);
 
-  const themesWithShowcase = themes.filter((t) => t.showcase);
+  const themesWithShowcase = themes.filter((t): t is ThemeData & { showcase: Spec } => Boolean(t.showcase));
   const filtered = themesWithShowcase.filter((t) => matchesFilter(t, filter));
 
   const handleApplyTheme = useCallback((date: string) => {
     setActiveDate(date);
     applyThemeSiteWide(date);
   }, []);
+
+  const handleCopyPalette = useCallback(async (payload?: string) => {
+    if (!payload || typeof navigator === 'undefined' || !navigator.clipboard) return;
+    await navigator.clipboard.writeText(payload);
+  }, []);
+
+  useEffect(() => {
+    const onApply = (event: Event) => {
+      const date = (event as CustomEvent<{ date?: string }>).detail?.date;
+      if (date) handleApplyTheme(date);
+    };
+    const onCopyPalette = (event: Event) => {
+      const payload = (event as CustomEvent<{ payload?: string }>).detail?.payload;
+      void handleCopyPalette(payload);
+    };
+
+    window.addEventListener('daily-theme:apply', onApply);
+    window.addEventListener('daily-theme:copy-palette', onCopyPalette);
+    return () => {
+      window.removeEventListener('daily-theme:apply', onApply);
+      window.removeEventListener('daily-theme:copy-palette', onCopyPalette);
+    };
+  }, [handleApplyTheme, handleCopyPalette]);
 
   const handleAiQuery = useCallback(
     async (e: React.FormEvent) => {
@@ -289,7 +288,7 @@ export default function ThemesExplorer({ themes }: Props) {
       <div className="themes-explorer__grid">
         {filtered.map((theme) => (
           <div key={theme.date} className="themes-explorer__card">
-            <ThemeSpecRenderer spec={theme.showcase!} />
+            <ThemeSpecRenderer spec={theme.showcase} theme={theme} className="theme-spec-scope" />
             <ThemeMetaRow
               theme={theme}
               activeDate={activeDate}

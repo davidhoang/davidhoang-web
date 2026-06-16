@@ -96,9 +96,9 @@ BODY FONTS: ${BODY_FONTS.map(f => f.name).join(', ')}
 - headingWeight MUST be numerically greater than bodyWeight (100–900 scale, e.g. body 400 + heading 600).
 
 ## OPTIONS
-- Navigation: floating, full-width, minimal, bold-bar
-- Cards: flat, elevated, glass, outlined, filled
-- Hero: centered, left-aligned, minimal, bold
+- Navigation: fixed across the site; do not emit a navigation field
+- Cards: flat, elevated, outlined, filled
+- Hero: stacked-fan, editorial, scattered, rolodex, cinematic
 - Links: underline, highlight, animated-underline, color-only, bracket
 - Background: none, grain, dots, grid, gradient
 - Images: vivid, muted, grayscale, duotone
@@ -114,10 +114,9 @@ Generate a JSON object with this structure (no markdown):
   },
   "fonts": { "heading": "Font Name", "body": "Font Name" },
   "typography": { "headingWeight": "500-900 (must exceed bodyWeight)", "bodyWeight": "300-500 (must be less than headingWeight)", "bodyLineHeight": "1.5-2.0", "letterSpacing": "-0.02em to 0.03em", "headingLetterSpacing": "-0.03em to 0.05em", "headingTransform": "none|uppercase" },
-  "navigation": { "style": "floating|full-width|minimal|bold-bar", "height": "48-80px", "padding": "CSS" },
-  "cards": { "style": "flat|elevated|glass|outlined|filled", "shadow": "CSS or none", "borderWidth": "0-3px", "padding": "1-3rem" },
+  "cards": { "style": "flat|elevated|outlined|filled", "shadow": "CSS or none", "borderWidth": "0-3px", "padding": "1-3rem" },
   "layout": { "borderRadius": "0-24px", "containerMaxWidth": "640-1200px", "sectionSpacing": "2-8rem", "contentPadding": "1-2rem" },
-  "hero": { "layout": "centered|left-aligned|minimal|bold" },
+  "hero": { "layout": "stacked-fan|editorial|scattered|rolodex|cinematic" },
   "links": { "style": "underline|highlight|animated-underline|color-only|bracket" },
   "background": { "texture": "none|grain|dots|grid|gradient" },
   "images": { "style": "vivid|muted|grayscale|duotone", "hover": "zoom|lift|colorize|glow|none", "opacity": "0.85-1", "borderRadius": "0-24px" }
@@ -181,6 +180,7 @@ async function generateTheme() {
 
   if (!themeData.typography) themeData.typography = {};
   enforceHeadingHeavierThanBody(themeData.typography);
+  delete themeData.navigation;
 
   return themeData;
 }
@@ -191,7 +191,7 @@ async function main() {
   console.log(`Generated: "${theme.name}"`);
   console.log(`Description: ${theme.description}`);
   console.log(`Fonts: ${theme.fonts.heading.name} / ${theme.fonts.body.name}`);
-  console.log(`Nav: ${theme.navigation?.style}, Cards: ${theme.cards?.style}`);
+  console.log(`Cards: ${theme.cards?.style}`);
   console.log(`Hero: ${theme.hero?.layout}, Links: ${theme.links?.style}\n`);
 
   // Update themes file

@@ -11,6 +11,23 @@ const ALIGN_MAP = {
   stretch: 'stretch',
 } as const;
 
+const SHADER_LABELS: Record<string, string> = {
+  none: 'still',
+  grain: 'film grain',
+  'mesh-gradient': 'mesh gradient',
+  neuro: 'neural field',
+  waves: 'waves',
+  'dot-grid': 'dot grid',
+  swirl: 'swirl',
+  perlin: 'perlin',
+  simplex: 'simplex',
+};
+
+function dispatchThemeAction(action: string, detail: Record<string, unknown>) {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(`daily-theme:${action}`, { detail }));
+}
+
 /** Mini wireframe blocks for layout preview */
 function LayoutBlocks({ style }: { style: string }) {
   const block = (w: string, h: string) => (
@@ -69,6 +86,68 @@ function LayoutBlocks({ style }: { style: string }) {
           {block('100%', '24px')}
           {block('100%', '24px')}
         </div>
+      );
+  }
+}
+
+function HeroLayoutGlyph({ layout }: { layout: string }) {
+  const card = (style: React.CSSProperties) => (
+    <div
+      style={{
+        position: 'absolute',
+        width: '34%',
+        height: '44%',
+        borderRadius: 'var(--radius-sm, 4px)',
+        background: 'var(--color-link)',
+        opacity: 0.78,
+        boxShadow: '0 8px 18px rgba(0,0,0,0.12)',
+        ...style,
+      }}
+    />
+  );
+
+  switch (layout) {
+    case 'editorial':
+      return (
+        <>
+          <div style={{ position: 'absolute', left: '8%', top: '18%', width: '34%', height: '10%', background: 'var(--color-text)', opacity: 0.7, borderRadius: '2px' }} />
+          <div style={{ position: 'absolute', left: '8%', top: '34%', width: '24%', height: '7%', background: 'var(--color-muted)', opacity: 0.55, borderRadius: '2px' }} />
+          {card({ right: '12%', top: '12%' })}
+          {card({ right: '22%', bottom: '10%', opacity: 0.55 })}
+        </>
+      );
+    case 'scattered':
+      return (
+        <>
+          {card({ left: '12%', top: '14%', transform: 'rotate(-12deg)' })}
+          {card({ left: '36%', top: '30%', transform: 'rotate(8deg)', opacity: 0.62 })}
+          {card({ right: '12%', top: '18%', transform: 'rotate(18deg)', opacity: 0.5 })}
+        </>
+      );
+    case 'rolodex':
+      return (
+        <>
+          {card({ left: '18%', top: '20%', transform: 'skewY(-7deg)', opacity: 0.45 })}
+          {card({ left: '33%', top: '14%', transform: 'scale(1.08)', opacity: 0.86 })}
+          {card({ right: '18%', top: '20%', transform: 'skewY(7deg)', opacity: 0.45 })}
+        </>
+      );
+    case 'cinematic':
+      return (
+        <>
+          {card({ left: '8%', top: '12%', width: '54%', height: '58%', opacity: 0.82 })}
+          <div style={{ position: 'absolute', right: '9%', top: '18%', width: '24%', height: '12%', background: 'var(--color-border)', borderRadius: '2px' }} />
+          <div style={{ position: 'absolute', right: '9%', top: '40%', width: '24%', height: '12%', background: 'var(--color-border)', borderRadius: '2px' }} />
+          <div style={{ position: 'absolute', right: '9%', top: '62%', width: '24%', height: '12%', background: 'var(--color-border)', borderRadius: '2px' }} />
+        </>
+      );
+    default:
+      return (
+        <>
+          {card({ left: '20%', top: '20%', transform: 'rotate(-8deg)', opacity: 0.52 })}
+          {card({ left: '33%', top: '14%', transform: 'rotate(0deg)', opacity: 0.85 })}
+          {card({ right: '20%', top: '20%', transform: 'rotate(8deg)', opacity: 0.52 })}
+        </>
       );
   }
 }
@@ -199,6 +278,175 @@ export const { registry } = defineRegistry(themeCatalog, {
           {props.style}
         </p>
       </div>
+    ),
+
+    HeroLayoutPreview: ({ props }) => (
+      <div style={{
+        padding: '0.75rem',
+        background: 'linear-gradient(135deg, var(--color-card-bg), var(--color-bg))',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-sm, 4px)',
+      }}>
+        <div style={{
+          position: 'relative',
+          minHeight: '76px',
+          overflow: 'hidden',
+          borderRadius: 'var(--radius-sm, 4px)',
+          background: 'color-mix(in srgb, var(--color-link) 8%, var(--color-bg))',
+        }}>
+          <HeroLayoutGlyph layout={props.layout} />
+        </div>
+        <p style={{
+          fontSize: '0.65rem',
+          color: 'var(--color-muted)',
+          margin: '0.5rem 0 0',
+          textAlign: 'center',
+        }}>
+          {props.label || props.layout}
+        </p>
+      </div>
+    ),
+
+    ShaderPreview: ({ props }) => {
+      const colors = props.colors.length > 0 ? props.colors : ['var(--color-link)', 'var(--color-card-bg)', 'var(--color-bg)'];
+      const gradient = `radial-gradient(circle at 20% 20%, ${colors[0]} 0, transparent 34%), radial-gradient(circle at 78% 30%, ${colors[1] || colors[0]} 0, transparent 32%), radial-gradient(circle at 52% 82%, ${colors[2] || colors[0]} 0, transparent 36%), var(--color-bg)`;
+      return (
+        <div style={{
+          border: '1px solid var(--color-border)',
+          borderRadius: 'var(--radius-sm, 4px)',
+          overflow: 'hidden',
+          background: 'var(--color-card-bg)',
+        }}>
+          <div style={{
+            minHeight: '72px',
+            background: gradient,
+            filter: props.type === 'grain' ? 'contrast(1.15) saturate(0.85)' : 'saturate(1.15)',
+            opacity: props.type === 'none' ? 0.55 : 0.9,
+          }} />
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.45rem 0.6rem',
+            fontSize: '0.65rem',
+            color: 'var(--color-muted)',
+            borderTop: '1px solid var(--color-border)',
+          }}>
+            <span>{SHADER_LABELS[props.type] || props.type}</span>
+            <span>{colors.length} colors</span>
+          </div>
+        </div>
+      );
+    },
+
+    ThemeManifesto: ({ props }) => (
+      <blockquote style={{
+        margin: 0,
+        padding: props.emphasis === 'experimental' ? '1rem 1rem 1rem 1.15rem' : '0.75rem 0 0.75rem 0.9rem',
+        borderLeft: `3px solid var(--color-link)`,
+        color: 'var(--color-text)',
+        fontFamily: 'var(--font-heading)',
+        fontSize: props.emphasis === 'quiet' ? '1rem' : '1.2rem',
+        fontWeight: props.emphasis === 'quiet' ? 500 : ('var(--heading-weight, 700)' as any),
+        letterSpacing: 'var(--heading-letter-spacing, -0.02em)',
+        lineHeight: 1.2,
+        background: props.emphasis === 'experimental'
+          ? 'color-mix(in srgb, var(--color-link) 9%, transparent)'
+          : 'transparent',
+        borderRadius: props.emphasis === 'experimental' ? 'var(--radius-sm, 4px)' : 0,
+      }}>
+        {props.text}
+      </blockquote>
+    ),
+
+    ThemeMeta: ({ props }) => (
+      <dl style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(92px, 1fr))',
+        gap: '0.5rem',
+        margin: 0,
+      }}>
+        {props.items.map((item, index) => (
+          <div key={`${item.label}-${index}`} style={{
+            padding: '0.5rem',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-sm, 4px)',
+            background: 'var(--color-bg)',
+          }}>
+            <dt style={{
+              color: 'var(--color-muted)',
+              fontSize: '0.6rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              marginBottom: '0.2rem',
+            }}>
+              {item.label}
+            </dt>
+            <dd style={{
+              color: 'var(--color-text)',
+              fontSize: '0.78rem',
+              margin: 0,
+              fontWeight: 600,
+            }}>
+              {item.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    ),
+
+    TokenGrid: ({ props }) => (
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+        gap: '0.45rem',
+      }}>
+        {props.tokens.map((token, index) => (
+          <code key={`${token.name}-${index}`} style={{
+            display: 'block',
+            padding: '0.45rem 0.5rem',
+            color: 'var(--color-text)',
+            background: 'var(--color-bg)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-sm, 4px)',
+            fontSize: '0.65rem',
+            lineHeight: 1.35,
+            whiteSpace: 'normal',
+          }}>
+            <span style={{ color: 'var(--color-muted)' }}>{token.name}</span>
+            <br />
+            {token.value}
+          </code>
+        ))}
+      </div>
+    ),
+
+    ThemeActionButton: ({ props }) => (
+      <button
+        type="button"
+        onClick={() => {
+          if (props.action === 'apply-theme') {
+            dispatchThemeAction('apply', { date: props.date });
+          } else {
+            dispatchThemeAction('copy-palette', { payload: props.payload });
+          }
+        }}
+        style={{
+          alignSelf: 'flex-start',
+          padding: '0.45rem 0.75rem',
+          border: '1px solid var(--color-link)',
+          borderRadius: 'var(--radius-lg, 999px)',
+          background: props.action === 'apply-theme' ? 'var(--color-link)' : 'transparent',
+          color: props.action === 'apply-theme' ? 'var(--color-bg)' : 'var(--color-link)',
+          fontFamily: 'var(--font-body)',
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          cursor: 'pointer',
+        }}
+      >
+        {props.label}
+      </button>
     ),
 
     Stack: ({ props, children }) => (

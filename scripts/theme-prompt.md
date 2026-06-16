@@ -134,7 +134,7 @@ Every theme must render correctly across the full viewport range — 320px phone
 - Typography: heading/body fonts, weights, letter-spacing, line-height, transforms, scale ratio
 - Color: full palette (bg, text, links, surfaces, borders) across light + dark modes
 - Padding & spacing: cardPadding, contentPadding, sectionSpacing, borderRadius
-- Surface treatments: card style (flat/elevated/glass/outlined/filled), shadow depth, image filters
+- Surface treatments: opaque card style (flat/elevated/outlined/filled), shadow depth, image filters
 - Optional shaders + textures (sparingly)
 
 ### What themes do NOT vary

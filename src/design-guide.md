@@ -510,9 +510,8 @@ The daily theme system sets these data attributes on `<html>`:
 |-----------|---------|---------|
 | `data-theme` | `light`, `dark` | Color scheme |
 | `data-daily-theme` | Date string | Indicates active theme |
-| `data-nav-style` | `floating`, `full-width`, `minimal`, `bold-bar` | Navigation layout |
-| `data-card-style` | `flat`, `elevated`, `glass`, `outlined`, `filled` | Card appearance |
-| `data-hero-layout` | `centered`, `left-aligned`, `minimal`, `bold` | Hero section |
+| `data-card-style` | `flat`, `elevated`, `outlined`, `filled` | Card appearance |
+| `data-hero-layout` | `stacked-fan`, `editorial`, `scattered`, `rolodex`, `cinematic` | Hero section |
 | `data-link-style` | `underline`, `highlight`, `animated-underline`, `color-only`, `bracket` | Link behavior |
 | `data-bg-texture` | `none`, `grain`, `dots`, `grid`, `gradient` | Background texture |
 | `data-image-style` | `vivid`, `muted`, `grayscale`, `duotone` | Image color |
@@ -528,20 +527,20 @@ const isDailyTheme = document.documentElement.hasAttribute('data-daily-theme');
 const themeDate = document.documentElement.getAttribute('data-daily-theme');
 
 // Get specific style
-const navStyle = document.documentElement.getAttribute('data-nav-style');
+const heroLayout = document.documentElement.getAttribute('data-hero-layout');
 ```
 
 ### Targeting Specific Theme Styles in CSS
 
 ```css
-/* Style only when glass cards are active */
-[data-card-style="glass"] .my-component {
-  backdrop-filter: blur(8px);
+/* Style only when outlined cards are active */
+[data-card-style="outlined"] .my-component {
+  border-color: var(--color-text);
 }
 
-/* Style only when bold hero is active */
-[data-hero-layout="bold"] .hero-title {
-  font-size: 8rem;
+/* Style only when cinematic hero is active */
+[data-hero-layout="cinematic"] .hero-title {
+  letter-spacing: -0.04em;
 }
 
 /* Style based on link style */
