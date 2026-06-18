@@ -47,7 +47,7 @@
   /* Below half the bar height so top/bottom stay clear of end-cap clip with backdrop-filter */
   border-radius: 28px;
   width: auto;
-  padding: 24px 34px;
+  padding: 0 30px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-default);
   font-size: 1.4rem;
@@ -110,28 +110,25 @@
   }
 }
 
-/* Desktop floating .site-nav — never wider than viewport; scales down on narrow windows */
+/* Desktop floating .site-nav — fit content; cap at viewport */
 @media (min-width: 769px) {
   .site-nav {
-    min-width: min(480px, calc(100vw - 40px));
-    max-width: min(480px, calc(100vw - 40px));
+    width: max-content;
+    min-width: unset;
+    max-width: min(560px, calc(100vw - 40px));
   }
 }
 
 /* Large tablet adjustments - keep desktop .site-nav but reduce size */
 @media (min-width: 769px) and (max-width: 1024px) {
   .site-nav {
-    min-width: min(440px, calc(100vw - 40px));
-    max-width: min(440px, calc(100vw - 40px));
-    padding: 24px 30px;
+    padding: 0 28px;
     font-size: 1.2rem;
   }
 
   @media (hover: hover) and (min-width: 769px) {
     .site-nav:hover {
-      min-width: min(520px, calc(100vw - 40px));
-      max-width: min(520px, calc(100vw - 40px));
-      padding: 24px 30px;
+      padding: 0 28px;
     }
   }
 }
@@ -145,9 +142,7 @@
 @media (hover: hover) and (min-width: 769px) {
   .site-nav:hover {
     top: 20px;
-    min-width: min(560px, calc(100vw - 40px));
-    max-width: min(560px, calc(100vw - 40px));
-    padding: 24px 34px;
+    padding: 0 30px;
     box-shadow:
       0 0 0 3px var(--color-border),
       var(--shadow-hover);
@@ -192,9 +187,9 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 4px;
+  padding: 0;
   margin: 0 auto;
-  gap: 0.5rem;
+  gap: 0.75rem;
   position: relative;
   z-index: 1;
   transition:
@@ -237,6 +232,7 @@
   align-items: center;
   margin: 0;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .nav-links a {
