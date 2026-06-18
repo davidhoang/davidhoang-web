@@ -117,11 +117,11 @@ function formatRelative(date: Date) {
             data-description={(note.data.description || '').toLowerCase()}
           >
             {cover ? (
-              <div class="note-card__media">
+              <div class="note-card__media img-frame">
                 <img src={cover} alt={`Cover image for ${note.data.title}`} loading={isSpotlight ? 'eager' : 'lazy'} decoding="async" />
               </div>
             ) : (
-              <div class="note-card__media note-card__media--placeholder">
+              <div class="note-card__media note-card__media--placeholder img-frame">
                 <img
                   src={notesPlaceholderSketch}
                   alt=""

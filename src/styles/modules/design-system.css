@@ -296,13 +296,64 @@
    5. IMAGES
 
    Usage:
+     <div class="img-frame"><img class="img-thumbnail" src="..." alt="..." /></div>
      <img class="img-themed" src="..." alt="..." />
      <img class="img-thumbnail" src="..." alt="..." />
      <img class="img-hero" src="..." alt="..." />
 
-   Note: These respond to [data-image-style] and
+   .img-frame clips a subtle inner zoom on hover so the outer box
+   size stays fixed. Pair with .img-thumbnail or object-fit: cover imgs.
+
+   Note: .img-themed responds to [data-image-style] and
    [data-image-hover] from daily themes
    -------------------------------------------- */
+
+/* Clips inner scale so hover zoom never changes layout size */
+.img-frame {
+  --image-hover-scale: 1.03;
+  overflow: hidden;
+  display: block;
+}
+
+.img-frame > :is(img, picture, video, .img-thumbnail, .img-themed, .img-hero) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s var(--ease-inertia);
+}
+
+.img-frame > picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s var(--ease-inertia);
+}
+
+@media (hover: hover) {
+  .img-frame:hover > :is(img, picture, video, .img-thumbnail, .img-themed, .img-hero),
+  .img-frame:hover > picture img,
+  a:hover .img-frame > :is(img, picture, video, .img-thumbnail, .img-themed, .img-hero),
+  a:hover .img-frame > picture img,
+  button:hover .img-frame > :is(img, picture, video, .img-thumbnail, .img-themed, .img-hero),
+  button:hover .img-frame > picture img {
+    transform: scale(var(--image-hover-scale));
+  }
+}
+
+/* Opt out for logos, avatars, and other marks that should stay static */
+.img-frame--static > :is(img, picture, video),
+.img-frame--static > picture img {
+  transition: none;
+}
+
+@media (hover: hover) {
+  .img-frame--static:hover > :is(img, picture, video),
+  .img-frame--static:hover > picture img,
+  a:hover .img-frame--static > :is(img, picture, video),
+  a:hover .img-frame--static > picture img {
+    transform: none;
+  }
+}
 
 .img-themed {
   opacity: var(--image-opacity, 1);

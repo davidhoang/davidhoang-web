@@ -24,7 +24,7 @@ const kindLabel: Record<RelatedContentItem['kind'], string> = {
           `/api/og?title=${encodeURIComponent(item.title)}&type=${item.kind === 'writing' ? 'writing' : 'notes'}`;
         return (
           <a href={item.href} class="related-content__card link-plain">
-            <div class="related-content__thumb">
+            <div class="related-content__thumb img-frame">
               <img src={thumb} alt="" loading="lazy" decoding="async" width="1200" height="630" />
             </div>
             <div class="related-content__info">
