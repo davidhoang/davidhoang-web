@@ -109,7 +109,7 @@ const breadcrumbJsonLd = {
       <div class="main-content">
         <a href={sectionPath} class="text-eyebrow text-eyebrow--link link-plain">{sectionLabel}</a>
         <h1 transition:name={`title-${slug}`}>{title}</h1>
-        <div class="post-meta">
+        <div class="post-meta text-meta">
           <time datetime={pubDate}>
             {new Date(pubDate).toLocaleDateString()}
           </time>
@@ -120,7 +120,7 @@ const breadcrumbJsonLd = {
         {tags && tags.length > 0 && (
           <ul class="post-tags" aria-label="Tags">
             {tags.map((tag: string) => (
-              <li class="post-tags__item">{tag}</li>
+              <li class="post-tags__item text-eyebrow">{tag}</li>
             ))}
           </ul>
         )}
@@ -198,10 +198,6 @@ const breadcrumbJsonLd = {
 
   .main-content > .post-meta {
     color: var(--color-muted);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     margin: 0.85rem 0 2rem;
   }
 
@@ -221,10 +217,6 @@ const breadcrumbJsonLd = {
   }
 
   .post-tags__item {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--color-muted);
     position: relative;
   }
@@ -318,9 +310,9 @@ const breadcrumbJsonLd = {
   }
 
   .related-posts__card time {
-    font-size: 0.6875rem;
+    font-size: var(--text-eyebrow-size);
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: var(--text-eyebrow-tracking);
     text-transform: uppercase;
     color: var(--color-muted);
     margin: 0;
@@ -368,12 +360,7 @@ const breadcrumbJsonLd = {
     h1 {
       font-size: clamp(2rem, 7vw, 3rem);
       line-height: 1.15;
-      letter-spacing: -0.025em;
-    }
-
-    .prose-content {
-      font-size: 1.15rem;
-      line-height: 1.75;
+      letter-spacing: var(--letter-spacing-display);
     }
 
     .related-posts__grid {

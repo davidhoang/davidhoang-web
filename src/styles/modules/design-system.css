@@ -242,7 +242,7 @@
 
 .text-heading {
   font-family: var(--font-heading);
-  font-weight: var(--heading-weight, 600);
+  font-weight: var(--heading-weight);
   letter-spacing: var(--heading-letter-spacing);
   text-transform: var(--heading-transform);
   line-height: 1.2;
@@ -251,9 +251,10 @@
 
 .text-body {
   font-family: var(--font-body);
-  font-weight: var(--body-weight, 400);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
   line-height: var(--body-line-height);
-  letter-spacing: var(--letter-spacing);
+  letter-spacing: var(--letter-spacing-body);
   color: var(--color-text);
 }
 
@@ -290,7 +291,36 @@
 .text-2xl { font-size: 1.5rem; }
 .text-3xl { font-size: 2rem; }
 
-/* text-micro, text-jumbo, text-display-xl — moved to design-guide.astro */
+/* Scale-driven display sizes (respond to --scale-ratio from daily themes) */
+.text-micro {
+  font-size: var(--text-micro, 0.5625rem);
+  line-height: 1.4;
+  letter-spacing: var(--letter-spacing-caption);
+}
+
+.text-jumbo {
+  font-size: var(--text-jumbo, 3.157rem);
+  line-height: 0.95;
+  letter-spacing: var(--letter-spacing-display);
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+}
+
+.text-display-xl {
+  font-size: var(--text-display-xl, 4.209rem);
+  line-height: 0.9;
+  letter-spacing: var(--letter-spacing-display);
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+}
+
+.text-display {
+  font-family: var(--font-heading);
+  font-size: var(--display-title-size);
+  font-weight: var(--display-title-weight);
+  letter-spacing: var(--display-title-letter-spacing);
+  line-height: var(--h1-line-height);
+}
 
 /* --------------------------------------------
    5. IMAGES

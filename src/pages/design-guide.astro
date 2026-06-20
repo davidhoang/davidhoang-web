@@ -451,9 +451,7 @@ import MainLayout from '../layouts/MainLayout.astro';
   .surface-sunken { background: var(--color-sidebar-bg); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06); }
   .surface-glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); transform: translateZ(0); }
   [data-theme="dark"] .surface-glass { background: rgba(0,0,0,0.2); }
-  .text-micro { font-size: var(--text-micro, 0.5625rem); line-height: 1.4; letter-spacing: 0.01em; }
-  .text-jumbo { font-size: var(--text-jumbo, 3.157rem); line-height: 0.95; letter-spacing: -0.03em; font-family: var(--font-heading); font-weight: var(--heading-weight); }
-  .text-display-xl { font-size: var(--text-display-xl, 4.209rem); line-height: 0.9; letter-spacing: -0.04em; font-family: var(--font-heading); font-weight: var(--heading-weight); }
+  /* Scale utilities (.text-micro, .text-jumbo, .text-display-xl) live in design-system.css */
   .img-avatar-sm { width: var(--size-md); height: var(--size-md); }
   .img-avatar-lg { width: var(--size-xl); height: var(--size-xl); }
   .divider-subtle { opacity: 0.5; }
