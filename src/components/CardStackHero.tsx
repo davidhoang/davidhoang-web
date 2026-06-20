@@ -257,6 +257,11 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           position: relative;
           overflow: visible;
           box-sizing: border-box;
+          /* Left inset of the content column — used to snap headline to dot columns */
+          --hero-content-inset: calc(
+            var(--content-padding, 1rem) +
+            (100vw - 2 * var(--content-padding, 1rem) - min(100vw - 2 * var(--content-padding, 1rem), var(--container-max-width, 72rem))) / 2
+          );
         }
 
         .card-stack-hero--stacked-fan {
@@ -328,9 +333,10 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           max-width: 100%;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          text-align: center;
+          align-items: flex-start;
+          text-align: left;
           margin-bottom: 0.25rem;
+          padding-top: var(--hero-grid-y-align, 0px);
         }
 
         .card-stack-hero--stacked-fan .card-stack-hero__intro {
@@ -343,22 +349,32 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           min-height: 0;
           margin-top: 0;
           margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+          margin-inline-start: calc(
+            var(--dot-grid-size, 14px) - mod(var(--hero-content-inset), var(--dot-grid-size, 14px))
+          );
           display: block;
           border-radius: 0;
           justify-content: unset;
           align-items: unset;
           font-size: clamp(2.5rem, 7vw, 6rem);
           font-weight: 700;
-          padding: 0 0.5rem;
-          text-align: center;
+          padding: 0;
+          text-align: left;
           color: var(--color-text);
           font-family: var(--font-primary);
-          line-height: 1.05;
+          --dot-grid-line: calc(round(up, 1.05em / var(--dot-grid-size, 14px)) * var(--dot-grid-size, 14px));
+          line-height: var(--dot-grid-line);
           letter-spacing: -0.03em;
           width: 100%;
           max-width: 1200px;
           box-sizing: border-box;
-          text-wrap: balance;
+          text-wrap: pretty;
+          text-box-trim: trim-both;
+          text-box-edge: cap alphabetic;
+        }
+
+        .card-stack-hero .hero-title__line {
+          display: block;
         }
 
         .card-stack-hero--stacked-fan .hero-title {
@@ -406,24 +422,27 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           position: relative;
           display: inline-block;
           --marker-color: #FF6B35;
+          /* Trailing letter-spacing on the headline doesn't expand the box — pad so the marker spans the full word */
+          padding-right: 0.03em;
         }
 
         .role-link__text {
-          display: inline-block;
+          display: inline;
         }
 
         .role-link__underline {
           position: absolute;
           left: 0;
-          bottom: -0.18em;
-          height: 0.32em;
+          width: 100%;
+          bottom: -0.06em;
+          height: 0.3em;
           pointer-events: none;
           overflow: visible;
         }
 
         .role-link__underline path {
-          stroke-dasharray: 220;
-          stroke-dashoffset: 220;
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
           animation: roleUnderlineDraw 900ms cubic-bezier(0.65, 0, 0.35, 1) 550ms forwards;
         }
 

@@ -36,7 +36,7 @@ interface FeaturedProps {
 
 function FeaturedCard({ card, isGlass, selectedCard, hoveredCard, isLoaded, onCardClick, onCardHover, reducedMotion }: FeaturedProps) {
   const isSelected = selectedCard === card.id;
-  const tilt = useMagneticTilt({ amplitude: 6, disabled: isSelected || reducedMotion });
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div
@@ -89,7 +89,7 @@ interface FilmstripProps {
 
 function FilmstripCard({ card, index, cardCount, isGlass, selectedCard, hoveredCard, isLoaded, hasAnimatedIn, onSwap, onCardHover, reducedMotion }: FilmstripProps) {
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const tilt = useMagneticTilt({ amplitude: 3, disabled: reducedMotion });
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div

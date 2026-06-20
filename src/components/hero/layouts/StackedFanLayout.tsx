@@ -62,7 +62,7 @@ function FanCard({
 }: FanCardProps) {
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useMagneticTilt({ disabled: Boolean(selectedCard) });
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div

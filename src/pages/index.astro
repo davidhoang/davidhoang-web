@@ -5,7 +5,6 @@ import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
-import TimeAwareGreeting from '../components/TimeAwareGreeting.astro';
 import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
 import imgHatch from '../assets/images/highlights/img-highlights-hatch-conference.webp';
 import imgReplit from '../assets/images/highlights/img-highlights-replit.webp';
@@ -97,9 +96,6 @@ const portfolioItems = [
       document.documentElement.setAttribute('data-hero-viewport', tier);
     })();`}
   </script>
-  <!-- Time-aware greeting -->
-  <TimeAwareGreeting />
-
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
     <CardStackHeroLazy client:idle aboutThumbnailSrc={dhWebOptimized.src} />
@@ -148,6 +144,13 @@ const portfolioItems = [
       position: relative;
       z-index: 2;
       overflow: visible;
+      /* Shared dot-grid unit — hero typography snaps to this rhythm */
+      --dot-grid-size: clamp(14px, 1.15vw, 24px);
+      --hero-grid-y: calc(var(--content-top-padding, 6rem) + 40px);
+      --hero-grid-y-align: mod(
+        calc(var(--dot-grid-size) - mod(var(--hero-grid-y), var(--dot-grid-size))),
+        var(--dot-grid-size)
+      );
     }
 
     /* Skeleton card stack: match mobile scale before CardStackHero loads */
@@ -173,13 +176,13 @@ const portfolioItems = [
     }
 
     /* Dot-grid notebook background — Leuchtturm-style lattice.
-       Spacing scales fluidly with viewport width: ~20px on phones,
-       ~24px at 1440px desktop, up to 36px on ultrawide displays.
+       Spacing scales fluidly with viewport width: ~14px on phones,
+       ~17px at 1440px desktop, up to 24px on ultrawide displays.
        Color derives from theme tokens so it tracks daily themes / dark mode. */
     .card-stack-section::before {
       content: '';
       position: absolute;
-      top: calc(-1 * (var(--content-top-padding, 6rem) + 40px));
+      top: calc(-1 * var(--hero-grid-y));
       left: 0;
       right: 0;
       bottom: 0;
@@ -190,9 +193,13 @@ const portfolioItems = [
         color-mix(in srgb, var(--color-text) 15%, transparent) 1px,
         transparent 1.4px
       );
-      --dot-grid-size: clamp(20px, 1.7vw, 36px);
       background-size: var(--dot-grid-size) var(--dot-grid-size);
       background-position: 0 0;
+    }
+
+    /* Hero headline snaps to the dot-grid rhythm (see CardStackHero + HeroTitle) */
+    :global(.card-stack-section .hero-title__line) {
+      display: block;
     }
 
     /* Section Headings - smaller than hero H1 */
@@ -304,6 +311,7 @@ const portfolioItems = [
 
       .card-stack-section {
         margin-top: 50px;
+        --hero-grid-y: calc(var(--content-top-padding, 6rem) + 50px);
       }
 
       /* Add horizontal padding to sections on mobile for shader themes */

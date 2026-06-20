@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { rotatingRoles } from './types';
 
@@ -19,28 +18,6 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
     ? `${role.label} — Proof of Concept newsletter (opens in new tab)`
     : `${role.label} — Investing (opens in new tab)`;
 
-  const textRef = useRef<HTMLSpanElement>(null);
-  const [underlineWidth, setUnderlineWidth] = useState<number | null>(null);
-
-  useEffect(() => {
-    const node = textRef.current;
-    if (!node) return;
-
-    const measure = () => {
-      const current = textRef.current;
-      if (!current) return;
-      // The span is display: inline-block, so its width = rendered text width.
-      const width = current.getBoundingClientRect().width;
-      if (width > 0) setUnderlineWidth(width);
-    };
-
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(node);
-    document.fonts?.ready.then(measure).catch(() => {});
-    return () => ro.disconnect();
-  }, [role.label]);
-
   return (
     <motion.h1
       className={`hero-title ${className || ''}`}
@@ -54,39 +31,42 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
         opacity: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
       }}
     >
-      David Hoang is a Designer and{' '}
-      <a
-        href={role.link}
-        className="role-link"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={roleAriaLabel}
-      >
-        <span className="role-link__label">
-          <span ref={textRef} className="role-link__text">{role.label}</span>
-          {isVisible && underlineWidth ? (
-            <svg
-              className="role-link__underline"
-              viewBox="0 0 100 10"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              style={{ width: `${underlineWidth}px` }}
-            >
-              <path
-                d="M0,5 L100,5"
-                fill="none"
-                stroke="var(--marker-color, #FF6B35)"
-                strokeWidth="6"
-                strokeLinecap="butt"
-                strokeOpacity="0.92"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-          ) : null}
-        </span>
-      </a>
-      .
+      <span className="hero-title__line">David Hoang is a</span>
+      <span className="hero-title__line">
+        Designer and{' '}
+        <a
+          href={role.link}
+          className="role-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={roleAriaLabel}
+        >
+          <span className="role-link__label">
+            <span className="role-link__text">{role.label}</span>
+            {isVisible ? (
+              <svg
+                className="role-link__underline"
+                viewBox="0 0 100 10"
+                preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0,5 L100,5"
+                  pathLength={1}
+                  fill="none"
+                  stroke="var(--marker-color, #FF6B35)"
+                  strokeWidth="6"
+                  strokeLinecap="butt"
+                  strokeOpacity="0.92"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+            ) : null}
+          </span>
+        </a>
+        .
+      </span>
     </motion.h1>
   );
 }

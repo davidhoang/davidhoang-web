@@ -48,8 +48,7 @@ function RolodexCard({
   const isFront = offset === 0;
   const isAdjacent = offset === 1 || offset === totalCards - 1;
 
-  // Only the front card responds to cursor; back cards rotate via carousel.
-  const tilt = useMagneticTilt({ amplitude: 6, disabled: isSelected || !isFront });
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div

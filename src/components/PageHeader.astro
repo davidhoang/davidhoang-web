@@ -53,7 +53,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
-    <div class="page-header__hero hero-media layout-breakout">
+    <div class="page-header__hero hero-media">
       {optimizedImage ? (
         <Image
           src={optimizedImage}
@@ -226,13 +226,24 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
   }
 
   /* Image variant - full hero with shader.
-     The hero is full-bleed and must start flush to the viewport top so the
-     nav floats over it. Negate main's nav-clearance padding exactly (no
-     fallback — --content-top-padding is always defined in :root). */
+     Flush to the viewport top (nav floats over it) and full-bleed horizontally.
+     Margin lives on .page-header--image so collapse is predictable inside main. */
+  .page-header--image {
+    margin-top: calc(-1 * var(--content-top-padding));
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+
   .page-header--image .page-header__hero {
+    height: var(--hero-height, 75vh);
     min-height: 300px;
     max-height: 600px;
+    margin-top: 0;
     margin-bottom: var(--section-spacing, 4rem);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Static hero image - renders immediately via SSR, no JS needed */
@@ -292,7 +303,12 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
+    .page-header--image {
+      margin-top: calc(-1 * var(--content-top-padding));
+    }
+
     .page-header--image .page-header__hero {
+      height: var(--hero-height-mobile, 50vh);
       min-height: 250px;
     }
 

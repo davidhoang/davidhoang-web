@@ -66,8 +66,7 @@ function ScatteredCard({
   const isHovered = hoveredCard === card.id;
   const isSelected = selectedCard === card.id;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  // Scattered cards are already rotated 2D; keep tilt smaller so it composes cleanly.
-  const tilt = useMagneticTilt({ amplitude: 5, disabled: isSelected });
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div

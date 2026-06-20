@@ -1,3 +1,4 @@
+/** Primary top nav links — keep this list short; see Footer.astro for footer-only pages. */
 export const navItems = [
   { path: '/about', label: 'About' },
   { path: '/writing', label: 'Writing' },

@@ -1,0 +1,412 @@
+# davidhoang-web - Cursor Agent Rules
+
+## Project Overview
+
+Personal website for davidhoang.com built with Astro. Features blog posts, career odyssey, design resources, and experimental UI components.
+
+## Repository Info
+
+- **GitHub**: `davidhoang/davidhoang-web`
+- **Jira Project**: **PC** (Personal/Portfolio/Content)
+- **Default Branch**: `main`
+- **Framework**: Astro with TypeScript, React components
+
+## Jira Integration
+
+### Project Mapping
+- **Jira Key**: PC (e.g., PC-25, PC-26)
+- **Repository**: This repo (`davidhoang/davidhoang-web`)
+- **Branch Format**: `cursor/PC-{number}-{description}`
+
+### When Working on PC Issues
+1. Verify you have this repo (`davidhoang-web`) open in Cursor
+2. Check the Jira issue details before starting
+3. Create branches following: `cursor/PC-XXX-short-description`
+4. Link commits to Jira: `PC-XXX: Commit message`
+
+### Example Jira Issues
+- `PC-25`: Implement comments system for blog posts
+- `PC-XX`: Add new blog features, UI improvements, content updates
+
+## Core Principles
+
+1. **Astro-First**: Use Astro components (.astro) by default
+2. **React for Interactivity**: Use React/TSX only when client-side interactivity needed
+3. **Performance**: Optimize images, fonts, lazy-load where possible
+4. **Accessibility**: Maintain semantic HTML, ARIA labels, keyboard navigation
+5. **Design System**: Follow existing CSS modules and themes
+
+## Tech Stack
+
+- **Framework**: Astro 4.x
+- **Styling**: CSS Modules + Global CSS
+- **Components**: Astro components + React (for interactive UI)
+- **TypeScript**: Strict mode enabled
+- **Content**: Markdown + MDX for blog posts
+- **Deployment**: Vercel
+- **Fonts**: Self-hosted (see public/fonts/)
+
+## Development Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Development server (port 4321)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Type checking
+npm run astro check
+```
+
+## Project Structure
+
+```
+davidhoang-web/
+├── src/
+│   ├── components/         # Astro & React components
+│   │   ├── *.astro        # Server-side components
+│   │   └── *.tsx          # Client-side React components
+│   ├── content/           # Content collections
+│   │   ├── writing/       # Blog posts (MDX)
+│   │   └── notes/         # Quick notes (MDX)
+│   ├── layouts/           # Page layouts
+│   ├── pages/             # Routes (file-based routing)
+│   ├── styles/            # CSS modules & global styles
+│   └── utils/             # Helper functions
+├── public/                # Static assets
+│   ├── images/           # Images
+│   └── fonts/            # Self-hosted fonts
+└── scripts/               # Build & utility scripts
+```
+
+## Key Files
+
+- `astro.config.mjs` - Astro configuration
+- `tsconfig.json` - TypeScript configuration
+- `src/content/config.ts` - Content collections schema
+- `src/layouts/BlogPost.astro` - Blog post layout template
+- `src/components/CommentsSection.astro` - Comments component (stub for PC-25)
+
+## Code Patterns
+
+### Creating Astro Components
+
+```astro
+---
+// Component script (runs on server)
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<div class="component">
+  <h2>{title}</h2>
+  {description && <p>{description}</p>}
+</div>
+
+<style>
+  .component {
+    /* Scoped styles */
+  }
+</style>
+```
+
+### Adding React Components (Client-Side)
+
+```tsx
+// src/components/InteractiveWidget.tsx
+import { useState } from 'react';
+
+export default function InteractiveWidget() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Clicked {count} times
+    </button>
+  );
+}
+
+// Use in .astro file:
+// <InteractiveWidget client:load />
+```
+
+### Adding Blog Posts
+
+Create `src/content/writing/post-slug.mdx`:
+
+```mdx
+---
+title: "Post Title"
+publishDate: "2026-05-22"
+description: "Brief description"
+tags: ["design", "tech"]
+---
+
+Post content here...
+```
+
+## Current Work: PC-25 (Comments System)
+
+**Issue**: Implement comments system for blog posts
+**Component**: `src/components/CommentsSection.astro` (currently a stub)
+**Layout**: `src/layouts/BlogPost.astro` (includes CommentsSection)
+
+### Options to Consider
+1. **Giscus** (GitHub Discussions) - No backend, free, privacy-friendly
+2. **Utterances** (GitHub Issues) - Simpler than Giscus
+3. **Custom** (Supabase/Firebase) - More control, requires backend
+
+### Implementation Checklist
+- [ ] Choose comments provider
+- [ ] Update `CommentsSection.astro` with integration code
+- [ ] Add necessary scripts/imports
+- [ ] Style to match site design
+- [ ] Test on sample blog post
+- [ ] Update documentation
+
+## Styling Guidelines
+
+### CSS Architecture
+- **Global styles**: `src/styles/global.css`
+- **Reset**: `src/styles/reset.css`
+- **Modules**: `src/styles/modules/*.css`
+- **Component styles**: Scoped `<style>` in .astro files
+
+### Design System Variables
+
+```css
+/* Colors */
+--color-text: /* Dynamic based on theme */
+--color-bg: /* Dynamic based on theme */
+--color-accent: /* Theme-specific */
+
+/* Typography */
+--font-body: /* Variable font */
+--font-heading: /* Variable font */
+
+/* Spacing */
+--space-xs: 0.5rem;
+--space-sm: 1rem;
+--space-md: 2rem;
+--space-lg: 4rem;
+```
+
+### Responsive Breakpoints
+
+```css
+/* Mobile first approach */
+@media (min-width: 640px) { /* sm */ }
+@media (min-width: 768px) { /* md */ }
+@media (min-width: 1024px) { /* lg */ }
+@media (min-width: 1280px) { /* xl */ }
+```
+
+## Themes System
+
+The site has a dynamic theming system:
+- Multiple color themes (check `src/data/daily-themes.json`)
+- Font pairings that change with themes
+- Shader backgrounds and effects
+- Theme persistence in localStorage
+
+## Content Collections
+
+### Writing (Blog Posts)
+
+Schema includes:
+- `title`: Post title
+- `publishDate`: ISO date string
+- `description`: SEO description
+- `tags`: Array of tags
+- `isDraft`: Boolean (drafts not shown in production)
+- `ogImage`: Optional social image
+
+### Notes (Quick Thoughts)
+
+Shorter content pieces with stages:
+- `seedling`: New idea
+- `budding`: Developing
+- `evergreen`: Mature content
+
+## Image Optimization
+
+```astro
+---
+import { Image } from 'astro:assets';
+import myImage from '../assets/my-image.jpg';
+---
+
+<Image 
+  src={myImage} 
+  alt="Description" 
+  width={800}
+  height={600}
+  loading="lazy"
+/>
+```
+
+## Site Navigation
+
+Navigation is split between the **top nav** (primary pages) and the **footer** (secondary / long-tail pages).
+
+### Top nav (`src/data/navigation.ts` → `navItems`)
+- About, Writing, Featured, Subscribe
+- Rendered in `src/components/Navigation.astro`
+- Keep this list short — do **not** add Notes or Advising here
+
+### Footer only (`src/components/Footer.astro`)
+- **Notes** and **Advising** live in the footer, not the top nav
+- Practice column: About, Advising, Career Odyssey, etc.
+- Writing column: Writing, Notes, Now, RSS feeds, etc.
+- Add secondary or niche pages here rather than cluttering the top nav
+
+### Command palette (`commandPalettePages` in `src/data/navigation.ts`)
+- Includes all discoverable pages (Notes, Advising, Now, Career Odyssey, etc.)
+- Individual notes and writing posts are indexed at build time in `Navigation.astro`
+
+When adding a new page, decide: primary destination → `navItems`; secondary → footer links in `Footer.astro`; always add to `commandPalettePages` if users should find it via ⌘K search.
+
+## Common Tasks
+
+### Adding a New Page
+
+1. Create `src/pages/new-page.astro`
+2. Use existing layout: `import MainLayout from '../layouts/MainLayout.astro'`
+3. Add to top nav (`navItems`), footer (`Footer.astro`), and/or command palette (`commandPalettePages`) as appropriate — see **Site Navigation** above
+
+### Adding a New Component
+
+1. Decide: Astro (.astro) or React (.tsx)?
+2. Create in `src/components/`
+3. Export if needed
+4. Import where used
+5. Add styles (scoped or module)
+
+### Working with Blog Posts
+
+```bash
+# Create new post
+touch src/content/writing/my-new-post.mdx
+
+# Add frontmatter and content
+# Post automatically appears at /writing/my-new-post
+```
+
+### Adding Third-Party Scripts
+
+For external integrations (analytics, comments):
+
+```astro
+---
+// In <head> or before </body>
+---
+<script is:inline src="https://example.com/script.js"></script>
+
+<!-- Or load client-side -->
+<script>
+  // Client-side JS here
+</script>
+```
+
+## Testing & Quality
+
+### Before Committing
+```bash
+# Type check
+npm run astro check
+
+# Build test
+npm run build
+
+# Preview
+npm run preview
+```
+
+### Performance Checklist
+- [ ] Images optimized (WebP format preferred)
+- [ ] Fonts subset and preloaded
+- [ ] Scripts loaded with appropriate strategy
+- [ ] CSS minimized and scoped
+- [ ] No layout shift (CLS)
+
+## Deployment
+
+- **Platform**: Vercel
+- **Auto-deploy**: Pushes to `main` branch
+- **Preview**: PRs get preview URLs
+- **Build command**: `npm run build`
+- **Output**: `dist/`
+
+## Security & Best Practices
+
+- ✅ No API keys in client-side code
+- ✅ Environment variables for secrets (if needed)
+- ✅ Validate external data/content
+- ✅ Sanitize user input (if accepting any)
+- ✅ Use Content Security Policy headers
+
+## Cursor Agent Guidelines
+
+When working on this repo as a Cursor agent:
+
+1. **Read existing patterns** before implementing new features
+2. **Maintain consistency** with existing components and styles
+3. **Optimize for performance** (this is a portfolio site)
+4. **Test responsiveness** on mobile, tablet, desktop
+5. **Preserve accessibility** features
+6. **Update related docs** when changing architecture
+7. **Link work to PC-XXX** Jira issues in commits
+
+### For PC-25 Specifically (Comments)
+
+1. Research Giscus/Utterances integration with Astro
+2. Update `CommentsSection.astro` component
+3. Test on a real blog post (e.g., `/writing/some-post`)
+4. Ensure theme compatibility
+5. Verify mobile responsiveness
+6. Check accessibility (keyboard navigation, screen readers)
+7. Update this doc with implementation notes
+
+## Environment Variables
+
+If needed, create `.env`:
+
+```bash
+# Example (currently none required)
+PUBLIC_SITE_URL=https://davidhoang.com
+# Any PUBLIC_ vars are exposed to client
+```
+
+## Git Commit Convention
+
+```
+PC-XXX: Brief description (imperative mood)
+
+Longer explanation if needed.
+- Detail 1
+- Detail 2
+
+Closes PC-XXX
+```
+
+## Resources
+
+- **Astro Docs**: https://docs.astro.build
+- **Current Site**: https://davidhoang.com
+- **Jira Board**: https://dh-studios.atlassian.net/browse/PC
+- **Project Docs**: See `CLAUDE.md` for more details
+
+## Contact
+
+For questions about this project, refer to existing documentation or check with the project owner.
