@@ -51,7 +51,7 @@ h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  font-weight: var(--heading-weight, 700);
+  font-weight: var(--heading-weight);
   letter-spacing: var(--heading-letter-spacing);
   font-family: var(--font-heading);
   text-transform: var(--heading-transform);
@@ -61,7 +61,7 @@ h1 {
   font-size: var(--h1-size);
   line-height: var(--h1-line-height);
   letter-spacing: var(--h1-letter-spacing);
-  font-weight: var(--heading-weight, 700);
+  font-weight: var(--heading-weight);
 }
 
 h2 {
@@ -96,9 +96,9 @@ h6 {
 
 p {
   margin-bottom: 1.25em;
-  font-size: 1.1rem;
-  font-weight: var(--body-weight, 400);
-  line-height: var(--body-line-height, 1.6);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-line-height);
   letter-spacing: var(--letter-spacing-body);
   color: var(--color-text);
 }
@@ -139,9 +139,9 @@ ul ol {
 
 li {
   margin-bottom: 0.5em;
-  line-height: var(--body-line-height, 1.6);
-  font-size: 1.1rem;
-  font-weight: var(--body-weight, 400);
+  line-height: var(--body-line-height);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
   letter-spacing: var(--letter-spacing-body);
   color: var(--color-text);
   padding-left: 0.25em;
@@ -166,8 +166,8 @@ p + ol {
 strong {
   /* One step heavier than body, never as heavy as headings */
   font-weight: min(
-    calc(var(--heading-weight, 700) - 100),
-    calc(var(--body-weight, 400) + 100)
+    calc(var(--heading-weight) - 100),
+    calc(var(--body-weight) + 100)
   );
   color: var(--color-text);
 }
@@ -294,15 +294,39 @@ blockquote cite {
 
 /* Notes use the same body scale; writing keeps drop-cap/lead in .prose-content only */
 .note-content {
-  font-size: 1.0625rem;
-  line-height: 1.75;
+  font-size: var(--prose-size);
+  line-height: var(--prose-line-height);
+}
+
+.note-content h2 {
+  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-heading-lg);
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.note-content h3 {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.25;
+  letter-spacing: var(--letter-spacing-heading-md);
+  margin-top: 1.75em;
+  margin-bottom: 0.4em;
+}
+
+.note-content h4 {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.3;
+  letter-spacing: 0;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
 }
 
 /* Article heading hierarchy — scaled down from page-level display sizes */
 .prose-content h2 {
   font-size: clamp(1.4rem, 2.5vw, 1.75rem);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--letter-spacing-heading-lg);
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
@@ -310,7 +334,7 @@ blockquote cite {
 .prose-content h3 {
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   line-height: 1.25;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--letter-spacing-heading-md);
   margin-top: 1.75em;
   margin-bottom: 0.4em;
 }
@@ -325,7 +349,7 @@ blockquote cite {
 
 .prose-content h5 {
   font-size: 0.875rem;
-  font-weight: var(--heading-weight, 600);
+  font-weight: var(--heading-weight);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-top: 1.75em;
@@ -374,19 +398,19 @@ blockquote cite {
   line-height: 0.8;
   padding-right: 0.1em;
   padding-top: 0.1em;
-  font-weight: var(--heading-weight, 700);
+  font-weight: var(--heading-weight);
   color: var(--color-text);
 }
 
 /* Lead paragraph styling - larger, distinct intro text */
 .prose-content p:first-child {
-  font-size: 1.35rem;
+  font-size: var(--lead-size);
   line-height: 1.7;
   font-weight: min(
-    calc(var(--heading-weight, 700) - 100),
-    max(var(--body-weight, 400), 500)
+    calc(var(--heading-weight) - 100),
+    max(var(--body-weight), 500)
   );
-  letter-spacing: -0.01em;
+  letter-spacing: var(--letter-spacing-heading-md);
   margin-bottom: 1.5em;
   color: var(--color-text);
 }
