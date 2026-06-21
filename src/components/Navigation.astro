@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { commandPalettePages, navItems } from '../data/navigation';
+import { commandPalettePages, mobileSecondaryNavItems, navItems } from '../data/navigation';
 
 const currentPath = Astro.url.pathname;
 
@@ -86,7 +86,51 @@ const searchIndex = [
   </div>
 </nav>
 
-<!-- Mobile menu is handled by the command palette — hamburger triggers it directly -->
+<!-- Mobile full-screen navigation overlay -->
+<div
+  id="mobileMenu"
+  class="mobile-menu"
+  aria-hidden="true"
+  hidden
+>
+  <div class="mobile-menu__panel">
+    <nav class="mobile-menu__nav" aria-label="Mobile navigation">
+      <ul class="mobile-menu__links">
+        {navItems.map(item => (
+          <li>
+            <a
+              href={item.path}
+              data-astro-transition="swap"
+              aria-current={currentPath === item.path ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <ul class="mobile-menu__secondary">
+        {mobileSecondaryNavItems.map(item => (
+          <li>
+            <a
+              href={item.path}
+              data-astro-transition="swap"
+              aria-current={currentPath === item.path ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href="/rss.xml" class="mobile-menu__rss" aria-label="Writing RSS feed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="6.18" cy="17.82" r="2.18"/>
+          <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+        </svg>
+        RSS Feed
+      </a>
+    </nav>
+  </div>
+</div>
 
 
 <script>
@@ -107,7 +151,8 @@ const searchIndex = [
     cleanupFunctions = [];
 
     initShader();
-    initMobileMenu();
+    const mobileMenuCleanup = initMobileMenu();
+    if (mobileMenuCleanup) cleanupFunctions.push(mobileMenuCleanup);
     initScrollDetection();
 
     const sentientCleanup = initSentientNav();
