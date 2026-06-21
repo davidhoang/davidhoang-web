@@ -7,6 +7,7 @@ import SidebarWriting from '../components/SidebarWriting.astro';
 import CommentsSection from '../components/CommentsSection.astro';
 import RelatedContentSection from '../components/RelatedContentSection.astro';
 import CompanionPrototype from '../components/CompanionPrototype.astro';
+import { formatLongDate } from '../utils/formatDate';
 
 // Eagerly load every image under src/assets/images so we can resolve
 // frontmatter cover paths (which use the /images/... public form) to
@@ -111,11 +112,17 @@ const breadcrumbJsonLd = {
         <h1 transition:name={`title-${slug}`}>{title}</h1>
         <div class="post-meta text-meta">
           <time datetime={pubDate}>
-            {new Date(pubDate).toLocaleDateString()}
+            {formatLongDate(new Date(pubDate))}
           </time>
           {readingTime && (
             <span class="reading-time" aria-label={`${readingTime} minute read`}> · {readingTime} min read</span>
           )}
+        </div>
+        {data.companionPrototype && (
+          <CompanionPrototype slug={data.companionPrototype} />
+        )}
+        <div class="prose-content">
+          <slot />
         </div>
         {tags && tags.length > 0 && (
           <ul class="post-tags" aria-label="Tags">
@@ -124,12 +131,6 @@ const breadcrumbJsonLd = {
             ))}
           </ul>
         )}
-        {data.companionPrototype && (
-          <CompanionPrototype slug={data.companionPrototype} />
-        )}
-        <div class="prose-content">
-          <slot />
-        </div>
         <SidebarWriting variant="meta-only" />
         <RelatedContentSection items={relatedContent} heading="Keep reading" />
         <CommentsSection />
@@ -201,15 +202,11 @@ const breadcrumbJsonLd = {
     margin: 0.85rem 0 2rem;
   }
 
-  /* When a tag rail follows, tighten the dateline gap and let .post-tags own the spacing. */
-  .main-content > .post-meta:has(+ .post-tags) {
-    margin-bottom: 0.85rem;
-  }
-
   .post-tags {
     list-style: none;
-    padding: 0;
-    margin: 0 0 2rem;
+    padding: 1.25rem 0 0;
+    margin: 2rem 0 0;
+    border-top: 1px solid var(--color-border);
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;

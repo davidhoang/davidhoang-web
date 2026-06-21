@@ -6,6 +6,7 @@ import PageHeader from '../../components/PageHeader.astro';
 import SearchInput from '../../components/SearchInput.astro';
 import WritingGraph from '../../components/WritingGraph.astro';
 import { buildGraph } from '../../utils/writingGraph';
+import { formatLongDate } from '../../utils/formatDate';
 
 const allPosts = await getCollection('writing');
 // Filter out drafts in production, but show them in development
@@ -28,9 +29,6 @@ const archivePosts = remainingPosts.slice(3);
 const pageDescription = "Essays and articles on design, engineering, AI, and entrepreneurship. Exploring the future of software design and building better products.";
 const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
 
-function formatDate(date: Date) {
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
 ---
 
 <MainLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
@@ -73,7 +71,7 @@ function formatDate(date: Date) {
             <p class="featured-description">{featuredPost.data.description}</p>
           )}
           <time datetime={featuredPost.data.pubDate.toISOString()}>
-            {formatDate(featuredPost.data.pubDate)}
+            {formatLongDate(featuredPost.data.pubDate)}
           </time>
         </a>
       )}
@@ -90,7 +88,7 @@ function formatDate(date: Date) {
                   <p class="recent-card-description">{post.data.description}</p>
                 )}
                 <time datetime={post.data.pubDate.toISOString()}>
-                  {formatDate(post.data.pubDate)}
+                  {formatLongDate(post.data.pubDate)}
                 </time>
               </a>
             ))}
@@ -110,7 +108,7 @@ function formatDate(date: Date) {
                   <div class="post-row">
                     <span class="post-title" transition:name={`title-${post.id}`}>{post.data.title}</span>
                     <time datetime={post.data.pubDate.toISOString()}>
-                      {formatDate(post.data.pubDate)}
+                      {formatLongDate(post.data.pubDate)}
                     </time>
                   </div>
                 </a>
