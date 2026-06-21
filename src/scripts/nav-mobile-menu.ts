@@ -1,11 +1,14 @@
 const MOBILE_BREAKPOINT = 768;
 
 export function initMobileMenu(): (() => void) | undefined {
-  const menuButton = document.getElementById('menuButton');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const nav = document.querySelector('.site-nav');
+  const menuButtonEl = document.getElementById('menuButton');
+  const mobileMenuEl = document.getElementById('mobileMenu');
+  const nav = document.querySelector<HTMLElement>('.site-nav');
 
-  if (!menuButton || !mobileMenu) return;
+  if (!menuButtonEl || !mobileMenuEl) return;
+
+  const menuButton = menuButtonEl;
+  const mobileMenu = mobileMenuEl;
 
   const hamburger = menuButton.querySelector('.hamburger-icon');
   let scrollPosition = 0;
