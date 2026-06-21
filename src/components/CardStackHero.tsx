@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
+import { isMobileHeroViewport, readHeroViewportTier } from '../utils/heroViewport';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import StackedFanLayout from './hero/layouts/StackedFanLayout';
@@ -9,6 +10,12 @@ import EditorialLayout from './hero/layouts/EditorialLayout';
 import ScatteredLayout from './hero/layouts/ScatteredLayout';
 import RolodexLayout from './hero/layouts/RolodexLayout';
 import CinematicLayout from './hero/layouts/CinematicLayout';
+
+function readInitialHeroLayout(): HeroLayout {
+  if (typeof window === 'undefined') return 'stacked-fan';
+  if (isMobileHeroViewport()) return 'stacked-fan';
+  return resolveLayout(document.documentElement.getAttribute('data-hero-layout'));
+}
 
 const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
   'stacked-fan': StackedFanLayout,
@@ -30,9 +37,17 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [cardStyle, setCardStyle] = useState<string | null>(null);
-  const [heroLayout, setHeroLayout] = useState<HeroLayout>('stacked-fan');
+  const [heroLayout, setHeroLayout] = useState<HeroLayout>(readInitialHeroLayout);
   const [cardPaletteRev, setCardPaletteRev] = useState(0);
+  const [isLayoutReady, setIsLayoutReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Apply viewport tier + layout before paint so mobile scale/height are correct
+  // when cards become visible (avoids desktop-sized flash on phones).
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('data-hero-viewport', readHeroViewportTier());
+    setIsLayoutReady(true);
+  }, []);
 
   // Daily theme: recolor hero cards from --color-link family; default theme keeps types.ts colors
   useEffect(() => {
@@ -119,9 +134,9 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     return () => observer.disconnect();
   }, []);
 
-  // Trigger entrance animation after in view
+  // Trigger entrance animation after in view and layout is sized for viewport
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || !isLayoutReady) return;
 
     const timer = setTimeout(() => setIsLoaded(true), 100);
     const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);
@@ -129,7 +144,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
       clearTimeout(timer);
       clearTimeout(completeTimer);
     };
-  }, [isInView]);
+  }, [isInView, isLayoutReady]);
 
   // Fullscreen hero card (stacked-fan portal) should lock page scroll
   useEffect(() => {
@@ -202,7 +217,10 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className={`card-stack-hero card-stack-hero--${heroLayout}`} ref={containerRef}>
+    <div
+      className={`card-stack-hero card-stack-hero--${heroLayout}${isLayoutReady ? ' card-stack-hero--layout-ready' : ''}`}
+      ref={containerRef}
+    >
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
           <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
@@ -429,6 +447,11 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
 
         .card-stack-hero--stacked-fan .cards-wrapper {
           margin-top: clamp(28px, 4vw, 56px);
+        }
+
+        /* Hide cards until viewport layout is applied (prevents desktop-size flash on mobile). */
+        .card-stack-hero:not(.card-stack-hero--layout-ready) .cards-wrapper {
+          visibility: hidden;
         }
 
         .hero-card {
