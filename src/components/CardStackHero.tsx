@@ -257,11 +257,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           position: relative;
           overflow: visible;
           box-sizing: border-box;
-          /* Left inset of the content column — used to snap headline to dot columns */
-          --hero-content-inset: calc(
-            var(--content-padding, 1rem) +
-            (100vw - 2 * var(--content-padding, 1rem) - min(100vw - 2 * var(--content-padding, 1rem), var(--container-max-width, 72rem))) / 2
-          );
         }
 
         .card-stack-hero--stacked-fan {
@@ -282,7 +277,9 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         .card-stack-hero--stacked-fan .card-stack-container {
-          height: 510px;
+          flex: 1;
+          height: auto;
+          min-height: 0;
         }
 
         .card-stack-hero--editorial {
@@ -317,12 +314,12 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         .card-stack-hero--cinematic .card-stack-hero__intro {
-          align-items: flex-start;
-          text-align: left;
+          align-items: center;
+          text-align: center;
         }
 
         .card-stack-hero--cinematic .hero-title {
-          text-align: left;
+          text-align: center;
           margin-left: 0;
           margin-right: 0;
           padding-top: 0;
@@ -333,8 +330,8 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           max-width: 100%;
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
-          text-align: left;
+          align-items: center;
+          text-align: center;
           margin-bottom: 0.25rem;
           padding-top: var(--hero-grid-y-align, 0px);
         }
@@ -349,17 +346,16 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           min-height: 0;
           margin-top: 0;
           margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
-          margin-inline-start: calc(
-            var(--dot-grid-size, 14px) - mod(var(--hero-content-inset), var(--dot-grid-size, 14px))
-          );
+          margin-inline: auto;
           display: block;
           border-radius: 0;
           justify-content: unset;
           align-items: unset;
-          font-size: clamp(2.5rem, 7vw, 6rem);
+          /* Mobile-first: vw-only clamps bottom out below ~571px — use offset formula + tiered caps */
+          font-size: clamp(3.125rem, calc(1.125rem + 8.5vw), 3.875rem);
           font-weight: 700;
           padding: 0;
-          text-align: left;
+          text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
           --dot-grid-line: calc(round(up, 1.05em / var(--dot-grid-size, 14px)) * var(--dot-grid-size, 14px));
@@ -373,21 +369,45 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           text-box-edge: cap alphabetic;
         }
 
+        @media (min-width: 480px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(3.25rem, calc(1rem + 8vw), 4.375rem);
+          }
+        }
+
+        @media (min-width: 640px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(3.5rem, 7.5vw, 4.75rem);
+          }
+        }
+
+        @media (min-width: 768px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(3.75rem, 7.25vw, 5.25rem);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(4.25rem, 6.75vw, 6rem);
+          }
+        }
+
         .card-stack-hero .hero-title__line {
           display: block;
         }
 
         .card-stack-hero--stacked-fan .hero-title {
-          margin-bottom: clamp(2.5rem, 6vw, 4rem);
+          margin-bottom: clamp(1rem, 3vw, 4rem);
         }
 
         .card-stack-hero--editorial .card-stack-hero__intro {
-          align-items: flex-start;
-          text-align: left;
+          align-items: center;
+          text-align: center;
         }
 
         .card-stack-hero--editorial .hero-title {
-          text-align: left;
+          text-align: center;
           margin-left: 0;
           margin-right: 0;
           padding-top: 0;
@@ -397,13 +417,17 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         .role-link {
           display: inline !important;
           color: var(--color-link);
-          text-decoration: none;
+          text-decoration: underline;
+          text-underline-offset: 0.12em;
           cursor: pointer;
           transition: color 0.2s ease;
-          position: relative;
           border: none;
           padding: 0;
           margin: 0;
+        }
+
+        .and-link {
+          text-decoration: none;
         }
 
         .and-link:hover,
@@ -417,46 +441,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           display: none !important;
         }
 
-        /* COPIC-marker underline under the rotating role */
-        .role-link__label {
-          position: relative;
-          display: inline-block;
-          --marker-color: #FF6B35;
-          /* Trailing letter-spacing on the headline doesn't expand the box — pad so the marker spans the full word */
-          padding-right: 0.03em;
-        }
-
-        .role-link__text {
-          display: inline;
-        }
-
-        .role-link__underline {
-          position: absolute;
-          left: 0;
-          width: 100%;
-          bottom: -0.06em;
-          height: 0.3em;
-          pointer-events: none;
-          overflow: visible;
-        }
-
-        .role-link__underline path {
-          stroke-dasharray: 1;
-          stroke-dashoffset: 1;
-          animation: roleUnderlineDraw 900ms cubic-bezier(0.65, 0, 0.35, 1) 550ms forwards;
-        }
-
-        @keyframes roleUnderlineDraw {
-          to { stroke-dashoffset: 0; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .role-link__underline path {
-            animation: none;
-            stroke-dashoffset: 0;
-          }
-        }
-
         .cards-wrapper {
           position: relative;
           width: 240px;
@@ -465,7 +449,9 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         .card-stack-hero--stacked-fan .cards-wrapper {
-          margin-top: clamp(28px, 4vw, 56px);
+          margin-top: auto;
+          flex-shrink: 0;
+          transform-origin: center bottom;
         }
 
         /* Hide cards until viewport layout is applied (prevents desktop-size flash on mobile). */
@@ -1214,11 +1200,10 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           }
 
           .card-stack-hero--stacked-fan .card-stack-container {
-            height: 430px;
+            height: auto;
           }
 
           .card-stack-hero--stacked-fan .cards-wrapper {
-            margin-top: clamp(22px, 4vw, 36px);
             transform: scale(0.75);
           }
 
@@ -1260,7 +1245,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         @media (max-width: 480px) {
           .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.65);
-            margin-top: clamp(18px, 5vw, 28px);
           }
 
           .card-stack-container {
@@ -1268,11 +1252,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           }
 
           .card-stack-hero--stacked-fan .card-stack-container {
-            height: 385px;
-          }
-
-          .card-stack-hero--stacked-fan .hero-title {
-            margin-bottom: clamp(1.75rem, 6vw, 2.75rem);
+            height: auto;
           }
 
           .card-selected:not(.card-hero-fullscreen) {

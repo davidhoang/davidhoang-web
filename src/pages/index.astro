@@ -162,16 +162,14 @@ const portfolioItems = [
       }
 
       :global(.card-stack-hero-skeleton__cards) {
-        margin-top: clamp(22px, 4vw, 36px);
         transform: scale(0.75);
-        transform-origin: center top;
+        transform-origin: center bottom;
       }
     }
 
     @media (max-width: 480px) {
       :global(.card-stack-hero-skeleton__cards) {
         transform: scale(0.65);
-        margin-top: clamp(18px, 5vw, 28px);
       }
     }
 

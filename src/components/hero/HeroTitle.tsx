@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { rotatingRoles } from './types';
 
@@ -41,29 +42,7 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
           rel="noopener noreferrer"
           aria-label={roleAriaLabel}
         >
-          <span className="role-link__label">
-            <span className="role-link__text">{role.label}</span>
-            {isVisible ? (
-              <svg
-                className="role-link__underline"
-                viewBox="0 0 100 10"
-                preserveAspectRatio="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M0,5 L100,5"
-                  pathLength={1}
-                  fill="none"
-                  stroke="var(--marker-color, #FF6B35)"
-                  strokeWidth="6"
-                  strokeLinecap="butt"
-                  strokeOpacity="0.92"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-            ) : null}
-          </span>
+          {role.label}
         </a>
         .
       </span>

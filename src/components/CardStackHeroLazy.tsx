@@ -26,6 +26,8 @@ const CardStackHeroSkeleton = () => (
         width: 100%;
         max-width: min(100%, var(--container-max-width, 72rem));
         margin-inline: auto;
+        flex: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -46,16 +48,17 @@ const CardStackHeroSkeleton = () => (
 
       .card-stack-hero-skeleton__bar--title {
         width: min(92%, 36rem);
-        height: clamp(2.25rem, 8vw, 3.75rem);
-        margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+        height: clamp(3.125rem, calc(1.125rem + 8.5vw), 3.875rem);
+        margin-bottom: clamp(1rem, 3vw, 2.75rem);
       }
 
       .card-stack-hero-skeleton__cards {
         position: relative;
         width: 240px;
         height: 340px;
-        margin-top: clamp(28px, 4vw, 56px);
-        transform-origin: center top;
+        margin-top: auto;
+        flex-shrink: 0;
+        transform-origin: center bottom;
       }
 
       .card-stack-hero-skeleton__card {
