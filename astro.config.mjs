@@ -45,9 +45,7 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      filter: (page) =>
-        !page.includes('/signup-examples') &&
-        !page.includes('/default-layout'),
+      filter: (page) => !page.includes('/default-layout'),
     }),
   ],
   vite: {

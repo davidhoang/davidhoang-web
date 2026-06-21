@@ -68,9 +68,11 @@
    ============================================ */
 
 @media (max-width: 768px) {
-  /* Mobile nav is full-width at top: 0 with 64px height + safe-area-inset */
+  /* Mobile nav is full-width at top: 0 with 56px height + safe-area-inset */
   :root {
-    --content-top-padding: calc(64px + env(safe-area-inset-top, 0px) + 1.5rem);
+    --nav-height: 56px;
+    --nav-offset-top: 0px;
+    --content-top-padding: calc(56px + env(safe-area-inset-top, 0px) + 1.5rem);
   }
 
   /* Container - tighter padding on mobile */
@@ -85,23 +87,29 @@
   /* Typography - editorial mobile sizing for comfortable reading */
   p,
   li {
-    font-size: clamp(1.05rem, 3.8vw, 1.2rem);
-    line-height: 1.7;
+    font-size: var(--body-size-mobile);
+    line-height: var(--prose-line-height);
     max-width: 100%;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
   }
 
+  .prose-content,
+  .note-content {
+    font-size: var(--prose-size-mobile);
+    line-height: var(--prose-line-height);
+  }
+
   h1 {
     line-height: 1.15;
-    letter-spacing: -0.025em;
+    letter-spacing: var(--letter-spacing-display);
   }
 
   h2 {
     font-size: clamp(1.5rem, 5vw, 2rem);
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: var(--letter-spacing-heading-lg);
   }
 
   h3 {
@@ -122,7 +130,7 @@
   /* Headings use fluid typography via clamp() - no static overrides needed */
 
   :is(.hero-box, .hero-title) h1 {
-    font-size: clamp(3rem, 6vw, 6rem);
+    font-size: var(--display-title-size-mobile);
   }
 
   :is(.hero-layout, .hero-grid) {

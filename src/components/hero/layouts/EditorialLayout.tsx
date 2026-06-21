@@ -30,7 +30,7 @@ function EditorialCard({
 }: EditorialCardProps) {
   const isSelected = selectedCard === card.id;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const tilt = useMagneticTilt({ amplitude: 9, disabled: isSelected });
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div

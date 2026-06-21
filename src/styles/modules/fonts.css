@@ -31,6 +31,16 @@
   font-display: swap;
 }
 
+/* Source Serif 4 — latin subset for editorial blockquotes (pairs with ABC Diatype) */
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/vEFF2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* Typography */
 h1,
 h2,
@@ -41,7 +51,7 @@ h6 {
   line-height: 1.2;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  font-weight: var(--heading-weight, 700);
+  font-weight: var(--heading-weight);
   letter-spacing: var(--heading-letter-spacing);
   font-family: var(--font-heading);
   text-transform: var(--heading-transform);
@@ -51,7 +61,7 @@ h1 {
   font-size: var(--h1-size);
   line-height: var(--h1-line-height);
   letter-spacing: var(--h1-letter-spacing);
-  font-weight: var(--heading-weight, 700);
+  font-weight: var(--heading-weight);
 }
 
 h2 {
@@ -86,9 +96,9 @@ h6 {
 
 p {
   margin-bottom: 1.25em;
-  font-size: 1.1rem;
-  font-weight: var(--body-weight, 400);
-  line-height: var(--body-line-height, 1.6);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  line-height: var(--body-line-height);
   letter-spacing: var(--letter-spacing-body);
   color: var(--color-text);
 }
@@ -129,8 +139,9 @@ ul ol {
 
 li {
   margin-bottom: 0.5em;
-  line-height: var(--body-line-height, 1.6);
-  font-size: 1.2rem;
+  line-height: var(--body-line-height);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
   letter-spacing: var(--letter-spacing-body);
   color: var(--color-text);
   padding-left: 0.25em;
@@ -155,8 +166,8 @@ p + ol {
 strong {
   /* One step heavier than body, never as heavy as headings */
   font-weight: min(
-    calc(var(--heading-weight, 700) - 100),
-    calc(var(--body-weight, 400) + 100)
+    calc(var(--heading-weight) - 100),
+    calc(var(--body-weight) + 100)
   );
   color: var(--color-text);
 }
@@ -178,37 +189,41 @@ time {
   color: var(--color-muted);
 }
 
-/* Blockquote */
+/* Blockquote — editorial serif voice against sans body */
 blockquote {
   margin: 2.5rem 0;
-  padding: 2rem 2.5rem;
-  border-left: 3px solid var(--color-text);
-  background-color: var(--color-sidebar-bg);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia);
+  padding: 0 0 0 1.75rem;
+  border-left: 1px solid color-mix(in srgb, var(--color-text) 28%, var(--color-border));
+  background: none;
+  border-radius: 0;
+  font-family: var(--font-serif);
+  transition: color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
 }
 
 blockquote p {
-  margin: 0;
+  margin: 0 0 0.85em;
   color: var(--color-text);
-  font-size: 1.35rem;
+  font-family: inherit;
+  font-size: 1.25rem;
   line-height: 1.7;
-  /* Between body and headings: cap at one step below heading weight */
-  font-weight: min(
-    calc(var(--heading-weight, 700) - 100),
-    max(var(--body-weight, 400), 500)
-  );
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.012em;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
 }
 
 blockquote cite {
   display: block;
   margin-top: 1.25rem;
-  font-size: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
   color: var(--color-muted);
   font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -217,13 +232,15 @@ blockquote cite {
   margin: 3rem 0;
   padding: 2.5rem 2rem;
   text-align: center;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  line-height: 1.5;
-  font-weight: var(--heading-weight, 600);
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.45;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.01em;
   color: var(--color-text);
-  border-top: 2px solid var(--color-text);
-  border-bottom: 2px solid var(--color-text);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 35%, var(--color-border));
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 35%, var(--color-border));
   transition: color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
   position: relative;
 }
@@ -231,23 +248,28 @@ blockquote cite {
 /* Decorative quotation marks for pull quotes */
 .pull-quote::before,
 .pull-quote::after {
-  content: '"';
+  content: '\201C';
   position: absolute;
-  font-size: clamp(3rem, 8vw, 5rem);
-  color: var(--color-muted);
-  opacity: 0.3;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: color-mix(in srgb, var(--color-text) 20%, transparent);
   line-height: 1;
-  font-weight: 700;
-}
-
-.pull-quote::before {
-  top: -0.5rem;
-  left: 1rem;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .pull-quote::after {
-  bottom: -0.5rem;
-  right: 1rem;
+  content: '\201D';
+}
+
+.pull-quote::before {
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.pull-quote::after {
+  bottom: 0.75rem;
+  right: 0.75rem;
 }
 
 /* Pull quote attribution */
@@ -264,23 +286,45 @@ blockquote cite {
 
 /* Prose Content (for markdown/blog posts + notes) */
 
-/* BFC: contains drop-cap float (::first-letter float:left) so it cannot affect layout after .prose-content */
 .prose-content {
-  display: flow-root;
   max-width: 42rem;
 }
 
-/* Notes use the same body scale; writing keeps drop-cap/lead in .prose-content only */
+/* Notes use the same body scale as writing prose */
 .note-content {
-  font-size: 1.0625rem;
-  line-height: 1.75;
+  font-size: var(--prose-size);
+  line-height: var(--prose-line-height);
+}
+
+.note-content h2 {
+  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-heading-lg);
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.note-content h3 {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.25;
+  letter-spacing: var(--letter-spacing-heading-md);
+  margin-top: 1.75em;
+  margin-bottom: 0.4em;
+}
+
+.note-content h4 {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.3;
+  letter-spacing: 0;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
 }
 
 /* Article heading hierarchy — scaled down from page-level display sizes */
 .prose-content h2 {
   font-size: clamp(1.4rem, 2.5vw, 1.75rem);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--letter-spacing-heading-lg);
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
@@ -288,7 +332,7 @@ blockquote cite {
 .prose-content h3 {
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   line-height: 1.25;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--letter-spacing-heading-md);
   margin-top: 1.75em;
   margin-bottom: 0.4em;
 }
@@ -303,7 +347,7 @@ blockquote cite {
 
 .prose-content h5 {
   font-size: 0.875rem;
-  font-weight: var(--heading-weight, 600);
+  font-weight: var(--heading-weight);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-top: 1.75em;
@@ -343,44 +387,6 @@ blockquote cite {
   border-radius: var(--radius-md);
   margin: var(--spacing-md) 0;
   display: block;
-}
-
-/* Drop cap styling for article openers */
-.prose-content p:first-child::first-letter {
-  float: left;
-  font-size: 3.5em;
-  line-height: 0.8;
-  padding-right: 0.1em;
-  padding-top: 0.1em;
-  font-weight: var(--heading-weight, 700);
-  color: var(--color-text);
-}
-
-/* Lead paragraph styling - larger, distinct intro text */
-.prose-content p:first-child {
-  font-size: 1.35rem;
-  line-height: 1.7;
-  font-weight: min(
-    calc(var(--heading-weight, 700) - 100),
-    max(var(--body-weight, 400), 500)
-  );
-  letter-spacing: -0.01em;
-  margin-bottom: 1.5em;
-  color: var(--color-text);
-}
-
-/* Improved paragraph spacing with better vertical rhythm */
-.prose-content p {
-  margin-bottom: 1.25em;
-}
-
-.prose-content p + p {
-  margin-top: 0;
-}
-
-/* Ensure proper spacing after lead paragraph */
-.prose-content p:first-child + p {
-  margin-top: 0.5em;
 }
 
 /* Code blocks */
@@ -462,13 +468,28 @@ blockquote cite {
   background: color-mix(in srgb, var(--color-text) 8%, transparent);
 }
 
-/* Shared long-form elements — notes + writing */
-:is(.prose-content, .note-content) blockquote {
-  border-left: 3px solid var(--color-link);
-  padding-left: 1rem;
-  margin: 1.5rem 0;
-  color: var(--color-muted);
-  font-style: italic;
+/* Long-form blockquotes — opening quote mark + prose rhythm */
+:is(.prose-content, .note-content) blockquote:not(.twitter-tweet) {
+  position: relative;
+  margin: 2.5rem 0;
+  padding: 0.35rem 0 0.35rem 2.25rem;
+}
+
+:is(.prose-content, .note-content) blockquote:not(.twitter-tweet)::before {
+  content: '\201C';
+  position: absolute;
+  top: 0;
+  left: 0.55rem;
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  line-height: 1;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--color-text) 16%, transparent);
+  pointer-events: none;
+}
+
+:is(.prose-content, .note-content) blockquote:not(.twitter-tweet) p {
+  font-size: clamp(1.125rem, 0.35vw + 1.05rem, 1.3125rem);
 }
 
 :is(.prose-content, .note-content) :is(pre, .astro-code) {

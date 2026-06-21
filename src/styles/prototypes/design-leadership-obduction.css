@@ -1,0 +1,1365 @@
+@import '../fonts/cormorant-garamond.css';
+@import '../fonts/source-serif-4.css';
+@import '../fonts/space-grotesk.css';
+
+:root {
+  --paper: #ede4d2;
+  --ink: #18120e;
+  --rust: #9c3f28;
+  --ochre: #c08a4a;
+  --slate: #3d4856;
+  --teal: #28555c;
+  --teal-light: #4f7f85;
+  --sky: #c8d2bc;
+  --gold: #a67a32;
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-label: 'Space Grotesk', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  min-height: 100vh;
+  padding: 16px 20px 20px;
+}
+
+@media (min-width: 901px) {
+  body {
+    padding: 12px 16px 16px;
+  }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.06 0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  z-index: 100;
+}
+
+.container {
+  max-width: min(1680px, 98vw);
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink);
+  position: relative;
+}
+
+.fig,
+.fig-left {
+  position: absolute;
+  top: 2px;
+  font-family: var(--font-label);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--slate);
+}
+
+.fig {
+  right: 0;
+}
+
+.fig-left {
+  left: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(32px, 4.2vw, 54px);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--slate);
+  max-width: 42ch;
+  margin-inline: auto;
+}
+
+.diagram-wrap {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  padding: 20px 22px 18px;
+  position: relative;
+  --collision-thrust: 0;
+  --range-grow: 0;
+  --range-peak-rest: 0.36;
+  --range-peak-nudge: 0.44;
+  --range-peak-hover: 1;
+  --range-peak-hover-main: 1.12;
+  --range-grow-duration: 1.8s;
+  --range-grow-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.diagram-wrap::before,
+.diagram-wrap::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+}
+
+.diagram-wrap::before {
+  top: -8px;
+  left: -8px;
+}
+
+.diagram-wrap::after {
+  bottom: -8px;
+  right: -8px;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(26, 20, 16, 0.25);
+}
+
+.legend-item {
+  margin: -6px -8px;
+  padding: 8px 10px;
+  border-radius: 2px;
+  border-left: 2px solid transparent;
+  transition: opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.diagram-wrap[data-active-stage] .legend-item {
+  opacity: 0.45;
+}
+
+.diagram-wrap[data-active-stage='1'] .legend-item[data-stage='1'],
+.diagram-wrap[data-active-stage='2'] .legend-item[data-stage='2'],
+.diagram-wrap[data-active-stage='3'] .legend-item[data-stage='3'] {
+  opacity: 1;
+  background: rgba(237, 228, 210, 0.94);
+}
+
+.diagram-wrap[data-active-stage='1'] .legend-item[data-stage='1'] {
+  border-left-color: var(--rust);
+}
+
+.diagram-wrap[data-active-stage='2'] .legend-item[data-stage='2'] {
+  border-left-color: var(--teal);
+}
+
+.diagram-wrap[data-active-stage='3'] .legend-item[data-stage='3'] {
+  border-left-color: var(--gold);
+}
+
+.legend-item .key {
+  font-family: var(--font-label);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-item .swatch {
+  width: 18px;
+  height: 12px;
+  border: 1px solid var(--ink);
+  display: inline-block;
+}
+
+.legend-item .body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.legend-item .body-kicker {
+  display: block;
+  margin-top: 0.35em;
+  color: var(--slate);
+}
+
+.legend-item.teal .key {
+  color: var(--teal);
+}
+
+.legend-item.rust .key {
+  color: var(--rust);
+}
+
+.legend-item.gold .key {
+  color: var(--gold);
+}
+
+.scale-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-label);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.scale-bar__rail {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(61, 72, 86, 0.55) 0 3px,
+    transparent 3px 7px
+  );
+}
+
+.diagram-canvas {
+  position: relative;
+  overflow: visible;
+  border-top: 1px solid rgba(24, 18, 14, 0.12);
+  padding-top: 12px;
+}
+
+.diagram-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 12px 0 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(24, 18, 14, 0.04) 0%,
+    transparent 8%,
+    transparent 92%,
+    rgba(24, 18, 14, 0.04) 100%
+  );
+  z-index: 2;
+}
+
+.stage-popovers {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.stage-popover {
+  position: absolute;
+  width: min(248px, 34%);
+  padding: 10px 12px 12px 14px;
+  background: rgba(237, 228, 210, 0.97);
+  border: 1px solid rgba(24, 18, 14, 0.32);
+  border-left-width: 2px;
+  box-shadow: 0 10px 28px rgba(26, 20, 16, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.3s;
+}
+
+.stage-popover--rust {
+  left: 2%;
+  top: 56%;
+  border-left-color: var(--rust);
+}
+
+.stage-popover--teal {
+  right: 2%;
+  top: 28%;
+  border-left-color: var(--teal);
+}
+
+.stage-popover--gold {
+  left: 30%;
+  top: 48%;
+  border-left-color: var(--gold);
+}
+
+.diagram-wrap[data-active-stage='1'] .stage-popover[data-stage='1'],
+.diagram-wrap[data-active-stage='2'] .stage-popover[data-stage='2'],
+.diagram-wrap[data-active-stage='3'] .stage-popover[data-stage='3'] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.stage-popover__tag {
+  font-family: var(--font-label);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 5px;
+  opacity: 0.85;
+}
+
+.stage-popover--teal .stage-popover__tag,
+.stage-popover--teal .stage-popover__num {
+  color: var(--teal);
+}
+
+.stage-popover--gold .stage-popover__tag,
+.stage-popover--gold .stage-popover__num {
+  color: var(--gold);
+}
+
+.stage-popover__num {
+  font-family: var(--font-label);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 6px;
+}
+
+.stage-popover__title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.32;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+.stage-popover__desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--slate);
+}
+
+svg.cross-section {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  shape-rendering: geometricPrecision;
+}
+
+svg.cross-section .svg-label {
+  font-family: var(--font-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+svg.cross-section .svg-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+svg.cross-section .svg-caption {
+  font-family: var(--font-label);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+svg.cross-section .subducting-label,
+svg.cross-section .override-label,
+svg.cross-section .mantle-layer-label {
+  font-family: var(--font-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+svg.cross-section .depth-axis text {
+  font-family: var(--font-label);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+svg.cross-section .subducting-callout text,
+svg.cross-section .stage-two-callout text,
+svg.cross-section .stage-three-callout text {
+  paint-order: stroke fill;
+}
+
+svg.cross-section .callout-halo {
+  stroke: #ede4d2;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+svg.cross-section .stage-one-hit,
+svg.cross-section .stage-two-hit,
+svg.cross-section .stage-three-hit {
+  cursor: pointer;
+  outline: none;
+}
+
+svg.cross-section .subducting-body {
+  transform-box: view-box;
+  transform-origin: 525px 448px;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+svg.cross-section .stage-two-plate,
+svg.cross-section .stage-two-arrow {
+  transform-box: view-box;
+  transform-origin: 525px 400px;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+svg.cross-section .stage-three-anchor {
+  transform-box: view-box;
+  transform-origin: 525px 282px;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* JS physics owns stack motion once settled */
+.diagram-wrap.diagram-physics.diagram-settled .subducting-body,
+.diagram-wrap.diagram-physics.diagram-settled .stage-two-plate,
+.diagram-wrap.diagram-physics.diagram-settled .stage-two-arrow,
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor {
+  transition: none;
+}
+
+/* Stage III growth follows thrust — partial on Stage II, full on Stage III */
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-foothills {
+  transform: scaleY(calc(0.9 + var(--range-grow) * 0.13));
+  opacity: calc(0.88 + var(--range-grow) * 0.12);
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--1 {
+  transform: scaleY(calc(var(--range-peak-rest) + var(--range-grow) * 0.56));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--2 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover-main) - var(--range-peak-rest)) * var(--range-grow)));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--3 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover) - var(--range-peak-rest)) * var(--range-grow)));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-peak--4 {
+  transform: scaleY(calc(var(--range-peak-rest) + var(--range-grow) * 0.54));
+}
+
+.diagram-wrap.diagram-physics.diagram-settled .stage-three-anchor .range-surface-rim {
+  opacity: calc(0.72 - var(--range-grow) * 0.37);
+}
+
+svg.cross-section .stage-three-anchor .range-foothills,
+svg.cross-section .stage-three-anchor .range-peak {
+  transition:
+    transform var(--range-grow-duration) var(--range-grow-ease),
+    opacity 0.8s ease-out;
+}
+
+svg.cross-section .stage-three-anchor .range-surface-rim {
+  transition: opacity 0.8s ease-out;
+}
+
+/* Stage hover — fallback when physics is unavailable */
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] .subducting-body {
+  transform: rotate(-2deg) translateX(14px) translateY(-2px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] {
+  --collision-thrust: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] .stage-two-plate,
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='1'] .stage-two-arrow {
+  transform: translateY(-30px) translateX(-5px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-two-plate,
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-two-arrow {
+  transform: rotate(-0.48deg) translateY(-16px) translateX(-20px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor {
+  transform: translateY(-26px) translateX(-10px);
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] {
+  --range-grow: 0.62;
+  --collision-thrust: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor .range-foothills {
+  transform: scaleY(calc(0.9 + var(--range-grow) * 0.13));
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor .range-peak--2 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover-main) - var(--range-peak-rest)) * var(--range-grow)));
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='2'] .stage-three-anchor .range-peak--3 {
+  transform: scaleY(calc(var(--range-peak-rest) + (var(--range-peak-hover) - var(--range-peak-rest)) * var(--range-grow) * 0.85));
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] {
+  --range-grow: 1;
+}
+
+.diagram-wrap[data-active-stage='1'] .subducting-callout text:last-child {
+  fill: #7a3020;
+}
+
+.diagram-wrap[data-active-stage='2'] .stage-two-callout text:last-child {
+  fill: #1a3d42;
+}
+
+.diagram-wrap[data-active-stage='2'] .overriding-arrow__shaft {
+  animation-duration: 0.85s;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-foothills {
+  transform: scaleY(1.03);
+  opacity: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--1 {
+  transform: scaleY(0.92);
+  opacity: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--2 {
+  transform: scaleY(var(--range-peak-hover-main));
+  opacity: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--3 {
+  transform: scaleY(var(--range-peak-hover));
+  opacity: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-peak--4 {
+  transform: scaleY(0.9);
+  opacity: 1;
+}
+
+.diagram-wrap.diagram-settled:not(.diagram-physics)[data-active-stage='3'] .stage-three-anchor .range-surface-rim {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-popover {
+    transition: opacity 0.15s ease, visibility 0.15s;
+    transform: none;
+  }
+
+  .diagram-wrap[data-active-stage='1'] .stage-popover[data-stage='1'],
+  .diagram-wrap[data-active-stage='2'] .stage-popover[data-stage='2'],
+  .diagram-wrap[data-active-stage='3'] .stage-popover[data-stage='3'] {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ── Intro epoch: Stage I → II → III on load ── */
+  .diagram-epoch .subducting-body {
+    transform-box: view-box;
+    transform-origin: 580px 440px;
+    animation: intro-stage-one 4.2s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  }
+
+  .diagram-epoch .subducting-strata,
+  .diagram-epoch .subducting-strata--limb {
+    animation: subduct-strata-flow 2.2s linear infinite;
+  }
+
+  .diagram-epoch .subducting-downdip {
+    animation: subduct-downdip-flow 2.6s linear infinite;
+  }
+
+  .diagram-epoch .subducting-strata--delay,
+  .diagram-epoch .subducting-downdip--delay {
+    animation-delay: -1.1s;
+  }
+
+  .diagram-epoch .subducting-strata--limb {
+    animation-duration: 1.6s;
+    animation-delay: -0.4s;
+  }
+
+  .diagram-epoch .subducting-arrow__shaft {
+    stroke-dasharray: 6 8;
+    animation: subduct-arrow-flow 1s linear infinite;
+  }
+
+  .diagram-epoch .sink-particle {
+    animation: intro-sink-pulse 2.8s ease-out infinite;
+  }
+
+  .diagram-epoch .sink-particle--2 {
+    animation-delay: 0.5s;
+  }
+
+  .diagram-epoch .sink-particle--3 {
+    animation-delay: 1s;
+  }
+
+  .diagram-epoch .sink-particle--4 {
+    animation-delay: 1.5s;
+  }
+
+  .diagram-epoch .sink-particle--5 {
+    animation-delay: 2s;
+  }
+
+  .diagram-epoch .sink-particle--6 {
+    animation-delay: 2.5s;
+  }
+
+  .diagram-epoch .sink-particle--7 {
+    animation-delay: 3s;
+  }
+
+  .diagram-epoch .melt-glow--primary {
+    animation: intro-melt-glow 4.2s ease-out forwards;
+  }
+
+  .diagram-epoch .stage-two-plate,
+  .diagram-epoch .stage-two-arrow {
+    transform-box: view-box;
+    transform-origin: 520px 400px;
+    animation: intro-stage-two 3.2s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+  }
+
+  .diagram-epoch .stage-three-anchor {
+    transform-box: view-box;
+    transform-origin: 580px 282px;
+    animation: intro-stage-three-lift 2.2s cubic-bezier(0.22, 1, 0.36, 1) 2.2s forwards;
+  }
+
+  .diagram-epoch .overriding-arrow__shaft {
+    stroke-dasharray: 6 8;
+    animation: overriding-arrow-flow 0.9s linear 4s infinite;
+  }
+
+  .diagram-epoch .range-shelf,
+  .diagram-epoch .range-foothills {
+    transform-box: view-box;
+    transform-origin: 580px 282px;
+    animation: intro-range-base 1.4s cubic-bezier(0.22, 1, 0.36, 1) 5.2s forwards;
+  }
+
+  .diagram-epoch .range-peak {
+    transform-box: view-box;
+    animation: intro-range-peak 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .diagram-epoch .range-peak--1 {
+    transform-origin: 368px 266px;
+    animation-delay: 5.7s;
+  }
+
+  .diagram-epoch .range-peak--2 {
+    transform-origin: 520px 256px;
+    animation-delay: 5.95s;
+  }
+
+  .diagram-epoch .range-peak--3 {
+    transform-origin: 620px 242px;
+    animation-delay: 6.2s;
+  }
+
+  .diagram-epoch .range-peak--4 {
+    transform-origin: 772px 232px;
+    animation-delay: 6.45s;
+  }
+
+  /* ── Settled: ambient motion + diagram resting state ── */
+  /* Slab holds a fixed dip; downdip motion reads through strata + drift lines */
+  .diagram-settled:not(.diagram-physics) .subducting-body {
+    transform-box: view-box;
+    transform-origin: 525px 448px;
+    transform: rotate(-1.2deg) translateX(8px) translateY(-2px);
+    transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .diagram-settled .subducting-strata,
+  .diagram-settled .subducting-strata--limb {
+    animation: subduct-strata-flow 2.8s linear infinite;
+  }
+
+  .diagram-settled .subducting-downdip {
+    animation: subduct-downdip-flow 3.2s linear infinite;
+  }
+
+  .diagram-settled .subducting-strata--delay,
+  .diagram-settled .subducting-downdip--delay {
+    animation-delay: -1.4s;
+  }
+
+  .diagram-settled .subducting-strata--limb {
+    animation-duration: 2s;
+    animation-delay: -0.6s;
+  }
+
+  .diagram-settled .overriding-arrow__shaft {
+    stroke-dasharray: 6 8;
+    animation: overriding-arrow-flow 2s linear infinite;
+  }
+
+  .diagram-settled .subducting-arrow__shaft {
+    stroke-dasharray: 6 8;
+    animation: subduct-arrow-flow 1.2s linear infinite;
+  }
+
+  .diagram-settled .sink-particle {
+    animation: sink-into-melt 4s linear infinite;
+  }
+
+  .diagram-settled .sink-particle--2 {
+    animation-delay: 0.8s;
+  }
+
+  .diagram-settled .sink-particle--3 {
+    animation-delay: 1.6s;
+  }
+
+  .diagram-settled .sink-particle--4 {
+    animation-delay: 2.4s;
+  }
+
+  .diagram-settled .sink-particle--5 {
+    animation-delay: 3.2s;
+  }
+
+  .diagram-settled .sink-particle--6 {
+    animation-delay: 4s;
+  }
+
+  .diagram-settled .sink-particle--7 {
+    animation-delay: 4.8s;
+  }
+
+  .diagram-settled .melt-pool {
+    animation: melt-pool-surge 8s ease-in-out infinite;
+  }
+
+  .diagram-settled .melt-glow--primary {
+    animation: melt-glow-breathe 6s ease-in-out infinite;
+  }
+
+  .diagram-settled .mantle-melt-fade {
+    animation: mantle-melt-fade-breathe 6s ease-in-out infinite;
+  }
+
+  .diagram-settled .asthenosphere-glow {
+    opacity: calc(0.5 + var(--collision-thrust) * 0.5);
+    animation: asthenosphere-breathe 7s ease-in-out infinite;
+  }
+
+  .diagram-settled .subducting-limb-fade {
+    opacity: calc(0.55 + var(--collision-thrust) * 0.35);
+  }
+
+  .diagram-settled .magma-vein--primary {
+    stroke-dasharray: 12 18;
+    animation: magma-vein-flow 5s linear infinite;
+  }
+
+  .diagram-settled .magma-vein--branch {
+    stroke-dasharray: 8 14;
+    animation: magma-vein-flow 6.5s linear infinite reverse;
+    animation-delay: -2s;
+  }
+
+  .diagram-settled .sky-clouds {
+    animation: sky-cloud-drift 28s ease-in-out infinite alternate;
+  }
+
+  .diagram-settled .volcanic-smoke {
+    opacity: 0.3;
+    transition: opacity 0.6s ease;
+  }
+
+  .diagram-wrap[data-active-stage='3'] .volcanic-smoke {
+    opacity: 0.92;
+  }
+
+  .diagram-settled .smoke-wisp--1 {
+    animation: smoke-rise 7s ease-in-out infinite;
+  }
+
+  .diagram-settled .smoke-wisp--2 {
+    animation: smoke-rise 8.5s ease-in-out infinite;
+    animation-delay: -2.5s;
+  }
+
+  .diagram-settled .smoke-wisp--3 {
+    animation: smoke-rise 6s ease-in-out infinite;
+    animation-delay: -1s;
+  }
+
+  .diagram-settled .range-sparkle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: range-sparkle-twinkle 3.4s ease-in-out infinite;
+  }
+
+  .diagram-settled .range-sparkle--2 {
+    animation-delay: 0.6s;
+  }
+
+  .diagram-settled .range-sparkle--3 {
+    animation-delay: 1.1s;
+  }
+
+  .diagram-settled .range-sparkle--4 {
+    animation-delay: 0.3s;
+  }
+
+  .diagram-settled .range-sparkle--5 {
+    animation-delay: 1.8s;
+  }
+
+  .diagram-settled .range-sparkle--6 {
+    animation-delay: 2.2s;
+  }
+
+  .diagram-settled .range-sparkle--7 {
+    animation-delay: 0.9s;
+  }
+
+  .diagram-settled:not(.diagram-physics) svg.cross-section .stage-two-plate,
+  .diagram-settled:not(.diagram-physics) svg.cross-section .stage-two-arrow {
+    transform: translateY(-8px) translateX(-5px);
+  }
+
+  .diagram-settled:not(.diagram-physics) svg.cross-section .stage-three-anchor {
+    transform: translateY(-6px);
+  }
+
+  .diagram-settled svg.cross-section .range-shelf,
+  .diagram-settled svg.cross-section .stage-three-anchor .range-foothills {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  .diagram-settled svg.cross-section .stage-three-anchor .range-peak {
+    transform: scaleY(var(--range-peak-rest));
+    opacity: 1;
+  }
+
+  .diagram-epoch .range-shelf,
+  .diagram-epoch .range-foothills {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  svg.cross-section .stage-three-anchor .range-foothills {
+    transform-box: view-box;
+    transform-origin: 580px 282px;
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  svg.cross-section .stage-three-anchor .range-peak {
+    transform-box: view-box;
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  svg.cross-section .stage-three-anchor .range-peak--1 {
+    transform-origin: 368px 266px;
+  }
+
+  svg.cross-section .stage-three-anchor .range-peak--2 {
+    transform-origin: 520px 256px;
+  }
+
+  svg.cross-section .stage-three-anchor .range-peak--3 {
+    transform-origin: 620px 242px;
+  }
+
+  svg.cross-section .stage-three-anchor .range-peak--4 {
+    transform-origin: 772px 232px;
+  }
+
+  svg.cross-section .stage-three-anchor .range-surface-rim {
+    opacity: 0;
+  }
+
+  .diagram-settled svg.cross-section .stage-three-anchor .range-surface-rim {
+    opacity: 0.72;
+  }
+
+  @media (hover: none) {
+    .diagram-wrap {
+      --diagram-intro-ms: 0;
+    }
+
+    .diagram-epoch .subducting-body,
+    .diagram-epoch .stage-two-plate,
+    .diagram-epoch .stage-two-arrow,
+    .diagram-epoch .stage-three-anchor,
+    .diagram-epoch .range-shelf,
+    .diagram-epoch .range-foothills,
+    .diagram-epoch .range-peak {
+      animation: none;
+    }
+
+    .diagram-epoch .range-shelf,
+    .diagram-epoch .range-foothills,
+    .diagram-settled .range-shelf,
+    .diagram-settled .range-foothills {
+      transform: scaleY(1);
+      opacity: 1;
+
+    }
+
+    .diagram-epoch .range-peak,
+    .diagram-settled .range-peak {
+      transform: scaleY(var(--range-peak-rest));
+      opacity: 1;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram-epoch .subducting-body,
+  .diagram-epoch .stage-two-plate,
+  .diagram-epoch .stage-two-arrow,
+  .diagram-epoch .stage-three-anchor,
+  .diagram-epoch .range-shelf,
+  .diagram-epoch .range-foothills,
+  .diagram-epoch .range-peak {
+    animation: none;
+  }
+
+  .diagram-settled .range-shelf,
+  .diagram-settled .range-foothills,
+  .diagram-epoch .range-shelf,
+  .diagram-epoch .range-foothills {
+    transform: scaleY(1);
+    opacity: 1;
+
+  }
+
+  .diagram-settled .range-peak,
+  .diagram-epoch .range-peak {
+    transform: scaleY(var(--range-peak-rest));
+    opacity: 1;
+  }
+
+  .diagram-settled .range-sparkle {
+    animation: none;
+    opacity: 0.35;
+  }
+
+  .diagram-settled .melt-pool,
+  .diagram-settled .melt-glow--primary,
+  .diagram-settled .mantle-melt-fade {
+    animation: none;
+  }
+}
+
+@keyframes subduct-strata-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -52;
+  }
+}
+
+@keyframes subduct-downdip-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+@keyframes subduct-arrow-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes overriding-arrow-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes sink-into-melt {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  10% {
+    opacity: 0.95;
+  }
+
+  85% {
+    opacity: 0.25;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(32px, 54px);
+  }
+}
+
+@keyframes magma-recycle {
+  0% {
+    opacity: 0;
+    transform: translate(0, 20px);
+  }
+
+  15% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, -40px);
+  }
+}
+
+@keyframes intro-stage-one {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+
+  45% {
+    transform: rotate(-0.7deg) translate(5px, -1px);
+  }
+
+  100% {
+    transform: rotate(-1.2deg) translate(8px, -2px);
+  }
+}
+
+@keyframes intro-sink-pulse {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  18% {
+    opacity: 0.95;
+  }
+
+  70% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(28px, 48px);
+  }
+}
+
+@keyframes intro-melt-glow {
+  0% {
+    opacity: 0.12;
+  }
+
+  40% {
+    opacity: 0.32;
+  }
+
+  100% {
+    opacity: 0.28;
+  }
+}
+
+@keyframes melt-pool-surge {
+  0%,
+  100% {
+    opacity: 0.34;
+  }
+
+  50% {
+    opacity: 0.44;
+  }
+}
+
+@keyframes melt-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+
+  50% {
+    opacity: 0.34;
+  }
+}
+
+@keyframes mantle-melt-fade-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+
+  50% {
+    opacity: 0.92;
+  }
+}
+
+@keyframes asthenosphere-breathe {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes magma-vein-flow {
+  to {
+    stroke-dashoffset: -60;
+  }
+}
+
+@keyframes sky-cloud-drift {
+  from {
+    transform: translateX(-6px);
+  }
+
+  to {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes smoke-rise {
+  0% {
+    opacity: 0.15;
+    transform: translateY(6px);
+  }
+
+  45% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes range-sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  42% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  68% {
+    opacity: 0.25;
+    transform: scale(0.75);
+  }
+}
+
+@keyframes intro-stage-two {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  40% {
+    transform: translateY(-10px) translateX(-6px);
+  }
+
+  70% {
+    transform: translateY(-9px) translateX(-5px);
+  }
+
+  100% {
+    transform: translateY(-8px) translateX(-5px);
+  }
+}
+
+@keyframes intro-stage-three-lift {
+  0% {
+    transform: translateY(0);
+  }
+
+  35% {
+    transform: translateY(-10px);
+  }
+
+  65% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes intro-range-base {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+
+  }
+}
+
+@keyframes intro-range-peak {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleY(0.36);
+    opacity: 1;
+  }
+}
+
+.footnote {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-label);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.footnote em {
+  font-family: var(--font-display);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.footnote a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .scale-bar {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .scale-bar__rail {
+    order: 3;
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  .footnote {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .stage-popover {
+    width: min(220px, 88%);
+  }
+
+  .stage-popover--rust {
+    left: 3%;
+    top: auto;
+    bottom: 8%;
+  }
+
+  .stage-popover--teal {
+    right: 3%;
+    top: 22%;
+  }
+
+  .stage-popover--gold {
+    left: 50%;
+    top: auto;
+    bottom: 6%;
+    transform: translateX(-50%) translateY(6px);
+  }
+
+  .diagram-wrap[data-active-stage='3'] .stage-popover[data-stage='3'] {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .legend {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}

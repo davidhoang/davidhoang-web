@@ -89,7 +89,10 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: all var(--duration-slow) var(--ease-standard);
+  transition:
+    opacity var(--duration-slow) var(--ease-standard),
+    visibility var(--duration-slow) var(--ease-standard),
+    transform var(--duration-slow) var(--ease-standard);
   /* Must not intercept taps on the FAB while closed (sibling paints under the button but hit-test can still bite). */
   pointer-events: none;
 }
@@ -149,7 +152,9 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
-  transition: all var(--duration-slow) var(--ease-standard);
+  transition:
+    color var(--duration-slow) var(--ease-standard),
+    background-color var(--duration-slow) var(--ease-standard);
 }
 
 .close-btn:hover {
@@ -196,7 +201,10 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   background: transparent;
   color: var(--color-muted);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
   padding: 0;
 }
 
@@ -240,7 +248,11 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   border: 1px solid transparent;
   border-radius: 6px;
   cursor: pointer;
-  transition: all var(--duration-slow) var(--ease-standard);
+  transition:
+    border-color var(--duration-slow) var(--ease-standard),
+    transform var(--duration-slow) var(--ease-standard),
+    background-color var(--duration-slow) var(--ease-standard),
+    box-shadow var(--duration-slow) var(--ease-standard);
   min-width: 0;
 }
 

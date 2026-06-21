@@ -1,8 +1,21 @@
+/** Primary top nav links — keep this list short; see Footer.astro for footer-only pages. */
 export const navItems = [
   { path: '/about', label: 'About' },
   { path: '/writing', label: 'Writing' },
   { path: '/featured', label: 'Featured' },
   { path: '/subscribe', label: 'Subscribe' },
+] as const;
+
+/** Pages shown in the mobile full-screen menu below primary nav links */
+export const mobileSecondaryNavItems = [
+  { path: '/now', label: 'Now' },
+  { path: '/notes', label: 'Notes' },
+  { path: '/career-odyssey', label: 'Career Odyssey' },
+  { path: '/investing', label: 'Investing' },
+  { path: '/advising', label: 'Advising' },
+  { path: '/works', label: 'Works' },
+  { path: '/art-collection', label: 'Art Collection' },
+  { path: '/daily-themes', label: 'Daily Themes' },
 ] as const;
 
 export const commandPalettePages = [
@@ -17,4 +30,5 @@ export const commandPalettePages = [
   { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
   { title: 'Works', description: 'Selected work and projects', path: '/works', type: 'page' },
   { title: 'Art Collection', description: 'Curated artwork collection', path: '/art-collection', type: 'page' },
+  { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
 ] as const;

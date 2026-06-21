@@ -61,7 +61,8 @@ function FanCard({
   onCardHover,
 }: FanCardProps) {
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const tilt = useMagneticTilt({ disabled: Boolean(selectedCard) });
+  const prefersReducedMotion = useReducedMotion();
+  const tilt = useMagneticTilt({ disabled: true });
 
   return (
     <motion.div
@@ -89,7 +90,7 @@ function FanCard({
         opacity: isOtherSelected ? 0.3 : 1,
       }}
       whileHover={
-        selectedCard
+        selectedCard || prefersReducedMotion
           ? undefined
           : {
               x: position.x,

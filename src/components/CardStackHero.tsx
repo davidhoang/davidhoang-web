@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
+import { isMobileHeroViewport, readHeroViewportTier } from '../utils/heroViewport';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import StackedFanLayout from './hero/layouts/StackedFanLayout';
@@ -8,6 +10,12 @@ import EditorialLayout from './hero/layouts/EditorialLayout';
 import ScatteredLayout from './hero/layouts/ScatteredLayout';
 import RolodexLayout from './hero/layouts/RolodexLayout';
 import CinematicLayout from './hero/layouts/CinematicLayout';
+
+function readInitialHeroLayout(): HeroLayout {
+  if (typeof window === 'undefined') return 'stacked-fan';
+  if (isMobileHeroViewport()) return 'stacked-fan';
+  return resolveLayout(document.documentElement.getAttribute('data-hero-layout'));
+}
 
 const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
   'stacked-fan': StackedFanLayout,
@@ -29,9 +37,17 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [cardStyle, setCardStyle] = useState<string | null>(null);
-  const [heroLayout, setHeroLayout] = useState<HeroLayout>('stacked-fan');
+  const [heroLayout, setHeroLayout] = useState<HeroLayout>(readInitialHeroLayout);
   const [cardPaletteRev, setCardPaletteRev] = useState(0);
+  const [isLayoutReady, setIsLayoutReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Apply viewport tier + layout before paint so mobile scale/height are correct
+  // when cards become visible (avoids desktop-sized flash on phones).
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('data-hero-viewport', readHeroViewportTier());
+    setIsLayoutReady(true);
+  }, []);
 
   // Daily theme: recolor hero cards from --color-link family; default theme keeps types.ts colors
   useEffect(() => {
@@ -118,9 +134,9 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     return () => observer.disconnect();
   }, []);
 
-  // Trigger entrance animation after in view
+  // Trigger entrance animation after in view and layout is sized for viewport
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || !isLayoutReady) return;
 
     const timer = setTimeout(() => setIsLoaded(true), 100);
     const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);
@@ -128,7 +144,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
       clearTimeout(timer);
       clearTimeout(completeTimer);
     };
-  }, [isInView]);
+  }, [isInView, isLayoutReady]);
 
   // Fullscreen hero card (stacked-fan portal) should lock page scroll
   useEffect(() => {
@@ -200,7 +216,11 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const LayoutComponent = layoutComponents[heroLayout];
 
   return (
-    <div className={`card-stack-hero card-stack-hero--${heroLayout}`} ref={containerRef}>
+    <MotionConfig reducedMotion="user">
+    <div
+      className={`card-stack-hero card-stack-hero--${heroLayout}${isLayoutReady ? ' card-stack-hero--layout-ready' : ''}`}
+      ref={containerRef}
+    >
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
           <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
@@ -257,7 +277,9 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         .card-stack-hero--stacked-fan .card-stack-container {
-          height: 510px;
+          flex: 1;
+          height: auto;
+          min-height: 0;
         }
 
         .card-stack-hero--editorial {
@@ -292,12 +314,12 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         .card-stack-hero--cinematic .card-stack-hero__intro {
-          align-items: flex-start;
-          text-align: left;
+          align-items: center;
+          text-align: center;
         }
 
         .card-stack-hero--cinematic .hero-title {
-          text-align: left;
+          text-align: center;
           margin-left: 0;
           margin-right: 0;
           padding-top: 0;
@@ -311,6 +333,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           align-items: center;
           text-align: center;
           margin-bottom: 0.25rem;
+          padding-top: var(--hero-grid-y-align, 0px);
         }
 
         .card-stack-hero--stacked-fan .card-stack-hero__intro {
@@ -323,35 +346,68 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           min-height: 0;
           margin-top: 0;
           margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+          margin-inline: auto;
           display: block;
           border-radius: 0;
           justify-content: unset;
           align-items: unset;
-          font-size: clamp(2.5rem, 7vw, 6rem);
+          /* Mobile-first: vw-only clamps bottom out below ~571px — use offset formula + tiered caps */
+          font-size: clamp(3.125rem, calc(1.125rem + 8.5vw), 3.875rem);
           font-weight: 700;
-          padding: 0 0.5rem;
+          padding: 0;
           text-align: center;
           color: var(--color-text);
           font-family: var(--font-primary);
-          line-height: 1.05;
+          --dot-grid-line: calc(round(up, 1.05em / var(--dot-grid-size, 14px)) * var(--dot-grid-size, 14px));
+          line-height: var(--dot-grid-line);
           letter-spacing: -0.03em;
           width: 100%;
           max-width: 1200px;
           box-sizing: border-box;
-          text-wrap: balance;
+          text-wrap: pretty;
+          text-box-trim: trim-both;
+          text-box-edge: cap alphabetic;
+        }
+
+        @media (min-width: 480px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(3.25rem, calc(1rem + 8vw), 4.375rem);
+          }
+        }
+
+        @media (min-width: 640px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(3.5rem, 7.5vw, 4.75rem);
+          }
+        }
+
+        @media (min-width: 768px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(3.75rem, 7.25vw, 5.25rem);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .card-stack-hero .hero-title {
+            font-size: clamp(4.25rem, 6.75vw, 6rem);
+          }
+        }
+
+        .card-stack-hero .hero-title__line {
+          display: block;
         }
 
         .card-stack-hero--stacked-fan .hero-title {
-          margin-bottom: clamp(2.5rem, 6vw, 4rem);
+          margin-bottom: clamp(1rem, 3vw, 4rem);
         }
 
         .card-stack-hero--editorial .card-stack-hero__intro {
-          align-items: flex-start;
-          text-align: left;
+          align-items: center;
+          text-align: center;
         }
 
         .card-stack-hero--editorial .hero-title {
-          text-align: left;
+          text-align: center;
           margin-left: 0;
           margin-right: 0;
           padding-top: 0;
@@ -361,13 +417,17 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         .role-link {
           display: inline !important;
           color: var(--color-link);
-          text-decoration: none;
+          text-decoration: underline;
+          text-underline-offset: 0.12em;
           cursor: pointer;
           transition: color 0.2s ease;
-          position: relative;
           border: none;
           padding: 0;
           margin: 0;
+        }
+
+        .and-link {
+          text-decoration: none;
         }
 
         .and-link:hover,
@@ -381,43 +441,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           display: none !important;
         }
 
-        /* COPIC-marker underline under the rotating role */
-        .role-link__label {
-          position: relative;
-          display: inline-block;
-          --marker-color: #FF6B35;
-        }
-
-        .role-link__text {
-          display: inline-block;
-        }
-
-        .role-link__underline {
-          position: absolute;
-          left: 0;
-          bottom: -0.18em;
-          height: 0.32em;
-          pointer-events: none;
-          overflow: visible;
-        }
-
-        .role-link__underline path {
-          stroke-dasharray: 220;
-          stroke-dashoffset: 220;
-          animation: roleUnderlineDraw 900ms cubic-bezier(0.65, 0, 0.35, 1) 550ms forwards;
-        }
-
-        @keyframes roleUnderlineDraw {
-          to { stroke-dashoffset: 0; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .role-link__underline path {
-            animation: none;
-            stroke-dashoffset: 0;
-          }
-        }
-
         .cards-wrapper {
           position: relative;
           width: 240px;
@@ -426,7 +449,14 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
 
         .card-stack-hero--stacked-fan .cards-wrapper {
-          margin-top: clamp(28px, 4vw, 56px);
+          margin-top: auto;
+          flex-shrink: 0;
+          transform-origin: center bottom;
+        }
+
+        /* Hide cards until viewport layout is applied (prevents desktop-size flash on mobile). */
+        .card-stack-hero:not(.card-stack-hero--layout-ready) .cards-wrapper {
+          visibility: hidden;
         }
 
         .hero-card {
@@ -454,7 +484,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           margin-left: -120px;
           margin-top: -160px;
           transform-origin: center center;
-          will-change: transform, opacity;
         }
 
         .hero-card:hover {
@@ -802,7 +831,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
 
         .card-hero-image-wrap--drift .card-hero-image {
           animation: card-hero-drift 9s ease-in-out infinite alternate;
-          will-change: transform;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1172,11 +1200,10 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           }
 
           .card-stack-hero--stacked-fan .card-stack-container {
-            height: 430px;
+            height: auto;
           }
 
           .card-stack-hero--stacked-fan .cards-wrapper {
-            margin-top: clamp(22px, 4vw, 36px);
             transform: scale(0.75);
           }
 
@@ -1218,7 +1245,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         @media (max-width: 480px) {
           .card-stack-hero--stacked-fan .cards-wrapper {
             transform: scale(0.65);
-            margin-top: clamp(18px, 5vw, 28px);
           }
 
           .card-stack-container {
@@ -1226,11 +1252,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           }
 
           .card-stack-hero--stacked-fan .card-stack-container {
-            height: 385px;
-          }
-
-          .card-stack-hero--stacked-fan .hero-title {
-            margin-bottom: clamp(1.75rem, 6vw, 2.75rem);
+            height: auto;
           }
 
           .card-selected:not(.card-hero-fullscreen) {
@@ -1248,5 +1270,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         }
       `}</style>
     </div>
+    </MotionConfig>
   );
 }

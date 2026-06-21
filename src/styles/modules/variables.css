@@ -56,11 +56,18 @@
   --duration-slow: 0.3s;     /* Component transitions: links, cards, panels */
   --duration-slower: 0.4s;   /* Layout shifts: nav expand, modals, page transitions */
 
-  /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com) */
+  /* Typography - ABC Diatype by Dinamo (https://abcdinamo.com)
+     Font token roles:
+       --font-primary  Theme stack alias (daily themes write here first)
+       --font-body     UI chrome, paragraphs, lists
+       --font-heading  Headings and display titles
+       Prefer --font-body / --font-heading in components; avoid --font-primary directly. */
   --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
   --font-heading: var(--font-primary);
   --font-body: var(--font-primary);
+  /* Editorial serif — pairs with ABC Diatype for blockquotes and pull quotes */
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', 'Liberation Serif', serif;
   --font-mono: 'ABC Diatype Mono', 'Courier New', Courier, monospace;
 
   /* Typography weights and transforms */
@@ -68,15 +75,33 @@
   --heading-letter-spacing: -0.02em;
   --heading-transform: none;
   --body-weight: 400;
+  --body-size: 1.1rem;
+  --body-size-mobile: clamp(1.05rem, 3.8vw, 1.2rem);
   --body-line-height: 1.6;
-  --letter-spacing: 0.005em;
+  --prose-size: 1.0625rem;
+  --prose-size-mobile: 1.15rem;
+  --prose-line-height: 1.75;
+  --lead-size: 1.35rem;
+  --section-heading-size: 1.25rem;
+  --letter-spacing-body: 0.005em;  /* Body text — canonical; --letter-spacing aliases this */
+  --letter-spacing: var(--letter-spacing-body);
 
   /* Letter-spacing scale for optical sizing */
   --letter-spacing-display: -0.03em;  /* Large display text (H1) */
   --letter-spacing-heading-lg: -0.02em;  /* Large headings (H2) */
   --letter-spacing-heading-md: -0.01em;  /* Medium headings (H3, H4) */
-  --letter-spacing-body: 0.005em;  /* Body text */
   --letter-spacing-caption: 0.01em;  /* Small text, captions */
+
+  /* Display titles — hero, page headers, large marketing type */
+  --display-title-size: clamp(3rem, 8vw, 8rem);
+  --display-title-size-contained: clamp(2.5rem, 6vw, 4rem);
+  --display-title-size-page: clamp(3rem, 8vw, 6rem);
+  --display-title-size-box: clamp(5rem, 8vw, 8rem);
+  --display-title-weight: var(--heading-weight);
+  --display-title-letter-spacing: var(--letter-spacing-heading-lg);
+  --display-title-size-mobile: clamp(3rem, 6vw, 6rem);
+  --display-title-size-page-mobile: clamp(2rem, 10vw, 3rem);
+  --display-title-size-contained-mobile: clamp(2rem, 8vw, 3rem);
 
   /* Fluid Typography - Heading Sizes with Optical Sizing */
   --h1-size: clamp(2rem, 5vw, 5rem);

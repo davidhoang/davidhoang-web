@@ -351,6 +351,7 @@ html[data-e-ink="true"][data-theme="dark"] {
 [data-e-ink="true"] {
   --font-body: Georgia, 'Times New Roman', 'Liberation Serif', serif;
   --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', 'Liberation Serif', serif;
   --font-mono: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
@@ -645,7 +646,7 @@ html[data-e-ink="true"] {
    ============================================ */
 
 /* Layouts that break out of the container need visible overflow */
-:is([data-hero-layout="editorial"], [data-hero-layout="scattered"], [data-hero-layout="rolodex"], [data-hero-layout="left-aligned"], [data-hero-layout="minimal"], [data-hero-layout="bold"]) .card-stack-section {
+:is([data-hero-layout="editorial"], [data-hero-layout="scattered"], [data-hero-layout="rolodex"], [data-hero-layout="cinematic"], [data-hero-layout="left-aligned"], [data-hero-layout="minimal"], [data-hero-layout="bold"]) .card-stack-section {
   overflow: visible;
 }
 
@@ -777,7 +778,7 @@ html[data-e-ink="true"] {
   opacity: 0.03;
   z-index: var(--z-texture);
   background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-size: 14px 14px;
 }
 
 [data-bg-texture="grid"]::before {
@@ -950,6 +951,15 @@ html:not([data-image-style]) .hero-portrait {
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
+}
+
+/* Image heroes break out of the shader card container — don't show bg in corners */
+:is([data-shader="waves"], [data-shader="mesh-gradient"], [data-shader="swirl"], [data-shader="perlin"], [data-shader="simplex"], [data-shader="neuro"]) .container:has(.page-header--image) {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* Content cards and philosophy items need backgrounds for readability */

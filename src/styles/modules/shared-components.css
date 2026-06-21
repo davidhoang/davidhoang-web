@@ -96,8 +96,9 @@
 
 :is(.hero-box, .hero-title) h1 {
   font-family: var(--font-heading);
-  font-size: clamp(5rem, 8vw, 8rem);
-  font-weight: 500;
+  font-size: var(--display-title-size-box);
+  font-weight: var(--display-title-weight);
+  letter-spacing: var(--display-title-letter-spacing);
   width: 100%;
   text-align: center;
 }
@@ -116,19 +117,28 @@
    -------------------------------------------- */
 
 :is(.hero-media, .hero-image-container) {
-  width: 100%;
-  max-width: 100%;
   height: var(--hero-height, 75vh);
   min-height: 200px;
   margin-top: calc(-1 * var(--content-top-padding));
   margin-bottom: 2rem;
-  margin-left: 0;
-  margin-right: 0;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* PageHeader owns flush-to-top + breakout on .page-header--image — skip double pull */
+.page-header--image :is(.hero-media, .hero-image-container) {
+  margin-top: 0;
+}
+
+/* Contained width — skip when .layout-breakout handles full-bleed */
+:is(.hero-media, .hero-image-container):not(.layout-breakout) {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .hero-media__bg,
@@ -141,7 +151,6 @@
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  will-change: transform;
   z-index: var(--z-base);
 }
 
@@ -157,13 +166,14 @@
   position: relative;
   z-index: calc(var(--z-content) + 1);
   color: white;
-  font-size: clamp(3rem, 8vw, 8rem);
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: var(--display-title-size);
+  font-weight: var(--display-title-weight);
   text-align: center;
   margin: 0;
   padding: var(--container-padding);
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--display-title-letter-spacing);
 }
 
 @media (max-width: 768px) {

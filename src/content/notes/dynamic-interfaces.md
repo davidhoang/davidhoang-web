@@ -15,6 +15,7 @@ overviewYoutube: "https://www.youtube.com/watch?v=c4VjKcW8980"
 pubDate: 2026-04-04
 stage: sketching
 tags: ["interface-design", "ai", "systems"]
+relatedWriting: ["waiting-for-ais-pull-to-refresh-moment", "a-new-mvc-is-emerging"]
 links:
   - title: "Dynamic Interfaces — Proof of Concept"
     url: "https://www.proofofconcept.pub/p/dynamic-interface"

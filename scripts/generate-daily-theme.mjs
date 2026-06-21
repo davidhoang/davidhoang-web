@@ -265,6 +265,7 @@ The hero section is the first thing visitors see - make it count with a SPATIAL 
 - "editorial": Split-screen with title left, cards cascading vertically right - magazine cover feel
 - "scattered": Cards tossed organically across viewport, seeded by date - editorial, playful
 - "rolodex": 3D perspective carousel with depth navigation - bold, interactive
+- "cinematic": Featured hero card with filmstrip navigation - immersive, dramatic
 
 ## LINK STYLES - PERSONALITY IN INTERACTIONS!
 How links look and behave says a lot about the design:
@@ -390,7 +391,7 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "gridStyle": "standard|asymmetric|split|magazine|sidebar"
   },
   "hero": {
-    "layout": "stacked-fan|editorial|scattered|rolodex"
+    "layout": "stacked-fan|editorial|scattered|rolodex|cinematic"
   },
   "links": {
     "style": "underline|highlight|animated-underline|color-only|bracket"
@@ -416,10 +417,10 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
 EXAMPLE DRAMATIC THEMES:
 1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, editorial hero, underline links, grid texture, grayscale images with colorize hover, brutalist footer, dot-grid shader
 2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, stacked-fan hero, animated-underline links, none texture, vivid images with lift hover, editorial footer, grain shader
-3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, minimal nav, outlined cards, scattered hero, color-only links, grain texture, muted images with glow hover, retro footer, neuro shader
-4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, floating nav, glass cards, stacked-fan hero, highlight links, gradient texture, muted images with zoom hover, gradient footer, mesh-gradient shader
-5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, bold-bar nav, flat cards, rolodex hero, bracket links, dots texture, vivid images with lift hover, minimal footer, waves shader
-6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, minimal nav, elevated cards, scattered hero, underline links, grain texture, grayscale images with colorize hover, inverted footer, perlin shader
+3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, outlined cards, scattered hero, color-only links, grain texture, muted images with glow hover, retro footer, neuro shader
+4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, elevated cards, cinematic hero, highlight links, gradient texture, muted images with zoom hover, gradient footer, mesh-gradient shader
+5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, flat cards, rolodex hero, bracket links, dots texture, vivid images with lift hover, minimal footer, waves shader
+6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, elevated cards, scattered hero, underline links, grain texture, grayscale images with colorize hover, inverted footer, perlin shader
 
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 }
@@ -644,7 +645,7 @@ async function generateTheme(options = {}) {
 
   // Validate and default hero layout
   if (!themeData.hero) themeData.hero = {};
-  const validHeroLayouts = ['stacked-fan', 'editorial', 'scattered', 'rolodex'];
+  const validHeroLayouts = ['stacked-fan', 'editorial', 'scattered', 'rolodex', 'cinematic'];
   const legacyHeroMap = {
     'centered': 'stacked-fan',
     'left-aligned': 'editorial',
@@ -826,7 +827,6 @@ function updateBuildLog(theme, status = 'success') {
       heading: theme.fonts?.heading?.name || theme.font?.name,
       body: theme.fonts?.body?.name || theme.font?.name
     },
-    navStyle: theme.navigation?.style,
     cardStyle: theme.cards?.style,
     heroLayout: theme.hero?.layout,
     linkStyle: theme.links?.style,
@@ -909,9 +909,8 @@ async function main() {
     console.log(`Body font: ${theme.fonts?.body?.name || theme.font?.name}`);
     console.log(`Light bg: ${theme.colors.light['--color-bg']}`);
     console.log(`Dark bg: ${theme.colors.dark['--color-bg']}`);
-    console.log(`Nav style: ${theme.navigation?.style || 'default'}`);
     console.log(`Card style: ${theme.cards?.style || 'default'}`);
-    console.log(`Hero: ${theme.hero?.layout || 'centered'}`);
+    console.log(`Hero: ${theme.hero?.layout || 'stacked-fan'}`);
     console.log(`Links: ${theme.links?.style || 'underline'}`);
     console.log(`Texture: ${theme.background?.texture || 'none'}`);
     console.log(`Images: ${theme.images?.style || 'vivid'} / hover: ${theme.images?.hover || 'zoom'}`);

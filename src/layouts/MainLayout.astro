@@ -53,17 +53,6 @@ const footerReveal = {
   },
 };
 
-const blogContent = {
-  forwards: {
-    old: { name: 'contentFadeOut', duration: '0.15s', easing: 'ease-in', fillMode: 'forwards' },
-    new: { name: 'blogSlideIn', duration: '0.4s', delay: '0.08s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
-  },
-  backwards: {
-    old: { name: 'blogSlideOut', duration: '0.2s', easing: 'ease-in', fillMode: 'forwards' },
-    new: { name: 'contentSlideBack', duration: '0.35s', delay: '0.05s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
-  },
-};
-
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
 const SELF_HOSTED_FONTS = new Set([
@@ -409,11 +398,6 @@ const ogImageUrl = ogImage.startsWith('http')
       html.font-loading h3 {
         font-weight: 600; /* Match ABC Diatype weight more closely */
         letter-spacing: -0.02em; /* Closer to custom font metrics */
-      }
-      
-      /* Smooth font loading transition */
-      html.fonts-loaded * {
-        transition: font-family 0.1s ease-out;
       }
       
       body {
