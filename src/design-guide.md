@@ -551,6 +551,34 @@ const heroLayout = document.documentElement.getAttribute('data-hero-layout');
 
 ---
 
+## Motion & animation
+
+Full rules live in `design.md` (Hero, Motion tokens, Card opacity). Quick checklist when building animated components:
+
+### Entrance
+
+- **Cards and opaque surfaces:** motion-only entry (position, scale). Never fade in from `opacity: 0` — cards must stay fully opaque (see `design.md` → Card opacity).
+- **Hero card stack:** cards deal from a stacked origin at `scale ~0.94` with spring physics and per-card stagger. Implemented in `src/components/hero/layouts/`.
+
+### Layout-before-animation
+
+Responsive sizing must be settled **before** animated content becomes visible. Common bug: desktop-sized cards animate in, then a mobile `transform: scale()` applies — looks like a resize mid-animation.
+
+1. Hide the animated container with `visibility: hidden` (not opacity) until layout is ready.
+2. Confirm viewport tier in `useLayoutEffect`; gate `isLoaded` (or equivalent) on layout readiness, not just IntersectionObserver.
+3. Match Suspense skeletons to live breakpoint transforms and container heights.
+4. For lazy islands, set viewport tier early (`data-hero-viewport` on `<html>`, `src/utils/heroViewport.ts`).
+
+Reference: `CardStackHero.tsx`, `CardStackHeroLazy.tsx`, `src/pages/index.astro`.
+
+### Tokens & accessibility
+
+- Use `var(--duration-*)` and `var(--ease-*)` from `src/styles/modules/variables.css` — no hardcoded timings.
+- Hover-driven motion is desktop-only; touch devices strip `:hover` transforms globally.
+- Honor `prefers-reduced-motion: reduce` for decorative animation.
+
+---
+
 ## Best Practices
 
 1. **Always use CSS variables** for colors, spacing, and typography

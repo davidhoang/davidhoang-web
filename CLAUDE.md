@@ -44,3 +44,14 @@ Site: https://www.davidhoang.com
 - Prefer minimal changes; don't over-engineer
 - Use existing patterns — check similar components before creating new ones
 - Keep Astro components for static content, React for interactive features only
+
+## Animation rules
+
+Authoritative spec: `design.md` (Default layout → Hero, Motion tokens, Card opacity). When adding or changing animated UI, verify:
+
+- **Motion-only entrance for cards** — hero cards start fully opaque at `scale ~0.94`; animate position/scale, never `opacity: 0 → 1` on entry (cards must never be transparent).
+- **Layout-before-animation** — apply viewport-specific sizing (CSS scale, breakpoint heights, mobile layout swaps) *before* revealing animated content. Use `visibility: hidden` until `useLayoutEffect` confirms layout; then trigger entrance. Do not use opacity to hide pre-layout frames.
+- **Skeleton parity** — lazy-load fallbacks must mirror live component dimensions and transforms at each breakpoint (`CardStackHeroLazy.tsx` pattern).
+- **Early viewport hints** — for `client:idle` islands, set viewport tier before hydration when possible (`data-hero-viewport` on `<html>`, `src/utils/heroViewport.ts`).
+- **Motion tokens** — use `var(--duration-*)` and `var(--ease-*)`; no hardcoded transition timings.
+- **Touch-safe hover** — dimensional hover effects are desktop-only; `(hover: none)` strips transforms globally.

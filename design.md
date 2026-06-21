@@ -177,6 +177,18 @@ Vertical offset, full-width breakout, and section margin are not theme-variable 
 
 The pattern: `initial.opacity = 1`, `animate.opacity = isOtherSelected ? dim : 1` (the `isOtherSelected` dim is a runtime click-state, not an entry effect). Implemented across `StackedFanLayout`, `EditorialLayout`, `ScatteredLayout`, `RolodexLayout`, and `CinematicLayout` in `src/components/hero/layouts/`.
 
+**Layout-before-animation:** viewport-specific sizing must be settled *before* animated components become visible. A common failure mode on mobile: cards render at desktop dimensions, the fan animation starts, then a breakpoint `transform: scale()` or height override kicks in — the user sees a resize mid-animation.
+
+Rules:
+
+- **Apply final dimensions first.** When responsive sizing uses CSS `transform: scale()`, breakpoint-specific heights, or JS layout swaps (e.g. forcing `stacked-fan` at ≤768px), those rules must be active before the entrance animation runs.
+- **Defer reveal with `visibility: hidden`, not opacity.** Hiding with `opacity: 0` violates the card opacity rule. Use `visibility: hidden` on the animated container until layout is ready, then remove it and start motion. Cards stay fully opaque throughout.
+- **Gate animation triggers on layout readiness.** Do not set `isLoaded` (or equivalent) until a `useLayoutEffect` has confirmed viewport tier and applied layout. IntersectionObserver alone is not enough when lazy-loaded bundles mount after first paint.
+- **Match loading skeletons to live breakpoints.** Suspense fallbacks and skeleton placeholders must use the same scale transforms and container heights as the mounted component at each breakpoint. A desktop-sized skeleton that swaps to a scaled-down hero causes layout shift.
+- **Set viewport tier early when possible.** For lazy-loaded hero islands (`client:idle`), an inline script or SSR hint (e.g. `data-hero-viewport` on `<html>`) lets CSS and skeletons pick mobile scale before React hydrates. Shared logic lives in `src/utils/heroViewport.ts`.
+
+Reference implementation: `CardStackHero.tsx` (`card-stack-hero--layout-ready`, `isLayoutReady`), `CardStackHeroLazy.tsx` (responsive skeleton), `src/pages/index.astro` (early viewport script + skeleton CSS).
+
 ### Mobile layout safety
 
 At ≤768px, the framework actively overrides risky theme-driven layout choices. Mobile is the most fragile breakpoint and the most common; layout decisions that work on desktop frequently overflow on phones, so we strip variation rather than try to scale it.
@@ -186,6 +198,7 @@ At ≤768px, the framework actively overrides risky theme-driven layout choices.
 - **Hero layout** — always renders as `stacked-fan` regardless of `hero.layout` value. `editorial`, `scattered`, `rolodex` are desktop-only because they assume horizontal canvas. Implemented in `CardStackHero.tsx` via `matchMedia('(max-width: 768px)')`.
 - **Container width** — `--container-max-width` is overridden to `100%`. Theme-set values (e.g., a narrow 640px container) become irrelevant; the page fills the viewport with safe gutters from `--content-padding`.
 - **Card stack overflow** — `card-stack-section` clips horizontally regardless of `data-hero-layout`. Belt-and-suspenders for any layout that JS hasn't downgraded.
+- **Hero card scale** — stacked-fan uses CSS `transform: scale()` at ≤768px (`0.75`) and ≤480px (`0.65`). Loading skeletons and lazy placeholders must match these transforms so the swap from skeleton → live hero does not resize. See [Layout-before-animation](#hero).
 - **Grid columns** — multi-column grids (`asymmetric`, `split`, `magazine`, `sidebar`) collapse to single column.
 
 **Why this exists:** themes that look striking on a 1440px laptop frequently break on a 390px phone — editorial split-screens cascade past the viewport, narrow containers ignore the actual viewport width, and asymmetric grids produce overflow when columns can't fit. Rather than ask each theme to declare mobile-correct behavior, we lock mobile to a conservative baseline.
@@ -193,6 +206,16 @@ At ≤768px, the framework actively overrides risky theme-driven layout choices.
 ### Motion tokens
 
 All transition timings and easings live in `src/styles/modules/variables.css`. New components must use these tokens — never hardcode `0.3s` or `cubic-bezier(...)` literals in `transition:` declarations.
+
+**Animation checklist for new interactive components:**
+
+| Check | Rule |
+|---|---|
+| Entrance | Prefer motion-only reveals (position, scale). Do not fade opaque cards or surfaces from transparent. |
+| Layout timing | Apply breakpoint sizing before starting entrance animation. See [Layout-before-animation](#hero). |
+| Lazy load | Skeleton footprint and transforms must match the live component at each breakpoint. |
+| Touch | Hover-driven motion is stripped at `(hover: none)` — do not rely on hover for essential feedback on phones. |
+| Reduced motion | Respect `prefers-reduced-motion: reduce`; skip or shorten decorative animation. |
 
 **Easing tokens** (use `var(--ease-*)`):
 
@@ -333,6 +356,7 @@ Body text and grids **must not overflow the viewport** at any width. Intentional
 Before finalizing a theme, mentally render at each of these widths:
 
 - **320px** — smallest phone. Does padding leave room for body text? Do headings fit on 1–2 lines?
+- **390px on load** — do lazy-loaded animated components (hero card stack) flash at desktop size before mobile scale applies? Check skeleton → live swap, not just the settled state.
 - **768px** — tablet. Does multi-column collapse cleanly?
 - **1440px** — standard laptop. Does the design look finished, not stretched?
 - **1920px+** — large display. Does `containerMaxWidth` cap the dead space at the edges?
