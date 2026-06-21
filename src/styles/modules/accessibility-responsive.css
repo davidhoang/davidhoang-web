@@ -68,9 +68,11 @@
    ============================================ */
 
 @media (max-width: 768px) {
-  /* Mobile nav is full-width at top: 0 with 64px height + safe-area-inset */
+  /* Mobile nav is full-width at top: 0 with 56px height + safe-area-inset */
   :root {
-    --content-top-padding: calc(64px + env(safe-area-inset-top, 0px) + 1.5rem);
+    --nav-height: 56px;
+    --nav-offset-top: 0px;
+    --content-top-padding: calc(56px + env(safe-area-inset-top, 0px) + 1.5rem);
   }
 
   /* Container - tighter padding on mobile */

@@ -5,6 +5,18 @@ export const navItems = [
   { path: '/subscribe', label: 'Subscribe' },
 ] as const;
 
+/** Pages shown in the mobile full-screen menu below primary nav links */
+export const mobileSecondaryNavItems = [
+  { path: '/now', label: 'Now' },
+  { path: '/notes', label: 'Notes' },
+  { path: '/career-odyssey', label: 'Career Odyssey' },
+  { path: '/investing', label: 'Investing' },
+  { path: '/advising', label: 'Advising' },
+  { path: '/works', label: 'Works' },
+  { path: '/art-collection', label: 'Art Collection' },
+  { path: '/daily-themes', label: 'Daily Themes' },
+] as const;
+
 export const commandPalettePages = [
   { title: 'About', description: 'About David Hoang', path: '/about', type: 'page' },
   { title: 'Writing', description: 'Essays and articles', path: '/writing', type: 'page' },
