@@ -32,3 +32,82 @@ export const commandPalettePages = [
   { title: 'Art Collection', description: 'Curated artwork collection', path: '/art-collection', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
 ] as const;
+
+export const footerSections = [
+  {
+    title: 'Contact',
+    links: [
+      { href: 'mailto:david@davidhoang.com', label: 'Email', ariaLabel: 'Email David Hoang', external: false },
+      {
+        href: 'https://linkedin.com/in/dhoang2',
+        label: 'LinkedIn',
+        ariaLabel: 'David Hoang on LinkedIn (opens in new tab)',
+        external: true,
+      },
+      {
+        href: 'https://twitter.com/davidhoang',
+        label: 'Twitter',
+        ariaLabel: 'David Hoang on Twitter (opens in new tab)',
+        external: true,
+      },
+      {
+        href: 'https://github.com/davidhoang',
+        label: 'GitHub',
+        ariaLabel: 'David Hoang on GitHub (opens in new tab)',
+        external: true,
+      },
+      {
+        href: 'https://sublime.app/davidhoang',
+        label: 'Sublime',
+        ariaLabel: 'David Hoang on Sublime (opens in new tab)',
+        external: true,
+      },
+    ],
+  },
+  {
+    title: 'Practice',
+    links: [
+      { href: '/about', label: 'About', ariaLabel: 'About David Hoang', external: false },
+      { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
+      { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
+      {
+        href: 'https://curius.app/david-hoang',
+        label: 'Curius',
+        ariaLabel: 'David Hoang on Curius (opens in new tab)',
+        external: true,
+      },
+      { href: '/design-resources', label: 'Design Resources', ariaLabel: 'Design resources and tools', external: false },
+    ],
+  },
+  {
+    title: 'Writing',
+    links: [
+      { href: '/writing', label: 'Writing', ariaLabel: 'Writing', external: false },
+      { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
+      { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
+      {
+        href: 'https://www.proofofconcept.pub',
+        label: 'Newsletter',
+        ariaLabel: 'Proof of Concept newsletter (opens in new tab)',
+        external: true,
+      },
+      {
+        href: 'http://blog.davidhoang.com',
+        label: 'Personal Blog',
+        ariaLabel: "David Hoang's personal blog (opens in new tab)",
+        external: true,
+      },
+      {
+        href: 'https://substack.com/@davidhoang/notes',
+        label: 'Substack Notes',
+        ariaLabel: "David Hoang's Substack Notes (opens in new tab)",
+        external: true,
+      },
+    ],
+  },
+] as const;
+
+export const footerUtilityLinks = [
+  { href: '/rss.xml', label: 'Writing RSS', ariaLabel: 'Writing RSS feed', type: 'application/rss+xml' },
+  { href: '/rss/notes.xml', label: 'Notes RSS', ariaLabel: 'Notes RSS feed', type: 'application/rss+xml' },
+] as const;

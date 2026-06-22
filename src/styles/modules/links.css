@@ -67,6 +67,7 @@ a::after {
   }
 }
 
+
 /* Active/pressed state */
 a:active {
   opacity: 0.8;
@@ -89,27 +90,4 @@ a:focus-visible {
   a::after {
     height: 1px;
   }
-}
-
-/* Footer links - simpler styling without fancy underline */
-footer a,
-footer a:link,
-footer a:visited {
-  color: var(--color-link);
-  border-bottom: none;
-  text-decoration: none;
-  transition: color var(--duration-slow) var(--ease-inertia);
-}
-
-footer a:hover,
-footer a:visited:hover {
-  color: var(--color-link-hover);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-
-footer a::after {
-  display: none;
-  content: none;
 }

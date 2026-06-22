@@ -1,283 +1,43 @@
 ---
+import { footerSections, footerUtilityLinks } from '../data/navigation';
+
+const currentYear = new Date().getFullYear();
 ---
 
-<footer role="contentinfo" aria-label="Site footer">
+<footer class="site-footer" role="contentinfo" aria-label="Site footer">
   <div class="container">
     <section aria-label="Footer navigation">
       <div class="footer-grid">
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <ul role="list">
-            <li><a href="mailto:david@davidhoang.com" aria-label="Email David Hoang">Email</a></li>
-            <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on LinkedIn (opens in new tab)">LinkedIn</a></li>
-            <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Twitter (opens in new tab)">Twitter</a></li>
-            <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on GitHub (opens in new tab)">GitHub</a></li>
-            <li><a href="https://sublime.app/davidhoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Sublime (opens in new tab)">Sublime</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Practice</h4>
-          <ul role="list">
-            <li><a href="/about" aria-label="About David Hoang">About</a></li>
-            <li><a href="/advising" aria-label="Advising for design leaders">Advising</a></li>
-            <li><a href="/career-odyssey" aria-label="Career Odyssey">Career Odyssey</a></li>
-            <li><a href="https://curius.app/david-hoang" target="_blank" rel="noopener noreferrer" aria-label="David Hoang on Curius (opens in new tab)">Curius</a></li>
-            <li><a href="/design-resources" aria-label="Design resources and tools">Design Resources</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Writing</h4>
-          <ul role="list">
-            <li><a href="/writing" aria-label="Writing">Writing</a></li>
-            <li><a href="/notes" aria-label="Digital garden notes">Notes</a></li>
-            <li><a href="/now" aria-label="What David is doing now">Now</a></li>
-            <li><a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer" aria-label="Proof of Concept newsletter (opens in new tab)">Newsletter</a></li>
-            <li><a href="http://blog.davidhoang.com" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's personal blog (opens in new tab)">Personal&nbsp;Blog</a></li>
-            <li><a href="https://substack.com/@davidhoang/notes" target="_blank" rel="noopener noreferrer" aria-label="David Hoang's Substack Notes (opens in new tab)">Substack Notes</a></li>
-            <li><a href="/rss.xml" type="application/rss+xml" aria-label="Writing RSS feed">RSS (writing)</a></li>
-            <li><a href="/rss/notes.xml" type="application/rss+xml" aria-label="Notes RSS feed">RSS (notes)</a></li>
-          </ul>
-        </div>
+        {footerSections.map((section) => (
+          <div class="footer-col">
+            <h4>{section.title}</h4>
+            <ul role="list">
+              {section.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    aria-label={link.ariaLabel}
+                    target={link.external ? '_blank' : undefined}
+                    rel={link.external ? 'noopener noreferrer' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
+    <div class="footer-bottom">
+      <p class="footer-status">&copy; {currentYear} David Hoang. Design, writing, and experiments.</p>
+      <ul class="footer-utility" role="list" aria-label="Footer utility links">
+        {footerUtilityLinks.map((link) => (
+          <li>
+            <a href={link.href} type={link.type} aria-label={link.ariaLabel}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </footer>
-
-<style>
-  footer {
-    opacity: 1;
-    position: relative;
-    padding: var(--section-spacing, 4rem) 0;
-    font-size: 1rem;
-    font-family: var(--font-body);
-    min-height: 100px;
-    width: 100%;
-    border-top: 1px solid var(--color-border);
-    isolation: isolate;
-  }
-
-  /* Soft atmosphere — classic footer only; themed footers hide via footer-themes.css */
-  footer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(
-        ellipse 120% 80% at 50% 0%,
-        color-mix(in srgb, var(--color-link) 8%, transparent) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        circle at 100% 100%,
-        color-mix(in srgb, var(--color-muted) 6%, transparent) 0%,
-        transparent 45%
-      );
-    opacity: 0.85;
-  }
-
-  footer::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 2px;
-    pointer-events: none;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--color-link) 45%, transparent) 22%,
-      color-mix(in srgb, var(--color-link) 70%, transparent) 50%,
-      color-mix(in srgb, var(--color-link) 45%, transparent) 78%,
-      transparent 100%
-    );
-    opacity: 0.9;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    footer::after {
-      opacity: 0.5;
-    }
-  }
-
-  /* Ensure footer container matches main content container constraints */
-  footer .container {
-    width: 100%;
-    max-width: var(--container-max-width, 1200px);
-    margin-inline: auto;
-    padding: 0 var(--container-padding);
-  }
-
-  /* Large breakpoint - 1920px container */
-  @media (min-width: 1920px) {
-    footer .container {
-      max-width: 1920px;
-    }
-  }
-
-  /* Mobile breakpoint - 480px */
-  @media (max-width: 480px) {
-    footer .container {
-      padding: 0 var(--container-padding);
-      max-width: 100%;
-      width: 100%;
-      margin: 0 auto;
-      box-sizing: border-box;
-    }
-  }
-
-  /* Footer links - magnetic hover effect */
-  footer a,
-  footer a:visited,
-  footer a:link {
-    border-bottom: none;
-    text-decoration: none;
-    font-family: var(--font-body);
-    color: var(--color-link);
-    position: relative;
-    display: inline-block;
-    transition:
-      color var(--duration-slow) var(--ease-inertia-smooth),
-      transform var(--duration-slow) var(--ease-inertia-smooth);
-  }
-
-  footer a:hover,
-  footer a:focus-visible {
-    text-decoration: none;
-  }
-
-  footer a::after {
-    display: none;
-    content: none;
-  }
-
-  /* Glow effect behind link */
-  footer a::before {
-    content: '';
-    position: absolute;
-    inset: -4px -8px;
-    background: radial-gradient(
-      ellipse at center,
-      var(--color-link) 0%,
-      transparent 70%
-    );
-    opacity: 0;
-    filter: blur(8px);
-    z-index: -1;
-    transition: opacity var(--duration-slow) var(--ease-inertia-smooth);
-    pointer-events: none;
-    border-radius: var(--radius-sm);
-  }
-
-  @media (hover: hover) {
-    footer a:hover,
-    footer a:visited:hover {
-      color: var(--color-link-hover);
-      transform: translateY(-1px);
-    }
-
-    footer a:hover::before {
-      opacity: 0.15;
-    }
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.05fr) minmax(0, 1.2fr);
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .footer-col h4 {
-    position: relative;
-    font-size: 0.82rem;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    margin-bottom: var(--spacing-md);
-    margin-top: 0;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text);
-    opacity: 0.9;
-    padding-bottom: var(--spacing-sm);
-  }
-
-  .footer-col h4::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 2rem;
-    height: 2px;
-    border-radius: 1px;
-    background: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--color-link) 85%, transparent),
-      transparent
-    );
-    opacity: 0.85;
-  }
-
-  .footer-col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .footer-col li {
-    margin-bottom: var(--spacing-xs);
-    font-size: 0.95rem;
-    font-family: var(--font-body);
-    line-height: 1.45;
-  }
-
-  @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-lg);
-    }
-
-    .footer-col h4 {
-      font-size: 0.76rem;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .footer-col li {
-      font-size: 0.9rem;
-      margin-bottom: var(--spacing-xs);
-    }
-
-    /* Disable hover effects on mobile */
-    footer a,
-    footer a:hover {
-      transform: none !important;
-    }
-
-    footer a::before {
-      display: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* Extra-large breakpoint - 1920px - increased typography */
-  @media (min-width: 1920px) {
-    footer {
-      font-size: 1.2rem;
-    }
-
-    .footer-col h4 {
-      font-size: 1.4rem;
-    }
-
-    .footer-col li {
-      font-size: 1.2rem;
-    }
-  }
-</style>
