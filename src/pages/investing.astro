@@ -8,7 +8,7 @@ const ogImage = "/images/img-dh.webp";
 
 <MainLayout title="Investing | David Hoang" description={pageDescription} ogImage={ogImage}>
   <PageHeader title="Investing" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Investing" />
-  <div class="investing-content">
+  <div class="investing-content container-narrow">
 
     <section class="investing-intro">
       <p>I'm an angel investor and advisor for early-stage startups. I back founders building products that solve real problems for people — particularly at the intersection of design, AI, and creative tools. I'm drawn to teams that care deeply about craft and believe great products come from understanding people first.</p>
@@ -59,8 +59,7 @@ const ogImage = "/images/img-dh.webp";
 
 <style>
   .investing-content {
-    max-width: var(--container-narrow-width, 720px);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: 0 0 4rem 0;
   }
 
