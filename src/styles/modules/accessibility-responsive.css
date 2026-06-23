@@ -75,8 +75,8 @@
     --content-top-padding: calc(56px + env(safe-area-inset-top, 0px) + 1.5rem);
   }
 
-  /* Container - tighter padding on mobile */
-  .container {
+  /* Container - tighter padding on mobile (exclude nav inner shell) */
+  .container:not(.nav-container) {
     padding: 1.0rem;
     max-width: 100%;
     width: 100%;

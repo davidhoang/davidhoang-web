@@ -47,6 +47,11 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-hero-viewport', readHeroViewportTier());
     setIsLayoutReady(true);
+    if (isMobileHeroViewport()) {
+      setIsInView(true);
+      setIsLoaded(true);
+      setHasAnimatedIn(true);
+    }
   }, []);
 
   // Daily theme: recolor hero cards from --color-link family; default theme keeps types.ts colors
@@ -134,9 +139,16 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     return () => observer.disconnect();
   }, []);
 
-  // Trigger entrance animation after in view and layout is sized for viewport
+  // Trigger entrance animation after in view and layout is sized for viewport.
+  // On mobile, skip the scale-up entrance — cards should render at final size immediately.
   useEffect(() => {
     if (!isInView || !isLayoutReady) return;
+
+    if (isMobileHeroViewport()) {
+      setIsLoaded(true);
+      setHasAnimatedIn(true);
+      return;
+    }
 
     const timer = setTimeout(() => setIsLoaded(true), 100);
     const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);

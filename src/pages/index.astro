@@ -98,6 +98,24 @@ const portfolioItems = [
       document.documentElement.setAttribute('data-hero-viewport', tier);
     })();`}
   </script>
+  <style is:inline slot="head">
+    {`[data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .cards-wrapper,
+      [data-hero-viewport='mobile'] .card-stack-hero-skeleton__cards {
+        transform: scale(0.75);
+        transform-origin: center bottom;
+      }
+      [data-hero-viewport='compact'] .card-stack-hero--stacked-fan .cards-wrapper,
+      [data-hero-viewport='compact'] .card-stack-hero-skeleton__cards {
+        transform: scale(0.65);
+        transform-origin: center bottom;
+      }
+      [data-hero-viewport='mobile'] .card-stack-hero-skeleton,
+      [data-hero-viewport='compact'] .card-stack-hero-skeleton {
+        min-height: 400px;
+        padding-left: 0;
+        padding-right: 0;
+      }`}
+  </style>
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
     <CardStackHeroLazy client:idle aboutThumbnailSrc={dhWebOptimized.src} />

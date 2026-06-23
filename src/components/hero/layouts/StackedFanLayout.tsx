@@ -4,6 +4,7 @@ import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 import { useMagneticTilt } from '../../useMagneticTilt';
+import { isMobileHeroViewport } from '../../../utils/heroViewport';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -63,6 +64,7 @@ function FanCard({
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
   const prefersReducedMotion = useReducedMotion();
   const tilt = useMagneticTilt({ disabled: true });
+  const skipEntranceScale = isMobileHeroViewport() || prefersReducedMotion;
 
   return (
     <motion.div
@@ -79,14 +81,14 @@ function FanCard({
         x: 0,
         y: 0,
         rotate: 0,
-        scale: 0.94,
+        scale: skipEntranceScale ? 1 : 0.94,
         opacity: 1,
       }}
       animate={{
         x: isLoaded ? position.x : 0,
         y: isLoaded ? position.y : 0,
         rotate: isLoaded ? position.rotation : 0,
-        scale: isLoaded ? 1 : 0.94,
+        scale: skipEntranceScale ? 1 : (isLoaded ? 1 : 0.94),
         opacity: isOtherSelected ? 0.3 : 1,
       }}
       whileHover={
