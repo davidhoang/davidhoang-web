@@ -3,6 +3,8 @@ export type SpeakingEntry = {
   meta: string;
   title: string;
   href?: string;
+  /** Opens an in-page detail popover (see featuredSpeakingDetails). */
+  detailKey?: string;
 };
 
 export type SpeakingYear = {
@@ -18,6 +20,7 @@ export const featuredSpeaking: SpeakingYear[] = [
         meta: 'May',
         title: 'Hatch Leadership Ateliers, Amsterdam',
         href: 'https://leadershipateliers.com/',
+        detailKey: 'hatch-amsterdam',
       },
     ],
   },
