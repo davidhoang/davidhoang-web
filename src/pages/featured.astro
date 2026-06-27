@@ -2,6 +2,8 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import EditorialMediaCard from '../components/EditorialMediaCard.astro';
+import SpeakingEntryTitle from '../components/SpeakingEntryTitle.tsx';
+import FeaturedSpeakingPreviewPanel from '../components/FeaturedSpeakingPreviewPanel.tsx';
 import { featuredSpeaking } from '../data/featuredSpeaking';
 import { featuredMedia } from '../data/featuredMedia';
 import { resolveFeaturedMedia } from '../utils/linkPreview';
@@ -50,18 +52,12 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
                   <span class="speaking-entry__meta speaking-entry__meta--empty" />
                 )}
                 <span class="speaking-entry__title">
-                  {entry.href ? (
-                    <a
-                      class="speaking-entry__link"
-                      href={entry.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {entry.title}
-                    </a>
-                  ) : (
-                    entry.title
-                  )}
+                  <SpeakingEntryTitle
+                    client:load
+                    title={entry.title}
+                    href={entry.href}
+                    detailKey={entry.detailKey}
+                  />
                 </span>
               </li>
             ))}
@@ -83,18 +79,12 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
                       <span class="speaking-entry__meta speaking-entry__meta--empty" />
                     )}
                     <span class="speaking-entry__title">
-                      {entry.href ? (
-                        <a
-                          class="speaking-entry__link"
-                          href={entry.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {entry.title}
-                        </a>
-                      ) : (
-                        entry.title
-                      )}
+                      <SpeakingEntryTitle
+                        client:load
+                        title={entry.title}
+                        href={entry.href}
+                        detailKey={entry.detailKey}
+                      />
                     </span>
                   </li>
                 ))}
@@ -114,6 +104,7 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
         {mediaResolved.map((item) => <EditorialMediaCard {...item} />)}
       </div>
     </aside>
+    <FeaturedSpeakingPreviewPanel client:load />
   </div>
 </MainLayout>
 
@@ -290,6 +281,15 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
 
   .featured-editorial .speaking-entry__title a.speaking-entry__link:hover {
     color: var(--color-link-hover);
+  }
+
+  .featured-editorial .speaking-entry__title a.speaking-entry__link--preview:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .featured-editorial__media {
+    overflow: visible;
   }
 
   .speaking-inquiry.speaking-entry--inquiry {
