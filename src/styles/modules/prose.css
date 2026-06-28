@@ -5,7 +5,17 @@
 /* Prose Content (for markdown/blog posts + notes) */
 
 .prose-content {
-  max-width: 42rem;
+  max-width: var(--prose-measure, 44rem);
+  font-family: var(--font-body);
+  font-size: var(--prose-size);
+  line-height: var(--prose-line-height);
+  font-weight: var(--body-weight);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+.prose-content > p:first-of-type {
+  font-size: 1.0625em;
+  line-height: 1.65;
 }
 
 /* Notes use the same body scale as writing prose */
@@ -74,7 +84,7 @@
 }
 
 .prose-content p {
-  margin-bottom: 1.25em;
+  margin-bottom: 1.5em;
 }
 
 .prose-content ul,
