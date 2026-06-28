@@ -11,7 +11,7 @@ import {
   paletteToCss,
   parseThemeUrlState,
   themeMetaSummary,
-} from '../../utils/themeExplorer';
+} from '../../components/generative-ui/themeExplorer';
 
 interface Props {
   themes: ThemeData[];

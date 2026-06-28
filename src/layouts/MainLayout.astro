@@ -75,6 +75,7 @@ import cormorantGaramondCSS from '../styles/fonts/cormorant-garamond.css?raw';
 import interCSS from '../styles/fonts/inter.css?raw';
 import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
 import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
+import { getNestedValue } from '../utils/themePath';
 const FONT_CSS_RAW: Record<string, string> = {
   'Cormorant Garamond': cormorantGaramondCSS,
   'Inter': interCSS,
@@ -90,9 +91,6 @@ for (const name of neededFontFamilies) {
 }
 
 // --- SSR daily theme: bake today's theme into HTML to prevent CLS ---
-function getNestedValue(obj: any, path: string) {
-  return path.split('.').reduce((o: any, k: string) => o && o[k], obj);
-}
 function clampMinContentPadding(raw: string | null) {
   if (!raw) return '1rem';
   const s = String(raw).trim();
@@ -142,7 +140,10 @@ function buildThemeApply(theme: any) {
 
   for (const [path, prop] of THEME_PROPS) {
     const val = getNestedValue(theme, path);
-    if (val) styles[prop] = prop === '--content-padding' ? clampMinContentPadding(val) : val;
+    if (val != null && val !== '') {
+      const strVal = String(val);
+      styles[prop] = prop === '--content-padding' ? clampMinContentPadding(strVal) : strVal;
+    }
   }
   if (theme?.fonts?.heading?.stack) styles['--font-heading'] = theme.fonts.heading.stack;
   if (theme?.fonts?.body?.stack) {
@@ -165,7 +166,7 @@ function buildThemeApply(theme: any) {
 
   const attrs: Record<string, string> = {};
   for (const [path, attr, defaultVal] of THEME_ATTRS) {
-    attrs[attr] = getNestedValue(theme, path) || defaultVal;
+    attrs[attr] = String(getNestedValue(theme, path) ?? defaultVal);
   }
   attrs['data-daily-theme'] = theme?.date || '';
   attrs['data-shader'] = theme?.shader?.type || 'none';

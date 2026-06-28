@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import {
   NOTE_STAGE_VALUES,
-  noteStageInfo,
   resolveNoteStage,
   defaultNoteMetaDescription,
-} from '../src/utils/noteStages';
+} from '../src/content/noteStages';
+import { noteStageInfo } from '../src/utils/noteStageInfo';
 
 describe('resolveNoteStage', () => {
   it('passes valid stages through', () => {

@@ -1,3 +1,7 @@
+import { getKeywords } from './textKeywords';
+
+export { getKeywords } from './textKeywords';
+
 export type ContentKind = 'writing' | 'notes';
 
 export interface RelatedContentItem {
@@ -9,22 +13,6 @@ export interface RelatedContentItem {
   date: Date;
   coverImage?: string;
   score: number;
-}
-
-const STOP_WORDS = new Set([
-  'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'it', 'its',
-  'with', 'as', 'by', 'from', 'that', 'this', 'was', 'are', 'be', 'has', 'had', 'have', 'not',
-  'what', 'how', 'you', 'your', 'we', 'our', 'new', 'will', 'can', 'about',
-]);
-
-export function getKeywords(text: string): Set<string> {
-  return new Set(
-    text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, ' ')
-      .split(/\s+/)
-      .filter((word) => word.length > 2 && !STOP_WORDS.has(word)),
-  );
 }
 
 export function scoreRelatedMatch(options: {

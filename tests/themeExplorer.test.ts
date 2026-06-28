@@ -10,7 +10,7 @@ import {
   parseThemeUrlState,
   sortThemes,
   themeMetaSummary,
-} from '../src/utils/themeExplorer';
+} from '../src/components/generative-ui/themeExplorer';
 
 const sampleTheme: ThemeData = {
   name: 'Light Blade',

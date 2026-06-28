@@ -5,7 +5,7 @@ import {
   setFeaturedSpeakingPreview,
   subscribeFeaturedSpeakingPreview,
   getFeaturedSpeakingPreview,
-} from '../utils/featuredSpeakingPreview';
+} from '../stores/featuredSpeakingPreview';
 import '../styles/featured-speaking-preview.css';
 
 const HIDE_DELAY_MS = 140;
