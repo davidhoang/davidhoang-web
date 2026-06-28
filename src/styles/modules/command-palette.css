@@ -20,12 +20,21 @@
   background: transparent;
   border: none;
   outline: none;
+  box-shadow: none;
   font-family: var(--font-body), system-ui, sans-serif;
   font-size: 1rem;
   font-weight: 500;
   color: var(--color-nav-text);
   caret-color: var(--color-link);
   padding: 0;
+}
+
+/* Palette is already an active surface — skip the global input focus ring */
+#cmdPaletteInput:focus,
+#cmdPaletteInput:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .cmd-palette-input input::placeholder {
@@ -277,44 +286,28 @@
 
 @media (hover: hover) {
   .cmd-palette-item:hover:not(.is-highlighted) {
-    background: color-mix(in srgb, var(--color-nav-text) 7%, transparent);
-    border-color: color-mix(in srgb, var(--color-border) 70%, transparent);
+    background: color-mix(in srgb, var(--color-nav-text) 3.5%, transparent);
+    border-color: transparent;
   }
 }
 
 .cmd-palette-item.is-highlighted {
-  border-color: color-mix(in srgb, var(--color-border) 88%, transparent);
-  background: color-mix(in srgb, var(--color-nav-bg) 97%, var(--color-link) 3%);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--color-link) 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--color-nav-text) 4%, transparent);
+  border-color: transparent;
+  background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
+  box-shadow: none;
   color: var(--color-nav-text);
 }
 
 .cmd-palette-item.is-highlighted::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.018;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 96px 96px;
+  display: none;
+  content: none;
 }
 
 @media (hover: hover) {
   .cmd-palette-item.is-highlighted:hover {
-    border-color: color-mix(in srgb, var(--color-border) 78%, var(--color-link) 6%);
-    background: color-mix(in srgb, var(--color-nav-bg) 94%, var(--color-link) 6%);
-    box-shadow:
-      inset 0 0 0 1px color-mix(in srgb, var(--color-link) 16%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--color-nav-text) 5%, transparent);
-  }
-
-  .cmd-palette-item:hover:not(.is-highlighted) .cmd-palette-item__title {
-    color: color-mix(in srgb, var(--color-nav-text) 88%, var(--color-link) 12%);
+    border-color: transparent;
+    background: color-mix(in srgb, var(--color-nav-text) 7%, transparent);
+    box-shadow: none;
   }
 }
 
@@ -337,8 +330,8 @@
 }
 
 .cmd-palette-item.is-highlighted .cmd-palette-item__title {
-  font-weight: 700;
-  color: color-mix(in srgb, var(--color-nav-text) 8%, var(--color-link) 92%);
+  font-weight: 600;
+  color: inherit;
 }
 
 .cmd-palette-item__desc {
@@ -366,7 +359,7 @@
 }
 
 .cmd-palette-item.is-highlighted .cmd-palette-highlight {
-  background: color-mix(in srgb, var(--color-link) 15%, transparent);
+  background: color-mix(in srgb, var(--color-link) 12%, transparent);
 }
 
 .cmd-empty {

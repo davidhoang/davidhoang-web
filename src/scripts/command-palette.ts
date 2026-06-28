@@ -181,11 +181,16 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     results!.classList.remove('has-results');
     footer?.classList.remove('visible');
     activeIndex = -1;
-    // Restore focus to the element that opened the palette
-    if (triggerElement && typeof triggerElement.focus === 'function') {
-      triggerElement.focus();
-      triggerElement = null;
+    input!.blur();
+    // Avoid a loud focus ring on nav chrome after closing the palette
+    const shouldRestoreFocus =
+      triggerElement &&
+      typeof triggerElement.focus === 'function' &&
+      !triggerElement.closest('.site-nav');
+    if (shouldRestoreFocus) {
+      triggerElement!.focus({ preventScroll: true });
     }
+    triggerElement = null;
   }
 
   function navigate(path: string) {

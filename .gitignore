@@ -30,7 +30,11 @@ pnpm-debug.log*
 
 # IDE/Editor configs
 .vscode/
-.cursor/
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/**
 .claude/settings.local.json
 
 # Temporary files
@@ -39,6 +43,9 @@ stats.html
 .wrangler/
 temp_*.png
 **/CleanShot*.png
+
+# Local screenshots (not site assets — see src/assets/ for Astro images)
+/assets/
 
 # Internal documentation (dev notes, not user-facing)
 ACCESSIBILITY_IMPROVEMENTS.md

@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import ThemeCard from '../components/eval/ThemeCard.astro';
 ---
 
 <MainLayout title="Design Guide | David Hoang">
@@ -187,6 +188,22 @@ import MainLayout from '../layouts/MainLayout.astro';
           <h3 class="text-heading text-lg">Interactive Card</h3>
           <p class="text-body text-sm">Hover to see lift effect.</p>
         </div>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">ThemeCard component</h3>
+      <p class="text-body mb-md">
+        Agent-built card using <code class="text-mono">ThemeCard.astro</code> — primitives, tokens, opaque surface.
+      </p>
+      <div class="card-grid">
+        <ThemeCard title="Daily themes" description="Typography and color shift every day within safe layout bounds.">
+          <p class="text-body text-sm">Toggle the theme control in the nav to preview adaptation.</p>
+        </ThemeCard>
+        <ThemeCard title="Opaque cards" variant="elevated" description="No glass — legibility over blur.">
+          <span class="badge badge-primary">design.md</span>
+        </ThemeCard>
+        <ThemeCard title="Token spacing" variant="outlined">
+          <p class="text-caption text-muted">Gap and padding use var(--spacing-*) only.</p>
+        </ThemeCard>
       </div>
 
       <h3 class="text-heading mt-xl mb-md">Card with Header/Footer</h3>

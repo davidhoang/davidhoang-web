@@ -1,0 +1,27 @@
+---
+description: Read design.md before generating or editing UI — colors, spacing, components, motion
+globs: "**/*.{astro,css,tsx,jsx}"
+alwaysApply: false
+---
+
+# Design system for agents
+
+Before creating or changing visual UI, read these files in order:
+
+1. **`design.md`** (repo root) — authoritative spec: layout invariants, theme bounds, spacing tokens, hover/focus/motion rules, anti-patterns
+2. **`.agents/skills/product-design/SKILL.md`** — workflow, checklist, surface references
+3. **`src/design-guide.md`** — primitive classes (`.btn`, `.card`, `.text-heading`), CSS variables, theme data attributes
+4. **`.cursor/rules/site-nav-css.mdc`** — nav is framework-controlled; never override from theme or new CSS
+
+## Hard rules
+
+- Use **`var(--color-*)`**, **`var(--spacing-*)`**, **`var(--duration-*)`**, **`var(--ease-*)`** — no arbitrary hex or hardcoded `0.3s` / `cubic-bezier(...)` in new code
+- Cards are **never transparent** — no glassmorphism, no `opacity < 1` on card surfaces
+- **No dimensional `:hover`** — do not change `padding`, `margin`, `gap`, `width`, or `height` on hover (color, shadow, transform only)
+- **Nav is fixed** — themes cannot change nav height, padding, or pill layout; use `.site-nav` / `.nav-container`, never `.container` on nav markup
+- Prefer **Astro** for static UI; **React** only when client interactivity is required
+- Reuse existing primitives from `src/styles/global.css` and modules under `src/styles/modules/` before inventing new patterns
+
+## After UI changes
+
+Run `npm run audit:design` and fix violations before finishing. If the agent repeatedly violates a rule, log it in `.agents/skills/product-design/references/coverage-gaps.md` and update **`design.md`** (human-led loop — see AGENTS.md).

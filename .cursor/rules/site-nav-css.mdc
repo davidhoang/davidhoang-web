@@ -1,0 +1,52 @@
+---
+description: Protect site nav layout from CSS refactors and cascade conflicts
+alwaysApply: true
+---
+
+# Site nav CSS — do not break
+
+The floating nav is fragile across files. Past refactors broke it by applying global styles to nav internals.
+
+## Source of truth
+
+| Concern | File |
+|---------|------|
+| Markup | `src/components/Navigation.astro` |
+| Nav shell + mobile/desktop layout | `src/styles/modules/nav.css` |
+| Command palette open states | `src/styles/modules/command-palette.css` |
+| Critical height (unlayered — wins over `@layer`) | `src/layouts/MainLayout.astro` inline `<style is:inline>` |
+| Mobile `--nav-height`, `--content-top-padding` | `src/styles/modules/accessibility-responsive.css` |
+
+## Hard rules
+
+1. **Never put `container` on nav markup.** Use `.nav-container` only. Global `.container` rules (especially mobile `padding: 1rem` in `accessibility-responsive.css`) will break vertical alignment.
+
+2. **Scope generic selectors away from site nav:**
+   - Bad: `.container { padding: … }` without excluding nav
+   - Bad: `nav { height: … }` (hits TOC/filter navs and `.site-nav`)
+   - Good: `main.container`, `.site-footer .container`, `.site-nav .nav-container`
+
+3. **Keep critical CSS breakpoint-aware** in `MainLayout.astro`:
+   - Desktop (769px+): `nav.glass-border { height: var(--nav-height) }` with `--nav-height: 48px`
+   - Mobile (768px−): `nav.glass-border.site-nav { height: calc(56px + env(safe-area-inset-top, 0px)) }` and `:root { --nav-height: 56px }`
+   - Do **not** restore a single unscoped `nav.glass-border { height: … }` for all breakpoints.
+
+4. **Unlayered inline critical CSS beats all layered stylesheets.** Mobile nav height or `--nav-height` changes in `global.css` layers alone will not apply to the nav bar unless mirrored in critical CSS.
+
+5. **Desktop horizontal padding lives on `.site-nav`** (currently `padding: 0 40px`), not on `.nav-container` or `.container`.
+
+## Layout contract (verify after CSS changes)
+
+**Mobile (≤768px):**
+- `.site-nav`: full width, `padding-top: env(safe-area-inset-top)`, height includes safe area
+- `.nav-container`: exactly `56px` tall, `padding: 0 1rem` (horizontal only), `align-items: center`
+- `.logo`: `height: auto`, `line-height: 1`
+- `.mobile-menu-button`: `padding: 0`, 44×44 tap target
+
+**Desktop (≥769px):**
+- `.site-nav`: floating pill, `padding: 0 40px`, `--nav-height: 48px`
+- `.nav-container`: `gap: 1rem`, no extra vertical padding
+
+## Before merging CSS refactors
+
+If the diff touches `.container`, `nav`, `--nav-height`, `--content-top-padding`, or `--nav-offset-top`, check nav at **390px** and **≥769px** widths. Logo and menu icon must be vertically centered on mobile; desktop pill must have even horizontal inset at the rounded ends.

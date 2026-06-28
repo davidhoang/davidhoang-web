@@ -1,24 +1,25 @@
 # AGENTS.md
 
+## Agent design system
+
+Cross-tool product design instructions follow the [Vercel agent design stack](https://vercel.com/blog/teaching-agents-product-design-at-vercel). Canonical skill content lives under `.agents/`; Cursor-specific rules stay in `.cursor/rules/`.
+
+| Layer | Location |
+|-------|----------|
+| Design contract | `design.md` (spec), `src/design-guide.md` (primitives) |
+| **Canonical skill** | **`.agents/skills/product-design/`** (`SKILL.md`, `references/`, `exemplars/`) |
+| Cursor discovery | `.cursor/skills/product-design/` (pointer), `.cursor/skills/davidhoang-ui/` (alias) |
+| Cursor file rules | `.cursor/rules/design-system.mdc`, `.cursor/rules/site-nav-css.mdc` |
+| Lint | `npm run audit:design` → `scripts/audit-design-compliance.mjs` |
+| Evals | `evals/` (+ optional `@vercel/agent-eval`) |
+| Theme contrast | `npm run audit-contrast` (runs in build) |
+
+**Before UI work:** read `design.md`, then `.agents/skills/product-design/SKILL.md`. Cursor also applies `.cursor/rules/design-system.mdc` on matching files.
+
+**Optional Vercel skills:** `npx skills add vercel-labs/agent-skills --skill web-design-guidelines`
+
+**When agents repeat mistakes:** log in `.agents/skills/product-design/references/coverage-gaps.md`, then update `design.md`, audit script, or `evals/`. See `evals/README.md`.
+
+---
+
 ## Cursor Cloud specific instructions
-
-### Services
-
-| Service | Command | Port | Notes |
-|---------|---------|------|-------|
-| Astro dev server | `npm run dev` | 4321 | Main service; serves all pages + API routes locally |
-
-### Quick reference
-
-- **Lint/type check:** `npx astro check` (0 errors expected; hints are fine)
-- **Tests:** `npm run test` (vitest, 65 unit tests)
-- **Build:** `npm run build` (includes image optimization, Astro build, asset copy, and Pagefind indexing)
-- **Dev server:** `npm run dev` → http://localhost:4321
-
-### Non-obvious notes
-
-- The site uses `output: 'static'` with the Vercel adapter. API routes (under `src/pages/api/`) run as serverless functions on Vercel but are served by the Astro dev server locally.
-- AI-powered features (`/api/career-query`, `/api/theme-query`, `/api/generate-bio-summary`) require `ANTHROPIC_API_KEY` env var. The rest of the site works without it.
-- Pagefind search index is only generated during `npm run build`; search will not work in dev mode — this is expected.
-- `allowedHosts` in `astro.config.mjs` includes `*.vibepocket.link` for Cloud Agent environments — no additional config needed.
-- The build script runs `node scripts/optimize-images.mjs` and `node scripts/audit-theme-contrast.mjs` before `astro build`. These don't require external API keys.
