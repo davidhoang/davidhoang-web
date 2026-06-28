@@ -7,9 +7,11 @@ import SearchInput from '../../components/SearchInput.astro';
 import WritingGraph from '../../components/WritingGraph.astro';
 import { buildGraph } from '../../utils/writingGraph';
 import { formatLongDate } from '../../utils/formatDate';
+import { calculateReadingTime } from '../../utils/readingTime';
+import { getWritingPostThumbnail } from '../../utils/writingPostImage';
+import '../../styles/pages/writing-index.css';
 
 const allPosts = await getCollection('writing');
-// Filter out drafts in production, but show them in development
 const posts = (import.meta.env.PROD
   ? allPosts.filter((post) => !post.data.draft)
   : allPosts
@@ -17,115 +19,157 @@ const posts = (import.meta.env.PROD
 
 const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data })));
 
-// Featured post is the most recent
-const featuredPost = posts[0];
-const remainingPosts = posts.slice(1);
+const postsWithMeta = posts.map((post) => ({
+  post,
+  readingTime: calculateReadingTime(post.body),
+  thumbnail: getWritingPostThumbnail({
+    title: post.data.title,
+    description: post.data.description,
+    coverImage: post.data.coverImage,
+    ogImage: post.data.ogImage,
+    body: post.body,
+  }),
+}));
 
-// Split remaining posts into "recent" (next 3) and "archive" (the rest)
-const recentPosts = remainingPosts.slice(0, 3);
-const archivePosts = remainingPosts.slice(3);
+const featured = postsWithMeta[0];
+const feedPosts = postsWithMeta.slice(1);
 
-// Page metadata
-const pageDescription = "Essays and articles on design, engineering, AI, and entrepreneurship. Exploring the future of software design and building better products.";
-const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
-
+const pageDescription =
+  'Essays and articles on design, engineering, AI, and entrepreneurship. Exploring the future of software design and building better products.';
+const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
 <MainLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
-  <PageHeader
-    title="Writing"
-    image="/images/highlights/img-highlights-proof-of-concept.webp"
-    alt="Writing"
-  />
-  <div class="content-grid">
-    <div class="posts-column">
-      {/* View toggle: List vs Garden */}
-      <div class="view-tabs" role="tablist" aria-label="Writing view">
-        <button
-          type="button"
-          class="view-tab is-active"
-          role="tab"
-          aria-selected="true"
-          data-view-tab="list"
-        >List</button>
-        <button
-          type="button"
-          class="view-tab"
-          role="tab"
-          aria-selected="false"
-          data-view-tab="garden"
-        >Garden</button>
-      </div>
+  <div class="writing-index">
+    <PageHeader
+      title="Writing"
+      variant="text-only"
+      subtitle="Essays on design, engineering, AI, and building products."
+    />
 
-      <div data-view-panel="garden" hidden>
-        <WritingGraph graph={graph} />
-      </div>
+    <div class="content-grid">
+      <div class="posts-column">
+        <div class="view-tabs" role="tablist" aria-label="Writing view">
+          <button
+            type="button"
+            class="view-tab is-active"
+            role="tab"
+            aria-selected="true"
+            data-view-tab="list"
+          >List</button>
+          <button
+            type="button"
+            class="view-tab"
+            role="tab"
+            aria-selected="false"
+            data-view-tab="garden"
+          >Garden</button>
+        </div>
 
-      <div data-view-panel="list">
-      {/* Featured post hero */}
-      {featuredPost && (
-        <a href={`/writing/${featuredPost.id}`} class="featured-post card-interactive link-plain" transition:name={`post-${featuredPost.id}`}>
-          <span class="text-eyebrow text-eyebrow--accent">Latest</span>
-          <h2 class="featured-title" transition:name={`title-${featuredPost.id}`}>{featuredPost.data.title}</h2>
-          {featuredPost.data.description && (
-            <p class="featured-description">{featuredPost.data.description}</p>
-          )}
-          <time datetime={featuredPost.data.pubDate.toISOString()}>
-            {formatLongDate(featuredPost.data.pubDate)}
-          </time>
-        </a>
-      )}
+        <div data-view-panel="garden" hidden>
+          <WritingGraph graph={graph} />
+        </div>
 
-      {/* Recent posts in a magazine grid */}
-      {recentPosts.length > 0 && (
-        <section class="recent-section">
-          <h3 class="section-label">Recent</h3>
-          <div class="recent-grid">
-            {recentPosts.map(post => (
-              <a href={`/writing/${post.id}`} class="recent-card card-interactive link-plain" transition:name={`post-${post.id}`}>
-                <h3 class="recent-card-title" transition:name={`title-${post.id}`}>{post.data.title}</h3>
-                {post.data.description && (
-                  <p class="recent-card-description">{post.data.description}</p>
-                )}
-                <time datetime={post.data.pubDate.toISOString()}>
-                  {formatLongDate(post.data.pubDate)}
-                </time>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Archive list with search */}
-      {archivePosts.length > 0 && (
-        <section class="archive-section">
-          <h3 class="section-label">Archive</h3>
-          <SearchInput id="writing-search" placeholder="Search writing..." />
-          <ul class="posts-list" id="writing-list">
-            {archivePosts.map(post => (
-              <li data-title={post.data.title.toLowerCase()} data-description={(post.data.description || '').toLowerCase()}>
-                <a href={`/writing/${post.id}`} class="post-link link-plain" transition:name={`post-${post.id}`}>
-                  <div class="post-row">
-                    <span class="post-title" transition:name={`title-${post.id}`}>{post.data.title}</span>
-                    <time datetime={post.data.pubDate.toISOString()}>
-                      {formatLongDate(post.data.pubDate)}
+        <div data-view-panel="list">
+          {featured && (
+            <article class="writing-featured">
+              <a
+                href={`/writing/${featured.post.id}`}
+                class="writing-featured__link link-plain"
+                transition:name={`post-${featured.post.id}`}
+              >
+                <div class="writing-featured__media">
+                  <img
+                    src={featured.thumbnail}
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                    width="600"
+                    height="600"
+                  />
+                </div>
+                <div class="writing-featured__body">
+                  <span class="text-eyebrow text-eyebrow--accent">Latest</span>
+                  <h2
+                    class="writing-featured__title"
+                    transition:name={`title-${featured.post.id}`}
+                  >
+                    {featured.post.data.title}
+                  </h2>
+                  {featured.post.data.description && (
+                    <p class="writing-featured__deck">{featured.post.data.description}</p>
+                  )}
+                  <p class="writing-feed__meta">
+                    <time datetime={featured.post.data.pubDate.toISOString()}>
+                      {formatLongDate(featured.post.data.pubDate)}
                     </time>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p class="no-results" id="writing-no-results">No posts match your search.</p>
-        </section>
-      )}
+                    <span aria-hidden="true"> · </span>
+                    <span>{featured.readingTime} min read</span>
+                  </p>
+                </div>
+              </a>
+            </article>
+          )}
+
+          {feedPosts.length > 0 && (
+            <section class="writing-feed" aria-label="All essays">
+              <SearchInput id="writing-search" placeholder="Search essays…" />
+              <ul class="writing-feed__list" id="writing-list">
+                {feedPosts.map(({ post, readingTime, thumbnail }) => (
+                  <li
+                    data-title={post.data.title.toLowerCase()}
+                    data-description={(post.data.description || '').toLowerCase()}
+                  >
+                    <a
+                      href={`/writing/${post.id}`}
+                      class="writing-feed__item link-plain"
+                      transition:name={`post-${post.id}`}
+                    >
+                      <div class="writing-feed__thumb">
+                        <img
+                          src={thumbnail}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          width="600"
+                          height="600"
+                        />
+                      </div>
+                      <div class="writing-feed__content">
+                        <h3
+                          class="writing-feed__title"
+                          transition:name={`title-${post.id}`}
+                        >
+                          {post.data.title}
+                        </h3>
+                        {post.data.description && (
+                          <p class="writing-feed__deck">{post.data.description}</p>
+                        )}
+                        <p class="writing-feed__meta">
+                          <time datetime={post.data.pubDate.toISOString()}>
+                            {formatLongDate(post.data.pubDate)}
+                          </time>
+                          <span aria-hidden="true"> · </span>
+                          <span>{readingTime} min read</span>
+                        </p>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p class="writing-feed__no-results" id="writing-no-results">
+                No essays match your search.
+              </p>
+            </section>
+          )}
+        </div>
       </div>
+      <SidebarWriting />
     </div>
-    <SidebarWriting />
   </div>
 </MainLayout>
 
 <style>
-  /* View toggle (List · Garden) */
   .view-tabs {
     display: inline-flex;
     gap: var(--spacing-xs);
@@ -167,186 +211,8 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .view-tab { transition: none; }
-  }
-
-  /* Featured post hero card */
-  .featured-post {
-    display: block;
-    padding: clamp(var(--spacing-lg), 4vw, var(--spacing-2xl));
-    margin-bottom: var(--spacing-2xl);
-    border: var(--border-default);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    color: inherit;
-    background: var(--color-surface, var(--color-bg));
-  }
-
-  .featured-post .text-eyebrow {
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .featured-post:hover {
-    border-color: color-mix(in srgb, var(--color-link) 24%, var(--color-border));
-  }
-
-  .featured-title {
-    font-size: clamp(2.25rem, 5vw, 3.75rem);
-    font-weight: var(--heading-weight, 700);
-    line-height: 1.08;
-    margin: 0 0 var(--spacing-lg);
-    letter-spacing: var(--letter-spacing-display, -0.03em);
-    text-wrap: balance;
-  }
-
-  .featured-description {
-    font-size: 1.1875rem;
-    line-height: 1.6;
-    color: var(--color-muted);
-    margin: 0 0 var(--spacing-xl);
-    max-width: 52ch;
-  }
-
-  .featured-post time,
-  .recent-card time {
-    font-size: var(--text-eyebrow-size, 0.6875rem);
-    font-weight: 600;
-    letter-spacing: var(--text-eyebrow-tracking, 0.14em);
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-
-  /* Recent posts magazine grid */
-  .recent-section {
-    margin-bottom: var(--spacing-2xl);
-  }
-
-  .recent-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-  }
-
-  .recent-card {
-    display: flex;
-    flex-direction: column;
-    padding: var(--spacing-lg);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .recent-card:hover {
-    border-color: color-mix(in srgb, var(--color-link) 22%, var(--color-border));
-  }
-
-  .recent-card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: var(--letter-spacing-heading-md, -0.01em);
-    margin: 0 0 var(--spacing-md);
-    text-wrap: balance;
-  }
-
-  .recent-card-description {
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--color-muted);
-    margin: 0 0 auto;
-    padding-bottom: var(--spacing-md);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Archive section */
-  .archive-section {
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .posts-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .posts-list li {
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 1px dotted var(--color-border, #e5e5e5);
-  }
-
-  .posts-list li:last-child {
-    border-bottom: none;
-  }
-
-  .post-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    border-bottom: none !important;
-  }
-
-  .post-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--spacing-md);
-  }
-
-  .post-title {
-    position: relative;
-    font-size: 1.0625rem;
-    line-height: 1.4;
-    border-bottom: 1px dotted transparent;
-    transition:
-      border-bottom-color var(--duration-slow) var(--ease-inertia),
-      color var(--duration-slow) var(--ease-inertia);
-  }
-
-  .post-link:hover .post-title {
-    border-bottom-color: var(--color-link-hover, #0066cc);
-  }
-
-  time {
-    color: var(--color-muted);
-    flex-shrink: 0;
-  }
-
-  .post-row time {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .no-results {
-    display: none;
-    text-align: center;
-    color: var(--color-muted);
-    padding: var(--spacing-xl) 0;
-    font-size: 0.9375rem;
-  }
-
-  @media (max-width: 1024px) {
-    .recent-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .recent-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .featured-post {
-      padding: var(--spacing-lg);
-    }
-
-    .featured-title {
-      font-size: 1.5rem;
+    .view-tab {
+      transition: none;
     }
   }
 </style>
@@ -370,7 +236,7 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
         clearBtn.style.display = query ? 'flex' : 'none';
       }
 
-      items.forEach(item => {
+      items.forEach((item) => {
         const title = item.getAttribute('data-title') || '';
         const description = item.getAttribute('data-description') || '';
         const matches = !query || title.includes(query) || description.includes(query);
@@ -379,7 +245,8 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
       });
 
       if (noResults) {
-        (noResults as HTMLElement).style.display = visibleCount === 0 && query ? 'block' : 'none';
+        (noResults as HTMLElement).style.display =
+          visibleCount === 0 && query ? 'block' : 'none';
       }
     }
 
@@ -412,7 +279,6 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
         const active = p.dataset.viewPanel === view;
         p.hidden = !active;
         if (active && view === 'garden') {
-          // Tell the graph it's now visible so it can lazy-init.
           p.querySelector('[data-writing-graph]')?.dispatchEvent(new CustomEvent('graph:show'));
         }
       });
@@ -428,11 +294,11 @@ const ogImage = "/images/highlights/img-highlights-proof-of-concept.webp";
       t.addEventListener('click', () => setView(t.dataset.viewTab || 'list', true));
     });
 
-    // Initial state from URL.
-    const initial = new URLSearchParams(window.location.search).get('view') === 'garden' ? 'garden' : 'list';
+    const initial =
+      new URLSearchParams(window.location.search).get('view') === 'garden' ? 'garden' : 'list';
     setView(initial, false);
   }
 
   initWritingViewTabs();
   document.addEventListener('astro:page-load', initWritingViewTabs);
-</script> 
+</script>

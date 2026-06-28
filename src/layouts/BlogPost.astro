@@ -110,7 +110,7 @@ const breadcrumbJsonLd = {
       <div class="main-content">
         <a href={sectionPath} class="text-eyebrow text-eyebrow--link link-plain">{sectionLabel}</a>
         <h1 transition:name={`title-${slug}`}>{title}</h1>
-        <div class="post-meta text-meta">
+        <div class="post-meta">
           <time datetime={pubDate}>
             {formatLongDate(new Date(pubDate))}
           </time>
@@ -195,17 +195,24 @@ const breadcrumbJsonLd = {
 
   .main-content > h1 {
     text-wrap: balance;
+    margin-bottom: 0.75rem;
   }
 
   .main-content > .post-meta {
     color: var(--color-muted);
-    margin: 0.85rem 0 2rem;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    margin: 0 0 2.25rem;
+  }
+
+  .main-content > .text-eyebrow {
+    margin-bottom: 0.85rem;
   }
 
   .post-tags {
     list-style: none;
-    padding: 1.25rem 0 0;
-    margin: 2rem 0 0;
+    padding: 1rem 0 0;
+    margin: 2.5rem 0 0;
     border-top: 1px solid var(--color-border);
     display: flex;
     flex-wrap: wrap;
