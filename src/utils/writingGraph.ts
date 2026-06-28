@@ -3,23 +3,13 @@
 // overlap). Each node keeps its strongest few connections so the layout
 // stays legible — full pairwise edges produce a hairball.
 
-const STOPWORDS = new Set([
-  'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of',
-  'is', 'it', 'its', 'with', 'as', 'by', 'from', 'that', 'this', 'was', 'are',
-  'be', 'has', 'had', 'have', 'not', 'what', 'how', 'you', 'your', 'we', 'our',
-  'so', 'if', 'do', 'does', 'than', 'then', 'into', 'about', 'over', 'they',
-  'them', 'their', 'these', 'those', 'will', 'can', 'may', 'just', 'also',
-]);
+import { getKeywords as extractKeywords } from './textKeywords';
 
 export function getKeywords(text: string): Set<string> {
-  return new Set(
-    text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, ' ')
-      .split(/\s+/)
-      .filter((w) => w.length > 3 && !STOPWORDS.has(w)),
-  );
+  return extractKeywords(text, { minWordLength: 4 });
 }
+
+const graphKeywords = (text: string) => extractKeywords(text, { minWordLength: 4 });
 
 export type GraphNode = {
   id: string;
@@ -58,7 +48,7 @@ export function buildGraph(posts: PostInput[]): Graph {
   const tagCache = new Map<string, Set<string>>();
   for (const post of posts) {
     const text = `${post.data.title} ${post.data.description ?? ''}`;
-    keywordCache.set(post.id, getKeywords(text));
+    keywordCache.set(post.id, graphKeywords(text));
     tagCache.set(post.id, new Set(post.data.tags ?? []));
   }
 
