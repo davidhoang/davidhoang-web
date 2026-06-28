@@ -1,4 +1,4 @@
-import type { FeaturedMediaSource } from '../utils/linkPreview';
+import type { FeaturedMediaSource } from '../utils/featuredMedia';
 
 /**
  * Media & publications — titles and descriptions are enriched at build time via Open Graph fetch,

@@ -1,4 +1,4 @@
-import type { ThemeData } from '../components/generative-ui/ThemeSpecRenderer';
+import type { ThemeData } from './ThemeSpecRenderer';
 
 export type ThemeFilterKey =
   | 'all'

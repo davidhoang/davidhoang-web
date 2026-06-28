@@ -1,6 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { NOTE_STAGE_VALUES } from '../utils/noteStages';
+import { NOTE_STAGE_VALUES } from '../content/noteStages';
 
 const writing = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/writing' }),

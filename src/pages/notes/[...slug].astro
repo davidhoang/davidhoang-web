@@ -4,10 +4,10 @@ import { getCollection, render } from 'astro:content';
 import MarkdownIt from 'markdown-it';
 import sanitizeHtml from 'sanitize-html';
 import {
-  noteStageInfo,
   resolveNoteStage,
   defaultNoteMetaDescription,
-} from '../../utils/noteStages';
+} from '../../content/noteStages';
+import { noteStageInfo } from '../../utils/noteStageInfo';
 import { parseYoutubeVideoId } from '../../utils/youtube';
 import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
 import RelatedContentSection from '../../components/RelatedContentSection.astro';

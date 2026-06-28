@@ -3,7 +3,7 @@ import { getFeaturedSpeakingDetail } from '../data/featuredSpeakingDetails';
 import {
   isFeaturedSpeakingPreviewEnabled,
   setFeaturedSpeakingPreview,
-} from '../utils/featuredSpeakingPreview';
+} from '../stores/featuredSpeakingPreview';
 
 type Props = {
   title: string;

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { parseOpenGraphFromHtml, resolveFeaturedMedia } from '../src/utils/linkPreview';
+import { parseOpenGraphFromHtml } from '../src/utils/openGraph';
+import { resolveFeaturedMedia } from '../src/utils/featuredMedia';
 
 describe('parseOpenGraphFromHtml', () => {
   it('reads og:title, og:description, og:image', () => {
