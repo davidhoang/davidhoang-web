@@ -1,0 +1,73 @@
+---
+/**
+ * Theme-aware content card — opaque surface, token-driven spacing, hover via color/shadow only.
+ * Built to design.md + davidhoang-ui skill conventions.
+ */
+export interface Props {
+  title: string;
+  description?: string;
+  /** Optional card variant class suffix, e.g. "elevated" → .card-elevated */
+  variant?: 'default' | 'elevated' | 'outlined' | 'filled';
+  class?: string;
+}
+
+const { title, description, variant = 'default', class: className } = Astro.props;
+
+const variantClass =
+  variant === 'default'
+    ? ''
+    : variant === 'elevated'
+      ? 'card-elevated'
+      : variant === 'outlined'
+        ? 'card-outlined'
+        : 'card-filled';
+---
+
+<article class:list={['theme-card', 'card', 'card-interactive', variantClass, className]}>
+  <h3 class="theme-card__title text-heading text-lg">{title}</h3>
+  {description && <p class="theme-card__desc text-body text-muted">{description}</p>}
+  <div class="theme-card__body">
+    <slot />
+  </div>
+</article>
+
+<style>
+  .theme-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    height: 100%;
+  }
+
+  .theme-card__title {
+    margin: 0;
+  }
+
+  .theme-card__desc {
+    margin: 0;
+  }
+
+  .theme-card__body:not(:empty) {
+    margin-top: var(--spacing-xs);
+  }
+
+  .theme-card__body:empty {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .theme-card:hover {
+      border-color: color-mix(in srgb, var(--color-border) 60%, var(--color-link) 40%);
+      box-shadow: var(--shadow-hover, 0 8px 24px -12px color-mix(in srgb, var(--color-text) 18%, transparent));
+    }
+
+    .theme-card:hover .theme-card__title {
+      color: var(--color-link);
+    }
+  }
+
+  .theme-card:focus-within {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+</style>

@@ -12,7 +12,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
 <MainLayout title="Advising | David Hoang" description={pageDescription} ogImage={ogImage}>
   <PageHeader title="Advising" image={ogImage} alt="Low-fidelity design sketch" />
-  <div class="advising-content">
+  <div class="advising-content container-narrow">
     <section class="advising-intro">
       <p class="advising-eyebrow">Low-volume advisory for design leaders</p>
       <p>
@@ -107,8 +107,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
 <style>
   .advising-content {
-    max-width: var(--container-narrow-width, 720px);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: 0 0 4rem 0;
   }
 

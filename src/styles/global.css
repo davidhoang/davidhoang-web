@@ -2,37 +2,43 @@
    Global CSS - Modular Architecture
    ============================================
    
-   This file imports all CSS modules to create
-   a clean, maintainable stylesheet structure.
+   Cascade layers keep theme overrides predictable.
+   Route-specific CSS (career-odyssey, home, card-stack-hero)
+   is imported from individual pages for code-splitting.
    
    ============================================ */
 
+@layer reset, foundation, components, themes, utilities;
+
 /* Core Foundation */
-@import 'modules/variables.css';
-@import 'modules/fonts.css';
-@import 'modules/base.css';
+@import 'reset.css' layer(reset);
+@import 'modules/variables.css' layer(foundation);
+@import 'modules/fonts.css' layer(foundation);
+@import 'modules/base.css' layer(foundation);
+@import 'modules/prose.css' layer(foundation);
 
 /* Design System */
-@import 'modules/design-system.css';
-@import 'modules/layout.css';
-@import 'modules/utilities.css';
+@import 'modules/design-system.css' layer(components);
+@import 'modules/layout.css' layer(components);
+@import 'modules/utilities.css' layer(utilities);
 
 /* Interactions & Components */
-@import 'modules/links.css';
-@import 'modules/nav.css';
-@import 'modules/command-palette.css';
-@import 'modules/shared-components.css';
+@import 'modules/links.css' layer(components);
+@import 'modules/nav.css' layer(components);
+@import 'modules/footer.css' layer(components);
+@import 'modules/command-palette.css' layer(components);
+@import 'modules/shared-components.css' layer(components);
 
 /* Specialized Components */
 /* career-odyssey.css is imported only on the /career-odyssey page */
-@import 'modules/daily-theme-toggle.css';
+@import 'modules/daily-theme-toggle.css' layer(components);
 
 /* Theme System */
-@import 'modules/theme-variations.css';
-@import 'modules/footer-themes.css';
+@import 'modules/theme-variations.css' layer(themes);
+@import 'modules/footer-themes.css' layer(themes);
 
 /* Accessibility & Responsive */
-@import 'modules/accessibility-responsive.css';
+@import 'modules/accessibility-responsive.css' layer(utilities);
 
 /* Print */
-@import 'modules/print.css';
+@import 'modules/print.css' layer(utilities);

@@ -1,5 +1,4 @@
 ---
-import '../styles/reset.css';
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
@@ -364,7 +363,7 @@ const ogImageUrl = ogImage.startsWith('http')
       :root {
         --color-text: #333;
         --color-bg: #fff;
-        --nav-height: 40px;
+        --nav-height: 48px;
         --font-primary: 'ABC Diatype', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Inter, system-ui, Arial, sans-serif;
       }
       [data-theme="dark"] {
@@ -415,8 +414,18 @@ const ogImageUrl = ogImage.startsWith('http')
         background-color: #121212;
       }
       /* Main site nav only — other pages use <nav> for TOCs, filters, etc. */
-      nav.glass-border {
-        height: var(--nav-height);
+      @media (min-width: 769px) {
+        nav.glass-border {
+          height: var(--nav-height);
+        }
+      }
+      @media (max-width: 768px) {
+        :root {
+          --nav-height: 56px;
+        }
+        nav.glass-border.site-nav {
+          height: calc(56px + env(safe-area-inset-top, 0px));
+        }
       }
       [data-e-ink="true"] nav.glass-border {
         background: #e8e8e3 !important;

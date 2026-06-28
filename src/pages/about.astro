@@ -136,7 +136,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     priority={true}
   />
   <div class="hero-grid">
-    <div class="about-content">
+    <div class="about-content container-narrow">
         <div class="bio-pipe-wrap">
           <div class="bio-pipe" role="tablist" aria-label="Bio versions">
             {bioSections.map((bio, index) => (
@@ -239,9 +239,8 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   }
 
   .about-content {
-    max-width: var(--container-narrow-width, 720px);
     width: 100%;
-    margin: 0 auto;
+    margin-inline: auto;
   }
 
   .bio-pipe-wrap {
@@ -438,10 +437,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   }
 
   @media (max-width: 768px) {
-    .about-content {
-      max-width: 100%;
-    }
-
     .about-content p {
       font-size: 1.15rem;
       line-height: 1.75;

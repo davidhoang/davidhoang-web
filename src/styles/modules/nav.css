@@ -47,7 +47,7 @@
   /* Below half the bar height so top/bottom stay clear of end-cap clip with backdrop-filter */
   border-radius: 28px;
   width: auto;
-  padding: 0 30px;
+  padding: 0 40px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-default);
   font-size: 1.4rem;
@@ -115,20 +115,20 @@
   .site-nav {
     width: max-content;
     min-width: unset;
-    max-width: min(560px, calc(100vw - 40px));
+    max-width: min(600px, calc(100vw - 40px));
   }
 }
 
 /* Large tablet adjustments - keep desktop .site-nav but reduce size */
 @media (min-width: 769px) and (max-width: 1024px) {
   .site-nav {
-    padding: 0 28px;
+    padding: 0 36px;
     font-size: 1.2rem;
   }
 
   @media (hover: hover) and (min-width: 769px) {
     .site-nav:hover {
-      padding: 0 28px;
+      padding: 0 36px;
     }
   }
 }
@@ -142,7 +142,7 @@
 @media (hover: hover) and (min-width: 769px) {
   .site-nav:hover {
     top: 20px;
-    padding: 0 30px;
+    padding: 0 40px;
     box-shadow:
       0 0 0 3px var(--color-border),
       var(--shadow-hover);
@@ -198,6 +198,12 @@
   transform-origin: center center;
 }
 
+@media (min-width: 769px) {
+  .nav-container {
+    gap: 1rem;
+  }
+}
+
 .logo {
   font-weight: 800;
   text-decoration: none;
@@ -239,11 +245,11 @@
   text-decoration: none;
   border-bottom: none;
   color: var(--color-nav-text);
-  border-radius: 6px;
+  border-radius: 10px;
   transition:
     color 0.2s ease,
     background-color 0.2s ease,
-    text-decoration-color 0.2s ease,
+    box-shadow 0.2s ease,
     transform 0.28s cubic-bezier(0.33, 1, 0.68, 1);
   font-size: 1rem;
   height: 100%;
@@ -252,29 +258,60 @@
   margin: 0;
   position: relative;
 }
+
 .nav-links a[aria-current="page"] {
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: 600;
+  background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
+}
+
+@media (min-width: 769px) {
+  .nav-links li {
+    height: auto;
+  }
+
+  .nav-links a:not(.rss-link) {
+    height: auto;
+    padding: 0.35rem 0.7rem;
+    border-radius: 10px;
+  }
+
+  .nav-links a[aria-current="page"] {
+    background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
+  }
+}
+
+/* Nav links opt out of global link underline/glow treatments */
+.nav-links a::before,
+.nav-links a::after {
+  display: none;
+  content: none;
+}
+
+.site-nav .nav-links a:focus-visible {
+  outline: none;
+  background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-nav-text) 10%, transparent);
 }
 
 /* Only apply hover effects on devices that support hover */
 @media (hover: hover) {
   .nav-links a:hover {
-    text-decoration: underline;
-    background-color: color-mix(in srgb, var(--color-nav-bg) 85%, transparent);
+    text-decoration: none;
+    background-color: color-mix(in srgb, var(--color-nav-text) 3.5%, transparent);
     color: var(--color-nav-text);
   }
 
   @media (min-width: 769px) {
     .site-nav:hover .nav-links a:hover {
-      transform: translateY(-2px);
-      color: color-mix(in srgb, var(--color-nav-text) 92%, var(--color-link) 8%);
+      transform: none;
+      color: var(--color-nav-text);
+    }
+
+    .nav-links a[aria-current="page"]:hover {
+      background: color-mix(in srgb, var(--color-nav-text) 7%, transparent);
     }
   }
-}
-
-.nav-links a::after {
-  display: none;
 }
 
 .rss-link {
@@ -428,8 +465,15 @@
   .nav-container {
     padding: 0 1rem;
     height: 56px;
+    min-height: 56px;
     max-width: 100%;
+    box-sizing: border-box;
     transition: none !important;
+  }
+
+  .logo {
+    height: auto;
+    line-height: 1;
   }
 
   .desktop-nav {
@@ -442,6 +486,7 @@
     justify-content: center;
     height: 44px;
     width: 44px;
+    padding: 0;
     margin-right: -0.25rem;
     border-radius: 50%;
     flex-shrink: 0;

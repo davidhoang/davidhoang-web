@@ -74,6 +74,18 @@ themeGenerator:
     - rolodex
 ---
 
+## For AI agents
+
+This file is the **design contract** for coding agents (Cursor, Claude Code, etc.). Before generating or editing UI:
+
+1. Read this document and `src/design-guide.md`
+2. Follow `.agents/skills/product-design/SKILL.md` and `.cursor/rules/design-system.mdc`
+3. Run `npm run audit:design` after CSS/component changes
+
+If you violate a rule repeatedly, a human should add a concrete example here rather than patching around it in code.
+
+---
+
 ## Overview
 
 This site rebuilds its visual identity daily via `scripts/generate-daily-theme.mjs`. A Claude API call returns a JSON theme that is applied through CSS custom properties at SSR time. Themes are constrained to vary along axes that don't risk layout breakage. Anything that touches viewport-dependent positioning is fixed across themes.

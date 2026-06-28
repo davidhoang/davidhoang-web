@@ -376,15 +376,15 @@ html[data-e-ink="true"] {
 /* E-Ink: Form inputs. Solid 1.5px ink border, no rounded corners (zeroed
    globally above), and a 2px solid focus outline instead of the default
    translucent box-shadow ring — translucency ghosts on e-ink. */
-[data-e-ink="true"] :is(input, textarea, select, .input, .search-input) {
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):not(#cmdPaletteInput) {
   background: var(--color-bg) !important;
   border: 1.5px solid var(--color-text) !important;
   box-shadow: none !important;
   color: var(--color-text) !important;
 }
 
-[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):focus,
-[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):focus-visible {
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):not(#cmdPaletteInput):focus,
+[data-e-ink="true"] :is(input, textarea, select, .input, .search-input):not(#cmdPaletteInput):focus-visible {
   outline: 2px solid var(--color-text) !important;
   outline-offset: 2px !important;
   border-color: var(--color-text) !important;

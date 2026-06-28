@@ -1,0 +1,205 @@
+/* Home page — route-level styles (imported from index.astro) */
+
+.card-stack-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 40px;
+  background: none;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+  /* Shared dot-grid unit — hero typography snaps to this rhythm */
+  --dot-grid-size: clamp(14px, 1.15vw, 24px);
+  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 40px);
+  --hero-grid-y-align: mod(
+    calc(var(--dot-grid-size) - mod(var(--hero-grid-y), var(--dot-grid-size))),
+    var(--dot-grid-size)
+  );
+}
+
+/* Dot-grid notebook background — Leuchtturm-style lattice */
+.card-stack-section::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--hero-grid-y));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-text) 15%, transparent) 1px,
+    transparent 1.4px
+  );
+  background-size: var(--dot-grid-size) var(--dot-grid-size);
+  background-position: 0 0;
+}
+
+.card-stack-section .hero-title__line {
+  display: block;
+}
+
+.design-philosophy h2,
+.portfolio-section h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.design-philosophy {
+  border-top: 1px solid var(--color-border);
+  padding-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1.25rem;
+  column-gap: clamp(1rem, 4vw, 4rem);
+  padding-right: 24px;
+  align-items: start;
+  min-width: 0;
+}
+
+.philosophy-item p {
+  margin: 0;
+}
+
+.philosophy-item {
+  border-radius: var(--radius-md);
+}
+
+.philosophy-item h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.portfolio-section {
+  margin: var(--section-spacing, 4rem) 0;
+  border-top: 1px solid var(--color-border);
+  padding-top: 24px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 1.5rem;
+  column-gap: clamp(1rem, 3vw, 3rem);
+  min-width: 0;
+}
+
+.portfolio-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.portfolio-item-text p {
+  margin: 0 0 var(--spacing-sm, 0.5rem) 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.portfolio-content a {
+  font-weight: 500;
+  color: var(--color-link);
+}
+
+.portfolio-images {
+  width: 100%;
+  overflow: hidden;
+}
+
+.portfolio-images img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-md, 8px);
+}
+
+/* Newsletter: horizontal inset when .container side padding is 0 under [data-shader] */
+.newsletter-section {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: max(1rem, var(--content-padding, 1.25rem));
+  padding-right: max(1rem, var(--content-padding, 1.25rem));
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .design-philosophy h2,
+  .portfolio-section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .card-stack-section {
+    margin-top: 50px;
+    --hero-grid-y: calc(var(--content-top-padding, 6rem) + 50px);
+  }
+
+  .design-philosophy,
+  .portfolio-section {
+    padding-left: var(--container-padding, 1rem);
+    padding-right: var(--container-padding, 1rem);
+  }
+
+  .philosophy-grid {
+    grid-template-columns: 1fr;
+    padding-right: 0;
+  }
+
+  .philosophy-item p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl, 2rem);
+  }
+
+  .portfolio-item-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .portfolio-images img {
+    aspect-ratio: 16 / 6;
+  }
+
+  .newsletter-section {
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    padding-left: max(1rem, var(--content-padding, 1.25rem));
+    padding-right: max(1rem, var(--content-padding, 1.25rem));
+  }
+}
+
+@media (min-width: 1920px) {
+  .philosophy-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 1.5rem;
+    column-gap: 10rem;
+  }
+
+  .philosophy-item p {
+    max-width: 65ch;
+    font-size: 1.4rem;
+    line-height: 1.6;
+  }
+
+  .portfolio-grid {
+    gap: 4rem;
+  }
+}

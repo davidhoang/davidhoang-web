@@ -2,38 +2,38 @@
    Daily Theme: Footer Style Variations
    ============================================ */
 
-/* Classic-only decoration (Footer.astro) — hide for alternate footer layouts */
-[data-footer-style="brutalist"] footer::before,
-[data-footer-style="editorial"] footer::before,
-[data-footer-style="retro"] footer::before,
-[data-footer-style="brutalist"] footer::after,
-[data-footer-style="editorial"] footer::after,
-[data-footer-style="retro"] footer::after {
+/* Classic-only decoration - hide for alternate footer layouts */
+[data-footer-style="brutalist"] .site-footer::before,
+[data-footer-style="editorial"] .site-footer::before,
+[data-footer-style="retro"] .site-footer::before,
+[data-footer-style="brutalist"] .site-footer::after,
+[data-footer-style="editorial"] .site-footer::after,
+[data-footer-style="retro"] .site-footer::after {
   display: none;
   content: none;
 }
 
 /* Brutalist - heavy, loud, monospace */
-[data-footer-style="brutalist"] footer {
+[data-footer-style="brutalist"] .site-footer {
   border-top: 4px solid var(--color-text);
   background: var(--color-text);
   color: var(--color-bg);
   padding: 3rem 0;
 }
 
-[data-footer-style="brutalist"] footer a,
-[data-footer-style="brutalist"] footer a:visited {
+[data-footer-style="brutalist"] .site-footer a,
+[data-footer-style="brutalist"] .site-footer a:visited {
   color: var(--color-bg) !important;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
 }
 
-[data-footer-style="brutalist"] footer a:hover {
+[data-footer-style="brutalist"] .site-footer a:hover {
   color: var(--color-link) !important;
 }
 
-[data-footer-style="brutalist"] footer .footer-col h4 {
+[data-footer-style="brutalist"] .site-footer .footer-col h4 {
   color: var(--color-bg);
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -42,18 +42,23 @@
   padding-bottom: 0.5rem;
 }
 
+[data-footer-style="brutalist"] .site-footer .footer-bottom {
+  color: var(--color-bg);
+  border-top-color: color-mix(in srgb, var(--color-bg) 35%, transparent);
+}
+
 /* Editorial - newspaper style with large CTA */
-[data-footer-style="editorial"] footer {
+[data-footer-style="editorial"] .site-footer {
   border-top: 3px double var(--color-border);
   padding: 4rem 0 2rem;
 }
 
-[data-footer-style="editorial"] footer .footer-grid {
+[data-footer-style="editorial"] .site-footer .footer-grid {
   border-top: 1px solid var(--color-border);
   padding-top: 2rem;
 }
 
-[data-footer-style="editorial"] footer .footer-col h4 {
+[data-footer-style="editorial"] .site-footer .footer-col h4 {
   font-style: italic;
   font-weight: 400;
   text-transform: none;
@@ -61,19 +66,18 @@
 }
 
 /* Retro - pixelated borders, 8-bit feel */
-[data-footer-style="retro"] footer {
+[data-footer-style="retro"] .site-footer {
   border-top: 4px dashed var(--color-link);
   padding: 2rem 0;
   image-rendering: pixelated;
 }
 
-[data-footer-style="retro"] footer .footer-col h4 {
+[data-footer-style="retro"] .site-footer .footer-col h4 {
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
 
-[data-footer-style="retro"] footer a {
+[data-footer-style="retro"] .site-footer a {
   font-family: var(--font-mono);
 }
-
