@@ -1,0 +1,49 @@
+---
+description: Obduction cross-section — no white gaps when plates shift
+globs: src/pages/prototypes/design-leadership-obduction.astro,src/styles/prototypes/design-leadership-obduction.css,src/scripts/obduction-physics.ts
+alwaysApply: false
+---
+
+# Obduction: Seamless Plate Motion
+
+When editing the tectonic cross-section, **plate transforms must never expose the paper background** (`--paper` / `#f1e9d8`) at collision seams.
+
+## The rule
+
+At every animation state — intro, settled, hover (Stages I–III), and physics spring — adjacent layers must remain **watertight**. A white sliver at the subducting/override/mantle junction is always a bug.
+
+## Why gaps appear
+
+- Independent transforms on layers that share an edge (subducting body vs override plate vs mantle)
+- Collision vertices not identical across paths (`498,428` / `552,468` / `470,380` must stay in sync)
+- Paths that meet at a point but don't overlap — rotation pulls them apart
+- Missing bleed: SVG anti-aliasing and sub-pixel transforms open hairline cracks
+- Elements painted in the wrong order so a moving layer reveals background instead of the layer beneath
+
+## How to fix / prevent
+
+1. **Shared collision pivot** — Stage I thrust rotates around `525, 448`. Subducting nose, override lip, and mantle melt wedge must use the same corner points in all paths.
+
+2. **Overlap, don't just touch** — Extend paths 2–4px past the seam into the neighbor. Prefer a slight underlap (mantle behind crust) over gapless abutment.
+
+3. **Bleed stroke** — On critical seams, add a same-fill stroke (`stroke-width: 2–3`, `stroke-linejoin: round`) matching the plate or mantle fill to seal anti-alias gaps.
+
+4. **Coupled physics** — `obduction-physics.ts` moves the stack as cause-and-effect. Do not add independent CSS hover transforms on nested groups that compound (plate + anchor delta only). Stage I lifts the plate; Stage II adds anchor delta.
+
+5. **Mantle fills first** — Mantle/asthenosphere sits behind crust. If orange melt or magma shows in open air, move it behind the plate and clip to the wedge (`magmaClip`).
+
+6. **One owner per seam** — If two paths share an edge, either move them in the same group or derive both poses from the same pivot so the edge stays closed.
+
+## Verify before shipping
+
+After any geometry or transform change:
+
+1. Reload `/prototypes/design-leadership-obduction`
+2. Wait for intro to finish (or use reduced-motion settle)
+3. Hover **Stage I**, then **Stage II**, then **Stage III**
+4. Inspect the collision zone (subducting nose ↔ override lip ↔ mantle) at each state — **no white diagonal sliver**
+
+```text
+❌ BAD  — cream/paper visible between rust subducting plate and teal override
+✅ GOOD — plates overlap at pivot; mantle warm glow behind, never through the gap
+```
