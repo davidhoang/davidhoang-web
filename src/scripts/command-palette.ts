@@ -13,6 +13,8 @@ interface SearchItem {
   type: 'page' | 'writing' | 'note';
 }
 
+const SEARCH_INDEX_URL = '/search-index.json';
+
 const TYPE_LABELS: Record<string, string> = {
   page: 'Pages',
   writing: 'Writing',
@@ -20,6 +22,31 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const TYPE_ORDER = ['page', 'writing', 'note'];
+
+let searchIndexCache: SearchItem[] | null = null;
+let searchIndexPromise: Promise<SearchItem[]> | null = null;
+
+function loadSearchIndex(): Promise<SearchItem[]> {
+  if (searchIndexCache) return Promise.resolve(searchIndexCache);
+  if (!searchIndexPromise) {
+    searchIndexPromise = fetch(SEARCH_INDEX_URL)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to load search index (${response.status})`);
+        }
+        return response.json() as Promise<SearchItem[]>;
+      })
+      .then((index) => {
+        searchIndexCache = index;
+        return index;
+      })
+      .catch((error) => {
+        searchIndexPromise = null;
+        throw error;
+      });
+  }
+  return searchIndexPromise;
+}
 
 function fuzzyMatch(query: string, text: string): boolean {
   if (!text) return false;
@@ -129,10 +156,38 @@ function createEmptyState(query: string) {
   return empty;
 }
 
+function createLoadingState() {
+  const loading = document.createElement('div');
+  loading.className = 'cmd-empty';
+
+  const text = document.createElement('span');
+  text.className = 'cmd-empty-text';
+  text.textContent = 'Loading search index…';
+
+  loading.append(text);
+  return loading;
+}
+
+function createErrorState(message: string) {
+  const error = document.createElement('div');
+  error.className = 'cmd-empty';
+
+  const text = document.createElement('span');
+  text.className = 'cmd-empty-text';
+  text.textContent = message;
+
+  const hint = document.createElement('span');
+  hint.className = 'cmd-empty-hint';
+  hint.textContent = 'Check your connection and try again';
+
+  error.append(text, hint);
+  return error;
+}
+
 // Track cleanup function to tear down before reinitializing
 let _cleanup: (() => void) | null = null;
 
-export function initCommandPalette(searchIndex: SearchItem[]) {
+export function initCommandPalette() {
   // Clean up previous instance (handles view transitions)
   if (_cleanup) {
     _cleanup();
@@ -151,15 +206,38 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
 
   let activeIndex = -1;
   let triggerElement: HTMLElement | null = null;
+  let searchIndex: SearchItem[] = [];
+  let indexLoadId = 0;
+
+  async function ensureSearchIndex() {
+    const loadId = ++indexLoadId;
+    results!.replaceChildren(createLoadingState());
+    showResults();
+
+    try {
+      searchIndex = await loadSearchIndex();
+      if (loadId !== indexLoadId) return false;
+      return true;
+    } catch {
+      if (loadId !== indexLoadId) return false;
+      results!.replaceChildren(createErrorState('Search is temporarily unavailable'));
+      if (liveRegion) liveRegion.textContent = 'Search index failed to load';
+      return false;
+    }
+  }
 
   // --- Core actions ---
 
-  function open() {
+  async function open() {
     // Remember what triggered the palette so we can restore focus on close
     triggerElement = document.activeElement as HTMLElement | null;
     nav!.classList.add('cmd-palette-active');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
+
+    const ready = searchIndex.length > 0 || await ensureSearchIndex();
+    if (!ready) return;
+
     render('');
     requestAnimationFrame(() => {
       input!.focus();
@@ -173,6 +251,7 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   (window as any).__cmdPaletteClose = close;
 
   function close() {
+    indexLoadId++;
     nav!.classList.remove('cmd-palette-active', 'cmd-palette-has-results');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'false');
@@ -280,27 +359,28 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
     // ⌘K hint always opens palette
     if (target.closest('.cmd-k-hint')) {
       e.preventDefault();
-      open();
+      void open();
       return;
     }
     if (target.closest('a') || target.closest('button')) return;
-    open();
+    void open();
   }
 
   function handleDesktopNavClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (target.closest('.cmd-k-hint')) {
       e.preventDefault();
-      open();
+      void open();
       return;
     }
     if (target.closest('a')) return;
     e.preventDefault();
-    open();
+    void open();
   }
 
   // Input typing
   function handleInput() {
+    if (!searchIndex.length) return;
     render(input!.value);
   }
 
@@ -357,7 +437,11 @@ export function initCommandPalette(searchIndex: SearchItem[]) {
   function handleGlobalKeydown(e: KeyboardEvent) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
-      nav!.classList.contains('cmd-palette-active') ? close() : open();
+      if (nav!.classList.contains('cmd-palette-active')) {
+        close();
+      } else {
+        void open();
+      }
       return;
     }
 
