@@ -1,0 +1,83 @@
+/* ============================================
+   Mobile enhancements — additive opt-in layer
+
+   Targets [data-viewport-tier] set by MainLayout.astro.
+   Does not override nav, .container globals, or theme safety nets.
+   Pages opt in via .prose-mobile, .stack-mobile, .safe-* utilities.
+   ============================================ */
+
+/* Viewport-tier spacing tokens (compact ≤480, mobile 481–768, tablet 769–1024, desktop ≥1025) */
+[data-viewport-tier='compact'] {
+  --mobile-section-gap: var(--spacing-xl);
+  --mobile-prose-measure: 100%;
+}
+
+[data-viewport-tier='mobile'] {
+  --mobile-section-gap: var(--spacing-2xl);
+  --mobile-prose-measure: 100%;
+}
+
+/* Safe-area utilities for sheets, sticky CTAs, and fixed elements */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-inline {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Single-column section rhythm on phone viewports */
+[data-viewport-tier='compact'] .stack-mobile,
+[data-viewport-tier='mobile'] .stack-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mobile-section-gap, var(--spacing-xl));
+}
+
+/* Editorial reading surface — opt in via .prose-mobile on long-form content */
+[data-viewport-tier='mobile'] .prose-mobile,
+[data-viewport-tier='compact'] .prose-mobile {
+  max-width: var(--mobile-prose-measure, 100%);
+  font-size: var(--prose-size-mobile);
+  line-height: var(--prose-line-height);
+}
+
+[data-viewport-tier='compact'] .prose-mobile {
+  line-height: 1.75;
+}
+
+[data-viewport-tier='mobile'] .prose-mobile :is(p, li),
+[data-viewport-tier='compact'] .prose-mobile :is(p, li) {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+[data-viewport-tier='mobile'] .prose-mobile blockquote,
+[data-viewport-tier='compact'] .prose-mobile blockquote {
+  border-left: 3px solid var(--color-link);
+  padding-left: var(--spacing-md);
+  margin-left: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+[data-viewport-tier='mobile'] .prose-mobile h2,
+[data-viewport-tier='compact'] .prose-mobile h2 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing-heading-lg);
+  margin-top: 2em;
+}
+
+[data-viewport-tier='mobile'] .prose-mobile h3,
+[data-viewport-tier='compact'] .prose-mobile h3 {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: var(--letter-spacing-heading-md);
+  margin-top: 1.75em;
+}
