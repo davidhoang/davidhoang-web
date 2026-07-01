@@ -33,11 +33,59 @@ export const commandPalettePages = [
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
 ] as const;
 
+export const footerBrand = {
+  tagline: 'Design, writing, and experiments.',
+  emailHref: 'mailto:david@davidhoang.com',
+  subscribeHref: '/subscribe',
+} as const;
+
 export const footerSections = [
   {
-    title: 'Contact',
+    title: 'Practice',
     links: [
-      { href: 'mailto:david@davidhoang.com', label: 'Email', ariaLabel: 'Email David Hoang', external: false },
+      { href: '/about', label: 'About', ariaLabel: 'About David Hoang', external: false },
+      { href: '/featured', label: 'Featured', ariaLabel: 'Featured work and press', external: false },
+      { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
+      { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
+      {
+        href: 'https://curius.app/david-hoang',
+        label: 'Curius',
+        ariaLabel: 'David Hoang on Curius (opens in new tab)',
+        external: true,
+      },
+      { href: '/design-resources', label: 'Design Resources', ariaLabel: 'Design resources and tools', external: false },
+    ],
+  },
+  {
+    title: 'Writing',
+    links: [
+      { href: '/writing', label: 'Writing', ariaLabel: 'Writing', external: false },
+      { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
+      { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
+      { href: '/subscribe', label: 'Subscribe', ariaLabel: 'Subscribe to updates', external: false },
+      {
+        href: 'https://www.proofofconcept.pub',
+        label: 'Newsletter',
+        ariaLabel: 'Proof of Concept newsletter (opens in new tab)',
+        external: true,
+      },
+      {
+        href: 'http://blog.davidhoang.com',
+        label: 'Personal Blog',
+        ariaLabel: "David Hoang's personal blog (opens in new tab)",
+        external: true,
+      },
+      {
+        href: 'https://substack.com/@davidhoang/notes',
+        label: 'Substack Notes',
+        ariaLabel: "David Hoang's Substack Notes (opens in new tab)",
+        external: true,
+      },
+    ],
+  },
+  {
+    title: 'Connect',
+    links: [
       {
         href: 'https://linkedin.com/in/dhoang2',
         label: 'LinkedIn',
@@ -60,47 +108,6 @@ export const footerSections = [
         href: 'https://sublime.app/davidhoang',
         label: 'Sublime',
         ariaLabel: 'David Hoang on Sublime (opens in new tab)',
-        external: true,
-      },
-    ],
-  },
-  {
-    title: 'Practice',
-    links: [
-      { href: '/about', label: 'About', ariaLabel: 'About David Hoang', external: false },
-      { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
-      { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
-      {
-        href: 'https://curius.app/david-hoang',
-        label: 'Curius',
-        ariaLabel: 'David Hoang on Curius (opens in new tab)',
-        external: true,
-      },
-      { href: '/design-resources', label: 'Design Resources', ariaLabel: 'Design resources and tools', external: false },
-    ],
-  },
-  {
-    title: 'Writing',
-    links: [
-      { href: '/writing', label: 'Writing', ariaLabel: 'Writing', external: false },
-      { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
-      { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
-      {
-        href: 'https://www.proofofconcept.pub',
-        label: 'Newsletter',
-        ariaLabel: 'Proof of Concept newsletter (opens in new tab)',
-        external: true,
-      },
-      {
-        href: 'http://blog.davidhoang.com',
-        label: 'Personal Blog',
-        ariaLabel: "David Hoang's personal blog (opens in new tab)",
-        external: true,
-      },
-      {
-        href: 'https://substack.com/@davidhoang/notes',
-        label: 'Substack Notes',
-        ariaLabel: "David Hoang's Substack Notes (opens in new tab)",
         external: true,
       },
     ],
