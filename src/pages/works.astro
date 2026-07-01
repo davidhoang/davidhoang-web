@@ -31,7 +31,7 @@ const works = [
         {works.map((work) => (
           <div class="work-item">
             <div class="work-image-container">
-              <div class="work-image-wrapper">
+              <div class="work-image-wrapper img-frame">
                 <img 
                   src={work.image} 
                   alt={work.alt}
@@ -96,6 +96,7 @@ const works = [
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
   .work-image-container img {
