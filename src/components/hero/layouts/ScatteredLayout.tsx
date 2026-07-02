@@ -134,6 +134,7 @@ export default function ScatteredLayout({
   hasAnimatedIn,
   cardStyle,
   onCardClick,
+  onCardDismiss: _onCardDismiss,
   onCardHover,
 }: LayoutProps) {
   const isGlass = cardStyle === 'glass';
