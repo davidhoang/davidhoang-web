@@ -11,6 +11,8 @@ Authoritative spec: `design.md`. This file is the agent checklist distilled from
 - [ ] Hover: color, shadow, transform only — no padding/margin/gap/width/height changes
 - [ ] Focus rings use `--focus-ring*` tokens
 - [ ] Mobile (≤768px): hero forced to `stacked-fan`, grids collapse, container full width
+- [ ] Mobile unique experiences: scoped overrides OK for touch-native presentation (see `design.md` § Mobile unique experiences) — do not change nav/container globals
+- [ ] Hero card sheet on mobile: iOS-style bottom sheet with swipe-down / swipe-out dismiss
 - [ ] Nav untouched unless editing files listed in `surfaces-nav.md`
 - [ ] Astro for static UI; React only when client interactivity is required
 - [ ] Reuse primitives from `src/styles/global.css` and `src/styles/modules/` first

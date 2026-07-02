@@ -1,9 +1,11 @@
-import { Fragment, useLayoutEffect, useState } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 import { useMagneticTilt } from '../../useMagneticTilt';
+import MobileHeroSheet from '../MobileHeroSheet';
+import { isMobileHeroViewport } from '../../../utils/heroViewport';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -137,14 +139,23 @@ export default function StackedFanLayout({
   hasAnimatedIn,
   cardStyle,
   onCardClick,
+  onCardDismiss,
   onCardHover,
 }: LayoutProps) {
   const isGlass = cardStyle === 'glass';
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+  const [isMobileSheet, setIsMobileSheet] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useLayoutEffect(() => {
     setPortalRoot(document.body);
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setIsMobileSheet(isMobileHeroViewport());
+    sync();
+    window.addEventListener('resize', sync);
+    return () => window.removeEventListener('resize', sync);
   }, []);
 
   const expandTransition = prefersReducedMotion
@@ -180,7 +191,7 @@ export default function StackedFanLayout({
             />
           );
 
-          const fullscreenCard =
+          const desktopFullscreenCard =
             portalRoot &&
             createPortal(
               <div className="card-hero-fullscreen-stage">
@@ -205,10 +216,27 @@ export default function StackedFanLayout({
               portalRoot
             );
 
+          const mobileSheetCard =
+            portalRoot &&
+            createPortal(
+              <MobileHeroSheet
+                card={card}
+                isGlass={isGlass}
+                layoutId={layoutId}
+                className={cardClassName(card, true, isGlass, 'card-hero-fullscreen card-hero-fullscreen--sheet')}
+                backgroundColor={isGlass ? 'transparent' : card.color}
+                expandTransition={expandTransition}
+                onDismiss={onCardDismiss}
+              />,
+              portalRoot
+            );
+
+          const expandedCard = isMobileSheet ? mobileSheetCard : desktopFullscreenCard;
+
           return (
             <Fragment key={card.id}>
               {!isSelected && fanCard}
-              {isSelected && fullscreenCard}
+              {isSelected && expandedCard}
             </Fragment>
           );
         })}
