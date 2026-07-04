@@ -32,7 +32,7 @@
    SURFACES
    -------------------------------------------- */
 
-.glass-border {
+.glass-border:not(.site-nav) {
   position: relative;
 }
 
@@ -119,18 +119,13 @@
 :is(.hero-media, .hero-image-container) {
   height: var(--hero-height, 75vh);
   min-height: 200px;
-  margin-top: calc(-1 * var(--content-top-padding));
+  margin-top: 0;
   margin-bottom: 2rem;
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* PageHeader owns flush-to-top + breakout on .page-header--image — skip double pull */
-.page-header--image :is(.hero-media, .hero-image-container) {
-  margin-top: 0;
 }
 
 /* Contained width — skip when .layout-breakout handles full-bleed */

@@ -195,16 +195,10 @@ const noteJsonLd = {
 </MainLayout>
 
 <style>
+  /* Flush + full-bleed: layout.css (.note-hero). Only page-specific sizing here. */
   .note-hero {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
     max-height: min(52vh, 420px);
     overflow: hidden;
-    margin-top: calc(-1 * var(--content-top-padding));
     margin-bottom: 2rem;
   }
 
@@ -227,7 +221,6 @@ const noteJsonLd = {
 
   @media (max-width: 640px) {
     .note-hero {
-      margin-top: 0;
       max-height: 40vh;
     }
 

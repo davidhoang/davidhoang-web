@@ -18,6 +18,11 @@
   pointer-events: none;
 }
 
+/* Must beat .glass-border { position: relative } in shared-components.css */
+.site-nav.glass-border {
+  position: fixed;
+}
+
 .site-nav .particle-canvas {
   position: fixed;
   top: 0;

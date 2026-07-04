@@ -175,9 +175,13 @@ The only properties allowed to change on hover are:
 
 Page hero images (writing/notes/about, anywhere `PageHeader variant="image"` is used) must sit flush to the viewport top with no padding above them — the floating nav pill should appear over the image, not below a strip of page background.
 
-This is achieved with `margin-top: calc(-1 * var(--content-top-padding))` (no fallback — the variable is always defined in `:root`). The hero negates `<main>`'s nav-clearance padding exactly, so the image starts at viewport top with the nav floating in front. The same pattern applies on mobile, where `--content-top-padding` is overridden in `accessibility-responsive.css` to a smaller value.
+**Framework rule (single source of truth):** `src/styles/modules/layout.css` — when `main#main-content` contains a registered flush hero (`.page-header--image`, `.note-hero`, `.layout-hero-flush`, `.writing-post__hero`), `main` gets `padding-top: 0`. Full-bleed breakout (`width: 100vw; margin-inline: calc(50% - 50vw)`) lives in the same block and is **mirrored unlayered** in `MainLayout.astro` critical CSS so scoped component `width: 100%` cannot shrink heroes inside `.container`. Do **not** set `width: 100%` on `.page-header--image` (text-only headers may use `width: 100%`).
 
-Implementations: `PageHeader.astro`, `shared-components.css` (`.page-header__hero`), `notes/[...slug].astro` (`.note-hero`).
+Heavy-shader themes paint `main.container` as a card — `theme-variations.css` must also set `padding-top: 0` on hero pages (see the `main.container:has(...)` override there).
+
+**Nav positioning:** `.site-nav` must stay `position: fixed` so it does not consume document flow (which would push heroes down by `--nav-height`). Never apply unscoped `.glass-border { position: relative }` to the site nav — use `.glass-border:not(.site-nav)` (see `shared-components.css`).
+
+Implementations: `layout.css` (hero flush), `nav.css` + `shared-components.css` (nav fixed), `PageHeader.astro`, `notes/[...slug].astro` (`.note-hero`), `WritingPost.astro` (`.writing-post__hero`).
 
 ### Background patterns
 

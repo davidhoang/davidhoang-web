@@ -36,4 +36,4 @@ Use `--card-padding` (theme-tunable, 1–2rem) or `--spacing-*` for internal gap
 
 - **Hero cards:** `src/components/hero/` — motion-only entry, no opacity fade-in
 - **Texture cards:** `TextureCard.astro` — optional shader on hover, opaque base
-- **Page headers:** `PageHeader.astro` — hero images flush to viewport top (negate `--content-top-padding`)
+- **Page headers:** `PageHeader.astro` — hero images flush to viewport top via `layout.css` (`main:has()` clears `--content-top-padding`)
