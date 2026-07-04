@@ -5,7 +5,7 @@ import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } 
 import { CardBaseContent } from '../CardBase';
 import { useMagneticTilt } from '../../useMagneticTilt';
 import MobileHeroSheet from '../MobileHeroSheet';
-import { isMobileHeroViewport } from '../../../utils/heroViewport';
+import { isMobileHeroViewport } from '../heroViewport';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },

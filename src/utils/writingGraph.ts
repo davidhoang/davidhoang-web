@@ -1,25 +1,15 @@
 // Build a similarity graph from writing posts. Edges combine intentional
-// signal (shared tags) with inferred signal (title+description keyword
-// overlap). Each node keeps its strongest few connections so the layout
-// stays legible — full pairwise edges produce a hairball.
+// signal (author-declared relatedWriting, shared tags) with inferred signal
+// (title + description + body keyword overlap). Each node keeps its strongest
+// few connections so the layout stays legible.
 
-const STOPWORDS = new Set([
-  'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of',
-  'is', 'it', 'its', 'with', 'as', 'by', 'from', 'that', 'this', 'was', 'are',
-  'be', 'has', 'had', 'have', 'not', 'what', 'how', 'you', 'your', 'we', 'our',
-  'so', 'if', 'do', 'does', 'than', 'then', 'into', 'about', 'over', 'they',
-  'them', 'their', 'these', 'those', 'will', 'can', 'may', 'just', 'also',
-]);
+import { getKeywords as extractKeywords } from './textKeywords';
 
 export function getKeywords(text: string): Set<string> {
-  return new Set(
-    text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, ' ')
-      .split(/\s+/)
-      .filter((w) => w.length > 3 && !STOPWORDS.has(w)),
-  );
+  return extractKeywords(text, { minWordLength: 4 });
 }
+
+const graphKeywords = (text: string) => extractKeywords(text, { minWordLength: 4 });
 
 export type GraphNode = {
   id: string;
@@ -33,6 +23,8 @@ export type GraphEdge = {
   source: string;
   target: string;
   weight: number;
+  /** Why these posts are linked — used for tooltips in the graph UI. */
+  reasons: string[];
 };
 
 export type Graph = {
@@ -46,60 +38,123 @@ type PostInput = {
     title: string;
     description?: string;
     tags?: string[];
+    relatedWriting?: string[];
   };
+  /** Optional body text for richer keyword overlap. */
+  body?: string;
 };
 
-const TAG_WEIGHT = 3;
+const TAG_WEIGHT = 4;
 const KEYWORD_WEIGHT = 1;
-const MAX_EDGES_PER_NODE = 3;
+const RELATED_WEIGHT = 12;
+const MULTI_TAG_BONUS = 2;
+const MAX_EDGES_PER_NODE = 5;
+const BODY_SNIPPET_CHARS = 2000;
+
+function normalizeTags(tags: string[] | undefined): Set<string> {
+  return new Set((tags ?? []).map((t) => t.trim().toLowerCase()).filter(Boolean));
+}
+
+function pairKey(a: string, b: string): string {
+  return a < b ? `${a}::${b}` : `${b}::${a}`;
+}
+
+function keywordText(post: PostInput): string {
+  const bodySnippet = post.body?.slice(0, BODY_SNIPPET_CHARS) ?? '';
+  return `${post.data.title} ${post.data.description ?? ''} ${bodySnippet}`;
+}
 
 export function buildGraph(posts: PostInput[]): Graph {
+  const postIds = new Set(posts.map((p) => p.id));
   const keywordCache = new Map<string, Set<string>>();
   const tagCache = new Map<string, Set<string>>();
+
   for (const post of posts) {
-    const text = `${post.data.title} ${post.data.description ?? ''}`;
-    keywordCache.set(post.id, getKeywords(text));
-    tagCache.set(post.id, new Set(post.data.tags ?? []));
+    keywordCache.set(post.id, graphKeywords(keywordText(post)));
+    tagCache.set(post.id, normalizeTags(post.data.tags));
   }
 
-  type Candidate = { other: string; weight: number };
-  const candidatesByNode = new Map<string, Candidate[]>();
-  for (const post of posts) candidatesByNode.set(post.id, []);
+  type EdgeAccum = { weight: number; reasons: Set<string> };
+  const edgeMap = new Map<string, EdgeAccum>();
 
+  function addEdge(a: string, b: string, weight: number, reason: string) {
+    if (a === b) return;
+    const key = pairKey(a, b);
+    const existing = edgeMap.get(key);
+    if (existing) {
+      existing.weight += weight;
+      existing.reasons.add(reason);
+    } else {
+      edgeMap.set(key, { weight, reasons: new Set([reason]) });
+    }
+  }
+
+  // Author-declared related posts — strongest signal.
+  for (const post of posts) {
+    for (const relatedId of post.data.relatedWriting ?? []) {
+      if (!postIds.has(relatedId)) continue;
+      addEdge(post.id, relatedId, RELATED_WEIGHT, 'related');
+    }
+  }
+
+  // Pairwise tag + keyword overlap.
   for (let i = 0; i < posts.length; i++) {
     for (let j = i + 1; j < posts.length; j++) {
       const a = posts[i];
       const b = posts[j];
       const aTags = tagCache.get(a.id)!;
       const bTags = tagCache.get(b.id)!;
-      let sharedTags = 0;
-      for (const t of aTags) if (bTags.has(t)) sharedTags++;
+      const sharedTagList: string[] = [];
+      for (const t of aTags) if (bTags.has(t)) sharedTagList.push(t);
 
       const aKw = keywordCache.get(a.id)!;
       const bKw = keywordCache.get(b.id)!;
       let sharedKw = 0;
       for (const k of aKw) if (bKw.has(k)) sharedKw++;
 
-      const weight = sharedTags * TAG_WEIGHT + sharedKw * KEYWORD_WEIGHT;
-      if (weight <= 0) continue;
+      if (sharedTagList.length === 0 && sharedKw === 0) continue;
 
-      candidatesByNode.get(a.id)!.push({ other: b.id, weight });
-      candidatesByNode.get(b.id)!.push({ other: a.id, weight });
+      let weight = sharedTagList.length * TAG_WEIGHT;
+      if (sharedTagList.length > 1) {
+        weight += (sharedTagList.length - 1) * MULTI_TAG_BONUS;
+      }
+      weight += sharedKw * KEYWORD_WEIGHT;
+
+      if (sharedTagList.length > 0) {
+        addEdge(a.id, b.id, weight, `tags: ${sharedTagList.join(', ')}`);
+      } else {
+        addEdge(a.id, b.id, weight, 'keywords');
+      }
     }
   }
 
-  // Keep top-N edges per node, then dedupe pairs.
+  // Per node, keep top-N edges by weight.
+  const candidatesByNode = new Map<string, { other: string; weight: number; reasons: Set<string> }[]>();
+  for (const post of posts) candidatesByNode.set(post.id, []);
+
+  for (const [key, accum] of edgeMap) {
+    const [a, b] = key.split('::');
+    candidatesByNode.get(a)!.push({ other: b, weight: accum.weight, reasons: accum.reasons });
+    candidatesByNode.get(b)!.push({ other: a, weight: accum.weight, reasons: accum.reasons });
+  }
+
   const edgeKeySet = new Set<string>();
   const edges: GraphEdge[] = [];
+
   for (const post of posts) {
     const list = candidatesByNode.get(post.id)!;
     list.sort((x, y) => y.weight - x.weight);
     for (const cand of list.slice(0, MAX_EDGES_PER_NODE)) {
-      const [s, t] = post.id < cand.other ? [post.id, cand.other] : [cand.other, post.id];
-      const key = `${s}::${t}`;
+      const key = pairKey(post.id, cand.other);
       if (edgeKeySet.has(key)) continue;
       edgeKeySet.add(key);
-      edges.push({ source: s, target: t, weight: cand.weight });
+      const accum = edgeMap.get(key)!;
+      edges.push({
+        source: key.split('::')[0],
+        target: key.split('::')[1],
+        weight: accum.weight,
+        reasons: [...accum.reasons],
+      });
     }
   }
 

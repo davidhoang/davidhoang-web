@@ -1,15 +1,11 @@
 ---
-import MainLayout from '../../layouts/MainLayout.astro';
+import WritingLayout from '../../layouts/WritingLayout.astro';
 import { getCollection } from 'astro:content';
-import SidebarWriting from '../../components/SidebarWriting.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import SearchInput from '../../components/SearchInput.astro';
 import WritingGraph from '../../components/WritingGraph.astro';
 import { buildGraph } from '../../utils/writingGraph';
 import { formatLongDate } from '../../utils/formatDate';
-import { calculateReadingTime } from '../../utils/readingTime';
 import { getWritingPostThumbnail } from '../../utils/writingPostImage';
-import '../../styles/pages/writing-index.css';
+import '../../styles/pages/writing-editorial.css';
 
 const allPosts = await getCollection('writing');
 const posts = (import.meta.env.PROD
@@ -17,11 +13,10 @@ const posts = (import.meta.env.PROD
   : allPosts
 ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data })));
+const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data, body: p.body })));
 
 const postsWithMeta = posts.map((post) => ({
   post,
-  readingTime: calculateReadingTime(post.body),
   thumbnail: getWritingPostThumbnail({
     title: post.data.title,
     description: post.data.description,
@@ -29,7 +24,10 @@ const postsWithMeta = posts.map((post) => ({
     ogImage: post.data.ogImage,
     body: post.body,
   }),
+  primaryTag: post.data.tags?.[0],
 }));
+
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
 
 const featured = postsWithMeta[0];
 const feedPosts = postsWithMeta.slice(1);
@@ -39,234 +37,237 @@ const pageDescription =
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
-<MainLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
-  <div class="writing-index">
-    <PageHeader
-      title="Writing"
-      variant="text-only"
-      subtitle="Essays on design, engineering, AI, and building products."
-    />
-
-    <div class="content-grid">
-      <div class="posts-column">
-        <div class="view-tabs" role="tablist" aria-label="Writing view">
-          <button
-            type="button"
-            class="view-tab is-active"
-            role="tab"
-            aria-selected="true"
-            data-view-tab="list"
-          >List</button>
-          <button
-            type="button"
-            class="view-tab"
-            role="tab"
-            aria-selected="false"
-            data-view-tab="garden"
-          >Garden</button>
-        </div>
-
-        <div data-view-panel="garden" hidden>
-          <WritingGraph graph={graph} />
-        </div>
-
-        <div data-view-panel="list">
-          {featured && (
-            <article class="writing-featured">
-              <a
-                href={`/writing/${featured.post.id}`}
-                class="writing-featured__link link-plain"
-                transition:name={`post-${featured.post.id}`}
-              >
-                <div class="writing-featured__media">
-                  <img
-                    src={featured.thumbnail}
-                    alt=""
-                    loading="eager"
-                    decoding="async"
-                    width="600"
-                    height="600"
-                  />
-                </div>
-                <div class="writing-featured__body">
-                  <span class="text-eyebrow text-eyebrow--accent">Latest</span>
-                  <h2
-                    class="writing-featured__title"
-                    transition:name={`title-${featured.post.id}`}
-                  >
-                    {featured.post.data.title}
-                  </h2>
-                  {featured.post.data.description && (
-                    <p class="writing-featured__deck">{featured.post.data.description}</p>
-                  )}
-                  <p class="writing-feed__meta">
-                    <time datetime={featured.post.data.pubDate.toISOString()}>
-                      {formatLongDate(featured.post.data.pubDate)}
-                    </time>
-                    <span aria-hidden="true"> · </span>
-                    <span>{featured.readingTime} min read</span>
-                  </p>
-                </div>
-              </a>
-            </article>
-          )}
-
-          {feedPosts.length > 0 && (
-            <section class="writing-feed" aria-label="All essays">
-              <SearchInput id="writing-search" placeholder="Search essays…" />
-              <ul class="writing-feed__list" id="writing-list">
-                {feedPosts.map(({ post, readingTime, thumbnail }) => (
-                  <li
-                    data-title={post.data.title.toLowerCase()}
-                    data-description={(post.data.description || '').toLowerCase()}
-                  >
-                    <a
-                      href={`/writing/${post.id}`}
-                      class="writing-feed__item link-plain"
-                      transition:name={`post-${post.id}`}
-                    >
-                      <div class="writing-feed__thumb">
-                        <img
-                          src={thumbnail}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          width="600"
-                          height="600"
-                        />
-                      </div>
-                      <div class="writing-feed__content">
-                        <h3
-                          class="writing-feed__title"
-                          transition:name={`title-${post.id}`}
-                        >
-                          {post.data.title}
-                        </h3>
-                        {post.data.description && (
-                          <p class="writing-feed__deck">{post.data.description}</p>
-                        )}
-                        <p class="writing-feed__meta">
-                          <time datetime={post.data.pubDate.toISOString()}>
-                            {formatLongDate(post.data.pubDate)}
-                          </time>
-                          <span aria-hidden="true"> · </span>
-                          <span>{readingTime} min read</span>
-                        </p>
-                      </div>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <p class="writing-feed__no-results" id="writing-no-results">
-                No essays match your search.
-              </p>
-            </section>
-          )}
-        </div>
+<WritingLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <header class="writing-masthead">
+    <h1 class="writing-masthead__title">Writing</h1>
+    <p class="writing-masthead__deck">
+      Essays on design, engineering, AI, and building products.
+    </p>
+    <div class="writing-masthead__actions">
+      <a href="/rss.xml" class="writing-masthead__rss">RSS feed</a>
+      <div class="writing-view-tabs" role="tablist" aria-label="Writing view">
+        <button
+          type="button"
+          class="writing-view-tab is-active"
+          role="tab"
+          aria-selected="true"
+          data-view-tab="editorial"
+        >
+          Editorial
+        </button>
+        <button
+          type="button"
+          class="writing-view-tab"
+          role="tab"
+          aria-selected="false"
+          data-view-tab="list"
+        >
+          List
+        </button>
+        <button
+          type="button"
+          class="writing-view-tab"
+          role="tab"
+          aria-selected="false"
+          data-view-tab="graph"
+        >
+          Graph
+        </button>
       </div>
-      <SidebarWriting />
     </div>
+  </header>
+
+  {allTags.length > 0 && (
+    <div class="writing-toolbar" data-filterable>
+      <p class="writing-toolbar__label" id="writing-tag-label">Topics</p>
+      <div class="writing-filter-chips" role="group" aria-labelledby="writing-tag-label">
+        <button type="button" class="writing-chip is-active" data-tag="all">All</button>
+        {allTags.map((tag) => (
+          <button type="button" class="writing-chip" data-tag={tag}>
+            {tag}
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div data-view-panel="editorial">
+    {featured && (
+      <section class="writing-spotlight" aria-label="Latest essay">
+        <a
+          href={`/writing/${featured.post.id}`}
+          class="writing-spotlight__link link-plain"
+          transition:name={`post-${featured.post.id}`}
+          data-tags={(featured.post.data.tags || []).join(',')}
+          data-filter-item
+        >
+          <div class="writing-spotlight__media">
+            <img
+              src={featured.thumbnail}
+              alt=""
+              loading="eager"
+              decoding="async"
+              width="1200"
+              height="750"
+            />
+          </div>
+          <div class="writing-spotlight__body">
+            <span class="text-eyebrow text-eyebrow--accent">Latest</span>
+            {featured.primaryTag && <span class="writing-spotlight__tag">{featured.primaryTag}</span>}
+            <h2 class="writing-spotlight__title" transition:name={`title-${featured.post.id}`}>
+              {featured.post.data.title}
+            </h2>
+            {featured.post.data.description && (
+              <p class="writing-spotlight__deck">{featured.post.data.description}</p>
+            )}
+            <p class="writing-spotlight__meta">
+              <time datetime={featured.post.data.pubDate.toISOString()}>
+                {formatLongDate(featured.post.data.pubDate)}
+              </time>
+            </p>
+          </div>
+        </a>
+      </section>
+    )}
+
+    {feedPosts.length > 0 && (
+      <section class="writing-grid" aria-label="All essays">
+        {feedPosts.map(({ post, thumbnail, primaryTag }) => (
+          <a
+            href={`/writing/${post.id}`}
+            class="writing-card link-plain"
+            transition:name={`post-${post.id}`}
+            data-tags={(post.data.tags || []).join(',')}
+            data-filter-item
+          >
+            <div class="writing-card__media">
+              <img
+                src={thumbnail}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="500"
+              />
+            </div>
+            <div class="writing-card__body">
+              <div class="writing-card__meta">
+                {primaryTag && <span class="writing-card__tag">{primaryTag}</span>}
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatLongDate(post.data.pubDate)}
+                </time>
+              </div>
+              <h3 class="writing-card__title" transition:name={`title-${post.id}`}>
+                {post.data.title}
+              </h3>
+              {post.data.description && (
+                <p class="writing-card__deck">{post.data.description}</p>
+              )}
+            </div>
+          </a>
+        ))}
+      </section>
+    )}
   </div>
-</MainLayout>
 
-<style>
-  .view-tabs {
-    display: inline-flex;
-    gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-lg);
-    padding: var(--spacing-xs);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    background: var(--color-sidebar-bg, transparent);
-  }
+  <div data-view-panel="list" hidden>
+    <section class="writing-feed" aria-label="Essay list">
+      <ul class="writing-feed__list">
+        {postsWithMeta.map(({ post, thumbnail }) => (
+          <li>
+            <a
+              href={`/writing/${post.id}`}
+              class="writing-feed__item link-plain"
+              transition:name={`post-${post.id}`}
+              data-tags={(post.data.tags || []).join(',')}
+              data-filter-item
+            >
+              <div class="writing-feed__thumb">
+                <img
+                  src={thumbnail}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="600"
+                />
+              </div>
+              <div class="writing-feed__content">
+                <h3 class="writing-feed__title" transition:name={`title-${post.id}`}>
+                  {post.data.title}
+                </h3>
+                {post.data.description && (
+                  <p class="writing-feed__deck">{post.data.description}</p>
+                )}
+                <p class="writing-feed__meta">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {formatLongDate(post.data.pubDate)}
+                  </time>
+                </p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
 
-  .view-tab {
-    appearance: none;
-    border: none;
-    background: transparent;
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--color-muted, currentColor);
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    transition:
-      background-color var(--duration-normal) var(--ease-standard),
-      color var(--duration-normal) var(--ease-standard);
-  }
+  <div data-view-panel="graph" hidden>
+    <WritingGraph graph={graph} />
+  </div>
 
-  .view-tab:hover {
-    color: var(--color-text);
-  }
-
-  .view-tab.is-active {
-    background: var(--color-link);
-    color: var(--color-bg);
-  }
-
-  .view-tab:focus-visible {
-    outline: var(--focus-ring);
-    outline-offset: var(--focus-ring-offset);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .view-tab {
-      transition: none;
-    }
-  }
-</style>
+  <p class="writing-feed__empty" id="writing-no-results" hidden>
+    No essays in this topic.
+  </p>
+</WritingLayout>
 
 <script>
-  function initWritingSearch() {
-    const input = document.getElementById('writing-search') as HTMLInputElement;
-    const list = document.getElementById('writing-list');
+  function initWritingFilters() {
     const noResults = document.getElementById('writing-no-results');
-    const clearBtn = input?.parentElement?.querySelector('.search-clear') as HTMLElement;
+    const tagChips = Array.from(document.querySelectorAll<HTMLButtonElement>('.writing-chip'));
+    const filterItems = Array.from(document.querySelectorAll<HTMLElement>('[data-filter-item]'));
 
-    if (!input || !list) return;
+    if (!filterItems.length) return;
 
-    const items = list.querySelectorAll('li');
+    let activeTag = 'all';
 
-    function filterPosts() {
-      const query = input.value.toLowerCase().trim();
+    function applyFilters() {
       let visibleCount = 0;
 
-      if (clearBtn) {
-        clearBtn.style.display = query ? 'flex' : 'none';
-      }
+      filterItems.forEach((item) => {
+        const tags = (item.getAttribute('data-tags') || '').split(',').filter(Boolean);
+        const visible = activeTag === 'all' || tags.includes(activeTag);
 
-      items.forEach((item) => {
-        const title = item.getAttribute('data-title') || '';
-        const description = item.getAttribute('data-description') || '';
-        const matches = !query || title.includes(query) || description.includes(query);
-        (item as HTMLElement).style.display = matches ? '' : 'none';
-        if (matches) visibleCount++;
+        item.hidden = !visible;
+        const listRow = item.closest('li');
+        if (listRow) listRow.hidden = !visible;
+
+        if (visible) visibleCount++;
       });
 
       if (noResults) {
-        (noResults as HTMLElement).style.display =
-          visibleCount === 0 && query ? 'block' : 'none';
+        const activePanel = document.querySelector<HTMLElement>('[data-view-panel]:not([hidden])');
+        const isFilterableView =
+          activePanel?.dataset.viewPanel === 'editorial' ||
+          activePanel?.dataset.viewPanel === 'list';
+        noResults.hidden = !isFilterableView || visibleCount > 0 || activeTag === 'all';
       }
     }
 
-    input.addEventListener('input', filterPosts);
-
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        input.value = '';
-        filterPosts();
-        input.focus();
+    tagChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        activeTag = chip.dataset.tag || 'all';
+        tagChips.forEach((c) => c.classList.toggle('is-active', c === chip));
+        applyFilters();
       });
-    }
+    });
   }
-
-  initWritingSearch();
-  document.addEventListener('astro:page-load', initWritingSearch);
 
   function initWritingViewTabs() {
     const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-tab]'));
     const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
+    const filterable = Array.from(document.querySelectorAll<HTMLElement>('[data-filterable]'));
+    const noResults = document.getElementById('writing-no-results');
     if (!tabs.length || !panels.length) return;
 
     function setView(view: string, push: boolean) {
@@ -278,27 +279,43 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
       panels.forEach((p) => {
         const active = p.dataset.viewPanel === view;
         p.hidden = !active;
-        if (active && view === 'garden') {
+        if (active && view === 'graph') {
           p.querySelector('[data-writing-graph]')?.dispatchEvent(new CustomEvent('graph:show'));
         }
       });
+
+      const showFilters = view === 'editorial' || view === 'list';
+      filterable.forEach((el) => {
+        el.hidden = !showFilters;
+      });
+      if (!showFilters && noResults) noResults.hidden = true;
+
       if (push) {
         const url = new URL(window.location.href);
-        if (view === 'garden') url.searchParams.set('view', 'garden');
-        else url.searchParams.delete('view');
+        if (view === 'editorial') url.searchParams.delete('view');
+        else url.searchParams.set('view', view);
         window.history.replaceState({}, '', url.toString());
       }
     }
 
     tabs.forEach((t) => {
-      t.addEventListener('click', () => setView(t.dataset.viewTab || 'list', true));
+      t.addEventListener('click', () => setView(t.dataset.viewTab || 'editorial', true));
     });
 
+    const viewParam = new URLSearchParams(window.location.search).get('view');
     const initial =
-      new URLSearchParams(window.location.search).get('view') === 'garden' ? 'garden' : 'list';
+      viewParam === 'list' || viewParam === 'graph' || viewParam === 'garden'
+        ? viewParam === 'garden'
+          ? 'graph'
+          : viewParam
+        : 'editorial';
     setView(initial, false);
   }
 
+  initWritingFilters();
   initWritingViewTabs();
-  document.addEventListener('astro:page-load', initWritingViewTabs);
+  document.addEventListener('astro:page-load', () => {
+    initWritingFilters();
+    initWritingViewTabs();
+  });
 </script>

@@ -2,7 +2,7 @@ import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
-import { isMobileHeroViewport, readHeroViewportTier } from '../utils/heroViewport';
+import { isMobileHeroViewport, readHeroViewportTier } from './hero/heroViewport';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import StackedFanLayout from './hero/layouts/StackedFanLayout';
