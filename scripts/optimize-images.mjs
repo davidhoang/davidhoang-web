@@ -10,7 +10,9 @@ const rootDir = join(__dirname, '..');
 // Configuration
 const QUALITY_WEBP = 82; // Good balance of quality and compression
 const MIN_SIZE_BYTES = 100 * 1024; // Only optimize files > 100KB
-const COMPRESS_THRESHOLD_BYTES = 300 * 1024; // Re-compress existing WebPs over 300KB
+const COMPRESS_THRESHOLD_BYTES = 150 * 1024; // Re-compress existing WebPs over 150KB
+const RESIZE_THRESHOLD_BYTES = 200 * 1024; // Resize static WebPs over 200KB when dimensions are large
+const RESIZE_MAX_DIMENSION = 2000; // Cap longest edge for oversized static images
 const MIN_SAVINGS_RATIO = 0.05; // Skip if re-encoding saves <5% — sharp isn't byte-deterministic, so trivial deltas dirty the tree on every build
 const MAX_SAVINGS_RATIO = 0.80; // If sharp saves >80%, it likely stripped animation frames — reject
 const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
@@ -26,6 +28,7 @@ const results = {
   converted: [],
   skipped: [],
   errors: [],
+  resized: [],
   totalSavedBytes: 0,
 };
 
@@ -133,9 +136,72 @@ function getWebPFiles(dir, files = []) {
 // Compress an oversized WebP in-place.
 // Safety: if sharp reduces size by >80%, it almost certainly stripped animation
 // frames (static recompression saves 5-30%, not 95%). Reject and keep original.
+async function isAnimatedWebP(filePath) {
+  try {
+    const meta = await sharp(filePath).metadata();
+    return Boolean(meta.pages && meta.pages > 1);
+  } catch {
+    return false;
+  }
+}
+
+async function resizeLargeWebP(filePath) {
+  const stats = statSync(filePath);
+  if (stats.size < RESIZE_THRESHOLD_BYTES) return;
+
+  if (await isAnimatedWebP(filePath)) {
+    results.skipped.push({ path: filePath, reason: 'Animated WebP (resize skipped)' });
+    return;
+  }
+
+  try {
+    const meta = await sharp(filePath).metadata();
+    const width = meta.width || 0;
+    const height = meta.height || 0;
+    const longestEdge = Math.max(width, height);
+    if (longestEdge <= RESIZE_MAX_DIMENSION) return;
+
+    const buf = await sharp(filePath)
+      .resize({
+        width: width >= height ? RESIZE_MAX_DIMENSION : undefined,
+        height: height > width ? RESIZE_MAX_DIMENSION : undefined,
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .webp({ quality: QUALITY_WEBP })
+      .toBuffer();
+
+    if (buf.length >= stats.size) {
+      results.skipped.push({ path: filePath, reason: 'Resize would not reduce size' });
+      return;
+    }
+
+    const { writeFileSync } = await import('fs');
+    writeFileSync(filePath, buf);
+    const savedBytes = stats.size - buf.length;
+    results.resized.push({
+      path: filePath,
+      originalSize: stats.size,
+      newSize: buf.length,
+      savedBytes,
+      savedPercent: ((savedBytes / stats.size) * 100).toFixed(1),
+      from: `${width}x${height}`,
+      to: `${RESIZE_MAX_DIMENSION}px max edge`,
+    });
+    results.totalSavedBytes += savedBytes;
+  } catch (error) {
+    results.errors.push({ path: filePath, error: error.message });
+  }
+}
+
 async function compressWebP(filePath) {
   const stats = statSync(filePath);
   if (stats.size < COMPRESS_THRESHOLD_BYTES) return;
+
+  if (await isAnimatedWebP(filePath)) {
+    results.skipped.push({ path: filePath, reason: 'Animated WebP (compress skipped)' });
+    return;
+  }
 
   try {
     const buf = await sharp(filePath).webp({ quality: QUALITY_WEBP }).toBuffer();
@@ -206,12 +272,26 @@ async function main() {
     console.log(' ✓');
   }
 
-  // Pass 2: Compress oversized static WebPs
-  console.log(`\n🗜️  Checking WebPs over ${COMPRESS_THRESHOLD_BYTES / 1024}KB...\n`);
+  // Pass 2: Resize very large static WebPs
+  console.log(`\n📐 Resizing static WebPs over ${RESIZE_THRESHOLD_BYTES / 1024}KB with edges > ${RESIZE_MAX_DIMENSION}px...\n`);
   let allWebPs = [];
   for (const dir of imageDirectories) {
     allWebPs = allWebPs.concat(getWebPFiles(dir));
   }
+  for (const file of allWebPs) {
+    await resizeLargeWebP(file);
+  }
+  const resized = results.resized || [];
+  if (resized.length > 0) {
+    for (const item of resized) {
+      console.log(`   ${basename(item.path)}: ${formatBytes(item.originalSize)} → ${formatBytes(item.newSize)} (-${item.savedPercent}%, ${item.from})`);
+    }
+  } else {
+    console.log('   No oversized static WebPs needed resizing.');
+  }
+
+  // Pass 3: Compress oversized static WebPs
+  console.log(`\n🗜️  Checking WebPs over ${COMPRESS_THRESHOLD_BYTES / 1024}KB...\n`);
   for (const file of allWebPs) {
     await compressWebP(file);
   }
@@ -230,6 +310,7 @@ async function main() {
   console.log('============================\n');
 
   console.log(`✅ Converted: ${results.converted.length} files`);
+  console.log(`📐 Resized: ${resized.length} WebPs`);
   console.log(`🗜️  Compressed: ${compressed.length} WebPs`);
   console.log(`⏭️  Skipped: ${results.skipped.length} files`);
   console.log(`❌ Errors: ${results.errors.length} files`);
