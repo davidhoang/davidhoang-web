@@ -25,4 +25,4 @@ Before creating or changing visual UI, read these files in order:
 
 ## After UI changes
 
-Run `npm run audit:design:check` (enforced in CI). Report-only: `npm run audit:design`. Repeated mistakes → log in `references/coverage-gaps.md` and extend the audit script.
+Run `npm run audit:design:check` (enforced in CI). Cloud agents: `npm run audit:ui:changed -- --check` before push. Report-only: `npm run audit:design` / `npm run audit:design:strict`. Repeated mistakes → log in `references/coverage-gaps.md` and extend `scripts/design-audit/`.

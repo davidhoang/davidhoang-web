@@ -9,7 +9,7 @@ Fixtures for measuring whether coding agents follow `design.md` when building UI
 | Design contract | `design.md` + `src/design-guide.md` |
 | Canonical skill | `.agents/skills/product-design/` |
 | Cursor entry | `.cursor/skills/product-design/`, `.cursor/rules/design-system.mdc` |
-| Lint rules | `npm run audit:design:check` (CI on every PR) |
+| Lint rules | `npm run audit:design:check` (CI) · `npm run audit:ui:changed -- --check` (cloud agents) |
 | Automated tests | `tests/designCompliance.test.ts` (vitest) |
 | Agent evals | This folder + optional `@vercel/agent-eval` |
 
@@ -44,7 +44,7 @@ When an eval or PR review reveals repeated agent mistakes:
 1. Log in `.agents/skills/product-design/references/coverage-gaps.md`
 2. Add a concrete rule or example to `design.md`
 3. If nav-specific, update `.cursor/rules/site-nav-css.mdc` or `references/surfaces-nav.md`
-4. If checkable mechanically, add a rule to `scripts/audit-design-compliance.mjs`
+4. If checkable mechanically, add a rule to `scripts/design-audit/rules/`
 5. Add or extend an eval fixture under `evals/`
 6. Re-run `npm run audit:design` and the eval
 

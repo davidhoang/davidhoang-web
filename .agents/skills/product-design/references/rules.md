@@ -50,7 +50,7 @@ npm run audit:design
 1. Agent fails the same way twice → record in `coverage-gaps.md`
 2. Add concrete rule or example to `design.md`
 3. Nav-specific → `.cursor/rules/site-nav-css.mdc`
-4. Machine-checkable → `scripts/audit-design-compliance.mjs`
+4. Machine-checkable → `scripts/design-audit/rules/` (see `scripts/design-audit/README.md`)
 5. Repro fixture → `evals/<name>/`
 
 Do not patch around confusion with one-off code comments.

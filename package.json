@@ -19,6 +19,10 @@
     "audit-contrast": "node scripts/audit-theme-contrast.mjs",
     "audit:design": "node scripts/audit-design-compliance.mjs",
     "audit:design:check": "node scripts/audit-design-compliance.mjs --check",
+    "audit:design:changed": "node scripts/audit-design-compliance.mjs --changed",
+    "audit:design:strict": "node scripts/audit-design-compliance.mjs --strict",
+    "audit:ui": "node scripts/audit-ui.mjs",
+    "audit:ui:changed": "node scripts/audit-ui.mjs --changed",
     "check": "npx astro check",
     "test": "vitest run",
     "test:watch": "vitest"

@@ -13,7 +13,7 @@ This folder is the **canonical** product-design skill for davidhoang.com. Tool-s
 ## Do not duplicate
 
 - Nav critical rules: `.cursor/rules/site-nav-css.mdc` (Cursor glob targeting)
-- Build/lint: `scripts/audit-design-compliance.mjs`, `npm run audit:design`
+- Build/lint: `scripts/design-audit/`, `npm run audit:design:check`, `npm run audit:ui:changed`
 - Eval fixtures: `evals/` at repo root
 
 ## When agents repeat mistakes
