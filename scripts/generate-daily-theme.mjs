@@ -11,6 +11,12 @@
  *
  * Environment:
  *   ANTHROPIC_API_KEY - Required for Claude API access
+ *
+ * Options:
+ *   --inspiration "Name"   Pick a design inspiration from the bank
+ *   --prompt "text"        Additional creative direction
+ *   --list                 List available inspirations
+ *   --list-context         List context files in scripts/context/
  */
 
 import { readFileSync, writeFileSync } from 'fs';
@@ -22,6 +28,12 @@ import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 import { validateThemeContrast } from './lib/contrast.mjs';
 import { enforceHeadingHeavierThanBody } from './lib/typography-weights.mjs';
+import {
+  assessDiversity,
+  formatDiversityRetrySection,
+  formatRecentThemesPromptSection,
+  MAX_DIVERSITY_ATTEMPTS,
+} from './lib/theme-diversity.mjs';
 
 // Color conversion helpers for surface harmony validation
 function hexToHsl(hex) {
@@ -94,13 +106,14 @@ function loadThemePromptFile() {
 }
 
 /**
- * Get recent theme names to avoid repetition
+ * Load recent themes for diversity checks and prompt context.
+ * @param {string | null} excludeDate - Skip a date (e.g. when regenerating today)
  */
-function getRecentThemeNames() {
+function loadRecentThemes(excludeDate = null) {
   const themesPath = join(rootDir, 'src', 'data', 'daily-themes.json');
   try {
     const themesData = JSON.parse(readFileSync(themesPath, 'utf-8'));
-    return themesData.themes.map(t => t.name);
+    return themesData.themes.filter((t) => !excludeDate || t.date !== excludeDate);
   } catch {
     return [];
   }
@@ -425,6 +438,231 @@ EXAMPLE DRAMATIC THEMES:
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 }
 
+function buildFontStack(fontInfo) {
+  if (fontInfo.category === 'sans-serif') {
+    return `'${fontInfo.name}', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+  }
+  if (fontInfo.category === 'display') {
+    return `'${fontInfo.name}', 'Helvetica Neue', Arial, sans-serif`;
+  }
+  return `'${fontInfo.name}', Georgia, 'Times New Roman', serif`;
+}
+
+/**
+ * Parse and normalize raw theme JSON from Claude.
+ */
+function normalizeThemeData(themeData, headingFonts, bodyFonts, context) {
+  const allFonts = [...headingFonts, ...bodyFonts];
+
+  if (themeData.fonts) {
+    const headingInfo = headingFonts.find(f => f.name === themeData.fonts.heading) || headingFonts[0];
+    const bodyInfo = bodyFonts.find(f => f.name === themeData.fonts.body) || bodyFonts[0];
+
+    themeData.fonts = {
+      heading: {
+        name: headingInfo.name,
+        url: headingInfo.url || `https://fonts.googleapis.com/css2?family=${headingInfo.name.replace(/ /g, '+')}:wght@${headingInfo.weight}&display=swap`,
+        category: headingInfo.category,
+        stack: headingInfo.stack || buildFontStack(headingInfo)
+      },
+      body: {
+        name: bodyInfo.name,
+        url: bodyInfo.url || `https://fonts.googleapis.com/css2?family=${bodyInfo.name.replace(/ /g, '+')}:wght@${bodyInfo.weight}&display=swap`,
+        category: bodyInfo.category,
+        stack: bodyInfo.stack || buildFontStack(bodyInfo)
+      }
+    };
+
+    themeData.font = themeData.fonts.heading;
+  } else if (themeData.font) {
+    const fontInfo = allFonts.find(f => f.name === themeData.font.name);
+    if (fontInfo) {
+      themeData.font.url = fontInfo.url || `https://fonts.googleapis.com/css2?family=${fontInfo.name.replace(/ /g, '+')}:wght@${fontInfo.weight}&display=swap`;
+      themeData.font.category = fontInfo.category;
+      themeData.font.stack = fontInfo.stack || buildFontStack(fontInfo);
+    } else {
+      const fallback = headingFonts[0];
+      themeData.font.name = fallback.name;
+      themeData.font.category = fallback.category;
+      themeData.font.url = fallback.url || `https://fonts.googleapis.com/css2?family=${fallback.name.replace(/ /g, '+')}:wght@${fallback.weight}&display=swap`;
+      themeData.font.stack = fallback.stack || buildFontStack(fallback);
+    }
+
+    themeData.fonts = {
+      heading: themeData.font,
+      body: themeData.font
+    };
+  }
+
+  const validGridStyles = ['standard', 'asymmetric', 'split', 'magazine', 'sidebar'];
+  if (!themeData.layout) themeData.layout = {};
+  if (!validGridStyles.includes(themeData.layout.gridStyle)) {
+    themeData.layout.gridStyle = 'standard';
+  }
+
+  const multiColGrids = ['asymmetric', 'split', 'sidebar'];
+  const wideGrids = ['magazine'];
+  const containerPx = parseInt(themeData.layout.containerMaxWidth) || 1200;
+  if (multiColGrids.includes(themeData.layout.gridStyle) && containerPx < 1000) {
+    themeData.layout.containerMaxWidth = '1000px';
+  }
+  if (wideGrids.includes(themeData.layout.gridStyle) && containerPx < 1100) {
+    themeData.layout.containerMaxWidth = '1100px';
+  }
+
+  const sectionPx = parseFloat(themeData.layout.sectionSpacing) || 4;
+  if (sectionPx > 6) {
+    themeData.layout.sectionSpacing = '6rem';
+  }
+  const contentPx = parseFloat(themeData.layout.contentPadding) || 1.5;
+  if (contentPx < 1) {
+    themeData.layout.contentPadding = '1rem';
+    console.log(`  contentPadding raised to minimum 1rem (was ${contentPx}rem)`);
+  }
+  if (contentPx > 2) {
+    themeData.layout.contentPadding = '2rem';
+  }
+
+  if (!themeData.typography) themeData.typography = {};
+  const scaleRatio = parseFloat(themeData.typography.scaleRatio);
+  if (isNaN(scaleRatio) || scaleRatio < 1.0 || scaleRatio > 3.0) {
+    themeData.typography.scaleRatio = '1.333';
+  } else {
+    themeData.typography.scaleRatio = String(scaleRatio);
+  }
+  if (themeData.typography.fontVariationSettings != null) {
+    const fvs = String(themeData.typography.fontVariationSettings).trim();
+    if (fvs === '' || fvs === 'normal') {
+      themeData.typography.fontVariationSettings = 'normal';
+    } else {
+      themeData.typography.fontVariationSettings = fvs;
+    }
+  } else {
+    themeData.typography.fontVariationSettings = 'normal';
+  }
+
+  enforceHeadingHeavierThanBody(themeData.typography);
+
+  if (!themeData.hero) themeData.hero = {};
+  const validHeroLayouts = ['stacked-fan', 'editorial', 'scattered', 'rolodex', 'cinematic'];
+  const legacyHeroMap = {
+    'centered': 'stacked-fan',
+    'left-aligned': 'editorial',
+    'minimal': 'scattered',
+    'bold': 'rolodex',
+  };
+  if (legacyHeroMap[themeData.hero.layout]) {
+    themeData.hero.layout = legacyHeroMap[themeData.hero.layout];
+  }
+  if (!validHeroLayouts.includes(themeData.hero.layout)) {
+    themeData.hero.layout = 'stacked-fan';
+  }
+
+  if (!themeData.colors) themeData.colors = {};
+  const validColorSchemes = ['complementary', 'triadic', 'analogous', 'split-complementary'];
+  if (!validColorSchemes.includes(themeData.colors.colorScheme)) {
+    themeData.colors.colorScheme = 'complementary';
+  }
+  const validContrastModes = ['standard', 'high', 'low'];
+  if (!validContrastModes.includes(themeData.colors.contrastMode)) {
+    themeData.colors.contrastMode = 'standard';
+  }
+
+  const contrastFixes = validateThemeContrast(themeData);
+  if (contrastFixes.length > 0) {
+    console.log(`\nContrast fixes applied (${contrastFixes.length}):`);
+    for (const fix of contrastFixes) {
+      console.log(`  [${fix.mode}] ${fix.pair}: ${fix.original} → ${fix.fixed} (${fix.originalRatio} → ${fix.fixedRatio}, target: ${fix.target}:1)`);
+    }
+  } else {
+    console.log('\nAll color pairs pass WCAG AA contrast checks.');
+  }
+
+  for (const mode of ['light', 'dark']) {
+    const colors = themeData.colors?.[mode];
+    if (!colors) continue;
+
+    const bg = colors['--color-bg'];
+    const cardBg = colors['--color-card-bg'];
+    const sidebarBg = colors['--color-sidebar-bg'];
+    const navBg = colors['--color-nav-bg'];
+
+    if (bg) {
+      const bgHsl = hexToHsl(bg);
+      if (bgHsl) {
+        for (const [prop, surface] of [['--color-card-bg', cardBg], ['--color-sidebar-bg', sidebarBg], ['--color-nav-bg', navBg]]) {
+          if (!surface) continue;
+          const surfaceHsl = hexToHsl(surface);
+          if (!surfaceHsl) continue;
+
+          const hueDiff = Math.abs(surfaceHsl.h - bgHsl.h);
+          const wrappedDiff = Math.min(hueDiff, 360 - hueDiff);
+          if (wrappedDiff > 30 && bgHsl.s > 5) {
+            const fixed = hslToHex(bgHsl.h, Math.min(surfaceHsl.s, bgHsl.s + 10), surfaceHsl.l);
+            console.log(`  [${mode}] ${prop}: hue realigned ${surface} → ${fixed} (hue diff was ${Math.round(wrappedDiff)}°)`);
+            colors[prop] = fixed;
+          }
+        }
+      }
+    }
+  }
+
+  const contentPadVal = parseFloat(themeData.layout?.contentPadding) || 1.5;
+  const cardStyle = themeData.cards?.style;
+  if (contentPadVal <= 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
+    themeData.cards.style = 'elevated';
+    console.log(`  Card style changed from "${cardStyle}" to "elevated" (contentPadding ${contentPadVal}rem at minimum — ${cardStyle} cards feel cramped)`);
+  }
+
+  if (themeData.cards?.style === 'glass') {
+    themeData.cards.style = 'elevated';
+    console.log(`  Card style "glass" promoted to "elevated" (cards must never be transparent — see design.md)`);
+  }
+
+  if (themeData.navigation) {
+    delete themeData.navigation;
+    console.log(`  Stripped navigation field from theme output (nav is fixed across themes)`);
+  }
+
+  if (!themeData.cards) themeData.cards = {};
+  const cardPadVal = parseFloat(themeData.cards.padding) || 1.5;
+  if (cardPadVal > 2) {
+    themeData.cards.padding = '2rem';
+    console.log(`  cardPadding capped to 2rem (was ${cardPadVal}rem — oppressive on phones)`);
+  } else if (cardPadVal < 1) {
+    themeData.cards.padding = '1rem';
+    console.log(`  cardPadding raised to 1rem (was ${cardPadVal}rem — content sits flush against edges)`);
+  }
+
+  const radiusVal = parseInt(themeData.layout?.borderRadius) || 8;
+  if (radiusVal > 24) {
+    themeData.layout.borderRadius = '24px';
+    console.log(`  borderRadius capped to 24px (was ${radiusVal}px — extreme values turn cards into ovals at non-1:1 aspect ratios)`);
+  }
+
+  const sectionVal = parseFloat(themeData.layout?.sectionSpacing) || 4;
+  const bgColor = themeData.colors?.light?.['--color-bg'] || '#ffffff';
+  const isTinted = bgColor.toLowerCase() !== '#ffffff' && bgColor.toLowerCase() !== '#fff';
+  if (isTinted && sectionVal < 2) {
+    themeData.layout.sectionSpacing = '2rem';
+    console.log(`  Section spacing bumped from ${sectionVal}rem to 2rem (tinted background needs breathing room)`);
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  themeData.date = today;
+  themeData._contextImage = context.image?.filename || null;
+  themeData._contextMarkdown = context.markdown?.filename || null;
+
+  return themeData;
+}
+
+function parseThemeResponse(responseText) {
+  const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/) ||
+                    responseText.match(/(\{[\s\S]*\})/);
+  const jsonStr = jsonMatch ? jsonMatch[1] : responseText;
+  return JSON.parse(jsonStr);
+}
+
 async function generateTheme(options = {}) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
@@ -454,11 +692,9 @@ async function generateTheme(options = {}) {
   // Load creative direction from markdown file
   const creativeDirection = loadThemePromptFile();
 
-  // Get recent theme names to avoid repetition
-  const recentNames = getRecentThemeNames();
-  const recentNamesSection = recentNames.length > 0
-    ? `\n\n## RECENTLY USED NAMES - DO NOT REUSE THESE OR SIMILAR:\n${recentNames.map(n => `- "${n}"`).join('\n')}\n\nCreate something COMPLETELY DIFFERENT from the above themes.`
-    : '';
+  const today = new Date().toISOString().split('T')[0];
+  const recentThemes = loadRecentThemes(options.replaceDate || today);
+  const recentThemesSection = formatRecentThemesPromptSection(recentThemes);
 
   // Load personal context from scripts/context/ folder
   const context = loadContext();
@@ -472,306 +708,104 @@ async function generateTheme(options = {}) {
   if (context.markdown) {
     console.log(`Context note: ${context.markdown.filename}`);
   }
-  if (recentNames.length > 0) {
-    console.log(`Avoiding recent names: ${recentNames.join(', ')}`);
+  if (recentThemes.length > 0) {
+    console.log(`Comparing against ${recentThemes.length} recent theme(s) for diversity`);
+    console.log(`Most recent: "${recentThemes[0].name}" (${recentThemes[0].hero?.layout}/${recentThemes[0].layout?.gridStyle})`);
   }
   console.log('');
 
-  // Build the theme prompt with dynamic font list
   const themePrompt = buildThemePrompt(headingFonts, bodyFonts);
-
-  // Append personal markdown context if available
   const markdownContext = context.markdown
     ? `\n\n## PERSONAL CONTEXT\nUse this as additional mood/inspiration — blend it naturally with the design inspiration above.\n\n${context.markdown.text}`
     : '';
 
-  // Combine: creative direction + inspiration + base prompt + recent names + personal context
-  const fullPrompt = `${creativeDirection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}${recentNamesSection}${markdownContext}`;
+  const basePrompt = `${creativeDirection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}`;
+  const contextSections = [
+    recentThemesSection ? `\n\n${recentThemesSection}` : '',
+    markdownContext,
+  ].join('');
 
-  // Build content blocks — use array format to support images
-  const contentBlocks = [];
-
+  const imagePrefixBlocks = [];
   if (context.image) {
-    contentBlocks.push(context.image.contentBlock);
-    contentBlocks.push({
+    imagePrefixBlocks.push(context.image.contentBlock);
+    imagePrefixBlocks.push({
       type: 'text',
       text: 'Above is a mood board image. Let its colors, textures, and overall feeling influence today\'s theme.\n\n'
     });
   }
 
-  contentBlocks.push({ type: 'text', text: fullPrompt });
+  const maxAttempts = options.skipDiversityRetry ? 1 : MAX_DIVERSITY_ATTEMPTS;
+  let diversityFeedback = '';
+  /** @type {object | null} */
+  let bestTheme = null;
+  /** @type {ReturnType<typeof assessDiversity> | null} */
+  let bestAssessment = null;
 
-  const message = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    messages: [
-      {
-        role: 'user',
-        content: contentBlocks
-      }
-    ]
-  });
-
-  const responseText = message.content[0].text.trim();
-
-  // Parse JSON from response (handle potential markdown wrapping)
-  let themeData;
-  try {
-    // Try to extract JSON if wrapped in code blocks
-    const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/) ||
-                      responseText.match(/(\{[\s\S]*\})/);
-    const jsonStr = jsonMatch ? jsonMatch[1] : responseText;
-    themeData = JSON.parse(jsonStr);
-  } catch (parseError) {
-    console.error('Failed to parse theme JSON:', parseError.message);
-    console.error('Response was:', responseText);
-    process.exit(1);
-  }
-
-  // Helper to build font stack
-  const buildFontStack = (fontInfo) => {
-    if (fontInfo.category === 'sans-serif') {
-      return `'${fontInfo.name}', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
-    } else if (fontInfo.category === 'display') {
-      return `'${fontInfo.name}', 'Helvetica Neue', Arial, sans-serif`;
-    } else {
-      return `'${fontInfo.name}', Georgia, 'Times New Roman', serif`;
-    }
-  };
-
-  // Handle new fonts structure (heading + body) or legacy font structure
-  // Use the dynamically loaded fonts for lookup
-  const allFonts = [...headingFonts, ...bodyFonts];
-
-  if (themeData.fonts) {
-    // New structure with heading and body fonts
-    const headingInfo = headingFonts.find(f => f.name === themeData.fonts.heading) || headingFonts[0];
-    const bodyInfo = bodyFonts.find(f => f.name === themeData.fonts.body) || bodyFonts[0];
-
-    // Use pre-built URL/stack from fonts.json if available, otherwise build them
-    themeData.fonts = {
-      heading: {
-        name: headingInfo.name,
-        url: headingInfo.url || `https://fonts.googleapis.com/css2?family=${headingInfo.name.replace(/ /g, '+')}:wght@${headingInfo.weight}&display=swap`,
-        category: headingInfo.category,
-        stack: headingInfo.stack || buildFontStack(headingInfo)
-      },
-      body: {
-        name: bodyInfo.name,
-        url: bodyInfo.url || `https://fonts.googleapis.com/css2?family=${bodyInfo.name.replace(/ /g, '+')}:wght@${bodyInfo.weight}&display=swap`,
-        category: bodyInfo.category,
-        stack: bodyInfo.stack || buildFontStack(bodyInfo)
-      }
-    };
-
-    // Also set legacy font field for backward compatibility (use heading font)
-    themeData.font = themeData.fonts.heading;
-  } else if (themeData.font) {
-    // Legacy structure - add font metadata
-    const fontInfo = allFonts.find(f => f.name === themeData.font.name);
-    if (fontInfo) {
-      themeData.font.url = fontInfo.url || `https://fonts.googleapis.com/css2?family=${fontInfo.name.replace(/ /g, '+')}:wght@${fontInfo.weight}&display=swap`;
-      themeData.font.category = fontInfo.category;
-      themeData.font.stack = fontInfo.stack || buildFontStack(fontInfo);
-    } else {
-      // Fallback to first font if not found
-      const fallback = headingFonts[0];
-      themeData.font.name = fallback.name;
-      themeData.font.category = fallback.category;
-      themeData.font.url = fallback.url || `https://fonts.googleapis.com/css2?family=${fallback.name.replace(/ /g, '+')}:wght@${fallback.weight}&display=swap`;
-      themeData.font.stack = fallback.stack || buildFontStack(fallback);
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    if (attempt > 1) {
+      console.log(`\n--- Diversity retry ${attempt}/${maxAttempts} ---\n`);
     }
 
-    // Create fonts structure for consistency
-    themeData.fonts = {
-      heading: themeData.font,
-      body: themeData.font
-    };
-  }
+    const fullPrompt = `${basePrompt}${contextSections}${diversityFeedback ? `\n\n${diversityFeedback}` : ''}`;
+    const contentBlocks = [
+      ...imagePrefixBlocks,
+      { type: 'text', text: fullPrompt },
+    ];
 
-  // Validate and default new layout fields
-  const validGridStyles = ['standard', 'asymmetric', 'split', 'magazine', 'sidebar'];
-  if (!themeData.layout) themeData.layout = {};
-  if (!validGridStyles.includes(themeData.layout.gridStyle)) {
-    themeData.layout.gridStyle = 'standard';
-  }
-
-  // Enforce grid + container width harmony
-  const multiColGrids = ['asymmetric', 'split', 'sidebar'];
-  const wideGrids = ['magazine'];
-  const containerPx = parseInt(themeData.layout.containerMaxWidth) || 1200;
-  if (multiColGrids.includes(themeData.layout.gridStyle) && containerPx < 1000) {
-    themeData.layout.containerMaxWidth = '1000px';
-  }
-  if (wideGrids.includes(themeData.layout.gridStyle) && containerPx < 1100) {
-    themeData.layout.containerMaxWidth = '1100px';
-  }
-
-  // Cap section spacing and content padding to prevent overflow
-  const sectionPx = parseFloat(themeData.layout.sectionSpacing) || 4;
-  if (sectionPx > 6) {
-    themeData.layout.sectionSpacing = '6rem';
-  }
-  const contentPx = parseFloat(themeData.layout.contentPadding) || 1.5;
-  if (contentPx < 1) {
-    themeData.layout.contentPadding = '1rem';
-    console.log(`  contentPadding raised to minimum 1rem (was ${contentPx}rem)`);
-  }
-  if (contentPx > 2) {
-    themeData.layout.contentPadding = '2rem';
-  }
-
-  // Validate and default new typography fields
-  if (!themeData.typography) themeData.typography = {};
-  const scaleRatio = parseFloat(themeData.typography.scaleRatio);
-  if (isNaN(scaleRatio) || scaleRatio < 1.0 || scaleRatio > 3.0) {
-    themeData.typography.scaleRatio = '1.333';
-  } else {
-    themeData.typography.scaleRatio = String(scaleRatio);
-  }
-  // fontVariationSettings is optional — validate format if present
-  if (themeData.typography.fontVariationSettings != null) {
-    const fvs = String(themeData.typography.fontVariationSettings).trim();
-    if (fvs === '' || fvs === 'normal') {
-      themeData.typography.fontVariationSettings = 'normal';
-    } else {
-      themeData.typography.fontVariationSettings = fvs;
-    }
-  } else {
-    themeData.typography.fontVariationSettings = 'normal';
-  }
-
-  enforceHeadingHeavierThanBody(themeData.typography);
-
-  // Validate and default hero layout
-  if (!themeData.hero) themeData.hero = {};
-  const validHeroLayouts = ['stacked-fan', 'editorial', 'scattered', 'rolodex', 'cinematic'];
-  const legacyHeroMap = {
-    'centered': 'stacked-fan',
-    'left-aligned': 'editorial',
-    'minimal': 'scattered',
-    'bold': 'rolodex',
-  };
-  if (legacyHeroMap[themeData.hero.layout]) {
-    themeData.hero.layout = legacyHeroMap[themeData.hero.layout];
-  }
-  if (!validHeroLayouts.includes(themeData.hero.layout)) {
-    themeData.hero.layout = 'stacked-fan';
-  }
-
-  // Validate and default new color fields
-  if (!themeData.colors) themeData.colors = {};
-  const validColorSchemes = ['complementary', 'triadic', 'analogous', 'split-complementary'];
-  if (!validColorSchemes.includes(themeData.colors.colorScheme)) {
-    themeData.colors.colorScheme = 'complementary';
-  }
-  const validContrastModes = ['standard', 'high', 'low'];
-  if (!validContrastModes.includes(themeData.colors.contrastMode)) {
-    themeData.colors.contrastMode = 'standard';
-  }
-
-  // Validate and fix contrast ratios (WCAG AA)
-  const contrastFixes = validateThemeContrast(themeData);
-  if (contrastFixes.length > 0) {
-    console.log(`\nContrast fixes applied (${contrastFixes.length}):`);
-    for (const fix of contrastFixes) {
-      console.log(`  [${fix.mode}] ${fix.pair}: ${fix.original} → ${fix.fixed} (${fix.originalRatio} → ${fix.fixedRatio}, target: ${fix.target}:1)`);
-    }
-  } else {
-    console.log('\nAll color pairs pass WCAG AA contrast checks.');
-  }
-
-  // Validate surface color harmony (bg, card-bg, sidebar-bg, nav-bg)
-  // Ensures tinted backgrounds don't create jarring color jumps
-  for (const mode of ['light', 'dark']) {
-    const colors = themeData.colors?.[mode];
-    if (!colors) continue;
-
-    const bg = colors['--color-bg'];
-    const cardBg = colors['--color-card-bg'];
-    const sidebarBg = colors['--color-sidebar-bg'];
-    const navBg = colors['--color-nav-bg'];
-
-    if (bg) {
-      // Nudge card-bg and sidebar-bg toward bg if they differ too much in hue
-      const bgHsl = hexToHsl(bg);
-      if (bgHsl) {
-        for (const [prop, surface] of [['--color-card-bg', cardBg], ['--color-sidebar-bg', sidebarBg], ['--color-nav-bg', navBg]]) {
-          if (!surface) continue;
-          const surfaceHsl = hexToHsl(surface);
-          if (!surfaceHsl) continue;
-
-          // If hue differs by more than 30 degrees, realign to bg hue
-          const hueDiff = Math.abs(surfaceHsl.h - bgHsl.h);
-          const wrappedDiff = Math.min(hueDiff, 360 - hueDiff);
-          if (wrappedDiff > 30 && bgHsl.s > 5) {
-            // Keep surface lightness/saturation but match bg hue
-            const fixed = hslToHex(bgHsl.h, Math.min(surfaceHsl.s, bgHsl.s + 10), surfaceHsl.l);
-            console.log(`  [${mode}] ${prop}: hue realigned ${surface} → ${fixed} (hue diff was ${Math.round(wrappedDiff)}°)`);
-            colors[prop] = fixed;
-          }
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      messages: [
+        {
+          role: 'user',
+          content: contentBlocks
         }
+      ]
+    });
+
+    const responseText = message.content[0].text.trim();
+
+    let themeData;
+    try {
+      themeData = parseThemeResponse(responseText);
+    } catch (parseError) {
+      console.error('Failed to parse theme JSON:', parseError.message);
+      console.error('Response was:', responseText);
+      if (attempt === maxAttempts) {
+        process.exit(1);
       }
+      diversityFeedback = '## PARSE ERROR\nYour previous response was not valid JSON. Return ONLY a raw JSON object with no markdown fences.';
+      continue;
+    }
+
+    themeData = normalizeThemeData(themeData, headingFonts, bodyFonts, context);
+    const assessment = assessDiversity(themeData, recentThemes);
+
+    if (!bestTheme || !bestAssessment || assessment.score < bestAssessment.score) {
+      bestTheme = themeData;
+      bestAssessment = assessment;
+    }
+
+    if (assessment.pass) {
+      console.log(`\nDiversity check passed (max similarity ${(assessment.score * 100).toFixed(0)}%, ${assessment.changesFromYesterday} changes from yesterday).`);
+      return themeData;
+    }
+
+    console.log(
+      `\nDiversity check failed: ${(assessment.score * 100).toFixed(0)}% similar to "${assessment.closestTheme?.name}" ` +
+      `(${assessment.changesFromYesterday} changes from yesterday).`
+    );
+
+    if (attempt < maxAttempts) {
+      diversityFeedback = formatDiversityRetrySection(assessment);
     }
   }
 
-  // Enforce padding/card style harmony
-  const contentPadVal = parseFloat(themeData.layout?.contentPadding) || 1.5;
-  const cardStyle = themeData.cards?.style;
-  if (contentPadVal <= 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
-    themeData.cards.style = 'elevated';
-    console.log(`  Card style changed from "${cardStyle}" to "elevated" (contentPadding ${contentPadVal}rem at minimum — ${cardStyle} cards feel cramped)`);
-  }
-
-  // Cards must never be transparent — strip the legacy "glass" style
-  if (themeData.cards?.style === 'glass') {
-    themeData.cards.style = 'elevated';
-    console.log(`  Card style "glass" promoted to "elevated" (cards must never be transparent — see design.md)`);
-  }
-
-  // Strip navigation field — nav layout is fixed across themes to keep responsive
-  // rendering correct. Theme personality flows through typography, color, padding.
-  if (themeData.navigation) {
-    delete themeData.navigation;
-    console.log(`  Stripped navigation field from theme output (nav is fixed across themes)`);
-  }
-
-  // Card padding: cap at 2rem so phones don't get oppressive insets
-  if (!themeData.cards) themeData.cards = {};
-  const cardPadVal = parseFloat(themeData.cards.padding) || 1.5;
-  if (cardPadVal > 2) {
-    themeData.cards.padding = '2rem';
-    console.log(`  cardPadding capped to 2rem (was ${cardPadVal}rem — oppressive on phones)`);
-  } else if (cardPadVal < 1) {
-    themeData.cards.padding = '1rem';
-    console.log(`  cardPadding raised to 1rem (was ${cardPadVal}rem — content sits flush against edges)`);
-  }
-
-  // Border radius: cap at 24px globally — pill values (9999px) are for nav/chips, not cards/images
-  const radiusVal = parseInt(themeData.layout?.borderRadius) || 8;
-  if (radiusVal > 24) {
-    themeData.layout.borderRadius = '24px';
-    console.log(`  borderRadius capped to 24px (was ${radiusVal}px — extreme values turn cards into ovals at non-1:1 aspect ratios)`);
-  }
-
-  // Enforce minimum section spacing with tinted backgrounds
-  const sectionVal = parseFloat(themeData.layout?.sectionSpacing) || 4;
-  const bgColor = themeData.colors?.light?.['--color-bg'] || '#ffffff';
-  const isTinted = bgColor.toLowerCase() !== '#ffffff' && bgColor.toLowerCase() !== '#fff';
-  if (isTinted && sectionVal < 2) {
-    themeData.layout.sectionSpacing = '2rem';
-    console.log(`  Section spacing bumped from ${sectionVal}rem to 2rem (tinted background needs breathing room)`);
-  }
-
-  // Add date
-  const today = new Date().toISOString().split('T')[0];
-  themeData.date = today;
-
-  // Track context sources for build log (prefixed with _ to exclude from theme output)
-  themeData._contextImage = context.image?.filename || null;
-  themeData._contextMarkdown = context.markdown?.filename || null;
-
-  return themeData;
+  console.warn(
+    `\nWarning: Could not meet diversity threshold after ${maxAttempts} attempt(s). ` +
+    `Using best attempt (${(bestAssessment.score * 100).toFixed(0)}% similar to "${bestAssessment.closestTheme?.name}").`
+  );
+  return bestTheme;
 }
 
 function updateThemeHistory(newTheme) {
