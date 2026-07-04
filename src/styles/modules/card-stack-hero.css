@@ -730,6 +730,97 @@
   }
 }
 
+/* === Mobile iOS-style hero sheet (≤768px) — see design.md § Mobile unique experiences === */
+:root {
+  --hero-sheet-drag-progress: 0;
+}
+
+.click-outside-overlay--hero-sheet {
+  opacity: calc(1 - var(--hero-sheet-drag-progress) * 0.45);
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.card-hero-fullscreen-stage--sheet {
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+
+.hero-card.card-selected.card-hero-fullscreen.card-hero-fullscreen--sheet {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: auto;
+  top: auto;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: auto;
+  height: min(92dvh, 820px);
+  max-height: calc(
+    100dvh - max(0.5rem, env(safe-area-inset-top, 0px)) - env(safe-area-inset-bottom, 0px)
+  );
+  margin: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow:
+    0 -8px 40px rgba(0, 0, 0, 0.18),
+    0 28px 80px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.card-hero-fullscreen--sheet {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-sheet-grabber {
+  flex: 0 0 auto;
+  width: 100%;
+  padding: var(--spacing-sm) 0 var(--spacing-xs);
+  cursor: grab;
+  touch-action: none;
+}
+
+.card-sheet-grabber::before {
+  content: '';
+  display: block;
+  width: 2.25rem;
+  height: 0.25rem;
+  margin: 0 auto;
+  border-radius: var(--radius-pill, 9999px);
+  background: color-mix(in srgb, var(--color-text) 22%, transparent);
+}
+
+.card-sheet-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
+.card-hero-fullscreen--sheet .card-hero-image-wrap {
+  height: min(32dvh, 240px);
+  min-height: 120px;
+}
+
+.card-hero-fullscreen--sheet .card-content {
+  padding: clamp(1rem, 3vw, 1.35rem) clamp(1.1rem, 4vw, 1.5rem) 0.65rem;
+}
+
+.card-hero-fullscreen--sheet .card-expanded-content,
+.card-hero-fullscreen--sheet.card-has-hero-layout .card-unified-panel {
+  padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom, 0px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .click-outside-overlay--hero-sheet {
+    transition: none;
+  }
+}
+
 /* === Editorial layout overrides === */
 .card-stack-hero--editorial .cards-wrapper {
   width: 100%;

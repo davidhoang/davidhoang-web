@@ -162,7 +162,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
       previousFocusRef.current = document.activeElement as HTMLElement;
       // Focus the selected card element
       requestAnimationFrame(() => {
-        const card = containerRef.current?.querySelector('.card-selected') as HTMLElement;
+        const card = document.querySelector('.card-selected') as HTMLElement;
         if (card) card.focus();
       });
     } else if (previousFocusRef.current) {
@@ -184,6 +184,10 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
       }
       return closing ? null : cardId;
     });
+  };
+
+  const handleCardDismiss = () => {
+    setSelectedCard(null);
   };
 
   // Keyboard navigation
@@ -233,13 +237,20 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           hasAnimatedIn={hasAnimatedIn}
           cardStyle={cardStyle}
           onCardClick={handleCardClick}
+          onCardDismiss={handleCardDismiss}
           onCardHover={setHoveredCard}
         />
       </div>
 
       {selectedCard && (
         <div
-          className={`click-outside-overlay${heroLayout === 'stacked-fan' ? ' click-outside-overlay--hero-fullscreen' : ''}`}
+          className={`click-outside-overlay${
+            heroLayout === 'stacked-fan' ? ' click-outside-overlay--hero-fullscreen' : ''
+          }${
+            heroLayout === 'stacked-fan' && isMobileHeroViewport()
+              ? ' click-outside-overlay--hero-sheet'
+              : ''
+          }`}
           onClick={() => setSelectedCard(null)}
           role="presentation"
         />

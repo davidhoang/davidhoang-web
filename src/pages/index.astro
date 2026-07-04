@@ -90,14 +90,6 @@ const portfolioItems = [
       the preload scanner) and config-still benefits from an earlier head hint. */}
   <link slot="head" rel="preload" as="image" href={dhWebOptimized.src} type="image/webp" />
   <link slot="head" rel="preload" as="image" href="/images/davidhoang-web-config-still.webp" type="image/webp" fetchpriority="high" />
-  {/* Set hero viewport tier before React hydrates so skeleton + cards use mobile scale immediately */}
-  <script is:inline slot="head">
-    {`(function () {
-      var w = window.innerWidth;
-      var tier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : 'desktop';
-      document.documentElement.setAttribute('data-hero-viewport', tier);
-    })();`}
-  </script>
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
     <CardStackHeroLazy client:idle aboutThumbnailSrc={dhWebOptimized.src} />

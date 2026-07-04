@@ -748,9 +748,20 @@ html:not([data-image-style]) .hero-portrait {
   filter: contrast(1.3) saturate(1.1);
 }
 
-/* Image hover effects */
-[data-image-hover="zoom"] .portrait-container img:hover {
-  transform: scale(1.05);
+/* Image hover effects — scale inner media inside a clipping frame */
+[data-image-hover="zoom"] :is(.img-frame, .portrait-container) {
+  overflow: hidden;
+}
+
+[data-image-hover="zoom"] :is(.img-frame, .portrait-container) :is(img, picture img) {
+  transition: transform 0.5s var(--ease-inertia);
+}
+
+@media (hover: hover) {
+  [data-image-hover="zoom"] :is(.img-frame, .portrait-container):hover :is(img, picture img),
+  [data-image-hover="zoom"] a:hover :is(.img-frame, .portrait-container) :is(img, picture img) {
+    transform: scale(1.03);
+  }
 }
 
 [data-image-hover="lift"] .portrait-container img:hover {
@@ -770,16 +781,20 @@ html:not([data-image-style]) .hero-portrait {
   box-shadow: 0 0 30px var(--color-link);
 }
 
-/* Exclude writing/blog images from theme filters
-   Blog posts should display images as-is for editorial integrity */
+/* Exclude writing/blog prose images from theme filters.
+   Blog posts should display inline images as-is for editorial integrity.
+   Framed thumbnails (.img-frame) may still use the shared hover zoom. */
 :is(.blog-post, .prose-content, article.blog-post) img {
   filter: none !important;
   mix-blend-mode: normal !important;
-  transform: none;
   box-shadow: none;
 }
 
-:is(.blog-post, .prose-content, article.blog-post) img:hover {
+:is(.blog-post, .prose-content, article.blog-post) .prose-content img {
+  transform: none;
+}
+
+:is(.blog-post, .prose-content, article.blog-post) .prose-content img:hover {
   filter: none !important;
   transform: none !important;
   box-shadow: none !important;

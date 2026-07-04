@@ -35,6 +35,7 @@ export interface LayoutProps {
   hasAnimatedIn: boolean;
   cardStyle: string | null;
   onCardClick: (cardId: string, link?: string) => void;
+  onCardDismiss: () => void;
   onCardHover: (cardId: string | null) => void;
 }
 

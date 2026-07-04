@@ -35,7 +35,15 @@
   /* Viewport breakpoints — reference values.
      CSS does not support custom properties inside @media queries, so the
      pixel values below must be inlined at each @media. Treat this block as
-     the canonical list; PRs adding new breakpoints should pick one of these. */
+     the canonical list; PRs adding new breakpoints should pick one of these.
+
+     Viewport tiers (data-viewport-tier on <html>, set in MainLayout.astro):
+       compact  ≤480px   smallest phones
+       mobile   481–768px mobile safety overrides apply (design.md)
+       tablet   769–1024px
+       desktop  ≥1025px
+
+     Nav resize boundary is 520px (design.md mobileSmall) — see nav.css. */
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1024px;

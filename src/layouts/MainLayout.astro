@@ -267,6 +267,20 @@ const ogImageUrl = ogImage.startsWith('http')
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    {/* Set viewport tier before paint — drives mobile-enhancements.css and hero scale */}
+    <script is:inline>
+      {`(function () {
+        function syncViewportTier() {
+          var w = window.innerWidth;
+          var viewportTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : w <= 1024 ? 'tablet' : 'desktop';
+          var heroTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : 'desktop';
+          document.documentElement.setAttribute('data-viewport-tier', viewportTier);
+          document.documentElement.setAttribute('data-hero-viewport', heroTier);
+        }
+        syncViewportTier();
+        window.__syncViewportTier = syncViewportTier;
+      })();`}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title="David Hoang — Writing (RSS)" href="/rss.xml" />
@@ -713,6 +727,17 @@ const ogImageUrl = ogImage.startsWith('http')
       }
       syncBlogPostMoodFilterBypass();
       document.addEventListener('astro:page-load', syncBlogPostMoodFilterBypass);
+
+      // Keep data-viewport-tier / data-hero-viewport in sync on resize and view transitions
+      let viewportTierTimer: ReturnType<typeof setTimeout> | undefined;
+      function scheduleViewportTierSync() {
+        clearTimeout(viewportTierTimer);
+        viewportTierTimer = setTimeout(() => {
+          (window as Window & { __syncViewportTier?: () => void }).__syncViewportTier?.();
+        }, 150);
+      }
+      window.addEventListener('resize', scheduleViewportTierSync);
+      document.addEventListener('astro:page-load', scheduleViewportTierSync);
 
       // Helper to update browser theme-color
       function updateBrowserThemeColor(theme: string) {

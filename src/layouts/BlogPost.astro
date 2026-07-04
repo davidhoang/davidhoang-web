@@ -107,7 +107,7 @@ const breadcrumbJsonLd = {
         {data.companionPrototype && (
           <CompanionPrototype slug={data.companionPrototype} />
         )}
-        <div class="prose-content">
+        <div class="prose-content prose-mobile">
           <slot />
         </div>
         {tags && tags.length > 0 && (
@@ -270,14 +270,9 @@ const breadcrumbJsonLd = {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s var(--ease-inertia);
   }
 
   @media (hover: hover) {
-    .related-posts__card:hover .related-posts__thumb img {
-      transform: scale(1.03);
-    }
-
     .related-posts__card:hover .related-posts__title {
       color: var(--color-link);
     }
