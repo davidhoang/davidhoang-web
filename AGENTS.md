@@ -10,7 +10,7 @@ Cross-tool product design instructions follow the [Vercel agent design stack](ht
 | **Canonical skill** | **`.agents/skills/product-design/`** (`SKILL.md`, `references/`, `exemplars/`) |
 | Cursor discovery | `.cursor/skills/product-design/` (pointer), `.cursor/skills/davidhoang-ui/` (alias) |
 | Cursor file rules | `.cursor/rules/design-system.mdc`, `.cursor/rules/site-nav-css.mdc` |
-| Lint | `npm run audit:design` → `scripts/audit-design-compliance.mjs` |
+| Lint | `npm run audit:design:check` → `scripts/audit-design-compliance.mjs` (CI on every PR) |
 | Evals | `evals/` (+ optional `@vercel/agent-eval`) |
 | Theme contrast | `npm run audit-contrast` (runs in build) |
 

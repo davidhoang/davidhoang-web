@@ -91,3 +91,35 @@
 .section-divider--loose {
   padding-top: var(--section-spacing, 4rem);
 }
+
+/* --------------------------------------------
+   DEFAULT LAYOUT: Flush viewport heroes (framework-controlled)
+
+   Image heroes must start at viewport y=0 with the floating nav pill
+   over them — never a strip of --color-bg above the image.
+
+   Contract (design.md § Hero image padding):
+   1. Register flush heroes in --layout-hero-flush-selectors below.
+   2. Never add per-page margin-top pulls or padding-top on hero wrappers.
+   3. main#main-content drops --content-top-padding when a flush hero is present.
+   4. Full-bleed width (100vw + margin breakout) is duplicated unlayered in
+      MainLayout critical CSS — Astro scoped width:100% beats @layer rules.
+   -------------------------------------------- */
+
+/* Extend this list when adding a new flush hero variant — nowhere else. */
+:root {
+  --layout-hero-flush-selectors: '.page-header--image, .note-hero, .layout-hero-flush, .writing-post__hero';
+}
+
+:is(.page-header--image, .note-hero, .layout-hero-flush) {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: 0;
+}
+
+/* main carries nav clearance for text pages; flush heroes opt out via :has(). */
+main#main-content:has(> :is(.page-header--image, .note-hero, .layout-hero-flush)),
+main#main-content:has(.writing-post__hero) {
+  padding-top: 0;
+}

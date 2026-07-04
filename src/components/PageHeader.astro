@@ -208,19 +208,11 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 </script>
 
 <style>
-  .page-header {
+  .page-header--text {
     width: 100%;
   }
 
-  /* Image variant - full hero with shader.
-     Flush to the viewport top (nav floats over it) and full-bleed horizontally.
-     Margin lives on .page-header--image so collapse is predictable inside main. */
-  .page-header--image {
-    margin-top: calc(-1 * var(--content-top-padding));
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
-  }
-
+  /* Image variant — flush + full-bleed owned by layout.css + MainLayout critical CSS */
   .page-header--image .page-header__hero {
     height: var(--hero-height, 75vh);
     min-height: 300px;
@@ -290,10 +282,6 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
-    .page-header--image {
-      margin-top: calc(-1 * var(--content-top-padding));
-    }
-
     .page-header--image .page-header__hero {
       height: var(--hero-height-mobile, 50vh);
       min-height: 250px;

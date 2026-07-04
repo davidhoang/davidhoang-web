@@ -9,7 +9,7 @@ Fixtures for measuring whether coding agents follow `design.md` when building UI
 | Design contract | `design.md` + `src/design-guide.md` |
 | Canonical skill | `.agents/skills/product-design/` |
 | Cursor entry | `.cursor/skills/product-design/`, `.cursor/rules/design-system.mdc` |
-| Lint rules | `npm run audit:design` |
+| Lint rules | `npm run audit:design:check` (CI on every PR) |
 | Automated tests | `tests/designCompliance.test.ts` (vitest) |
 | Agent evals | This folder + optional `@vercel/agent-eval` |
 

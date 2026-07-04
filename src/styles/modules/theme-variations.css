@@ -873,11 +873,14 @@ html:not([data-image-style]) .hero-portrait {
   padding-bottom: 0;
 }
 
-/* Image heroes break out of the shader card container — don't show bg in corners */
-:is([data-shader="waves"], [data-shader="mesh-gradient"], [data-shader="swirl"], [data-shader="perlin"], [data-shader="simplex"], [data-shader="neuro"]) .container:has(.page-header--image) {
+/* Image heroes break out of the shader card container — don't show bg in corners.
+   padding-top: 0 is required; the base .container rule above re-adds nav clearance. */
+:is([data-shader="waves"], [data-shader="mesh-gradient"], [data-shader="swirl"], [data-shader="perlin"], [data-shader="simplex"], [data-shader="neuro"]) main.container:has(> :is(.page-header--image, .note-hero, .layout-hero-flush)),
+:is([data-shader="waves"], [data-shader="mesh-gradient"], [data-shader="swirl"], [data-shader="perlin"], [data-shader="simplex"], [data-shader="neuro"]) main.container:has(.writing-post__hero) {
   background: transparent;
   box-shadow: none;
   border-radius: 0;
+  padding-top: 0;
   padding-left: 0;
   padding-right: 0;
 }

@@ -45,8 +45,8 @@ See `references/rules.md` for the full list. Non-negotiables:
 
 ## Review workflow
 
-1. Compare changes against `design.md` and `references/rules.md`
-2. Run `npm run audit:design`
+1. Compare changes against `design.md` and `references/rules.md` (§ Layout invariants)
+2. Run `npm run audit:design:check` (same command CI runs on every PR)
 3. Optional: [Web Interface Guidelines](https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md)
 
 ## When agents get it wrong

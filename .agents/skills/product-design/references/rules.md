@@ -2,6 +2,22 @@
 
 Authoritative spec: `design.md`. This file is the agent checklist distilled from it.
 
+## Layout invariants (framework-controlled — never theme-variable)
+
+These three rules regress often when agents touch nav, heroes, or global CSS. **CI enforces the machine-checkable parts** via `npm run audit:design:check`.
+
+1. **Hero images are full viewport width** — edge to edge, no gutter on the right or left. Implemented in `layout.css` + unlayered critical CSS in `MainLayout.astro` (`width: 100vw; margin-inline: calc(50% - 50vw)`). Do **not** set scoped `width: 100%` on `.page-header--image` or bare `.page-header` (text-only headers use `.page-header--text { width: 100% }` only).
+
+2. **Hero images flush to viewport top** — no strip of `--color-bg` above the image; the nav pill floats over the hero. Implemented via `main#main-content:has(> flush-hero) { padding-top: 0 }`, nav `position: fixed`, and `.glass-border:not(.site-nav)`. Do **not** reintroduce per-page `margin-top: calc(-1 * var(--content-top-padding))` pulls.
+
+3. **Daily themes adjust padding, not margins, for layout rhythm** — theme JSON may tune `--content-padding`, `--section-spacing`, `--card-padding` (see `design.md` § Theme generator). Themes must **not** add structural margins to `main`, heroes, or nav clearance. The generator strips `navigation` and clamps padding ranges in `scripts/generate-daily-theme.mjs`.
+
+**Manual PR smoke test** (any PR touching layout, nav, heroes, themes, or global CSS):
+
+- [ ] `/about` and `/featured` at ≥769px: hero spans full width, no top gap
+- [ ] Devtools: `.site-nav` computed `position: fixed`
+- [ ] If diff touches `.container`, `nav`, `--content-top-padding`, or `--nav-offset-top`: verify nav at **390px** and **≥769px** (`.cursor/rules/site-nav-css.mdc`)
+
 ## Before shipping UI
 
 - [ ] Colors via `var(--color-*)` only (no raw hex in new scoped styles)
@@ -20,13 +36,13 @@ Authoritative spec: `design.md`. This file is the agent checklist distilled from
 ## After UI changes
 
 ```bash
-npm run audit:design
+npm run audit:design:check
 ```
 
-Strict mode (CI-ready when legacy debt is cleared):
+Runs in CI on every PR (`.github/workflows/ci.yml`). Report-only locally:
 
 ```bash
-npm run audit:design:check
+npm run audit:design
 ```
 
 ## Human-led update loop

@@ -19,9 +19,10 @@ Before creating or changing visual UI, read these files in order:
 - Cards are **never transparent** — no glassmorphism, no `opacity < 1` on card surfaces
 - **No dimensional `:hover`** — do not change `padding`, `margin`, `gap`, `width`, or `height` on hover (color, shadow, transform only)
 - **Nav is fixed** — themes cannot change nav height, padding, or pill layout; use `.site-nav` / `.nav-container`, never `.container` on nav markup
+- **Hero layout is framework-owned** — full viewport width, flush to top, nav `position: fixed`; see `references/rules.md` § Layout invariants
 - Prefer **Astro** for static UI; **React** only when client interactivity is required
 - Reuse existing primitives from `src/styles/global.css` and modules under `src/styles/modules/` before inventing new patterns
 
 ## After UI changes
 
-Run `npm run audit:design` and fix violations before finishing. If the agent repeatedly violates a rule, log it in `.agents/skills/product-design/references/coverage-gaps.md` and update **`design.md`** (human-led loop — see AGENTS.md).
+Run `npm run audit:design:check` (enforced in CI). Report-only: `npm run audit:design`. Repeated mistakes → log in `references/coverage-gaps.md` and extend the audit script.

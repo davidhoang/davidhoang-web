@@ -55,6 +55,102 @@ function addViolation(file, line, rule, detail) {
   violations.push({ file: rel(file), line, rule, detail });
 }
 
+function addContractViolation(file, rule, detail) {
+  addViolation(file, 1, rule, detail);
+}
+
+/** Only layout.css may define hero flush pulls (design.md § Hero image padding) */
+const HERO_FLUSH_PULL = /margin-top:\s*calc\(\s*-1\s*\*\s*var\(--content-top-padding\)\s*\)/;
+
+/** Canonical layout contract — if these disappear, heroes regress (design.md § Hero image padding) */
+const LAYOUT_CONTRACT = [
+  {
+    file: 'src/styles/modules/layout.css',
+    rule: 'hero-layout-contract',
+    mustInclude: [
+      'main#main-content:has(> :is(.page-header--image',
+      'padding-top: 0',
+      'width: 100vw',
+      'margin-inline: calc(50% - 50vw)',
+    ],
+  },
+  {
+    file: 'src/layouts/MainLayout.astro',
+    rule: 'hero-critical-css',
+    mustInclude: [
+      'main#main-content:has(> .page-header--image)',
+      'width: 100vw',
+      'margin-inline: calc(50% - 50vw)',
+      'nav.glass-border.site-nav',
+      'position: fixed',
+    ],
+  },
+  {
+    file: 'src/styles/modules/nav.css',
+    rule: 'nav-fixed-contract',
+    mustInclude: ['.site-nav.glass-border', 'position: fixed'],
+  },
+  {
+    file: 'src/styles/modules/shared-components.css',
+    rule: 'glass-border-nav-contract',
+    mustInclude: ['.glass-border:not(.site-nav)'],
+  },
+  {
+    file: 'src/styles/modules/theme-variations.css',
+    rule: 'shader-hero-padding-contract',
+    mustInclude: [
+      'main.container:has(> :is(.page-header--image',
+      'padding-top: 0',
+    ],
+  },
+];
+
+function auditLayoutContract() {
+  for (const { file, rule, mustInclude } of LAYOUT_CONTRACT) {
+    const full = join(ROOT, file);
+    const content = readFileSync(full, 'utf-8');
+    for (const needle of mustInclude) {
+      if (!content.includes(needle)) {
+        addContractViolation(
+          full,
+          rule,
+          `${file} must include layout contract fragment: ${needle}`,
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Flag scoped width:100% on image heroes — beats layered 100vw (Astro injects unlayered).
+ * Allows .page-header--text { width: 100% } only.
+ */
+function auditHeroWidthInStyleBlock(file, block, blockStartLine) {
+  const rules = block.split('}');
+  for (const chunk of rules) {
+    const brace = chunk.indexOf('{');
+    if (brace === -1) continue;
+    const selector = chunk.slice(0, brace);
+    const body = chunk.slice(brace + 1);
+    if (!/width:\s*100%/.test(body) || /100vw/.test(body)) continue;
+    if (/\.page-header--text/.test(selector)) continue;
+
+    const hitsImageHero =
+      /\.page-header--image/.test(selector) ||
+      /(?:^|[,{])\s*\.page-header\s*(?:[,{]|$)/.test(selector + '{');
+
+    if (!hitsImageHero) continue;
+
+    const lineInBlock = block.slice(0, block.indexOf(chunk)).split('\n').length - 1;
+    addViolation(
+      file,
+      blockStartLine + lineInBlock,
+      'hero-full-width',
+      'Image heroes must not use scoped width:100% — use layout.css + MainLayout critical CSS (100vw breakout)',
+    );
+  }
+}
+
 function auditCssFile(file) {
   const r = rel(file);
   if (SKIP_FILES.has(r)) return;
@@ -66,14 +162,42 @@ function auditCssFile(file) {
     const line = lines[i];
     const lineNo = i + 1;
 
+    if (HERO_FLUSH_PULL.test(line) && r !== 'src/styles/modules/layout.css') {
+      addViolation(
+        file,
+        lineNo,
+        'hero-flush-centralized',
+        'Hero flush is owned by layout.css (main:has padding-top: 0) — remove margin-top pull',
+      );
+    }
+
     if (line.includes('/*')) inBlockComment = true;
     if (inBlockComment) {
       if (line.includes('*/')) inBlockComment = false;
       continue;
     }
 
-    if (/^\s*nav\s*[,{]/.test(line) && !file.includes('nav.css')) {
-      addViolation(file, lineNo, 'no-unscoped-nav', 'Scope nav rules to .site-nav — unscoped nav {} breaks other navs');
+    if (/^\s*\.glass-border\s*[,{]/.test(line) && !line.includes(':not(.site-nav)')) {
+      addViolation(
+        file,
+        lineNo,
+        'glass-border-nav',
+        'Scope .glass-border position away from .site-nav — it breaks position:fixed (design.md)',
+      );
+    }
+
+    if (
+      /\.page-header--image/.test(line) &&
+      /width:\s*100%/.test(line) &&
+      !/100vw/.test(line) &&
+      r !== 'src/styles/modules/layout.css'
+    ) {
+      addViolation(
+        file,
+        lineNo,
+        'hero-full-width',
+        'Do not set width:100% on .page-header--image — full bleed is framework-owned (100vw)',
+      );
     }
 
     if (/\.card-glass\b|cards\.style:\s*["']glass["']/.test(line) && !/card-glass-mode|card-glass-overlay/.test(line)) {
@@ -84,12 +208,14 @@ function auditCssFile(file) {
 
 function auditScopedStyles(file, content) {
   const styleBlocks = [...content.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)];
-  for (const [, block] of styleBlocks) {
+  for (const [match, block] of styleBlocks) {
+    const blockStartLine = content.slice(0, match.index).split('\n').length;
     for (const line of block.split('\n')) {
       if (/#[0-9a-fA-F]{3,8}\b/.test(line) && !line.includes('var(--')) {
         return true;
       }
     }
+    auditHeroWidthInStyleBlock(file, block, blockStartLine);
   }
   return false;
 }
@@ -108,12 +234,29 @@ function auditAstroFile(file) {
     }
   }
 
+  const styleBlocks = [...content.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)];
+  for (const [, block] of styleBlocks) {
+    for (let i = 0; i < block.split('\n').length; i++) {
+      const line = block.split('\n')[i];
+      if (HERO_FLUSH_PULL.test(line)) {
+        addViolation(
+          file,
+          i + 1,
+          'hero-flush-centralized',
+          'Hero flush is owned by layout.css (main:has padding-top: 0) — remove margin-top pull from scoped styles',
+        );
+      }
+    }
+  }
+
   if (auditScopedStyles(file, content)) {
     addViolation(file, 1, 'no-hardcoded-colors', 'Use var(--color-*) in scoped styles instead of hex literals');
   }
 }
 
 function main() {
+  auditLayoutContract();
+
   for (const file of walk(join(ROOT, 'src', 'styles'), '.css')) {
     auditCssFile(file);
   }
