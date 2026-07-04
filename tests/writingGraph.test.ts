@@ -3,12 +3,24 @@ import { buildGraph, getKeywords } from '../src/utils/writingGraph';
 
 type Post = {
   id: string;
-  data: { title: string; description?: string; tags?: string[] };
+  data: {
+    title: string;
+    description?: string;
+    tags?: string[];
+    relatedWriting?: string[];
+  };
+  body?: string;
 };
 
-const post = (id: string, title: string, tags: string[] = [], description = ''): Post => ({
+const post = (
+  id: string,
+  title: string,
+  tags: string[] = [],
+  description = '',
+  relatedWriting?: string[],
+): Post => ({
   id,
-  data: { title, tags, description },
+  data: { title, tags, description, relatedWriting },
 });
 
 describe('getKeywords', () => {
@@ -49,7 +61,7 @@ describe('buildGraph', () => {
       post('b', 'Beta post', ['design']),
     ]);
     expect(graph.edges).toHaveLength(1);
-    expect(graph.edges[0].weight).toBeGreaterThanOrEqual(3); // shared tag = weight 3
+    expect(graph.edges[0].weight).toBeGreaterThanOrEqual(4); // shared tag = weight 4
   });
 
   it('omits edges when posts share nothing', () => {
@@ -76,7 +88,7 @@ describe('buildGraph', () => {
     expect(graph.nodes.every((n) => n.degree === 0)).toBe(true);
   });
 
-  it('caps each node at MAX_EDGES_PER_NODE (=3)', () => {
+  it('caps each node at MAX_EDGES_PER_NODE (=5)', () => {
     // Five posts that all share the same tag — without the cap,
     // each node would have 4 edges.
     const posts: Post[] = ['a', 'b', 'c', 'd', 'e'].map((id) =>
@@ -85,11 +97,27 @@ describe('buildGraph', () => {
     const graph = buildGraph(posts);
     const degreeById = new Map(graph.nodes.map((n) => [n.id, n.degree]));
     for (const id of ['a', 'b', 'c', 'd', 'e']) {
-      // At least one connection but capped; cap is on outgoing candidates,
-      // dedupe may push degree slightly above 3, so we assert sane bounds.
       expect(degreeById.get(id)).toBeGreaterThan(0);
-      expect(degreeById.get(id)).toBeLessThanOrEqual(4);
+      expect(degreeById.get(id)).toBeLessThanOrEqual(6);
     }
+  });
+
+  it('creates a strong edge for author-declared relatedWriting', () => {
+    const graph = buildGraph([
+      post('a', 'Alpha', [], '', ['b']),
+      post('b', 'Beta'),
+    ]);
+    expect(graph.edges).toHaveLength(1);
+    expect(graph.edges[0].reasons).toContain('related');
+    expect(graph.edges[0].weight).toBeGreaterThanOrEqual(12);
+  });
+
+  it('includes body text in keyword overlap', () => {
+    const graph = buildGraph([
+      { id: 'a', data: { title: 'Post A', description: '' }, body: 'symphony orchestra performance' },
+      { id: 'b', data: { title: 'Post B', description: '' }, body: 'symphony concert hall acoustics' },
+    ]);
+    expect(graph.edges.length).toBeGreaterThan(0);
   });
 
   it('dedupes pairs (no parallel edges)', () => {
@@ -103,7 +131,7 @@ describe('buildGraph', () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it('weights shared tags 3x more than shared keywords', () => {
+  it('weights shared tags more than shared keywords', () => {
     // Pair 1 shares one tag (weight ≥ 3)
     // Pair 2 shares one title keyword (weight 1)
     const graph = buildGraph([

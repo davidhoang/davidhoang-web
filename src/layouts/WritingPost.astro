@@ -1,0 +1,155 @@
+---
+import WritingLayout from './WritingLayout.astro';
+import BlogMeta from '../components/BlogMeta.astro';
+import { Image } from 'astro:assets';
+import SidebarWriting from '../components/SidebarWriting.astro';
+import CommentsSection from '../components/CommentsSection.astro';
+import RelatedContentSection from '../components/RelatedContentSection.astro';
+import CompanionPrototype from '../components/CompanionPrototype.astro';
+import { formatLongDate } from '../utils/formatDate';
+import { resolveAssetImage } from '../utils/assetImages';
+import '../styles/pages/writing-post.css';
+
+const { data, relatedContent = [], headings = [] } = Astro.props;
+const { title, description, pubDate, tags } = data;
+const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
+
+const blogContent = {
+  forwards: {
+    old: { name: 'contentFadeOut', duration: '0.15s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'blogSlideIn', duration: '0.4s', delay: '0.08s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'blogSlideOut', duration: '0.2s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'contentSlideBack', duration: '0.35s', delay: '0.05s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+};
+
+const coverImage = data.coverImage;
+const coverAsset = resolveAssetImage(coverImage);
+
+const pageDescription = description || 'An article by David Hoang on design, engineering, AI, and entrepreneurship.';
+const ogImage = data.ogImage || coverImage || `/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(pageDescription)}&type=writing`;
+
+const siteUrl = 'https://www.davidhoang.com';
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+const isoDate = pubDate instanceof Date ? pubDate.toISOString() : new Date(pubDate).toISOString();
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: pageDescription,
+  datePublished: isoDate,
+  dateModified: isoDate,
+  author: { '@id': 'https://www.davidhoang.com/#person' },
+  image: ogImageUrl,
+  url: canonicalUrl,
+  publisher: { '@id': 'https://www.davidhoang.com/#person' },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+    { '@type': 'ListItem', position: 2, name: 'Writing', item: `${siteUrl}/writing` },
+    { '@type': 'ListItem', position: 3, name: title, item: canonicalUrl },
+  ],
+};
+---
+
+<WritingLayout title={title} description={pageDescription} ogImage={ogImage} disableContentMoodFilter>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <BlogMeta slot="head" ogImage={ogImage} publishDate={pubDate} tags={tags} />
+
+  <article class="writing-post" transition:animate={blogContent}>
+    {coverImage && (
+      <div class="writing-post__hero layout-breakout">
+        {coverAsset ? (
+          <Image
+            src={coverAsset}
+            alt={title}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            widths={[800, 1200, 1800, 2400]}
+            sizes="100vw"
+          />
+        ) : (
+          <img
+            src={coverImage}
+            alt={title}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            width="1200"
+            height="630"
+          />
+        )}
+      </div>
+    )}
+
+    <header class="writing-post__header">
+      <a href="/writing" class="text-eyebrow text-eyebrow--link link-plain">Writing</a>
+      <h1 class="writing-post__title" transition:name={`title-${slug}`}>{title}</h1>
+      {description && <p class="writing-post__deck">{description}</p>}
+      <div class="writing-post__meta">
+        <time datetime={pubDate}>{formatLongDate(new Date(pubDate))}</time>
+      </div>
+      {tags && tags.length > 0 && (
+        <ul class="writing-post__tags" aria-label="Tags">
+          {tags.map((tag: string) => (
+            <li class="writing-post__tag text-eyebrow">{tag}</li>
+          ))}
+        </ul>
+      )}
+    </header>
+
+    <div class="writing-post__grid">
+      <div class="writing-post__main">
+        {data.companionPrototype && <CompanionPrototype slug={data.companionPrototype} />}
+        <div class="prose-content writing-post__prose">
+          <slot />
+        </div>
+        <RelatedContentSection items={relatedContent} heading="Keep reading" />
+        <CommentsSection />
+      </div>
+      <SidebarWriting headings={headings} variant="sidebar" />
+    </div>
+  </article>
+
+  <button class="back-to-top" aria-label="Back to top" id="back-to-top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M8 3L3 8.5M8 3l5 5.5M8 3v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+    function initBackToTop() {
+      const btn = document.getElementById('back-to-top');
+      if (!btn) return;
+
+      let visible = false;
+      const toggle = () => {
+        const show = window.scrollY > 400;
+        if (show !== visible) {
+          visible = show;
+          btn.classList.toggle('visible', show);
+        }
+      };
+
+      window.addEventListener('scroll', toggle, { passive: true });
+      toggle();
+
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    initBackToTop();
+    document.addEventListener('astro:after-swap', initBackToTop);
+  </script>
+</WritingLayout>

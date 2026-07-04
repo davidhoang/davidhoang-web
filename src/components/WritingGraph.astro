@@ -16,13 +16,13 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
     viewBox="0 0 800 600"
     preserveAspectRatio="xMidYMid meet"
     role="img"
-    aria-label="Network of writing posts connected by shared tags and keyword overlap"
+    aria-label="Network of writing posts connected by shared topics and related essays"
   >
     <g data-graph-edges class="writing-graph__edges"></g>
     <g data-graph-nodes class="writing-graph__nodes"></g>
   </svg>
   <div class="writing-graph__tooltip" data-graph-tooltip aria-hidden="true"></div>
-  <p class="writing-graph__hint">Hover to highlight neighbors. Click a node to read.</p>
+  <p class="writing-graph__hint" data-graph-hint>Hover a node to see connections. Click to read.</p>
 </div>
 
 <script is:inline define:vars={{ graph }}>
@@ -33,6 +33,7 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
     const edgesG = root.querySelector('[data-graph-edges]');
     const nodesG = root.querySelector('[data-graph-nodes]');
     const tooltip = root.querySelector('[data-graph-tooltip]');
+    const hint = root.querySelector('[data-graph-hint]');
     if (!svg || !edgesG || !nodesG || !tooltip) return;
 
     const W = 800;
@@ -90,7 +91,12 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
       });
       const byId = new Map(nodes.map((n) => [n.id, n]));
       const edges = graph.edges
-        .map((e) => ({ source: byId.get(e.source), target: byId.get(e.target), weight: e.weight }))
+        .map((e) => ({
+          source: byId.get(e.source),
+          target: byId.get(e.target),
+          weight: e.weight,
+          reasons: e.reasons || [],
+        }))
         .filter((e) => e.source && e.target);
 
       for (let t = 0; t < TICKS; t++) {
@@ -118,8 +124,9 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
           const dx = e.target.x - e.source.x;
           const dy = e.target.y - e.source.y;
           const d = Math.sqrt(dx * dx + dy * dy) || 0.0001;
-          const diff = d - LINK_DIST;
-          const f = diff * LINK_STRENGTH;
+          const targetDist = LINK_DIST / Math.max(1, Math.sqrt(e.weight) * 0.35);
+          const diff = d - targetDist;
+          const f = diff * LINK_STRENGTH * Math.min(2, 0.5 + e.weight * 0.08);
           const fx = (dx / d) * f;
           const fy = (dy / d) * f;
           e.source.vx += fx;
@@ -146,6 +153,13 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
 
     function render(nodes, edges) {
       const svgNS = 'http://www.w3.org/2000/svg';
+      const edgeReasons = new Map();
+      for (const e of edges) {
+        const key = `${e.source.id}|${e.target.id}`;
+        edgeReasons.set(key, e.reasons);
+        edgeReasons.set(`${e.target.id}|${e.source.id}`, e.reasons);
+      }
+
       // Edges
       for (const e of edges) {
         const line = document.createElementNS(svgNS, 'line');
@@ -154,7 +168,7 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
         line.setAttribute('x2', e.target.x);
         line.setAttribute('y2', e.target.y);
         line.setAttribute('data-edge', `${e.source.id}|${e.target.id}`);
-        line.setAttribute('stroke-width', Math.min(2, 0.4 + e.weight * 0.15));
+        line.setAttribute('stroke-width', Math.min(3, 0.5 + e.weight * 0.12));
         edgesG.appendChild(line);
       }
       // Nodes
@@ -178,8 +192,7 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
         circle.setAttribute('r', r);
         a.appendChild(circle);
 
-        // Show label for high-degree nodes by default; rest reveal on hover.
-        const showLabel = n.degree >= 3;
+        const showLabel = n.degree >= 2;
         const label = document.createElementNS(svgNS, 'text');
         label.setAttribute('x', n.x);
         label.setAttribute('y', n.y - r - 6);
@@ -189,13 +202,54 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
         if (!showLabel) label.classList.add('writing-graph__label--muted');
         a.appendChild(label);
 
-        a.addEventListener('mouseenter', () => highlight(n.id, adjacency));
-        a.addEventListener('focus', () => highlight(n.id, adjacency));
-        a.addEventListener('mouseleave', clearHighlight);
-        a.addEventListener('blur', clearHighlight);
+        a.addEventListener('mouseenter', () => {
+          highlight(n.id, adjacency);
+          showNodeHint(n, adjacency, edgeReasons, nodes);
+        });
+        a.addEventListener('focus', () => {
+          highlight(n.id, adjacency);
+          showNodeHint(n, adjacency, edgeReasons, nodes);
+        });
+        a.addEventListener('mouseleave', () => {
+          clearHighlight();
+          resetHint();
+        });
+        a.addEventListener('blur', () => {
+          clearHighlight();
+          resetHint();
+        });
 
         nodesG.appendChild(a);
       }
+    }
+
+    function formatReasons(reasons) {
+      if (!reasons?.length) return '';
+      return reasons
+        .map((r) => (r === 'related' ? 'related essay' : r === 'keywords' ? 'shared themes' : r))
+        .join(' · ');
+    }
+
+    function showNodeHint(node, adjacency, edgeReasons, nodes) {
+      if (!hint) return;
+      const neighbors = [...(adjacency.get(node.id) ?? [])];
+      const byId = new Map(nodes.map((n) => [n.id, n]));
+      const lines = [`${node.title}`];
+      if (node.tags?.length) lines.push(`Topics: ${node.tags.join(', ')}`);
+      if (neighbors.length) {
+        const relLines = neighbors.slice(0, 4).map((id) => {
+          const other = byId.get(id);
+          const reasons = edgeReasons.get(`${node.id}|${id}`) || [];
+          const reasonText = formatReasons(reasons);
+          return reasonText ? `${other?.title} (${reasonText})` : other?.title;
+        });
+        lines.push(`Connected to: ${relLines.join('; ')}`);
+      }
+      hint.textContent = lines.join(' — ');
+    }
+
+    function resetHint() {
+      if (hint) hint.textContent = 'Hover a node to see connections. Click to read.';
     }
 
     function highlight(activeId, adjacency) {
@@ -313,12 +367,12 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
 
   .writing-graph__hint {
     margin: 0;
-    padding: 0.5rem 0.875rem;
+    padding: 0.625rem 0.875rem;
     font-size: 0.75rem;
+    line-height: 1.45;
     color: var(--color-muted, currentColor);
     border-top: 1px solid var(--color-border);
     background: var(--color-bg);
-    opacity: 0.7;
   }
 
   .writing-graph__tooltip {

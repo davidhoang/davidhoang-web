@@ -1,0 +1,32 @@
+---
+import MainLayout from './MainLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  /** Skip mood filter so sticky TOC works on long-form posts. */
+  disableContentMoodFilter?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  disableContentMoodFilter = false,
+} = Astro.props;
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  pageType="blog"
+  containerClass="container container-full"
+  disableContentMoodFilter={disableContentMoodFilter}
+>
+  <slot name="head" slot="head" />
+  <div class="writing-editorial">
+    <slot />
+  </div>
+</MainLayout>

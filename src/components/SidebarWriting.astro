@@ -7,8 +7,8 @@ interface Heading {
 
 interface Props {
   headings?: Heading[];
-  /** full: TOC + meta (default). toc-only: right-column TOC. meta-only: newsletter + links below article body on writing posts. */
-  variant?: 'full' | 'toc-only' | 'meta-only';
+  /** full: TOC + meta (default). toc-only: right-column TOC. meta-only: newsletter + links below article body. sidebar: sticky TOC + meta in one right column (writing posts). */
+  variant?: 'full' | 'toc-only' | 'meta-only' | 'sidebar';
 }
 
 const { headings = [], variant = 'full' } = Astro.props;
@@ -16,11 +16,17 @@ const { headings = [], variant = 'full' } = Astro.props;
 const tocHeadings = headings.filter((h) => h.depth === 2);
 const hasHeadings = tocHeadings.length > 0;
 
-const showToc = (variant === 'full' || variant === 'toc-only') && hasHeadings;
-const showMeta = variant === 'full' || variant === 'meta-only';
+const showToc =
+  (variant === 'full' || variant === 'toc-only' || variant === 'sidebar') && hasHeadings;
+const showMeta = variant === 'full' || variant === 'meta-only' || variant === 'sidebar';
+
+const useStickyPanel = variant === 'toc-only' || variant === 'sidebar';
 
 const showAside =
-  variant === 'meta-only' || variant === 'full' || (variant === 'toc-only' && hasHeadings);
+  variant === 'meta-only' ||
+  variant === 'full' ||
+  variant === 'sidebar' ||
+  (variant === 'toc-only' && hasHeadings);
 
 /* TOC column: outer slot is not sticky (avoids grid height ~1 line); inner panel is sticky + card */
 const asideClass = [
@@ -34,26 +40,67 @@ const asideClass = [
 const asideAria =
   variant === 'meta-only'
     ? 'Newsletter and social links'
-    : variant === 'toc-only'
-      ? 'Table of contents'
-      : 'Sidebar with additional information';
+    : variant === 'sidebar'
+      ? 'Table of contents and links'
+      : variant === 'toc-only'
+        ? 'Table of contents'
+        : 'Sidebar with additional information';
+
+const stickySlotClass = [
+  'sidebar-toc-slot',
+  variant === 'sidebar' && 'writing-sidebar-slot',
+]
+  .filter(Boolean)
+  .join(' ');
 ---
 
 {
   showAside &&
-    (variant === 'toc-only' ? (
-      <aside class="sidebar-toc-slot" role="complementary" aria-label={asideAria}>
-        <div class="sidebar-toc-panel glass-border" role="navigation" aria-label="Table of contents">
-          <h2 class="toc-heading">On this page</h2>
-          <ul class="toc-list" role="list">
-            {tocHeadings.map((heading) => (
-              <li class="toc-item">
-                <a href={`#${heading.slug}`} class="toc-link" data-heading-slug={heading.slug}>
-                  {heading.text}
+    (useStickyPanel ? (
+      <aside class={stickySlotClass} role="complementary" aria-label={asideAria}>
+        <div class="sidebar-toc-panel" role={showToc ? 'navigation' : undefined} aria-label={showToc ? 'Table of contents' : undefined}>
+          {showToc && (
+            <>
+              <h2 class="toc-heading">On this page</h2>
+              <ul class="toc-list" role="list">
+                {tocHeadings.map((heading) => (
+                  <li class="toc-item">
+                    <a href={`#${heading.slug}`} class="toc-link" data-heading-slug={heading.slug}>
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {showMeta && (
+            <>
+              <div class:list={['sidebar-section', showToc && 'sidebar-section--after-toc']}>
+                <h2>Newsletter</h2>
+                <p>Subscribe to my newsletter Proof of Concept, sent every Sunday.</p>
+                <a
+                  href="https://www.proofofconcept.pub/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="sidebar-button glass-border-button"
+                  aria-label="Subscribe to Proof of Concept newsletter"
+                >
+                  Subscribe →
                 </a>
-              </li>
-            ))}
-          </ul>
+              </div>
+
+              <div class="sidebar-section">
+                <h2>Elsewhere</h2>
+                <ul class="social-links" role="list" aria-label="Social media and other links">
+                  <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+                  <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                  <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                  <li><a href="/rss.xml" target="_blank" aria-label="Writing RSS feed">Writing RSS</a></li>
+                </ul>
+              </div>
+            </>
+          )}
         </div>
       </aside>
     ) : (
@@ -268,6 +315,12 @@ const asideAria =
     border-top: 1px solid var(--color-border);
   }
 
+  .sidebar-section--after-toc {
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 0.25rem;
+  }
+
   .sidebar-section {
     margin-bottom: 1.25rem;
     flex-shrink: 0;
@@ -423,9 +476,22 @@ const asideAria =
   }
 
   @media (max-width: 768px) {
-    /* Right-column TOC hidden — meta already follows article in main column */
-    .sidebar-toc-slot {
+    /* Right-column TOC hidden on index layouts — keep combined writing sidebar visible */
+    .sidebar-toc-slot:not(.writing-sidebar-slot) {
       display: none !important;
+    }
+
+    .writing-sidebar-slot .sidebar-toc-panel {
+      position: static;
+      max-width: 100%;
+    }
+
+    .writing-sidebar-slot .toc-list {
+      display: none;
+    }
+
+    .writing-sidebar-slot .toc-heading {
+      display: none;
     }
 
     .sidebar {

@@ -8,7 +8,6 @@ const prototypes = [
     stage: 'Stages I–III',
     subtitle: 'Initial uplift, sustained thrust, and the new mountain range — in one geology.',
     series: 'Issue 302 · The Plate Tectonics of Design Leadership',
-    essaySlug: 'design-leadership-plate-tectonics',
   },
 ];
 
@@ -30,7 +29,8 @@ const fonts =
       <h1>Prototypes</h1>
       <p class="prototype-index__lead">
         Companion visuals for Issue 302 — the emerging tectonic shifts in design leadership.
-        Read the <a href="/writing/design-leadership-plate-tectonics">companion essay</a>.
+        Read the essay on
+        <a href="https://www.proofofconcept.pub/p/design-leadership-plate-tectonics" target="_blank" rel="noopener noreferrer">Proof of Concept</a>.
       </p>
     </header>
 
@@ -43,11 +43,6 @@ const fonts =
               <span class="prototype-index__stage">{prototype.stage}</span>
               <span class="prototype-index__title">{prototype.title}</span>
               <span class="prototype-index__subtitle">{prototype.subtitle}</span>
-              {prototype.essaySlug && (
-                <span class="prototype-index__essay">
-                  Essay · /writing/{prototype.essaySlug}
-                </span>
-              )}
             </a>
           </li>
         ))
@@ -115,16 +110,6 @@ const fonts =
 
   .prototype-index__lead a {
     color: var(--ink);
-  }
-
-  .prototype-index__essay {
-    display: block;
-    margin-top: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--slate);
   }
 
   .prototype-index__list {

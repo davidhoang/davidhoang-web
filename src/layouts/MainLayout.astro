@@ -212,6 +212,8 @@ interface Props {
   disableContentMoodFilter?: boolean;
   /** Value for `<meta name="robots">` (e.g. `noindex, nofollow` for utility routes). */
   robots?: string;
+  /** Override main content container class (e.g. `container container-full` for editorial writing). */
+  containerClass?: string;
 }
 
 const { 
@@ -222,6 +224,7 @@ const {
   pageType,
   disableContentMoodFilter = false,
   robots = 'index, follow',
+  containerClass = 'container',
 } = Astro.props;
 
 // Build the document <title> and clean social titles.
@@ -693,7 +696,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
       <ShaderBackground client:visible />
-      <main id="main-content" class="container" tabindex="-1" transition:animate={contentSlide}>
+      <main id="main-content" class={containerClass} tabindex="-1" transition:animate={contentSlide}>
         <slot />
       </main>
       {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}
@@ -705,7 +708,7 @@ const ogImageUrl = ogImage.startsWith('http')
       function syncBlogPostMoodFilterBypass() {
         document.body.classList.toggle(
           'layout-no-content-filter',
-          Boolean(document.querySelector('article.blog-post')),
+          Boolean(document.querySelector('article.blog-post, article.writing-post')),
         );
       }
       syncBlogPostMoodFilterBypass();
