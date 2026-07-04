@@ -1,29 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
-import { commandPalettePages, mobileSecondaryNavItems, navItems } from '../data/navigation';
+import { mobileSecondaryNavItems, navItems } from '../data/navigation';
 
 const currentPath = Astro.url.pathname;
-
-// Build search index at build time
-const writingPosts = await getCollection('writing', ({ data }) => !data.draft);
-const notesPosts = await getCollection('notes', ({ data }) => !data.draft);
-
-const searchIndex = [
-  ...commandPalettePages,
-  ...writingPosts.map(post => ({
-    title: post.data.title,
-    description: post.data.description,
-    path: `/writing/${post.id}`,
-    type: 'writing',
-  })),
-  // Notes
-  ...notesPosts.map(note => ({
-    title: note.data.title,
-    description: note.data.description || '',
-    path: `/notes/${note.id}`,
-    type: 'note',
-  })),
-];
 ---
 
 <nav class="site-nav glass-border" aria-label="Main navigation" transition:persist>
@@ -173,19 +151,11 @@ const searchIndex = [
 </script>
 
 
-<script define:vars={{ searchIndex }}>
-  // Pass search index to window for the command palette module.
-  // This inline script runs synchronously before module scripts,
-  // guaranteeing the index is available when initCommandPalette runs.
-  window.__cmdPaletteIndex = searchIndex;
-</script>
-
 <script>
   import { initCommandPalette } from '../scripts/command-palette';
 
   function init() {
-    const index = (window as any).__cmdPaletteIndex;
-    if (index) initCommandPalette(index);
+    initCommandPalette();
   }
 
   // Use astro:page-load which fires on initial load AND after each
