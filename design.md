@@ -29,6 +29,12 @@ defaultLayout:
     forceContainerMaxWidth: 100%
     clipCardStackOverflow: true
     collapseMultiColumnGrids: true
+  mobileExperiences:
+    allowUniquePresentation: true
+    heroCardSheet: ios-modal
+    dismissGestures:
+      - swipe-down
+      - swipe-out
 themeGenerator:
   containerMaxWidth:
     min: 640px
@@ -202,7 +208,26 @@ At ≤768px, the framework actively overrides risky theme-driven layout choices.
 
 **Why this exists:** themes that look striking on a 1440px laptop frequently break on a 390px phone — editorial split-screens cascade past the viewport, narrow containers ignore the actual viewport width, and asymmetric grids produce overflow when columns can't fit. Rather than ask each theme to declare mobile-correct behavior, we lock mobile to a conservative baseline.
 
-### Motion tokens
+### Mobile unique experiences
+
+Mobile (≤768px) is allowed — and encouraged — to **override presentation** for touch-native interactions that would feel wrong on desktop. These overrides are **additive**: they scope to mobile viewport tiers (`data-viewport-tier="mobile"` / `"compact"`) or mobile-only components, and must not change nav, container globals, or theme safety nets above.
+
+**What mobile may override:**
+
+- **Hero card expand** — on phones, selected hero cards present as an iOS-style bottom sheet (`.card-hero-fullscreen-stage--sheet`) instead of the centered desktop modal. Implemented in `StackedFanLayout.tsx` + `MobileHeroSheet.tsx`.
+- **Dismiss gestures** — swipe down or swipe out (horizontal) to close the sheet, in addition to backdrop tap and Escape. Drag uses `transform` only — no layout dimension changes.
+- **Motion entry** — sheets slide up from the viewport bottom; fan cards keep motion-only deal animation (opacity stays 1).
+- **Touch affordances** — grabber handle, `:active` press feedback, scrollable sheet body with safe-area insets.
+
+**What mobile must not override:**
+
+- Nav markup, height, or unscoped `nav {}` / `.container {}` rules (see `.cursor/rules/site-nav-css.mdc`)
+- Theme-driven layout positioning outside scoped mobile components (grids still collapse; hero layout still forced to `stacked-fan`)
+- Card opacity rule — sheets stay opaque
+- Hover dimensional changes (use `:active` or drag transforms instead)
+
+**Implementation pattern:** detect mobile via `isMobileHeroViewport()` or `[data-viewport-tier]`; apply mobile-only CSS classes and React branches; keep desktop path unchanged.
+
 
 All transition timings and easings live in `src/styles/modules/variables.css`. New components must use these tokens — never hardcode `0.3s` or `cubic-bezier(...)` literals in `transition:` declarations.
 

@@ -92,6 +92,7 @@ export default function EditorialLayout({
   hasAnimatedIn,
   cardStyle,
   onCardClick,
+  onCardDismiss: _onCardDismiss,
   onCardHover,
 }: LayoutProps) {
   const isGlass = cardStyle === 'glass';
