@@ -127,6 +127,12 @@
     padding-left: 1.25em;
   }
 
+  /* Footer nav lists — keep links flush with section headings */
+  .site-footer :is(.footer-col ul, .footer-utility) {
+    padding-left: 0;
+    margin-left: 0;
+  }
+
   /* Headings use fluid typography via clamp() - no static overrides needed */
 
   :is(.hero-box, .hero-title) h1 {
