@@ -34,6 +34,15 @@ function extractFirstImageUrl(markdown: string | undefined): string | undefined 
   return undefined;
 }
 
+function buildWritingOgUrl(post: WritingPostImageInput): string {
+  const params = new URLSearchParams({
+    title: post.title,
+    type: 'writing',
+  });
+  if (post.description) params.set('description', post.description);
+  return `/api/og?${params.toString()}`;
+}
+
 /** Cover art for writing cards: explicit image, first in-body image, or generated OG. */
 export function getWritingPostThumbnail(post: WritingPostImageInput): string {
   if (post.coverImage) return post.coverImage;
@@ -42,11 +51,15 @@ export function getWritingPostThumbnail(post: WritingPostImageInput): string {
   const firstImage = extractFirstImageUrl(post.body);
   if (firstImage) return firstImage;
 
-  const params = new URLSearchParams({
-    title: post.title,
-    type: 'writing',
-  });
-  if (post.description) params.set('description', post.description);
+  return buildWritingOgUrl(post);
+}
 
-  return `/api/og?${params.toString()}`;
+/** Hero art for editorial spotlight: prefer in-body illustration over cover card. */
+export function getWritingPostHero(post: WritingPostImageInput): string {
+  const firstImage = extractFirstImageUrl(post.body);
+  if (firstImage) return firstImage;
+  if (post.coverImage) return post.coverImage;
+  if (post.ogImage) return post.ogImage;
+
+  return buildWritingOgUrl(post);
 }
