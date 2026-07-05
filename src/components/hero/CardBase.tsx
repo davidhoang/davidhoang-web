@@ -50,60 +50,71 @@ function CardHeroMedia({
       void el.play().catch(() => {});
     } else {
       el.pause();
-      try {
-        el.currentTime = 0;
-      } catch {
-        /* ignore */
-      }
     }
   }, [isHeroMediaActive, card.heroVideo, prefersReducedMotion]);
 
   const useVideo = Boolean(card.heroVideo);
   const idleImgSrc = card.heroImageStill ?? card.heroImage;
   const hasStillSwap = Boolean(card.heroImageStill);
-  const showDrift = !useVideo && isHeroMediaActive && !prefersReducedMotion;
+  const showDrift = !useVideo && !prefersReducedMotion;
 
   return (
     <div
       className={[
         'card-hero-image-wrap',
         isHeroMediaActive ? 'card-hero-image-wrap--active' : '',
-        showDrift ? 'card-hero-image-wrap--drift' : '',
       ]
         .filter(Boolean)
         .join(' ')}
     >
       {useVideo ? (
-        isHeroMediaActive ? (
+        <>
+          <img
+            className="card-hero-image card-hero-image--layer"
+            src={idleImgSrc}
+            alt=""
+            decoding="async"
+            aria-hidden={isHeroMediaActive}
+            data-visible={!isHeroMediaActive}
+          />
           <video
             ref={videoRef}
-            className="card-hero-video"
+            className="card-hero-video card-hero-video--layer"
             poster={card.heroImage}
             muted
             loop
             playsInline
             preload="metadata"
-            aria-hidden
+            aria-hidden={!isHeroMediaActive}
+            data-visible={isHeroMediaActive}
           >
             <source src={card.heroVideo} type={videoMimeType(card.heroVideo || '') || 'video/mp4'} />
           </video>
-        ) : (
+        </>
+      ) : hasStillSwap ? (
+        <>
           <img
-            key="hero-idle"
-            className="card-hero-image"
+            className="card-hero-image card-hero-image--layer"
             src={idleImgSrc}
             alt=""
             decoding="async"
+            aria-hidden={isHeroMediaActive}
+            data-visible={!isHeroMediaActive}
           />
-        )
-      ) : hasStillSwap ? (
-        <img
-          key={isHeroMediaActive ? 'hero-active' : 'hero-idle'}
-          className="card-hero-image"
-          src={isHeroMediaActive ? card.heroImage : idleImgSrc}
-          alt=""
-          decoding="async"
-        />
+          <img
+            className={[
+              'card-hero-image card-hero-image--layer',
+              showDrift ? 'card-hero-image--drift' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            src={card.heroImage}
+            alt=""
+            decoding="async"
+            aria-hidden={!isHeroMediaActive}
+            data-visible={isHeroMediaActive}
+          />
+        </>
       ) : (
         <img className="card-hero-image" src={card.heroImage} alt="" decoding="async" />
       )}

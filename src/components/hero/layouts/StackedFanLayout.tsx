@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
+import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
 import { useMagneticTilt } from '../../useMagneticTilt';
 import MobileHeroSheet from '../MobileHeroSheet';
 import { isMobileHeroViewport } from '../heroViewport';
@@ -63,6 +64,7 @@ function FanCard({
   onCardHover,
 }: FanCardProps) {
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
+  const isHovered = hoveredCard === card.id;
   const prefersReducedMotion = useReducedMotion();
   const tilt = useMagneticTilt({ disabled: true });
 
@@ -72,7 +74,7 @@ function FanCard({
       className={cardClassName(card, false, isGlass)}
       style={{
         backgroundColor: isGlass ? 'transparent' : card.color,
-        zIndex: cardCount - index,
+        zIndex: isHovered ? cardCount + 2 : cardCount - index,
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
         transformPerspective: 900,
@@ -99,7 +101,7 @@ function FanCard({
               y: position.y - 8,
               rotate: position.rotation,
               scale: 1.02,
-              transition: { type: 'tween', duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+              transition: HERO_HOVER_TWEEN,
             }
       }
       whileTap={selectedCard ? undefined : { scale: 0.99 }}
@@ -108,13 +110,16 @@ function FanCard({
         stiffness: hasAnimatedIn ? 200 : 80,
         damping: hasAnimatedIn ? 28 : 16,
         delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
+        ...(hasAnimatedIn && {
+          x: HERO_HOVER_TWEEN,
+          y: HERO_HOVER_TWEEN,
+          rotate: HERO_HOVER_TWEEN,
+          scale: HERO_HOVER_TWEEN,
+        }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={() => {
-        tilt.reset();
-        onCardHover(null);
-      }}
+      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => {
         tilt.reset();
         onCardClick(card.id, card.link);
@@ -124,7 +129,7 @@ function FanCard({
         card={card}
         isSelected={false}
         isGlass={isGlass}
-        isHeroMediaActive={hoveredCard === card.id && !selectedCard}
+        isHeroMediaActive={isHovered && !selectedCard}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>

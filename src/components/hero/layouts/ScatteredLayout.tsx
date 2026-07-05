@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
+import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
 import { useMagneticTilt } from '../../useMagneticTilt';
 
 // Seeded random number generator (mulberry32) for deterministic placement per day
@@ -89,13 +90,13 @@ function ScatteredCard({
         x: isSelected ? 0 : (isLoaded ? position.x : 0),
         y: isSelected ? -40 : (isLoaded ? position.y : 0),
         rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-        scale: isSelected ? 1.15 : (isLoaded ? (isHovered ? 1.08 : 1) : 0.92),
+        scale: isSelected ? 1.15 : (isLoaded ? 1 : 0.92),
         opacity: isOtherSelected ? 0.2 : 1,
       }}
       whileHover={!isSelected ? {
         scale: 1.06,
         rotate: 0,
-        transition: { type: 'tween', duration: 0.25, ease: [0.22, 1, 0.36, 1] }
+        transition: HERO_HOVER_TWEEN,
       } : {}}
       whileTap={!isSelected ? { scale: 0.95 } : {}}
       transition={{
@@ -103,13 +104,16 @@ function ScatteredCard({
         stiffness: hasAnimatedIn ? 200 : 80,
         damping: hasAnimatedIn ? 20 : 12,
         delay: !hasAnimatedIn && isLoaded ? index * 0.1 : 0,
+        ...(hasAnimatedIn && {
+          x: HERO_HOVER_TWEEN,
+          y: HERO_HOVER_TWEEN,
+          rotate: HERO_HOVER_TWEEN,
+          scale: HERO_HOVER_TWEEN,
+        }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={() => {
-        tilt.reset();
-        onCardHover(null);
-      }}
+      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => {
         tilt.reset();
         onCardClick(card.id, card.link);

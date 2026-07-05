@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
+import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
 import { useMagneticTilt } from '../../useMagneticTilt';
 
 /**
@@ -58,7 +59,7 @@ function FeaturedCard({ card, isGlass, selectedCard, hoveredCard, isLoaded, onCa
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={() => { tilt.reset(); onCardHover(null); }}
+      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => { tilt.reset(); onCardClick(card.id, card.link); }}
       tabIndex={0}
     >
@@ -112,7 +113,7 @@ function FilmstripCard({ card, index, cardCount, isGlass, selectedCard, hoveredC
       whileHover={!reducedMotion ? {
         scale: 1.04,
         x: -4,
-        transition: { type: 'tween', duration: 0.2, ease: [0.22, 1, 0.36, 1] },
+        transition: HERO_HOVER_TWEEN,
       } : {}}
       whileTap={{ scale: 0.97 }}
       transition={{
@@ -121,10 +122,14 @@ function FilmstripCard({ card, index, cardCount, isGlass, selectedCard, hoveredC
         stiffness: hasAnimatedIn ? 260 : 100,
         damping: hasAnimatedIn ? 22 : 14,
         delay: !hasAnimatedIn && isLoaded ? index * 0.06 : 0,
+        ...(hasAnimatedIn && {
+          x: HERO_HOVER_TWEEN,
+          scale: HERO_HOVER_TWEEN,
+        }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={() => { tilt.reset(); onCardHover(null); }}
+      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => { tilt.reset(); onSwap(); }}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSwap(); } }}
       tabIndex={0}

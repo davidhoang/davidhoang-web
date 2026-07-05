@@ -546,31 +546,30 @@
   border-radius: var(--card-hero-inner-radius) var(--card-hero-inner-radius) 0 0;
 }
 
-.card-hero-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: filter 0.35s ease;
-}
-
+.card-hero-image,
 .card-hero-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
-  transition: filter 0.35s ease;
 }
 
-.card-hero-image-wrap:not(.card-hero-image-wrap--active) .card-hero-image,
-.card-hero-image-wrap:not(.card-hero-image-wrap--active) .card-hero-video {
+.card-hero-image--layer,
+.card-hero-video--layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition:
+    opacity var(--duration-slow) var(--ease-emphasized),
+    filter var(--duration-slow) var(--ease-emphasized);
   filter: brightness(0.9) saturate(0.94);
+  will-change: opacity;
 }
 
-.card-hero-image-wrap--active .card-hero-image,
-.card-hero-image-wrap--active .card-hero-video {
+.card-hero-image--layer[data-visible='true'],
+.card-hero-video--layer[data-visible='true'] {
+  opacity: 1;
   filter: brightness(1) saturate(1);
 }
 
@@ -583,13 +582,19 @@
   }
 }
 
-.card-hero-image-wrap--drift .card-hero-image {
+/* Drift runs continuously on the active layer — visibility toggles via opacity, not class remount. */
+.card-hero-image--drift {
   animation: card-hero-drift 9s ease-in-out infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-hero-image-wrap--drift .card-hero-image {
+  .card-hero-image--drift {
     animation: none;
+  }
+
+  .card-hero-image--layer,
+  .card-hero-video--layer {
+    transition: none;
   }
 }
 
