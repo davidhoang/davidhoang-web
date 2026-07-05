@@ -91,3 +91,50 @@ a:focus-visible {
     height: 1px;
   }
 }
+
+/* Highlighter link — marker stripe behind text, darkens on hover */
+a.link-highlighter {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: none;
+  position: relative;
+  z-index: 0;
+}
+
+a.link-highlighter::before {
+  content: '';
+  position: absolute;
+  inset: auto;
+  left: -0.05em;
+  right: -0.05em;
+  bottom: 0.06em;
+  height: 0.45em;
+  background: color-mix(in srgb, var(--color-link) 30%, transparent);
+  border-radius: 0.08em;
+  filter: none;
+  opacity: 1;
+  z-index: -1;
+  pointer-events: none;
+  transition: background-color var(--duration-fast) var(--ease-inertia);
+}
+
+a.link-highlighter::after {
+  display: none !important;
+}
+
+@media (hover: hover) {
+  a.link-highlighter:hover {
+    color: inherit;
+    border-bottom-color: transparent;
+  }
+
+  a.link-highlighter:hover::before {
+    background: color-mix(in srgb, var(--color-link) 52%, transparent);
+  }
+}
+
+a.link-highlighter:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 2px;
+}

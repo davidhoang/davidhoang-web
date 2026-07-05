@@ -170,26 +170,26 @@
 .and-link,
 .role-link {
   display: inline !important;
-  color: var(--color-link);
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
+  color: inherit;
+  text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s ease;
   border: none;
   padding: 0;
   margin: 0;
 }
 
 .and-link {
-  text-decoration: none;
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  transition: color 0.2s ease;
 }
 
-.and-link:hover,
-.role-link:hover {
+.and-link:hover {
   color: var(--color-link-hover);
 }
 
-/* Suppress theme link-style ::after pseudo on hero links */
+/* Suppress global magnetic link decoration on hero links */
 .and-link::after,
 .role-link::after {
   display: none !important;
