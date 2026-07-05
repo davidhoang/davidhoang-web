@@ -100,15 +100,6 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       role="listitem"
       variants={itemVariants}
     >
-      <div className="portfolio-item-text">
-        <p>
-          {item.text.split(item.linkText)[0]}
-          <a href={item.link} target="_blank" rel="noopener noreferrer">
-            {item.linkText}
-          </a>
-          {item.text.split(item.linkText)[1] || ''}
-        </p>
-      </div>
       <motion.div
         className="portfolio-images"
         style={{
@@ -138,6 +129,15 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           height={item.image.height}
         />
       </motion.div>
+      <div className="portfolio-item-text">
+        <p>
+          {item.text.split(item.linkText)[0]}
+          <a href={item.link} target="_blank" rel="noopener noreferrer">
+            {item.linkText}
+          </a>
+          {item.text.split(item.linkText)[1] || ''}
+        </p>
+      </div>
     </motion.div>
   );
 }
