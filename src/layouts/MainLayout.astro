@@ -272,10 +272,12 @@ const ogImageUrl = ogImage.startsWith('http')
       {`(function () {
         function syncViewportTier() {
           var w = window.innerWidth;
-          var viewportTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : w <= 1024 ? 'tablet' : 'desktop';
+          var viewportTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : w <= 1024 ? 'tablet' : w <= 1366 ? 'tablet-wide' : 'desktop';
           var heroTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : w <= 1024 ? 'tablet' : 'desktop';
           document.documentElement.setAttribute('data-viewport-tier', viewportTier);
           document.documentElement.setAttribute('data-hero-viewport', heroTier);
+          var hybridPointer = window.matchMedia('(any-pointer: coarse) and (hover: hover)').matches;
+          document.documentElement.setAttribute('data-hybrid-pointer', hybridPointer ? 'true' : 'false');
         }
         syncViewportTier();
         window.__syncViewportTier = syncViewportTier;

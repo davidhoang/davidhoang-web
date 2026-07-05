@@ -122,21 +122,72 @@
   }
 }
 
-/* Tablet / iPad portrait — compact floating pill (design.md 769–1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
+/*
+ * iPad / tablet-class (769–1366px) — stable centering without translateX(-50%).
+ * Safari on iPad + Magic Keyboard mis-repositions fixed elements that combine
+ * left:50%, transform, and backdrop-filter on :hover.
+ */
+@media (min-width: 769px) and (max-width: 1366px) {
   .site-nav {
-    padding: 0 30px;
-    font-size: 1.15rem;
-    max-width: min(440px, calc(100vw - 40px));
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    transform: none;
+    --nav-float-x: 0px;
+    --nav-float-y: 0px;
+    --nav-tilt: 0deg;
+    max-width: min(620px, calc(100vw - 48px));
+    padding: 0 36px;
+    font-size: 1.3rem;
+    transition:
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      background 0.35s ease;
+  }
+
+  .site-nav::after {
+    display: none;
+  }
+
+  .nav-container {
+    gap: 0.875rem;
+    transition: none;
+  }
+
+  .nav-links {
+    gap: clamp(0.55rem, 1.4vw, 1rem);
+  }
+
+  .nav-links a:not(.rss-link) {
+    padding: 0.42rem 0.8rem;
+    font-size: 1.05rem;
+  }
+
+  .cmd-k-hint {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 
-/* iPad Pro landscape and large tablets — slightly tighter pill */
+/* iPad Pro landscape — roomier pill so links are not cramped */
 @media (min-width: 1025px) and (max-width: 1366px) {
   .site-nav {
-    padding: 0 34px;
+    max-width: min(700px, calc(100vw - 56px));
+    padding: 0 42px;
+    font-size: 1.38rem;
+  }
+
+  .nav-container {
+    gap: 1rem;
+  }
+
+  .nav-links a:not(.rss-link) {
+    padding: 0.48rem 0.9rem;
+    font-size: 1.08rem;
+  }
+
+  .logo {
     font-size: 1.25rem;
-    max-width: min(480px, calc(100vw - 40px));
   }
 }
 
@@ -171,15 +222,27 @@
   }
 }
 
-/* Tablet-class viewports: calmer nav hover (iPad + Magic Keyboard trackpad) */
+/* Tablet-class viewports: shadow-only hover (no backdrop-filter — Safari iPad bug) */
 @media (hover: hover) and (min-width: 769px) and (max-width: 1366px) {
-  .site-nav::after {
-    filter: blur(14px);
+  .site-nav:hover {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
-  .site-nav:hover::after {
-    filter: blur(16px);
+  .site-nav:hover .rss-link:hover {
+    transform: none;
   }
+}
+
+/* Hybrid pointer devices (iPad + Magic Keyboard) — belt-and-suspenders centering lock */
+html[data-hybrid-pointer='true'] .site-nav {
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  transform: none !important;
+  --nav-float-x: 0px;
+  --nav-float-y: 0px;
+  --nav-tilt: 0deg;
 }
 
 .nav-container {

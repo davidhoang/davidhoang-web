@@ -40,8 +40,9 @@
      Viewport tiers (data-viewport-tier on <html>, set in MainLayout.astro):
        compact  ≤480px   smallest phones
        mobile   481–768px mobile safety overrides apply (design.md)
-       tablet   769–1024px  tablet-enhancements.css (iPad portrait, etc.)
-       desktop  ≥1025px
+       tablet       769–1024px  tablet-enhancements.css (iPad portrait, etc.)
+       tablet-wide  1025–1366px iPad Pro landscape
+       desktop      ≥1367px
 
      Nav resize boundary is 520px (design.md mobileSmall) — see nav.css. */
   --breakpoint-mobile: 480px;

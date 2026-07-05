@@ -71,6 +71,22 @@
   }
 }
 
+/* iPad Pro landscape viewport tier (synced from MainLayout) */
+[data-viewport-tier='tablet-wide'] {
+  --tablet-section-gap: var(--spacing-2xl);
+  --tablet-prose-measure: min(44rem, 100%);
+  --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2.5rem);
+}
+
+[data-viewport-tier='tablet-wide'] .card-stack-hero--stacked-fan .cards-wrapper {
+  transform: scale(0.92);
+}
+
+[data-viewport-tier='tablet-wide'] .card-stack-section {
+  margin-top: 36px;
+  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 36px);
+}
+
 /* Touch-primary tablet: strip sticky-hover transforms (belt-and-suspenders) */
 @media (min-width: 769px) and (max-width: 1366px) and (pointer: coarse) {
   .site-nav,

@@ -1,3 +1,5 @@
+import { shouldEnableSentientNav } from '../utils/viewport-capabilities';
+
 export function initSentientNav(): (() => void) | undefined {
   const nav = document.querySelector('.site-nav') as HTMLElement | null;
   if (!nav) return;
@@ -5,18 +7,12 @@ export function initSentientNav(): (() => void) | undefined {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) return;
 
-  if (window.innerWidth <= 768) return;
-
-  // Sentient drift only makes sense with a precise hovering cursor. On
-  // touch-only iPad / hybrid devices there's no live mousemove, so the
-  // stale-cursor position keeps pulling the nav off-center during scroll.
-  // Gate on fine-pointer + hover so iPad-with-Magic-Keyboard still gets it
-  // but iPad-with-finger-touch gets a calm centered nav.
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-  /** Tablet-class viewports (iPad Pro included) — damp horizontal magnetism */
-  function isTabletClassViewport(): boolean {
-    return window.innerWidth <= 1366;
+  if (!shouldEnableSentientNav()) {
+    nav.style.removeProperty('--nav-float-x');
+    nav.style.removeProperty('--nav-float-y');
+    nav.style.removeProperty('--nav-tilt');
+    nav.style.removeProperty('--nav-glow-opacity');
+    return;
   }
 
   let animationFrame: number | null = null;
@@ -81,11 +77,6 @@ export function initSentientNav(): (() => void) | undefined {
   const HOVER_GLOW_BASE = 0.18;
   const HOVER_GLOW_EDGE = 0.1;
 
-  /** Scale down horizontal drift on tablet-class viewports (iPad Pro, etc.) */
-  function tabletMotionScale(): number {
-    return isTabletClassViewport() ? 0.35 : 1;
-  }
-
   function lerp(current: number, target: number, speed: number): number {
     return current + (target - current) * speed;
   }
@@ -103,7 +94,6 @@ export function initSentientNav(): (() => void) | undefined {
 
     if (!nav) return;
 
-    const motionScale = tabletMotionScale();
     const deltaX = mouseX - navCenterX;
     const deltaY = mouseY - navCenterY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -113,21 +103,21 @@ export function initSentientNav(): (() => void) | undefined {
     if (isHovering) {
       const nx = navLocalX - 0.5;
       const ny = navLocalY - 0.5;
-      targetX = nx * HOVER_MAX_X * motionScale;
-      targetY = ny * HOVER_MAX_Y * motionScale;
-      targetTilt = nx * HOVER_MAX_TILT * motionScale;
+      targetX = nx * HOVER_MAX_X;
+      targetY = ny * HOVER_MAX_Y;
+      targetTilt = nx * HOVER_MAX_TILT;
       const edge = Math.min(1, Math.hypot(nx * 2, ny * 2));
-      targetGlow = (HOVER_GLOW_BASE + edge * HOVER_GLOW_EDGE) * (isTabletClassViewport() ? 0.75 : 1);
+      targetGlow = HOVER_GLOW_BASE + edge * HOVER_GLOW_EDGE;
       glowPosX = lerp(glowPosX, navLocalX, GLOW_POS_LERP);
       glowPosY = lerp(glowPosY, navLocalY, GLOW_POS_LERP);
     } else if (distance < MAGNETIC_RANGE) {
       const pull = 1 - distance / MAGNETIC_RANGE;
       const easeOut = pull * pull * pull;
 
-      targetX = (deltaX / MAGNETIC_RANGE) * MAX_OFFSET * easeOut * motionScale;
+      targetX = (deltaX / MAGNETIC_RANGE) * MAX_OFFSET * easeOut;
       targetY = (deltaY / MAGNETIC_RANGE) * MAX_OFFSET * easeOut;
-      targetTilt = (deltaX / MAGNETIC_RANGE) * MAX_TILT * easeOut * motionScale;
-      targetGlow = easeOut * 0.14 * (isTabletClassViewport() ? 0.75 : 1);
+      targetTilt = (deltaX / MAGNETIC_RANGE) * MAX_TILT * easeOut;
+      targetGlow = easeOut * 0.14;
       glowPosX = lerp(glowPosX, 0.5, GLOW_POS_RETURN * (1 + easeOut));
       glowPosY = lerp(glowPosY, 0.5, GLOW_POS_RETURN * (1 + easeOut));
     } else {
