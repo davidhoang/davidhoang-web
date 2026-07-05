@@ -37,7 +37,7 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
         Designer and{' '}
         <a
           href={role.link}
-          className="role-link"
+          className="role-link link-highlighter"
           target="_blank"
           rel="noopener noreferrer"
           aria-label={roleAriaLabel}
