@@ -4,7 +4,7 @@ pubDate: 2023-03-21
 description: "My journey as a design angel investor and why we need more"
 tags: ["design","investing"]
 ---
-Until recently, angel investment felt out-of-reach due to my perception of what it took to get started—a lot of capital and deal flow. The vivid dream turned into a reality when [Paige Finn Doherty](https://paigefinndoherty.com/) inspired me to make it real by investing in a syndicate she led. The experience was so inclusive it was a rude awakening for me on what’s really needed to get started.
+Until recently, angel investment felt out of reach due to my perception of what it took to get started—a lot of capital and deal flow. The vivid dream turned into a reality when [Paige Finn Doherty](https://paigefinndoherty.com/) inspired me to make it real by investing in a syndicate she led. The experience was so inclusive it was a rude awakening for me on what’s really needed to get started.
 
 Alumni designers who found success early at Silicon Valley startups formed entities like Designer Fund, Combine VC, and Form Capital. They’ve set the vision on what design can play in the role of venture capital. Despite that, there's still a large opportunity for designers to focus on individual angel investors.
 
@@ -28,13 +28,13 @@ An angel investor once told me that the value you can deliver as a value add inv
 Why would designers want to become angel investors? Isn’t that what product managers and engineers with successful exits do? That’s the problem within itself...why not us?
 
 ### Guiding design decisions
-By the time designer joins a company, there is already so much legacy debt. Working with early startups gives us the opportunity to be proactive about problem-solving and having a design advisor can help flag dependencies early on.
+By the time a designer joins a company, there is already so much legacy debt. Working with early startups gives us the opportunity to be proactive about problem-solving and having a design advisor can help flag dependencies early on.
 
 ### Product strategy
 Designers talk a lot about how they’d like to have more product influence in the companies they work at. This has resulted in some product designers pivoting into product management. There are other ways aside from a career change to have product influence, and startup advising is a great way to flex your product strategy muscle.
 
 ### Angel investing is mentorship
-Design leader coach Mia Blume (formerly IDEO, Pinterest, and Square) often speaks about how we need sponsorship in design leadership. One way to sponsor is to allocate funds to it. By committing to a check, even at a smaller size, it’s representative of your belief in the founders and their ambitions. If you don’t have the privilege of allocating funds to investments, see how you can get involved such as being an advisor to a startup.
+Design leader coach Mia Blume (formerly IDEO, Pinterest, and Square) often speaks about how we need sponsorship in design leadership. One way to sponsor is to allocate funds to it. By committing to a check, even at a smaller size, it’s representative of your belief in the founders and their ambitions. If you don’t have the privilege of allocating funds to investments, see how you can get involved, such as being an advisor to a startup.
 
 Being an accredited investor before meant you possessed a certain level of capital, but with the Series 65, Series 7, or Series 82 exams are [new pathways for accreditation](https://www.sec.gov/resources-small-businesses/small-business-compliance-guides/amendments-accredited-investor-definition). There’s no better time to get started.
 

@@ -25,7 +25,7 @@ The hardest part of aging isn’t the number—it’s the creeping sense of irre
 
 We’re not just navigating a new wave of tech; we’re dealing with _two_ systemic shocks at once. The AI acceleration is colliding with what feels like the second Great Recession. Around 2023, tech hit a hard reset—blitzscaling gave way to layoffs, cautious capital, and a culture shift. And from that rubble, a new archetype emerged: the vibe coders. A term Andrej Karpathy used to describe the new generation building apps with generative AI—no traditional coding required, just vibes, vision, and a good prompt.
 
-Using generative AI, I had ChatGPT write a satire of Losing My Edge about vibe coders and a millennial trying to keep up with the gen z kids:
+Using generative AI, I had ChatGPT write a satire of Losing My Edge about vibe coders and a millennial trying to keep up with the Gen Z kids:
 
 >  I’m losing my edge…to the kids with ring lights and one-shot prompts, the ones who ship from Discord DMs and sleep in Notion.
 >

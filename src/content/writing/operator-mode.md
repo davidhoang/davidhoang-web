@@ -13,7 +13,7 @@ As always, the internet had a lot of opinions that obviously have to be binary a
 
 _Operator Mode._
 
-While we talk about founders and C Suite professional managers, the majority of people working at companies are operators. Tech loves adopting words from the military. An operator is someone who…well, operates—plans and executes. Above all else, I consider myself a company operator (who comes from a design background). In this issue, I’ll share how I think of my role helping founders in running their companies.
+While we talk about founders and C-suite professional managers, the majority of people working at companies are operators. Tech loves adopting words from the military. An operator is someone who…well, operates—plans and executes. Above all else, I consider myself a company operator (who comes from a design background). In this issue, I’ll share how I think of my role helping founders in running their companies.
 
 
 ## Operators that add value

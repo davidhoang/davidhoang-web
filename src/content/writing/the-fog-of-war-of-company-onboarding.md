@@ -13,7 +13,7 @@ I describe onboarding as navigating the Fog of War—a game concept. The "Fog of
 
 ![Screenshot of Command & Conquer showing the fog of war game mechanic](/images/blog/img-204-command-and-conquer.webp)
 
-The Fog of War is my metaphor for onboarding to a new company. You start at an empty point, and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire Fog of War first to get a full landscape of the map. Because you have not uncovered the Fog of War does not mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
+The Fog of War is my metaphor for onboarding to a new company. You start at an empty point, and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire Fog of War first to get a full landscape of the map. Just because you haven’t uncovered the Fog of War doesn’t mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
 
 **Capturing all the historical context is an impossible task**
 
@@ -21,7 +21,7 @@ It’s important to build context as you join a new company. I advise you to do 
 
 **You are unproven regardless of your experience**
 
-Regardless of the experience you bring, you’ll remain unproven until you gain your new team’s trust. Whether it’s a new sailor on a fishing vessel, free agent joining a new football club, or a squad member in the military, current teams already have a way of working and previous working experience together. Being the new factor on the team means it’s key to find ways to provide value and execute with the team.
+Regardless of the experience you bring, you’ll remain unproven until you gain your new team’s trust. Whether it’s a new sailor on a fishing vessel, a free agent joining a new football club, or a squad member in the military, current teams already have a way of working and prior experience working together. Being the new factor on the team means it’s key to find ways to provide value and execute with the team.
 
 ## My onboarding plan for every company
 Even though most companies provide an onboarding doc when you join, you should come up with your own. It’s not because of lack of confidence that the company can do it, but based on your experience, there are likely things you know you want to learn.

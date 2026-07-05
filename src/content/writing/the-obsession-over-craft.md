@@ -29,7 +29,7 @@ The saying is, "Culture is defined by the worst behavior you tolerate." I wholeh
 Leading through the craft is caring about managing the work. Mistakes will happen and the culture of craft is putting the attention and care to fix them.
 
 ## Well-crafted artifacts represent our work
-In Issue 144, I wrote about Creating value with artifacts. Whether we like it or not, design value is contained in well-crafted artifacts. Look at the most important artifacts of our time: The Code of Hammurabi, the Rosetta Stone of Egypt, Terra Cotta Army in China, the Liberty Bell during the American Revolution, and the Autobot Matrix of Leadership from Cybertron. These artifacts are well-crafted and designed because of the story they hold to represent the work.
+In Issue 144, I wrote about Creating value with artifacts. Whether we like it or not, design value is contained in well-crafted artifacts. Look at the most important artifacts of our time: The Code of Hammurabi, the Rosetta Stone of Egypt, the Terracotta Army in China, the Liberty Bell during the American Revolution, and the Autobot Matrix of Leadership from Cybertron. These artifacts are well-crafted and designed because of the story they hold to represent the work.
 
 The digital artifacts we create such as keynote presentations, drawings of interfaces, research insights, and brand guidelines should also withstand the test of time. Design work is deep and intangible: hours of interviews with customers, understanding the codebase and technical feasibility, mapping out how the business works, etc. I understand it is frustrating to be great at these design skills and yet be assessed by the visuals of an artifact.
 
@@ -41,7 +41,7 @@ Design is about consistency, and consistency builds trust. If you have a high ba
 In software, excellence is often described as high performance, reliability, and addressing bug fixes. Engineering should not solely be responsible for upholding these standards and needs design, product, and other counterparts to uphold the level of quality together. If forms submitted are successful 99/100 times instead of 100/100, this is the beginning of trust erosion from our customers.
 
 ## Recap
-To be clear, designers with a high bar for craft without the work ethic, ability to respectfully collaborate, and articulate their work are key requirements to be a good designer. My point is not that other skills don’t matter—they do. However, there is a sequence of importance, and craft is first. This is why it’ll inevitably be the first thing you’re evaluated on. Improve on craft and invest the majority of your time in it. The rest will work itself out and unlock greater conversations.
+To be clear, a high bar for craft without the work ethic, ability to respectfully collaborate, and ability to articulate your work won’t cut it—those are key requirements to be a good designer. My point is not that other skills don’t matter—they do. However, there is a sequence of importance, and craft is first. This is why it’ll inevitably be the first thing you’re evaluated on. Improve on craft and invest the majority of your time in it. The rest will work itself out and unlock greater conversations.
 
 ---
 

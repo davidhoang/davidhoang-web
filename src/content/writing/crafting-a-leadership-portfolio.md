@@ -46,7 +46,7 @@ Journal your experiences as you’re doing the work. It’ll help you keep track
 - [Hype Doc by David Hoang](https://medium.com/@davidhoang/your-career-hype-doc-74bfdd2ca87c) (inspired by CMD)
 
 ## Constructing the portfolio
-My portfolio is a Keynote deck. You can use anything that can be exported as a PDF you can share. I also highly recommend building a website that will be your digital portfolio. The website can serve as general content and portfolio deck can be more details. You may not want to disclose every single detail of your portfolio online and that's where a website might serve better to speak at things for a high level. It's common for design managers to have absolutely no portfolio published online. 
+My portfolio is a Keynote deck. You can use anything that can be exported as a PDF you can share. I also highly recommend building a website that will be your digital portfolio. The website can serve as general content and the portfolio deck can be more detailed. You may not want to disclose every single detail of your portfolio online, and that's where a website might serve better to speak to things at a high level. It's common for design managers to have absolutely no portfolio published online. 
 
 ### Platform
 I recommend having a website and a presentation deck ready to go. The content does not have to match 1:1 but it’s nice to have a website where you can have a general overview and a deep dive slide portfolio.
@@ -61,7 +61,7 @@ A few images and slides on your approach to management. This might include your 
 
 ### Work
 Company and role overview
-- Summary of your role (Ex: Head of Product Design at Company A leading) growth, product design, and content design.
+- Summary of your role (Ex: Head of Product Design at Company A, leading growth, product design, and content design.)
 
 ### Hierarchy of portfolio
 - Company-level
@@ -100,7 +100,7 @@ Work: Case studies and portfolio pieces you might want to include online. Be min
 By the end of the management cohort, we’ll work on your portfolio, your about page, and one case study of a project you led.
 
 ## Best practices and tips
-There are no one-size-fits-all approach for a leadership portfolio. However, here are some tips to keep in mind as you build your portfolio.
+There is no one-size-fits-all approach for a leadership portfolio. However, here are some tips to keep in mind as you build your portfolio.
 
 ### Focus on outcomes and impact
 Focus on outcomes and impact; present your work at a level higher than you might be used to. Your portfolio will look more like case studies of your time at the company and with your teams vs. individual projects.
