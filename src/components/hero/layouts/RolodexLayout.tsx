@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
+import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
 import { useMagneticTilt } from '../../useMagneticTilt';
 
 interface RolodexCardProps {
@@ -86,7 +87,7 @@ function RolodexCard({
       whileHover={!isSelected && isFront ? {
         scale: 1.03,
         y: -8,
-        transition: { type: 'tween', duration: 0.25, ease: [0.22, 1, 0.36, 1] }
+        transition: HERO_HOVER_TWEEN,
       } : {}}
       whileTap={!isSelected ? { scale: 0.98 } : {}}
       transition={{
@@ -94,13 +95,16 @@ function RolodexCard({
         stiffness: hasAnimatedIn ? 200 : 100,
         damping: hasAnimatedIn ? 25 : 15,
         delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
+        ...(hasAnimatedIn && {
+          x: HERO_HOVER_TWEEN,
+          y: HERO_HOVER_TWEEN,
+          rotateY: HERO_HOVER_TWEEN,
+          scale: HERO_HOVER_TWEEN,
+        }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={() => {
-        tilt.reset();
-        onCardHover(null);
-      }}
+      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => {
         tilt.reset();
         if (isFront || isSelected) {

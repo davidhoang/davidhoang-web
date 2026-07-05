@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
+import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
 import { useMagneticTilt } from '../../useMagneticTilt';
 
 interface EditorialCardProps {
@@ -50,7 +51,7 @@ function EditorialCard({
       }}
       whileHover={!isSelected ? {
         x: 8,
-        transition: { type: 'tween', duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+        transition: HERO_HOVER_TWEEN,
       } : {}}
       whileTap={!isSelected ? { scale: 0.98 } : {}}
       transition={{
@@ -59,15 +60,12 @@ function EditorialCard({
         damping: hasAnimatedIn ? 20 : 14,
         delay: !hasAnimatedIn && isLoaded ? index * 0.06 : 0,
         ...(hasAnimatedIn && {
-          x: { type: 'tween' as const, duration: 0.32, ease: [0.22, 1, 0.36, 1] as const },
+          x: HERO_HOVER_TWEEN,
         }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={() => {
-        tilt.reset();
-        onCardHover(null);
-      }}
+      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => {
         tilt.reset();
         onCardClick(card.id, card.link);

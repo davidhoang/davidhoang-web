@@ -23,6 +23,7 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 - [ ] Colors via `var(--color-*)` only (no raw hex in new scoped styles)
 - [ ] Spacing via `var(--spacing-*)` or theme tokens (`--card-padding`, `--section-spacing`, etc.)
 - [ ] Motion via `var(--duration-*)` and `var(--ease-*)`
+- [ ] Motion continuity: no remount/restart on hover; wrapper-aware hover leave; entrance springs vs interaction tweens (see `design.md` § Motion continuity)
 - [ ] Cards opaque — `flat`, `elevated`, `outlined`, `filled` only; never `glass`
 - [ ] Hover: color, shadow, transform only — no padding/margin/gap/width/height changes
 - [ ] Focus rings use `--focus-ring*` tokens

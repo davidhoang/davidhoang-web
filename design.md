@@ -257,6 +257,20 @@ All transition timings and easings live in `src/styles/modules/variables.css`. N
 
 The View Transitions API (used in `MainLayout.astro` and `BlogPost.astro`) consumes easing as JS strings — those values can't reference CSS variables and stay literal.
 
+### Motion continuity
+
+Interactive motion must feel **fluid and uninterrupted**. Animations must never visibly restart when pointer state changes (hover, focus, or moving between adjacent targets).
+
+**Rules:**
+
+1. **No remount-on-hover** — do not swap React `key`, conditionally mount/unmount media, or toggle CSS classes that restart `@keyframes` when hover moves between siblings. Keep both states in the DOM and crossfade with `opacity` (or `visibility`) so the animation timeline continues.
+2. **No idle frame between hovers** — when moving between cards in a group, do not clear hover state on `mouseleave` if the pointer entered another card in the same `.cards-wrapper`. Use `handleCardHoverLeave()` from `src/components/hero/cardHover.ts` (checks `relatedTarget` against the wrapper).
+3. **Separate entrance from interaction** — one-time deal/entrance animations use spring physics; after `hasAnimatedIn`, hover and layout shifts use **tween** transitions (`HERO_HOVER_TWEEN` in `cardHover.ts`, aligned with `--ease-emphasized`). Do not mix spring return paths with `whileHover` tweens on the same properties.
+4. **Pause, don't reset** — looping video or drift motion pauses when idle; do not reset `currentTime` or re-add animation classes on every hover toggle.
+5. **Prefer transform/opacity** — state changes animate via `transform` and `opacity` only (see [Hover state hygiene](#hover-state-hygiene)). Filter/brightness shifts may crossfade but must not remount elements.
+
+**Hero reference:** `CardBase.tsx` (layered hero media), `StackedFanLayout.tsx` (post-entrance tween + wrapper-aware hover), `card-stack-hero.css` (`.card-hero-image--layer`, continuous drift).
+
 ### Focus ring
 
 Keyboard focus indicators are sourced from a single token set. Component overrides MUST use these tokens — never hardcode `outline: 2px solid var(--color-link)`.
