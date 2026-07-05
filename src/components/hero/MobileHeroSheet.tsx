@@ -71,15 +71,28 @@ export default function MobileHeroSheet({
     setDragProgress(Math.max(0, info.offset.y));
   };
 
+  const dismissDown = async () => {
+    if (prefersReducedMotion) {
+      onDismiss();
+      return;
+    }
+    await controls.start({
+      y: window.innerHeight,
+      transition: { duration: 0.28, ease: [0.32, 0.72, 0, 1] },
+    });
+    onDismiss();
+  };
+
+  const handleCloseClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    void dismissDown();
+  };
+
   const handleDragEnd = async (_event: PointerEvent, info: PanInfo) => {
     const dismiss = shouldDismissDrag(info);
 
     if (dismiss === 'down') {
-      await controls.start({
-        y: window.innerHeight,
-        transition: { duration: 0.28, ease: [0.32, 0.72, 0, 1] },
-      });
-      onDismiss();
+      await dismissDown();
       return;
     }
 
@@ -133,11 +146,24 @@ export default function MobileHeroSheet({
         aria-label={`${card.title} details`}
         tabIndex={-1}
       >
-        <div
-          className="card-sheet-grabber"
-          aria-hidden="true"
-          onPointerDown={startDragFromHandle}
-        />
+        <div className="card-sheet-header">
+          <div
+            className="card-sheet-grabber"
+            aria-hidden="true"
+            onPointerDown={startDragFromHandle}
+          />
+          <button
+            type="button"
+            className="card-sheet-close"
+            onClick={handleCloseClick}
+            aria-label="Close"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
         <div
           ref={scrollRef}
           className="card-sheet-scroll"
