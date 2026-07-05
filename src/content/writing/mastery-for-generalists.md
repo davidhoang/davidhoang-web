@@ -12,13 +12,13 @@ When I was on the Product team at One Medical, our clinical and Ops teams were c
 
 ![Mastery for generalists](/images/blog/2022/img-2022-mastery-for-generalists-01.webp)
 
-"Why did you decide to be a generalist instead of a specialist?", I'd ask each provider. What compelled them to general care vs. being a specialist? Primary care physicians experience more burnout and specialists make more money. The truth is you make more money as a specialist, so what would compel someone to general care? The answer was consistent: to have a broader range to care for their patients' health.
+"Why did you decide to be a generalist instead of a specialist?", I'd ask each provider. What compelled them to pursue general care vs. being a specialist? Primary care physicians experience more burnout and specialists make more money. The truth is you make more money as a specialist, so what would compel someone to pursue general care? The answer was consistent: to have a broader range in which to care for their patients' health.
 
 The path for specialists is more clear than generalists. If one chooses the generalist path, what does mastery look like? The notion of mastery as a generalist sounds oxymoronic. Let's challenge that and identify how to grow in your craft in a generalist role. In order to master being a generalist, let's reflect on how to know if you are a generalist, the impact they make, and leveling up as generalist practitioners.
 
 ## You might be a generalist...
 
-If you grew up in the 90s and experiencing lower back pain, you may remember comedian Jeff Foxworthy's "You might be a redneck" routine: "If you've been on the television more than five times describing what the tornado sounds like, you might be a redneck." We can remix that and play it back with being a generalist:
+If you grew up in the 90s and are experiencing lower back pain, you may remember comedian Jeff Foxworthy's "You might be a redneck" routine: "If you've been on the television more than five times describing what the tornado sounds like, you might be a redneck." We can remix that and play it back with being a generalist:
 
 - If you can't decide if you want to be a product manager, designer, or engineer, you might be a generalist
 
@@ -40,7 +40,7 @@ Generalists are people who love variety, connecting the dots, and curious. In co
 
 ## Generalists spark alchemy
 
-In the article "Generalists CEOs Not Specialists Spur Innovation," there is a great excerpt on how generalist spark innovation:
+In the article "Generalists CEOs Not Specialists Spur Innovation," there is a great excerpt on how generalists spark innovation:
 
 "Under generalist CEOs, companies tend to engage in more 'exploitative' innovation, which involves improving or refining something that already exists, and also more 'exploratory' innovation — that is, engaging in a risky search for radical and transformative innovation. However, the difference between specialist CEOs and generalists is especially pronounced in exploratory innovation."
 
@@ -56,11 +56,11 @@ If there's one specialty a generalist has, it's learning to learn. Build familia
 
 ### Understand every role
 
-I've worked in so many aspects of design: UI Designer, Information Architect, Marketing Designer, Motion Designer, Researcher, or Product Designer, I've worked in dozens of roles. Understanding everyone's roles and responsibilities helps you influence at a higher scale since you have a sense of what everyone is doing. It allows you to give better input and direction.
+Whether as UI Designer, Information Architect, Marketing Designer, Motion Designer, Researcher, or Product Designer, I've worked in dozens of roles. Understanding everyone's roles and responsibilities helps you influence at a higher scale since you have a sense of what everyone is doing. It allows you to give better input and direction.
 
 ### Build connective skills
 
-Understand how every org works and connecting the dots across them. One of the services I was most passionate at while at One Medical was pediatrics and family practice. Whenever I had a coffee break or free time, I'd make time to connect with people who were passionate about that program and ways to support it. Learn how to synthesize, story tell, and connect to the big picture.
+Understand how every org works and connecting the dots across them. One of the services I was most passionate about at One Medical was pediatrics and family practice. Whenever I had a coffee break or free time, I'd make time to connect with people who were passionate about that program and ways to support it. Learn how to synthesize, storytell, and connect to the big picture.
 
 Mastering the generalist path means everyone will be better than you at something, but you're better than everyone at every little thing.
 

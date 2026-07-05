@@ -8,7 +8,7 @@ tags: ["career"]
 
 The investor update is a crucial email sent by startup founders. Every month or quarter (or whatever cadence), founders send a note to all investors to give them updates on metrics, product roadmap, burn rate, etc. I’ve found them exceptionally informative and they also bring a lot of joy in hearing people’s successes. When it comes to your career or life ambitions, I’m a proponent of [assembling a personal board](https://medium.com/@davidhoang/assembling-your-personal-board-of-directors-f2a8ebdc1163) of directors—trusted individuals who can give you guidance as you need. For the last few years, I’ve made an effort to keep them informed and updated on my progress—career advisor updates.
 
-I send an annual update to this group to keep them in the loop. Here's how I think about who belongs on your advisory, why these updates matter, and what to include when you write one.
+I send an annual update to this group to keep them in the loop. Here's how I think about who belongs on your advisory board, why these updates matter, and what to include when you write one.
 
 ## The advisory roster
 Mentors and advisors are crucial supporting characters in your career journey. As you continue moving forward, it’s natural you won’t communicate with them as much as you did. You no longer work with them and people are busy. However, it’s important to foster these relationships along the way. Some ideas of people who might be on your group of advisors:
@@ -28,7 +28,7 @@ Email updates to your advisors invoke serendipitous moments. People I’ve manag
 Let's brainstorm a few places to start if you feel stuck on where to begin.
 
 ### Start with a personal intro
-Start with a human intro and let your advisory know how things are going personally before jumping into business. Update on how life is going and how you’re doing.
+Start with a human intro and let your advisors know how things are going personally before jumping into business. Update on how life is going and how you’re doing.
 
 ### Professional wins and challenges from the past year
 This is the bulk of the update—a recap you'd give to stakeholders. This advisory group knows you very well and can give you guidance other people cannot. When I write about something I'm struggling with professionally, they tend to come back with a lot of advice that is useful because they know my strengths, weaknesses, and ambitions.

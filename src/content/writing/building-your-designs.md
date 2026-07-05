@@ -8,7 +8,7 @@ tags: ["design","engineering"]
 
 At some point in a designer’s career, the age-old question is asked: "Should designers code?" My direct answer for people who design software interfaces is yes. This is a belief I've held my entire career. Despite my stance, I don't like the question. It might be the wrong question to focus on and varies depending on who is asking it. Designers feel like they are doing multiple jobs, so if someone outside our practice provokes the question, it feels like we're being asked to do more without being rewarded for the work.
 
-At its core, design is taking an idea and making it tangible. Building your designs is a continuation and extension of that tangibility. Ignore the question of whether designers should code and look this way:
+At its core, design is taking an idea and making it tangible. Building your designs is a continuation and extension of that tangibility. Ignore the question of whether designers should code and think of it this way:
 
 _Designers build._
 
@@ -35,10 +35,10 @@ Understanding the build materials fosters accessible design. If you care about a
 ## Understanding the production line
 Building and shipping software is like other product development processes. There is a production cycle that usually can be improved. One added benefit of building your designs is understanding how software is made. There is a slew of steps before you should ship: implementation, quality assurance, systems testing, and more.
 
-Going through this process yourself allows a clear picture on what happens to the design through implementation. You’ll better understand bottlenecks and have a stronger sense of what considerations will need to be made as your design gets pushed through.
+Going through this process yourself gives you a clear picture of what happens to the design through implementation. You’ll better understand bottlenecks and have a stronger sense of what considerations will need to be made as your design gets pushed through.
 
 ## Getting acclimated to building
-If you’ve never built software with code, getting started can feel intimidating. Fortunately, the code barrier is lowering every day, making it more approachable and accessible to do so. Building is not a process, it's an action of transformation, and it matters less on how you build it.
+If you’ve never built software with code, getting started can feel intimidating. Fortunately, the code barrier is lowering every day, making it more approachable and accessible to do so. Building is not a process, it's an action of transformation, and it matters less how you build it.
 
 When learning a new skill, I recommend finding the laziest way possible to build confidence. I used to take screenshots and reproduce them in Photoshop to build up my interface design skills. Here are some ideas to accelerate your comfort with the material of software:
 
@@ -51,7 +51,7 @@ As you get more comfortable, you’ll be able to write more code from scratch. R
 ## Building empowers
 It’s heartbreaking to see a designer spend all this time working on screens and it never coming to life. Build your designs because you will make your idea tangible—don’t do it for others. It’s not, “designers should do this.” It’s, “I will do this.”
 
-Someone once said to me, "When you build your designs, it expands your influence in decision-making. Why would you opt out of those as a designer?" I think about this a lot. Great software designers think of design from idea to software. We proclaim this a lot yet don't practice it.
+Someone once said to me, "When you build your designs, it expands your influence in decision-making. Why would you opt out of that as a designer?" I think about this a lot. Great software designers think of design from idea to software. We proclaim this a lot yet don't practice it.
 
 Building your designs makes you a better designer.
 

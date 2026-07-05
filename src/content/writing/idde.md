@@ -13,7 +13,7 @@ Many millennial designers grew up playing with Microsoft Paint—often the first
 
 The traditional IDE is a suite of tools and features needed for you to build and ship software. I never understood why design wasn't a part of it. Funny story: when I interviewed with Apple's Xcode team many years ago, one of the interviewers asked me what wild idea I would propose. "I would buy Sketch 2.0 and make it the new Interface Builder." This probably killed the interview for me.
 
-Today, this vision of design tools and developer tools coming together is becoming more real than ever—not because of my experiences with Visual Basic as an eight year-old, but the way software is made is rapidly changing.
+Today, this vision of design tools and developer tools coming together is becoming more real than ever—not because of my experiences with Visual Basic as an eight-year-old, but because the way software is made is rapidly changing.
 
 There are forces of nature in play accelerating this change, and it’s more timely than ever. The first is the adoption of Large Language Models (LLMs)—no surprise if you've been following tech trends in the past 12–18 months. I don't think LLMs are a fad or hype cycle but a foundational change. Because of the complexity of these systems, drawing UI isn't sufficient to design for something so dynamic. LLMs are only one example of a dynamic system being a core aspect of software. With innovations like Open Interpreter’s 01, multiple-device interaction is another complex system that drawing software cannot comprehend.
 

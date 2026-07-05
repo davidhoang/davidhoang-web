@@ -22,7 +22,7 @@ Systems and concepts can be hard to interpret. One wrong word and someone might 
 
 ### Push stories ahead
 
-Have you ever presented in a meeting and people start asking questions before you can finish? I've probably done this myself. Moving the story along allows people to pay attention and follow your tempo. Sharing an artifact can give people something to pay attention to. It could even be a MacGuffin. What's a MacGuffin? If you saw Star Wars: Rise of Skywalker, you asked yourself, "Why are they looking for this random dagger?" That's a MacGuffin—an unnecessary object that moves things forward. The equivalent of a MacGuffin in design storytelling is when you wave the magic wand and ask people to move forward with assumptions. It helps move you to where you want to get to the point. Aspire to create something more than a MacGuffin though. All I'm saying is you can keep it dead simple.
+Have you ever presented in a meeting and people start asking questions before you can finish? I've probably done this myself. Moving the story along allows people to pay attention and follow your tempo. Sharing an artifact can give people something to pay attention to. It could even be a MacGuffin. What's a MacGuffin? If you saw Star Wars: Rise of Skywalker, you asked yourself, "Why are they looking for this random dagger?" That's a MacGuffin—an unnecessary object that moves things forward. The equivalent of a MacGuffin in design storytelling is when you wave the magic wand and ask people to move forward with assumptions. It helps move you to the point. Aspire to create something more than a MacGuffin though. All I'm saying is you can keep it dead simple.
 
 ### Leave a clear footprint
 
@@ -64,7 +64,7 @@ We printed out several copies and shared the narrative with our coworkers and st
 
 ## Try making artifacts
 
-Don't underestimate the power of making an artifact. If you don't know where to start, make a simple drawing or diagram. Share it with a colleague to see if it's helpful. As you build a conversation around it, it'll prove its value. Finally, making artifacts are fun. I wish you luck in your artifact-making.
+Don't underestimate the power of making an artifact. If you don't know where to start, make a simple drawing or diagram. Share it with a colleague to see if it's helpful. As you build a conversation around it, it'll prove its value. Finally, making artifacts is fun. I wish you luck in your artifact-making.
 
 ---
 
