@@ -33,6 +33,7 @@ defaultLayout:
     allowUniquePresentation: true
     heroCardSheet: ios-modal
     dismissGestures:
+      - close-button
       - swipe-down
       - swipe-out
 themeGenerator:
@@ -219,7 +220,7 @@ Mobile (≤768px) is allowed — and encouraged — to **override presentation**
 **What mobile may override:**
 
 - **Hero card expand** — on phones, selected hero cards present as an iOS-style bottom sheet (`.card-hero-fullscreen-stage--sheet`) instead of the centered desktop modal. Implemented in `StackedFanLayout.tsx` + `MobileHeroSheet.tsx`.
-- **Dismiss gestures** — swipe down or swipe out (horizontal) to close the sheet, in addition to backdrop tap and Escape. Drag uses `transform` only — no layout dimension changes.
+- **Dismiss gestures** — swipe down or swipe out (horizontal) to close the sheet, in addition to backdrop tap, Escape, and an explicit close button (`.card-sheet-close`). The close button is required on mobile because swipe-down dismiss conflicts with browser pull-to-refresh. Drag uses `transform` only — no layout dimension changes.
 - **Motion entry** — sheets slide up from the viewport bottom; fan cards keep motion-only deal animation (opacity stays 1).
 - **Touch affordances** — grabber handle, `:active` press feedback, scrollable sheet body with safe-area insets.
 

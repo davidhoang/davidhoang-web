@@ -779,12 +779,53 @@
   flex-direction: column;
 }
 
-.card-sheet-grabber {
+.card-sheet-header {
+  position: relative;
   flex: 0 0 auto;
+  width: 100%;
+}
+
+.card-sheet-grabber {
   width: 100%;
   padding: var(--spacing-sm) 0 var(--spacing-xs);
   cursor: grab;
   touch-action: none;
+}
+
+.card-sheet-close {
+  position: absolute;
+  top: max(0.25rem, env(safe-area-inset-top, 0px));
+  right: max(0.35rem, env(safe-area-inset-right, 0px));
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  color: var(--color-text);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background-color var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard);
+}
+
+.card-sheet-close:hover {
+  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  border-color: color-mix(in srgb, var(--color-text) 24%, transparent);
+}
+
+.card-sheet-close:active {
+  transform: scale(0.96);
+}
+
+.card-sheet-close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .card-sheet-grabber::before {
