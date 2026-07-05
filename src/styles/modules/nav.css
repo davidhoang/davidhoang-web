@@ -74,12 +74,10 @@
              translateY(var(--nav-float-y))
              translateX(var(--nav-float-x))
              rotate(var(--nav-tilt));
-  /* Smooth transitions for all properties */
+  /* Smooth transitions — transform excluded; sentient nav updates --nav-float-* every frame */
   transition:
-    transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
     min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     background 0.35s ease,
@@ -124,17 +122,21 @@
   }
 }
 
-/* Large tablet adjustments - keep desktop .site-nav but reduce size */
+/* Tablet / iPad portrait — compact floating pill (design.md 769–1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .site-nav {
-    padding: 0 36px;
-    font-size: 1.2rem;
+    padding: 0 30px;
+    font-size: 1.15rem;
+    max-width: min(440px, calc(100vw - 40px));
   }
+}
 
-  @media (hover: hover) and (min-width: 769px) {
-    .site-nav:hover {
-      padding: 0 36px;
-    }
+/* iPad Pro landscape and large tablets — slightly tighter pill */
+@media (min-width: 1025px) and (max-width: 1366px) {
+  .site-nav {
+    padding: 0 34px;
+    font-size: 1.25rem;
+    max-width: min(480px, calc(100vw - 40px));
   }
 }
 
@@ -143,11 +145,9 @@
   box-shadow: var(--shadow-scrolling);
 }
 
-/* Only apply hover effects on devices that support hover AND are not mobile */
+/* Hover affordances — color, shadow, backdrop only (no padding/gap/top; design.md) */
 @media (hover: hover) and (min-width: 769px) {
   .site-nav:hover {
-    top: 20px;
-    padding: 0 40px;
     box-shadow:
       0 0 0 3px var(--color-border),
       var(--shadow-hover);
@@ -160,21 +160,6 @@
     filter: blur(24px);
   }
 
-  .site-nav:hover .nav-container {
-    gap: clamp(0.65rem, 1.5vw, 1.5rem);
-    /* Avoid scale — it pushes glyphs into the rounded clip with backdrop-filter */
-    transform: none;
-  }
-
-  .site-nav:hover:active .nav-container {
-    transform: none;
-  }
-
-  .site-nav.cmd-palette-active:hover:active .nav-container,
-  .site-nav.cmd-palette-active:active .nav-container {
-    transform: none;
-  }
-
   .site-nav:hover .rss-link {
     opacity: 0.72;
   }
@@ -184,7 +169,17 @@
     border-color: color-mix(in srgb, var(--color-link) 28%, transparent);
     background: color-mix(in srgb, var(--color-link) 10%, transparent);
   }
+}
 
+/* Tablet-class viewports: calmer nav hover (iPad + Magic Keyboard trackpad) */
+@media (hover: hover) and (min-width: 769px) and (max-width: 1366px) {
+  .site-nav::after {
+    filter: blur(14px);
+  }
+
+  .site-nav:hover::after {
+    filter: blur(16px);
+  }
 }
 
 .nav-container {

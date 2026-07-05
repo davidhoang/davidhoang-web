@@ -1032,6 +1032,15 @@
   }
 }
 
+/* Tablet tier (769–1024px) — iPad portrait; synced via data-hero-viewport */
+[data-hero-viewport='tablet'] .card-stack-hero--stacked-fan .cards-wrapper {
+  transform: scale(0.88);
+}
+
+[data-hero-viewport='tablet'] .card-stack-hero .hero-title {
+  font-size: clamp(3.5rem, 6.5vw, 5rem);
+}
+
 @media (max-width: 768px) {
   .card-stack-hero {
     min-height: 400px;

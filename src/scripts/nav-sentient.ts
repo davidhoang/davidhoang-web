@@ -14,6 +14,11 @@ export function initSentientNav(): (() => void) | undefined {
   // but iPad-with-finger-touch gets a calm centered nav.
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
+  /** Tablet-class viewports (iPad Pro included) — damp horizontal magnetism */
+  function isTabletClassViewport(): boolean {
+    return window.innerWidth <= 1366;
+  }
+
   let animationFrame: number | null = null;
   let isHovering = false;
   let mouseX = window.innerWidth / 2;
@@ -76,6 +81,11 @@ export function initSentientNav(): (() => void) | undefined {
   const HOVER_GLOW_BASE = 0.18;
   const HOVER_GLOW_EDGE = 0.1;
 
+  /** Scale down horizontal drift on tablet-class viewports (iPad Pro, etc.) */
+  function tabletMotionScale(): number {
+    return isTabletClassViewport() ? 0.35 : 1;
+  }
+
   function lerp(current: number, target: number, speed: number): number {
     return current + (target - current) * speed;
   }
@@ -93,6 +103,7 @@ export function initSentientNav(): (() => void) | undefined {
 
     if (!nav) return;
 
+    const motionScale = tabletMotionScale();
     const deltaX = mouseX - navCenterX;
     const deltaY = mouseY - navCenterY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -102,21 +113,21 @@ export function initSentientNav(): (() => void) | undefined {
     if (isHovering) {
       const nx = navLocalX - 0.5;
       const ny = navLocalY - 0.5;
-      targetX = nx * HOVER_MAX_X;
-      targetY = ny * HOVER_MAX_Y;
-      targetTilt = nx * HOVER_MAX_TILT;
+      targetX = nx * HOVER_MAX_X * motionScale;
+      targetY = ny * HOVER_MAX_Y * motionScale;
+      targetTilt = nx * HOVER_MAX_TILT * motionScale;
       const edge = Math.min(1, Math.hypot(nx * 2, ny * 2));
-      targetGlow = HOVER_GLOW_BASE + edge * HOVER_GLOW_EDGE;
+      targetGlow = (HOVER_GLOW_BASE + edge * HOVER_GLOW_EDGE) * (isTabletClassViewport() ? 0.75 : 1);
       glowPosX = lerp(glowPosX, navLocalX, GLOW_POS_LERP);
       glowPosY = lerp(glowPosY, navLocalY, GLOW_POS_LERP);
     } else if (distance < MAGNETIC_RANGE) {
       const pull = 1 - distance / MAGNETIC_RANGE;
       const easeOut = pull * pull * pull;
 
-      targetX = (deltaX / MAGNETIC_RANGE) * MAX_OFFSET * easeOut;
+      targetX = (deltaX / MAGNETIC_RANGE) * MAX_OFFSET * easeOut * motionScale;
       targetY = (deltaY / MAGNETIC_RANGE) * MAX_OFFSET * easeOut;
-      targetTilt = (deltaX / MAGNETIC_RANGE) * MAX_TILT * easeOut;
-      targetGlow = easeOut * 0.14;
+      targetTilt = (deltaX / MAGNETIC_RANGE) * MAX_TILT * easeOut * motionScale;
+      targetGlow = easeOut * 0.14 * (isTabletClassViewport() ? 0.75 : 1);
       glowPosX = lerp(glowPosX, 0.5, GLOW_POS_RETURN * (1 + easeOut));
       glowPosY = lerp(glowPosY, 0.5, GLOW_POS_RETURN * (1 + easeOut));
     } else {
@@ -159,6 +170,7 @@ export function initSentientNav(): (() => void) | undefined {
 
   function handleNavPointerLeave() {
     isHovering = false;
+    refreshNavRect();
   }
 
   document.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -168,6 +180,11 @@ export function initSentientNav(): (() => void) | undefined {
   nav.addEventListener('mousemove', updateNavLocalFromEvent, { passive: true });
   nav.addEventListener('mouseleave', handleNavPointerLeave);
 
+  const resizeObserver = typeof ResizeObserver !== 'undefined'
+    ? new ResizeObserver(() => refreshNavRect())
+    : null;
+  resizeObserver?.observe(nav);
+
   function handleVisibilityChange() {
     if (document.hidden) {
       if (animationFrame) {
@@ -176,6 +193,7 @@ export function initSentientNav(): (() => void) | undefined {
       }
     } else if (!animationFrame) {
       lastTime = performance.now();
+      refreshNavRect();
       animationFrame = requestAnimationFrame(animate);
     }
   }
@@ -196,6 +214,7 @@ export function initSentientNav(): (() => void) | undefined {
     nav.removeEventListener('mouseenter', handleNavPointerEnter);
     nav.removeEventListener('mousemove', updateNavLocalFromEvent);
     nav.removeEventListener('mouseleave', handleNavPointerLeave);
+    resizeObserver?.disconnect();
     if (animationFrame) cancelAnimationFrame(animationFrame);
   };
 }
