@@ -112,7 +112,7 @@ function createResultItem(item: SearchItem, resultIndex: number, query = '') {
   appendHighlightedText(title, item.title, query);
   main.append(title);
 
-  if (item.description) {
+  if (item.description && item.type !== 'page') {
     const desc = document.createElement('span');
     desc.className = 'cmd-palette-item__desc';
     desc.textContent = item.description;

@@ -328,7 +328,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   text-decoration: none;
   border-bottom: none;
   color: var(--color-nav-text);
-  border-radius: 10px;
+  /* Pill highlight — same capsule language as .site-nav (28px on 48px bar) */
+  border-radius: 9999px;
   transition:
     color 0.2s ease,
     background-color 0.2s ease,
@@ -356,7 +357,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   .nav-links a:not(.rss-link) {
     height: auto;
     padding: 0.35rem 0.7rem;
-    border-radius: 10px;
+    border-radius: 9999px;
   }
 
   .nav-links a[aria-current="page"] {
