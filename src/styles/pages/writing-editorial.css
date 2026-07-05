@@ -163,8 +163,8 @@
 
 /* Featured spotlight */
 .writing-spotlight {
-  padding-top: clamp(1.5rem, 3vw, 2.5rem);
-  padding-bottom: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.25rem, 2.5vw, 2rem);
+  padding-bottom: clamp(1.25rem, 3vw, 2rem);
 }
 
 .writing-spotlight__link {
@@ -195,11 +195,11 @@
 .writing-spotlight__image {
   width: 100%;
   height: auto;
-  max-height: min(56vh, 680px);
+  max-height: min(36vh, 440px);
   display: block;
   object-fit: cover;
   object-position: center;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 16 / 9;
   transition: transform var(--duration-slower) var(--ease-inertia);
 }
 
@@ -473,7 +473,7 @@
 @media (max-width: 768px) {
   .writing-spotlight__image {
     aspect-ratio: 16 / 10;
-    max-height: min(42vh, 420px);
+    max-height: min(28vh, 280px);
   }
 
   .writing-card {
