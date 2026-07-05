@@ -276,7 +276,8 @@ const ogImageUrl = ogImage.startsWith('http')
           var heroTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : w <= 1024 ? 'tablet' : 'desktop';
           document.documentElement.setAttribute('data-viewport-tier', viewportTier);
           document.documentElement.setAttribute('data-hero-viewport', heroTier);
-          var hybridPointer = window.matchMedia('(any-pointer: coarse) and (hover: hover)').matches;
+          var hybridPointer = (navigator.maxTouchPoints > 0 || window.matchMedia('(any-pointer: coarse)').matches)
+            && window.matchMedia('(hover: hover)').matches;
           document.documentElement.setAttribute('data-hybrid-pointer', hybridPointer ? 'true' : 'false');
         }
         syncViewportTier();

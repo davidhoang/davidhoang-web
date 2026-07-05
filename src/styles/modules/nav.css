@@ -36,7 +36,10 @@
 .site-nav {
   position: fixed;
   top: 24px;
-  left: 50%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: max-content;
   height: var(--nav-height);
   z-index: var(--z-nav);
   /* Pointer-follow spotlight + base fill (sentient vars set from nav-sentient.ts) */
@@ -51,7 +54,6 @@
   -webkit-backdrop-filter: none;
   /* Below half the bar height so top/bottom stay clear of end-cap clip with backdrop-filter */
   border-radius: 28px;
-  width: auto;
   padding: 0 40px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-default);
@@ -69,11 +71,11 @@
   --nav-glow-color: var(--color-link);
   --nav-glow-x: 50%;
   --nav-glow-y: 50%;
-  /* Base transform - all motion flows through this */
-  transform: translateX(-50%)
-             translateY(var(--nav-float-y))
-             translateX(var(--nav-float-x))
-             rotate(var(--nav-tilt));
+  /* margin-inline centers the pill; float vars add subtle motion without breaking center */
+  transform:
+    translateY(var(--nav-float-y))
+    translateX(var(--nav-float-x))
+    rotate(var(--nav-tilt));
   /* Smooth transitions — transform excluded; sentient nav updates --nav-float-* every frame */
   transition:
     min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -116,22 +118,16 @@
 /* Desktop floating .site-nav — fit content; cap at viewport */
 @media (min-width: 769px) {
   .site-nav {
-    width: max-content;
     min-width: unset;
     max-width: min(600px, calc(100vw - 40px));
   }
 }
 
 /*
- * iPad / tablet-class (769–1366px) — stable centering without translateX(-50%).
- * Safari on iPad + Magic Keyboard mis-repositions fixed elements that combine
- * left:50%, transform, and backdrop-filter on :hover.
+ * iPad / tablet-class (769–1440px) — calmer pill, no sentient drift, no hover backdrop.
  */
-@media (min-width: 769px) and (max-width: 1366px) {
+@media (min-width: 769px) and (max-width: 1440px) {
   .site-nav {
-    left: 0;
-    right: 0;
-    margin-inline: auto;
     transform: none;
     --nav-float-x: 0px;
     --nav-float-y: 0px;
@@ -147,6 +143,15 @@
 
   .site-nav::after {
     display: none;
+  }
+
+  .site-nav:hover {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .site-nav:hover .rss-link:hover {
+    transform: none;
   }
 
   .nav-container {
@@ -170,7 +175,7 @@
 }
 
 /* iPad Pro landscape — roomier pill so links are not cramped */
-@media (min-width: 1025px) and (max-width: 1366px) {
+@media (min-width: 1025px) and (max-width: 1440px) {
   .site-nav {
     max-width: min(700px, calc(100vw - 56px));
     padding: 0 42px;
@@ -223,7 +228,7 @@
 }
 
 /* Tablet-class viewports: shadow-only hover (no backdrop-filter — Safari iPad bug) */
-@media (hover: hover) and (min-width: 769px) and (max-width: 1366px) {
+@media (hover: hover) and (min-width: 769px) and (max-width: 1440px) {
   .site-nav:hover {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -234,15 +239,30 @@
   }
 }
 
-/* Hybrid pointer devices (iPad + Magic Keyboard) — belt-and-suspenders centering lock */
+/* Hybrid pointer devices (iPad + Magic Keyboard) — lock centering on any viewport width */
 html[data-hybrid-pointer='true'] .site-nav {
-  left: 0;
-  right: 0;
-  margin-inline: auto;
+  left: 0 !important;
+  right: 0 !important;
+  margin-inline: auto !important;
+  width: max-content !important;
   transform: none !important;
-  --nav-float-x: 0px;
-  --nav-float-y: 0px;
-  --nav-tilt: 0deg;
+  --nav-float-x: 0px !important;
+  --nav-float-y: 0px !important;
+  --nav-tilt: 0deg !important;
+  max-width: min(700px, calc(100vw - 56px));
+}
+
+html[data-hybrid-pointer='true'] .site-nav::after {
+  display: none !important;
+}
+
+html[data-hybrid-pointer='true'] .site-nav:hover {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
+  transform: none !important;
 }
 
 .nav-container {
