@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import WritingGraph from '../../components/WritingGraph.astro';
 import { buildGraph } from '../../utils/writingGraph';
 import { formatLongDate } from '../../utils/formatDate';
-import { getWritingPostThumbnail } from '../../utils/writingPostImage';
+import { getWritingPostThumbnail, getWritingPostHero } from '../../utils/writingPostImage';
 import '../../styles/pages/writing-editorial.css';
 
 const allPosts = await getCollection('writing');
@@ -18,6 +18,13 @@ const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data, body: p.bod
 const postsWithMeta = posts.map((post) => ({
   post,
   thumbnail: getWritingPostThumbnail({
+    title: post.data.title,
+    description: post.data.description,
+    coverImage: post.data.coverImage,
+    ogImage: post.data.ogImage,
+    body: post.body,
+  }),
+  hero: getWritingPostHero({
     title: post.data.title,
     description: post.data.description,
     coverImage: post.data.coverImage,
@@ -101,14 +108,16 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
           data-tags={(featured.post.data.tags || []).join(',')}
           data-filter-item
         >
-          <div class="writing-spotlight__media">
+          <div class="writing-spotlight__media layout-breakout">
             <img
-              src={featured.thumbnail}
+              src={featured.hero}
               alt=""
+              class="writing-spotlight__image"
               loading="eager"
               decoding="async"
-              width="1200"
-              height="750"
+              fetchpriority="high"
+              width="1600"
+              height="720"
             />
           </div>
           <div class="writing-spotlight__body">

@@ -163,33 +163,43 @@
 
 /* Featured spotlight */
 .writing-spotlight {
-  max-width: var(--writing-max);
-  margin-inline: auto;
   padding-top: clamp(1.5rem, 3vw, 2.5rem);
   padding-bottom: clamp(2rem, 4vw, 3rem);
 }
 
 .writing-spotlight__link {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  align-items: center;
+  display: block;
   color: inherit;
   text-decoration: none;
 }
 
 .writing-spotlight__media {
-  aspect-ratio: 16 / 10;
+  position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md);
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
   background: var(--color-sidebar-bg);
 }
 
-.writing-spotlight__media img {
+.writing-spotlight__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-bg) 18%, transparent) 0%,
+    transparent 45%
+  );
+}
+
+.writing-spotlight__image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: min(56vh, 680px);
   display: block;
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 21 / 9;
   transition: transform var(--duration-slower) var(--ease-inertia);
 }
 
@@ -198,6 +208,8 @@
   flex-direction: column;
   gap: var(--spacing-md);
   min-width: 0;
+  max-width: var(--writing-max);
+  margin-inline: auto;
 }
 
 .writing-spotlight__title {
@@ -430,8 +442,8 @@
 }
 
 @media (hover: hover) {
-  .writing-spotlight__link:hover .writing-spotlight__media img {
-    transform: scale(1.02);
+  .writing-spotlight__link:hover .writing-spotlight__image {
+    transform: scale(1.015);
   }
 
   .writing-spotlight__link:hover .writing-spotlight__title {
@@ -459,12 +471,9 @@
 }
 
 @media (max-width: 768px) {
-  .writing-spotlight__link {
-    grid-template-columns: 1fr;
-  }
-
-  .writing-spotlight__media {
-    order: -1;
+  .writing-spotlight__image {
+    aspect-ratio: 16 / 10;
+    max-height: min(42vh, 420px);
   }
 
   .writing-card {
@@ -473,7 +482,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .writing-spotlight__media img,
+  .writing-spotlight__image,
   .writing-card,
   .writing-card__media img,
   .writing-view-tab,
