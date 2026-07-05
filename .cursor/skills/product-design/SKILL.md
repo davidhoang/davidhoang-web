@@ -15,4 +15,4 @@ Quick start:
 
 1. `design.md`
 2. `.agents/skills/product-design/SKILL.md`
-3. `npm run audit:design` after UI changes
+3. `npm run audit:ui:changed -- --check` before push (cloud agents) · `npm run audit:design` after UI changes

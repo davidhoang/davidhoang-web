@@ -22,7 +22,13 @@ Format:
 
 ---
 
-## 2026-06-27 — initial migration
+## 2026-07-04 — UI linter stack for cloud agents
+
+**Symptom:** Design skill rules were documented but only partially machine-checked; cloud agents had no scoped pre-PR lint workflow.
+**Fix applied:** Modular `scripts/design-audit/` with core + strict rule tiers; `npm run audit:ui:changed`; CI changed-files step; expanded `tests/designCompliance.test.ts`; cloud instructions in `AGENTS.md`
+**Status:** resolved
+
+---
 
 **Symptom:** n/a — file created during `.agents/skills/product-design/` setup
 **Fix applied:** canonical skill + surface references
