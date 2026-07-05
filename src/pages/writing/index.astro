@@ -100,7 +100,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 
   <div data-view-panel="editorial">
     {featured && (
-      <section class="writing-spotlight" aria-label="Latest essay">
+      <section class="writing-spotlight" aria-label="Featured essay">
         <a
           href={`/writing/${featured.post.id}`}
           class="writing-spotlight__link link-plain"
@@ -108,7 +108,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
           data-tags={(featured.post.data.tags || []).join(',')}
           data-filter-item
         >
-          <div class="writing-spotlight__media layout-breakout">
+          <div class="writing-spotlight__media">
             <img
               src={featured.hero}
               alt=""
@@ -121,7 +121,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
             />
           </div>
           <div class="writing-spotlight__body">
-            <span class="text-eyebrow text-eyebrow--accent">Latest</span>
             {featured.primaryTag && <span class="writing-spotlight__tag">{featured.primaryTag}</span>}
             <h2 class="writing-spotlight__title" transition:name={`title-${featured.post.id}`}>
               {featured.post.data.title}
