@@ -7,50 +7,7 @@ import ShaderBackground from '../components/ShaderBackground';
 import FontPreloader from '../components/FontPreloader.astro';
 import { ViewTransitions } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
-
-const contentSlide = {
-  forwards: {
-    old: {
-      name: 'contentFadeOut',
-      duration: '0.15s',
-      easing: 'ease-in',
-      fillMode: 'forwards',
-    },
-    new: {
-      name: 'contentSlideIn',
-      duration: '0.35s',
-      delay: '0.05s',
-      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      fillMode: 'backwards',
-    },
-  },
-  backwards: {
-    old: {
-      name: 'contentFadeOut',
-      duration: '0.15s',
-      easing: 'ease-in',
-      fillMode: 'forwards',
-    },
-    new: {
-      name: 'contentSlideBack',
-      duration: '0.35s',
-      delay: '0.05s',
-      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      fillMode: 'backwards',
-    },
-  },
-};
-
-const footerReveal = {
-  forwards: {
-    old: { name: 'footerFadeOut', duration: '0.1s', easing: 'ease-in', fillMode: 'forwards' },
-    new: { name: 'footerFadeIn', duration: '0.4s', delay: '0.2s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
-  },
-  backwards: {
-    old: { name: 'footerFadeOut', duration: '0.1s', easing: 'ease-in', fillMode: 'forwards' },
-    new: { name: 'footerFadeIn', duration: '0.4s', delay: '0.2s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
-  },
-};
+import { pageFade } from '../utils/pageTransitions';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
@@ -347,7 +304,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
 
     <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
-    <ViewTransitions fallback="swap" />
+    <ViewTransitions />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -469,43 +426,12 @@ const ogImageUrl = ogImage.startsWith('http')
       [data-e-ink="true"][data-theme="dark"] nav.glass-border {
         background: #1a1a1a !important;
       }
-      /* Page transition keyframes */
-      @keyframes contentFadeOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-8px); }
-      }
-      @keyframes contentSlideIn {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes contentSlideBack {
-        from { opacity: 0; transform: translateY(-12px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      /* Blog post entrance — slides up with a gentle scale */
-      @keyframes blogSlideIn {
-        from { opacity: 0; transform: translateY(20px) scale(0.99); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-      }
-      @keyframes blogSlideOut {
-        from { opacity: 1; transform: translateY(0) scale(1); }
-        to { opacity: 0; transform: translateY(8px) scale(0.99); }
-      }
-      /* Footer — subtle fade up */
-      @keyframes footerFadeIn {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes footerFadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-      }
-      /* Smooth crossfade for the page root (background) */
+      /* Page transition — opacity-only root crossfade (no translateY reposition) */
       ::view-transition-old(root) {
-        animation: pageFadeOut 0.15s ease-in forwards;
+        animation: pageFadeOut 0.15s ease-out forwards;
       }
       ::view-transition-new(root) {
-        animation: pageFadeIn 0.25s ease-out 0.05s backwards;
+        animation: pageFadeIn 0.2s ease-out forwards;
       }
       @keyframes pageFadeOut {
         from { opacity: 1; }
@@ -514,6 +440,10 @@ const ogImageUrl = ogImage.startsWith('http')
       @keyframes pageFadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
+      }
+      /* Hold scroll position stable while the incoming page paints */
+      html.is-route-loading {
+        overflow: clip;
       }
       /* Respect reduced motion preference */
       @media (prefers-reduced-motion: reduce) {
@@ -728,13 +658,19 @@ const ogImageUrl = ogImage.startsWith('http')
     <Navigation />
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
-      <ShaderBackground client:visible />
-      <main id="main-content" class={containerClass} tabindex="-1" transition:animate={contentSlide}>
-        <slot />
-      </main>
-      {!hideFooter && <div transition:animate={footerReveal}><Footer /></div>}
+      <div transition:persist="shader-background">
+        <ShaderBackground client:visible />
+      </div>
+      <div class="page-transition-shell" transition:animate={pageFade}>
+        <main id="main-content" class={containerClass} tabindex="-1">
+          <slot />
+        </main>
+        {!hideFooter && <Footer />}
+      </div>
     </div>
-    <DailyThemeToggle />
+    <div transition:persist="daily-theme-toggle">
+      <DailyThemeToggle />
+    </div>
 
     <script>
       /** Mood filter on .content-filter-wrapper breaks position:sticky; disable on long-form posts (see theme-variations.css). */
@@ -769,6 +705,14 @@ const ogImageUrl = ogImage.startsWith('http')
           metaThemeColor.setAttribute('content', themeColor);
         }
       }
+
+      // Prevent scroll/layout jump while the next page is prepared and swapped
+      document.addEventListener('astro:before-preparation', () => {
+        document.documentElement.classList.add('is-route-loading');
+      });
+      document.addEventListener('astro:page-load', () => {
+        document.documentElement.classList.remove('is-route-loading');
+      });
 
       // Persist theme and e-ink mode during view transitions
       document.addEventListener('astro:after-swap', () => {

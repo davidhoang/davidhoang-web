@@ -14,17 +14,6 @@ const { data, relatedContent = [], headings = [] } = Astro.props;
 const { title, description, pubDate, tags } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 
-const blogContent = {
-  forwards: {
-    old: { name: 'contentFadeOut', duration: '0.15s', easing: 'ease-in', fillMode: 'forwards' },
-    new: { name: 'blogSlideIn', duration: '0.4s', delay: '0.08s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
-  },
-  backwards: {
-    old: { name: 'blogSlideOut', duration: '0.2s', easing: 'ease-in', fillMode: 'forwards' },
-    new: { name: 'contentSlideBack', duration: '0.35s', delay: '0.05s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
-  },
-};
-
 const coverImage = data.coverImage;
 const coverAsset = resolveAssetImage(coverImage);
 
@@ -65,7 +54,7 @@ const breadcrumbJsonLd = {
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <BlogMeta slot="head" ogImage={ogImage} publishDate={pubDate} tags={tags} />
 
-  <article class="writing-post" transition:animate={blogContent}>
+  <article class="writing-post">
     {coverImage && (
       <div class="writing-post__hero layout-breakout">
         {coverAsset ? (
