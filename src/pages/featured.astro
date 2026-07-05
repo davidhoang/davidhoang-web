@@ -272,6 +272,42 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     overflow: visible;
   }
 
+  @media (max-width: 768px) {
+    .speaking-chronicle__entry {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+      padding-block: 0.85rem;
+      align-items: start;
+    }
+
+    .speaking-chronicle__when {
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .speaking-chronicle__when--empty {
+      display: none;
+    }
+
+    .speaking-chronicle__title {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .speaking-chronicle__entry--linked {
+      padding-block: 0.95rem;
+    }
+
+    .featured-editorial .speaking-chronicle__title a.speaking-entry__link {
+      display: block;
+      padding-block: 0.125rem;
+    }
+
+    .speaking-chronicle__entry--linked:hover {
+      transform: none;
+    }
+  }
+
   @media (max-width: 520px) {
     .speaking-chronicle__year {
       grid-template-columns: 1fr;
@@ -294,14 +330,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
     .speaking-chronicle__year-num {
       font-size: 1.15rem;
-      transform: none;
-    }
-
-    .speaking-chronicle__entry {
-      grid-template-columns: minmax(4rem, 5.5rem) minmax(0, 1fr);
-    }
-
-    .speaking-chronicle__entry--linked:hover {
       transform: none;
     }
   }
