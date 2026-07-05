@@ -14,7 +14,6 @@ const ogImage = '/images/highlights/img-highlights-hatch-conference.webp';
 
 const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
-const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
 ---
 
 <MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
@@ -26,59 +25,30 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
   <div class="featured-editorial">
     <div class="featured-editorial__speaking">
       <h2 class="featured-editorial__section-title">Speaking</h2>
-      <div class="speaking-timeline">
-        <div
-          class="speaking-inquiry speaking-entry speaking-entry--inquiry"
-          role="region"
-          aria-label="Speaking inquiries"
-        >
-          <span class="speaking-entry__meta">Future</span>
+      <div class="speaking-chronicle">
+        <div class="speaking-inquiry" role="region" aria-label="Speaking inquiries">
+          <p class="speaking-inquiry__label">Open for speaking</p>
           <p class="speaking-inquiry__copy">
-            For speaking inquiries, email{' '}
+            For inquiries, email{' '}
             <a class="speaking-inquiry__link" href="mailto:david@davidhoang.com">david@davidhoang.com</a>.
           </p>
         </div>
 
-        <section class="speaking-year" aria-labelledby={`speaking-${firstSpeakingYear.year}`}>
-          <h3 class="speaking-year__label" id={`speaking-${firstSpeakingYear.year}`}>
-            {firstSpeakingYear.year}
-          </h3>
-          <ul class="speaking-year__list">
-            {firstSpeakingYear.entries.map((entry) => (
-              <li class="speaking-entry">
-                {entry.meta ? (
-                  <span class="speaking-entry__meta">{entry.meta}</span>
-                ) : (
-                  <span class="speaking-entry__meta speaking-entry__meta--empty" />
-                )}
-                <span class="speaking-entry__title">
-                  <SpeakingEntryTitle
-                    client:load
-                    title={entry.title}
-                    href={entry.href}
-                    detailKey={entry.detailKey}
-                  />
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         {
-          restSpeakingYears.map((block) => (
-            <section class="speaking-year" aria-labelledby={`speaking-${block.year}`}>
-              <h3 class="speaking-year__label" id={`speaking-${block.year}`}>
-                {block.year}
+          featuredSpeaking.map((block) => (
+            <section class="speaking-chronicle__year" aria-labelledby={`speaking-${block.year}`}>
+              <h3 class="speaking-chronicle__year-label" id={`speaking-${block.year}`}>
+                <span class="speaking-chronicle__year-num">{block.year}</span>
               </h3>
-              <ul class="speaking-year__list">
+              <ul class="speaking-chronicle__list">
                 {block.entries.map((entry) => (
-                  <li class="speaking-entry">
+                  <li class={`speaking-chronicle__entry${entry.href ? ' speaking-chronicle__entry--linked' : ''}`}>
                     {entry.meta ? (
-                      <span class="speaking-entry__meta">{entry.meta}</span>
+                      <span class="speaking-chronicle__when">{entry.meta}</span>
                     ) : (
-                      <span class="speaking-entry__meta speaking-entry__meta--empty" />
+                      <span class="speaking-chronicle__when speaking-chronicle__when--empty" aria-hidden="true" />
                     )}
-                    <span class="speaking-entry__title">
+                    <span class="speaking-chronicle__title">
                       <SpeakingEntryTitle
                         client:load
                         title={entry.title}
@@ -148,154 +118,27 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
     max-width: none;
   }
 
-  .speaking-timeline {
-    --tl-pad: clamp(1.2rem, 3.2vw, 2rem);
-    --tl-spine-x: 1px;
-    position: relative;
-    margin-left: 0.2rem;
-    padding-left: var(--tl-pad);
-    border-left: none;
-    overflow: visible;
-  }
-
-  /* Vertical spine — starts below the first row dot so the dot caps the line (no segment above). */
-  .speaking-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: calc(0.85em + 3px);
-    bottom: 0.35rem;
-    width: 2px;
-    border-radius: 999px;
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-link) 42%, var(--color-border)) 0%,
-      var(--color-border) 42%,
-      color-mix(in srgb, var(--color-border) 88%, var(--color-bg)) 100%
-    );
-    opacity: 0.95;
-  }
-
-  .speaking-year {
-    position: relative;
-    margin-bottom: 2rem;
-    z-index: 0;
-  }
-
-  .speaking-year:last-child {
-    margin-bottom: 0;
-  }
-
-  .speaking-year__label {
-    margin: 0 0 0.75rem;
-    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-    line-height: 1.2;
-    letter-spacing: var(--letter-spacing-heading-md);
-    font-weight: var(--heading-weight);
-    color: var(--color-text);
-    position: relative;
-    padding-left: 0.15rem;
-  }
-
-  /* Year marker — ring on the spine */
-  .speaking-year__label::before {
-    content: '';
-    position: absolute;
-    left: calc(-1 * var(--tl-pad) + var(--tl-spine-x));
-    top: 0.42em;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--color-bg);
-    border: 2px solid var(--color-link);
-    transform: translate(-50%, 0);
-    box-shadow:
-      0 0 0 2px color-mix(in srgb, var(--color-bg) 92%, transparent),
-      0 1px 3px color-mix(in srgb, var(--color-text) 8%, transparent);
-    z-index: 2;
-  }
-
-  .speaking-year__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .speaking-chronicle {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: clamp(1.75rem, 4vw, 2.5rem);
   }
 
-  .speaking-entry {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(4.5rem, 6.5rem) minmax(0, 1fr);
-    gap: 0.75rem 1.25rem;
-    padding: 0.5rem 0 0.6rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
-    align-items: baseline;
+  .speaking-inquiry {
+    margin: 0;
+    padding: clamp(0.85rem, 2vw, 1rem) clamp(1rem, 2.4vw, 1.15rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-sidebar-bg) 42%, var(--color-bg));
   }
 
-  /* Event dot on spine */
-  .speaking-entry::before {
-    content: '';
-    position: absolute;
-    left: calc(-1 * var(--tl-pad) + var(--tl-spine-x));
-    top: 0.85em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--color-muted) 55%, var(--color-bg));
-    border: 1px solid color-mix(in srgb, var(--color-border) 70%, var(--color-bg));
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-bg) 85%, transparent);
-  }
-
-  .speaking-year__list li:last-child {
-    border-bottom: none;
-  }
-
-  .speaking-entry__meta {
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+  .speaking-inquiry__label {
+    margin: 0 0 0.35rem;
+    font-size: var(--text-eyebrow-size, 0.6875rem);
     font-weight: 600;
-    color: var(--color-muted);
-  }
-
-  .speaking-entry__meta--empty {
-    visibility: hidden;
-  }
-
-  .speaking-entry__title {
-    font-size: 0.95rem;
-    line-height: 1.45;
-    letter-spacing: var(--letter-spacing-body);
-    color: var(--color-text);
-  }
-
-  .featured-editorial .speaking-entry__title a.speaking-entry__link {
+    letter-spacing: var(--text-eyebrow-tracking, 0.14em);
+    text-transform: uppercase;
     color: var(--color-link);
-    text-decoration: none;
-    transition: color var(--duration-normal) var(--ease-standard);
-  }
-
-  .featured-editorial .speaking-entry__title a.speaking-entry__link:hover {
-    color: var(--color-link-hover);
-  }
-
-  .featured-editorial .speaking-entry__title a.speaking-entry__link--preview:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-  }
-
-  .featured-editorial__media {
-    overflow: visible;
-  }
-
-  .speaking-inquiry.speaking-entry--inquiry {
-    margin-bottom: 2rem;
-    padding: 0.5rem 0 0.6rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
   }
 
   .speaking-inquiry__copy {
@@ -317,6 +160,160 @@ const [firstSpeakingYear, ...restSpeakingYears] = featuredSpeaking;
     color: var(--color-link-hover);
     text-decoration: underline;
     text-underline-offset: 0.15em;
+  }
+
+  .speaking-chronicle__year {
+    display: grid;
+    grid-template-columns: minmax(3.25rem, 4.25rem) minmax(0, 1fr);
+    gap: 0 clamp(1rem, 2.8vw, 1.5rem);
+    align-items: start;
+  }
+
+  .speaking-chronicle__year-label {
+    margin: 0;
+    position: sticky;
+    top: calc(var(--nav-height, 48px) + var(--nav-offset-top, 24px) + 1rem);
+  }
+
+  .speaking-chronicle__year-num {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+    font-weight: var(--heading-weight);
+    line-height: 1;
+    letter-spacing: var(--letter-spacing-display);
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in srgb, var(--color-muted) 58%, var(--color-text));
+    transform: translateY(0.08em);
+  }
+
+  .speaking-chronicle__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .speaking-chronicle__entry {
+    display: grid;
+    grid-template-columns: minmax(4.75rem, 6.25rem) minmax(0, 1fr);
+    gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
+    padding: 0.72rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+    align-items: baseline;
+  }
+
+  .speaking-chronicle__entry--linked {
+    position: relative;
+    margin-inline: calc(-1 * clamp(0.45rem, 1.4vw, 0.65rem));
+    padding-inline: clamp(0.45rem, 1.4vw, 0.65rem);
+    border-radius: var(--radius-sm);
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-inertia);
+  }
+
+  .speaking-chronicle__entry--linked:hover {
+    background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
+    transform: translateX(2px);
+  }
+
+  .speaking-chronicle__when {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    letter-spacing: var(--letter-spacing-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .speaking-chronicle__when--empty {
+    visibility: hidden;
+  }
+
+  .speaking-chronicle__title {
+    font-size: clamp(0.94rem, 1.6vw, 1rem);
+    line-height: 1.45;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
+  }
+
+  .featured-editorial .speaking-chronicle__title a.speaking-entry__link {
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-link) 35%, transparent);
+    transition:
+      color var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
+  }
+
+  .featured-editorial .speaking-chronicle__title a.speaking-entry__link:hover {
+    color: var(--color-link-hover);
+    border-bottom-color: color-mix(in srgb, var(--color-link-hover) 55%, transparent);
+  }
+
+  .featured-editorial .speaking-chronicle__title a.speaking-entry__link--preview::after {
+    content: '↗';
+    display: inline-block;
+    margin-left: 0.28em;
+    font-size: 0.82em;
+    opacity: 0;
+    transform: translate(-2px, 1px);
+    transition:
+      opacity var(--duration-normal) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-inertia);
+  }
+
+  .featured-editorial .speaking-chronicle__title a.speaking-entry__link--preview:hover::after {
+    opacity: 0.72;
+    transform: translate(0, 0);
+  }
+
+  .featured-editorial__media {
+    overflow: visible;
+  }
+
+  @media (max-width: 520px) {
+    .speaking-chronicle__year {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+
+    .speaking-chronicle__year-label {
+      position: static;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .speaking-chronicle__year-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .speaking-chronicle__year-num {
+      font-size: 1.15rem;
+      transform: none;
+    }
+
+    .speaking-chronicle__entry {
+      grid-template-columns: minmax(4rem, 5.5rem) minmax(0, 1fr);
+    }
+
+    .speaking-chronicle__entry--linked:hover {
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .speaking-chronicle__entry--linked,
+    .speaking-chronicle__entry--linked:hover,
+    .featured-editorial .speaking-chronicle__title a.speaking-entry__link--preview::after,
+    .featured-editorial .speaking-chronicle__title a.speaking-entry__link--preview:hover::after {
+      transform: none;
+      transition: none;
+    }
   }
 
   .media-stack {
