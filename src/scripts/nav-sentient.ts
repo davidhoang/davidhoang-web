@@ -1,3 +1,5 @@
+import { shouldEnableSentientNav } from '../utils/viewport-capabilities';
+
 export function initSentientNav(): (() => void) | undefined {
   const nav = document.querySelector('.site-nav') as HTMLElement | null;
   if (!nav) return;
@@ -5,14 +7,13 @@ export function initSentientNav(): (() => void) | undefined {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) return;
 
-  if (window.innerWidth <= 768) return;
-
-  // Sentient drift only makes sense with a precise hovering cursor. On
-  // touch-only iPad / hybrid devices there's no live mousemove, so the
-  // stale-cursor position keeps pulling the nav off-center during scroll.
-  // Gate on fine-pointer + hover so iPad-with-Magic-Keyboard still gets it
-  // but iPad-with-finger-touch gets a calm centered nav.
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (!shouldEnableSentientNav()) {
+    nav.style.removeProperty('--nav-float-x');
+    nav.style.removeProperty('--nav-float-y');
+    nav.style.removeProperty('--nav-tilt');
+    nav.style.removeProperty('--nav-glow-opacity');
+    return;
+  }
 
   let animationFrame: number | null = null;
   let isHovering = false;
@@ -159,6 +160,7 @@ export function initSentientNav(): (() => void) | undefined {
 
   function handleNavPointerLeave() {
     isHovering = false;
+    refreshNavRect();
   }
 
   document.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -168,6 +170,11 @@ export function initSentientNav(): (() => void) | undefined {
   nav.addEventListener('mousemove', updateNavLocalFromEvent, { passive: true });
   nav.addEventListener('mouseleave', handleNavPointerLeave);
 
+  const resizeObserver = typeof ResizeObserver !== 'undefined'
+    ? new ResizeObserver(() => refreshNavRect())
+    : null;
+  resizeObserver?.observe(nav);
+
   function handleVisibilityChange() {
     if (document.hidden) {
       if (animationFrame) {
@@ -176,6 +183,7 @@ export function initSentientNav(): (() => void) | undefined {
       }
     } else if (!animationFrame) {
       lastTime = performance.now();
+      refreshNavRect();
       animationFrame = requestAnimationFrame(animate);
     }
   }
@@ -196,6 +204,7 @@ export function initSentientNav(): (() => void) | undefined {
     nav.removeEventListener('mouseenter', handleNavPointerEnter);
     nav.removeEventListener('mousemove', updateNavLocalFromEvent);
     nav.removeEventListener('mouseleave', handleNavPointerLeave);
+    resizeObserver?.disconnect();
     if (animationFrame) cancelAnimationFrame(animationFrame);
   };
 }

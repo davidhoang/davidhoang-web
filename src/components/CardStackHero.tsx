@@ -45,8 +45,13 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   // Apply viewport tier + layout before paint so mobile scale/height are correct
   // when cards become visible (avoids desktop-sized flash on phones).
   useLayoutEffect(() => {
-    document.documentElement.setAttribute('data-hero-viewport', readHeroViewportTier());
+    const syncHeroViewport = () => {
+      document.documentElement.setAttribute('data-hero-viewport', readHeroViewportTier());
+    };
+    syncHeroViewport();
+    window.addEventListener('resize', syncHeroViewport);
     setIsLayoutReady(true);
+    return () => window.removeEventListener('resize', syncHeroViewport);
   }, []);
 
   // Daily theme: recolor hero cards from --color-link family; default theme keeps types.ts colors

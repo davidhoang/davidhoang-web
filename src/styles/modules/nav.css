@@ -36,7 +36,10 @@
 .site-nav {
   position: fixed;
   top: 24px;
-  left: 50%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: max-content;
   height: var(--nav-height);
   z-index: var(--z-nav);
   /* Pointer-follow spotlight + base fill (sentient vars set from nav-sentient.ts) */
@@ -51,7 +54,6 @@
   -webkit-backdrop-filter: none;
   /* Below half the bar height so top/bottom stay clear of end-cap clip with backdrop-filter */
   border-radius: 28px;
-  width: auto;
   padding: 0 40px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-default);
@@ -69,17 +71,15 @@
   --nav-glow-color: var(--color-link);
   --nav-glow-x: 50%;
   --nav-glow-y: 50%;
-  /* Base transform - all motion flows through this */
-  transform: translateX(-50%)
-             translateY(var(--nav-float-y))
-             translateX(var(--nav-float-x))
-             rotate(var(--nav-tilt));
-  /* Smooth transitions for all properties */
+  /* margin-inline centers the pill; float vars add subtle motion without breaking center */
+  transform:
+    translateY(var(--nav-float-y))
+    translateX(var(--nav-float-x))
+    rotate(var(--nav-tilt));
+  /* Smooth transitions — transform excluded; sentient nav updates --nav-float-* every frame */
   transition:
-    transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
     min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     background 0.35s ease,
@@ -118,23 +118,81 @@
 /* Desktop floating .site-nav — fit content; cap at viewport */
 @media (min-width: 769px) {
   .site-nav {
-    width: max-content;
     min-width: unset;
     max-width: min(600px, calc(100vw - 40px));
   }
 }
 
-/* Large tablet adjustments - keep desktop .site-nav but reduce size */
-@media (min-width: 769px) and (max-width: 1024px) {
+/*
+ * iPad / tablet-class (769–1440px) — calmer pill, no sentient drift, no hover backdrop.
+ */
+@media (min-width: 769px) and (max-width: 1440px) {
   .site-nav {
+    transform: none;
+    --nav-float-x: 0px;
+    --nav-float-y: 0px;
+    --nav-tilt: 0deg;
+    max-width: min(620px, calc(100vw - 48px));
     padding: 0 36px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    transition:
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      background 0.35s ease;
   }
 
-  @media (hover: hover) and (min-width: 769px) {
-    .site-nav:hover {
-      padding: 0 36px;
-    }
+  .site-nav::after {
+    display: none;
+  }
+
+  .site-nav:hover {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .site-nav:hover .rss-link:hover {
+    transform: none;
+  }
+
+  .nav-container {
+    gap: 0.875rem;
+    transition: none;
+  }
+
+  .nav-links {
+    gap: clamp(0.55rem, 1.4vw, 1rem);
+  }
+
+  .nav-links a:not(.rss-link) {
+    padding: 0.42rem 0.8rem;
+    font-size: 1.05rem;
+  }
+
+  .cmd-k-hint {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* iPad Pro landscape — roomier pill so links are not cramped */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .site-nav {
+    max-width: min(700px, calc(100vw - 56px));
+    padding: 0 42px;
+    font-size: 1.38rem;
+  }
+
+  .nav-container {
+    gap: 1rem;
+  }
+
+  .nav-links a:not(.rss-link) {
+    padding: 0.48rem 0.9rem;
+    font-size: 1.08rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
   }
 }
 
@@ -143,11 +201,9 @@
   box-shadow: var(--shadow-scrolling);
 }
 
-/* Only apply hover effects on devices that support hover AND are not mobile */
+/* Hover affordances — color, shadow, backdrop only (no padding/gap/top; design.md) */
 @media (hover: hover) and (min-width: 769px) {
   .site-nav:hover {
-    top: 20px;
-    padding: 0 40px;
     box-shadow:
       0 0 0 3px var(--color-border),
       var(--shadow-hover);
@@ -160,21 +216,6 @@
     filter: blur(24px);
   }
 
-  .site-nav:hover .nav-container {
-    gap: clamp(0.65rem, 1.5vw, 1.5rem);
-    /* Avoid scale — it pushes glyphs into the rounded clip with backdrop-filter */
-    transform: none;
-  }
-
-  .site-nav:hover:active .nav-container {
-    transform: none;
-  }
-
-  .site-nav.cmd-palette-active:hover:active .nav-container,
-  .site-nav.cmd-palette-active:active .nav-container {
-    transform: none;
-  }
-
   .site-nav:hover .rss-link {
     opacity: 0.72;
   }
@@ -184,7 +225,44 @@
     border-color: color-mix(in srgb, var(--color-link) 28%, transparent);
     background: color-mix(in srgb, var(--color-link) 10%, transparent);
   }
+}
 
+/* Tablet-class viewports: shadow-only hover (no backdrop-filter — Safari iPad bug) */
+@media (hover: hover) and (min-width: 769px) and (max-width: 1440px) {
+  .site-nav:hover {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .site-nav:hover .rss-link:hover {
+    transform: none;
+  }
+}
+
+/* Hybrid pointer devices (iPad + Magic Keyboard) — lock centering on any viewport width */
+html[data-hybrid-pointer='true'] .site-nav {
+  left: 0 !important;
+  right: 0 !important;
+  margin-inline: auto !important;
+  width: max-content !important;
+  transform: none !important;
+  --nav-float-x: 0px !important;
+  --nav-float-y: 0px !important;
+  --nav-tilt: 0deg !important;
+  max-width: min(700px, calc(100vw - 56px));
+}
+
+html[data-hybrid-pointer='true'] .site-nav::after {
+  display: none !important;
+}
+
+html[data-hybrid-pointer='true'] .site-nav:hover {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
+  transform: none !important;
 }
 
 .nav-container {

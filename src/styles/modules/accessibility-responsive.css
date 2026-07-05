@@ -29,12 +29,12 @@
   }
 }
 
-/* Touch devices: disable hover-triggered motion. iOS Safari applies :hover
-   briefly after a tap (sticky hover), which makes lift animations persist
-   and feel "stuck." Strip transforms inside :hover on devices without true
-   hover so taps don't trigger motion that has nowhere to go. */
+/* Touch devices: disable hover-triggered motion on non-nav elements. iOS Safari
+   applies :hover briefly after a tap (sticky hover). iPad always matches
+   (hover: none) even with Magic Keyboard — never strip .site-nav transform or
+   the pill loses translateX(-50%) centering and slides right on link hover. */
 @media (hover: none) {
-  *:hover {
+  :where(*:not(.site-nav):not(.site-nav *)):hover {
     transform: none !important;
   }
 }

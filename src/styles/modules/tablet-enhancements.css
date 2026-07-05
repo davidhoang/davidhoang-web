@@ -1,0 +1,100 @@
+/* ============================================
+   Tablet / iPad Pro enhancements — additive opt-in layer
+
+   Targets [data-viewport-tier='tablet'] (769–1024px) set by MainLayout.astro,
+   plus iPad Pro landscape via max-width: 1366px media queries.
+   Does not override nav globals, .container, or theme safety nets.
+   ============================================ */
+
+/* Viewport-tier spacing tokens (tablet 769–1024px) */
+[data-viewport-tier='tablet'] {
+  --tablet-section-gap: var(--spacing-2xl);
+  --tablet-prose-measure: min(42rem, 100%);
+  --tablet-hero-scale: 0.88;
+  --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2.25rem);
+}
+
+/* Single-column section rhythm on tablet */
+[data-viewport-tier='tablet'] .stack-tablet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tablet-section-gap, var(--spacing-2xl));
+}
+
+/* Editorial reading surface — opt in via .prose-tablet */
+[data-viewport-tier='tablet'] .prose-tablet {
+  max-width: var(--tablet-prose-measure, min(42rem, 100%));
+  font-size: clamp(1.05rem, 1.8vw, 1.125rem);
+  line-height: var(--prose-line-height);
+}
+
+[data-viewport-tier='tablet'] .prose-tablet :is(p, li) {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Home hero — slightly smaller fan on tablet portrait */
+[data-viewport-tier='tablet'] .card-stack-hero--stacked-fan .cards-wrapper {
+  transform: scale(var(--tablet-hero-scale, 0.88));
+}
+
+[data-viewport-tier='tablet'] .card-stack-section {
+  margin-top: 32px;
+  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 32px);
+}
+
+[data-viewport-tier='tablet'] .philosophy-grid {
+  column-gap: clamp(1.5rem, 5vw, 3rem);
+}
+
+/* iPad Pro landscape (1025–1366px) — between tablet portrait and laptop */
+@media (min-width: 1025px) and (max-width: 1366px) {
+  :root {
+    --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2.5rem);
+  }
+
+  .card-stack-hero--stacked-fan .cards-wrapper {
+    transform: scale(0.92);
+  }
+
+  .card-stack-section {
+    margin-top: 36px;
+    --hero-grid-y: calc(var(--content-top-padding, 6rem) + 36px);
+  }
+
+  .card-stack-hero .hero-title {
+    font-size: clamp(3.85rem, 6.25vw, 5.5rem);
+  }
+
+  .philosophy-grid {
+    column-gap: clamp(2rem, 5vw, 4rem);
+  }
+}
+
+/* iPad Pro landscape viewport tier (synced from MainLayout) */
+[data-viewport-tier='tablet-wide'] {
+  --tablet-section-gap: var(--spacing-2xl);
+  --tablet-prose-measure: min(44rem, 100%);
+  --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2.5rem);
+}
+
+[data-viewport-tier='tablet-wide'] .card-stack-hero--stacked-fan .cards-wrapper {
+  transform: scale(0.92);
+}
+
+[data-viewport-tier='tablet-wide'] .card-stack-section {
+  margin-top: 36px;
+  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 36px);
+}
+
+/* Touch-primary tablet: strip sticky-hover transforms (belt-and-suspenders) */
+@media (min-width: 769px) and (max-width: 1366px) and (pointer: coarse) {
+  .site-nav,
+  .site-nav * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-links a:active {
+    background-color: color-mix(in srgb, var(--color-nav-text) 6%, transparent);
+  }
+}
