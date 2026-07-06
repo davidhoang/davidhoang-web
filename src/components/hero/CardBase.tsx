@@ -132,7 +132,7 @@ export function CardBaseContent({
 }: CardBaseProps) {
   if (cardHasHeroLayout(card)) {
     return (
-      <>
+      <div className="card-hero-body">
         {isGlass && (
           <div className="card-glass-overlay" style={{ backgroundColor: card.color }} />
         )}
@@ -168,7 +168,7 @@ export function CardBaseContent({
             )}
           </AnimatePresence>
         </div>
-      </>
+      </div>
     );
   }
 
