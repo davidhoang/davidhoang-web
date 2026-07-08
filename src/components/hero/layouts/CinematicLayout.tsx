@@ -2,16 +2,9 @@ import { useState } from 'react';
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
-import { useMagneticTilt } from '../../useMagneticTilt';
-
-/**
- * CinematicLayout — wide-screen, movie-poster feel.
- *
- * A large featured card (~75% width) with a vertical filmstrip of
- * remaining cards on the right. Click a filmstrip card to swap it
- * into the featured slot; click the featured card to open its link.
- */
+import { handleCardHoverLeave } from '../cardHover';
+import { useHeroDial } from '../HeroDialProvider';
+import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
 
 function cardClassName(card: Card, extra: string, isGlass: boolean) {
   return [
@@ -28,34 +21,44 @@ interface FeaturedProps {
   card: Card;
   isGlass: boolean;
   selectedCard: string | null;
-  hoveredCard: string | null;
   isLoaded: boolean;
   onCardClick: LayoutProps['onCardClick'];
   onCardHover: LayoutProps['onCardHover'];
   reducedMotion: boolean;
 }
 
-function FeaturedCard({ card, isGlass, selectedCard, hoveredCard, isLoaded, onCardClick, onCardHover, reducedMotion }: FeaturedProps) {
+function FeaturedCard({
+  card,
+  isGlass,
+  selectedCard,
+  isLoaded,
+  onCardClick,
+  onCardHover,
+  reducedMotion,
+}: FeaturedProps) {
+  const dial = useHeroDial();
+  const cinematic = dial.cinematic;
   const isSelected = selectedCard === card.id;
-  const tilt = useMagneticTilt({ disabled: true });
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
 
   return (
     <motion.div
       className={cardClassName(card, 'card-featured', isGlass)}
       style={{
+        ...cardDimensionStyle(dial),
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: 10,
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
-        transformPerspective: 1200,
+        transformPerspective: cinematic.featuredPerspective,
       }}
       layout={!reducedMotion}
       layoutId={`cinematic-${card.id}`}
       initial={false}
-      animate={{ opacity: 1, scale: isLoaded ? 1 : 0.96 }}
+      animate={{ opacity: 1, scale: isLoaded ? 1 : cinematic.featuredInitialScale }}
       transition={{
-        layout: { type: 'spring', stiffness: 220, damping: 26 },
-        scale: { type: 'spring', stiffness: 180, damping: 24 },
+        layout: { type: 'spring', stiffness: cinematic.layoutStiffness, damping: cinematic.layoutDamping },
+        scale: { type: 'spring', stiffness: cinematic.featuredScaleStiffness, damping: cinematic.featuredScaleDamping },
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
@@ -88,43 +91,58 @@ interface FilmstripProps {
   reducedMotion: boolean;
 }
 
-function FilmstripCard({ card, index, cardCount, isGlass, selectedCard, hoveredCard, isLoaded, hasAnimatedIn, onSwap, onCardHover, reducedMotion }: FilmstripProps) {
+function FilmstripCard({
+  card,
+  index,
+  cardCount,
+  isGlass,
+  selectedCard,
+  hoveredCard,
+  isLoaded,
+  hasAnimatedIn,
+  onSwap,
+  onCardHover,
+  reducedMotion,
+}: FilmstripProps) {
+  const dial = useHeroDial();
+  const cinematic = dial.cinematic;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const tilt = useMagneticTilt({ disabled: true });
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
 
   return (
     <motion.div
       className={cardClassName(card, 'card-filmstrip', isGlass)}
       style={{
+        ...cardDimensionStyle(dial),
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: cardCount - index,
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
-        transformPerspective: 800,
+        transformPerspective: cinematic.filmstripPerspective,
       }}
       layout={!reducedMotion}
       layoutId={`cinematic-${card.id}`}
       initial={false}
       animate={{
-        opacity: isOtherSelected ? 0.3 : 1,
-        x: isLoaded ? 0 : 24,
-        scale: isLoaded ? 1 : 0.96,
+        opacity: isOtherSelected ? cinematic.dimmedOpacity : 1,
+        x: isLoaded ? 0 : cinematic.filmstripInitialX,
+        scale: isLoaded ? 1 : cinematic.filmstripInitialScale,
       }}
       whileHover={!reducedMotion ? {
-        scale: 1.04,
-        x: -4,
-        transition: HERO_HOVER_TWEEN,
+        scale: cinematic.filmstripHoverScale,
+        x: cinematic.filmstripHoverX,
+        transition: dial.hoverTween,
       } : {}}
-      whileTap={{ scale: 0.97 }}
+      whileTap={{ scale: cinematic.filmstripTapScale }}
       transition={{
-        layout: { type: 'spring', stiffness: 220, damping: 26 },
+        layout: { type: 'spring', stiffness: cinematic.layoutStiffness, damping: cinematic.layoutDamping },
         type: 'spring',
-        stiffness: hasAnimatedIn ? 260 : 100,
-        damping: hasAnimatedIn ? 22 : 14,
-        delay: !hasAnimatedIn && isLoaded ? index * 0.06 : 0,
+        stiffness: hasAnimatedIn ? cinematic.settleStiffness : cinematic.stiffness,
+        damping: hasAnimatedIn ? cinematic.settleDamping : cinematic.damping,
+        delay: !hasAnimatedIn && isLoaded ? index * cinematic.staggerDelay : 0,
         ...(hasAnimatedIn && {
-          x: HERO_HOVER_TWEEN,
-          scale: HERO_HOVER_TWEEN,
+          x: dial.hoverTween,
+          scale: dial.hoverTween,
         }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
@@ -173,7 +191,6 @@ export default function CinematicLayout({
             card={featuredCard}
             isGlass={isGlass}
             selectedCard={selectedCard}
-            hoveredCard={hoveredCard}
             isLoaded={isLoaded}
             onCardClick={onCardClick}
             onCardHover={onCardHover}

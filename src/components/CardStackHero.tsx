@@ -1,10 +1,11 @@
-import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { isMobileHeroViewport, readHeroViewportTier } from './hero/heroViewport';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
+import { HeroDialProvider } from './hero/HeroDialProvider';
 import StackedFanLayout from './hero/layouts/StackedFanLayout';
 import EditorialLayout from './hero/layouts/EditorialLayout';
 import ScatteredLayout from './hero/layouts/ScatteredLayout';
@@ -40,7 +41,21 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const [heroLayout, setHeroLayout] = useState<HeroLayout>(readInitialHeroLayout);
   const [cardPaletteRev, setCardPaletteRev] = useState(0);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
+  const [entranceKey, setEntranceKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const replayEntrance = useCallback(() => {
+    setHasAnimatedIn(false);
+    setIsLoaded(false);
+    setEntranceKey((key) => key + 1);
+    requestAnimationFrame(() => {
+      setIsLoaded(true);
+      window.setTimeout(
+        () => setHasAnimatedIn(true),
+        100 + cards.length * 80 + 500
+      );
+    });
+  }, []);
 
   // Apply viewport tier + layout before paint so mobile scale/height are correct
   // when cards become visible (avoids desktop-sized flash on phones).
@@ -225,6 +240,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const LayoutComponent = layoutComponents[heroLayout];
 
   return (
+    <HeroDialProvider onReplayEntrance={replayEntrance}>
     <MotionConfig reducedMotion="user">
     <div
       className={`card-stack-hero card-stack-hero--${heroLayout}${isLayoutReady ? ' card-stack-hero--layout-ready' : ''}`}
@@ -235,6 +251,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
           <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
         </header>
         <LayoutComponent
+          key={entranceKey}
           cards={displayCards}
           selectedCard={selectedCard}
           hoveredCard={hoveredCard}
@@ -263,5 +280,6 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
 
     </div>
     </MotionConfig>
+    </HeroDialProvider>
   );
 }
