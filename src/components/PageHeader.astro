@@ -244,8 +244,8 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
   .page-header--image .page-header__hero::before {
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.2) 0%,
-      rgba(0, 0, 0, 0.4) 100%
+      color-mix(in srgb, var(--color-text) 20%, transparent) 0%,
+      color-mix(in srgb, var(--color-text) 40%, transparent) 100%
     );
     pointer-events: none;
   }
@@ -255,7 +255,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     font-size: var(--display-title-size-page);
     font-weight: var(--display-title-weight);
     letter-spacing: var(--display-title-letter-spacing);
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2px 20px color-mix(in srgb, var(--color-text) 40%, transparent);
   }
 
   /* Text variant - simple header */
@@ -268,7 +268,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     font-size: var(--display-title-size-contained);
     font-weight: var(--display-title-weight);
     letter-spacing: var(--display-title-letter-spacing);
-    margin: 0 0 1rem;
+    margin: 0 0 var(--spacing-md);
     color: var(--color-text);
   }
 

@@ -27,7 +27,7 @@
 :is(.layout-sidebar--article, .blog-post .content-grid) {
   max-width: var(--prose-width);
   margin-inline: auto;
-  gap: 3rem;
+  gap: var(--spacing-2xl);
 }
 
 :is(.layout-sidebar--article, .blog-post .content-grid) > aside {
@@ -42,27 +42,27 @@
 @media (min-width: 1024px) {
   :is(.layout-sidebar--article, .blog-post .content-grid) {
     max-width: min(var(--prose-width-md), 100%);
-    gap: 3.5rem;
+    gap: calc(var(--spacing-3xl) - var(--spacing-sm));
   }
 }
 
 @media (min-width: 1280px) {
   :is(.layout-sidebar--article, .blog-post .content-grid) {
     max-width: min(var(--prose-width-lg), 100%);
-    gap: 4rem;
+    gap: var(--spacing-3xl);
   }
 }
 
 @media (min-width: 1536px) {
   :is(.layout-sidebar--article, .blog-post .content-grid) {
     max-width: min(var(--prose-width-xl), calc(100vw - 2 * var(--container-padding, 2rem)));
-    gap: 4.5rem;
+    gap: calc(var(--spacing-3xl) + var(--spacing-sm));
   }
 }
 
 @media (min-width: 1920px) {
   :is(.layout-sidebar--article, .blog-post .content-grid) {
-    gap: 5rem;
+    gap: calc(var(--spacing-3xl) + var(--spacing-md));
   }
 }
 

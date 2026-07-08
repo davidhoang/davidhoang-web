@@ -48,7 +48,7 @@ a::after {
   background: linear-gradient(90deg, var(--color-link-hover), var(--color-link));
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform var(--duration-slower) cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-slower) var(--ease-emphasized);
 }
 
 /* Hover effects - only on devices that support hover */
@@ -71,7 +71,7 @@ a::after {
 /* Active/pressed state */
 a:active {
   opacity: 0.8;
-  transition: opacity var(--duration-fast) ease;
+  transition: opacity var(--duration-fast) var(--ease-standard);
 }
 
 /* Focus state for keyboard navigation */

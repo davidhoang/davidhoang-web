@@ -235,8 +235,8 @@ const noteJsonLd = {
 
   .note-stage-callout {
     display: flex;
-    gap: 0.75rem;
-    padding: 1rem 1.1rem;
+    gap: calc(var(--spacing-sm) + var(--spacing-xs));
+    padding: var(--spacing-md) calc(var(--spacing-md) + var(--spacing-xs));
     background: var(--color-sidebar-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md, 8px);
@@ -262,7 +262,7 @@ const noteJsonLd = {
   }
 
   .note-header h1 {
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs)) 0;
   }
 
   .note-meta-row {
@@ -288,7 +288,7 @@ const noteJsonLd = {
   .note-section__heading {
     font-size: var(--section-heading-size);
     font-weight: var(--heading-weight);
-    margin: 0 0 1rem;
+    margin: 0 0 var(--spacing-md);
     line-height: 1.3;
     color: var(--color-text);
   }
@@ -307,7 +307,7 @@ const noteJsonLd = {
 
   .note-overview {
     position: relative;
-    padding: 1.25rem 1.35rem 1.35rem 1.5rem;
+    padding: calc(var(--spacing-md) + var(--spacing-xs)) 1.35rem 1.35rem var(--spacing-lg);
     background: color-mix(in srgb, var(--color-link) 5%, var(--color-sidebar-bg));
     border: 1px solid color-mix(in srgb, var(--color-link) 12%, var(--color-border));
     border-radius: var(--radius-md, 8px);
@@ -359,7 +359,7 @@ const noteJsonLd = {
   }
 
   .note-section--notes .note-content :global(.note-youtube) {
-    margin: 1.5rem 0 1.75rem;
+    margin: var(--spacing-lg) 0 calc(var(--spacing-lg) + var(--spacing-sm));
   }
 
   .note-content :global(p) {
@@ -370,18 +370,18 @@ const noteJsonLd = {
   .note-article .note-content :global(ol) {
     list-style: none;
     padding-left: 0;
-    margin: 1.15rem 0 1.5rem;
+    margin: calc(var(--spacing-md) + var(--spacing-sm)) 0 var(--spacing-lg);
     counter-reset: note-ol;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: calc(var(--spacing-sm) + 0.1rem);
   }
 
   .note-article .note-content :global(ol > li) {
     counter-increment: note-ol;
     margin: 0;
     position: relative;
-    padding: 0.85rem 1rem 0.95rem 3.15rem;
+    padding: calc(var(--spacing-md) - calc(var(--spacing-xs) - 0.1rem)) var(--spacing-md) calc(var(--spacing-md) - var(--spacing-xs)) 3.15rem;
     background: color-mix(in srgb, var(--color-bg) 55%, var(--color-sidebar-bg));
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md, 8px);
@@ -407,7 +407,7 @@ const noteJsonLd = {
     top: 0.8rem;
     min-width: 1.65rem;
     height: 1.65rem;
-    padding: 0 0.35rem;
+    padding: 0 calc(var(--spacing-xs) + 0.1rem);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -448,8 +448,8 @@ const noteJsonLd = {
   }
 
   .note-article .note-content :global(ol ol) {
-    margin: 0.65rem 0 0;
-    gap: 0.45rem;
+    margin: calc(var(--spacing-sm) + calc(var(--spacing-xs) - 0.1rem)) 0 0;
+    gap: calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem));
   }
 
   .note-article .note-content :global(ol ol > li) {
@@ -473,21 +473,21 @@ const noteJsonLd = {
   .note-article .note-content :global(ul) {
     list-style: disc;
     padding-left: 1.5rem;
-    margin: 1.1rem 0 1.35rem;
+    margin: calc(var(--spacing-md) + var(--spacing-xs)) 0 1.35rem;
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem));
   }
 
   .note-article .note-content :global(ul > li) {
     margin: 0;
-    padding: 0.2rem 0;
+    padding: 0.var(--spacing-xl) 0;
   }
 
   .note-article .note-content :global(ul ul) {
     list-style: circle;
-    margin: 0.4rem 0 0;
-    gap: 0.3rem;
+    margin: 0.var(--spacing-3xl) 0 0;
+    gap: 0.var(--spacing-2xl);
   }
 
   .note-article .note-content :global(ul ul ul) {
@@ -523,7 +523,7 @@ const noteJsonLd = {
   }
 
   .note-links__list li {
-    padding: 0.4rem 0;
+    padding: 0.var(--spacing-3xl) 0;
   }
 
   .note-links__list a {

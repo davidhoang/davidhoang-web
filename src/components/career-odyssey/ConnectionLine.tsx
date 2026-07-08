@@ -47,7 +47,7 @@ export const ConnectionLine: React.FC<ConnectionLineProps> = ({
       strokeWidth={isHighlighted ? 2 : 1}
       strokeDasharray={isHighlighted ? undefined : '4 3'}
       strokeOpacity={isHighlighted ? 0.9 : 0.5}
-      style={{ transition: 'stroke 0.15s, stroke-opacity 0.15s, stroke-width 0.15s' }}
+      style={{ transition: 'stroke var(--duration-fast), stroke-opacity var(--duration-fast), stroke-width var(--duration-fast)' }}
     />
   );
 };

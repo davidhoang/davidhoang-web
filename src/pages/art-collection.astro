@@ -165,7 +165,7 @@ const pageDescription = "A curated collection of artwork that inspires and moves
     .art-thumbnail-info {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: calc(var(--spacing-xs) - 2px);
       min-width: 0;
     }
 
@@ -207,11 +207,11 @@ const pageDescription = "A curated collection of artwork that inspires and moves
       height: auto;
       object-fit: contain;
       border-radius: var(--radius-md);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-scrolling);
     }
 
     [data-theme="dark"] .art-detail-image {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow-hover);
     }
 
     .art-detail-content {
@@ -251,7 +251,7 @@ const pageDescription = "A curated collection of artwork that inspires and moves
     .art-detail-meta-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: var(--spacing-xs);
     }
 
     .art-detail-label {

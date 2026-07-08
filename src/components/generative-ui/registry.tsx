@@ -45,7 +45,7 @@ function LayoutBlocks({ style }: { style: string }) {
   switch (style) {
     case 'magazine':
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '4px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 'var(--spacing-xs)', width: '100%' }}>
           {block('100%', '40px')}
           {block('100%', '18px')}
           {block('100%', '18px')}
@@ -54,8 +54,8 @@ function LayoutBlocks({ style }: { style: string }) {
       );
     case 'sidebar':
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '4px', width: '100%' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: 'var(--spacing-xs)', width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
             {block('100%', '12px')}
             {block('100%', '12px')}
             {block('100%', '12px')}
@@ -65,14 +65,14 @@ function LayoutBlocks({ style }: { style: string }) {
       );
     case 'split':
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-xs)', width: '100%' }}>
           {block('100%', '32px')}
           {block('100%', '32px')}
         </div>
       );
     case 'asymmetric':
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '4px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 'var(--spacing-xs)', width: '100%' }}>
           {block('100%', '28px')}
           {block('100%', '28px')}
           {block('100%', '28px')}
@@ -80,7 +80,7 @@ function LayoutBlocks({ style }: { style: string }) {
       );
     default: // standard
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-xs)', width: '100%' }}>
           {block('100%', '24px')}
           {block('100%', '24px')}
           {block('100%', '24px')}
@@ -169,7 +169,7 @@ export const { registry } = defineRegistry(themeCatalog, {
             fontFamily: 'var(--font-heading)',
             fontWeight: 'var(--heading-weight, 700)' as any,
             letterSpacing: 'var(--heading-letter-spacing, -0.02em)',
-            margin: '0 0 0.25rem 0',
+            margin: '0 0 var(--spacing-xs) 0',
             fontSize: '1.3rem',
             color: 'var(--color-text)',
           }}>
@@ -179,7 +179,7 @@ export const { registry } = defineRegistry(themeCatalog, {
         {props.subtitle && (
           <p style={{
             color: 'var(--color-muted)',
-            margin: '0 0 1rem 0',
+            margin: '0 0 var(--spacing-md) 0',
             fontSize: '0.85rem',
             lineHeight: 'var(--body-line-height, 1.6)',
           }}>
@@ -191,7 +191,7 @@ export const { registry } = defineRegistry(themeCatalog, {
     ),
 
     ColorSwatch: ({ props }) => (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--spacing-xs)' }}>
         <div
           style={{
             width: '48px',
@@ -208,9 +208,9 @@ export const { registry } = defineRegistry(themeCatalog, {
     ),
 
     ColorPalette: ({ props }) => (
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 'var(--spacing-sm)', flexWrap: 'wrap' }}>
         {props.colors.map((c, i) => (
-          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--spacing-xs)' }}>
             <div
               style={{
                 width: '40px',
@@ -263,7 +263,7 @@ export const { registry } = defineRegistry(themeCatalog, {
 
     LayoutPreview: ({ props }) => (
       <div style={{
-        padding: '0.75rem',
+        padding: 'calc(var(--spacing-sm) + var(--spacing-xs))',
         background: 'var(--color-bg)',
         border: '1px solid var(--color-border)',
         borderRadius: 'var(--radius-sm, 4px)',
@@ -272,7 +272,7 @@ export const { registry } = defineRegistry(themeCatalog, {
         <p style={{
           fontSize: '0.65rem',
           color: 'var(--color-muted)',
-          margin: '0.5rem 0 0',
+          margin: 'var(--spacing-sm) 0 0',
           textAlign: 'center',
         }}>
           {props.style}
@@ -282,7 +282,7 @@ export const { registry } = defineRegistry(themeCatalog, {
 
     HeroLayoutPreview: ({ props }) => (
       <div style={{
-        padding: '0.75rem',
+        padding: 'calc(var(--spacing-sm) + var(--spacing-xs))',
         background: 'linear-gradient(135deg, var(--color-card-bg), var(--color-bg))',
         border: '1px solid var(--color-border)',
         borderRadius: 'var(--radius-sm, 4px)',
@@ -299,7 +299,7 @@ export const { registry } = defineRegistry(themeCatalog, {
         <p style={{
           fontSize: '0.65rem',
           color: 'var(--color-muted)',
-          margin: '0.5rem 0 0',
+          margin: 'var(--spacing-sm) 0 0',
           textAlign: 'center',
         }}>
           {props.label || props.layout}
@@ -327,8 +327,8 @@ export const { registry } = defineRegistry(themeCatalog, {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.45rem 0.6rem',
+            gap: 'var(--spacing-sm)',
+            padding: 'calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem)) 0.6rem',
             fontSize: '0.65rem',
             color: 'var(--color-muted)',
             borderTop: '1px solid var(--color-border)',
@@ -343,7 +343,7 @@ export const { registry } = defineRegistry(themeCatalog, {
     ThemeManifesto: ({ props }) => (
       <blockquote style={{
         margin: 0,
-        padding: props.emphasis === 'experimental' ? '1rem 1rem 1rem 1.15rem' : '0.75rem 0 0.75rem 0.9rem',
+        padding: props.emphasis === 'experimental' ? 'var(--spacing-md) var(--spacing-md) var(--spacing-md) calc(var(--spacing-md) + var(--spacing-sm))' : 'calc(var(--spacing-sm) + var(--spacing-xs)) 0 calc(var(--spacing-sm) + var(--spacing-xs)) 0.9rem',
         borderLeft: `3px solid var(--color-link)`,
         color: 'var(--color-text)',
         fontFamily: 'var(--font-heading)',
@@ -364,12 +364,12 @@ export const { registry } = defineRegistry(themeCatalog, {
       <dl style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(92px, 1fr))',
-        gap: '0.5rem',
+        gap: 'var(--spacing-sm)',
         margin: 0,
       }}>
         {props.items.map((item, index) => (
           <div key={`${item.label}-${index}`} style={{
-            padding: '0.5rem',
+            padding: 'var(--spacing-sm)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-sm, 4px)',
             background: 'var(--color-bg)',
@@ -400,12 +400,12 @@ export const { registry } = defineRegistry(themeCatalog, {
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-        gap: '0.45rem',
+        gap: 'calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem))',
       }}>
         {props.tokens.map((token, index) => (
           <code key={`${token.name}-${index}`} style={{
             display: 'block',
-            padding: '0.45rem 0.5rem',
+            padding: 'calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem)) var(--spacing-sm)',
             color: 'var(--color-text)',
             background: 'var(--color-bg)',
             border: '1px solid var(--color-border)',
@@ -434,7 +434,7 @@ export const { registry } = defineRegistry(themeCatalog, {
         }}
         style={{
           alignSelf: 'flex-start',
-          padding: '0.45rem 0.75rem',
+          padding: 'calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem)) calc(var(--spacing-sm) + var(--spacing-xs))',
           border: '1px solid var(--color-link)',
           borderRadius: 'var(--radius-lg, 999px)',
           background: props.action === 'apply-theme' ? 'var(--color-link)' : 'transparent',
@@ -466,7 +466,7 @@ export const { registry } = defineRegistry(themeCatalog, {
       <span
         style={{
           display: 'inline-block',
-          padding: '0.15rem 0.5rem',
+          padding: 'calc(var(--spacing-xs) - 0.1rem) var(--spacing-sm)',
           fontSize: '0.7rem',
           fontWeight: 500,
           borderRadius: 'var(--radius-lg, 999px)',
@@ -491,7 +491,7 @@ export const { registry } = defineRegistry(themeCatalog, {
         style={{
           border: 'none',
           borderTop: `1px ${props.style || 'solid'} var(--color-border)`,
-          margin: '0.5rem 0',
+          margin: 'var(--spacing-sm) 0',
           width: '100%',
         }}
       />
@@ -507,7 +507,7 @@ export const { registry } = defineRegistry(themeCatalog, {
       };
       const dotColor = typeColors[props.type] || 'var(--color-muted)';
       return (
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', gap: 'calc(var(--spacing-sm) + var(--spacing-xs))', alignItems: 'flex-start' }}>
           <div style={{
             width: '10px',
             height: '10px',
@@ -517,7 +517,7 @@ export const { registry } = defineRegistry(themeCatalog, {
             flexShrink: 0,
           }} />
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--spacing-sm)', flexWrap: 'wrap' }}>
               <span style={{
                 fontSize: '0.7rem',
                 fontWeight: 600,
@@ -540,7 +540,7 @@ export const { registry } = defineRegistry(themeCatalog, {
               <p style={{
                 fontSize: '0.8rem',
                 color: 'var(--color-muted)',
-                margin: '0.2rem 0 0',
+                margin: '0.var(--spacing-xl) 0 0',
                 lineHeight: 1.5,
                 fontFamily: 'var(--font-body)',
               }}>

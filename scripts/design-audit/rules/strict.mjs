@@ -9,14 +9,15 @@ const DIMENSIONAL_PROPS =
 export function auditHoverDimensional(ctx, file, css, blockStartLine = 1) {
   if (!ctx.strict || ctx.isGrandfatheredStrict(file)) return;
 
-  for (const rule of splitCssRules(css)) {
-    if (!/:hover/.test(rule)) continue;
-    const brace = rule.indexOf('{');
-    if (brace === -1) continue;
-    const body = rule.slice(brace + 1);
+  // Match :hover rule bodies only — avoid false positives when @media wraps
+  // sibling hover and layout rules in one brace-delimited chunk.
+  const hoverRulePattern = /([^{}]*:hover[^{]*)\{([^{}]*)\}/g;
+  let match;
+  while ((match = hoverRulePattern.exec(css)) !== null) {
+    const body = match[2];
     if (!DIMENSIONAL_PROPS.test(body)) continue;
 
-    const lineInBlock = css.slice(0, css.indexOf(rule)).split('\n').length - 1;
+    const lineInBlock = css.slice(0, match.index).split('\n').length - 1;
     ctx.addViolation(
       file,
       blockStartLine + lineInBlock,

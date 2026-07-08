@@ -17,6 +17,11 @@ describe('design compliance audit (CI core)', () => {
     const violations = runDesignAudit({ strict: false });
     expect(violations).toHaveLength(0);
   });
+
+  it('exports runDesignAudit with zero strict violations', () => {
+    const violations = runDesignAudit({ strict: true });
+    expect(violations).toHaveLength(0);
+  });
 });
 
 describe('agent design stack contract', () => {

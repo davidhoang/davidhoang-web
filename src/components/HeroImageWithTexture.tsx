@@ -118,7 +118,7 @@ export default function HeroImageWithTexture({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '20px',
+    padding: 'var(--spacing-lg)',
   };
 
   const modalStyle: React.CSSProperties = {
@@ -143,7 +143,7 @@ export default function HeroImageWithTexture({
   const controlsPanelStyle: React.CSSProperties = {
     flex: '0 0 300px',
     background: 'var(--color-card-bg, #fff)',
-    padding: '24px',
+    padding: '2var(--spacing-xs)',
     overflowY: 'auto',
     maxHeight: '90vh',
   };
@@ -152,7 +152,7 @@ export default function HeroImageWithTexture({
     display: 'flex',
     alignItems: 'center',
     marginBottom: '10px',
-    gap: '10px',
+    gap: 'calc(var(--spacing-sm) + 0.125rem)',
   };
 
   const labelStyle: React.CSSProperties = {
@@ -266,7 +266,7 @@ export default function HeroImageWithTexture({
 
             <div style={controlsPanelStyle}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ margin: 0, fontSize: '16px', color: 'var(--color-text)' }}>Play with the texture</h3>
+                <h3 style={{ margin: 0, fontSize: 'var(--spacing-md)', color: 'var(--color-text)' }}>Play with the texture</h3>
                 <button
                   onClick={() => setShowModal(false)}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '24px', color: 'var(--color-muted)', lineHeight: 1 }}
@@ -328,12 +328,12 @@ export default function HeroImageWithTexture({
                 />
               </div>
 
-              <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
+              <div style={{ marginTop: 'var(--spacing-md)', display: 'flex', gap: 'var(--spacing-sm)' }}>
                 <button
                   onClick={copySettings}
                   style={{
                     flex: 1,
-                    padding: '10px',
+                    padding: 'calc(var(--spacing-sm) + 0.125rem)',
                     background: 'var(--color-link)',
                     color: '#fff',
                     border: 'none',
@@ -349,7 +349,7 @@ export default function HeroImageWithTexture({
                   onClick={() => setSettings(defaultSettings)}
                   style={{
                     flex: 1,
-                    padding: '10px',
+                    padding: 'calc(var(--spacing-sm) + 0.125rem)',
                     background: 'var(--color-border)',
                     color: 'var(--color-text)',
                     border: 'none',
