@@ -20,45 +20,16 @@ export function HeroDialProviderInner({ children, onReplayEntrance }: HeroDialPr
 
   const values = useMemo<HeroDialValues>(
     () => ({
-      fan: {
-        spread: params.fan.spread,
-        yOffset: params.fan.yOffset,
-        rotation: params.fan.rotation,
-      },
-      wrapper: {
-        width: params.wrapper.width,
-        height: params.wrapper.height,
-        marginTop: params.wrapper.marginTop,
-      },
       card: {
         width: params.card.width,
         height: params.card.height,
         borderRadius: params.card.borderRadius,
-      },
-      hover: {
-        liftY: params.hover.liftY,
-        scale: params.hover.scale,
-        tapScale: params.hover.tapScale,
-      },
-      entrance: {
-        initialScale: params.entrance.initialScale,
-        staggerDelay: params.entrance.staggerDelay,
-        stiffness: params.entrance.stiffness,
-        damping: params.entrance.damping,
-        settleStiffness: params.entrance.settleStiffness,
-        settleDamping: params.entrance.settleDamping,
-      },
-      expand: {
-        stiffness: params.expand.spring.stiffness ?? heroDialDefaults.expand.stiffness,
-        damping: params.expand.spring.damping ?? heroDialDefaults.expand.damping,
-        mass: params.expand.spring.mass ?? heroDialDefaults.expand.mass,
       },
       hoverTween: {
         type: 'tween',
         duration: params.hoverTween.duration,
         ease: params.hoverTween.ease,
       },
-      dimmedOpacity: params.dimmedOpacity,
       tilt: {
         enabled: params.tilt.enabled,
         amplitude: params.tilt.amplitude,
@@ -66,6 +37,41 @@ export function HeroDialProviderInner({ children, onReplayEntrance }: HeroDialPr
         damping: params.tilt.damping,
         mass: params.tilt.mass,
       },
+      stackedFan: {
+        fan: {
+          spread: params.stackedFan.fan.spread,
+          yOffset: params.stackedFan.fan.yOffset,
+          rotation: params.stackedFan.fan.rotation,
+        },
+        wrapper: {
+          width: params.stackedFan.wrapper.width,
+          height: params.stackedFan.wrapper.height,
+          marginTop: params.stackedFan.wrapper.marginTop,
+        },
+        hover: {
+          liftY: params.stackedFan.hover.liftY,
+          scale: params.stackedFan.hover.scale,
+          tapScale: params.stackedFan.hover.tapScale,
+        },
+        entrance: {
+          initialScale: params.stackedFan.entrance.initialScale,
+          staggerDelay: params.stackedFan.entrance.staggerDelay,
+          stiffness: params.stackedFan.entrance.stiffness,
+          damping: params.stackedFan.entrance.damping,
+          settleStiffness: params.stackedFan.entrance.settleStiffness,
+          settleDamping: params.stackedFan.entrance.settleDamping,
+        },
+        expand: {
+          stiffness: params.stackedFan.expand.spring.stiffness ?? heroDialDefaults.stackedFan.expand.stiffness,
+          damping: params.stackedFan.expand.spring.damping ?? heroDialDefaults.stackedFan.expand.damping,
+          mass: params.stackedFan.expand.spring.mass ?? heroDialDefaults.stackedFan.expand.mass,
+        },
+        dimmedOpacity: params.stackedFan.dimmedOpacity,
+      },
+      editorial: { ...params.editorial },
+      scattered: { ...params.scattered },
+      rolodex: { ...params.rolodex },
+      cinematic: { ...params.cinematic },
     }),
     [params]
   );

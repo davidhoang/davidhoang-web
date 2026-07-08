@@ -4,11 +4,10 @@ import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 import { handleCardHoverLeave } from '../cardHover';
-import { useMagneticTilt } from '../../useMagneticTilt';
 import MobileHeroSheet from '../MobileHeroSheet';
 import { isMobileHeroViewport } from '../heroViewport';
-import { useHeroDial, useScaledFanPosition } from '../HeroDialProvider';
-import type { HeroDialValues } from '../heroDialDefaults';
+import { useHeroDial } from '../HeroDialProvider';
+import { cardDimensionStyle, useHeroCardTilt, useScaledFanPosition } from '../heroDialUtils';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -36,19 +35,6 @@ function cardClassName(
   ]
     .filter(Boolean)
     .join(' ');
-}
-
-function cardDimensionStyle(dial: HeroDialValues): CSSProperties {
-  return {
-    width: dial.card.width,
-    height: dial.card.height,
-    borderRadius: dial.card.borderRadius,
-    marginLeft: -dial.card.width / 2,
-    marginTop: -dial.card.height / 2,
-    ['--card-radius' as string]: `${dial.card.borderRadius}px`,
-    ['--card-hero-inner-radius' as string]: `calc(${dial.card.borderRadius}px - var(--card-hero-frame))`,
-    ['--card-panel-inner-radius' as string]: `max(0px, calc(${dial.card.borderRadius}px - var(--card-panel-inset)))`,
-  };
 }
 
 interface FanCardProps {
@@ -79,19 +65,12 @@ function FanCard({
   onCardHover,
 }: FanCardProps) {
   const dial = useHeroDial();
+  const fan = dial.stackedFan;
   const scaledPosition = useScaledFanPosition(position, dial);
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
   const isHovered = hoveredCard === card.id;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useMagneticTilt({
-    disabled: Boolean(selectedCard || !dial.tilt.enabled),
-    amplitude: dial.tilt.amplitude,
-    spring: {
-      stiffness: dial.tilt.stiffness,
-      damping: dial.tilt.damping,
-      mass: dial.tilt.mass,
-    },
-  });
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
 
   return (
     <motion.div
@@ -109,33 +88,33 @@ function FanCard({
         x: 0,
         y: 0,
         rotate: 0,
-        scale: dial.entrance.initialScale,
+        scale: fan.entrance.initialScale,
         opacity: 1,
       }}
       animate={{
         x: isLoaded ? scaledPosition.x : 0,
         y: isLoaded ? scaledPosition.y : 0,
         rotate: isLoaded ? scaledPosition.rotation : 0,
-        scale: isLoaded ? 1 : dial.entrance.initialScale,
-        opacity: isOtherSelected ? dial.dimmedOpacity : 1,
+        scale: isLoaded ? 1 : fan.entrance.initialScale,
+        opacity: isOtherSelected ? fan.dimmedOpacity : 1,
       }}
       whileHover={
         selectedCard || prefersReducedMotion
           ? undefined
           : {
               x: scaledPosition.x,
-              y: scaledPosition.y - dial.hover.liftY,
+              y: scaledPosition.y - fan.hover.liftY,
               rotate: scaledPosition.rotation,
-              scale: dial.hover.scale,
+              scale: fan.hover.scale,
               transition: dial.hoverTween,
             }
       }
-      whileTap={selectedCard ? undefined : { scale: dial.hover.tapScale }}
+      whileTap={selectedCard ? undefined : { scale: fan.hover.tapScale }}
       transition={{
         type: 'spring',
-        stiffness: hasAnimatedIn ? dial.entrance.settleStiffness : dial.entrance.stiffness,
-        damping: hasAnimatedIn ? dial.entrance.settleDamping : dial.entrance.damping,
-        delay: !hasAnimatedIn && isLoaded ? index * dial.entrance.staggerDelay : 0,
+        stiffness: hasAnimatedIn ? fan.entrance.settleStiffness : fan.entrance.stiffness,
+        damping: hasAnimatedIn ? fan.entrance.settleDamping : fan.entrance.damping,
+        delay: !hasAnimatedIn && isLoaded ? index * fan.entrance.staggerDelay : 0,
         ...(hasAnimatedIn && {
           x: dial.hoverTween,
           y: dial.hoverTween,
@@ -174,6 +153,7 @@ export default function StackedFanLayout({
   onCardHover,
 }: LayoutProps) {
   const dial = useHeroDial();
+  const fan = dial.stackedFan;
   const isGlass = cardStyle === 'glass';
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const [isMobileSheet, setIsMobileSheet] = useState(false);
@@ -196,20 +176,20 @@ export default function StackedFanLayout({
         ? { duration: 0.2, ease: [0.32, 0.72, 0, 1] as const }
         : {
             type: 'spring' as const,
-            stiffness: dial.expand.stiffness,
-            damping: dial.expand.damping,
-            mass: dial.expand.mass,
+            stiffness: fan.expand.stiffness,
+            damping: fan.expand.damping,
+            mass: fan.expand.mass,
           },
-    [prefersReducedMotion, dial.expand.stiffness, dial.expand.damping, dial.expand.mass]
+    [prefersReducedMotion, fan.expand.stiffness, fan.expand.damping, fan.expand.mass]
   );
 
   const wrapperStyle = useMemo<CSSProperties>(
     () => ({
-      width: dial.wrapper.width,
-      height: dial.wrapper.height,
-      marginTop: dial.wrapper.marginTop,
+      width: fan.wrapper.width,
+      height: fan.wrapper.height,
+      marginTop: fan.wrapper.marginTop,
     }),
-    [dial.wrapper.width, dial.wrapper.height, dial.wrapper.marginTop]
+    [fan.wrapper.width, fan.wrapper.height, fan.wrapper.marginTop]
   );
 
   return (

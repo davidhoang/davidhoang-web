@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useState, type ReactNode } from 'react';
 import { heroDialDefaults, type HeroDialValues } from './heroDialDefaults';
 import { HeroDialContext } from './heroDialContext';
 
@@ -40,19 +40,5 @@ function HeroDialProviderDevLoader({ children, onReplayEntrance }: HeroDialProvi
 
   return (
     <DevProvider onReplayEntrance={onReplayEntrance}>{children}</DevProvider>
-  );
-}
-
-export function useScaledFanPosition(
-  position: { x: number; y: number; rotation: number },
-  dial: HeroDialValues
-) {
-  return useMemo(
-    () => ({
-      x: position.x * (dial.fan.spread / heroDialDefaults.fan.spread),
-      y: position.y * (dial.fan.yOffset / heroDialDefaults.fan.yOffset),
-      rotation: position.rotation * (dial.fan.rotation / heroDialDefaults.fan.rotation),
-    }),
-    [position, dial.fan.spread, dial.fan.yOffset, dial.fan.rotation]
   );
 }

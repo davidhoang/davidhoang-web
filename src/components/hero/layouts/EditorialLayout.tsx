@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
-import { useMagneticTilt } from '../../useMagneticTilt';
+import { handleCardHoverLeave } from '../cardHover';
+import { useHeroDial } from '../HeroDialProvider';
+import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
 
 interface EditorialCardProps {
   card: Card;
@@ -29,38 +30,41 @@ function EditorialCard({
   onCardClick,
   onCardHover,
 }: EditorialCardProps) {
+  const dial = useHeroDial();
+  const editorial = dial.editorial;
   const isSelected = selectedCard === card.id;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const tilt = useMagneticTilt({ disabled: true });
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
 
   return (
     <motion.div
       className={`hero-card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasHeroLayout(card) ? 'card-has-hero-layout' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
       style={{
+        ...cardDimensionStyle(dial),
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: isSelected ? 20 : cardCount - index,
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
-        transformPerspective: 1000,
+        transformPerspective: editorial.perspective,
       }}
-      initial={{ x: 40, scale: 0.96, opacity: 1 }}
+      initial={{ x: editorial.initialX, scale: editorial.initialScale, opacity: 1 }}
       animate={{
-        x: isLoaded ? 0 : 40,
-        opacity: isOtherSelected ? 0.3 : 1,
-        scale: isSelected ? 1.02 : (isLoaded ? 1 : 0.96),
+        x: isLoaded ? 0 : editorial.initialX,
+        opacity: isOtherSelected ? editorial.dimmedOpacity : 1,
+        scale: isSelected ? editorial.selectedScale : (isLoaded ? 1 : editorial.initialScale),
       }}
       whileHover={!isSelected ? {
-        x: 8,
-        transition: HERO_HOVER_TWEEN,
+        x: editorial.hoverX,
+        transition: dial.hoverTween,
       } : {}}
-      whileTap={!isSelected ? { scale: 0.98 } : {}}
+      whileTap={!isSelected ? { scale: editorial.tapScale } : {}}
       transition={{
         type: 'spring',
-        stiffness: hasAnimatedIn ? 300 : 120,
-        damping: hasAnimatedIn ? 20 : 14,
-        delay: !hasAnimatedIn && isLoaded ? index * 0.06 : 0,
+        stiffness: hasAnimatedIn ? editorial.settleStiffness : editorial.stiffness,
+        damping: hasAnimatedIn ? editorial.settleDamping : editorial.damping,
+        delay: !hasAnimatedIn && isLoaded ? index * editorial.staggerDelay : 0,
         ...(hasAnimatedIn && {
-          x: HERO_HOVER_TWEEN,
+          x: dial.hoverTween,
         }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}

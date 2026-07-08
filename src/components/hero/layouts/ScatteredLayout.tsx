@@ -1,10 +1,11 @@
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
-import { useMagneticTilt } from '../../useMagneticTilt';
+import { handleCardHoverLeave } from '../cardHover';
+import { useHeroDial } from '../HeroDialProvider';
+import { cardDimensionStyle, scaleScatteredPosition, useHeroCardTilt } from '../heroDialUtils';
 
-// Seeded random number generator (mulberry32) for deterministic placement per day
 function seededRandom(seed: number) {
   let t = seed + 0x6D2B79F5;
   t = Math.imul(t ^ (t >>> 15), t | 1);
@@ -26,10 +27,9 @@ function generatePositions(count: number) {
     const r2 = seededRandom(seed + i * 3 + 1);
     const r3 = seededRandom(seed + i * 3 + 2);
 
-    // Spread cards across the viewport area: -400..400 x, -120..120 y
     const x = (r1 - 0.5) * 800;
     const y = (r2 - 0.5) * 240;
-    const rotation = (r3 - 0.5) * 30; // -15 to 15 degrees
+    const rotation = (r3 - 0.5) * 30;
 
     positions.push({ x, y, rotation });
   }
@@ -64,51 +64,58 @@ function ScatteredCard({
   onCardClick,
   onCardHover,
 }: ScatteredCardProps) {
+  const dial = useHeroDial();
+  const scattered = dial.scattered;
+  const scaledPosition = useMemo(
+    () => scaleScatteredPosition(position, dial),
+    [position, dial.scattered.spreadX, dial.scattered.spreadY, dial.scattered.maxRotation]
+  );
   const isHovered = hoveredCard === card.id;
   const isSelected = selectedCard === card.id;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const tilt = useMagneticTilt({ disabled: true });
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
 
   return (
     <motion.div
       className={`hero-card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasHeroLayout(card) ? 'card-has-hero-layout' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
       style={{
+        ...cardDimensionStyle(dial),
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: isSelected ? 20 : (isHovered ? 15 : cardCount - index),
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
-        transformPerspective: 1000,
+        transformPerspective: scattered.perspective,
       }}
       initial={{
         x: 0,
         y: 0,
         rotate: 0,
-        scale: 0.92,
+        scale: scattered.initialScale,
         opacity: 1,
       }}
       animate={{
-        x: isSelected ? 0 : (isLoaded ? position.x : 0),
-        y: isSelected ? -40 : (isLoaded ? position.y : 0),
-        rotate: isSelected ? 0 : (isLoaded ? position.rotation : 0),
-        scale: isSelected ? 1.15 : (isLoaded ? 1 : 0.92),
-        opacity: isOtherSelected ? 0.2 : 1,
+        x: isSelected ? 0 : (isLoaded ? scaledPosition.x : 0),
+        y: isSelected ? scattered.selectedLiftY : (isLoaded ? scaledPosition.y : 0),
+        rotate: isSelected ? 0 : (isLoaded ? scaledPosition.rotation : 0),
+        scale: isSelected ? scattered.selectedScale : (isLoaded ? 1 : scattered.initialScale),
+        opacity: isOtherSelected ? scattered.dimmedOpacity : 1,
       }}
       whileHover={!isSelected ? {
-        scale: 1.06,
+        scale: scattered.hoverScale,
         rotate: 0,
-        transition: HERO_HOVER_TWEEN,
+        transition: dial.hoverTween,
       } : {}}
-      whileTap={!isSelected ? { scale: 0.95 } : {}}
+      whileTap={!isSelected ? { scale: scattered.tapScale } : {}}
       transition={{
         type: 'spring',
-        stiffness: hasAnimatedIn ? 200 : 80,
-        damping: hasAnimatedIn ? 20 : 12,
-        delay: !hasAnimatedIn && isLoaded ? index * 0.1 : 0,
+        stiffness: hasAnimatedIn ? scattered.settleStiffness : scattered.stiffness,
+        damping: hasAnimatedIn ? scattered.settleDamping : scattered.damping,
+        delay: !hasAnimatedIn && isLoaded ? index * scattered.staggerDelay : 0,
         ...(hasAnimatedIn && {
-          x: HERO_HOVER_TWEEN,
-          y: HERO_HOVER_TWEEN,
-          rotate: HERO_HOVER_TWEEN,
-          scale: HERO_HOVER_TWEEN,
+          x: dial.hoverTween,
+          y: dial.hoverTween,
+          rotate: dial.hoverTween,
+          scale: dial.hoverTween,
         }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}

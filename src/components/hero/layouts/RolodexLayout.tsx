@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave, HERO_HOVER_TWEEN } from '../cardHover';
-import { useMagneticTilt } from '../../useMagneticTilt';
+import { handleCardHoverLeave } from '../cardHover';
+import { useHeroDial } from '../HeroDialProvider';
+import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
 
 interface RolodexCardProps {
   card: Card;
@@ -16,7 +17,6 @@ interface RolodexCardProps {
   totalCards: number;
   activeIndex: number;
   angleStep: number;
-  radius: number;
   onCardClick: LayoutProps['onCardClick'];
   onCardHover: LayoutProps['onCardHover'];
   onActivate: (index: number) => void;
@@ -33,73 +33,74 @@ function RolodexCard({
   totalCards,
   activeIndex,
   angleStep,
-  radius,
   onCardClick,
   onCardHover,
   onActivate,
 }: RolodexCardProps) {
+  const dial = useHeroDial();
+  const rolodex = dial.rolodex;
   const isSelected = selectedCard === card.id;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
 
   const offset = (index - activeIndex + totalCards) % totalCards;
   const angle = offset * angleStep;
   const angleRad = (angle * Math.PI) / 180;
-  const translateZ = Math.cos(angleRad) * radius;
-  const translateX = Math.sin(angleRad) * radius;
+  const translateZ = Math.cos(angleRad) * rolodex.radius;
+  const translateX = Math.sin(angleRad) * rolodex.radius;
   const isFront = offset === 0;
   const isAdjacent = offset === 1 || offset === totalCards - 1;
 
-  const tilt = useMagneticTilt({ disabled: true });
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
 
   return (
     <motion.div
       className={`hero-card ${isSelected ? 'card-selected' : ''} ${card.image ? 'card-with-image' : ''} ${cardHasHeroLayout(card) ? 'card-has-hero-layout' : ''} ${cardHasShaderSurface(card) ? 'card-has-shader' : ''} ${isGlass ? 'card-glass-mode' : ''}`}
       style={{
+        ...cardDimensionStyle(dial),
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: isSelected ? 20 : (isFront ? 10 : (isAdjacent ? 5 : 1)),
         transformStyle: 'preserve-3d',
         rotateX: tilt.rotateX,
-        // rotateY here would conflict with the carousel's animated rotateY; tilt-Y is disabled on rolodex.
       }}
       initial={{
         opacity: 1,
-        scale: 0.92,
+        scale: rolodex.initialScale,
         rotateY: 0,
         x: 0,
         z: 0,
       }}
       animate={{
-        x: isSelected ? 0 : (isLoaded ? translateX * 0.6 : 0),
+        x: isSelected ? 0 : (isLoaded ? translateX * rolodex.translateXFactor : 0),
         z: isLoaded ? translateZ : 0,
-        rotateY: isSelected ? 0 : (isLoaded ? -angle * 0.3 : 0),
+        rotateY: isSelected ? 0 : (isLoaded ? -angle * rolodex.rotateYFactor : 0),
         scale: isSelected
-          ? 1.1
+          ? rolodex.selectedScale
           : (isLoaded
-            ? (isFront ? 1 : (isAdjacent ? 0.85 : 0.7))
-            : 0.92),
+            ? (isFront ? rolodex.frontScale : (isAdjacent ? rolodex.adjacentScale : rolodex.backScale))
+            : rolodex.initialScale),
         opacity: isOtherSelected
-          ? 0.2
+          ? rolodex.dimmedOpacity
           : (isLoaded
-            ? (isFront ? 1 : (isAdjacent ? 0.7 : 0.4))
+            ? (isFront ? rolodex.frontOpacity : (isAdjacent ? rolodex.adjacentOpacity : rolodex.backOpacity))
             : 1),
-        y: isSelected ? -60 : 0,
+        y: isSelected ? rolodex.selectedLiftY : 0,
       }}
       whileHover={!isSelected && isFront ? {
-        scale: 1.03,
-        y: -8,
-        transition: HERO_HOVER_TWEEN,
+        scale: rolodex.hoverScale,
+        y: rolodex.hoverLiftY,
+        transition: dial.hoverTween,
       } : {}}
-      whileTap={!isSelected ? { scale: 0.98 } : {}}
+      whileTap={!isSelected ? { scale: rolodex.tapScale } : {}}
       transition={{
         type: 'spring',
-        stiffness: hasAnimatedIn ? 200 : 100,
-        damping: hasAnimatedIn ? 25 : 15,
-        delay: !hasAnimatedIn && isLoaded ? index * 0.08 : 0,
+        stiffness: hasAnimatedIn ? rolodex.settleStiffness : rolodex.stiffness,
+        damping: hasAnimatedIn ? rolodex.settleDamping : rolodex.damping,
+        delay: !hasAnimatedIn && isLoaded ? index * rolodex.staggerDelay : 0,
         ...(hasAnimatedIn && {
-          x: HERO_HOVER_TWEEN,
-          y: HERO_HOVER_TWEEN,
-          rotateY: HERO_HOVER_TWEEN,
-          scale: HERO_HOVER_TWEEN,
+          x: dial.hoverTween,
+          y: dial.hoverTween,
+          rotateY: dial.hoverTween,
+          scale: dial.hoverTween,
         }),
       }}
       onMouseEnter={() => !selectedCard && onCardHover(card.id)}
@@ -141,7 +142,6 @@ export default function RolodexLayout({
 
   const totalCards = cards.length;
   const angleStep = 360 / totalCards;
-  const radius = 320; // distance from center in 3D space
 
   const handleNavClick = (direction: 'prev' | 'next') => {
     setActiveIndex((prev) =>
@@ -166,14 +166,12 @@ export default function RolodexLayout({
           totalCards={totalCards}
           activeIndex={activeIndex}
           angleStep={angleStep}
-          radius={radius}
           onCardClick={onCardClick}
           onCardHover={onCardHover}
           onActivate={setActiveIndex}
         />
       ))}
 
-      {/* Navigation arrows */}
       {!selectedCard && isLoaded && (
         <>
           <button
