@@ -75,9 +75,9 @@ const { person, size = 24 } = Astro.props;
   .person-avatar-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--duration-normal) var(--ease-standard);
   }
 
   .person-avatar-link:hover {
@@ -87,7 +87,7 @@ const { person, size = 24 } = Astro.props;
   .person-avatar-wrapper {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
   }
 
   .person-avatar-image {

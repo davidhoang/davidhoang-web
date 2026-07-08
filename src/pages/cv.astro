@@ -66,7 +66,7 @@ const pageDescription = "David Hoang - CV";
   .cv-container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: var(--spacing-xl) var(--spacing-md);
   }
 
   .cv-name {
@@ -89,7 +89,7 @@ const pageDescription = "David Hoang - CV";
   .cv-item {
     display: flex;
     align-items: baseline;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     margin-bottom: 0.25rem;
     flex-wrap: wrap;
   }
@@ -129,7 +129,7 @@ const pageDescription = "David Hoang - CV";
     margin-top: 4rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
   }
 
   .cv-links a {
@@ -145,7 +145,7 @@ const pageDescription = "David Hoang - CV";
 
   @media (max-width: 768px) {
     .cv-container {
-      padding: 1.5rem 1rem;
+      padding: var(--spacing-lg) var(--spacing-md);
     }
 
     .cv-name {
@@ -163,7 +163,7 @@ const pageDescription = "David Hoang - CV";
 
     .cv-links {
       margin-top: 3rem;
-      gap: 1rem;
+      gap: var(--spacing-md);
     }
   }
 </style>

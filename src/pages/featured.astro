@@ -83,12 +83,12 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     display: grid;
     grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 1.12fr);
     gap: clamp(2rem, 5vw, 3.5rem);
-    margin: 1.25rem 0 3rem;
+    margin: calc(var(--spacing-md) + var(--spacing-xs)) 0 var(--spacing-2xl);
     align-items: start;
   }
 
   .featured-editorial__section-title {
-    margin: 0 0 0.35rem;
+    margin: 0 0 calc(var(--spacing-xs) + 0.1rem);
     font-size: var(--h2-size);
     line-height: var(--h2-line-height);
     letter-spacing: var(--h2-letter-spacing);
@@ -105,7 +105,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .featured-editorial__lede {
-    margin: 0 0 1.75rem;
+    margin: 0 0 calc(var(--spacing-lg) + var(--spacing-sm));
     max-width: 42rem;
     font-size: 0.95rem;
     line-height: 1.55;
@@ -133,7 +133,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .speaking-inquiry__label {
-    margin: 0 0 0.35rem;
+    margin: 0 0 calc(var(--spacing-xs) + 0.1rem);
     font-size: var(--text-eyebrow-size, 0.6875rem);
     font-weight: 600;
     letter-spacing: var(--text-eyebrow-tracking, 0.14em);
@@ -198,7 +198,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     display: grid;
     grid-template-columns: minmax(4.75rem, 6.25rem) minmax(0, 1fr);
     gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
-    padding: 0.72rem 0;
+    padding: 0.7var(--spacing-xl) 0;
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
     align-items: baseline;
   }
@@ -275,7 +275,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   @media (max-width: 768px) {
     .speaking-chronicle__entry {
       grid-template-columns: 1fr;
-      gap: 0.2rem;
+      gap: 0.var(--spacing-xl);
       padding-block: 0.85rem;
       align-items: start;
     }
@@ -311,7 +311,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   @media (max-width: 520px) {
     .speaking-chronicle__year {
       grid-template-columns: 1fr;
-      gap: 0.55rem;
+      gap: calc(var(--spacing-sm) + calc(var(--spacing-xs) - 0.2rem));
     }
 
     .speaking-chronicle__year-label {
@@ -347,7 +347,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   .media-stack {
     display: flex;
     flex-direction: column;
-    gap: 1.15rem;
+    gap: calc(var(--spacing-md) + var(--spacing-sm));
   }
 
   @media (max-width: 900px) {

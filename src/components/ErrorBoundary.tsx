@@ -38,7 +38,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
       return (
         <div style={{
-          padding: '2rem',
+          padding: 'var(--spacing-xl)',
           textAlign: 'center',
           color: 'var(--color-text, #333)'
         }}>
@@ -48,7 +48,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <button
             onClick={this.handleRetry}
             style={{
-              padding: '0.5rem 1rem',
+              padding: 'var(--spacing-sm) var(--spacing-md)',
               cursor: 'pointer',
               border: '1px solid currentColor',
               background: 'transparent',

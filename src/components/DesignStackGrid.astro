@@ -71,7 +71,7 @@ function stackUrlFootnote(url: string): string {
     padding: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
 
   @media (min-width: 520px) {
@@ -83,7 +83,7 @@ function stackUrlFootnote(url: string): string {
   @media (min-width: 720px) {
     .design-stack-grid {
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.125rem;
+      gap: calc(var(--spacing-md) + var(--spacing-xs));
     }
   }
 

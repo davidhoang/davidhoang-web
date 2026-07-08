@@ -247,7 +247,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     display: flex;
     justify-content: center;
     width: 100%;
-    margin: 0 0 1.125rem;
+    margin: 0 0 calc(var(--spacing-md) + var(--spacing-xs));
   }
 
   .bio-pipe {
@@ -258,7 +258,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     width: max-content;
     max-width: 100%;
     margin: 0;
-    padding: 0 0 0.2rem;
+    padding: 0 0 0.var(--spacing-xl);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -280,7 +280,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     flex: 0 0 auto;
     min-width: fit-content;
     margin: 0;
-    padding: 0.2rem 0.45rem;
+    padding: 0.var(--spacing-xl) calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem));
     font-family: inherit;
     font-size: 0.6875rem;
     font-weight: 500;
@@ -294,7 +294,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     border-radius: 0;
     border-left: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
     cursor: pointer;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: color var(--duration-normal) var(--ease-standard), text-decoration-color var(--duration-normal) var(--ease-standard);
   }
 
   .bio-pipe-segment:first-child {
@@ -338,7 +338,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   .bio-content {
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.4s var(--ease-inertia), transform 0.4s var(--ease-inertia);
+    transition: opacity var(--duration-slower) var(--ease-inertia), transform var(--duration-slower) var(--ease-inertia);
     position: absolute;
     top: 0;
     left: 0;
@@ -356,7 +356,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   .bio-section-title {
     font-size: 2rem;
     font-weight: 700;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--spacing-lg) 0;
     color: var(--color-text);
     line-height: 1.2;
   }
@@ -374,7 +374,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     letter-spacing: var(--h2-letter-spacing, -0.02em);
     line-height: var(--h2-line-height, 1.15);
     color: var(--color-text);
-    margin: 0 0 1rem;
+    margin: 0 0 var(--spacing-md);
   }
 
   .work-list {
@@ -386,8 +386,8 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
   .work-entry {
     display: flex;
     align-items: baseline;
-    padding: 0.15rem 0;
-    gap: 0.5rem;
+    padding: calc(var(--spacing-xs) - 0.1rem) 0;
+    gap: var(--spacing-sm);
     line-height: 1.2;
   }
 
@@ -448,7 +448,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 
     .bio-pipe-segment {
       font-size: 0.65625rem;
-      padding: 0.15rem 0.4rem;
+      padding: calc(var(--spacing-xs) - 0.1rem) 0.var(--spacing-3xl);
     }
 
     .bio-section-title {
@@ -459,7 +459,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 
     .work-entry {
       flex-wrap: wrap;
-      gap: 0.25rem 0.5rem;
+      gap: var(--spacing-xs) var(--spacing-sm);
     }
 
     .work-company {

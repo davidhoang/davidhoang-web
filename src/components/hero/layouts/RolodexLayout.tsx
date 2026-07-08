@@ -217,7 +217,7 @@ export default function RolodexLayout({
               cursor: pointer;
               color: var(--color-text);
               z-index: 15;
-              transition: background 0.2s, transform 0.2s;
+              transition: background var(--duration-normal), transform var(--duration-normal);
             }
 
             .rolodex-nav:hover {

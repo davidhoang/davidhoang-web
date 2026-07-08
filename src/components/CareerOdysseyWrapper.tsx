@@ -15,7 +15,7 @@ const CareerOdysseyLoading = () => (
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '60vh',
-    padding: '2rem',
+    padding: 'var(--spacing-xl)',
     textAlign: 'center',
     color: 'var(--color-text, #333)'
   }} aria-busy="true" aria-label="Loading Career Odyssey">
@@ -39,7 +39,7 @@ const CareerOdysseyFallback = () => (
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '60vh',
-    padding: '2rem',
+    padding: 'var(--spacing-xl)',
     textAlign: 'center',
     color: 'var(--color-text, #333)'
   }}>
@@ -50,7 +50,7 @@ const CareerOdysseyFallback = () => (
     <button
       onClick={() => window.location.reload()}
       style={{
-        padding: '0.75rem 1.5rem',
+        padding: 'calc(var(--spacing-sm) + var(--spacing-xs)) var(--spacing-lg)',
         cursor: 'pointer',
         border: '1px solid currentColor',
         background: 'transparent',

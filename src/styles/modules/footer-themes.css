@@ -30,7 +30,7 @@
   border-top: 4px solid var(--color-text);
   background: var(--color-text);
   color: var(--color-bg);
-  padding: 3rem 0;
+  padding: var(--spacing-2xl) 0;
 }
 
 [data-footer-style="brutalist"] .site-footer a,
@@ -86,7 +86,7 @@
 /* Editorial - newspaper style with large CTA */
 [data-footer-style="editorial"] .site-footer {
   border-top: 3px double var(--color-border);
-  padding: 4rem 0 2rem;
+  padding: var(--spacing-3xl) 0 var(--spacing-xl);
 }
 
 [data-footer-style="editorial"] .site-footer .footer-grid {
@@ -115,7 +115,7 @@
 
 /* Minimal - centered, sparse */
 [data-footer-style="minimal"] .site-footer {
-  padding: 3rem 0;
+  padding: var(--spacing-2xl) 0;
   text-align: center;
 }
 
@@ -236,7 +236,7 @@
 /* Retro - pixelated borders, 8-bit feel */
 [data-footer-style="retro"] .site-footer {
   border-top: 4px dashed var(--color-link);
-  padding: 2rem 0;
+  padding: var(--spacing-xl) 0;
   image-rendering: pixelated;
 }
 

@@ -138,15 +138,19 @@
   --h6-line-height: 1.35;
   --h6-letter-spacing: 0.005em;  /* Slight opening for smallest headings */
 
+  --color-search-target: rgba(255, 223, 99, 0.28);
+  --color-status-active: #22c55e;
+  --color-media-chrome: #000;
+
   /* Cards */
   --color-card-bg: var(--color-sidebar-bg);
   --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
   --card-border-width: 1px;
-  --card-padding: 1.5rem;
+  --card-padding: var(--spacing-lg);
 
   /* Section spacing (for daily themes) */
-  --section-spacing: 4rem;
-  --content-padding: 2rem;
+  --section-spacing: var(--spacing-3xl);
+  --content-padding: var(--spacing-xl);
 
   /* Hero dimensions */
   --hero-height: 75vh;

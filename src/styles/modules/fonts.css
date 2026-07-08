@@ -191,17 +191,17 @@ time {
 
 /* Blockquote — editorial serif voice against sans body */
 blockquote {
-  margin: 2.5rem 0;
-  padding: 0 0 0 1.75rem;
+  margin: calc(var(--spacing-xl) + var(--spacing-sm)) 0;
+  padding: 0 0 0 calc(var(--spacing-lg) + var(--spacing-sm));
   border-left: 1px solid color-mix(in srgb, var(--color-text) 28%, var(--color-border));
   background: none;
   border-radius: 0;
   font-family: var(--font-serif);
-  transition: color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
+  transition: color var(--duration-slower) var(--ease-inertia), border-color var(--duration-slower) var(--ease-inertia);
 }
 
 blockquote p {
-  margin: 0 0 0.85em;
+  margin: 0 0 calc(var(--spacing-md) - 0.15rem);
   color: var(--color-text);
   font-family: inherit;
   font-size: 1.25rem;
@@ -229,8 +229,8 @@ blockquote cite {
 
 /* Pull Quote - Editorial highlight for key passages */
 .pull-quote {
-  margin: 3rem 0;
-  padding: 2.5rem 2rem;
+  margin: var(--spacing-2xl) 0;
+  padding: calc(var(--spacing-xl) + var(--spacing-sm)) var(--spacing-xl);
   text-align: center;
   font-family: var(--font-serif);
   font-size: clamp(1.5rem, 4vw, 2.25rem);
@@ -241,7 +241,7 @@ blockquote cite {
   color: var(--color-text);
   border-top: 1px solid color-mix(in srgb, var(--color-text) 35%, var(--color-border));
   border-bottom: 1px solid color-mix(in srgb, var(--color-text) 35%, var(--color-border));
-  transition: color 0.4s var(--ease-inertia), border-color 0.4s var(--ease-inertia);
+  transition: color var(--duration-slower) var(--ease-inertia), border-color var(--duration-slower) var(--ease-inertia);
   position: relative;
 }
 

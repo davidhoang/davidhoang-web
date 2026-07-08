@@ -57,7 +57,7 @@
 .philosophy-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 1.25rem;
+  row-gap: calc(var(--spacing-md) + var(--spacing-xs));
   column-gap: clamp(1rem, 4vw, 4rem);
   padding-right: 24px;
   align-items: start;
@@ -89,7 +89,7 @@
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: 1.5rem;
+  row-gap: var(--spacing-lg);
   column-gap: clamp(1rem, 3vw, 3rem);
   min-width: 0;
 }
@@ -190,7 +190,7 @@
 @media (min-width: 1920px) {
   .philosophy-grid {
     grid-template-columns: repeat(2, 1fr);
-    row-gap: 1.5rem;
+    row-gap: var(--spacing-lg);
     column-gap: 10rem;
   }
 
@@ -201,6 +201,6 @@
   }
 
   .portfolio-grid {
-    gap: 4rem;
+    gap: var(--spacing-3xl);
   }
 }

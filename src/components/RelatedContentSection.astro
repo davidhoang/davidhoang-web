@@ -49,12 +49,12 @@ const kindLabel: Record<RelatedContentItem['kind'], string> = {
   }
 
   .related-content__heading {
-    margin: 0 0 1.5rem;
+    margin: 0 0 var(--spacing-lg);
   }
 
   .related-content__grid {
     display: grid;
-    gap: 1.25rem;
+    gap: calc(var(--spacing-md) + var(--spacing-xs));
   }
 
   @media (min-width: 640px) {
@@ -66,13 +66,13 @@ const kindLabel: Record<RelatedContentItem['kind'], string> = {
   .related-content__card {
     display: grid;
     grid-template-columns: 112px 1fr;
-    gap: 1rem;
+    gap: var(--spacing-md);
     align-items: start;
-    padding: 0.75rem;
+    padding: calc(var(--spacing-sm) + var(--spacing-xs));
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md, 8px);
     background: var(--color-sidebar-bg, var(--color-bg));
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color var(--duration-normal) var(--ease-standard), transform var(--duration-normal) var(--ease-standard);
   }
 
   .related-content__card:hover {
@@ -97,7 +97,7 @@ const kindLabel: Record<RelatedContentItem['kind'], string> = {
   .related-content__info {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: calc(var(--spacing-xs) + 0.1rem);
     min-width: 0;
   }
 

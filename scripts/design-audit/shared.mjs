@@ -23,6 +23,7 @@ export const SKIP_FILES = new Set([
 
 /** Grandfathered for strict-only rules (legacy debt — do not extend) */
 export const STRICT_GRANDFATHER = new Set([
+  'src/styles/modules/variables.css', // token source — hex/rgba and spacing scale definitions
   'src/styles/modules/nav.css',
   'src/styles/modules/theme-variations.css',
   'src/styles/modules/command-palette.css',
