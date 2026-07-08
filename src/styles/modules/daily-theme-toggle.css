@@ -359,6 +359,11 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
     right: max(1rem, env(safe-area-inset-right, 1rem));
   }
 
+  /* Reserve strip below hero sheet — toggle sits under the card, not on it */
+  [data-hero-sheet-open] .daily-theme-toggle {
+    z-index: 10055;
+  }
+
   .toggle-label {
     display: none;
   }
