@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useMemo, useState, type CSSProperties } from 'react';
+import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
@@ -6,6 +6,12 @@ import { CardBaseContent } from '../CardBase';
 import { handleCardHoverLeave } from '../cardHover';
 import MobileHeroSheet from '../MobileHeroSheet';
 import { isMobileHeroViewport } from '../heroViewport';
+import {
+  mobileStackOffsetFromActive,
+  mobileStackZIndex,
+  readMobileHeroCardDimensions,
+  type MobileHeroCardDimensions,
+} from '../mobileHeroStack';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt, useScaledFanPosition } from '../heroDialUtils';
 
@@ -17,6 +23,8 @@ const cardPositions = [
   { x: 240, y: 14, rotation: 5.5 },
   { x: 400, y: 28, rotation: 9 },
 ];
+
+const SWIPE_THRESHOLD_PX = 48;
 
 function cardClassName(
   card: LayoutProps['cards'][number],
@@ -37,6 +45,19 @@ function cardClassName(
     .join(' ');
 }
 
+function mobileCardDimensionStyle(dims: MobileHeroCardDimensions, borderRadius: number): CSSProperties {
+  return {
+    width: dims.width,
+    height: dims.height,
+    borderRadius,
+    marginLeft: -dims.width / 2,
+    marginTop: -dims.height / 2,
+    ['--card-radius' as string]: `${borderRadius}px`,
+    ['--card-hero-inner-radius' as string]: `calc(${borderRadius}px - var(--card-hero-frame))`,
+    ['--card-panel-inner-radius' as string]: `max(0px, calc(${borderRadius}px - var(--card-panel-inset)))`,
+  };
+}
+
 interface FanCardProps {
   card: Card;
   index: number;
@@ -47,8 +68,12 @@ interface FanCardProps {
   hoveredCard: string | null;
   isLoaded: boolean;
   hasAnimatedIn: boolean;
+  isMobileStack: boolean;
+  activeIndex: number;
+  mobileDims: MobileHeroCardDimensions | null;
   onCardClick: LayoutProps['onCardClick'];
   onCardHover: LayoutProps['onCardHover'];
+  onActivate: (index: number) => void;
 }
 
 function FanCard({
@@ -61,25 +86,47 @@ function FanCard({
   hoveredCard,
   isLoaded,
   hasAnimatedIn,
+  isMobileStack,
+  activeIndex,
+  mobileDims,
   onCardClick,
   onCardHover,
+  onActivate,
 }: FanCardProps) {
   const dial = useHeroDial();
   const fan = dial.stackedFan;
   const scaledPosition = useScaledFanPosition(position, dial);
+  const mobileStack = useMemo(
+    () => mobileStackOffsetFromActive(index, activeIndex, cardCount),
+    [index, activeIndex, cardCount]
+  );
+  const layoutPosition = isMobileStack ? mobileStack.position : scaledPosition;
+  const stackScale = isMobileStack ? mobileStack.position.scale : 1;
+  const isFront = isMobileStack ? mobileStack.offset === 0 : true;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
   const isHovered = hoveredCard === card.id;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || isMobileStack);
+
+  const dimensionStyle = useMemo(() => {
+    if (isMobileStack && mobileDims) {
+      return mobileCardDimensionStyle(mobileDims, dial.card.borderRadius);
+    }
+    return cardDimensionStyle(dial);
+  }, [isMobileStack, mobileDims, dial]);
 
   return (
     <motion.div
       layoutId={`hero-card-${card.id}`}
       className={cardClassName(card, false, isGlass)}
       style={{
-        ...cardDimensionStyle(dial),
+        ...dimensionStyle,
         backgroundColor: isGlass ? 'transparent' : card.color,
-        zIndex: isHovered ? cardCount + 2 : cardCount - index,
+        zIndex: isMobileStack
+          ? mobileStackZIndex(mobileStack.offset, cardCount, isHovered)
+          : isHovered
+            ? cardCount + 2
+            : cardCount - index,
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
         transformPerspective: 900,
@@ -92,14 +139,14 @@ function FanCard({
         opacity: 1,
       }}
       animate={{
-        x: isLoaded ? scaledPosition.x : 0,
-        y: isLoaded ? scaledPosition.y : 0,
-        rotate: isLoaded ? scaledPosition.rotation : 0,
-        scale: isLoaded ? 1 : fan.entrance.initialScale,
+        x: isLoaded ? layoutPosition.x : 0,
+        y: isLoaded ? layoutPosition.y : 0,
+        rotate: isLoaded ? layoutPosition.rotation : 0,
+        scale: isLoaded ? stackScale : fan.entrance.initialScale,
         opacity: isOtherSelected ? fan.dimmedOpacity : 1,
       }}
       whileHover={
-        selectedCard || prefersReducedMotion
+        selectedCard || prefersReducedMotion || isMobileStack
           ? undefined
           : {
               x: scaledPosition.x,
@@ -109,7 +156,7 @@ function FanCard({
               transition: dial.hoverTween,
             }
       }
-      whileTap={selectedCard ? undefined : { scale: fan.hover.tapScale }}
+      whileTap={selectedCard ? undefined : { scale: isMobileStack ? stackScale * 0.99 : fan.hover.tapScale }}
       transition={{
         type: 'spring',
         stiffness: hasAnimatedIn ? fan.entrance.settleStiffness : fan.entrance.stiffness,
@@ -122,11 +169,15 @@ function FanCard({
           scale: dial.hoverTween,
         }),
       }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+      onMouseEnter={() => !selectedCard && !isMobileStack && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => {
         tilt.reset();
+        if (isMobileStack && !isFront) {
+          onActivate(index);
+          return;
+        }
         onCardClick(card.id, card.link);
       }}
     >
@@ -134,7 +185,7 @@ function FanCard({
         card={card}
         isSelected={false}
         isGlass={isGlass}
-        isHeroMediaActive={isHovered && !selectedCard}
+        isHeroMediaActive={(isHovered || (isMobileStack && isFront)) && !selectedCard}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>
@@ -156,19 +207,39 @@ export default function StackedFanLayout({
   const fan = dial.stackedFan;
   const isGlass = cardStyle === 'glass';
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
-  const [isMobileSheet, setIsMobileSheet] = useState(false);
+  const [isMobileStack, setIsMobileStack] = useState(
+    () => typeof window !== 'undefined' && isMobileHeroViewport()
+  );
+  const [mobileDims, setMobileDims] = useState<MobileHeroCardDimensions | null>(() =>
+    typeof window !== 'undefined' && isMobileHeroViewport()
+      ? readMobileHeroCardDimensions(window.innerWidth)
+      : null
+  );
+  const [activeIndex, setActiveIndex] = useState(() => Math.floor(cards.length / 2));
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
   useLayoutEffect(() => {
     setPortalRoot(document.body);
   }, []);
 
-  useEffect(() => {
-    const sync = () => setIsMobileSheet(isMobileHeroViewport());
-    sync();
-    window.addEventListener('resize', sync);
-    return () => window.removeEventListener('resize', sync);
+  const syncMobileStack = useCallback(() => {
+    const mobile = isMobileHeroViewport();
+    setIsMobileStack(mobile);
+    setMobileDims(mobile ? readMobileHeroCardDimensions(window.innerWidth) : null);
   }, []);
+
+  useLayoutEffect(() => {
+    syncMobileStack();
+    window.addEventListener('resize', syncMobileStack);
+    return () => window.removeEventListener('resize', syncMobileStack);
+  }, [syncMobileStack]);
+
+  useEffect(() => {
+    if (!isMobileStack) return;
+    document.documentElement.setAttribute('data-hero-mobile-stack', 'true');
+    return () => document.documentElement.removeAttribute('data-hero-mobile-stack');
+  }, [isMobileStack]);
 
   const expandTransition = useMemo(
     () =>
@@ -183,17 +254,58 @@ export default function StackedFanLayout({
     [prefersReducedMotion, fan.expand.stiffness, fan.expand.damping, fan.expand.mass]
   );
 
-  const wrapperStyle = useMemo<CSSProperties>(
-    () => ({
+  const wrapperStyle = useMemo<CSSProperties>(() => {
+    if (isMobileStack && mobileDims) {
+      return {
+        width: mobileDims.wrapperWidth,
+        height: mobileDims.wrapperHeight,
+        marginTop: 0,
+      };
+    }
+    return {
       width: fan.wrapper.width,
       height: fan.wrapper.height,
       marginTop: fan.wrapper.marginTop,
-    }),
-    [fan.wrapper.width, fan.wrapper.height, fan.wrapper.marginTop]
+    };
+  }, [isMobileStack, mobileDims, fan.wrapper.width, fan.wrapper.height, fan.wrapper.marginTop]);
+
+  const cycleActive = useCallback(
+    (direction: 1 | -1) => {
+      setActiveIndex((prev) => (prev + direction + cards.length) % cards.length);
+      onCardHover(null);
+    },
+    [cards.length, onCardHover]
+  );
+
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (!isMobileStack || selectedCard) return;
+      const touch = e.touches[0];
+      touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+    },
+    [isMobileStack, selectedCard]
+  );
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (!isMobileStack || selectedCard || !touchStartRef.current) return;
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - touchStartRef.current.x;
+      const dy = touch.clientY - touchStartRef.current.y;
+      touchStartRef.current = null;
+      if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
+      cycleActive(dx < 0 ? 1 : -1);
+    },
+    [isMobileStack, selectedCard, cycleActive]
   );
 
   return (
-    <div className="cards-wrapper" style={wrapperStyle}>
+    <div
+      className={`cards-wrapper${isMobileStack ? ' cards-wrapper--mobile-stack' : ''}`}
+      style={wrapperStyle}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <LayoutGroup id="hero-stacked-fan">
         {cards.map((card, index) => {
           const position = cardPositions[index];
@@ -211,8 +323,12 @@ export default function StackedFanLayout({
               hoveredCard={hoveredCard}
               isLoaded={isLoaded}
               hasAnimatedIn={hasAnimatedIn}
+              isMobileStack={isMobileStack}
+              activeIndex={activeIndex}
+              mobileDims={mobileDims}
               onCardClick={onCardClick}
               onCardHover={onCardHover}
+              onActivate={setActiveIndex}
             />
           );
 
@@ -257,7 +373,7 @@ export default function StackedFanLayout({
               portalRoot
             );
 
-          const expandedCard = isMobileSheet ? mobileSheetCard : desktopFullscreenCard;
+          const expandedCard = isMobileStack ? mobileSheetCard : desktopFullscreenCard;
 
           return (
             <Fragment key={card.id}>
