@@ -1129,6 +1129,25 @@
   font-size: clamp(3.5rem, 6.5vw, 5rem);
 }
 
+/* Mobile hero stack — one prominent card with peeking deck (≤768px) */
+[data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .cards-wrapper,
+[data-hero-viewport='compact'] .card-stack-hero--stacked-fan .cards-wrapper,
+.cards-wrapper--mobile-stack {
+  transform: none;
+  margin-inline: auto;
+  touch-action: pan-y;
+}
+
+[data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .card-stack-container,
+[data-hero-viewport='compact'] .card-stack-hero--stacked-fan .card-stack-container {
+  min-height: clamp(420px, 58dvh, 560px);
+}
+
+[data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .cards-wrapper,
+[data-hero-viewport='compact'] .card-stack-hero--stacked-fan .cards-wrapper {
+  margin-top: clamp(0.25rem, 1.5vw, 0.75rem);
+}
+
 @media (max-width: 768px) {
   .card-stack-hero {
     min-height: 400px;
@@ -1145,7 +1164,7 @@
     height: auto;
   }
 
-  .card-stack-hero--stacked-fan .cards-wrapper {
+  .card-stack-hero--stacked-fan .cards-wrapper:not(.cards-wrapper--mobile-stack) {
     transform: scale(0.75);
   }
 
@@ -1185,7 +1204,7 @@
 }
 
 @media (max-width: 480px) {
-  .card-stack-hero--stacked-fan .cards-wrapper {
+  .card-stack-hero--stacked-fan .cards-wrapper:not(.cards-wrapper--mobile-stack) {
     transform: scale(0.65);
   }
 
@@ -1195,6 +1214,10 @@
 
   .card-stack-hero--stacked-fan .card-stack-container {
     height: auto;
+  }
+
+  [data-hero-viewport='compact'] .card-stack-hero--stacked-fan .card-stack-container {
+    min-height: clamp(400px, 56dvh, 520px);
   }
 
   .card-selected:not(.card-hero-fullscreen) {
@@ -1287,14 +1310,16 @@
   }
 
   .card-stack-hero-skeleton__cards {
-    margin-top: clamp(22px, 4vw, 36px);
-    transform: scale(0.75);
+    width: min(calc(100vw - 2rem), 360px);
+    height: calc(min(calc(100vw - 2rem), 360px) * 4 / 3 + 84px);
+    margin-top: clamp(0.25rem, 1.5vw, 0.75rem);
+    transform: none;
   }
-}
 
-@media (max-width: 480px) {
-  .card-stack-hero-skeleton__cards {
-    transform: scale(0.65);
-    margin-top: clamp(18px, 5vw, 28px);
+  .card-stack-hero-skeleton__card {
+    width: min(calc(100vw - 2rem), 360px);
+    height: calc(min(calc(100vw - 2rem), 360px) * 4 / 3);
+    margin-left: calc(min(calc(100vw - 2rem), 360px) / -2);
+    margin-top: calc(min(calc(100vw - 2rem), 360px) * 4 / 3 / -2);
   }
 }

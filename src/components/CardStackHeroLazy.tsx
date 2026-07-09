@@ -21,7 +21,8 @@ const CardStackHeroSkeleton = () => (
               className="card-stack-hero-skeleton__card"
               style={{
                 opacity: 0.4 + i * 0.1,
-                transform: `translateX(${(i - 1.5) * 28}px) rotate(${(i - 1.5) * 5}deg)`,
+                transform: `translate(${i === 0 ? 0 : i === 1 ? 12 : i === 2 ? -10 : 8}px, ${i * 14}px) rotate(${i === 0 ? 0 : i === 1 ? 2.5 : i === 2 ? -2 : 1.5}deg) scale(${1 - i * 0.035})`,
+                zIndex: 4 - i,
                 animationDelay: `${i * 0.12}s`,
               }}
             />
