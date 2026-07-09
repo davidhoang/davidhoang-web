@@ -101,6 +101,7 @@ function FanCard({
     [index, activeIndex, cardCount]
   );
   const layoutPosition = isMobileStack ? mobileStack.position : scaledPosition;
+  const stackScale = isMobileStack ? mobileStack.position.scale : 1;
   const isFront = isMobileStack ? mobileStack.offset === 0 : true;
   const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
   const isHovered = hoveredCard === card.id;
@@ -141,7 +142,7 @@ function FanCard({
         x: isLoaded ? layoutPosition.x : 0,
         y: isLoaded ? layoutPosition.y : 0,
         rotate: isLoaded ? layoutPosition.rotation : 0,
-        scale: isLoaded ? layoutPosition.scale : fan.entrance.initialScale,
+        scale: isLoaded ? stackScale : fan.entrance.initialScale,
         opacity: isOtherSelected ? fan.dimmedOpacity : 1,
       }}
       whileHover={
@@ -155,7 +156,7 @@ function FanCard({
               transition: dial.hoverTween,
             }
       }
-      whileTap={selectedCard ? undefined : { scale: isMobileStack ? layoutPosition.scale * 0.99 : fan.hover.tapScale }}
+      whileTap={selectedCard ? undefined : { scale: isMobileStack ? stackScale * 0.99 : fan.hover.tapScale }}
       transition={{
         type: 'spring',
         stiffness: hasAnimatedIn ? fan.entrance.settleStiffness : fan.entrance.stiffness,
