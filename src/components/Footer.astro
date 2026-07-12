@@ -11,10 +11,7 @@ const currentYear = new Date().getFullYear();
         <div class="footer-brand">
           <a href="/" class="footer-logo" aria-label="David Hoang homepage">DH</a>
           <p class="footer-tagline">{footerBrand.tagline}</p>
-          <div class="footer-cta-group">
-            <a href={footerBrand.subscribeHref} class="btn btn-primary footer-cta">Subscribe</a>
-            <a href={footerBrand.emailHref} class="footer-email-link">Email me</a>
-          </div>
+          <a href={footerBrand.emailHref} class="footer-email-link">Email me</a>
         </div>
 
         {footerSections.map((section) => (

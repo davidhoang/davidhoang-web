@@ -72,18 +72,7 @@
   border-top-color: color-mix(in srgb, var(--color-bg) 35%, transparent);
 }
 
-[data-footer-style="brutalist"] .site-footer .btn-primary {
-  background: var(--color-bg);
-  color: var(--color-text);
-  border-color: var(--color-bg);
-}
-
-[data-footer-style="brutalist"] .site-footer .btn-secondary {
-  color: var(--color-bg);
-  border-color: color-mix(in srgb, var(--color-bg) 60%, transparent);
-}
-
-/* Editorial - newspaper style with large CTA */
+/* Editorial - newspaper style */
 [data-footer-style="editorial"] .site-footer {
   border-top: 3px double var(--color-border);
   padding: var(--spacing-3xl) 0 var(--spacing-xl);
@@ -107,12 +96,6 @@
   color: var(--color-text);
 }
 
-[data-footer-style="editorial"] .site-footer .footer-cta.btn-primary {
-  font-style: italic;
-  font-size: 1rem;
-  letter-spacing: 0.01em;
-}
-
 /* Minimal - centered, sparse */
 [data-footer-style="minimal"] .site-footer {
   padding: var(--spacing-2xl) 0;
@@ -127,10 +110,6 @@
 [data-footer-style="minimal"] .site-footer .footer-brand {
   align-items: center;
   text-align: center;
-}
-
-[data-footer-style="minimal"] .site-footer .footer-cta-group {
-  justify-content: center;
 }
 
 [data-footer-style="minimal"] .site-footer .footer-col h4 {
@@ -160,14 +139,10 @@
   justify-content: center;
 }
 
-/* Inverted - sidebar background with prominent CTA */
+/* Inverted - sidebar background */
 [data-footer-style="inverted"] .site-footer {
   background: var(--color-sidebar-bg);
   border-top: none;
-}
-
-[data-footer-style="inverted"] .site-footer .footer-cta.btn-primary {
-  box-shadow: 0 2px 12px color-mix(in srgb, var(--color-link) 25%, transparent);
 }
 
 /* Gradient - soft color wash */
@@ -254,24 +229,3 @@
   font-family: var(--font-mono);
 }
 
-/* Marquee - subtle animated email emphasis (respect reduced motion) */
-[data-footer-style="marquee"] .site-footer .footer-cta.btn-primary {
-  letter-spacing: 0.04em;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-footer-style="marquee"] .site-footer .footer-cta.btn-primary {
-    animation: footer-marquee-glow 3s ease-in-out infinite;
-  }
-}
-
-@keyframes footer-marquee-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-link) 0%, transparent);
-  }
-
-  50% {
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-link) 18%, transparent);
-  }
-}

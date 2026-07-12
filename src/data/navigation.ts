@@ -36,7 +36,6 @@ export const commandPalettePages = [
 export const footerBrand = {
   tagline: 'Design, writing, and experiments.',
   emailHref: 'mailto:david@davidhoang.com',
-  subscribeHref: '/subscribe',
 } as const;
 
 export const footerSections = [
