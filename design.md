@@ -256,7 +256,7 @@ All transition timings and easings live in `src/styles/modules/variables.css`. N
 | `--duration-slower` | 0.4s | Layout shifts (nav, modals) |
 | `--duration-slowest` | 0.6s | Theme crossfades, page transitions |
 
-The View Transitions API (used in `MainLayout.astro` and `BlogPost.astro`) consumes easing as JS strings — those values can't reference CSS variables and stay literal.
+The View Transitions API (used in `MainLayout.astro` and writing/note layouts) consumes easing as JS strings — those values can't reference CSS variables and stay literal.
 
 ### Motion continuity
 

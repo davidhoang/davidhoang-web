@@ -91,8 +91,8 @@ davidhoang-web/
 - `astro.config.mjs` - Astro configuration
 - `tsconfig.json` - TypeScript configuration
 - `src/content/config.ts` - Content collections schema
-- `src/layouts/BlogPost.astro` - Blog post layout template
-- `src/components/CommentsSection.astro` - Comments component (stub for PC-25)
+- `src/layouts/WritingPost.astro` - Writing post layout template
+- `src/components/CommentsSection.astro` - Lazy-loaded Replit comments embed for writing/notes
 
 ## Code Patterns
 
@@ -156,24 +156,9 @@ tags: ["design", "tech"]
 Post content here...
 ```
 
-## Current Work: PC-25 (Comments System)
+## Comments (PC-25 — shipped)
 
-**Issue**: Implement comments system for blog posts
-**Component**: `src/components/CommentsSection.astro` (currently a stub)
-**Layout**: `src/layouts/BlogPost.astro` (includes CommentsSection)
-
-### Options to Consider
-1. **Giscus** (GitHub Discussions) - No backend, free, privacy-friendly
-2. **Utterances** (GitHub Issues) - Simpler than Giscus
-3. **Custom** (Supabase/Firebase) - More control, requires backend
-
-### Implementation Checklist
-- [ ] Choose comments provider
-- [ ] Update `CommentsSection.astro` with integration code
-- [ ] Add necessary scripts/imports
-- [ ] Style to match site design
-- [ ] Test on sample blog post
-- [ ] Update documentation
+Writing and notes layouts include `CommentsSection.astro`, which lazy-loads a Replit-hosted discuss embed near the footer. Prefer theme-transparent styling and intersection-observer loading; migrate to Giscus/Utterances only if replacing the host intentionally.
 
 ## Styling Guidelines
 
@@ -367,16 +352,6 @@ When working on this repo as a Cursor agent:
 5. **Preserve accessibility** features
 6. **Update related docs** when changing architecture
 7. **Link work to PC-XXX** Jira issues in commits
-
-### For PC-25 Specifically (Comments)
-
-1. Research Giscus/Utterances integration with Astro
-2. Update `CommentsSection.astro` component
-3. Test on a real blog post (e.g., `/writing/some-post`)
-4. Ensure theme compatibility
-5. Verify mobile responsiveness
-6. Check accessibility (keyboard navigation, screen readers)
-7. Update this doc with implementation notes
 
 ## Environment Variables
 
