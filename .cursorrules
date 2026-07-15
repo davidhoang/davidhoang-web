@@ -158,7 +158,7 @@ Post content here...
 
 ## Comments (PC-25 — shipped)
 
-Writing and notes layouts include `CommentsSection.astro`, which lazy-loads a Replit-hosted discuss embed near the footer. Prefer theme-transparent styling and intersection-observer loading; migrate to Giscus/Utterances only if replacing the host intentionally.
+Writing posts include `CommentsSection.astro`, which mounts a sandboxed Replit discuss iframe (lazy via IntersectionObserver). Resize posts are origin-checked; CSP `frame-src` must allow `PUBLIC_COMMENTS_ORIGIN` (default `astro-discuss--dh-design.replit.app`). Prefer loading/error UI in-component; migrate to Giscus/Utterances only if replacing the host intentionally.
 
 ## Styling Guidelines
 
