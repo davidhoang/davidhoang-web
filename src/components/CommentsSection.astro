@@ -1,86 +1,281 @@
 ---
-// No props needed - calculate slug directly from URL
+/**
+ * Writing comments via Replit discuss embed (iframe).
+ * We mount the iframe ourselves (no third-party embed.js) so we control:
+ * load lifecycle across Astro view transitions, resize origin checks,
+ * sandbox, loading/error UI, and CSP-friendly framing.
+ */
+interface Props {
+  /** Override discussion thread id. Defaults to the current pathname. */
+  postId?: string;
+  heading?: string;
+}
+
+const COMMENTS_ORIGIN =
+  import.meta.env.PUBLIC_COMMENTS_ORIGIN?.replace(/\/$/, '') ||
+  'https://astro-discuss--dh-design.replit.app';
+
+const { postId = Astro.url.pathname, heading = 'Discussion' } = Astro.props;
+const headingId = 'comments-heading';
 ---
 
-<div class="comments-wrapper" data-comments-wrapper>
-  <section class="comments">
-    <div 
-      data-replit-comments
-      data-comments-target
-      data-post-id={Astro.url.pathname}
-      data-base-url="https://astro-discuss--dh-design.replit.app"
-    ></div>
-  </section>
-</div>
+<section
+  class="comments-section section-divider"
+  data-comments-section
+  data-comments-origin={COMMENTS_ORIGIN}
+  data-post-id={postId}
+  aria-labelledby={headingId}
+>
+  <h2 id={headingId} class="text-eyebrow comments-section__heading">{heading}</h2>
+
+  <div class="comments-section__frame" data-comments-frame>
+    <div class="comments-section__status" data-comments-status aria-live="polite">
+      <p class="comments-section__status-label">Loading comments…</p>
+    </div>
+  </div>
+</section>
 
 <script is:inline>
   (() => {
-    const lazyCommentsKey = '__initLazyComments';
-    const commentsScriptUrl = 'https://astro-discuss--dh-design.replit.app/embed.js';
+    const BOOT_KEY = '__dhCommentsBoot';
+    const LISTENER_KEY = '__dhCommentsResizeListener';
+    const LOAD_TIMEOUT_MS = 12000;
 
-    const loadComments = (wrapper) => {
-      if (!wrapper || wrapper.dataset.commentsLoaded === 'true') return;
-      wrapper.dataset.commentsLoaded = 'true';
+    const getOrigin = (section) =>
+      section.getAttribute('data-comments-origin') || 'https://astro-discuss--dh-design.replit.app';
 
-      const script = document.createElement('script');
-      script.src = commentsScriptUrl;
-      script.async = true;
-      script.dataset.commentsEmbedScript = 'true';
-      wrapper.append(script);
+    const setStatus = (frame, message, isError = false) => {
+      const status = frame.querySelector('[data-comments-status]');
+      if (!status) return;
+      status.hidden = false;
+      status.dataset.error = isError ? 'true' : 'false';
+      status.innerHTML = '';
+
+      const label = document.createElement('p');
+      label.className = 'comments-section__status-label';
+      label.textContent = message;
+      status.appendChild(label);
+
+      if (isError) {
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.className = 'btn btn-secondary comments-section__retry';
+        retry.textContent = 'Try again';
+        retry.addEventListener('click', () => {
+          const section = frame.closest('[data-comments-section]');
+          if (section) mountSection(section, true);
+        });
+        status.appendChild(retry);
+      }
     };
 
-    window[lazyCommentsKey] = window[lazyCommentsKey] || (() => {
-      const wrappers = document.querySelectorAll('[data-comments-wrapper]');
-      if (!wrappers.length) return;
+    const clearStatus = (frame) => {
+      const status = frame.querySelector('[data-comments-status]');
+      if (status) status.hidden = true;
+    };
+
+    const teardownSection = (section) => {
+      if (section._commentsCleanup) {
+        section._commentsCleanup();
+        section._commentsCleanup = null;
+      }
+      section.dataset.commentsLoaded = 'false';
+      const frame = section.querySelector('[data-comments-frame]');
+      if (!frame) return;
+      frame.querySelectorAll('iframe[data-comments-iframe]').forEach((el) => el.remove());
+      setStatus(frame, 'Loading comments…', false);
+    };
+
+    const mountSection = (section, force = false) => {
+      if (!section) return;
+      if (!force && section.dataset.commentsLoaded === 'true') return;
+
+      teardownSection(section);
+
+      const frame = section.querySelector('[data-comments-frame]');
+      if (!frame) return;
+
+      const origin = getOrigin(section);
+      const postId = section.getAttribute('data-post-id') || '/';
+      const embedUrl = `${origin}/embed?postId=${encodeURIComponent(postId)}`;
+
+      const iframe = document.createElement('iframe');
+      iframe.className = 'comments-section__iframe';
+      iframe.dataset.commentsIframe = 'true';
+      iframe.src = embedUrl;
+      iframe.title = 'Comments';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.setAttribute('allowtransparency', 'true');
+      iframe.setAttribute(
+        'sandbox',
+        'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox'
+      );
+      iframe.setAttribute(
+        'allow',
+        'clipboard-write; identity-credentials-get'
+      );
+
+      let settled = false;
+      const timeoutId = window.setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        setStatus(frame, 'Comments are taking longer than usual to load.', true);
+      }, LOAD_TIMEOUT_MS);
+
+      const onLoad = () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeoutId);
+        clearStatus(frame);
+        section.dataset.commentsLoaded = 'true';
+      };
+
+      const onError = () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeoutId);
+        setStatus(frame, "Couldn't load comments right now.", true);
+      };
+
+      iframe.addEventListener('load', onLoad, { once: true });
+      iframe.addEventListener('error', onError, { once: true });
+
+      frame.appendChild(iframe);
+      section.dataset.commentsLoaded = 'pending';
+
+      section._commentsCleanup = () => {
+        window.clearTimeout(timeoutId);
+        iframe.removeEventListener('load', onLoad);
+        iframe.removeEventListener('error', onError);
+      };
+    };
+
+    const ensureResizeListener = () => {
+      if (window[LISTENER_KEY]) return;
+      window[LISTENER_KEY] = (event) => {
+        if (!event.data || event.data.type !== 'resize') return;
+        const sections = document.querySelectorAll('[data-comments-section]');
+        sections.forEach((section) => {
+          const origin = getOrigin(section);
+          if (event.origin !== origin) return;
+          const iframe = section.querySelector('iframe[data-comments-iframe]');
+          if (!iframe || event.source !== iframe.contentWindow) return;
+          const height = Number(event.data.height);
+          if (!Number.isFinite(height) || height <= 0) return;
+          iframe.style.height = `${Math.ceil(height)}px`;
+        });
+      };
+      window.addEventListener('message', window[LISTENER_KEY]);
+    };
+
+    const boot = () => {
+      ensureResizeListener();
+      const sections = document.querySelectorAll('[data-comments-section]');
+      if (!sections.length) return;
 
       if (!('IntersectionObserver' in window)) {
-        wrappers.forEach(loadComments);
+        sections.forEach((section) => mountSection(section));
         return;
       }
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          observer.unobserve(entry.target);
-          loadComments(entry.target);
-        });
-      }, { rootMargin: '600px 0px' });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            observer.unobserve(entry.target);
+            mountSection(entry.target);
+          });
+        },
+        { rootMargin: '600px 0px' }
+      );
 
-      wrappers.forEach((wrapper) => {
-        if (wrapper.dataset.commentsLoaded === 'true') return;
-        observer.observe(wrapper);
+      sections.forEach((section) => {
+        if (section.dataset.commentsLoaded === 'true') return;
+        observer.observe(section);
       });
-    });
 
-    if (window.__lazyCommentsPageLoadBound !== 'true') {
-      window.__lazyCommentsPageLoadBound = 'true';
-      document.addEventListener('astro:page-load', window[lazyCommentsKey]);
+      // Drop the observer on the next page swap so we don't retain nodes.
+      const onBeforeSwap = () => {
+        observer.disconnect();
+        document.removeEventListener('astro:before-swap', onBeforeSwap);
+      };
+      document.addEventListener('astro:before-swap', onBeforeSwap);
+    };
+
+    window[BOOT_KEY] = boot;
+
+    if (window.__dhCommentsPageLoadBound !== 'true') {
+      window.__dhCommentsPageLoadBound = 'true';
+      document.addEventListener('astro:page-load', () => window[BOOT_KEY]());
+      document.addEventListener('astro:before-swap', () => {
+        document.querySelectorAll('[data-comments-section]').forEach(teardownSection);
+      });
     }
 
-    window[lazyCommentsKey]();
+    window[BOOT_KEY]();
   })();
 </script>
 
 <style>
-  .comments-wrapper {
-    margin-top: 3rem;
+  .comments-section {
+    margin-top: var(--section-spacing, 4rem);
     content-visibility: auto;
     contain-intrinsic-size: 0 600px;
   }
-  
-  .comments {
+
+  .comments-section__heading {
+    margin: 0 0 var(--spacing-lg);
+  }
+
+  .comments-section__frame {
+    position: relative;
+    min-height: 12rem;
+    border-radius: var(--radius-md, 8px);
+    overflow: clip;
+  }
+
+  .comments-section__iframe {
+    display: block;
+    width: 100%;
+    min-height: 18.75rem;
+    border: 0;
     background: transparent;
+    color-scheme: light dark;
   }
-  
-  /* Make Replit comments background transparent */
-  .comments :global(div) {
-    background-color: transparent !important;
+
+  .comments-section__status {
+    display: grid;
+    gap: var(--spacing-md);
+    justify-items: start;
+    padding: var(--spacing-xl) var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 8px);
+    background: var(--color-sidebar-bg, var(--color-bg));
+    color: var(--color-muted);
   }
-  
-  /* Keep input fields and buttons with their backgrounds */
-  .comments :global(input),
-  .comments :global(textarea),
-  .comments :global(button) {
-    background-color: revert !important;
+
+  .comments-section__status[hidden] {
+    display: none;
+  }
+
+  .comments-section__status[data-error='true'] {
+    color: var(--color-text);
+  }
+
+  .comments-section__status-label {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: var(--body-line-height, 1.6);
+  }
+
+  .comments-section__retry {
+    min-height: 2.75rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .comments-section__iframe {
+      scroll-behavior: auto;
+    }
   }
 </style>
