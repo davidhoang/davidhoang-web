@@ -732,7 +732,7 @@ const ogImageUrl = ogImage.startsWith('http')
         initLazyImages();
       });
 
-      // Listen for theme changes (from ThemeToggle component)
+      // Listen for theme changes (from DailyThemeToggle)
       document.addEventListener('theme-changed', ((e: CustomEvent<{ theme: string }>) => {
         updateBrowserThemeColor(e.detail.theme);
       }) as EventListener);

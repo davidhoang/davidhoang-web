@@ -14,7 +14,7 @@ Site: https://www.davidhoang.com
 ## Key directories
 - `src/content/writing/` — Blog posts (markdown, frontmatter: title, pubDate, description, draft, ogImage, coverImage)
 - `src/content/notes/` — Digital garden notes (markdown, frontmatter adds: stage, tags, updatedDate)
-- `src/layouts/` — MainLayout.astro (site-wide), BlogPost.astro (writing/notes)
+- `src/layouts/` — MainLayout.astro (site-wide), WritingPost.astro / WritingLayout.astro (writing), NoteLayout.astro (notes)
 - `src/pages/api/` — Server-rendered endpoints (OG image generation, bio summary)
 - `src/styles/` — Global CSS, design tokens, self-hosted font declarations
 - `src/utils/` — Font preloading, responsive images, theme utilities
@@ -39,7 +39,7 @@ Site: https://www.davidhoang.com
 
 ## Architecture notes
 - RSS: `/rss.xml` is **writing only** (full content, same scope as `/rss/writing.xml`). Notes: `/rss/notes.xml`. Per-tag feeds `/rss/tag/{tag}.xml` are **writing** posts with that tag only (not notes).
-- Sitemap auto-generated via @astrojs/sitemap (excludes /node-test, /signup-examples)
+- Sitemap auto-generated via @astrojs/sitemap (excludes /default-layout)
 - Performance: font LCP optimizer, responsive image srcset, aggressive bundle splitting, terser minification
 - Vercel Speed Insights for real-world Core Web Vitals monitoring
 - View transitions enabled with custom animations and reduced-motion support

@@ -107,8 +107,7 @@ export default defineConfig({
               'src/components/hero/layouts/EditorialLayout.tsx',
               'src/components/hero/layouts/ScatteredLayout.tsx',
               'src/components/hero/layouts/RolodexLayout.tsx',
-              'src/components/HeroImageShader.tsx',
-              'src/components/HeroImageWithTexture.tsx'
+              'src/components/HeroImageShader.tsx'
             ],
             'shader-components': [
               'src/components/ShaderBackground.tsx'
