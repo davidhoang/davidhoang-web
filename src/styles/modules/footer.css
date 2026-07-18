@@ -10,7 +10,7 @@
   font-family: var(--font-body);
   min-height: 100px;
   width: 100%;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
   isolation: isolate;
 }
 
@@ -40,17 +40,17 @@
   left: 0;
   right: 0;
   top: 0;
-  height: 2px;
+  height: 1px;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in srgb, var(--color-link) 45%, transparent) 22%,
-    color-mix(in srgb, var(--color-link) 70%, transparent) 50%,
-    color-mix(in srgb, var(--color-link) 45%, transparent) 78%,
+    color-mix(in srgb, var(--color-link) 35%, transparent) 22%,
+    color-mix(in srgb, var(--color-link) 55%, transparent) 50%,
+    color-mix(in srgb, var(--color-link) 35%, transparent) 78%,
     transparent 100%
   );
-  opacity: 0.9;
+  opacity: 0.65;
 }
 
 .site-footer .container {

@@ -62,6 +62,7 @@ export const footerSections = [
       { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
       { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
       { href: '/subscribe', label: 'Subscribe', ariaLabel: 'Subscribe to updates', external: false },
+      { href: '/rss.xml', label: 'RSS', ariaLabel: 'Writing RSS feed', external: false },
       {
         href: 'https://www.proofofconcept.pub',
         label: 'Newsletter',
@@ -111,9 +112,4 @@ export const footerSections = [
       },
     ],
   },
-] as const;
-
-export const footerUtilityLinks = [
-  { href: '/rss.xml', label: 'Writing RSS', ariaLabel: 'Writing RSS feed', type: 'application/rss+xml' },
-  { href: '/rss/notes.xml', label: 'Notes RSS', ariaLabel: 'Notes RSS feed', type: 'application/rss+xml' },
 ] as const;
