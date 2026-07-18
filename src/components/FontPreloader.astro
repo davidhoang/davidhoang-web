@@ -21,17 +21,15 @@ const { pageType = 'home', priority = false, themeFontNames = [] } = Astro.props
 // Get critical fonts for this page type
 const criticalFonts = getCriticalFonts(pageType, themeFontNames);
 
-// Font priority mapping for fetchpriority attribute
-const highPriorityFonts = [
-  'ABCDiatypeVariable.woff2',
-  'UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2' // Inter Regular
-];
+// Only the site UI face gets high priority. Theme fonts (Inter, etc.) preload
+// at default priority so they don't race the LCP image on home.
+const highPriorityFonts = ['ABCDiatypeVariable.woff2'];
 ---
 
 <!-- Critical font preloads optimized for LCP -->
 {criticalFonts.map((font, index) => {
   const fileName = font.split('/').pop() || '';
-  const isHighPriority = highPriorityFonts.some(hpFont => fileName.includes(hpFont)) || (priority && index < 2);
+  const isHighPriority = highPriorityFonts.some(hpFont => fileName.includes(hpFont)) || (priority && index === 0);
   const fetchPriority = isHighPriority ? 'high' : undefined;
   
   return (
@@ -50,32 +48,20 @@ const highPriorityFonts = [
 <script>
   // Font loading optimization with fallback detection
   (function() {
-    // Check if fonts are already loaded or cached
     function optimizeFontLoading() {
       try {
-        // Use font loading API if available
         if ('fonts' in document) {
-          // Monitor critical font loading
-          const criticalFonts = ['ABC Diatype', 'Inter'];
-          
-          criticalFonts.forEach(fontFamily => {
-            document.fonts.ready.then(() => {
-              document.fonts.check('1rem ' + fontFamily);
-            });
-          });
-          
-          // Add font-loaded class when fonts are ready
+          // Only poke the site UI face — theme fonts load when CSS needs them.
           document.fonts.ready.then(() => {
+            document.fonts.check('1rem ABC Diatype');
             document.documentElement.classList.add('fonts-loaded');
           });
         }
         
-        // Fallback for browsers without font loading API
         const fallbackTimer = setTimeout(() => {
           document.documentElement.classList.add('fonts-loaded');
-        }, 3000); // 3 second timeout
+        }, 3000);
         
-        // Clear timeout if fonts load faster
         if ('fonts' in document) {
           document.fonts.ready.then(() => {
             clearTimeout(fallbackTimer);
@@ -83,14 +69,12 @@ const highPriorityFonts = [
         }
         
       } catch (e) {
-        // Silent fallback
         setTimeout(() => {
           document.documentElement.classList.add('fonts-loaded');
         }, 2000);
       }
     }
     
-    // Run font optimization when DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', optimizeFontLoading);
     } else {

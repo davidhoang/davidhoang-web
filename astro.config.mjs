@@ -39,7 +39,9 @@ export default defineConfig({
     remarkPlugins: [remarkImagePath],
   },
   prefetch: {
-    prefetchAll: true,
+    // Opt-in only — prefetchAll burns bandwidth on footer/long-tail links after LCP.
+    // Primary nav links set data-astro-prefetch where needed.
+    prefetchAll: false,
     defaultStrategy: 'hover',
   },
   integrations: [
@@ -104,9 +106,6 @@ export default defineConfig({
               'src/components/hero/CardBase.tsx',
               'src/components/hero/HeroTitle.tsx',
               'src/components/hero/layouts/StackedFanLayout.tsx',
-              'src/components/hero/layouts/EditorialLayout.tsx',
-              'src/components/hero/layouts/ScatteredLayout.tsx',
-              'src/components/hero/layouts/RolodexLayout.tsx',
               'src/components/HeroImageShader.tsx'
             ],
             'shader-components': [

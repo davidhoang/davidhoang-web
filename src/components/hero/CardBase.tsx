@@ -1,7 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { type Card, cardHasHeroLayout } from './types';
-import { HeroCardShaderPattern } from './HeroCardShaderPattern';
+
+const HeroCardShaderPattern = lazy(() =>
+  import('./HeroCardShaderPattern').then((m) => ({ default: m.HeroCardShaderPattern }))
+);
 
 interface CardBaseProps {
   card: Card;
@@ -38,10 +41,17 @@ function CardHeroMedia({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  // Defer heavy animated WebPs / video sources until first hover/selection so
+  // idle cards only pay for the small still (LCP-friendly).
+  const [loadActiveMedia, setLoadActiveMedia] = useState(false);
+
+  useEffect(() => {
+    if (isHeroMediaActive) setLoadActiveMedia(true);
+  }, [isHeroMediaActive]);
 
   useEffect(() => {
     const el = videoRef.current;
-    if (!el || !card.heroVideo) return;
+    if (!el || !card.heroVideo || !loadActiveMedia) return;
     if (prefersReducedMotion) {
       el.pause();
       return;
@@ -51,7 +61,7 @@ function CardHeroMedia({
     } else {
       el.pause();
     }
-  }, [isHeroMediaActive, card.heroVideo, prefersReducedMotion]);
+  }, [isHeroMediaActive, card.heroVideo, prefersReducedMotion, loadActiveMedia]);
 
   const useVideo = Boolean(card.heroVideo);
   const idleImgSrc = card.heroImageStill ?? card.heroImage;
@@ -77,19 +87,21 @@ function CardHeroMedia({
             aria-hidden={isHeroMediaActive}
             data-visible={!isHeroMediaActive}
           />
-          <video
-            ref={videoRef}
-            className="card-hero-video card-hero-video--layer"
-            poster={card.heroImage}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden={!isHeroMediaActive}
-            data-visible={isHeroMediaActive}
-          >
-            <source src={card.heroVideo} type={videoMimeType(card.heroVideo || '') || 'video/mp4'} />
-          </video>
+          {loadActiveMedia && (
+            <video
+              ref={videoRef}
+              className="card-hero-video card-hero-video--layer"
+              poster={idleImgSrc}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden={!isHeroMediaActive}
+              data-visible={isHeroMediaActive}
+            >
+              <source src={card.heroVideo} type={videoMimeType(card.heroVideo || '') || 'video/mp4'} />
+            </video>
+          )}
         </>
       ) : hasStillSwap ? (
         <>
@@ -101,19 +113,22 @@ function CardHeroMedia({
             aria-hidden={isHeroMediaActive}
             data-visible={!isHeroMediaActive}
           />
-          <img
-            className={[
-              'card-hero-image card-hero-image--layer',
-              showDrift ? 'card-hero-image--drift' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-            src={card.heroImage}
-            alt=""
-            decoding="async"
-            aria-hidden={!isHeroMediaActive}
-            data-visible={isHeroMediaActive}
-          />
+          {loadActiveMedia && (
+            <img
+              className={[
+                'card-hero-image card-hero-image--layer',
+                showDrift ? 'card-hero-image--drift' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              src={card.heroImage}
+              alt=""
+              decoding="async"
+              loading="lazy"
+              aria-hidden={!isHeroMediaActive}
+              data-visible={isHeroMediaActive}
+            />
+          )}
         </>
       ) : (
         <img className="card-hero-image" src={card.heroImage} alt="" decoding="async" />
@@ -186,7 +201,9 @@ export function CardBaseContent({
         </div>
       ) : (
         <div className="card-pattern" style={{ backgroundColor: card.color }}>
-          <HeroCardShaderPattern cardId={card.id} pattern={card.pattern} color={card.color} />
+          <Suspense fallback={null}>
+            <HeroCardShaderPattern cardId={card.id} pattern={card.pattern} color={card.color} />
+          </Suspense>
         </div>
       )}
 
