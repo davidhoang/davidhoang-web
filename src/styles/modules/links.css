@@ -99,23 +99,24 @@ a.link-highlighter {
   border-bottom: none;
   position: relative;
   z-index: 0;
+  /* Tight box around glyphs — Safari mispositions ::before on tall inline line boxes */
+  display: inline-block;
+  vertical-align: baseline;
+  line-height: 1;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--color-link) 30%, transparent),
+    color-mix(in srgb, var(--color-link) 30%, transparent)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 0.45em;
+  background-position: left bottom 0.06em;
+  transition: background-image var(--duration-fast) var(--ease-inertia);
 }
 
 a.link-highlighter::before {
-  content: '';
-  position: absolute;
-  inset: auto;
-  left: -0.05em;
-  right: -0.05em;
-  bottom: 0.06em;
-  height: 0.45em;
-  background: color-mix(in srgb, var(--color-link) 30%, transparent);
-  border-radius: 0.08em;
-  filter: none;
-  opacity: 1;
-  z-index: -1;
-  pointer-events: none;
-  transition: background-color var(--duration-fast) var(--ease-inertia);
+  display: none;
 }
 
 a.link-highlighter::after {
@@ -126,10 +127,14 @@ a.link-highlighter::after {
   a.link-highlighter:hover {
     color: inherit;
     border-bottom-color: transparent;
+    background-image: linear-gradient(
+      color-mix(in srgb, var(--color-link) 52%, transparent),
+      color-mix(in srgb, var(--color-link) 52%, transparent)
+    );
   }
 
   a.link-highlighter:hover::before {
-    background: color-mix(in srgb, var(--color-link) 52%, transparent);
+    display: none;
   }
 }
 
