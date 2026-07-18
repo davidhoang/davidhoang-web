@@ -13,10 +13,12 @@ const budgets = {
 
 /** Named chunk ceilings (gzip KiB). Matched against asset basename prefixes. */
 const namedChunkGzipCeilingsKiB = {
-  'paper-shaders': 55,
-  'framer-motion': 55,
-  'hero-components': 45,
-  'react-vendor': 50,
+  // Primary home islands / shared vendors (names from Vite output)
+  CardStackHero: 20,
+  ShaderBackground: 15,
+  HeroCardShaderPattern: 12,
+  client: 60, // react-dom client runtime
+  useMagneticTilt: 45, // framer-motion-heavy shared chunk
 };
 
 function walk(dir) {
