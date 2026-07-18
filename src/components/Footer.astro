@@ -1,5 +1,5 @@
 ---
-import { footerBrand, footerSections, footerUtilityLinks } from '../data/navigation';
+import { footerBrand, footerSections } from '../data/navigation';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -50,15 +50,5 @@ const currentYear = new Date().getFullYear();
         Built with <a href="https://paper.design" target="_blank" rel="noopener noreferrer" aria-label="Paper (opens in new tab)">Paper</a> and <a href="https://astro.build" target="_blank" rel="noopener noreferrer" aria-label="Astro (opens in new tab)">Astro</a>.
       </p>
     </section>
-
-    <div class="footer-bottom">
-      <ul class="footer-utility" role="list" aria-label="Footer utility links">
-        {footerUtilityLinks.map((link) => (
-          <li>
-            <a href={link.href} type={link.type} aria-label={link.ariaLabel}>{link.label}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
   </div>
 </footer>
