@@ -582,18 +582,12 @@ const ogImageUrl = ogImage.startsWith('http')
           all: false
         };
         
-        // Critical fonts for immediate loading
-        var criticalFonts = [
-          '/fonts/ABCDiatypeVariable.woff2',
-          '/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2'
-        ];
+        // Site UI font only — theme fonts (e.g. Inter) load via FontPreloader
+        // when today's theme actually uses them, so we don't force-fetch Inter.
+        var criticalFontName = 'ABC Diatype';
         
         function updateFontLoadingState() {
-          var allCriticalLoaded = criticalFonts.every(function(font) {
-            return document.querySelector('link[href="' + font + '"]');
-          });
-          
-          if (allCriticalLoaded && !fontState.critical) {
+          if (!fontState.critical) {
             fontState.critical = true;
             document.documentElement.classList.add('critical-fonts-loaded');
             document.documentElement.classList.remove('font-loading');
@@ -614,15 +608,10 @@ const ogImageUrl = ogImage.startsWith('http')
             }
           });
           
-          // Check specific critical fonts
-          criticalFonts.forEach(function(fontUrl) {
-            var fontName = fontUrl.includes('ABCDiatype') ? 'ABC Diatype' : 'Inter';
-            document.fonts.load('400 16px ' + fontName).then(function() {
-              updateFontLoadingState();
-            }).catch(function() {
-              // Fallback - mark as loaded after timeout
-              setTimeout(updateFontLoadingState, 2000);
-            });
+          document.fonts.load('400 16px ' + criticalFontName).then(function() {
+            updateFontLoadingState();
+          }).catch(function() {
+            setTimeout(updateFontLoadingState, 2000);
           });
         } else {
           // Fallback for browsers without Font Loading API
@@ -659,7 +648,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
       <div transition:persist="shader-background">
-        <ShaderBackground client:visible />
+        <ShaderBackground client:idle />
       </div>
       <div class="page-transition-shell" transition:animate={pageFade}>
         <main id="main-content" class={containerClass} tabindex="-1">

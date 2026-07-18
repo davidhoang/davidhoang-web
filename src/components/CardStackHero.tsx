@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, lazy, Suspense } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
@@ -6,11 +6,13 @@ import { isMobileHeroViewport, readHeroViewportTier } from './hero/heroViewport'
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import { HeroDialProvider } from './hero/HeroDialProvider';
+// Default + mobile-forced layout stays eager; other layouts lazy-split.
 import StackedFanLayout from './hero/layouts/StackedFanLayout';
-import EditorialLayout from './hero/layouts/EditorialLayout';
-import ScatteredLayout from './hero/layouts/ScatteredLayout';
-import RolodexLayout from './hero/layouts/RolodexLayout';
-import CinematicLayout from './hero/layouts/CinematicLayout';
+
+const EditorialLayout = lazy(() => import('./hero/layouts/EditorialLayout'));
+const ScatteredLayout = lazy(() => import('./hero/layouts/ScatteredLayout'));
+const RolodexLayout = lazy(() => import('./hero/layouts/RolodexLayout'));
+const CinematicLayout = lazy(() => import('./hero/layouts/CinematicLayout'));
 
 function readInitialHeroLayout(): HeroLayout {
   if (typeof window === 'undefined') return 'stacked-fan';
@@ -250,18 +252,20 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
         <header className="card-stack-hero__intro">
           <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
         </header>
-        <LayoutComponent
-          key={entranceKey}
-          cards={displayCards}
-          selectedCard={selectedCard}
-          hoveredCard={hoveredCard}
-          isLoaded={isLoaded}
-          hasAnimatedIn={hasAnimatedIn}
-          cardStyle={cardStyle}
-          onCardClick={handleCardClick}
-          onCardDismiss={handleCardDismiss}
-          onCardHover={setHoveredCard}
-        />
+        <Suspense fallback={null}>
+          <LayoutComponent
+            key={entranceKey}
+            cards={displayCards}
+            selectedCard={selectedCard}
+            hoveredCard={hoveredCard}
+            isLoaded={isLoaded}
+            hasAnimatedIn={hasAnimatedIn}
+            cardStyle={cardStyle}
+            onCardClick={handleCardClick}
+            onCardDismiss={handleCardDismiss}
+            onCardHover={setHoveredCard}
+          />
+        </Suspense>
       </div>
 
       {selectedCard && (

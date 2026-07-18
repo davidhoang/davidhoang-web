@@ -1,6 +1,6 @@
 import { gzipSync } from 'node:zlib';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, basename } from 'node:path';
 
 const CLIENT_ASSET_DIR = 'dist/client/assets';
 const KIB = 1024;
@@ -9,6 +9,16 @@ const budgets = {
   maxJsAssetRawKiB: 220,
   maxJsAssetGzipKiB: 65,
   maxTotalJsGzipKiB: 260,
+};
+
+/** Named chunk ceilings (gzip KiB). Matched against asset basename prefixes. */
+const namedChunkGzipCeilingsKiB = {
+  // Primary home islands / shared vendors (names from Vite output)
+  CardStackHero: 20,
+  ShaderBackground: 15,
+  HeroCardShaderPattern: 12,
+  client: 60, // react-dom client runtime
+  useMagneticTilt: 45, // framer-motion-heavy shared chunk
 };
 
 function walk(dir) {
@@ -20,6 +30,11 @@ function walk(dir) {
 
 function formatKiB(bytes) {
   return `${(bytes / KIB).toFixed(1)} KiB`;
+}
+
+function namedChunkKey(file) {
+  const name = basename(file);
+  return Object.keys(namedChunkGzipCeilingsKiB).find((key) => name.startsWith(`${key}.`));
 }
 
 let files;
@@ -50,6 +65,16 @@ for (const asset of jsAssets) {
   if (asset.gzipBytes > budgets.maxJsAssetGzipKiB * KIB) {
     failures.push(`${relative('.', asset.file)} gzip ${formatKiB(asset.gzipBytes)} > ${budgets.maxJsAssetGzipKiB} KiB`);
   }
+
+  const named = namedChunkKey(asset.file);
+  if (named) {
+    const ceiling = namedChunkGzipCeilingsKiB[named] * KIB;
+    if (asset.gzipBytes > ceiling) {
+      failures.push(
+        `${relative('.', asset.file)} (${named}) gzip ${formatKiB(asset.gzipBytes)} > ${namedChunkGzipCeilingsKiB[named]} KiB named ceiling`
+      );
+    }
+  }
 }
 
 if (totalJsGzipBytes > budgets.maxTotalJsGzipKiB * KIB) {
@@ -60,7 +85,9 @@ console.log('Bundle budget');
 console.log(`Total JS gzip: ${formatKiB(totalJsGzipBytes)} / ${budgets.maxTotalJsGzipKiB} KiB`);
 console.log('Largest JS assets:');
 for (const asset of jsAssets.slice(0, 8)) {
-  console.log(`- ${relative('.', asset.file)}: ${formatKiB(asset.rawBytes)} raw, ${formatKiB(asset.gzipBytes)} gzip`);
+  const named = namedChunkKey(asset.file);
+  const tag = named ? ` [${named}]` : '';
+  console.log(`- ${relative('.', asset.file)}${tag}: ${formatKiB(asset.rawBytes)} raw, ${formatKiB(asset.gzipBytes)} gzip`);
 }
 
 if (failures.length > 0) {

@@ -3,23 +3,36 @@
  *
  * Uses Paper Design shaders for dynamic backgrounds.
  * Controlled by daily theme system via data-shader attribute.
+ *
+ * Shader components are loaded via named imports (tree-shakeable) and the
+ * island itself mounts with client:idle so it stays off the LCP path.
  */
 
 import { useEffect, useState } from 'react';
-import * as Shaders from '@paper-design/shaders-react';
+import {
+  GrainGradient as GrainGradientRaw,
+  MeshGradient as MeshGradientRaw,
+  NeuroNoise as NeuroNoiseRaw,
+  Waves as WavesRaw,
+  DotGrid as DotGridRaw,
+  Swirl as SwirlRaw,
+  PerlinNoise as PerlinNoiseRaw,
+  SimplexNoise as SimplexNoiseRaw,
+  PaperTexture as PaperTextureRaw,
+} from '@paper-design/shaders-react';
 import MouseGlow from './MouseGlow';
 
 // Cast shader components to permissive types — the library's TS definitions
 // omit `style`, but it's accepted at runtime.
-const GrainGradient = Shaders.GrainGradient as any;
-const MeshGradient = Shaders.MeshGradient as any;
-const NeuroNoise = Shaders.NeuroNoise as any;
-const Waves = Shaders.Waves as any;
-const DotGrid = Shaders.DotGrid as any;
-const Swirl = Shaders.Swirl as any;
-const PerlinNoise = Shaders.PerlinNoise as any;
-const SimplexNoise = Shaders.SimplexNoise as any;
-const PaperTexture = Shaders.PaperTexture as any;
+const GrainGradient = GrainGradientRaw as any;
+const MeshGradient = MeshGradientRaw as any;
+const NeuroNoise = NeuroNoiseRaw as any;
+const Waves = WavesRaw as any;
+const DotGrid = DotGridRaw as any;
+const Swirl = SwirlRaw as any;
+const PerlinNoise = PerlinNoiseRaw as any;
+const SimplexNoise = SimplexNoiseRaw as any;
+const PaperTexture = PaperTextureRaw as any;
 
 interface ShaderBackgroundProps {
   shader?: string;
