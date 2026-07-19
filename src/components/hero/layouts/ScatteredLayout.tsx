@@ -1,8 +1,12 @@
 import { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave } from '../cardHover';
+import {
+  applyHeroCardPhaseMotion,
+  heroCardInteractionTransition,
+  useHeroCardInteraction,
+} from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, scaleScatteredPosition, useHeroCardTilt } from '../heroDialUtils';
 
@@ -70,10 +74,42 @@ function ScatteredCard({
     () => scaleScatteredPosition(position, dial),
     [position, dial.scattered.spreadX, dial.scattered.spreadY, dial.scattered.maxRotation]
   );
-  const isHovered = hoveredCard === card.id;
-  const isSelected = selectedCard === card.id;
-  const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
+  const prefersReducedMotion = useReducedMotion();
   const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
+    cardId: card.id,
+    selectedCard,
+    hoveredCard,
+    isLoaded,
+    hoverDisabled: Boolean(prefersReducedMotion),
+    onCardHover,
+    onTiltReset: tilt.reset,
+  });
+
+  const restPose = {
+    x: isLoaded ? scaledPosition.x : 0,
+    y: isLoaded ? scaledPosition.y : 0,
+    rotate: isLoaded ? scaledPosition.rotation : 0,
+    scale: isLoaded ? 1 : scattered.initialScale,
+    opacity: 1,
+  };
+
+  const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
+    focused: prefersReducedMotion
+      ? undefined
+      : {
+          scale: scattered.hoverScale,
+          rotate: 0,
+        },
+    pressed: { scale: scattered.tapScale },
+    selected: {
+      x: 0,
+      y: scattered.selectedLiftY,
+      rotate: 0,
+      scale: scattered.selectedScale,
+    },
+    dimmed: { opacity: scattered.dimmedOpacity },
+  });
 
   return (
     <motion.div
@@ -81,7 +117,7 @@ function ScatteredCard({
       style={{
         ...cardDimensionStyle(dial),
         backgroundColor: isGlass ? 'transparent' : card.color,
-        zIndex: isSelected ? 20 : (isHovered ? 15 : cardCount - index),
+        zIndex: isSelected ? 20 : (isFocused ? 15 : cardCount - index),
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
         transformPerspective: scattered.perspective,
@@ -93,36 +129,23 @@ function ScatteredCard({
         scale: scattered.initialScale,
         opacity: 1,
       }}
-      animate={{
-        x: isSelected ? 0 : (isLoaded ? scaledPosition.x : 0),
-        y: isSelected ? scattered.selectedLiftY : (isLoaded ? scaledPosition.y : 0),
-        rotate: isSelected ? 0 : (isLoaded ? scaledPosition.rotation : 0),
-        scale: isSelected ? scattered.selectedScale : (isLoaded ? 1 : scattered.initialScale),
-        opacity: isOtherSelected ? scattered.dimmedOpacity : 1,
-      }}
-      whileHover={!isSelected ? {
-        scale: scattered.hoverScale,
-        rotate: 0,
-        transition: dial.hoverTween,
-      } : {}}
-      whileTap={!isSelected ? { scale: scattered.tapScale } : {}}
-      transition={{
-        type: 'spring',
-        stiffness: hasAnimatedIn ? scattered.settleStiffness : scattered.stiffness,
-        damping: hasAnimatedIn ? scattered.settleDamping : scattered.damping,
-        delay: !hasAnimatedIn && isLoaded ? index * scattered.staggerDelay : 0,
-        ...(hasAnimatedIn && {
-          x: dial.hoverTween,
-          y: dial.hoverTween,
-          rotate: dial.hoverTween,
-          scale: dial.hoverTween,
-        }),
-      }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+      animate={animatePose}
+      transition={heroCardInteractionTransition({
+        hasAnimatedIn,
+        phase,
+        index,
+        isLoaded,
+        entrance: {
+          stiffness: scattered.stiffness,
+          damping: scattered.damping,
+          staggerDelay: scattered.staggerDelay,
+        },
+      })}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
+      {...pointerHandlers}
       onClick={() => {
         tilt.reset();
+        clearPress();
         onCardClick(card.id, card.link);
       }}
     >
@@ -130,7 +153,7 @@ function ScatteredCard({
         card={card}
         isSelected={isSelected}
         isGlass={isGlass}
-        isHeroMediaActive={hoveredCard === card.id || isSelected}
+        isHeroMediaActive={isFocused || isSelected}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>

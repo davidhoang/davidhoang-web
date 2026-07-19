@@ -1,7 +1,11 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave } from '../cardHover';
+import {
+  applyHeroCardPhaseMotion,
+  heroCardInteractionTransition,
+  useHeroCardInteraction,
+} from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
 
@@ -32,9 +36,30 @@ function EditorialCard({
 }: EditorialCardProps) {
   const dial = useHeroDial();
   const editorial = dial.editorial;
-  const isSelected = selectedCard === card.id;
-  const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
+  const prefersReducedMotion = useReducedMotion();
   const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
+    cardId: card.id,
+    selectedCard,
+    hoveredCard,
+    isLoaded,
+    hoverDisabled: Boolean(prefersReducedMotion),
+    onCardHover,
+    onTiltReset: tilt.reset,
+  });
+
+  const restPose = {
+    x: isLoaded ? 0 : editorial.initialX,
+    scale: isLoaded ? 1 : editorial.initialScale,
+    opacity: 1,
+  };
+
+  const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
+    focused: prefersReducedMotion ? undefined : { x: editorial.hoverX },
+    pressed: { scale: editorial.tapScale },
+    selected: { scale: editorial.selectedScale },
+    dimmed: { opacity: editorial.dimmedOpacity },
+  });
 
   return (
     <motion.div
@@ -48,30 +73,23 @@ function EditorialCard({
         transformPerspective: editorial.perspective,
       }}
       initial={{ x: editorial.initialX, scale: editorial.initialScale, opacity: 1 }}
-      animate={{
-        x: isLoaded ? 0 : editorial.initialX,
-        opacity: isOtherSelected ? editorial.dimmedOpacity : 1,
-        scale: isSelected ? editorial.selectedScale : (isLoaded ? 1 : editorial.initialScale),
-      }}
-      whileHover={!isSelected ? {
-        x: editorial.hoverX,
-        transition: dial.hoverTween,
-      } : {}}
-      whileTap={!isSelected ? { scale: editorial.tapScale } : {}}
-      transition={{
-        type: 'spring',
-        stiffness: hasAnimatedIn ? editorial.settleStiffness : editorial.stiffness,
-        damping: hasAnimatedIn ? editorial.settleDamping : editorial.damping,
-        delay: !hasAnimatedIn && isLoaded ? index * editorial.staggerDelay : 0,
-        ...(hasAnimatedIn && {
-          x: dial.hoverTween,
-        }),
-      }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+      animate={animatePose}
+      transition={heroCardInteractionTransition({
+        hasAnimatedIn,
+        phase,
+        index,
+        isLoaded,
+        entrance: {
+          stiffness: editorial.stiffness,
+          damping: editorial.damping,
+          staggerDelay: editorial.staggerDelay,
+        },
+      })}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
+      {...pointerHandlers}
       onClick={() => {
         tilt.reset();
+        clearPress();
         onCardClick(card.id, card.link);
       }}
     >
@@ -79,7 +97,7 @@ function EditorialCard({
         card={card}
         isSelected={isSelected}
         isGlass={isGlass}
-        isHeroMediaActive={hoveredCard === card.id || isSelected}
+        isHeroMediaActive={isFocused || isSelected}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>

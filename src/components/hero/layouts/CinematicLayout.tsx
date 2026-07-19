@@ -3,6 +3,11 @@ import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 import { handleCardHoverLeave } from '../cardHover';
+import {
+  applyHeroCardPhaseMotion,
+  heroCardInteractionTransition,
+  useHeroCardInteraction,
+} from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
 
@@ -106,8 +111,45 @@ function FilmstripCard({
 }: FilmstripProps) {
   const dial = useHeroDial();
   const cinematic = dial.cinematic;
-  const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
   const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
+    cardId: card.id,
+    selectedCard,
+    hoveredCard,
+    isLoaded,
+    hoverDisabled: reducedMotion,
+    onCardHover,
+    onTiltReset: tilt.reset,
+  });
+
+  const restPose = {
+    opacity: 1,
+    x: isLoaded ? 0 : cinematic.filmstripInitialX,
+    scale: isLoaded ? 1 : cinematic.filmstripInitialScale,
+  };
+
+  const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
+    focused: reducedMotion
+      ? undefined
+      : {
+          scale: cinematic.filmstripHoverScale,
+          x: cinematic.filmstripHoverX,
+        },
+    pressed: { scale: cinematic.filmstripTapScale },
+    dimmed: { opacity: cinematic.dimmedOpacity },
+  });
+
+  const interactionTransition = heroCardInteractionTransition({
+    hasAnimatedIn,
+    phase,
+    index,
+    isLoaded,
+    entrance: {
+      stiffness: cinematic.stiffness,
+      damping: cinematic.damping,
+      staggerDelay: cinematic.staggerDelay,
+    },
+  });
 
   return (
     <motion.div
@@ -123,33 +165,24 @@ function FilmstripCard({
       layout={!reducedMotion}
       layoutId={`cinematic-${card.id}`}
       initial={false}
-      animate={{
-        opacity: isOtherSelected ? cinematic.dimmedOpacity : 1,
-        x: isLoaded ? 0 : cinematic.filmstripInitialX,
-        scale: isLoaded ? 1 : cinematic.filmstripInitialScale,
-      }}
-      whileHover={!reducedMotion ? {
-        scale: cinematic.filmstripHoverScale,
-        x: cinematic.filmstripHoverX,
-        transition: dial.hoverTween,
-      } : {}}
-      whileTap={{ scale: cinematic.filmstripTapScale }}
+      animate={animatePose}
       transition={{
         layout: { type: 'spring', stiffness: cinematic.layoutStiffness, damping: cinematic.layoutDamping },
-        type: 'spring',
-        stiffness: hasAnimatedIn ? cinematic.settleStiffness : cinematic.stiffness,
-        damping: hasAnimatedIn ? cinematic.settleDamping : cinematic.damping,
-        delay: !hasAnimatedIn && isLoaded ? index * cinematic.staggerDelay : 0,
-        ...(hasAnimatedIn && {
-          x: dial.hoverTween,
-          scale: dial.hoverTween,
-        }),
+        ...interactionTransition,
       }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
-      onClick={() => { tilt.reset(); onSwap(); }}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSwap(); } }}
+      {...pointerHandlers}
+      onClick={() => {
+        tilt.reset();
+        clearPress();
+        onSwap();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSwap();
+        }
+      }}
       tabIndex={0}
       role="button"
       aria-label={`Show ${card.title}`}
@@ -158,7 +191,7 @@ function FilmstripCard({
         card={card}
         isSelected={false}
         isGlass={isGlass}
-        isHeroMediaActive={hoveredCard === card.id}
+        isHeroMediaActive={isFocused}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>
