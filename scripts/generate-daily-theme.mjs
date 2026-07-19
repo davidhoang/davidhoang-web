@@ -23,7 +23,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
-import { generateInspirationPrompt, listInspirations, getTimePeriod, TIME_MODIFIERS } from './lib/inspiration.mjs';
+import { generateInspirationPrompt, listInspirations } from './lib/inspiration.mjs';
 import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 import { validateThemeContrast } from './lib/contrast.mjs';
@@ -167,9 +167,6 @@ const BODY_FONTS = [
   { name: 'DM Sans', category: 'sans-serif', weight: '300;400;500;600;700' },
   { name: 'Instrument Sans', category: 'sans-serif', weight: '400;500;600;700' },
 ];
-
-// Combined for backward compatibility
-const FONT_OPTIONS = [...HEADING_FONTS, ...BODY_FONTS];
 
 /**
  * Build the theme prompt with dynamic font list

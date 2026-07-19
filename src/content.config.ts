@@ -1,6 +1,7 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { NOTE_STAGE_VALUES } from '../content/noteStages';
+import { z } from 'astro/zod';
+import { NOTE_STAGE_VALUES } from './content/noteStages';
 
 const writing = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/writing' }),
@@ -13,10 +14,10 @@ const writing = defineCollection({
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional().default(false),
     companionPrototype: z.string().optional(),
-    newsletterUrl: z.string().url().optional(),
+    newsletterUrl: z.url().optional(),
     relatedWriting: z.array(z.string()).optional(),
     relatedNotes: z.array(z.string()).optional(),
-  })
+  }),
 });
 
 const notes = defineCollection({
@@ -26,8 +27,8 @@ const notes = defineCollection({
     description: z.string().optional(),
     overview: z.string().optional(),
     overviewYoutube: z.string().optional(),
-    pubDate: z.date(),                    // First planted
-    updatedDate: z.date().optional(),     // Last tended
+    pubDate: z.date(),
+    updatedDate: z.date().optional(),
     stage: z.enum(NOTE_STAGE_VALUES).default('thoughts'),
     tags: z.array(z.string()).optional(),
     ogImage: z.string().optional(),
@@ -43,10 +44,10 @@ const notes = defineCollection({
     draft: z.boolean().optional().default(false),
     relatedWriting: z.array(z.string()).optional(),
     relatedNotes: z.array(z.string()).optional(),
-  })
+  }),
 });
 
 export const collections = {
-  'writing': writing,
-  'notes': notes,
-}; 
+  writing,
+  notes,
+};

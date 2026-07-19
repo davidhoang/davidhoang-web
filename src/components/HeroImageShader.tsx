@@ -82,6 +82,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
       alt={alt}
       loading={priority ? 'eager' : 'lazy'}
       className={className}
+      suppressHydrationWarning
       style={{
         position: 'absolute',
         top: 0,

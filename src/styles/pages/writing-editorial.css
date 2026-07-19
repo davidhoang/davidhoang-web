@@ -281,6 +281,11 @@
   transition: transform var(--duration-slower) var(--ease-inertia);
 }
 
+.writing-card__media img[src^="/api/og"],
+.writing-spotlight__image[src^="/api/og"] {
+  object-fit: contain;
+}
+
 .writing-card__body {
   display: flex;
   flex-direction: column;
@@ -473,6 +478,14 @@
 }
 
 @media (max-width: 768px) {
+  .writing-editorial {
+    padding-top: max(1.5rem, env(safe-area-inset-top, 0px));
+  }
+
+  .writing-masthead {
+    padding-top: clamp(2rem, 8vw, 3rem);
+  }
+
   .writing-spotlight__image {
     aspect-ratio: 16 / 10;
     max-height: min(28vh, 280px);

@@ -13,7 +13,7 @@
  * With an API key, fetches fresh data from Google Fonts API.
  */
 
-import { writeFileSync, readFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -32,24 +32,12 @@ const MOOD_KEYWORDS = {
   vintage: ['Abril Fatface', 'Playfair', 'Old Standard', 'Cinzel', 'Cardo', 'Vollkorn', 'Sorts Mill', 'Fanwood', 'Goudy'],
   humanist: ['Gill Sans', 'Optima', 'Verdana', 'Frutiger', 'Myriad', 'Open Sans', 'Lato', 'Source Sans', 'Cabin', 'Nunito Sans'],
   grotesk: ['Helvetica', 'Arial', 'Akzidenz', 'Space Grotesk', 'Bricolage', 'Darker Grotesque', 'Hanken Grotesk', 'Switzer', 'General Sans', 'Satoshi'],
-  experimental: ['Unbounded', 'Syne', 'Clash Display', 'Cabinet Grotesk', 'Instrument', 'Chillax', 'Satoshi', 'Neue Montreal', 'PP Mori', 'Basement Grotesque'],
+  experimental: ['Unbounded', 'Syne', 'Cabinet Grotesk', 'Instrument', 'Chillax', 'Satoshi', 'Neue Montreal', 'PP Mori', 'Basement Grotesque'],
   monospace: ['JetBrains Mono', 'Fira Code', 'Source Code Pro', 'IBM Plex Mono', 'Space Mono', 'Inconsolata', 'Roboto Mono', 'Ubuntu Mono', 'Anonymous Pro', 'Courier Prime'],
   handwritten: ['Caveat', 'Kalam', 'Patrick Hand', 'Indie Flower', 'Shadows Into Light', 'Dancing Script', 'Pacifico', 'Sacramento', 'Great Vibes', 'Allura'],
   condensed: ['Oswald', 'Barlow Condensed', 'Roboto Condensed', 'Open Sans Condensed', 'PT Sans Narrow', 'Pathway Gothic One', 'Encode Sans Condensed', 'Saira Condensed'],
   warm: ['Merriweather', 'Lora', 'Crimson', 'Vollkorn', 'Bitter', 'Arvo', 'Rokkitt', 'Zilla Slab'],
   cool: ['Inter', 'SF Pro', 'Helvetica Neue', 'Roboto', 'IBM Plex Sans', 'Work Sans', 'DM Sans', 'Outfit']
-};
-
-// Suggested pairings: heading -> body fonts that work well together
-const PAIRING_RULES = {
-  // Serif headings pair well with sans body
-  'serif-heading': ['sans-serif', 'humanist', 'geometric'],
-  // Display headings pair with clean body fonts
-  'display-heading': ['sans-serif', 'serif'],
-  // Grotesk headings with serif body for contrast
-  'grotesk-heading': ['serif', 'humanist'],
-  // Mono headings (rare) with sans body
-  'monospace-heading': ['sans-serif', 'humanist']
 };
 
 // Quality fonts curated for heading use
@@ -71,7 +59,6 @@ const CURATED_HEADING_FONTS = [
   { name: 'Syne', category: 'sans-serif', moods: ['experimental', 'tech', 'grotesk'], weight: '400;500;600;700;800', variable: true },
   { name: 'Space Grotesk', category: 'sans-serif', moods: ['tech', 'grotesk', 'experimental'], weight: '300;400;500;600;700', variable: true },
   { name: 'Bricolage Grotesque', category: 'display', moods: ['experimental', 'grotesk', 'playful'], weight: '300;400;500;600;700;800', variable: true },
-  { name: 'Clash Display', category: 'display', moods: ['experimental', 'brutalist'], weight: '400;500;600;700', variable: true },
   { name: 'Cabinet Grotesk', category: 'display', moods: ['experimental', 'grotesk'], weight: '400;500;700;800;900', variable: true },
 
   // Brutalist & Bold

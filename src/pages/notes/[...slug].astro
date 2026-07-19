@@ -100,7 +100,7 @@ const noteJsonLd = {
 ---
 
 <MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage}>
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
   {coverImage && (
     <div class="note-hero">
       <img

@@ -130,9 +130,6 @@ function adjustColorForContrast(fgHex, bgHex, targetRatio) {
  */
 function validateMode(colors, modeName) {
   const fixes = [];
-  const bg = colors['--color-bg'];
-  const cardBg = colors['--color-card-bg'];
-  const navBg = colors['--color-nav-bg'];
 
   // Pairs to check: [foreground var, background var, min ratio, label]
   const checks = [

@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import FontPreloader from '../components/FontPreloader.astro';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
 
@@ -296,7 +296,7 @@ const ogImageUrl = ogImage.startsWith('http')
 
     <!-- Preload today's daily theme fonts to reduce FOUT (skip already self-hosted) -->
     {externalThemeFonts.map((font: any) => (
-      <link rel="stylesheet" href={font.url} media="print" onload="this.media='all'" />
+      <link rel="stylesheet" href={font.url} />
     ))}
 
     <!-- Browser theme color - blends browser UI with site -->
@@ -304,10 +304,10 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
 
     <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
-    <ViewTransitions />
+    <ClientRouter />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@graph": [
         {
@@ -484,7 +484,7 @@ const ogImageUrl = ogImage.startsWith('http')
          and swapping in the user's calendar selection when it's not today.
          Also runs on astro:before-swap to apply preferences to the incoming
          <html> before view transitions paint, eliminating the per-nav flash. -->
-    <script define:vars={{
+    <script is:inline define:vars={{
       ssrDarkColors: todayTheme?.colors?.dark || {},
       ssrThemeStyleKeys: ssrThemeStyle.map((s: string) => s.split(':')[0]),
       ssrDate: todayTheme?.date || today,
@@ -761,8 +761,10 @@ const ogImageUrl = ogImage.startsWith('http')
       initLazyImages();
     </script>
     <script>
-      import { injectSpeedInsights } from '@vercel/speed-insights';
-      injectSpeedInsights();
+      if (import.meta.env.PROD) {
+        const { injectSpeedInsights } = await import('@vercel/speed-insights');
+        injectSpeedInsights();
+      }
     </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { ROOT, extractStyleBlocks, splitCssRules } from '../shared.mjs';
+import { ROOT, extractStyleBlocks } from '../shared.mjs';
 
 const DIMENSIONAL_PROPS =
   /(?:^|\s)(padding|margin|gap|width|height|min-width|max-width|min-height|max-height|border-width)\s*:/;

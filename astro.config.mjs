@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
@@ -6,6 +7,33 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { cpSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
+
+const MANUAL_CHUNKS = [
+  ['framer-motion', ['framer-motion']],
+  ['paper-shaders', ['@paper-design/shaders-react']],
+  ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
+  [
+    'hero-components',
+    [
+      'src/components/CardStackHero.tsx',
+      'src/components/hero/types.ts',
+      'src/components/hero/CardBase.tsx',
+      'src/components/hero/HeroTitle.tsx',
+      'src/components/hero/layouts/StackedFanLayout.tsx',
+      'src/components/HeroImageShader.tsx',
+    ],
+  ],
+  ['shader-components', ['src/components/ShaderBackground.tsx']],
+  ['utils', ['src/utils', 'src/plugins']],
+];
+
+function manualChunks(id) {
+  for (const [chunkName, matchers] of MANUAL_CHUNKS) {
+    if (matchers.some((matcher) => id.includes(matcher))) {
+      return chunkName;
+    }
+  }
+}
 
 // Vite plugin to copy images from src/assets/images to public/images during build
 // This allows markdown files to continue using /images/ paths while components
@@ -31,12 +59,17 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
   trailingSlash: 'never',
+  devToolbar: {
+    enabled: false,
+  },
   image: {
     layout: 'constrained',
     responsiveStyles: true,
   },
   markdown: {
-    remarkPlugins: [remarkImagePath],
+    processor: unified({
+      remarkPlugins: [remarkImagePath],
+    }),
   },
   prefetch: {
     // Opt-in only — prefetchAll burns bandwidth on footer/long-tail links after LCP.
@@ -90,33 +123,8 @@ export default defineConfig({
           entryFileNames: 'assets/[name].[hash].js',
           chunkFileNames: 'assets/[name].[hash].js',
           assetFileNames: 'assets/[name].[hash].[ext]',
-          // Manual chunks for heavy libraries and components
-          manualChunks: {
-            // Heavy React libraries
-            'framer-motion': ['framer-motion'],
-            'paper-shaders': ['@paper-design/shaders-react'],
-            
-            // Heavy React components (split by route/feature)
-            'career-components': [
-              'src/components/CareerOdysseyWrapper.tsx'
-            ],
-            'hero-components': [
-              'src/components/CardStackHero.tsx',
-              'src/components/hero/types.ts',
-              'src/components/hero/CardBase.tsx',
-              'src/components/hero/HeroTitle.tsx',
-              'src/components/hero/layouts/StackedFanLayout.tsx',
-              'src/components/HeroImageShader.tsx'
-            ],
-            'shader-components': [
-              'src/components/ShaderBackground.tsx'
-            ],
-            // React core (separate from main bundle)
-            'react-vendor': ['react', 'react-dom'],
-            
-            // Common utilities
-            'utils': ['src/utils', 'src/plugins']
-          }
+          // Manual chunks for heavy libraries and components.
+          manualChunks,
         }
       },
       // Increase chunk size warnings threshold
