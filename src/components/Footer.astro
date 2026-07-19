@@ -11,30 +11,33 @@ const currentYear = new Date().getFullYear();
         <div class="footer-brand">
           <a href="/" class="footer-logo" aria-label="David Hoang homepage">DH</a>
           <p class="footer-tagline">{footerBrand.tagline}</p>
-          <a href={footerBrand.emailHref} class="footer-email-link">Email me</a>
+          <a href={footerBrand.emailHref} class="footer-link footer-email-link">Email me</a>
         </div>
 
         {footerSections.map((section) => (
-          <div class="footer-col">
-            <h4>{section.title}</h4>
-            <ul role="list">
-              {section.links.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    aria-label={link.ariaLabel}
-                    target={link.external ? '_blank' : undefined}
-                    rel={link.external ? 'noopener noreferrer' : undefined}
-                  >
-                    {link.label}
-                    {link.external && (
-                      <span class="footer-external" aria-hidden="true">↗</span>
-                    )}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <nav class="footer-col" aria-label={section.title}>
+            <details class="footer-col__details">
+              <summary class="footer-col__heading">{section.title}</summary>
+              <ul role="list">
+                {section.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="footer-link"
+                      aria-label={link.ariaLabel}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noopener noreferrer' : undefined}
+                    >
+                      {link.label}
+                      {link.external && (
+                        <span class="footer-external" aria-hidden="true">↗</span>
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </nav>
         ))}
       </div>
     </section>
