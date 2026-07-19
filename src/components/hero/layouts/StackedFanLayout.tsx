@@ -111,7 +111,7 @@ function FanCard({
   const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || isMobileStack);
   const hoverDisabled = Boolean(selectedCard) || Boolean(prefersReducedMotion) || isMobileStack;
 
-  const { phase, isFocused, isOtherSelected, clearPress, pointerHandlers } = useHeroCardInteraction({
+  const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
