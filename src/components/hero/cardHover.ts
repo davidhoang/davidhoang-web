@@ -1,6 +1,10 @@
 import type { MouseEvent } from 'react';
 
-/** Ease-out curve aligned with design.md `--ease-emphasized`. */
+/**
+ * Ease-out curve aligned with design.md `--ease-emphasized`.
+ * Kept for DialKit / non-transform fades. Hero card transforms use
+ * `HERO_INTERACTION_SPRING` in `heroCardInteraction.ts` instead.
+ */
 export const HERO_HOVER_EASE = [0.22, 1, 0.36, 1] as const;
 
 export const HERO_HOVER_TWEEN = {

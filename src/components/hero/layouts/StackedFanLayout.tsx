@@ -3,7 +3,11 @@ import { createPortal } from 'react-dom';
 import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave } from '../cardHover';
+import {
+  applyHeroCardPhaseMotion,
+  heroCardInteractionTransition,
+  useHeroCardInteraction,
+} from '../heroCardInteraction';
 import MobileHeroSheet from '../MobileHeroSheet';
 import { isMobileHeroViewport } from '../heroViewport';
 import {
@@ -103,10 +107,19 @@ function FanCard({
   const layoutPosition = isMobileStack ? mobileStack.position : scaledPosition;
   const stackScale = isMobileStack ? mobileStack.position.scale : 1;
   const isFront = isMobileStack ? mobileStack.offset === 0 : true;
-  const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
-  const isHovered = hoveredCard === card.id;
   const prefersReducedMotion = useReducedMotion();
   const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || isMobileStack);
+  const hoverDisabled = Boolean(selectedCard) || Boolean(prefersReducedMotion) || isMobileStack;
+
+  const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
+    cardId: card.id,
+    selectedCard,
+    hoveredCard,
+    isLoaded,
+    hoverDisabled,
+    onCardHover,
+    onTiltReset: tilt.reset,
+  });
 
   const dimensionStyle = useMemo(() => {
     if (isMobileStack && mobileDims) {
@@ -114,6 +127,30 @@ function FanCard({
     }
     return cardDimensionStyle(dial);
   }, [isMobileStack, mobileDims, dial]);
+
+  const restPose = {
+    x: isLoaded ? layoutPosition.x : 0,
+    y: isLoaded ? layoutPosition.y : 0,
+    rotate: isLoaded ? layoutPosition.rotation : 0,
+    scale: isLoaded ? stackScale : fan.entrance.initialScale,
+    opacity: 1,
+  };
+
+  const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
+    // Omit focus lift when hover is disabled so press-on-touch only scales from rest.
+    focused: hoverDisabled
+      ? undefined
+      : {
+          y: scaledPosition.y - fan.hover.liftY,
+          scale: fan.hover.scale,
+        },
+    pressed: {
+      scale: isMobileStack ? stackScale * 0.99 : fan.hover.tapScale,
+    },
+    dimmed: {
+      opacity: fan.dimmedOpacity,
+    },
+  });
 
   return (
     <motion.div
@@ -123,8 +160,8 @@ function FanCard({
         ...dimensionStyle,
         backgroundColor: isGlass ? 'transparent' : card.color,
         zIndex: isMobileStack
-          ? mobileStackZIndex(mobileStack.offset, cardCount, isHovered)
-          : isHovered
+          ? mobileStackZIndex(mobileStack.offset, cardCount, isFocused)
+          : isFocused
             ? cardCount + 2
             : cardCount - index,
         rotateX: tilt.rotateX,
@@ -138,42 +175,23 @@ function FanCard({
         scale: fan.entrance.initialScale,
         opacity: 1,
       }}
-      animate={{
-        x: isLoaded ? layoutPosition.x : 0,
-        y: isLoaded ? layoutPosition.y : 0,
-        rotate: isLoaded ? layoutPosition.rotation : 0,
-        scale: isLoaded ? stackScale : fan.entrance.initialScale,
-        opacity: isOtherSelected ? fan.dimmedOpacity : 1,
-      }}
-      whileHover={
-        selectedCard || prefersReducedMotion || isMobileStack
-          ? undefined
-          : {
-              x: scaledPosition.x,
-              y: scaledPosition.y - fan.hover.liftY,
-              rotate: scaledPosition.rotation,
-              scale: fan.hover.scale,
-              transition: dial.hoverTween,
-            }
-      }
-      whileTap={selectedCard ? undefined : { scale: isMobileStack ? stackScale * 0.99 : fan.hover.tapScale }}
-      transition={{
-        type: 'spring',
-        stiffness: hasAnimatedIn ? fan.entrance.settleStiffness : fan.entrance.stiffness,
-        damping: hasAnimatedIn ? fan.entrance.settleDamping : fan.entrance.damping,
-        delay: !hasAnimatedIn && isLoaded ? index * fan.entrance.staggerDelay : 0,
-        ...(hasAnimatedIn && {
-          x: dial.hoverTween,
-          y: dial.hoverTween,
-          rotate: dial.hoverTween,
-          scale: dial.hoverTween,
-        }),
-      }}
-      onMouseEnter={() => !selectedCard && !isMobileStack && onCardHover(card.id)}
+      animate={animatePose}
+      transition={heroCardInteractionTransition({
+        hasAnimatedIn,
+        phase,
+        index,
+        isLoaded,
+        entrance: {
+          stiffness: fan.entrance.stiffness,
+          damping: fan.entrance.damping,
+          staggerDelay: fan.entrance.staggerDelay,
+        },
+      })}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
+      {...pointerHandlers}
       onClick={() => {
         tilt.reset();
+        clearPress();
         if (isMobileStack && !isFront) {
           onActivate(index);
           return;
@@ -185,7 +203,7 @@ function FanCard({
         card={card}
         isSelected={false}
         isGlass={isGlass}
-        isHeroMediaActive={(isHovered || (isMobileStack && isFront)) && !selectedCard}
+        isHeroMediaActive={(isFocused || (isMobileStack && isFront)) && !selectedCard}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>

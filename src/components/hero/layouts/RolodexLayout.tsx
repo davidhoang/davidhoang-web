@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
-import { handleCardHoverLeave } from '../cardHover';
+import {
+  applyHeroCardPhaseMotion,
+  heroCardInteractionTransition,
+  useHeroCardInteraction,
+} from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
 
@@ -39,8 +43,7 @@ function RolodexCard({
 }: RolodexCardProps) {
   const dial = useHeroDial();
   const rolodex = dial.rolodex;
-  const isSelected = selectedCard === card.id;
-  const isOtherSelected = selectedCard !== null && selectedCard !== card.id;
+  const prefersReducedMotion = useReducedMotion();
 
   const offset = (index - activeIndex + totalCards) % totalCards;
   const angle = offset * angleStep;
@@ -51,6 +54,54 @@ function RolodexCard({
   const isAdjacent = offset === 1 || offset === totalCards - 1;
 
   const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
+    cardId: card.id,
+    selectedCard,
+    hoveredCard,
+    isLoaded,
+    hoverDisabled: Boolean(prefersReducedMotion) || !isFront,
+    onCardHover,
+    onTiltReset: tilt.reset,
+  });
+
+  const restScale = isFront
+    ? rolodex.frontScale
+    : isAdjacent
+      ? rolodex.adjacentScale
+      : rolodex.backScale;
+  const restOpacity = isFront
+    ? rolodex.frontOpacity
+    : isAdjacent
+      ? rolodex.adjacentOpacity
+      : rolodex.backOpacity;
+
+  const restPose = {
+    x: isLoaded ? translateX * rolodex.translateXFactor : 0,
+    z: isLoaded ? translateZ : 0,
+    rotateY: isLoaded ? -angle * rolodex.rotateYFactor : 0,
+    scale: isLoaded ? restScale : rolodex.initialScale,
+    opacity: isLoaded ? restOpacity : 1,
+    y: 0,
+  };
+
+  const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
+    focused:
+      prefersReducedMotion || !isFront
+        ? undefined
+        : {
+            scale: rolodex.hoverScale,
+            y: rolodex.hoverLiftY,
+          },
+    pressed: { scale: rolodex.tapScale },
+    selected: {
+      x: 0,
+      rotateY: 0,
+      scale: rolodex.selectedScale,
+      y: rolodex.selectedLiftY,
+      opacity: 1,
+    },
+    dimmed: { opacity: rolodex.dimmedOpacity },
+  });
 
   return (
     <motion.div
@@ -68,46 +119,25 @@ function RolodexCard({
         rotateY: 0,
         x: 0,
         z: 0,
+        y: 0,
       }}
-      animate={{
-        x: isSelected ? 0 : (isLoaded ? translateX * rolodex.translateXFactor : 0),
-        z: isLoaded ? translateZ : 0,
-        rotateY: isSelected ? 0 : (isLoaded ? -angle * rolodex.rotateYFactor : 0),
-        scale: isSelected
-          ? rolodex.selectedScale
-          : (isLoaded
-            ? (isFront ? rolodex.frontScale : (isAdjacent ? rolodex.adjacentScale : rolodex.backScale))
-            : rolodex.initialScale),
-        opacity: isOtherSelected
-          ? rolodex.dimmedOpacity
-          : (isLoaded
-            ? (isFront ? rolodex.frontOpacity : (isAdjacent ? rolodex.adjacentOpacity : rolodex.backOpacity))
-            : 1),
-        y: isSelected ? rolodex.selectedLiftY : 0,
-      }}
-      whileHover={!isSelected && isFront ? {
-        scale: rolodex.hoverScale,
-        y: rolodex.hoverLiftY,
-        transition: dial.hoverTween,
-      } : {}}
-      whileTap={!isSelected ? { scale: rolodex.tapScale } : {}}
-      transition={{
-        type: 'spring',
-        stiffness: hasAnimatedIn ? rolodex.settleStiffness : rolodex.stiffness,
-        damping: hasAnimatedIn ? rolodex.settleDamping : rolodex.damping,
-        delay: !hasAnimatedIn && isLoaded ? index * rolodex.staggerDelay : 0,
-        ...(hasAnimatedIn && {
-          x: dial.hoverTween,
-          y: dial.hoverTween,
-          rotateY: dial.hoverTween,
-          scale: dial.hoverTween,
-        }),
-      }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+      animate={animatePose}
+      transition={heroCardInteractionTransition({
+        hasAnimatedIn,
+        phase,
+        index,
+        isLoaded,
+        entrance: {
+          stiffness: rolodex.stiffness,
+          damping: rolodex.damping,
+          staggerDelay: rolodex.staggerDelay,
+        },
+      })}
       onMouseMove={tilt.onMouseMove}
-      onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
+      {...pointerHandlers}
       onClick={() => {
         tilt.reset();
+        clearPress();
         if (isFront || isSelected) {
           onCardClick(card.id, card.link);
         } else {
@@ -119,7 +149,7 @@ function RolodexCard({
         card={card}
         isSelected={isSelected}
         isGlass={isGlass}
-        isHeroMediaActive={hoveredCard === card.id || isSelected}
+        isHeroMediaActive={isFocused || isSelected}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>

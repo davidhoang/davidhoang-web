@@ -266,11 +266,11 @@ Interactive motion must feel **fluid and uninterrupted**. Animations must never 
 
 1. **No remount-on-hover** — do not swap React `key`, conditionally mount/unmount media, or toggle CSS classes that restart `@keyframes` when hover moves between siblings. Keep both states in the DOM and crossfade with `opacity` (or `visibility`) so the animation timeline continues.
 2. **No idle frame between hovers** — when moving between cards in a group, do not clear hover state on `mouseleave` if the pointer entered another card in the same `.cards-wrapper`. Use `handleCardHoverLeave()` from `src/components/hero/cardHover.ts` (checks `relatedTarget` against the wrapper).
-3. **Separate entrance from interaction** — one-time deal/entrance animations use spring physics; after `hasAnimatedIn`, hover and layout shifts use **tween** transitions (`HERO_HOVER_TWEEN` in `cardHover.ts`, aligned with `--ease-emphasized`). Do not mix spring return paths with `whileHover` tweens on the same properties.
+3. **Single motion driver after entrance** — one-time deal/entrance animations use spring physics. After `hasAnimatedIn`, drive rest / focused / pressed / selected / dimmed entirely through `animate` targets from `heroCardInteraction.ts` (shared interaction springs). Do **not** use `whileHover` / `whileTap` on the same transform properties — gesture props interrupt springs mid-flight and cause jumpy returns when focus changes or a click lands.
 4. **Pause, don't reset** — looping video or drift motion pauses when idle; do not reset `currentTime` or re-add animation classes on every hover toggle.
 5. **Prefer transform/opacity** — state changes animate via `transform` and `opacity` only (see [Hover state hygiene](#hover-state-hygiene)). Filter/brightness shifts may crossfade but must not remount elements.
 
-**Hero reference:** `CardBase.tsx` (layered hero media), `StackedFanLayout.tsx` (post-entrance tween + wrapper-aware hover), `card-stack-hero.css` (`.card-hero-image--layer`, continuous drift).
+**Hero reference:** `CardBase.tsx` (layered hero media), `heroCardInteraction.ts` (phase + springs), `StackedFanLayout.tsx` (animate-driven focus/press), `cardHover.ts` (wrapper-aware hover leave), `card-stack-hero.css` (`.card-hero-image--layer`, continuous drift).
 
 ### Focus ring
 
