@@ -43,7 +43,7 @@ const notesPlaceholderSketch =
       <a href="/rss/notes.xml" class="notes-intro__rss">RSS feed</a>
     </p>
     <div class="stage-legend">
-      {Object.entries(noteStageInfo).map(([key, info]) => (
+      {Object.values(noteStageInfo).map((info) => (
         <span class="stage-item" title={info.description}>
           <span class="stage-icon">{info.icon}</span>
           <span class="stage-label">{info.label}</span>

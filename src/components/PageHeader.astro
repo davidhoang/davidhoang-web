@@ -94,7 +94,6 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     let currentScale = 1;
     let targetScale = 1;
     let velocity = 0;
-    let lastTime = performance.now();
     let animationFrameId: number | null = null;
     let isScrolling = false;
     let scrollTimeout: number | null = null;
@@ -130,9 +129,6 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     }
 
     function animate() {
-      const now = performance.now();
-      lastTime = now;
-
       const { offset, scale } = calculateParallaxValues();
       targetOffset = offset;
       targetScale = scale;
@@ -171,14 +167,12 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
       if (scrollTimeout) clearTimeout(scrollTimeout);
 
       if (!animationFrameId) {
-        lastTime = performance.now();
         animationFrameId = requestAnimationFrame(animate);
       }
 
       scrollTimeout = setTimeout(() => {
         isScrolling = false;
         if (!animationFrameId) {
-          lastTime = performance.now();
           animationFrameId = requestAnimationFrame(animate);
         }
       }, 50) as unknown as number;
@@ -192,7 +186,6 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     currentOffset = targetOffset;
     targetScale = initialValues.scale;
     currentScale = targetScale;
-    lastTime = performance.now();
     animate();
   }
 

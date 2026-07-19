@@ -116,7 +116,7 @@ const hasThemes = themes.length > 0;
 )}
 
 
-<script define:vars={{ themes, currentDate }}>
+<script is:inline define:vars={{ themes, currentDate }}>
   // NOTE: This block is inlined into HTML as plain JS — no TypeScript (e.g. `as Foo`) or the whole script fails to parse and nothing runs.
   // Property maps — single source of truth for theme application and removal
   const THEME_PROPS = [

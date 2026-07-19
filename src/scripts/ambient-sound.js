@@ -23,7 +23,8 @@ class AmbientSound {
   init() {
     if (this.audioContext) return;
 
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const AudioContextCtor = window.AudioContext || window['webkitAudioContext'];
+    this.audioContext = new AudioContextCtor();
     this.masterGain = this.audioContext.createGain();
     this.masterGain.gain.value = 0;
     this.masterGain.connect(this.audioContext.destination);
@@ -36,7 +37,6 @@ class AmbientSound {
     if (!themeData) return 'calm';
 
     const name = (themeData.name || '').toLowerCase();
-    const desc = (themeData.description || '').toLowerCase();
     const linkStyle = themeData.links?.style || '';
     const cardStyle = themeData.cards?.style || '';
     const texture = themeData.background?.texture || '';

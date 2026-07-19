@@ -2,9 +2,8 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import AiDisclaimer from '../components/AiDisclaimer.astro';
-import { readFile } from 'fs/promises';
-import { fileURLToPath } from 'url';
-import { join } from 'path';
+import bioContent from '../content/bio.md?raw';
+import aiSummaryData from '../data/bio-ai-summary.json';
 
 // Page metadata
 const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -41,17 +40,7 @@ function markdownToHtml(markdown: string): string {
 }
 
 // Parse bio markdown file
-async function parseBioMarkdown() {
-  // Resolve path relative to project root (works in both dev and build)
-  const currentFileUrl = import.meta.url;
-  const currentFilePath = fileURLToPath(new URL('.', currentFileUrl));
-  // Go up from dist/server/pages to project root
-  const projectRoot = currentFilePath.includes('dist') 
-    ? join(currentFilePath, '../../../')
-    : join(currentFilePath, '../../');
-  const bioPath = join(projectRoot, 'src/content/bio.md');
-  const bioContent = await readFile(bioPath, 'utf-8');
-  
+function parseBioMarkdown() {
   // Split by H2 headings (##)
   const lines = bioContent.split('\n');
   const bios: Array<{ title: string; content: string; isAI?: boolean }> = [];
@@ -89,34 +78,19 @@ async function parseBioMarkdown() {
 }
 
 // Load AI Summary if available
-async function loadAISummary() {
-  try {
-    // Resolve path relative to project root (works in both dev and build)
-    const currentFileUrl = import.meta.url;
-    const currentFilePath = fileURLToPath(new URL('.', currentFileUrl));
-    // Go up from dist/server/pages to project root
-    const projectRoot = currentFilePath.includes('dist') 
-      ? join(currentFilePath, '../../../')
-      : join(currentFilePath, '../../');
-    const aiSummaryPath = join(projectRoot, 'src/data/bio-ai-summary.json');
-    const aiSummaryContent = await readFile(aiSummaryPath, 'utf-8');
-    const aiSummary = JSON.parse(aiSummaryContent);
-    
-    if (aiSummary.content && aiSummary.content.trim()) {
-      return {
-        title: 'AI Summary',
-        content: markdownToHtml(aiSummary.content),
-        isAI: true
-      };
-    }
-  } catch (error) {
-    // File doesn't exist or is empty, that's okay
+function loadAISummary() {
+  if (aiSummaryData.content && aiSummaryData.content.trim()) {
+    return {
+      title: 'AI Summary',
+      content: markdownToHtml(aiSummaryData.content),
+      isAI: true,
+    };
   }
   return null;
 }
 
-const bioSections = await parseBioMarkdown();
-const aiSummary = await loadAISummary();
+const bioSections = parseBioMarkdown();
+const aiSummary = loadAISummary();
 
 // Add AI Summary at the end if available
 if (aiSummary) {

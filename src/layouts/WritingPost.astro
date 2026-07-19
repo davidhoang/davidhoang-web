@@ -50,8 +50,8 @@ const breadcrumbJsonLd = {
 ---
 
 <WritingLayout title={title} description={pageDescription} ogImage={ogImage} disableContentMoodFilter>
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <BlogMeta slot="head" ogImage={ogImage} publishDate={pubDate} tags={tags} />
 
   <article class="writing-post">

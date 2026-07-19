@@ -14,7 +14,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { contrastRatio, validateThemeContrast } from './lib/contrast.mjs';
+import { validateThemeContrast } from './lib/contrast.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const THEMES_PATH = join(__dirname, '..', 'src', 'data', 'daily-themes.json');

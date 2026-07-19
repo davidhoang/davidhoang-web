@@ -207,14 +207,8 @@ export default function StackedFanLayout({
   const fan = dial.stackedFan;
   const isGlass = cardStyle === 'glass';
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
-  const [isMobileStack, setIsMobileStack] = useState(
-    () => typeof window !== 'undefined' && isMobileHeroViewport()
-  );
-  const [mobileDims, setMobileDims] = useState<MobileHeroCardDimensions | null>(() =>
-    typeof window !== 'undefined' && isMobileHeroViewport()
-      ? readMobileHeroCardDimensions(window.innerWidth)
-      : null
-  );
+  const [isMobileStack, setIsMobileStack] = useState(false);
+  const [mobileDims, setMobileDims] = useState<MobileHeroCardDimensions | null>(null);
   const [activeIndex, setActiveIndex] = useState(() => Math.floor(cards.length / 2));
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const prefersReducedMotion = useReducedMotion();

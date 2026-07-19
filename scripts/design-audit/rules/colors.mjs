@@ -2,7 +2,6 @@ import { extractStyleBlocks } from '../shared.mjs';
 
 const HEX_COLOR = /#[0-9a-fA-F]{3,8}\b/;
 const RGB_LITERAL = /\b(?:rgb|rgba|hsl|hsla)\(\s*(?!var\()/;
-const NAMED_COLOR = /\b(?:white|black|red|blue|green|gray|grey)\b/i;
 
 /** @param {ReturnType<import('../shared.mjs').createContext>} ctx */
 export function auditAstroColors(ctx, file, content) {

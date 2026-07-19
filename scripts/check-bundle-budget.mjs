@@ -1,8 +1,8 @@
 import { gzipSync } from 'node:zlib';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, basename } from 'node:path';
 
-const CLIENT_ASSET_DIR = 'dist/client/assets';
+const CLIENT_ASSET_DIRS = ['dist/client/assets', 'dist/client/_astro', '.vercel/output/static/_astro'];
 const KIB = 1024;
 
 const budgets = {
@@ -37,14 +37,15 @@ function namedChunkKey(file) {
   return Object.keys(namedChunkGzipCeilingsKiB).find((key) => name.startsWith(`${key}.`));
 }
 
-let files;
-try {
-  files = walk(CLIENT_ASSET_DIR).filter((file) => file.endsWith('.js'));
-} catch {
-  console.error(`Bundle budget check requires a production build at ${CLIENT_ASSET_DIR}.`);
+const clientAssetDir = CLIENT_ASSET_DIRS.find((dir) => existsSync(dir) && walk(dir).some((file) => file.endsWith('.js')));
+
+if (!clientAssetDir) {
+  console.error(`Bundle budget check requires a production build at one of: ${CLIENT_ASSET_DIRS.join(', ')}.`);
   console.error('Run `npm run build` first.');
   process.exit(1);
 }
+
+const files = walk(clientAssetDir).filter((file) => file.endsWith('.js'));
 
 const jsAssets = files.map((file) => {
   const source = readFileSync(file);

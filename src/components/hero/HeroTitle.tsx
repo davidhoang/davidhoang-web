@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { rotatingRoles } from './types';
 
@@ -9,12 +8,8 @@ interface HeroTitleProps {
   isVisible?: boolean;
 }
 
-// Pick a random role once on module load so it's stable for the session
-const initialRoleIndex = Math.floor(Math.random() * rotatingRoles.length);
-
 export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTitleProps) {
-  const [roleIndex] = useState(initialRoleIndex);
-  const role = rotatingRoles[roleIndex];
+  const role = rotatingRoles[0];
   const roleAriaLabel = role.link.startsWith('http')
     ? `${role.label} — Proof of Concept newsletter (opens in new tab)`
     : `${role.label} — Investing (opens in new tab)`;
