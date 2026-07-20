@@ -9,6 +9,7 @@
 
 /** @type {DiversityDimension[]} */
 export const DIVERSITY_DIMENSIONS = [
+  { key: 'recipe', label: 'Recipe', weight: 3, get: (t) => t.artDirection?.recipe },
   { key: 'heroLayout', label: 'Hero', weight: 3, get: (t) => t.hero?.layout },
   { key: 'gridStyle', label: 'Grid', weight: 3, get: (t) => t.layout?.gridStyle },
   {
@@ -35,7 +36,6 @@ export const DIVERSITY_DIMENSIONS = [
 ];
 
 export const DEFAULT_SIMILARITY_THRESHOLD = 0.55;
-export const MAX_DIVERSITY_ATTEMPTS = 3;
 /** Minimum weighted dimensions that must differ from yesterday's theme */
 export const MIN_CHANGES_FROM_YESTERDAY = 3;
 
@@ -179,7 +179,10 @@ function countDimensionChanges(themeA, themeB) {
   for (const dim of DIVERSITY_DIMENSIONS) {
     const a = dim.get(themeA);
     const b = dim.get(themeB);
-    if (a == null || b == null || a === '' || b === '') {
+    const aMissing = a == null || a === '';
+    const bMissing = b == null || b === '';
+    if (aMissing && bMissing) continue;
+    if (aMissing || bMissing) {
       changes += 1;
       continue;
     }
@@ -200,6 +203,7 @@ function formatThemeSummaryLine(theme) {
   const body = resolveFontName(theme.fonts?.body) || '?';
 
   return [
+    `Recipe: ${theme.artDirection?.recipe || '?'}`,
     `Hero: ${theme.hero?.layout || '?'}`,
     `Grid: ${theme.layout?.gridStyle || '?'}`,
     `Cards: ${theme.cards?.style || '?'}`,
@@ -264,36 +268,5 @@ export function formatRecentThemesPromptSection(recentThemes) {
     '',
     'Also avoid reusing or echoing these theme names:',
     ...recentThemes.map((t) => `- "${t.name}"`),
-  ].join('\n');
-}
-
-/**
- * Feedback appended on retry when diversity check fails.
- *
- * @param {ReturnType<typeof assessDiversity>} assessment
- * @param {number} [threshold]
- * @returns {string}
- */
-export function formatDiversityRetrySection(assessment, threshold = DEFAULT_SIMILARITY_THRESHOLD) {
-  const closest = assessment.closestTheme;
-  const name = closest?.name || 'a recent theme';
-  const scorePct = Math.round(assessment.score * 100);
-  const thresholdPct = Math.round(threshold * 100);
-
-  const matchLines = assessment.matches
-    .slice(0, 8)
-    .map((m) => `- ${m.label}: "${m.value}"`)
-    .join('\n');
-
-  return [
-    '## DIVERSITY RETRY — YOUR LAST OUTPUT WAS TOO SIMILAR',
-    '',
-    `Similarity to "${name}": ${scorePct}% (max allowed: ${thresholdPct}%).`,
-    `Only ${assessment.changesFromYesterday} dimensions changed from yesterday (need at least ${MIN_CHANGES_FROM_YESTERDAY}).`,
-    '',
-    'These values matched a recent theme and MUST change:',
-    matchLines || '- Too many overlapping choices overall',
-    '',
-    'Generate a fresh JSON theme that deliberately pivots: different hero layout, grid style, font pairing, and footer treatment.',
   ].join('\n');
 }

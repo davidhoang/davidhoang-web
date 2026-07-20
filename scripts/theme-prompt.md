@@ -6,7 +6,7 @@ This file controls how daily themes are generated. Edit this to change the creat
 
 ## Creative Philosophy
 
-You are an AVANT-GARDE designer creating dramatically different daily themes. Each theme should be so distinct that returning visitors immediately notice the transformation. This is not subtle refinement—this is REINVENTION.
+You are an art director creating clearly different daily themes. Each theme should make its scheduled recipe immediately recognizable to returning visitors through one dominant gesture, strong hierarchy, and disciplined supporting choices.
 
 Think like a creative director at a design studio exploring a new brand identity each day. Draw from art history, architecture, film, music, fashion, and culture.
 
@@ -38,7 +38,7 @@ Use evocative, specific, memorable names:
 
 ## Style Direction
 
-### Push the Boundaries
+### Push the Boundaries Within the Recipe
 - Try unexpected color combinations (olive + hot pink, rust + electric blue)
 - Dramatically vary typography day-to-day (brutalist uppercase → flowing script)
 - Alternate between extremes: maximalist chaos one day, stark minimalism the next
@@ -128,7 +128,7 @@ These rules prevent broken layouts. They always apply regardless of grid style.
 
 ## Responsive Constraints (MUST FOLLOW)
 
-Every theme must render correctly across the full viewport range — 320px phones to 2560px ultrawide. Theme personality should come from **typography, color, and padding** — never from layout positioning. The site nav, hero structure, and section flow are fixed.
+Every theme must render correctly across the full viewport range — 320px phones to 2560px ultrawide. Theme personality should come from **typography, color, padding, and selection among framework-owned layout recipes** — never from arbitrary coordinates. The site nav, hero offset, and section order are fixed; hero and inner-grid templates are selected from safe enums.
 
 ### What themes vary
 - Typography: heading/body fonts, weights, letter-spacing, line-height, transforms, scale ratio
@@ -168,8 +168,8 @@ Don't default to centered single-column layouts. Explore these patterns to creat
 - Use `gridStyle: "asymmetric"` in the theme config
 
 ### Split-Screen
-- Divide the viewport into two distinct halves (vertical or horizontal)
-- Each half can have different background colors or treatments
+- Use framework-provided image/text diptychs inside sections
+- Pair two opaque tonal surfaces without changing section order
 - Great for high-contrast themes and duotone concepts
 - Use `gridStyle: "split"` in the theme config
 
@@ -180,8 +180,8 @@ Don't default to centered single-column layouts. Explore these patterns to creat
 - Use `gridStyle: "magazine"` in the theme config
 
 ### Sidebar Layout
-- Persistent side panel with navigation or decorative content
-- Content offset to one side, creating an asymmetric reading experience
+- Section titles form an editorial rail beside the main content
+- Content is offset to one side without adding a second navigation system
 - Works especially well with literary, archival, and dashboard-inspired themes
 - Use `gridStyle: "sidebar"` in the theme config
 
@@ -200,29 +200,26 @@ Push beyond safe, predictable sizing. Use dramatic scale contrasts:
 - **Standard body** (1rem–1.125rem): Readable paragraph text
 - **Large display** (4rem–6rem): Hero headlines that dominate the viewport
 - **Jumbo display** (8rem–12rem): Single words or short phrases as visual architecture
-- Use `scaleRatio` values to control the progression: `1.2` (minor third) for subtle, `1.414` (augmented fourth) for moderate, `1.618` (golden ratio) for dramatic, `2.0`+ for extreme
+- Use `scaleRatio` values to control the progression: `1.2` (minor third) for subtle, `1.414` (augmented fourth) for moderate, `1.618` (golden ratio) for dramatic, `2.0` for extreme
 
-### Variable Font Axes
-Go beyond weight — use variable font axes for expressive typography:
+### Font Capability Boundary
+The runtime guarantees font family, weight, letter-spacing, line-height, transform, and scale. It does not guarantee width, slant, or optical-size axes for every selected font.
 
-- **Weight** (`wght`): Full range from hairline (100) to ultra-black (900+)
-- **Width** (`wdth`): Condensed (75) to expanded (125) for spatial control
-- **Slant** (`slnt`): Continuous italic axis (-12 to 0) for subtle or dramatic lean
-- **Optical sizing** (`opsz`): Fine-tune letterforms for display (72+) vs body (10-14) sizes
-- Use `fontVariationSettings` in theme config, e.g., `"'wght' 800, 'wdth' 90, 'slnt' -5"`
+- Set `fontVariationSettings` to `"normal"`.
+- Create expression through the supported typography fields instead of axes that may silently do nothing.
 
-### Optical Sizing Variations
-Match typographic rendering to context:
+### Optical Hierarchy
+Match typographic treatment to context:
 
 - **Display sizes (48px+)**: Tighter letter-spacing, thinner strokes, more elegant details
 - **Body sizes (14-18px)**: Wider letter-spacing, sturdier strokes for readability
 - **Caption sizes (10-12px)**: Maximum openness and clarity
-- Variable fonts with an `opsz` axis handle this automatically — prefer these fonts for sophisticated themes
+- Use the theme's scale and letter-spacing tokens to make those tiers visibly distinct
 
 ### Typography Combination Ideas
 - Jumbo condensed headline + micro-sized body = Extreme hierarchy
-- Variable weight animation on hover = Interactive typographic play
-- Ultra-wide expanded headings + narrow body text = Spatial tension
+- Heavy display headings + quiet captions = Hierarchical contrast
+- Uppercase headings + narrow reading measure = Spatial tension
 - Hairline display text + bold captions = Inverted weight hierarchy
 
 ## Advanced Color Theory Guidelines

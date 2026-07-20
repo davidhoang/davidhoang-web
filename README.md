@@ -67,26 +67,35 @@ The website features an AI-powered theme generation system that creates a unique
 ### How It Works
 
 1. A GitHub Action runs daily at 6am UTC (or can be triggered manually)
-2. The script calls the Claude API with a creative prompt
-3. Claude generates a complete theme configuration including:
+2. A deterministic scheduler rotates art-direction recipes, hero templates, and grid templates with cooldowns
+3. Claude generates three styling candidates inside the scheduled structure, including:
    - **Colors:** Light and dark mode palettes with tinted backgrounds
    - **Typography:** Heading and body font pairings from Google Fonts
-   - **Navigation:** Style (floating, full-width, minimal, bold-bar)
-   - **Cards:** Treatment styles (flat, elevated, glass, outlined, filled)
-   - **Layout:** Border radius, spacing, container width
-   - **Hero:** Layout variations (centered, left-aligned, minimal, bold)
+   - **Cards:** Opaque treatment styles (flat, elevated, outlined, filled)
+   - **Layout:** Safe inner-grid recipes, border radius, spacing, and container width
+   - **Hero:** Framework templates (stacked-fan, editorial, scattered, rolodex, cinematic)
    - **Links:** Interaction styles (underline, highlight, animated-underline, color-only, bracket)
    - **Background:** CSS textures (grain, dots, grid, gradient)
    - **Images:** Treatment and hover effects
    - **Footer:** Style variations (classic, minimal, brutalist, editorial, retro, etc.)
    - **Shaders:** Optional WebGL background effects (mesh-gradient, waves, dot-grid, etc.)
-4. The theme is saved to `src/data/daily-themes.json` with 7 days of history
+4. Every model response passes a strict schema: exact theme keys, allowlisted enums, canonical hex colors, bounded CSS values, and capped strings/arrays
+5. Playwright renders every candidate and the recent history at 390px, 1440px, and 1920px
+6. The safest, most visually distinct candidate is saved to `src/data/daily-themes.json` with 7 days of history
+
+Navigation dimensions and page scaffolding remain framework-controlled across every theme.
 
 ### Running Theme Generation Locally
 
 ```bash
 # Requires ANTHROPIC_API_KEY in .env or environment
 npm run generate-theme
+
+# One-time install for full local render-and-rank support
+npx playwright install chromium
+
+# Run the same multi-layout browser safety matrix used by CI
+npm run test:theme-renderer
 ```
 
 #### CLI Options
@@ -100,6 +109,14 @@ node scripts/generate-daily-theme.mjs --inspiration "Bauhaus"
 
 # Add custom creative direction
 node scripts/generate-daily-theme.mjs --prompt "Use warm earth tones"
+
+# List or force an art-direction recipe
+node scripts/generate-daily-theme.mjs --list-recipes
+node scripts/generate-daily-theme.mjs --recipe "gallery"
+
+# Change candidate count or skip browser rendering for a quick local fallback
+node scripts/generate-daily-theme.mjs --candidates 5
+node scripts/generate-daily-theme.mjs --skip-render
 ```
 
 ### Customizing Theme Generation
@@ -124,7 +141,7 @@ Generated themes are stored in `src/data/daily-themes.json`:
       "colors": { "light": {...}, "dark": {...} },
       "fonts": { "heading": {...}, "body": {...} },
       "typography": {...},
-      "navigation": {...},
+      "artDirection": { "recipe": "gallery", ... },
       "cards": {...},
       "layout": {...},
       "hero": {...},

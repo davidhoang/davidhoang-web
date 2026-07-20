@@ -27,6 +27,12 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      - name: Install theme render browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Theme renderer integration test
+        run: npm run test:theme-renderer
+
       - name: Design compliance
         run: npm run audit:design:check
 

@@ -14,8 +14,12 @@
  *
  * Options:
  *   --inspiration "Name"   Pick a design inspiration from the bank
+ *   --recipe "id"          Force an art-direction recipe
  *   --prompt "text"        Additional creative direction
+ *   --candidates 3          Number of candidates to render and rank (1-5)
+ *   --skip-render           Rank from theme data only (local fallback)
  *   --list                 List available inspirations
+ *   --list-recipes         List available art-direction recipes
  *   --list-context         List context files in scripts/context/
  */
 
@@ -29,11 +33,27 @@ import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 import { validateThemeContrast } from './lib/contrast.mjs';
 import { enforceHeadingHeavierThanBody } from './lib/typography-weights.mjs';
 import {
+  enforceThemeRecipe,
+  formatThemeRecipePrompt,
+  listThemeRecipes,
+} from './lib/theme-recipes.mjs';
+import { scheduleThemeStructure } from './lib/theme-scheduler.mjs';
+import { renderThemeSet } from './lib/theme-renderer.mjs';
+import { rankThemeCandidates, recentThemeId } from './lib/theme-ranking.mjs';
+import { validateGeneratedTheme } from './lib/theme-validation.mjs';
+import {
   assessDiversity,
-  formatDiversityRetrySection,
   formatRecentThemesPromptSection,
-  MAX_DIVERSITY_ATTEMPTS,
 } from './lib/theme-diversity.mjs';
+
+const DEFAULT_THEME_CANDIDATE_COUNT = 3;
+const CANDIDATE_LENSES = [
+  'Typography-led: maximize hierarchy and font contrast while keeping surfaces restrained.',
+  'Material-led: make card treatment, borders, radius, image crop, and density carry the concept.',
+  'Color-led: create a memorable palette and image treatment while preserving the recipe hierarchy.',
+  'Rhythm-led: push the contrast between dense detail and generous breathing room.',
+  'Restraint-led: remove one expected effect and make the remaining primitives exceptionally precise.',
+];
 
 // Color conversion helpers for surface harmony validation
 function hexToHsl(hex) {
@@ -181,25 +201,25 @@ function buildThemePrompt(headingFonts, bodyFonts) {
   const headingFontList = headingFonts.map(formatFont).join('\n');
   const bodyFontList = bodyFonts.map(formatFont).join('\n');
 
-  return `You are an AVANT-GARDE designer creating a DRAMATICALLY different daily theme for a portfolio website. Each theme must be SO BOLD that visitors immediately notice the change - this is not subtle refinement, this is TRANSFORMATION!
+  return `You are an art director creating a clearly different daily theme for a portfolio website. Make the scheduled recipe immediately legible through one dominant gesture and disciplined supporting choices.
 
-## CRITICAL: MAKE IT OBVIOUS!
+## CRITICAL: MAKE THE RECIPE OBVIOUS
 - Someone visiting two days in a row should think "Wow, this looks completely different!"
 - Every element should reinforce the theme's personality
-- The theme should feel like a different website, not just a color tweak
+- The theme should feel intentionally recomposed, not like a color tweak or a pile of effects
 
-## COLOR REQUIREMENTS (BE EXTREME!)
-Light mode backgrounds - MUST be noticeably tinted, not white:
+## COLOR REQUIREMENTS (BE SPECIFIC)
+Light mode backgrounds — use a deliberate near-neutral or tint rather than accidental default white:
 - Warm: #FFF5E6 (peach), #FEF3E2 (cream), #FDEBD0 (sand), #FDEDEC (blush), #FDF2E9 (apricot)
 - Cool: #E8F6F3 (mint), #EBF5FB (ice), #F4ECF7 (lavender), #E8DAEF (lilac), #D5F5E3 (seafoam)
 - Bold: #FCF3CF (lemon), #FADBD8 (rose), #D4EFDF (sage), #D6EAF8 (sky)
 
-Dark mode backgrounds - MUST be tinted, not pure black:
+Dark mode backgrounds — use a deliberate near-neutral or tint rather than pure black:
 - Warm: #1A0F0A (chocolate), #1C1410 (espresso), #2C1810 (mahogany), #261A11 (umber)
 - Cool: #0A1628 (navy), #0D1F22 (forest), #1A1A2E (midnight), #16213E (deep blue), #1B1B3A (purple night)
 - Bold: #0F2027 (dark teal), #1A1A2E (indigo night), #2D132C (wine)
 
-Link colors - MUST be SATURATED and VIBRANT:
+Link colors — create an unmistakable, accessible accent. Use saturation for energetic recipes and deeper tonal contrast for restrained recipes:
 - Electric: #FF6B35, #00D4AA, #FF3366, #00BFFF, #FFD700, #FF1493, #00FF7F, #FF4500
 - Rich: #E63946, #2A9D8F, #E9C46A, #F4A261, #264653, #023E8A, #9D4EDD
 
@@ -211,7 +231,7 @@ Cards can be: project cards, content blocks, any boxed element
 - cardStyle: "flat" (no shadow, border only) | "elevated" (shadow) | "outlined" (strong border) | "filled" (solid bg) — cards must always be opaque, never transparent
 - cardShadow: "none" | "0 2px 8px rgba(0,0,0,0.08)" | "0 8px 32px rgba(0,0,0,0.12)" | "0 24px 48px rgba(0,0,0,0.2)"
 - cardBorderWidth: "0px" | "1px" | "2px" | "3px"
-- cardPadding: "1rem" to "3rem"
+- cardPadding: "1rem" to "2rem"
 
 ## FONT PAIRINGS - USE TWO FONTS!
 You MUST pick a HEADING font and a BODY font - they should contrast but complement.
@@ -241,7 +261,7 @@ Mix up these dramatically (within that rule):
 - headingTransform: "none" | "uppercase" | "lowercase"
 
 ## LAYOUT - CREATE DISTINCT PERSONALITIES!
-- borderRadius: "0px" (brutalist) vs "24px" (soft) vs "9999px" (pill)
+- borderRadius: "0px" (brutalist) to "24px" (soft); pill radii are reserved for fixed component primitives
 - sectionSpacing: "2rem" (compact) vs "6rem" (dramatic whitespace)
 - contentPadding: "1rem" (minimum inset) vs "2rem" (cushioned) — never below 1rem
 - containerMaxWidth: "640px" (narrow/focused) to "1200px" (wide/expansive)
@@ -332,7 +352,7 @@ WebGL shader effects for dynamic, living backgrounds (via Paper Design):
 - "simplex": Simplex noise patterns - smooth, ethereal
 
 Shader colors should use 2-4 colors from the theme palette (link color, accent, bg variants).
-Keep opacity subtle (0.1-0.2) so content remains readable.
+Keep opacity subtle (0.05-0.15) so content remains readable.
 
 Match shaders to theme:
 - Editorial/Classic → grain or none
@@ -350,8 +370,8 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "contrastMode": "standard|high|low",
     "light": {
       "--color-text": "#hex",
-      "--color-bg": "#hex (TINTED!)",
-      "--color-link": "#hex (VIBRANT!)",
+      "--color-bg": "#hex (deliberate near-neutral or tint)",
+      "--color-link": "#hex (clear accessible accent)",
       "--color-link-hover": "#hex",
       "--color-border": "#hex",
       "--color-muted": "#hex",
@@ -362,8 +382,8 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     },
     "dark": {
       "--color-text": "#hex",
-      "--color-bg": "#hex (TINTED!)",
-      "--color-link": "#hex (VIBRANT!)",
+      "--color-bg": "#hex (deliberate near-neutral or tint)",
+      "--color-link": "#hex (clear accessible accent)",
       "--color-link-hover": "#hex",
       "--color-border": "#hex",
       "--color-muted": "#hex",
@@ -385,18 +405,18 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
     "headingLetterSpacing": "-0.04em to 0.08em",
     "headingTransform": "none|uppercase|lowercase",
     "scaleRatio": "1.2|1.333|1.414|1.618|2.0 (type scale ratio)",
-    "fontVariationSettings": "'wght' 100-900, 'wdth' 75-125, 'slnt' -12-0, 'opsz' 10-72 (optional, for variable fonts)"
+    "fontVariationSettings": "normal"
   },
   "cards": {
     "style": "flat|elevated|outlined|filled",
     "shadow": "CSS shadow or none",
     "borderWidth": "0px-3px",
-    "padding": "1rem-3rem"
+    "padding": "1rem-2rem"
   },
   "layout": {
     "borderRadius": "0px-24px",
     "containerMaxWidth": "640px-1200px",
-    "sectionSpacing": "2rem-8rem",
+    "sectionSpacing": "2rem-6rem",
     "contentPadding": "1rem-2rem",
     "gridStyle": "standard|asymmetric|split|magazine|sidebar"
   },
@@ -424,13 +444,12 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
   }
 }
 
-EXAMPLE DRAMATIC THEMES:
-1. "Brutalist Manifesto" - Gray bg, RED links, Bebas Neue uppercase headings, full-width nav, flat cards, editorial hero, underline links, grid texture, grayscale images with colorize hover, brutalist footer, dot-grid shader
-2. "Tropical Editorial" - Warm peach bg, coral links, Playfair Display headings, floating nav, elevated cards, stacked-fan hero, animated-underline links, none texture, vivid images with lift hover, editorial footer, grain shader
-3. "Hacker Terminal" - Dark green bg, neon green links, Space Grotesk headings, outlined cards, scattered hero, color-only links, grain texture, muted images with glow hover, retro footer, neuro shader
-4. "Lavender Dream" - Soft purple bg, violet links, Fraunces headings, elevated cards, cinematic hero, highlight links, gradient texture, muted images with zoom hover, gradient footer, mesh-gradient shader
-5. "Swiss Precision" - Cream bg, blue links, Outfit uppercase headings, flat cards, rolodex hero, bracket links, dots texture, vivid images with lift hover, minimal footer, waves shader
-6. "Noir Cinema" - Near-black bg, gold links, Bodoni Moda headings, elevated cards, scattered hero, underline links, grain texture, grayscale images with colorize hover, inverted footer, perlin shader
+EXAMPLE COHESIVE THEMES (use as quality bars, never as templates to copy):
+1. "Concrete Chorus" — poster recipe, warm gray + vermilion, condensed uppercase display, flat sharp cards, grayscale imagery, no shader
+2. "Field Notes" — journal recipe, moss paper palette, serif/sans pairing, magazine grid, muted imagery, editorial footer, no shader
+3. "Blue Archive" — index recipe, navy + cyan, compact technical type, outlined cards, sidebar grid, dot-grid shader
+4. "Afterimage Hall" — gallery recipe, tonal violet, cinematic hero, filled soft cards, vivid imagery, barely visible mesh-gradient shader
+5. "Tangerine Static" — playground recipe, cream + electric orange, scattered hero, filled cards, animated links, no shader
 
 Today is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} - let this inspire a UNIQUE theme!`;
 }
@@ -448,7 +467,7 @@ function buildFontStack(fontInfo) {
 /**
  * Parse and normalize raw theme JSON from Claude.
  */
-function normalizeThemeData(themeData, headingFonts, bodyFonts, context) {
+function normalizeThemeData(themeData, headingFonts, bodyFonts, context, recipe, schedule) {
   const allFonts = [...headingFonts, ...bodyFonts];
 
   if (themeData.fonts) {
@@ -490,6 +509,8 @@ function normalizeThemeData(themeData, headingFonts, bodyFonts, context) {
       body: themeData.font
     };
   }
+
+  enforceThemeRecipe(themeData, recipe, schedule);
 
   const validGridStyles = ['standard', 'asymmetric', 'split', 'magazine', 'sidebar'];
   if (!themeData.layout) themeData.layout = {};
@@ -692,6 +713,11 @@ async function generateTheme(options = {}) {
   const today = new Date().toISOString().split('T')[0];
   const recentThemes = loadRecentThemes(options.replaceDate || today);
   const recentThemesSection = formatRecentThemesPromptSection(recentThemes);
+  const schedule = scheduleThemeStructure(recentThemes, {
+    recipeName: options.recipeName,
+    date: today,
+  });
+  const recipeSection = formatThemeRecipePrompt(schedule.recipe, schedule);
 
   // Load personal context from scripts/context/ folder
   const context = loadContext();
@@ -699,6 +725,11 @@ async function generateTheme(options = {}) {
   console.log('Generating daily theme with Claude...');
   console.log(`Inspiration: ${inspiration.inspirationName}`);
   console.log(`Time period: ${inspiration.timePeriod}`);
+  console.log(`Recipe: ${schedule.recipe.name} (${schedule.recipe.id})`);
+  console.log(`Scheduled structure: ${schedule.heroLayout} hero / ${schedule.gridStyle} grid`);
+  if (schedule.relaxation) {
+    console.warn(`Cooldown relaxation: ${schedule.relaxation}`);
+  }
   if (context.image) {
     console.log(`Context image: ${context.image.filename}`);
   }
@@ -716,7 +747,7 @@ async function generateTheme(options = {}) {
     ? `\n\n## PERSONAL CONTEXT\nUse this as additional mood/inspiration — blend it naturally with the design inspiration above.\n\n${context.markdown.text}`
     : '';
 
-  const basePrompt = `${creativeDirection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}`;
+  const basePrompt = `${creativeDirection}\n\n${recipeSection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}`;
   const contextSections = [
     recentThemesSection ? `\n\n${recentThemesSection}` : '',
     markdownContext,
@@ -731,78 +762,106 @@ async function generateTheme(options = {}) {
     });
   }
 
-  const maxAttempts = options.skipDiversityRetry ? 1 : MAX_DIVERSITY_ATTEMPTS;
-  let diversityFeedback = '';
-  /** @type {object | null} */
-  let bestTheme = null;
-  /** @type {ReturnType<typeof assessDiversity> | null} */
-  let bestAssessment = null;
+  const candidateCount = Math.min(5, Math.max(1, options.candidateCount || DEFAULT_THEME_CANDIDATE_COUNT));
+  const candidates = [];
 
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    if (attempt > 1) {
-      console.log(`\n--- Diversity retry ${attempt}/${maxAttempts} ---\n`);
-    }
-
-    const fullPrompt = `${basePrompt}${contextSections}${diversityFeedback ? `\n\n${diversityFeedback}` : ''}`;
-    const contentBlocks = [
-      ...imagePrefixBlocks,
-      { type: 'text', text: fullPrompt },
-    ];
-
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      messages: [
-        {
-          role: 'user',
-          content: contentBlocks
-        }
-      ]
+  for (let index = 0; index < candidateCount; index += 1) {
+    console.log(`\n--- Generating candidate ${index + 1}/${candidateCount} ---`);
+    const candidateDirection = [
+      '## CANDIDATE EXPLORATION',
+      `Candidate ${index + 1} of ${candidateCount}`,
+      `Lens: ${CANDIDATE_LENSES[index % CANDIDATE_LENSES.length]}`,
+      'Keep the scheduled hero, grid, and recipe. Make the styling materially different from the other likely interpretations of this recipe.',
+    ].join('\n');
+    const fullPrompt = `${basePrompt}${contextSections}\n\n${candidateDirection}`;
+    const themeData = await requestThemeCandidate({
+      client,
+      fullPrompt,
+      imagePrefixBlocks,
+      headingFonts,
+      bodyFonts,
+      context,
+      recipe: schedule.recipe,
+      schedule,
     });
-
-    const responseText = message.content[0].text.trim();
-
-    let themeData;
-    try {
-      themeData = parseThemeResponse(responseText);
-    } catch (parseError) {
-      console.error('Failed to parse theme JSON:', parseError.message);
-      console.error('Response was:', responseText);
-      if (attempt === maxAttempts) {
-        process.exit(1);
-      }
-      diversityFeedback = '## PARSE ERROR\nYour previous response was not valid JSON. Return ONLY a raw JSON object with no markdown fences.';
-      continue;
-    }
-
-    themeData = normalizeThemeData(themeData, headingFonts, bodyFonts, context);
     const assessment = assessDiversity(themeData, recentThemes);
-
-    if (!bestTheme || !bestAssessment || assessment.score < bestAssessment.score) {
-      bestTheme = themeData;
-      bestAssessment = assessment;
-    }
-
-    if (assessment.pass) {
-      console.log(`\nDiversity check passed (max similarity ${(assessment.score * 100).toFixed(0)}%, ${assessment.changesFromYesterday} changes from yesterday).`);
-      return themeData;
-    }
-
+    candidates.push({ id: `candidate-${index + 1}`, theme: themeData, assessment });
     console.log(
-      `\nDiversity check failed: ${(assessment.score * 100).toFixed(0)}% similar to "${assessment.closestTheme?.name}" ` +
-      `(${assessment.changesFromYesterday} changes from yesterday).`
+      `Candidate ${index + 1}: "${themeData.name}" — ${(assessment.score * 100).toFixed(0)}% max similarity, ` +
+      `${assessment.changesFromYesterday} changes from yesterday.`,
     );
+  }
 
-    if (attempt < maxAttempts) {
-      diversityFeedback = formatDiversityRetrySection(assessment);
+  let renderReport = null;
+  if (!options.skipRender) {
+    const renderEntries = [
+      ...candidates.map(({ id, theme }) => ({ id, theme })),
+      ...recentThemes.map((theme, index) => ({ id: recentThemeId(theme, index), theme })),
+    ];
+    console.log(`\nRendering ${renderEntries.length} themes at 390px, 1440px, and 1920px...`);
+    try {
+      renderReport = await renderThemeSet({ rootDir, entries: renderEntries });
+    } catch (renderError) {
+      if (process.env.DAILY_THEME_REQUIRE_RENDER === '1') throw renderError;
+      console.warn(`Render ranking unavailable; falling back to data-only ranking: ${renderError.message}`);
     }
   }
 
-  console.warn(
-    `\nWarning: Could not meet diversity threshold after ${maxAttempts} attempt(s). ` +
-    `Using best attempt (${(bestAssessment.score * 100).toFixed(0)}% similar to "${bestAssessment.closestTheme?.name}").`
-  );
-  return bestTheme;
+  const ranking = rankThemeCandidates(candidates, recentThemes, renderReport);
+  console.log('\nCandidate ranking:');
+  for (const [index, candidate] of ranking.ranked.entries()) {
+    console.log(
+      `  ${index + 1}. "${candidate.theme.name}" — score ${candidate.score.toFixed(1)}, ` +
+      `visual distance ${(candidate.visualDistance * 100).toFixed(1)}%, ` +
+      `similarity ${(candidate.assessment.score * 100).toFixed(0)}%, ` +
+      `${candidate.issues.length ? candidate.issues.join(', ') : 'safe at all viewports'}`,
+    );
+  }
+
+  if (renderReport && ranking.ranked.every((candidate) => candidate.issues.length > 0)) {
+    throw new Error('All rendered theme candidates failed viewport safety checks. No theme was saved.');
+  }
+
+  console.log(`\nSelected "${ranking.winner.theme.name}".`);
+  return ranking.winner.theme;
+}
+
+async function requestThemeCandidate({
+  client,
+  fullPrompt,
+  imagePrefixBlocks,
+  headingFonts,
+  bodyFonts,
+  context,
+  recipe,
+  schedule,
+}) {
+  let prompt = fullPrompt;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const contentBlocks = [
+      ...imagePrefixBlocks,
+      { type: 'text', text: prompt },
+    ];
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      messages: [{ role: 'user', content: contentBlocks }],
+    });
+    const responseText = message.content[0].text.trim();
+
+    try {
+      const parsed = parseThemeResponse(responseText);
+      const validated = validateGeneratedTheme(parsed);
+      return normalizeThemeData(validated, headingFonts, bodyFonts, context, recipe, schedule);
+    } catch (parseError) {
+      if (attempt === 2) {
+        throw new Error(`Theme candidate was not valid JSON after retry: ${parseError.message}`);
+      }
+      prompt = `${fullPrompt}\n\n## PARSE RETRY\nReturn ONLY one complete raw JSON object. No markdown fences or commentary.`;
+    }
+  }
+
+  throw new Error('Theme candidate generation failed unexpectedly.');
 }
 
 function updateThemeHistory(newTheme) {
@@ -869,6 +928,7 @@ function updateBuildLog(theme, status = 'success') {
     fontVariationSettings: theme.typography?.fontVariationSettings,
     colorScheme: theme.colors?.colorScheme,
     contrastMode: theme.colors?.contrastMode,
+    recipe: theme.artDirection?.recipe,
     contextImage: theme._contextImage || null,
     contextMarkdown: theme._contextMarkdown || null
   });
@@ -890,6 +950,13 @@ function parseArgs() {
     console.log('Available inspirations:\n');
     listInspirations().forEach(name => console.log(`  - ${name}`));
     console.log('\nUsage: node generate-daily-theme.mjs [--inspiration "Name"] [--prompt "custom text"]');
+    process.exit(0);
+  }
+
+  if (args.includes('--list-recipes')) {
+    console.log('Available art-direction recipes:\n');
+    listThemeRecipes().forEach(({ id, name }) => console.log(`  - ${id}: ${name}`));
+    console.log('\nUsage: node generate-daily-theme.mjs --recipe "id"');
     process.exit(0);
   }
 
@@ -925,6 +992,22 @@ function parseArgs() {
     options.userPrompt = args[promptIdx + 1];
   }
 
+  const recipeIdx = args.indexOf('--recipe');
+  if (recipeIdx !== -1 && args[recipeIdx + 1]) {
+    options.recipeName = args[recipeIdx + 1];
+  }
+
+  const candidatesIdx = args.indexOf('--candidates');
+  if (candidatesIdx !== -1 && args[candidatesIdx + 1]) {
+    const count = Number.parseInt(args[candidatesIdx + 1], 10);
+    if (!Number.isInteger(count) || count < 1 || count > 5) {
+      throw new Error('--candidates must be an integer from 1 to 5');
+    }
+    options.candidateCount = count;
+  }
+
+  options.skipRender = args.includes('--skip-render');
+
   return options;
 }
 
@@ -936,6 +1019,7 @@ async function main() {
 
     console.log(`Generated theme: "${theme.name}"`);
     console.log(`Description: ${theme.description}`);
+    console.log(`Recipe: ${theme.artDirection?.name || theme.artDirection?.recipe || 'unspecified'}`);
     console.log(`Heading font: ${theme.fonts?.heading?.name || theme.font?.name}`);
     console.log(`Body font: ${theme.fonts?.body?.name || theme.font?.name}`);
     console.log(`Light bg: ${theme.colors.light['--color-bg']}`);
