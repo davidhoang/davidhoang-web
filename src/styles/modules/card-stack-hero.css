@@ -1300,6 +1300,22 @@
   border-radius: 18px;
   background: var(--color-border);
   animation: card-stack-skeleton-pulse 1.6s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.card-stack-hero-skeleton__card--lcp {
+  /* Real LCP still: skip pulse so the image stays opaque and stable */
+  animation: none;
+  opacity: 1 !important;
+  background: var(--color-card-bg, var(--color-border));
+}
+
+.card-stack-hero-skeleton__lcp-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
 @media (max-width: 768px) {

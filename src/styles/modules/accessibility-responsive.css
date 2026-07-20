@@ -182,6 +182,14 @@
   }
 }
 
+/* Large tablet (769–1024px) — media-query backup for content offset.
+   Primary tokens also live on [data-viewport-tier='tablet'] in tablet-enhancements.css. */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2.25rem);
+  }
+}
+
 /* Small mobile — editorial reading experience */
 @media (max-width: 480px) {
   p,

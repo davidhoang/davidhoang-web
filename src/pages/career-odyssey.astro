@@ -10,7 +10,7 @@ const ogImage = "/images/img-dh.webp";
 
 <MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true}>
   {/* @ts-ignore - JSON import types don't match exactly */}
-  <CareerOdysseyWrapper client:load careerData={careerData} />
+  <CareerOdysseyWrapper client:idle careerData={careerData} />
 </MainLayout>
 
 <style>

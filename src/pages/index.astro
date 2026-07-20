@@ -92,7 +92,11 @@ const portfolioItems = [
   <link slot="head" rel="preload" as="image" href="/images/davidhoang-web-config-still.webp" type="image/webp" fetchpriority="high" />
   <!-- Card Stack Hero -->
   <section class="card-stack-section" aria-label="Current activities and projects">
-    <CardStackHeroLazy client:idle aboutThumbnailSrc={dhWebOptimized.src} />
+    <CardStackHeroLazy
+      client:idle
+      aboutThumbnailSrc={dhWebOptimized.src}
+      lcpImageSrc="/images/davidhoang-web-config-still.webp"
+    />
   </section>
 
   <section class="design-philosophy" aria-labelledby="philosophy-heading">

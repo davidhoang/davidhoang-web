@@ -412,6 +412,12 @@ const ogImageUrl = ogImage.startsWith('http')
           height: var(--nav-height);
         }
       }
+      /* Tablet content offset before layered CSS / data-viewport-tier hydrates */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        :root {
+          --content-top-padding: calc(var(--nav-height, 48px) + var(--nav-offset-top, 24px) + 2.25rem);
+        }
+      }
       @media (max-width: 768px) {
         :root {
           --nav-height: 56px;
