@@ -23,8 +23,12 @@ Durations: `--duration-fast` … `--duration-slowest`. Easings: `--ease-inertia`
 | `data-theme` | `light`, `dark` |
 | `data-card-style` | `flat`, `elevated`, `outlined`, `filled` |
 | `data-hero-layout` | `stacked-fan`, `editorial`, `scattered`, `rolodex`, `cinematic` |
+| `data-grid-style` | `asymmetric`, `split`, `magazine`, `sidebar` (`standard` omits it) |
 | `data-link-style` | `underline`, `highlight`, `animated-underline`, `color-only`, `bracket` |
 | `data-bg-texture` | `none`, `grain`, `dots`, `grid`, `gradient` |
+| `data-image-style` | `vivid`, `muted`, `grayscale`, `duotone` |
+| `data-image-hover` | `zoom`, `lift`, `colorize`, `glow`, `none` |
+| `data-footer-style` | `classic`, `minimal`, `brutalist`, `inverted`, `editorial`, `gradient`, `boxed`, `retro`, `split`, `marquee` |
 
 ## Key file locations
 

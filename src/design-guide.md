@@ -148,9 +148,6 @@ Cards are containers for grouped content. They respond to the `[data-card-style]
 <!-- Outlined (strong border) -->
 <div class="card card-outlined">...</div>
 
-<!-- Glass (blur effect) -->
-<div class="card card-glass">...</div>
-
 <!-- Filled (solid background) -->
 <div class="card card-filled">...</div>
 
@@ -171,9 +168,10 @@ Cards are containers for grouped content. They respond to the `[data-card-style]
 |------------------|--------|
 | `flat` | No shadow, border only |
 | `elevated` | Shadow, no border |
-| `glass` | Blur + transparency |
 | `outlined` | Strong border |
 | `filled` | Solid background |
+
+All card variants use an opaque `--color-card-bg`. Glass and transparent cards are not valid primitives.
 
 ---
 
@@ -193,8 +191,6 @@ Surfaces are background containers with different elevation levels.
 <!-- Sunken (recessed) -->
 <div class="surface-sunken">...</div>
 
-<!-- Glass (blur effect) -->
-<div class="surface-glass">...</div>
 ```
 
 ### Theme Response
@@ -512,10 +508,12 @@ The daily theme system sets these data attributes on `<html>`:
 | `data-daily-theme` | Date string | Indicates active theme |
 | `data-card-style` | `flat`, `elevated`, `outlined`, `filled` | Card appearance |
 | `data-hero-layout` | `stacked-fan`, `editorial`, `scattered`, `rolodex`, `cinematic` | Hero section |
+| `data-grid-style` | `asymmetric`, `split`, `magazine`, `sidebar` (`standard` omits the attribute) | Home inner-grid composition |
 | `data-link-style` | `underline`, `highlight`, `animated-underline`, `color-only`, `bracket` | Link behavior |
 | `data-bg-texture` | `none`, `grain`, `dots`, `grid`, `gradient` | Background texture |
 | `data-image-style` | `vivid`, `muted`, `grayscale`, `duotone` | Image color |
 | `data-image-hover` | `zoom`, `lift`, `colorize`, `glow`, `none` | Image hover |
+| `data-footer-style` | `classic`, `minimal`, `brutalist`, `inverted`, `editorial`, `gradient`, `boxed`, `retro`, `split`, `marquee` | Footer composition |
 
 ### Checking Active Theme in JavaScript
 

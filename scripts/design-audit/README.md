@@ -19,6 +19,7 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 | Rule ID | Source | Checks |
 |---------|--------|--------|
 | `hero-layout-contract` | design.md § Hero | Layout contract fragments in `layout.css`, `MainLayout.astro`, etc. |
+| `home-theme-grid-contract` | design.md § Generation pipeline | Bounded 12-column recipe gaps and mobile collapse fragments |
 | `hero-full-width` | design.md § Hero | No scoped `width:100%` on image heroes |
 | `hero-flush-centralized` | design.md § Hero | No per-page margin-top flush pulls |
 | `glass-border-nav` | site-nav-css.mdc | `.glass-border` scoped away from `.site-nav` |

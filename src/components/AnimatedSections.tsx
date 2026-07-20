@@ -1,6 +1,5 @@
 import { motion, useInView, useReducedMotion, MotionConfig } from 'framer-motion';
 import { useRef, type ReactNode } from 'react';
-import { useMagneticTilt } from './useMagneticTilt';
 
 const EASE_STANDARD = [0.25, 0.1, 0.25, 1] as const;
 
@@ -33,10 +32,11 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
     : {
-        hidden: { opacity: 0, y: 25 },
+        hidden: { opacity: 1, y: 25, scale: 0.98 },
         visible: {
           opacity: 1,
           y: 0,
+          scale: 1,
           transition: {
             duration: 0.5,
             ease: EASE_STANDARD,
@@ -63,12 +63,12 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
       {items.map((item, index) => (
         <motion.div
           key={index}
-          className="philosophy-item"
+          className="philosophy-item card"
           role="listitem"
           id={item.id}
           variants={itemVariants}
         >
-          <p dangerouslySetInnerHTML={{ __html: item.content }} />
+          <p className="text-body" dangerouslySetInnerHTML={{ __html: item.content }} />
         </motion.div>
       ))}
     </motion.div>
@@ -78,15 +78,15 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
 
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useMagneticTilt({ amplitude: 6 });
 
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
     : {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 1, y: 30, scale: 0.98 },
         visible: {
           opacity: 1,
           y: 0,
+          scale: 1,
           transition: {
             duration: 0.6,
             ease: EASE_STANDARD,
@@ -96,29 +96,13 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
 
   return (
     <motion.div
-      className="portfolio-content"
+      className="portfolio-content card"
       role="listitem"
       variants={itemVariants}
     >
-      <motion.div
-        className="portfolio-images"
-        style={{
-          rotateX: tilt.rotateX,
-          rotateY: tilt.rotateY,
-          transformPerspective: 1000,
-        }}
-        whileHover={
-          prefersReducedMotion
-            ? undefined
-            : {
-                scale: 1.015,
-                transition: { type: 'spring', stiffness: 260, damping: 30, mass: 0.7 },
-              }
-        }
-        onMouseMove={tilt.onMouseMove}
-        onMouseLeave={tilt.onMouseLeave}
-      >
+      <div className="portfolio-images img-frame">
         <img
+          className="img-themed"
           src={item.image.src}
           srcSet={item.image.srcSet}
           sizes={item.image.sizes}
@@ -128,9 +112,9 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           width={item.image.width}
           height={item.image.height}
         />
-      </motion.div>
+      </div>
       <div className="portfolio-item-text">
-        <p>
+        <p className="text-body">
           {item.text.split(item.linkText)[0]}
           <a href={item.link} target="_blank" rel="noopener noreferrer">
             {item.linkText}

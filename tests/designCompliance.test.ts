@@ -52,6 +52,14 @@ describe('layout contract rules', () => {
     const content = readFileSync(join(ROOT, 'src/styles/modules/shared-components.css'), 'utf-8');
     expect(content).toContain('.glass-border:not(.site-nav)');
   });
+
+  it('home theme grids use bounded multi-column gaps and a mobile collapse', () => {
+    const content = readFileSync(join(ROOT, 'src/styles/pages/home.css'), 'utf-8');
+    expect(content).toContain('grid-template-columns: repeat(12, minmax(0, 1fr))');
+    expect(content).toContain('column-gap: var(--spacing-md)');
+    expect(content).toContain('[data-grid-style] .portfolio-grid > .portfolio-content');
+    expect(content).toContain('grid-column: 1');
+  });
 });
 
 describe('strict rule modules', () => {

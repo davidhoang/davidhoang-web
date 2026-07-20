@@ -42,6 +42,18 @@ export const LAYOUT_CONTRACT = [
       'padding-top: 0',
     ],
   },
+  {
+    file: 'src/styles/pages/home.css',
+    rule: 'home-theme-grid-contract',
+    mustInclude: [
+      '[data-grid-style="asymmetric"] :is(.philosophy-grid, .portfolio-grid)',
+      '[data-grid-style="magazine"] :is(.philosophy-grid, .portfolio-grid)',
+      'grid-template-columns: repeat(12, minmax(0, 1fr))',
+      'column-gap: var(--spacing-md)',
+      '[data-grid-style] .portfolio-grid > .portfolio-content',
+      'grid-column: 1',
+    ],
+  },
 ];
 
 /** @param {ReturnType<import('../shared.mjs').createContext>} ctx */

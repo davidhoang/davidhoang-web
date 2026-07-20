@@ -7,8 +7,8 @@
 
    CONTENTS:
    1. Buttons (.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-link)
-   2. Cards (.card, .card-elevated, .card-outlined, .card-glass, .card-filled)
-   3. Surfaces (.surface, .surface-raised, .surface-sunken, .surface-glass)
+   2. Cards (.card, .card-elevated, .card-outlined, .card-filled)
+   3. Surfaces (.surface, .surface-raised, .surface-sunken)
    4. Typography (.text-heading, .text-body, .text-caption, .text-mono, .text-micro, .text-jumbo, .text-display-xl)
    5. Images (.img-themed, .img-thumbnail, .img-hero)
    6. Badges (.badge, .badge-primary, .badge-muted)
@@ -140,7 +140,6 @@
      <div class="card">Default card</div>
      <div class="card card-elevated">With shadow</div>
      <div class="card card-outlined">Strong border</div>
-     <div class="card card-glass">Glassmorphism</div>
      <div class="card card-filled">Filled background</div>
 
    Note: These respond to [data-card-style] from themes
@@ -153,10 +152,10 @@
   padding: var(--card-padding);
   /* Only transition specific properties for better performance - avoid `all` */
   transition:
-    background-color 0.3s var(--ease-inertia),
-    border-color 0.3s var(--ease-inertia),
-    box-shadow 0.3s var(--ease-inertia),
-    transform 0.3s var(--ease-inertia);
+    background-color var(--duration-slow) var(--ease-inertia),
+    border-color var(--duration-slow) var(--ease-inertia),
+    box-shadow var(--duration-slow) var(--ease-inertia),
+    transform var(--duration-slow) var(--ease-inertia);
 }
 
 .card-elevated {
@@ -165,29 +164,8 @@
 }
 
 .card-outlined {
-  background: transparent;
+  background: var(--color-card-bg);
   border: calc(var(--card-border-width) + 1px) solid var(--color-text);
-}
-
-.card-glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transform: translateZ(0);
-}
-
-/* Reduce blur on mobile for better performance */
-@media (max-width: 768px) {
-  .card-glass {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-}
-
-[data-theme="dark"] .card-glass {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-filled {
@@ -219,15 +197,14 @@
      <div class="surface">Default surface</div>
      <div class="surface-raised">Raised/elevated</div>
      <div class="surface-sunken">Recessed</div>
-     <div class="surface-glass">Glass effect</div>
    -------------------------------------------- */
 
 .surface {
   background: var(--color-bg);
-  transition: background-color 0.3s var(--ease-inertia);
+  transition: background-color var(--duration-slow) var(--ease-inertia);
 }
 
-/* surface-raised, surface-sunken, surface-glass — moved to design-guide.astro */
+/* surface-raised and surface-sunken — demonstrated in design-guide.astro */
 
 /* --------------------------------------------
    4. TYPOGRAPHY
@@ -349,14 +326,14 @@
   display: block;
   width: 100%;
   height: 100%;
-  transition: transform 0.5s var(--ease-inertia);
+  transition: transform var(--duration-slowest) var(--ease-inertia);
 }
 
 .img-frame > picture img {
   display: block;
   width: 100%;
   height: 100%;
-  transition: transform 0.5s var(--ease-inertia);
+  transition: transform var(--duration-slowest) var(--ease-inertia);
 }
 
 @media (hover: hover) {
@@ -390,9 +367,9 @@
   border-radius: var(--image-border-radius, var(--radius-md));
   /* Specific transitions for better performance - avoid `all` */
   transition:
-    opacity 0.4s var(--ease-inertia),
-    filter 0.4s var(--ease-inertia),
-    transform 0.4s var(--ease-inertia);
+    opacity var(--duration-slower) var(--ease-inertia),
+    filter var(--duration-slower) var(--ease-inertia),
+    transform var(--duration-slower) var(--ease-inertia);
   max-width: 100%;
   height: auto;
 }
@@ -417,12 +394,12 @@
    CSS-only fallback: animation ensures visibility even if JS fails. */
 img[loading="lazy"] {
   opacity: 0;
-  transition: opacity 0.4s ease-in-out;
+  transition: opacity var(--duration-slower) var(--ease-inertia);
   animation: img-safety-reveal 0s 3s forwards;
 }
 
 img[loading="lazy"].loaded {
-  opacity: 1;
+  opacity: var(--image-opacity, 1);
   animation: none;
 }
 

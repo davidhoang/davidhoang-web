@@ -147,15 +147,6 @@ html[data-e-ink="true"][data-theme="dark"] {
   animation: none !important;
 }
 
-/* Remove glass/blur effects in e-ink mode */
-[data-e-ink="true"] .card-glass,
-[data-e-ink="true"] .surface-glass {
-  background: var(--color-sidebar-bg) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: 1px solid var(--color-border);
-}
-
 /* Simple underline links in e-ink mode */
 [data-e-ink="true"] a {
   text-decoration: underline;
@@ -400,65 +391,9 @@ html[data-e-ink="true"] {
   margin: 2em 0 !important;
 }
 
-/* ============================================
-   Daily Theme: Grid Style Variations
-   Applied via [data-grid-style] attribute
-
-   IMPORTANT: Grid styles do NOT apply grid-template-columns
-   to the main .container. The .container holds many stacked
-   sections (hero, philosophy, portfolio, highlights, etc.)
-   and forcing them into columns breaks the page.
-
-   Instead, grid styles influence inner content grids
-   (philosophy-grid) and add visual flavor
-   through borders, spacing, and alignment.
-   Highlights (.portfolio-grid) stay a balanced 2×2 grid on the home page.
-   ============================================ */
-
-/* Asymmetric grid - offset content for visual tension (philosophy only; portfolio stays equal columns) */
-[data-grid-style="asymmetric"] .philosophy-grid {
-  grid-template-columns: 2fr 1fr;
-}
-
-@media (max-width: 768px) {
-  [data-grid-style="asymmetric"] .philosophy-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Split-screen - add dividers between adjacent sections */
-[data-grid-style="split"] .design-philosophy,
-[data-grid-style="split"] .portfolio-section {
-  border-left: 4px solid var(--color-border);
-  padding-left: var(--content-padding, 1.5rem);
-}
-
-/* Magazine layout - 3-column inner grids (philosophy only; portfolio stays 2×2) */
-[data-grid-style="magazine"] .philosophy-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 1024px) {
-  [data-grid-style="magazine"] .philosophy-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  [data-grid-style="magazine"] .philosophy-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Sidebar layout - narrower content column feel */
-[data-grid-style="sidebar"] .container {
-  max-width: min(var(--container-max-width, 1200px), 900px);
-}
-
-[data-grid-style="sidebar"] .philosophy-grid,
-[data-grid-style="sidebar"] .portfolio-grid {
-  grid-template-columns: 1fr;
-}
+/* Home-page grid recipes live with the route in styles/pages/home.css.
+   Grid styles never target the main .container: section order and nav/hero
+   scaffolding remain framework-controlled. */
 
 /* ============================================
    Daily Theme: Font Variation Settings
@@ -510,8 +445,8 @@ html[data-e-ink="true"] {
 /* ============================================
    Daily Theme: Card Style Variations
    Uses :is() to target both .card and .node-card.
-   Design-system.css provides explicit opt-in classes
-   (.card-glass, .card-elevated, etc.) for the same styles.
+   Design-system.css provides explicit opaque opt-in classes
+   (.card-elevated, .card-outlined, .card-filled) for the same styles.
    ============================================ */
 
 [data-card-style="flat"] :is(.card, .node-card) {
@@ -711,7 +646,7 @@ html:has(.card-stack-section):is([data-bg-texture="dots"], [data-bg-texture="gri
 /* Default theme: Paper texture effect for hero image */
 html:not([data-image-style]) .hero-portrait {
   filter: sepia(0.12) saturate(0.85) contrast(0.95) brightness(1.02);
-  transition: filter 0.4s ease;
+  transition: filter var(--duration-slower) var(--ease-inertia);
 }
 
 /* Base image styles (opacity, border-radius, transitions) are defined in
@@ -720,19 +655,19 @@ html:not([data-image-style]) .hero-portrait {
 
 /* Image style filters — applied to hero images via data attribute.
    Uses :is() to target both portrait and hero image containers. */
-[data-image-style="vivid"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
+[data-image-style="vivid"] :is(.img-themed, .portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: saturate(1.25) contrast(1.1) brightness(1.02);
 }
 
-[data-image-style="muted"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
+[data-image-style="muted"] :is(.img-themed, .portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: saturate(0.6) contrast(0.9) brightness(1.05);
 }
 
-[data-image-style="grayscale"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
+[data-image-style="grayscale"] :is(.img-themed, .portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: grayscale(1);
 }
 
-[data-image-style="duotone"] :is(.portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
+[data-image-style="duotone"] :is(.img-themed, .portrait-container img, :is(.hero-media, .hero-image-container) :is(.hero-media__bg, .hero-image-bg)) {
   filter: grayscale(1) sepia(0.4) saturate(1.2);
 }
 
@@ -754,7 +689,7 @@ html:not([data-image-style]) .hero-portrait {
 }
 
 [data-image-hover="zoom"] :is(.img-frame, .portrait-container) :is(img, picture img) {
-  transition: transform 0.5s var(--ease-inertia);
+  transition: transform var(--duration-slowest) var(--ease-inertia);
 }
 
 @media (hover: hover) {
@@ -764,21 +699,30 @@ html:not([data-image-style]) .hero-portrait {
   }
 }
 
-[data-image-hover="lift"] .portrait-container img:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-[data-image-hover="colorize"] .portrait-container img {
+[data-image-hover="colorize"] :is(.portrait-container img, .img-themed) {
   filter: grayscale(1);
 }
 
-[data-image-hover="colorize"] .portrait-container img:hover {
-  filter: grayscale(0);
-}
+@media (hover: hover) {
+  [data-image-hover="lift"] :is(.portrait-container, .img-frame):hover :is(img, picture img) {
+    transform: translateY(calc(-1 * var(--spacing-sm)));
+    box-shadow: var(--shadow-hover);
+  }
 
-[data-image-hover="glow"] .portrait-container img:hover {
-  box-shadow: 0 0 30px var(--color-link);
+  [data-image-hover="colorize"] :is(.portrait-container, .img-frame):hover :is(img, picture img) {
+    filter: grayscale(0);
+    transform: none;
+  }
+
+  [data-image-hover="glow"] :is(.portrait-container, .img-frame):hover :is(img, picture img) {
+    box-shadow: 0 0 var(--spacing-xl) var(--color-link);
+    transform: none;
+  }
+
+  [data-image-hover="none"] .img-frame:hover :is(img, picture img) {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 /* Exclude writing/blog prose images from theme filters.
