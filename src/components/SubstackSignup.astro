@@ -180,6 +180,11 @@ const showHeader = showTitle || Boolean(description?.trim());
     outline: none;
   }
 
+  .email-input:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
   .email-input::placeholder {
     color: var(--color-muted);
     opacity: 0.35;

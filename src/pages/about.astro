@@ -301,7 +301,8 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     position: relative;
     z-index: 1;
     border-radius: 2px;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 35%, transparent);
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .bio-content-wrapper {

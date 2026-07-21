@@ -60,6 +60,17 @@ const { id, placeholder = 'Search...' } = Astro.props;
     border-color: var(--color-link);
   }
 
+  .search-input:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    border-color: var(--color-link);
+  }
+
+  .search-clear:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
   .search-input::placeholder {
     color: var(--color-muted);
   }

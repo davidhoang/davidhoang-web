@@ -115,12 +115,29 @@ const currentPath = Astro.url.pathname;
   import { initShader } from '../scripts/nav-shader';
   import { initMobileMenu } from '../scripts/nav-mobile-menu';
   import { initScrollDetection } from '../scripts/nav-scroll';
-  import { initParticleTrail } from '../scripts/nav-particles';
-  import { initSentientNav } from '../scripts/nav-sentient';
-  import { syncHybridPointerAttribute } from '../utils/viewport-capabilities';
+  import { shouldEnableSentientNav, syncHybridPointerAttribute } from '../utils/viewport-capabilities';
 
   let isInitialized = false;
   let cleanupFunctions: Array<() => void> = [];
+  let navFxGeneration = 0;
+
+  /** Desktop-only nav FX — dynamic import so mobile/tablet skip the parse cost. */
+  async function initDesktopNavFx(generation: number, cleanups: Array<() => void>) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || window.innerWidth <= 768) return;
+
+    if (shouldEnableSentientNav()) {
+      const { initSentientNav } = await import('../scripts/nav-sentient');
+      if (generation !== navFxGeneration) return;
+      const sentientCleanup = initSentientNav();
+      if (sentientCleanup) cleanups.push(sentientCleanup);
+    }
+
+    const { initParticleTrail } = await import('../scripts/nav-particles');
+    if (generation !== navFxGeneration) return;
+    const particleCleanup = initParticleTrail();
+    if (particleCleanup) cleanups.push(particleCleanup);
+  }
 
   function init() {
     if (isInitialized) return;
@@ -128,6 +145,7 @@ const currentPath = Astro.url.pathname;
 
     cleanupFunctions.forEach(fn => fn());
     cleanupFunctions = [];
+    const generation = ++navFxGeneration;
 
     initShader();
     syncHybridPointerAttribute();
@@ -135,15 +153,12 @@ const currentPath = Astro.url.pathname;
     if (mobileMenuCleanup) cleanupFunctions.push(mobileMenuCleanup);
     initScrollDetection();
 
-    const sentientCleanup = initSentientNav();
-    if (sentientCleanup) cleanupFunctions.push(sentientCleanup);
-
-    const particleCleanup = initParticleTrail();
-    if (particleCleanup) cleanupFunctions.push(particleCleanup);
+    void initDesktopNavFx(generation, cleanupFunctions);
   }
 
   document.addEventListener('astro:before-swap', () => {
     isInitialized = false;
+    navFxGeneration += 1;
     cleanupFunctions.forEach(fn => fn());
     cleanupFunctions = [];
   });

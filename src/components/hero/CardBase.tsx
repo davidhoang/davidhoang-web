@@ -83,6 +83,8 @@ function CardHeroMedia({
             className="card-hero-image card-hero-image--layer"
             src={idleImgSrc}
             alt=""
+            width={600}
+            height={338}
             decoding="async"
             aria-hidden={isHeroMediaActive}
             data-visible={!isHeroMediaActive}
@@ -109,6 +111,8 @@ function CardHeroMedia({
             className="card-hero-image card-hero-image--layer"
             src={idleImgSrc}
             alt=""
+            width={600}
+            height={338}
             decoding="async"
             aria-hidden={isHeroMediaActive}
             data-visible={!isHeroMediaActive}
@@ -123,6 +127,8 @@ function CardHeroMedia({
                 .join(' ')}
               src={card.heroImage}
               alt=""
+              width={600}
+              height={338}
               decoding="async"
               loading="lazy"
               aria-hidden={!isHeroMediaActive}
@@ -131,7 +137,7 @@ function CardHeroMedia({
           )}
         </>
       ) : (
-        <img className="card-hero-image" src={card.heroImage} alt="" decoding="async" />
+        <img className="card-hero-image" src={card.heroImage} alt="" width={600} height={338} decoding="async" />
       )}
     </div>
   );
