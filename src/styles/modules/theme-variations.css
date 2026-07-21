@@ -703,8 +703,17 @@ html:not([data-image-style]) .hero-portrait {
   filter: grayscale(1);
 }
 
+/* Lift/glow must target the frame — overflow:hidden on .img-frame clips
+   translateY/box-shadow applied to the inner media. */
+[data-image-hover="lift"] :is(.portrait-container, .img-frame),
+[data-image-hover="glow"] :is(.portrait-container, .img-frame) {
+  transition:
+    transform var(--duration-slow) var(--ease-inertia),
+    box-shadow var(--duration-slow) var(--ease-inertia);
+}
+
 @media (hover: hover) {
-  [data-image-hover="lift"] :is(.portrait-container, .img-frame):hover :is(img, picture img) {
+  [data-image-hover="lift"] :is(.portrait-container, .img-frame):hover {
     transform: translateY(calc(-1 * var(--spacing-sm)));
     box-shadow: var(--shadow-hover);
   }
@@ -714,9 +723,8 @@ html:not([data-image-style]) .hero-portrait {
     transform: none;
   }
 
-  [data-image-hover="glow"] :is(.portrait-container, .img-frame):hover :is(img, picture img) {
+  [data-image-hover="glow"] :is(.portrait-container, .img-frame):hover {
     box-shadow: 0 0 var(--spacing-xl) var(--color-link);
-    transform: none;
   }
 
   [data-image-hover="none"] .img-frame:hover :is(img, picture img) {

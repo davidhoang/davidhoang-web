@@ -33,7 +33,12 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
 
       await page.route('**/*', async (route) => {
         const requestUrl = new URL(route.request().url());
-        if (requestUrl.hostname === '127.0.0.1' || requestUrl.protocol === 'data:' || requestUrl.protocol === 'blob:') {
+        const allowedHost =
+          requestUrl.hostname === '127.0.0.1'
+          || requestUrl.hostname === 'localhost'
+          || requestUrl.hostname === 'fonts.googleapis.com'
+          || requestUrl.hostname === 'fonts.gstatic.com';
+        if (allowedHost || requestUrl.protocol === 'data:' || requestUrl.protocol === 'blob:') {
           await route.continue();
         } else {
           await route.abort();
@@ -313,15 +318,20 @@ async function createEdgeSignature(buffer) {
 async function startAstroServer(rootDir) {
   const port = await findOpenPort();
   process.env.ASTRO_TELEMETRY_DISABLED = '1';
+  // AstroInlineConfig only honors host/port under `server` — top-level keys are
+  // ignored and the default ::1:4321 bind makes 127.0.0.1 fetches fail in CI.
   const server = await startAstroDevServer({
     root: rootDir,
-    host: '127.0.0.1',
-    port,
+    server: {
+      host: '127.0.0.1',
+      port,
+    },
     logLevel: 'silent',
   });
 
+  const boundPort = server.address?.port ?? port;
   return {
-    url: `http://127.0.0.1:${server.address.port}/?layout=default`,
+    url: `http://127.0.0.1:${boundPort}/?layout=default`,
     async stop() {
       await server.stop();
     },
