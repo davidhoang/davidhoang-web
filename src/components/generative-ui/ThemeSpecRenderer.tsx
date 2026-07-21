@@ -46,7 +46,7 @@ const THEME_PROP_MAP: [string, string][] = [
   ['headingWeight', '--heading-weight'],
   ['bodyWeight', '--body-weight'],
   ['bodyLineHeight', '--body-line-height'],
-  ['letterSpacing', '--letter-spacing'],
+  ['letterSpacing', '--letter-spacing-body'],
   ['headingLetterSpacing', '--heading-letter-spacing'],
   ['headingTransform', '--heading-transform'],
   ['scaleRatio', '--scale-ratio'],

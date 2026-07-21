@@ -14,6 +14,14 @@ Format:
 
 ---
 
+## 2026-07-19 — Multi-column theme gap amplification
+
+**Symptom:** A 12-column theme recipe inherited the standard ultrawide philosophy-grid gap, multiplying a large gap across 11 tracks and overflowing at 1920px even though the static design audit passed.
+**Fix applied:** Theme recipes now own a bounded `--spacing-md` column gap; `home-theme-grid-contract` protects the CSS fragments; candidate generation renders the real home page at 390px, 1440px, and 1920px and rejects content overflow; coverage added to `tests/designCompliance.test.ts` and `tests/theme-ranking.test.ts`.
+**Status:** resolved
+
+---
+
 ## 2026-07-04 — Hero layout regressions (top gap + desktop width)
 
 **Symptom:** Agents reintroduced white strip above heroes and partial-width hero images on desktop. Causes: `.glass-border { position: relative }` overriding `.site-nav { position: fixed }`; scoped `width: 100%` on `.page-header` beating layered `100vw` breakout.

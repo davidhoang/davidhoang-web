@@ -79,6 +79,7 @@ themeGenerator:
     - editorial
     - scattered
     - rolodex
+    - cinematic
 ---
 
 ## For AI agents
@@ -192,7 +193,7 @@ Implementations: `layout.css` (hero flush), `nav.css` + `shared-components.css` 
 
 ### Hero
 
-The hero (`src/components/CardStackHero.tsx`) renders one of four structural templates: `stacked-fan` (default), `editorial`, `scattered`, `rolodex`. The theme picks the template; the framework controls positioning.
+The hero (`src/components/CardStackHero.tsx`) renders one of five structural templates: `stacked-fan` (default), `editorial`, `scattered`, `rolodex`, `cinematic`. The theme picks the template; the framework controls positioning.
 
 Vertical offset, full-width breakout, and section margin are not theme-variable — themes select the *shape* of the hero, not where it sits.
 
@@ -206,7 +207,7 @@ At ≤768px, the framework actively overrides risky theme-driven layout choices.
 
 **Forced overrides at ≤768px:**
 
-- **Hero layout** — always renders as `stacked-fan` regardless of `hero.layout` value. `editorial`, `scattered`, `rolodex` are desktop-only because they assume horizontal canvas. Implemented in `CardStackHero.tsx` via `matchMedia('(max-width: 768px)')`.
+- **Hero layout** — always renders as `stacked-fan` regardless of `hero.layout` value. `editorial`, `scattered`, `rolodex`, and `cinematic` are desktop-only because they assume horizontal canvas. Implemented in `CardStackHero.tsx` via `matchMedia('(max-width: 768px)')`.
 - **Container width** — `--container-max-width` is overridden to `100%`. Theme-set values (e.g., a narrow 640px container) become irrelevant; the page fills the viewport with safe gutters from `--content-padding`.
 - **Card stack overflow** — `card-stack-section` clips horizontally regardless of `data-hero-layout`. Belt-and-suspenders for any layout that JS hasn't downgraded.
 - **Grid columns** — multi-column grids (`asymmetric`, `split`, `magazine`, `sidebar`) collapse to single column.
@@ -316,6 +317,14 @@ A global rule in `src/styles/modules/accessibility-responsive.css` strips `trans
 ## Theme generator
 
 The rules a daily theme must satisfy. Out-of-range values are clamped post-generation by the validators in `scripts/generate-daily-theme.mjs`.
+
+### Generation pipeline
+
+Themes are generated through framework-owned art-direction recipes rather than independent random choices. The scheduler rotates recipes, hero templates, and grid templates with deterministic cooldowns. Each run generates three styling candidates inside the scheduled structure, rejects any response outside the strict theme schema, renders the valid candidates against the real home page at 390px, 1440px, and 1920px, and ranks them using viewport safety, visual distance from recent themes, and categorical diversity.
+
+- Recipe constraints may narrow the global bounds below, but may never expand them.
+- The renderer rejects horizontal content overflow, non-fixed nav, transparent cards, mobile multi-column grids, and hero-template mismatches.
+- The model controls palette, type pairing, and styling nuance; it never emits arbitrary coordinates or changes framework section order.
 
 ### Container width
 

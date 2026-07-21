@@ -40,26 +40,30 @@
   display: block;
 }
 
-.design-philosophy h2,
-.portfolio-section h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
+.home-section-heading {
+  max-width: 12ch;
+  margin: 0 0 var(--spacing-lg);
+  background: none;
+  font-size: max(
+    var(--h3-size),
+    min(var(--text-jumbo), var(--display-title-size-contained))
+  );
+  line-height: var(--h2-line-height);
 }
 
 .design-philosophy {
   border-top: 1px solid var(--color-border);
-  padding-top: 24px;
+  padding-top: var(--spacing-lg);
   position: relative;
   z-index: 1;
 }
 
 .philosophy-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   row-gap: calc(var(--spacing-md) + var(--spacing-xs));
-  column-gap: clamp(1rem, 4vw, 4rem);
-  padding-right: 24px;
+  column-gap: clamp(var(--spacing-md), 4vw, var(--spacing-3xl));
+  padding-right: var(--spacing-lg);
   align-items: start;
   min-width: 0;
 }
@@ -70,18 +74,20 @@
 
 .philosophy-item {
   border-radius: var(--radius-md);
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .philosophy-item h3 {
   margin-top: 0;
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
+  font-size: var(--h3-size);
+  margin-bottom: var(--spacing-sm);
 }
 
 .portfolio-section {
   margin: var(--section-spacing, 4rem) 0;
   border-top: 1px solid var(--color-border);
-  padding-top: 24px;
+  padding-top: var(--spacing-lg);
   content-visibility: auto;
   contain-intrinsic-size: auto 800px;
 }
@@ -90,21 +96,24 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   row-gap: var(--spacing-lg);
-  column-gap: clamp(1rem, 3vw, 3rem);
+  column-gap: clamp(var(--spacing-md), 3vw, var(--spacing-2xl));
   min-width: 0;
 }
 
 .portfolio-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm, 0.5rem);
+  gap: var(--spacing-md);
   min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: clip;
 }
 
 .portfolio-item-text p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
 }
 
 .portfolio-content a {
@@ -123,7 +132,125 @@
   aspect-ratio: 16 / 10;
   object-fit: cover;
   object-position: center;
-  border-radius: var(--radius-md, 8px);
+  border-radius: var(--image-border-radius, var(--radius-md));
+}
+
+/* Daily layout recipes keep section order stable while changing the internal
+   composition. Every recipe collapses back to one column at the mobile safety
+   breakpoint below. */
+[data-grid-style] :is(.philosophy-grid, .portfolio-grid) > * {
+  min-width: 0;
+}
+
+/* Asymmetric — a dominant feature and a supporting rail. */
+[data-grid-style="asymmetric"] :is(.philosophy-grid, .portfolio-grid) {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  column-gap: var(--spacing-md);
+  row-gap: var(--spacing-lg);
+}
+
+[data-grid-style="asymmetric"] .philosophy-item:nth-child(1) { grid-column: span 8; }
+[data-grid-style="asymmetric"] .philosophy-item:nth-child(2) { grid-column: span 4; }
+[data-grid-style="asymmetric"] .philosophy-item:nth-child(3) { grid-column: span 5; }
+[data-grid-style="asymmetric"] .philosophy-item:nth-child(4) { grid-column: span 7; }
+[data-grid-style="asymmetric"] .philosophy-item:nth-child(5) { grid-column: 3 / span 8; }
+
+[data-grid-style="asymmetric"] .portfolio-content:nth-child(1) {
+  grid-column: span 7;
+  grid-row: span 2;
+}
+
+[data-grid-style="asymmetric"] .portfolio-content:nth-child(2),
+[data-grid-style="asymmetric"] .portfolio-content:nth-child(3) {
+  grid-column: span 5;
+}
+
+[data-grid-style="asymmetric"] .portfolio-content:nth-child(4) {
+  grid-column: 3 / span 8;
+}
+
+[data-grid-style="asymmetric"] .portfolio-content:nth-child(1) .portfolio-images {
+  flex: 1;
+}
+
+[data-grid-style="asymmetric"] .portfolio-content:nth-child(1) .portfolio-images img {
+  height: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+/* Split — every highlight becomes an image/text diptych. */
+[data-grid-style="split"] .philosophy-grid,
+[data-grid-style="split"] .portfolio-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+[data-grid-style="split"] .philosophy-item,
+[data-grid-style="split"] .portfolio-content {
+  border-radius: 0;
+}
+
+[data-grid-style="split"] .portfolio-content {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--card-padding);
+  align-items: center;
+}
+
+[data-grid-style="split"] .portfolio-content:nth-child(even) .portfolio-images {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+[data-grid-style="split"] .portfolio-content:nth-child(even) .portfolio-item-text {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+[data-grid-style="split"] .portfolio-images img {
+  aspect-ratio: 4 / 3;
+}
+
+/* Magazine — mixed column spans create a paced editorial sequence. */
+[data-grid-style="magazine"] :is(.philosophy-grid, .portfolio-grid) {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  column-gap: var(--spacing-md);
+  row-gap: var(--spacing-lg);
+}
+
+[data-grid-style="magazine"] .philosophy-item:nth-child(1) { grid-column: span 7; }
+[data-grid-style="magazine"] .philosophy-item:nth-child(2) { grid-column: span 5; }
+[data-grid-style="magazine"] .philosophy-item:nth-child(n + 3) { grid-column: span 4; }
+
+[data-grid-style="magazine"] .portfolio-content:nth-child(1) { grid-column: span 8; }
+[data-grid-style="magazine"] .portfolio-content:nth-child(2) { grid-column: span 4; }
+[data-grid-style="magazine"] .portfolio-content:nth-child(3) { grid-column: span 5; }
+[data-grid-style="magazine"] .portfolio-content:nth-child(4) { grid-column: span 7; }
+
+[data-grid-style="magazine"] .portfolio-content:nth-child(2) .portfolio-images img {
+  aspect-ratio: 4 / 5;
+}
+
+[data-grid-style="magazine"] .portfolio-content:nth-child(3) .portfolio-images img {
+  aspect-ratio: 1;
+}
+
+/* Sidebar — section titles form a stable editorial rail. */
+[data-grid-style="sidebar"] :is(.design-philosophy, .portfolio-section) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  column-gap: clamp(var(--spacing-xl), var(--section-spacing), var(--spacing-3xl));
+  align-items: start;
+}
+
+[data-grid-style="sidebar"] :is(.philosophy-grid, .portfolio-grid) {
+  grid-column: 2;
+}
+
+[data-grid-style="sidebar"] .philosophy-grid {
+  grid-template-columns: 1fr;
 }
 
 /* Newsletter: horizontal inset when .container side padding is 0 under [data-shader] */
@@ -137,11 +264,11 @@
 }
 
 @media (max-width: 768px) {
-  .design-philosophy h2,
-  .portfolio-section h2 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+  .home-section-heading {
+    font-size: max(
+      var(--h3-size),
+      min(var(--text-jumbo), var(--display-title-size-contained-mobile))
+    );
   }
 
   .card-stack-section {
@@ -161,8 +288,8 @@
   }
 
   .philosophy-item p {
-    font-size: 1.125rem;
-    line-height: 1.7;
+    font-size: var(--body-size-mobile);
+    line-height: var(--body-line-height);
   }
 
   .portfolio-grid {
@@ -171,8 +298,8 @@
   }
 
   .portfolio-item-text p {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: var(--body-size-mobile);
+    line-height: var(--body-line-height);
   }
 
   .portfolio-images img {
@@ -185,13 +312,32 @@
     padding-left: max(1rem, var(--content-padding, 1.25rem));
     padding-right: max(1rem, var(--content-padding, 1.25rem));
   }
+
+  [data-grid-style] :is(.design-philosophy, .portfolio-section) {
+    display: block;
+  }
+
+  [data-grid-style] :is(.philosophy-grid, .portfolio-grid) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  [data-grid-style] .philosophy-grid > .philosophy-item,
+  [data-grid-style] .portfolio-grid > .portfolio-content {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  [data-grid-style="split"] .portfolio-content {
+    display: flex;
+  }
 }
 
 @media (min-width: 1920px) {
   .philosophy-grid {
     grid-template-columns: repeat(2, 1fr);
     row-gap: var(--spacing-lg);
-    column-gap: 10rem;
+    column-gap: calc(var(--spacing-3xl) * 2 + var(--spacing-xl));
   }
 
   .philosophy-item p {

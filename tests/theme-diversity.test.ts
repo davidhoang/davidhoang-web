@@ -4,7 +4,6 @@ import {
   computeSimilarity,
   extractFingerprint,
   formatRecentThemesPromptSection,
-  formatDiversityRetrySection,
   DEFAULT_SIMILARITY_THRESHOLD,
 } from '../scripts/lib/theme-diversity.mjs';
 
@@ -102,12 +101,5 @@ describe('prompt helpers', () => {
     expect(section).toContain('editorial');
     expect(section).toContain('DIVERSITY REQUIREMENTS');
     expect(section).toContain('Clash Display');
-  });
-
-  it('formats retry feedback with overlapping fields', () => {
-    const assessment = assessDiversity(editorialTheme, [editorialTheme]);
-    const section = formatDiversityRetrySection(assessment);
-    expect(section).toContain('DIVERSITY RETRY');
-    expect(section).toContain('Hero');
   });
 });
