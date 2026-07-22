@@ -16,7 +16,7 @@
  *   --inspiration "Name"   Pick a design inspiration from the bank
  *   --recipe "id"          Force an art-direction recipe
  *   --prompt "text"        Additional creative direction
- *   --candidates 3          Number of candidates to render and rank (1-5)
+ *   --candidates 3          Number of candidates to generate in parallel, then render and rank (1-5)
  *   --skip-render           Rank from theme data only (local fallback)
  *   --list                 List available inspirations
  *   --list-recipes         List available art-direction recipes
@@ -45,6 +45,12 @@ import {
   assessDiversity,
   formatRecentThemesPromptSection,
 } from './lib/theme-diversity.mjs';
+import {
+  loadSignatureCache,
+  mergeRenderResultsIntoCache,
+  partitionCachedEntries,
+  saveSignatureCache,
+} from './lib/theme-signature-cache.mjs';
 
 const DEFAULT_THEME_CANDIDATE_COUNT = 3;
 const CANDIDATE_LENSES = [
@@ -763,47 +769,76 @@ async function generateTheme(options = {}) {
   }
 
   const candidateCount = Math.min(5, Math.max(1, options.candidateCount || DEFAULT_THEME_CANDIDATE_COUNT));
-  const candidates = [];
+  console.log(`\nGenerating ${candidateCount} candidates in parallel...`);
 
-  for (let index = 0; index < candidateCount; index += 1) {
-    console.log(`\n--- Generating candidate ${index + 1}/${candidateCount} ---`);
-    const candidateDirection = [
-      '## CANDIDATE EXPLORATION',
-      `Candidate ${index + 1} of ${candidateCount}`,
-      `Lens: ${CANDIDATE_LENSES[index % CANDIDATE_LENSES.length]}`,
-      'Keep the scheduled hero, grid, and recipe. Make the styling materially different from the other likely interpretations of this recipe.',
-    ].join('\n');
-    const fullPrompt = `${basePrompt}${contextSections}\n\n${candidateDirection}`;
-    const themeData = await requestThemeCandidate({
-      client,
-      fullPrompt,
-      imagePrefixBlocks,
-      headingFonts,
-      bodyFonts,
-      context,
-      recipe: schedule.recipe,
-      schedule,
-    });
-    const assessment = assessDiversity(themeData, recentThemes);
-    candidates.push({ id: `candidate-${index + 1}`, theme: themeData, assessment });
+  const candidates = await Promise.all(
+    Array.from({ length: candidateCount }, async (_, index) => {
+      const candidateDirection = [
+        '## CANDIDATE EXPLORATION',
+        `Candidate ${index + 1} of ${candidateCount}`,
+        `Lens: ${CANDIDATE_LENSES[index % CANDIDATE_LENSES.length]}`,
+        'Keep the scheduled hero, grid, and recipe. Make the styling materially different from the other likely interpretations of this recipe.',
+      ].join('\n');
+      const fullPrompt = `${basePrompt}${contextSections}\n\n${candidateDirection}`;
+      const themeData = await requestThemeCandidate({
+        client,
+        fullPrompt,
+        imagePrefixBlocks,
+        headingFonts,
+        bodyFonts,
+        context,
+        recipe: schedule.recipe,
+        schedule,
+      });
+      const assessment = assessDiversity(themeData, recentThemes);
+      return { id: `candidate-${index + 1}`, theme: themeData, assessment };
+    }),
+  );
+
+  for (const [index, candidate] of candidates.entries()) {
     console.log(
-      `Candidate ${index + 1}: "${themeData.name}" — ${(assessment.score * 100).toFixed(0)}% max similarity, ` +
-      `${assessment.changesFromYesterday} changes from yesterday.`,
+      `Candidate ${index + 1}: "${candidate.theme.name}" — ${(candidate.assessment.score * 100).toFixed(0)}% max similarity, ` +
+      `${candidate.assessment.changesFromYesterday} changes from yesterday.`,
     );
   }
 
   let renderReport = null;
+  let signatureCache = null;
   if (!options.skipRender) {
-    const renderEntries = [
-      ...candidates.map(({ id, theme }) => ({ id, theme })),
-      ...recentThemes.map((theme, index) => ({ id: recentThemeId(theme, index), theme })),
-    ];
-    console.log(`\nRendering ${renderEntries.length} themes at 390px, 1440px, and 1920px...`);
+    signatureCache = loadSignatureCache(rootDir);
+    const recentEntries = recentThemes.map((theme, index) => ({
+      id: recentThemeId(theme, index),
+      theme,
+    }));
+    const { cachedResults, missing: recentToRender } = partitionCachedEntries(
+      signatureCache,
+      recentEntries,
+    );
+    const candidateEntries = candidates.map(({ id, theme }) => ({ id, theme }));
+    const renderEntries = [...candidateEntries, ...recentToRender];
+
+    console.log(
+      `\nRendering ${renderEntries.length} themes at 390px, 1440px, and 1920px` +
+      ` (${Object.keys(cachedResults).length} recent signature cache hit(s))...`,
+    );
     try {
-      renderReport = await renderThemeSet({ rootDir, entries: renderEntries });
+      if (renderEntries.length > 0) {
+        renderReport = await renderThemeSet({ rootDir, entries: renderEntries });
+        renderReport.results = { ...cachedResults, ...renderReport.results };
+      } else {
+        renderReport = {
+          results: { ...cachedResults },
+          viewports: [{ name: 'mobile' }, { name: 'desktop' }, { name: 'wide' }],
+        };
+      }
+
+      // Recent themes have unique dates; candidates share today's date so only
+      // the eventual winner is written after ranking.
+      mergeRenderResultsIntoCache(signatureCache, recentToRender, renderReport);
     } catch (renderError) {
       if (process.env.DAILY_THEME_REQUIRE_RENDER === '1') throw renderError;
       console.warn(`Render ranking unavailable; falling back to data-only ranking: ${renderError.message}`);
+      signatureCache = null;
     }
   }
 
@@ -812,7 +847,9 @@ async function generateTheme(options = {}) {
   for (const [index, candidate] of ranking.ranked.entries()) {
     console.log(
       `  ${index + 1}. "${candidate.theme.name}" — score ${candidate.score.toFixed(1)}, ` +
-      `visual distance ${(candidate.visualDistance * 100).toFixed(1)}%, ` +
+      `visual ${(candidate.visualDistance * 100).toFixed(1)}%, ` +
+      `color ${(candidate.colorDistance * 100).toFixed(1)}%, ` +
+      `attractor ${(candidate.attractorPenalty * 100).toFixed(0)}%, ` +
       `similarity ${(candidate.assessment.score * 100).toFixed(0)}%, ` +
       `${candidate.issues.length ? candidate.issues.join(', ') : 'safe at all viewports'}`,
     );
@@ -820,6 +857,15 @@ async function generateTheme(options = {}) {
 
   if (renderReport && ranking.ranked.every((candidate) => candidate.issues.length > 0)) {
     throw new Error('All rendered theme candidates failed viewport safety checks. No theme was saved.');
+  }
+
+  if (signatureCache && renderReport) {
+    mergeRenderResultsIntoCache(
+      signatureCache,
+      [{ id: ranking.winner.id, theme: ranking.winner.theme }],
+      renderReport,
+    );
+    saveSignatureCache(rootDir, signatureCache);
   }
 
   console.log(`\nSelected "${ranking.winner.theme.name}".`);
