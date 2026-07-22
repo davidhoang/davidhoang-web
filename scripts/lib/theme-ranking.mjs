@@ -1,8 +1,10 @@
 import { assessDiversity } from './theme-diversity.mjs';
+import { attractorPenalty, nearestColorDistance } from './theme-color-distance.mjs';
 
 /**
  * Rank normalized candidates using real render safety, grayscale layout
- * distance from recent themes, and categorical diversity.
+ * distance from recent themes, palette distance, categorical diversity,
+ * and penalties for overused cream/lavender AI attractors.
  * @param {Array<{ id: string, theme: object, assessment?: object }>} candidates
  * @param {object[]} recentThemes
  * @param {any} [renderReport]
@@ -25,12 +27,16 @@ export function rankThemeCandidates(candidates, recentThemes, renderReport = nul
     const renderCoverage = rendered
       ? Object.keys(rendered.viewports).length / Math.max(1, renderReport.viewports.length)
       : 0;
+    const colorDistance = nearestColorDistance(candidate.theme, recentThemes);
+    const attractor = attractorPenalty(candidate.theme);
 
     const score = (
-      visualDistance * 60 +
-      (1 - assessment.score) * 30 +
+      visualDistance * 55 +
+      colorDistance * 25 +
+      (1 - assessment.score) * 25 +
       Math.min(assessment.changesFromYesterday, 8) * 1.25 +
       renderCoverage * 5 -
+      attractor * 18 -
       issues.length * 100
     );
 
@@ -39,6 +45,8 @@ export function rankThemeCandidates(candidates, recentThemes, renderReport = nul
       assessment,
       score,
       visualDistance,
+      colorDistance,
+      attractorPenalty: attractor,
       renderCoverage,
       issues,
     };
