@@ -33,7 +33,24 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
 
       await page.route('**/*', async (route) => {
         const requestUrl = new URL(route.request().url());
-        if (requestUrl.hostname === '127.0.0.1' || requestUrl.protocol === 'data:' || requestUrl.protocol === 'blob:') {
+        // Stub Google Fonts locally — live fetches flake in CI and can stall
+        // Playwright's screenshot font wait past the 30s default timeout.
+        if (requestUrl.hostname === 'fonts.googleapis.com') {
+          await route.fulfill({
+            status: 200,
+            contentType: 'text/css; charset=utf-8',
+            body: stubGoogleFontsCss(requestUrl),
+          });
+          return;
+        }
+        if (requestUrl.hostname === 'fonts.gstatic.com') {
+          await route.abort();
+          return;
+        }
+        const allowedHost =
+          requestUrl.hostname === '127.0.0.1'
+          || requestUrl.hostname === 'localhost';
+        if (allowedHost || requestUrl.protocol === 'data:' || requestUrl.protocol === 'blob:') {
           await route.continue();
         } else {
           await route.abort();
@@ -82,7 +99,12 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
         await page.waitForTimeout(80);
 
         const metrics = await collectMetrics(page, viewport.width, expectedHero);
-        const screenshot = await page.screenshot({ fullPage: true, type: 'png' });
+        const screenshot = await page.screenshot({
+          fullPage: true,
+          type: 'png',
+          animations: 'disabled',
+          timeout: 60_000,
+        });
         const signature = await createEdgeSignature(screenshot);
         results[entry.id].viewports[viewport.name] = { metrics, signature };
       }
@@ -313,15 +335,20 @@ async function createEdgeSignature(buffer) {
 async function startAstroServer(rootDir) {
   const port = await findOpenPort();
   process.env.ASTRO_TELEMETRY_DISABLED = '1';
+  // AstroInlineConfig only honors host/port under `server` — top-level keys are
+  // ignored and the default ::1:4321 bind makes 127.0.0.1 fetches fail in CI.
   const server = await startAstroDevServer({
     root: rootDir,
-    host: '127.0.0.1',
-    port,
+    server: {
+      host: '127.0.0.1',
+      port,
+    },
     logLevel: 'silent',
   });
 
+  const boundPort = server.address?.port ?? port;
   return {
-    url: `http://127.0.0.1:${server.address.port}/?layout=default`,
+    url: `http://127.0.0.1:${boundPort}/?layout=default`,
     async stop() {
       await server.stop();
     },
@@ -339,4 +366,33 @@ function findOpenPort() {
       server.close(() => port ? resolve(port) : reject(new Error('Unable to allocate preview port')));
     });
   });
+}
+
+/**
+ * Map Google Fonts CSS URLs to instant local() faces so theme stacks keep their
+ * family names without network I/O during render checks.
+ */
+function stubGoogleFontsCss(requestUrl) {
+  const families = requestUrl.searchParams.getAll('family');
+  if (families.length === 0) return '/* stub: no families */';
+
+  return families.map((raw) => {
+    const familyName = decodeURIComponent(raw.split(':')[0]).replace(/\+/g, ' ').replace(/'/g, '\\\'');
+    return `
+@font-face {
+  font-family: '${familyName}';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
+}
+@font-face {
+  font-family: '${familyName}';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: local('Arial Italic'), local('Helvetica Neue Italic'), local('Helvetica Oblique');
+}
+`.trim();
+  }).join('\n');
 }

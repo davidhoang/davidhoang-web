@@ -399,7 +399,8 @@ img[loading="lazy"] {
 }
 
 img[loading="lazy"].loaded {
-  opacity: var(--image-opacity, 1);
+  /* Fully opaque after load — themed opacity lives on .img-themed only */
+  opacity: 1;
   animation: none;
 }
 
