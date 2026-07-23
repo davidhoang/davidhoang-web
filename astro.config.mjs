@@ -4,9 +4,8 @@ import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { cpSync, existsSync } from 'fs';
-import { fileURLToPath } from 'url';
 import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
+import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
 
 const MANUAL_CHUNKS = [
   ['framer-motion', ['framer-motion']],
@@ -35,21 +34,21 @@ function manualChunks(id) {
   }
 }
 
-// Vite plugin to copy images from src/assets/images to public/images during build
-// This allows markdown files to continue using /images/ paths while components
-// can import from /src/assets for optimization
+/** Populate public/images from src/assets/images (single source of truth). */
 function copyAssetsPlugin() {
+  const sync = () => {
+    const { copied } = syncPublicImages();
+    if (copied) {
+      console.log('✓ Synced src/assets/images → public/images');
+    }
+  };
   return {
     name: 'copy-assets-images',
     buildStart() {
-      const srcDir = fileURLToPath(new URL('./src/assets/images', import.meta.url));
-      const publicDir = fileURLToPath(new URL('./public/images', import.meta.url));
-      
-      if (existsSync(srcDir)) {
-        // Copy entire directory recursively
-        // This allows markdown files to continue using /images/ paths
-        cpSync(srcDir, publicDir, { recursive: true, force: true });
-      }
+      sync();
+    },
+    configureServer() {
+      sync();
     },
   };
 }
