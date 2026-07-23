@@ -18,7 +18,7 @@ Site: https://www.davidhoang.com
 - `src/pages/api/` — Server-rendered endpoints (OG image generation, bio summary)
 - `src/styles/` — Global CSS, design tokens, self-hosted font declarations
 - `src/utils/` — Font preloading, responsive images, theme utilities
-- `public/images/` — Static images (blog images in subdirectories by year)
+- `src/assets/images/` — Image source of truth (blog, hero, odyssey, etc.); mirrored to `public/images/` at build/dev time
 
 ## Commands
 - `npm run dev` — Start dev server
@@ -29,7 +29,7 @@ Site: https://www.davidhoang.com
 ## Content conventions
 - Writing posts use `draft: true` to hide from production
 - Notes: `stage`, optional `overview` (markdown), `description` as Overview fallback; optional `overviewYoutube` (URL or id) embeds below overview prose inside the Overview card; optional `links`
-- Images use WebP format, stored in `public/images/blog/{year}/`
+- Images use WebP format, stored in `src/assets/images/blog/{year}/` (served as `/images/...`)
 - OG images auto-generated via `/api/og` endpoint for posts without custom ogImage/coverImage
 
 ## Site navigation

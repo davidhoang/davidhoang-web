@@ -2,6 +2,7 @@ import sharp from 'sharp';
 import { readdirSync, statSync, unlinkSync, existsSync } from 'fs';
 import { join, extname, basename, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { syncPublicImages } from './lib/sync-public-images.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,9 +18,8 @@ const MIN_SAVINGS_RATIO = 0.05; // Skip if re-encoding saves <5% — sharp isn't
 const MAX_SAVINGS_RATIO = 0.80; // If sharp saves >80%, it likely stripped animation frames — reject
 const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
 
-// Directories to process
+// Source of truth only — public/images is a generated mirror (see sync-public-images.mjs)
 const imageDirectories = [
-  join(rootDir, 'public/images'),
   join(rootDir, 'src/assets/images'),
 ];
 
@@ -338,10 +338,17 @@ async function main() {
     console.log('============================\n');
     console.log('The following file references need to be updated:');
     for (const item of results.converted) {
-      const oldPath = item.original.replace(rootDir, '').replace('/public', '');
-      const newPath = item.webp.replace(rootDir, '').replace('/public', '');
+      const toPublicPath = (p) =>
+        p.replace(rootDir, '').replace('/src/assets', '').replace('/public', '');
+      const oldPath = toPublicPath(item.original);
+      const newPath = toPublicPath(item.webp);
       console.log(`   ${oldPath} → ${newPath}`);
     }
+  }
+
+  const sync = syncPublicImages();
+  if (sync.copied) {
+    console.log('\n✓ Synced src/assets/images → public/images');
   }
 }
 

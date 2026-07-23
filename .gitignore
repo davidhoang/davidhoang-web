@@ -47,6 +47,10 @@ temp_*.png
 # Local screenshots (not site assets — see src/assets/ for Astro images)
 /assets/
 
+# Generated mirror of src/assets/images (synced by Vite / optimize-images)
+/public/images/**
+!/public/images/README.md
+
 # Internal documentation (dev notes, not user-facing)
 ACCESSIBILITY_IMPROVEMENTS.md
 BIO_AI_SUMMARY_SETUP.md
