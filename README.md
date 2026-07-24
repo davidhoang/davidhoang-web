@@ -68,7 +68,7 @@ The website features an AI-powered theme generation system that creates a unique
 
 1. A GitHub Action runs daily at 6am UTC (or can be triggered manually)
 2. A deterministic scheduler rotates art-direction recipes, hero templates, and grid templates with cooldowns
-3. Claude generates three styling candidates inside the scheduled structure, including:
+3. Claude generates three styling candidates in parallel inside the scheduled structure, including:
    - **Colors:** Light and dark mode palettes with tinted backgrounds
    - **Typography:** Heading and body font pairings from Google Fonts
    - **Cards:** Opaque treatment styles (flat, elevated, outlined, filled)
@@ -80,8 +80,9 @@ The website features an AI-powered theme generation system that creates a unique
    - **Footer:** Style variations (classic, minimal, brutalist, editorial, retro, etc.)
    - **Shaders:** Optional WebGL background effects (mesh-gradient, waves, dot-grid, etc.)
 4. Every model response passes a strict schema: exact theme keys, allowlisted enums, canonical hex colors, bounded CSS values, and capped strings/arrays
-5. Playwright renders every candidate and the recent history at 390px, 1440px, and 1920px
-6. The safest, most visually distinct candidate is saved to `src/data/daily-themes.json` with 7 days of history
+5. Playwright renders every candidate (and only cache-miss recent themes) at 390px, 1440px, and 1920px
+6. Ranking prefers viewport-safe candidates with higher layout + palette distance from recent themes, and penalizes warm-cream / lavender AI attractors
+7. The winning theme is saved to `src/data/daily-themes.json` (7-day history); edge signatures land in `src/data/theme-render-signatures.json` for the next run
 
 Navigation dimensions and page scaffolding remain framework-controlled across every theme.
 

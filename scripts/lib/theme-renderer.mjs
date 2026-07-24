@@ -12,8 +12,8 @@ export const THEME_MOBILE_BREAKPOINT = 768;
 
 /**
  * Render candidates and recent themes against the real home page. Screenshots
- * are reduced to grayscale edge signatures in memory; no generated artifacts
- * are written into the repository.
+ * are reduced to grayscale edge signatures in memory. Callers may persist
+ * signatures via `theme-signature-cache.mjs` so later runs skip cache hits.
  */
 export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDER_VIEWPORTS }) {
   const server = await startAstroServer(rootDir);

@@ -44,13 +44,13 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code src/data/daily-themes.json || echo "changes=true" >> $GITHUB_OUTPUT
+          git diff --exit-code src/data/daily-themes.json src/data/theme-render-signatures.json || echo "changes=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/data/daily-themes.json src/data/build-log.json
+          git add src/data/daily-themes.json src/data/build-log.json src/data/theme-render-signatures.json
           git commit -m "chore: generate daily theme for $(date +%Y-%m-%d)"
           git push
