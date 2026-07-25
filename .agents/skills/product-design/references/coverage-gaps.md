@@ -14,6 +14,14 @@ Format:
 
 ---
 
+## 2026-07-25 — Malformed spacing token interpolation (`0.var(--…)`)
+
+**Symptom:** A rem→token codemod replaced substrings inside values like `0.2rem` / `0.4rem` / `0.72rem`, producing invalid CSS such as `0.var(--spacing-xl)` and `0.7var(--spacing-xl)`. Featured, About, Notes, and several components shipped broken spacing.
+**Fix applied:** Restored correct `calc(var(--spacing-*) …)` values; core audit rule `malformed-spacing-token` in `scripts/design-audit/rules/tokens.mjs` fails CI on `\d+\.var(--` patterns.
+**Status:** resolved
+
+---
+
 ## 2026-07-19 — Multi-column theme gap amplification
 
 **Symptom:** A 12-column theme recipe inherited the standard ultrawide philosophy-grid gap, multiplying a large gap across 11 tracks and overflowing at 1920px even though the static design audit passed.

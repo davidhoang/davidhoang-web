@@ -62,6 +62,21 @@ describe('layout contract rules', () => {
   });
 });
 
+describe('token integrity rules', () => {
+  it('wires malformed-spacing-token into core audit and keeps Featured clean', () => {
+    expect(readFileSync(join(ROOT, 'scripts/design-audit/rules/tokens.mjs'), 'utf-8')).toContain(
+      'malformed-spacing-token',
+    );
+    expect(readFileSync(join(ROOT, 'scripts/design-audit/index.mjs'), 'utf-8')).toContain(
+      'auditMalformedSpacingTokens',
+    );
+    const featured = readFileSync(join(ROOT, 'src/pages/featured.astro'), 'utf-8');
+    expect(featured).not.toMatch(/\d+\.var\(--/);
+    expect(featured).toContain('calc(var(--spacing-sm) + 0.22rem)');
+    expect(featured).toContain('calc(var(--spacing-xs) - 0.05rem)');
+  });
+});
+
 describe('strict rule modules', () => {
   it('formatReport marks strict violations as failing', () => {
     const fakeViolations = [
