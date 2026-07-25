@@ -4,11 +4,11 @@
  */
 
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 /** Bump when signature algorithm or home layout contract changes. */
-export const THEME_SIGNATURE_CACHE_VERSION = 1;
+export const THEME_SIGNATURE_CACHE_VERSION = 2;
 
 /** Must match `THEME_RENDER_VIEWPORTS` names in theme-renderer.mjs */
 const CACHED_VIEWPORT_NAMES = ['mobile', 'desktop', 'wide'];
@@ -182,12 +182,4 @@ function pruneCacheEntries(entries) {
     .sort(([left], [right]) => right.localeCompare(left))
     .slice(0, 30);
   return Object.fromEntries(dated);
-}
-
-/**
- * True when the cache file exists on disk (used by workflow checks).
- * @param {string} rootDir
- */
-export function signatureCacheExists(rootDir) {
-  return existsSync(signatureCachePath(rootDir));
 }

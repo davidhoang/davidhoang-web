@@ -37,6 +37,7 @@ describe('signature cache', () => {
     const theme = sampleTheme('2026-07-01');
     const cache = loadSignatureCache(rootDir);
     expect(cache.version).toBe(THEME_SIGNATURE_CACHE_VERSION);
+    expect(THEME_SIGNATURE_CACHE_VERSION).toBeGreaterThanOrEqual(2);
 
     const report = {
       results: {
