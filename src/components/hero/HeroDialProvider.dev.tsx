@@ -102,7 +102,7 @@ export function HeroDialProviderInner({ children, onReplayEntrance }: HeroDialPr
       {children}
       <DialRoot
         position="bottom-right"
-        defaultOpen={false}
+        defaultOpen
         theme="system"
         productionEnabled={false}
       />
