@@ -6,7 +6,8 @@
   margin-top: 40px;
   background: none;
   position: relative;
-  z-index: 2;
+  /* Below .design-philosophy so card bottoms tuck under that full-bleed surface */
+  z-index: 0;
   overflow: visible;
   /* Shared dot-grid unit — hero typography snaps to this rhythm */
   --dot-grid-size: clamp(14px, 1.15vw, 24px);
@@ -15,6 +16,8 @@
     calc(var(--dot-grid-size) - mod(var(--hero-grid-y), var(--dot-grid-size))),
     var(--dot-grid-size)
   );
+  /* How far fan cards drop into the next section — enough to hide bottoms, not bury them */
+  --hero-cards-tuck: clamp(1.75rem, 4vw, 2.75rem);
 }
 
 /* Dot-grid notebook background — Leuchtturm-style lattice */
@@ -51,11 +54,34 @@
   line-height: var(--h2-line-height);
 }
 
+.design-philosophy .home-section-heading {
+  max-width: none;
+  white-space: nowrap;
+}
+
 .design-philosophy {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--spacing-lg);
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  isolation: isolate;
+  border-top: none;
+  padding-top: var(--spacing-lg);
+  /* Transparent shell — full-bleed paint lives on ::before so the edge matches the hero’s 100vw */
+  background: transparent;
+}
+
+/* Full-viewport surface so the section edge isn’t an inset white slab over the dot grid */
+.design-philosophy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  translate: -50% 0;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .philosophy-grid {
@@ -273,6 +299,7 @@
   .card-stack-section {
     margin-top: 50px;
     --hero-grid-y: calc(var(--content-top-padding, 6rem) + 50px);
+    --hero-cards-tuck: clamp(1.25rem, 5vw, 2rem);
   }
 
   .design-philosophy,

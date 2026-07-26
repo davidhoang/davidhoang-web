@@ -10,76 +10,102 @@ interface HeroDialProviderInnerProps {
   onReplayEntrance?: () => void;
 }
 
+function finiteOr<T extends number>(value: T | undefined | null, fallback: T): T {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
 export function HeroDialProviderInner({ children, onReplayEntrance }: HeroDialProviderInnerProps) {
+  // Dev-only panel (also gated by HeroDialProvider + DialRoot productionEnabled).
+  // v2 persist key: older localStorage could store spread: 0 and collapse the fan.
   const params = useDialKit('Home cards', heroDialConfig, {
-    persist: { key: 'davidhoang-hero-cards', presets: true },
+    id: 'home-cards',
+    persist: {
+      key: 'davidhoang-hero-cards-v2',
+      storage: 'localStorage',
+      presets: true,
+    },
     onAction: (action) => {
       if (action === 'replayEntrance') onReplayEntrance?.();
     },
   }) as unknown as HeroDialParams;
 
-  const values = useMemo<HeroDialValues>(
-    () => ({
+  const values = useMemo<HeroDialValues>(() => {
+    const defaults = heroDialDefaults;
+    const fanDefaults = defaults.stackedFan.fan;
+    const spread = finiteOr(params.stackedFan?.fan?.spread, fanDefaults.spread);
+
+    return {
       card: {
-        width: params.card.width,
-        height: params.card.height,
-        borderRadius: params.card.borderRadius,
+        width: finiteOr(params.card?.width, defaults.card.width),
+        height: finiteOr(params.card?.height, defaults.card.height),
+        borderRadius: finiteOr(params.card?.borderRadius, defaults.card.borderRadius),
       },
       hoverTween: {
         type: 'tween',
-        duration: params.hoverTween.duration,
-        ease: params.hoverTween.ease,
+        duration: finiteOr(params.hoverTween?.duration, 0.32),
+        ease: params.hoverTween?.ease ?? defaults.hoverTween.ease,
       },
       tilt: {
-        enabled: params.tilt.enabled,
-        amplitude: params.tilt.amplitude,
-        stiffness: params.tilt.stiffness,
-        damping: params.tilt.damping,
-        mass: params.tilt.mass,
+        enabled: Boolean(params.tilt?.enabled),
+        amplitude: finiteOr(params.tilt?.amplitude, defaults.tilt.amplitude),
+        stiffness: finiteOr(params.tilt?.stiffness, defaults.tilt.stiffness),
+        damping: finiteOr(params.tilt?.damping, defaults.tilt.damping),
+        mass: finiteOr(params.tilt?.mass, defaults.tilt.mass),
       },
       stackedFan: {
         fan: {
-          spread: params.stackedFan.fan.spread,
-          yOffset: params.stackedFan.fan.yOffset,
-          rotation: params.stackedFan.fan.rotation,
+          // Never allow 0 spread — it stacks every card on the center one.
+          spread: spread > 0 ? spread : fanDefaults.spread,
+          yOffset: finiteOr(params.stackedFan?.fan?.yOffset, fanDefaults.yOffset),
+          rotation: finiteOr(params.stackedFan?.fan?.rotation, fanDefaults.rotation),
         },
         wrapper: {
-          width: params.stackedFan.wrapper.width,
-          height: params.stackedFan.wrapper.height,
-          marginTop: params.stackedFan.wrapper.marginTop,
+          width: finiteOr(params.stackedFan?.wrapper?.width, defaults.stackedFan.wrapper.width),
+          height: finiteOr(params.stackedFan?.wrapper?.height, defaults.stackedFan.wrapper.height),
+          marginTop: finiteOr(params.stackedFan?.wrapper?.marginTop, defaults.stackedFan.wrapper.marginTop),
         },
         hover: {
-          liftY: params.stackedFan.hover.liftY,
-          scale: params.stackedFan.hover.scale,
-          tapScale: params.stackedFan.hover.tapScale,
+          liftY: finiteOr(params.stackedFan?.hover?.liftY, defaults.stackedFan.hover.liftY),
+          scale: finiteOr(params.stackedFan?.hover?.scale, defaults.stackedFan.hover.scale),
+          tapScale: finiteOr(params.stackedFan?.hover?.tapScale, defaults.stackedFan.hover.tapScale),
         },
         entrance: {
-          initialScale: params.stackedFan.entrance.initialScale,
-          staggerDelay: params.stackedFan.entrance.staggerDelay,
-          stiffness: params.stackedFan.entrance.stiffness,
-          damping: params.stackedFan.entrance.damping,
-          settleStiffness: params.stackedFan.entrance.settleStiffness,
-          settleDamping: params.stackedFan.entrance.settleDamping,
+          initialScale: finiteOr(params.stackedFan?.entrance?.initialScale, defaults.stackedFan.entrance.initialScale),
+          staggerDelay: finiteOr(params.stackedFan?.entrance?.staggerDelay, defaults.stackedFan.entrance.staggerDelay),
+          stiffness: finiteOr(params.stackedFan?.entrance?.stiffness, defaults.stackedFan.entrance.stiffness),
+          damping: finiteOr(params.stackedFan?.entrance?.damping, defaults.stackedFan.entrance.damping),
+          settleStiffness: finiteOr(
+            params.stackedFan?.entrance?.settleStiffness,
+            defaults.stackedFan.entrance.settleStiffness
+          ),
+          settleDamping: finiteOr(
+            params.stackedFan?.entrance?.settleDamping,
+            defaults.stackedFan.entrance.settleDamping
+          ),
         },
         expand: {
-          stiffness: params.stackedFan.expand.spring.stiffness ?? heroDialDefaults.stackedFan.expand.stiffness,
-          damping: params.stackedFan.expand.spring.damping ?? heroDialDefaults.stackedFan.expand.damping,
-          mass: params.stackedFan.expand.spring.mass ?? heroDialDefaults.stackedFan.expand.mass,
+          stiffness: params.stackedFan?.expand?.spring?.stiffness ?? defaults.stackedFan.expand.stiffness,
+          damping: params.stackedFan?.expand?.spring?.damping ?? defaults.stackedFan.expand.damping,
+          mass: params.stackedFan?.expand?.spring?.mass ?? defaults.stackedFan.expand.mass,
         },
-        dimmedOpacity: params.stackedFan.dimmedOpacity,
+        dimmedOpacity: finiteOr(params.stackedFan?.dimmedOpacity, defaults.stackedFan.dimmedOpacity),
       },
-      editorial: { ...params.editorial },
-      scattered: { ...params.scattered },
-      rolodex: { ...params.rolodex },
-      cinematic: { ...params.cinematic },
-    }),
-    [params]
-  );
+      editorial: { ...defaults.editorial, ...params.editorial },
+      scattered: { ...defaults.scattered, ...params.scattered },
+      rolodex: { ...defaults.rolodex, ...params.rolodex },
+      cinematic: { ...defaults.cinematic, ...params.cinematic },
+    };
+  }, [params]);
 
   return (
     <HeroDialContext.Provider value={values}>
       {children}
-      <DialRoot position="bottom-right" defaultOpen={false} theme="system" />
+      <DialRoot
+        position="bottom-right"
+        defaultOpen={false}
+        theme="system"
+        productionEnabled={false}
+      />
     </HeroDialContext.Provider>
   );
 }

@@ -1,6 +1,5 @@
-import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { createPortal } from 'react-dom';
-import { LayoutGroup, motion, useReducedMotion } from 'framer-motion';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 import {
@@ -8,7 +7,6 @@ import {
   heroCardInteractionTransition,
   useHeroCardInteraction,
 } from '../heroCardInteraction';
-import MobileHeroSheet from '../MobileHeroSheet';
 import { isMobileHeroViewport } from '../heroViewport';
 import {
   mobileStackOffsetFromActive,
@@ -30,20 +28,13 @@ const cardPositions = [
 
 const SWIPE_THRESHOLD_PX = 48;
 
-function cardClassName(
-  card: LayoutProps['cards'][number],
-  isSelected: boolean,
-  isGlass: boolean,
-  extra?: string
-) {
+function cardClassName(card: LayoutProps['cards'][number], isGlass: boolean) {
   return [
     'hero-card',
-    isSelected ? 'card-selected' : '',
     card.image ? 'card-with-image' : '',
     cardHasHeroLayout(card) ? 'card-has-hero-layout' : '',
     cardHasShaderSurface(card) ? 'card-has-shader' : '',
     isGlass ? 'card-glass-mode' : '',
-    extra,
   ]
     .filter(Boolean)
     .join(' ');
@@ -68,7 +59,6 @@ interface FanCardProps {
   position: (typeof cardPositions)[number];
   cardCount: number;
   isGlass: boolean;
-  selectedCard: string | null;
   hoveredCard: string | null;
   isLoaded: boolean;
   hasAnimatedIn: boolean;
@@ -86,7 +76,6 @@ function FanCard({
   position,
   cardCount,
   isGlass,
-  selectedCard,
   hoveredCard,
   isLoaded,
   hasAnimatedIn,
@@ -108,12 +97,12 @@ function FanCard({
   const stackScale = isMobileStack ? mobileStack.position.scale : 1;
   const isFront = isMobileStack ? mobileStack.offset === 0 : true;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || isMobileStack);
-  const hoverDisabled = Boolean(selectedCard) || Boolean(prefersReducedMotion) || isMobileStack;
+  const tilt = useHeroCardTilt(dial, isMobileStack);
+  const hoverDisabled = Boolean(prefersReducedMotion) || isMobileStack;
 
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
-    selectedCard,
+    selectedCard: null,
     hoveredCard,
     isLoaded,
     hoverDisabled,
@@ -152,18 +141,37 @@ function FanCard({
     },
   });
 
+  // Stable fan order; hover only boosts stacking. Demote after the leave spring so
+  // the stack doesn’t pop when z-index flips mid-motion.
+  const baseZ = isMobileStack
+    ? mobileStackZIndex(mobileStack.offset, cardCount, false)
+    : cardCount - index;
+  const elevatedZ = isMobileStack
+    ? mobileStackZIndex(mobileStack.offset, cardCount, true)
+    : cardCount + 2;
+  const stackZ = isFocused ? elevatedZ : baseZ;
+
+  const interactionTransition = heroCardInteractionTransition({
+    hasAnimatedIn,
+    phase,
+    index,
+    isLoaded,
+    entrance: {
+      stiffness: fan.entrance.stiffness,
+      damping: fan.entrance.damping,
+      staggerDelay: fan.entrance.staggerDelay,
+    },
+  });
+
   return (
     <motion.div
-      layoutId={`hero-card-${card.id}`}
-      className={cardClassName(card, false, isGlass)}
+      className={cardClassName(card, isGlass)}
+      role="link"
+      tabIndex={0}
+      aria-label={card.linkText ? `${card.title} — ${card.linkText}` : card.title}
       style={{
         ...dimensionStyle,
         backgroundColor: isGlass ? 'transparent' : card.color,
-        zIndex: isMobileStack
-          ? mobileStackZIndex(mobileStack.offset, cardCount, isFocused)
-          : isFocused
-            ? cardCount + 2
-            : cardCount - index,
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
         transformPerspective: 900,
@@ -174,21 +182,31 @@ function FanCard({
         rotate: 0,
         scale: fan.entrance.initialScale,
         opacity: 1,
+        zIndex: baseZ,
       }}
-      animate={animatePose}
-      transition={heroCardInteractionTransition({
-        hasAnimatedIn,
-        phase,
-        index,
-        isLoaded,
-        entrance: {
-          stiffness: fan.entrance.stiffness,
-          damping: fan.entrance.damping,
-          staggerDelay: fan.entrance.staggerDelay,
+      animate={{
+        ...animatePose,
+        zIndex: stackZ,
+      }}
+      transition={{
+        ...interactionTransition,
+        zIndex: {
+          type: 'tween',
+          duration: 0,
+          delay: isFocused ? 0 : 0.28,
         },
-      })}
+      }}
       onMouseMove={tilt.onMouseMove}
       {...pointerHandlers}
+      onKeyDown={(e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        if (isMobileStack && !isFront) {
+          onActivate(index);
+          return;
+        }
+        onCardClick(card.id, card.link);
+      }}
       onClick={() => {
         tilt.reset();
         clearPress();
@@ -203,7 +221,7 @@ function FanCard({
         card={card}
         isSelected={false}
         isGlass={isGlass}
-        isHeroMediaActive={(isFocused || (isMobileStack && isFront)) && !selectedCard}
+        isHeroMediaActive={isFocused || (isMobileStack && isFront)}
         onLinkClick={(e) => e.stopPropagation()}
       />
     </motion.div>
@@ -212,28 +230,20 @@ function FanCard({
 
 export default function StackedFanLayout({
   cards,
-  selectedCard,
   hoveredCard,
   isLoaded,
   hasAnimatedIn,
   cardStyle,
   onCardClick,
-  onCardDismiss,
   onCardHover,
 }: LayoutProps) {
   const dial = useHeroDial();
   const fan = dial.stackedFan;
   const isGlass = cardStyle === 'glass';
-  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const [isMobileStack, setIsMobileStack] = useState(false);
   const [mobileDims, setMobileDims] = useState<MobileHeroCardDimensions | null>(null);
   const [activeIndex, setActiveIndex] = useState(() => Math.floor(cards.length / 2));
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const prefersReducedMotion = useReducedMotion();
-
-  useLayoutEffect(() => {
-    setPortalRoot(document.body);
-  }, []);
 
   const syncMobileStack = useCallback(() => {
     const mobile = isMobileHeroViewport();
@@ -252,19 +262,6 @@ export default function StackedFanLayout({
     document.documentElement.setAttribute('data-hero-mobile-stack', 'true');
     return () => document.documentElement.removeAttribute('data-hero-mobile-stack');
   }, [isMobileStack]);
-
-  const expandTransition = useMemo(
-    () =>
-      prefersReducedMotion
-        ? { duration: 0.2, ease: [0.32, 0.72, 0, 1] as const }
-        : {
-            type: 'spring' as const,
-            stiffness: fan.expand.stiffness,
-            damping: fan.expand.damping,
-            mass: fan.expand.mass,
-          },
-    [prefersReducedMotion, fan.expand.stiffness, fan.expand.damping, fan.expand.mass]
-  );
 
   const wrapperStyle = useMemo<CSSProperties>(() => {
     if (isMobileStack && mobileDims) {
@@ -291,16 +288,16 @@ export default function StackedFanLayout({
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!isMobileStack || selectedCard) return;
+      if (!isMobileStack) return;
       const touch = e.touches[0];
       touchStartRef.current = { x: touch.clientX, y: touch.clientY };
     },
-    [isMobileStack, selectedCard]
+    [isMobileStack]
   );
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!isMobileStack || selectedCard || !touchStartRef.current) return;
+      if (!isMobileStack || !touchStartRef.current) return;
       const touch = e.changedTouches[0];
       const dx = touch.clientX - touchStartRef.current.x;
       const dy = touch.clientY - touchStartRef.current.y;
@@ -308,7 +305,7 @@ export default function StackedFanLayout({
       if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
       cycleActive(dx < 0 ? 1 : -1);
     },
-    [isMobileStack, selectedCard, cycleActive]
+    [isMobileStack, cycleActive]
   );
 
   return (
@@ -318,83 +315,25 @@ export default function StackedFanLayout({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <LayoutGroup id="hero-stacked-fan">
-        {cards.map((card, index) => {
-          const position = cardPositions[index];
-          const isSelected = selectedCard === card.id;
-          const layoutId = `hero-card-${card.id}`;
-
-          const fanCard = (
-            <FanCard
-              card={card}
-              index={index}
-              position={position}
-              cardCount={cards.length}
-              isGlass={isGlass}
-              selectedCard={selectedCard}
-              hoveredCard={hoveredCard}
-              isLoaded={isLoaded}
-              hasAnimatedIn={hasAnimatedIn}
-              isMobileStack={isMobileStack}
-              activeIndex={activeIndex}
-              mobileDims={mobileDims}
-              onCardClick={onCardClick}
-              onCardHover={onCardHover}
-              onActivate={setActiveIndex}
-            />
-          );
-
-          const desktopFullscreenCard =
-            portalRoot &&
-            createPortal(
-              <div className="card-hero-fullscreen-stage">
-                <motion.div
-                  layoutId={layoutId}
-                  className={cardClassName(card, true, isGlass, 'card-hero-fullscreen')}
-                  style={{
-                    ...cardDimensionStyle(dial),
-                    backgroundColor: isGlass ? 'transparent' : card.color,
-                  }}
-                  transition={expandTransition}
-                  onClick={() => onCardClick(card.id, card.link)}
-                >
-                  <CardBaseContent
-                    card={card}
-                    isSelected
-                    isGlass={isGlass}
-                    isHeroMediaActive
-                    onLinkClick={(e) => e.stopPropagation()}
-                  />
-                </motion.div>
-              </div>,
-              portalRoot
-            );
-
-          const mobileSheetCard =
-            portalRoot &&
-            createPortal(
-              <MobileHeroSheet
-                card={card}
-                isGlass={isGlass}
-                layoutId={layoutId}
-                className={cardClassName(card, true, isGlass, 'card-hero-fullscreen card-hero-fullscreen--sheet')}
-                backgroundColor={isGlass ? 'transparent' : card.color}
-                expandTransition={expandTransition}
-                onDismiss={onCardDismiss}
-              />,
-              portalRoot
-            );
-
-          const expandedCard = isMobileStack ? mobileSheetCard : desktopFullscreenCard;
-
-          return (
-            <Fragment key={card.id}>
-              {!isSelected && fanCard}
-              {isSelected && expandedCard}
-            </Fragment>
-          );
-        })}
-      </LayoutGroup>
+      {cards.map((card, index) => (
+        <FanCard
+          key={card.id}
+          card={card}
+          index={index}
+          position={cardPositions[index]}
+          cardCount={cards.length}
+          isGlass={isGlass}
+          hoveredCard={hoveredCard}
+          isLoaded={isLoaded}
+          hasAnimatedIn={hasAnimatedIn}
+          isMobileStack={isMobileStack}
+          activeIndex={activeIndex}
+          mobileDims={mobileDims}
+          onCardClick={onCardClick}
+          onCardHover={onCardHover}
+          onActivate={setActiveIndex}
+        />
+      ))}
     </div>
   );
 }
