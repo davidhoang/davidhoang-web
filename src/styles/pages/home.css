@@ -59,20 +59,24 @@
   white-space: nowrap;
 }
 
-/* Full-bleed breakout (same pattern as .card-stack-section) — background on the
-   section itself so a 100vw ::before cannot inflate scrollWidth and trip the
-   theme-renderer horizontal-overflow check. */
+/*
+  Full-bleed surface so hero cards tuck under a viewport-edged plane.
+  Break out like `.card-stack-section` (width 100vw) instead of a 100vw ::before —
+  absolutely positioned 100vw pseudos inflate this section’s scrollWidth and fail
+  the theme-renderer overflow check even when documentOverflowPx is 0.
+  Horizontal padding recreates main.container’s centered content column
+  (outer centering gutter + container padding).
+*/
 .design-philosophy {
   position: relative;
   z-index: 2;
   isolation: isolate;
   box-sizing: border-box;
   width: 100vw;
+  max-width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: var(--color-bg);
   border-top: 1px solid var(--color-border);
   padding-top: var(--spacing-lg);
-  /* Recreate .container gutters after breaking out of the content column */
   padding-left: max(
     var(--container-padding),
     env(safe-area-inset-left, 0px),
@@ -83,6 +87,7 @@
     env(safe-area-inset-right, 0px),
     calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
   );
+  background: var(--color-bg);
 }
 
 .philosophy-grid {
