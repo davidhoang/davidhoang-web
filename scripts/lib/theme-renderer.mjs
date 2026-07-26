@@ -81,11 +81,7 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
           ? 'stacked-fan'
           : entry.theme.hero?.layout;
         if (expectedHero) {
-          await page.waitForFunction(
-            (layout) => document.querySelector('.card-stack-hero')?.classList.contains(`card-stack-hero--${layout}`),
-            expectedHero,
-            { timeout: 5000 },
-          ).catch(() => {});
+          await waitForHeroLayout(page, expectedHero);
         }
 
         await page.evaluate(async () => {
@@ -120,6 +116,36 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
   }
 
   return { results, viewports };
+}
+
+/**
+ * Wait for CardStackHero to reflect the expected layout class.
+ * Retries attribute + theme-changed once — CI can stall the first lazy layout
+ * chunk compile long enough that a single short wait flakes.
+ */
+async function waitForHeroLayout(page, expectedHero, {
+  timeoutMs = 15_000,
+  retries = 1,
+} = {}) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      await page.waitForFunction(
+        (layout) => document.querySelector('.card-stack-hero')?.classList.contains(`card-stack-hero--${layout}`),
+        expectedHero,
+        { timeout: timeoutMs },
+      );
+      return;
+    } catch (error) {
+      if (attempt >= retries) throw error;
+      await page.evaluate((layout) => {
+        const root = document.documentElement;
+        root.setAttribute('data-hero-layout', layout);
+        document.dispatchEvent(new CustomEvent('theme-changed', {
+          detail: { theme: { hero: { layout } } },
+        }));
+      }, expectedHero);
+    }
+  }
 }
 
 async function applyTheme(page, theme) {
