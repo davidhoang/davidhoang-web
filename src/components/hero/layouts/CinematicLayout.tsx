@@ -45,7 +45,9 @@ function FeaturedCard({
   const dial = useHeroDial();
   const cinematic = dial.cinematic;
   const isSelected = selectedCard === card.id;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const hoverDisabled = reducedMotion || !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
 
   return (
     <motion.div
@@ -66,7 +68,9 @@ function FeaturedCard({
         layout: { type: 'spring', stiffness: cinematic.layoutStiffness, damping: cinematic.layoutDamping },
         scale: { type: 'spring', stiffness: cinematic.featuredScaleStiffness, damping: cinematic.featuredScaleDamping },
       }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+      onMouseEnter={() => {
+        if (!selectedCard && !hoverDisabled) onCardHover(card.id);
+      }}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => { tilt.reset(); onCardClick(card.id, card.link); }}

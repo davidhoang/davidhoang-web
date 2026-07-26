@@ -128,6 +128,9 @@ describe('hero motion continuity contract', () => {
     for (const name of layouts) {
       const content = readFileSync(join(ROOT, 'src/components/hero/layouts', name), 'utf-8');
       expect(content).toContain('usePointerHoverMotionEnabled');
+      expect(content).not.toMatch(
+        /onMouseEnter=\{\(\)\s*=>\s*!selectedCard\s*&&\s*onCardHover\s*\(/
+      );
     }
   });
 

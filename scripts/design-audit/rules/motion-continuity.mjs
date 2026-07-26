@@ -126,5 +126,18 @@ export function auditHeroMotionContinuity(ctx) {
         `${rel(full)} must gate hover with usePointerHoverMotionEnabled() (design.md § Motion continuity)`,
       );
     }
+
+    // Catch ungated featured/hover enter handlers that ignore data-hover-motion
+    // (e.g. CinematicLayout FeaturedCard while FilmstripCard was already gated).
+    const ungatedHoverEnter =
+      /onMouseEnter=\{\(\)\s*=>\s*!selectedCard\s*&&\s*onCardHover\s*\(/.exec(content);
+    if (ungatedHoverEnter) {
+      ctx.addViolation(
+        full,
+        lineOf(content, ungatedHoverEnter.index ?? 0),
+        'hero-motion-continuity',
+        `${rel(full)} has ungated onMouseEnter→onCardHover — require !hoverDisabled / usePointerHoverMotionEnabled (design.md § Motion continuity)`,
+      );
+    }
   }
 }
