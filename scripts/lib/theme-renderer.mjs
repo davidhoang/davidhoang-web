@@ -10,83 +10,105 @@ export const THEME_RENDER_VIEWPORTS = [
 ];
 export const THEME_MOBILE_BREAKPOINT = 768;
 
+const HERO_LAYOUT_WARMUP = ['editorial', 'scattered', 'rolodex', 'cinematic', 'stacked-fan'];
+const HERO_LAYOUT_WAIT_MS = 15_000;
+
 /**
  * Render candidates and recent themes against the real home page. Screenshots
  * are reduced to grayscale edge signatures in memory. Callers may persist
  * signatures via `theme-signature-cache.mjs` so later runs skip cache hits.
+ *
+ * Uses one browser context and resizes between viewports. Recreating the page
+ * per viewport re-triggers `client:idle` + lazy hero layout chunks; under CI
+ * load those idle/import waits flake past the old swallowed 5s timeout.
  */
 export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDER_VIEWPORTS }) {
   const server = await startAstroServer(rootDir);
   let browser = null;
   const results = Object.fromEntries(entries.map(({ id }) => [id, { viewports: {} }]));
+  const initialViewport = viewports[0] || THEME_RENDER_VIEWPORTS[0];
 
   try {
     browser = await chromium.launch({ headless: true });
+    const context = await browser.newContext({
+      viewport: { width: initialViewport.width, height: initialViewport.height },
+      reducedMotion: 'no-preference',
+      colorScheme: 'light',
+      deviceScaleFactor: 1,
+    });
+    const page = await context.newPage();
+
+    await page.route('**/*', async (route) => {
+      const requestUrl = new URL(route.request().url());
+      // Stub Google Fonts locally — live fetches flake in CI and can stall
+      // Playwright's screenshot font wait past the 30s default timeout.
+      if (requestUrl.hostname === 'fonts.googleapis.com') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'text/css; charset=utf-8',
+          body: stubGoogleFontsCss(requestUrl),
+        });
+        return;
+      }
+      if (requestUrl.hostname === 'fonts.gstatic.com') {
+        await route.abort();
+        return;
+      }
+      const allowedHost =
+        requestUrl.hostname === '127.0.0.1'
+        || requestUrl.hostname === 'localhost';
+      if (allowedHost || requestUrl.protocol === 'data:' || requestUrl.protocol === 'blob:') {
+        await route.continue();
+      } else {
+        await route.abort();
+      }
+    });
+
+    await page.addInitScript(() => {
+      localStorage.setItem('daily-theme-mode', 'false');
+      localStorage.setItem('e-ink-mode', 'false');
+    });
+    await page.goto(server.url, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('.card-stack-hero.card-stack-hero--layout-ready', {
+      timeout: 30_000,
+    });
+    await page.addStyleTag({
+      content: `
+        *, *::before, *::after {
+          animation-delay: 0s !important;
+          animation-duration: 0.001ms !important;
+          transition-delay: 0s !important;
+          transition-duration: 0.001ms !important;
+          caret-color: transparent !important;
+        }
+      `,
+    });
+
+    // Prefetch lazy layout chunks once so later theme switches only update React state.
+    // The smoke matrix starts at 390px (mobile-forced stacked-fan), so bump to desktop
+    // briefly before warming editorial/scattered/rolodex/cinematic imports.
+    if (viewports.some((viewport) => viewport.width > THEME_MOBILE_BREAKPOINT)) {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.evaluate(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+      await page.waitForTimeout(50);
+      await warmHeroLayoutChunks(page);
+    }
+
     for (const viewport of viewports) {
-      const context = await browser.newContext({
-        viewport: { width: viewport.width, height: viewport.height },
-        reducedMotion: 'no-preference',
-        colorScheme: 'light',
-        deviceScaleFactor: 1,
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await page.evaluate(() => {
+        window.dispatchEvent(new Event('resize'));
       });
-      const page = await context.newPage();
-
-      await page.route('**/*', async (route) => {
-        const requestUrl = new URL(route.request().url());
-        // Stub Google Fonts locally — live fetches flake in CI and can stall
-        // Playwright's screenshot font wait past the 30s default timeout.
-        if (requestUrl.hostname === 'fonts.googleapis.com') {
-          await route.fulfill({
-            status: 200,
-            contentType: 'text/css; charset=utf-8',
-            body: stubGoogleFontsCss(requestUrl),
-          });
-          return;
-        }
-        if (requestUrl.hostname === 'fonts.gstatic.com') {
-          await route.abort();
-          return;
-        }
-        const allowedHost =
-          requestUrl.hostname === '127.0.0.1'
-          || requestUrl.hostname === 'localhost';
-        if (allowedHost || requestUrl.protocol === 'data:' || requestUrl.protocol === 'blob:') {
-          await route.continue();
-        } else {
-          await route.abort();
-        }
-      });
-
-      await page.addInitScript(() => {
-        localStorage.setItem('daily-theme-mode', 'false');
-        localStorage.setItem('e-ink-mode', 'false');
-      });
-      await page.goto(server.url, { waitUntil: 'domcontentloaded' });
-      await page.waitForSelector('.card-stack-hero', { timeout: 15000 });
-      await page.addStyleTag({
-        content: `
-          *, *::before, *::after {
-            animation-delay: 0s !important;
-            animation-duration: 0.001ms !important;
-            transition-delay: 0s !important;
-            transition-duration: 0.001ms !important;
-            caret-color: transparent !important;
-          }
-        `,
-      });
+      // Mobile forces stacked-fan via matchMedia; give that listener a turn.
+      await page.waitForTimeout(50);
 
       for (const entry of entries) {
-        await applyTheme(page, entry.theme);
         const expectedHero = viewport.width <= THEME_MOBILE_BREAKPOINT
           ? 'stacked-fan'
           : entry.theme.hero?.layout;
-        if (expectedHero) {
-          await page.waitForFunction(
-            (layout) => document.querySelector('.card-stack-hero')?.classList.contains(`card-stack-hero--${layout}`),
-            expectedHero,
-            { timeout: 5000 },
-          ).catch(() => {});
-        }
+        await applyThemeAndWaitForHero(page, entry.theme, expectedHero);
 
         await page.evaluate(async () => {
           await Promise.race([
@@ -108,9 +130,9 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
         const signature = await createEdgeSignature(screenshot);
         results[entry.id].viewports[viewport.name] = { metrics, signature };
       }
-
-      await context.close();
     }
+
+    await context.close();
   } finally {
     try {
       if (browser) await browser.close();
@@ -120,6 +142,42 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
   }
 
   return { results, viewports };
+}
+
+async function warmHeroLayoutChunks(page) {
+  for (const layout of HERO_LAYOUT_WARMUP) {
+    await page.evaluate((heroLayout) => {
+      document.documentElement.setAttribute('data-hero-layout', heroLayout);
+    }, layout);
+    await waitForHeroLayoutClass(page, layout);
+  }
+}
+
+async function applyThemeAndWaitForHero(page, theme, expectedHero) {
+  await applyTheme(page, theme);
+  if (!expectedHero) return;
+
+  try {
+    await waitForHeroLayoutClass(page, expectedHero);
+  } catch {
+    // Observer can miss a same-tick attribute rewrite under load — re-apply once.
+    await applyTheme(page, theme);
+    await waitForHeroLayoutClass(page, expectedHero);
+  }
+}
+
+async function waitForHeroLayoutClass(page, layout) {
+  await page.waitForFunction(
+    (heroLayout) => {
+      const hero = document.querySelector('.card-stack-hero');
+      return Boolean(
+        hero?.classList.contains('card-stack-hero--layout-ready')
+        && hero.classList.contains(`card-stack-hero--${heroLayout}`),
+      );
+    },
+    layout,
+    { timeout: HERO_LAYOUT_WAIT_MS },
+  );
 }
 
 async function applyTheme(page, theme) {
