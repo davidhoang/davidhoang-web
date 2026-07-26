@@ -26,10 +26,16 @@ export function isPointerInsideCardsWrapper(
   clientX: number,
   clientY: number
 ): boolean {
-  if (related instanceof Node && wrapper.contains(related)) return true;
+  if (related != null) {
+    try {
+      if (wrapper.contains(related as Node)) return true;
+    } catch {
+      // relatedTarget wasn't a Node (shouldn't happen in browsers)
+    }
+  }
 
   // relatedTarget is frequently null on iPad + Magic Keyboard trackpad.
-  if (!related && typeof document !== 'undefined') {
+  if (related == null && typeof document !== 'undefined') {
     const under = document.elementFromPoint(clientX, clientY);
     if (under && wrapper.contains(under)) return true;
   }

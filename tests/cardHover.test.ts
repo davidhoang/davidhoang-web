@@ -5,30 +5,40 @@ import {
   isPointerInsideCardsWrapper,
 } from '../src/components/hero/cardHover';
 
+function makeNodeTree() {
+  const child = { id: 'child' };
+  const outside = { id: 'outside' };
+  const wrapper = {
+    contains(node: unknown) {
+      return node === child || node === wrapper;
+    },
+  };
+  return { wrapper: wrapper as unknown as Element, child, outside };
+}
+
 describe('isPointerInsideCardsWrapper', () => {
   afterEach(() => {
+    vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
   it('returns true when relatedTarget is inside the wrapper', () => {
-    const wrapper = document.createElement('div');
-    const child = document.createElement('button');
-    wrapper.appendChild(child);
-    expect(isPointerInsideCardsWrapper(wrapper, child, 0, 0)).toBe(true);
+    const { wrapper, child } = makeNodeTree();
+    expect(isPointerInsideCardsWrapper(wrapper, child as unknown as EventTarget, 0, 0)).toBe(true);
   });
 
   it('probes elementFromPoint when relatedTarget is null', () => {
-    const wrapper = document.createElement('div');
-    const child = document.createElement('button');
-    wrapper.appendChild(child);
-    vi.spyOn(document, 'elementFromPoint').mockReturnValue(child);
+    const { wrapper, child } = makeNodeTree();
+    const elementFromPoint = vi.fn(() => child);
+    vi.stubGlobal('document', { elementFromPoint });
+
     expect(isPointerInsideCardsWrapper(wrapper, null, 12, 24)).toBe(true);
-    expect(document.elementFromPoint).toHaveBeenCalledWith(12, 24);
+    expect(elementFromPoint).toHaveBeenCalledWith(12, 24);
   });
 
   it('returns false when the pointer has left the wrapper', () => {
-    const wrapper = document.createElement('div');
-    vi.spyOn(document, 'elementFromPoint').mockReturnValue(document.body);
+    const { wrapper, outside } = makeNodeTree();
+    vi.stubGlobal('document', { elementFromPoint: vi.fn(() => outside) });
     expect(isPointerInsideCardsWrapper(wrapper, null, 1, 1)).toBe(false);
   });
 });
