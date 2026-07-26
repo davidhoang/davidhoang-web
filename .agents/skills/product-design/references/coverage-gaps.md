@@ -22,6 +22,14 @@ Format:
 
 ---
 
+## 2026-07-26 — iPad Magic Keyboard hero hover flicker
+
+**Symptom:** Homepage hero cards remounted animated WebP on every hover activate and cleared `hoveredCard` when Safari nulls `relatedTarget`, causing dramatic still↔animated / lift flicker on iPad Pro + Magic Keyboard (vestibular risk).
+**Fix applied:** Restore continuous layered media (no remount key); `elementFromPoint` + delayed hover clear; gate JS hover lift/media via `shouldEnablePointerHoverMotion()` / `data-hover-motion`; design.md § Motion continuity rule 6.
+**Status:** resolved
+
+---
+
 ## 2026-07-25 — Malformed spacing token interpolation (`0.var(--…)`)
 
 **Symptom:** A rem→token codemod replaced substrings inside values like `0.2rem` / `0.4rem` / `0.72rem`, producing invalid CSS such as `0.var(--spacing-xl)` and `0.7var(--spacing-xl)`. Featured, About, Notes, and several components shipped broken spacing.

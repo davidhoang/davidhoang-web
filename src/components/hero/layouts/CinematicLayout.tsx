@@ -10,6 +10,7 @@ import {
 } from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 function cardClassName(card: Card, extra: string, isGlass: boolean) {
   return [
@@ -111,13 +112,15 @@ function FilmstripCard({
 }: FilmstripProps) {
   const dial = useHeroDial();
   const cinematic = dial.cinematic;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const hoverDisabled = reducedMotion || !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
-    hoverDisabled: reducedMotion,
+    hoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
@@ -129,7 +132,7 @@ function FilmstripCard({
   };
 
   const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
-    focused: reducedMotion
+    focused: hoverDisabled
       ? undefined
       : {
           scale: cinematic.filmstripHoverScale,

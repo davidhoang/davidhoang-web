@@ -16,6 +16,7 @@ import {
 } from '../mobileHeroStack';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt, useScaledFanPosition } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -97,8 +98,11 @@ function FanCard({
   const stackScale = isMobileStack ? mobileStack.position.scale : 1;
   const isFront = isMobileStack ? mobileStack.offset === 0 : true;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useHeroCardTilt(dial, isMobileStack);
-  const hoverDisabled = Boolean(prefersReducedMotion) || isMobileStack;
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const tilt = useHeroCardTilt(dial, isMobileStack || !pointerHoverMotion);
+  // iPadOS reports hover:none even with Magic Keyboard, but still fires mouseenter —
+  // disabling JS lift/media there prevents flicker (and fights with CSS transform:none).
+  const hoverDisabled = Boolean(prefersReducedMotion) || isMobileStack || !pointerHoverMotion;
 
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,

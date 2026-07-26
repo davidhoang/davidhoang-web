@@ -8,6 +8,7 @@ import {
 } from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 interface EditorialCardProps {
   card: Card;
@@ -37,13 +38,15 @@ function EditorialCard({
   const dial = useHeroDial();
   const editorial = dial.editorial;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const hoverDisabled = Boolean(prefersReducedMotion) || !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
   const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
-    hoverDisabled: Boolean(prefersReducedMotion),
+    hoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
@@ -55,7 +58,7 @@ function EditorialCard({
   };
 
   const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
-    focused: prefersReducedMotion ? undefined : { x: editorial.hoverX },
+    focused: hoverDisabled ? undefined : { x: editorial.hoverX },
     pressed: { scale: editorial.tapScale },
     selected: { scale: editorial.selectedScale },
     dimmed: { opacity: editorial.dimmedOpacity },
