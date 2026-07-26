@@ -1146,7 +1146,8 @@
 
 [data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .card-stack-container,
 [data-hero-viewport='compact'] .card-stack-hero--stacked-fan .card-stack-container {
-  min-height: clamp(420px, 58dvh, 560px);
+  /* Leave room below the fold for Design philosophy — cards shouldn't own the viewport */
+  min-height: clamp(360px, 48dvh, 480px);
 }
 
 [data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .cards-wrapper,
@@ -1156,13 +1157,13 @@
 
 @media (max-width: 768px) {
   .card-stack-hero {
-    min-height: 400px;
+    min-height: 360px;
     padding-left: 0;
     padding-right: 0;
   }
 
   .card-stack-container {
-    height: 380px;
+    height: 340px;
     max-width: 100%;
   }
 
@@ -1223,7 +1224,7 @@
   }
 
   [data-hero-viewport='compact'] .card-stack-hero--stacked-fan .card-stack-container {
-    min-height: clamp(400px, 56dvh, 520px);
+    min-height: clamp(340px, 46dvh, 460px);
   }
 
   .card-selected:not(.card-hero-fullscreen) {
@@ -1326,22 +1327,24 @@
 
 @media (max-width: 768px) {
   .card-stack-hero-skeleton {
-    min-height: 400px;
+    min-height: 360px;
     padding-left: 0;
     padding-right: 0;
   }
 
+  /* Mirrors readMobileHeroCardDimensions: 5rem reserved (gutters + side peek), 312px cap */
   .card-stack-hero-skeleton__cards {
-    width: min(calc(100vw - 2rem), 360px);
-    height: calc(min(calc(100vw - 2rem), 360px) * 4 / 3 + 84px);
+    --mobile-hero-card-width: min(calc(100vw - 5rem), 312px);
+    width: calc(var(--mobile-hero-card-width) + 40px);
+    height: calc(var(--mobile-hero-card-width) * 4 / 3 + 68px);
     margin-top: clamp(0.25rem, 1.5vw, 0.75rem);
     transform: none;
   }
 
   .card-stack-hero-skeleton__card {
-    width: min(calc(100vw - 2rem), 360px);
-    height: calc(min(calc(100vw - 2rem), 360px) * 4 / 3);
-    margin-left: calc(min(calc(100vw - 2rem), 360px) / -2);
-    margin-top: calc(min(calc(100vw - 2rem), 360px) * 4 / 3 / -2);
+    width: var(--mobile-hero-card-width);
+    height: calc(var(--mobile-hero-card-width) * 4 / 3);
+    margin-left: calc(var(--mobile-hero-card-width) / -2);
+    margin-top: calc(var(--mobile-hero-card-width) * 4 / 3 / -2);
   }
 }

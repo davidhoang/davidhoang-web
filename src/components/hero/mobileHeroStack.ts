@@ -10,14 +10,28 @@ export interface MobileStackOffset {
 /** Peek offsets by distance from the active (front) card — index 0 is front. */
 export const MOBILE_STACK_OFFSETS: readonly MobileStackOffset[] = [
   { x: 0, y: 0, rotation: 0, scale: 1 },
-  { x: 12, y: 16, rotation: 2.5, scale: 0.965 },
-  { x: -10, y: 30, rotation: -2, scale: 0.93 },
-  { x: 8, y: 42, rotation: 1.5, scale: 0.9 },
-  { x: -6, y: 52, rotation: -1, scale: 0.88 },
-  { x: 4, y: 60, rotation: 0.5, scale: 0.86 },
+  { x: 20, y: 12, rotation: 2.5, scale: 0.97 },
+  { x: -14, y: 24, rotation: -2, scale: 0.94 },
+  { x: 10, y: 34, rotation: 1.5, scale: 0.91 },
+  { x: -8, y: 42, rotation: -1, scale: 0.89 },
+  { x: 6, y: 48, rotation: 0.5, scale: 0.87 },
 ] as const;
 
 const MOBILE_STACK_TAIL = MOBILE_STACK_OFFSETS[MOBILE_STACK_OFFSETS.length - 1];
+
+/** Largest absolute horizontal peek — reserved so deck edges aren't clipped. */
+export const MOBILE_STACK_MAX_SIDE_PEEK = Math.max(
+  ...MOBILE_STACK_OFFSETS.map((offset) => Math.abs(offset.x))
+);
+
+/** Breathing room outside the peeking deck on each side of the viewport. */
+const MOBILE_STACK_EDGE_GUTTER = 20;
+
+/** Soft cap so large phones keep a readable, non-fullscreen card. */
+const MOBILE_STACK_MAX_CARD_WIDTH = 312;
+
+/** Floor so very narrow viewports still get a usable card. */
+const MOBILE_STACK_MIN_CARD_WIDTH = 252;
 
 export interface MobileHeroCardDimensions {
   width: number;
@@ -26,16 +40,22 @@ export interface MobileHeroCardDimensions {
   wrapperHeight: number;
 }
 
-/** Card footprint for mobile stack — uses most of the viewport width (3:4 ratio). */
+/**
+ * Card footprint for mobile stack — inset for gutters + deck peek so cards
+ * don't kiss the viewport edge or get clipped by overflow-x: clip.
+ */
 export function readMobileHeroCardDimensions(viewportWidth: number): MobileHeroCardDimensions {
-  const gutter = 32;
-  const width = Math.min(Math.max(280, Math.round(viewportWidth - gutter)), 360);
+  const reserved = (MOBILE_STACK_EDGE_GUTTER + MOBILE_STACK_MAX_SIDE_PEEK) * 2;
+  const width = Math.min(
+    Math.max(MOBILE_STACK_MIN_CARD_WIDTH, Math.round(viewportWidth - reserved)),
+    MOBILE_STACK_MAX_CARD_WIDTH
+  );
   const height = Math.round(width * (4 / 3));
-  const peek = MOBILE_STACK_TAIL.y + 24;
+  const peek = MOBILE_STACK_TAIL.y + 20;
   return {
     width,
     height,
-    wrapperWidth: width,
+    wrapperWidth: width + MOBILE_STACK_MAX_SIDE_PEEK * 2,
     wrapperHeight: height + peek,
   };
 }
