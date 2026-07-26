@@ -20,6 +20,7 @@ import {
   auditHeroLayoutOpacity,
   auditTsxMotion,
 } from './rules/strict.mjs';
+import { auditHeroMotionContinuity } from './rules/motion-continuity.mjs';
 
 /**
  * Run design compliance audit.
@@ -34,6 +35,7 @@ export function runDesignAudit(options = {}) {
 
   auditAgentStack(ctx);
   auditLayoutContract(ctx);
+  auditHeroMotionContinuity(ctx);
 
   for (const file of walk(join(ROOT, 'src', 'styles'), '.css')) {
     const content = readFileSync(file, 'utf-8');

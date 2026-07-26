@@ -104,6 +104,41 @@ describe('strict rule modules', () => {
   });
 });
 
+describe('hero motion continuity contract', () => {
+  it('CardBase does not remount media on hover activate', () => {
+    const content = readFileSync(join(ROOT, 'src/components/hero/CardBase.tsx'), 'utf-8');
+    expect(content).not.toMatch(/\banimPlayKey\b/);
+    expect(content).not.toMatch(/key=\{`hero-anim-/);
+    expect(content).not.toMatch(/isHeroMediaActive\s*\?\s*['"]card-hero-image--drift['"]/);
+    expect(content).toContain('loadActiveMedia');
+    expect(content).toContain('data-visible');
+  });
+
+  it('hero layouts and CardStackHero keep hybrid-safe hover wiring', () => {
+    const stack = readFileSync(join(ROOT, 'src/components/CardStackHero.tsx'), 'utf-8');
+    expect(stack).toContain('createStableCardHoverSetter');
+
+    const layouts = [
+      'StackedFanLayout.tsx',
+      'EditorialLayout.tsx',
+      'ScatteredLayout.tsx',
+      'RolodexLayout.tsx',
+      'CinematicLayout.tsx',
+    ];
+    for (const name of layouts) {
+      const content = readFileSync(join(ROOT, 'src/components/hero/layouts', name), 'utf-8');
+      expect(content).toContain('usePointerHoverMotionEnabled');
+    }
+  });
+
+  it('design.md documents banned remount-on-hover patterns', () => {
+    const content = readFileSync(join(ROOT, 'design.md'), 'utf-8');
+    expect(content).toContain('No remount-on-hover');
+    expect(content).toContain('animPlayKey');
+    expect(content).toContain('shouldEnablePointerHoverMotion');
+  });
+});
+
 describe('audit CLI flags', () => {
   it('supports --json output', () => {
     const out = execSync(`node ${script} --json`, { encoding: 'utf-8' });

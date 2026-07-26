@@ -18,6 +18,8 @@ Before creating or changing visual UI, read these files in order:
 - Use **`var(--color-*)`**, **`var(--spacing-*)`**, **`var(--duration-*)`**, **`var(--ease-*)`** — no arbitrary hex or hardcoded `0.3s` / `cubic-bezier(...)` in new code
 - Cards are **never transparent** — no glassmorphism, no `opacity < 1` on card surfaces
 - **No dimensional `:hover`** — do not change `padding`, `margin`, `gap`, `width`, or `height` on hover (color, shadow, transform only)
+- **No remount-on-hover (hero)** — never remount hero media via React `key` / `animPlayKey` to “restart” a WebP on hover; keep layered still/active media and opacity crossfade (`design.md` § Motion continuity). CI rule: `hero-motion-continuity`
+- **JS hover needs `data-hover-motion`** — iPad + Magic Keyboard can fire `mouseenter` under `(hover: none)`; gate lift/tilt/media with `usePointerHoverMotionEnabled()`
 - **Nav is fixed** — themes cannot change nav height, padding, or pill layout; use `.site-nav` / `.nav-container`, never `.container` on nav markup
 - **Hero layout is framework-owned** — full viewport width, flush to top, nav `position: fixed`; see `references/rules.md` § Layout invariants
 - Prefer **Astro** for static UI; **React** only when client interactivity is required

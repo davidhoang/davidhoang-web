@@ -40,7 +40,13 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 | `focus-ring-token` | Hardcoded outline without `--focus-ring*` |
 | `hero-card-opacity` | Hero layouts must not fade in at opacity 0 |
 
-Legacy files with known debt are listed in `shared.mjs` → `STRICT_GRANDFATHER`.
+### Core motion continuity (always enforced)
+
+| Rule ID | Source | Checks |
+|---------|--------|--------|
+| `hero-motion-continuity` | design.md § Motion continuity | No `animPlayKey` / remount keys in `CardBase.tsx`; stable hover clear wiring; layouts gate with `usePointerHoverMotionEnabled`; `data-hover-motion` in MainLayout |
+
+Legacy files with known debt are listed in `shared.mjs` → `STRICT_GRANDFATHER`. Note: `hero-motion-continuity` is **not** grandfathered — it always audits the hero contract files.
 
 ## Adding a rule
 
@@ -65,5 +71,6 @@ scripts/
       nav.mjs
       cards.mjs
       colors.mjs
+      motion-continuity.mjs
       strict.mjs
 ```

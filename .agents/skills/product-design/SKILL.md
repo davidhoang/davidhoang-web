@@ -29,6 +29,7 @@ See `references/rules.md` for the full list. Non-negotiables:
 - Tokens only (`var(--color-*)`, `var(--spacing-*)`, `var(--duration-*)`, `var(--ease-*)`)
 - Opaque cards — never glass
 - Hover: color, shadow, transform — not padding/margin/size
+- Hero motion continuity: never remount media on hover; gate JS hover with `data-hover-motion`
 - Nav is framework-controlled — do not theme or unscope
 
 ## Component patterns

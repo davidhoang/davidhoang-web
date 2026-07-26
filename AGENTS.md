@@ -46,4 +46,4 @@ npm run audit:design:check
 
 **When you introduce a violation the linter misses:** log it in `.agents/skills/product-design/references/coverage-gaps.md`, add a rule to `scripts/design-audit/rules/`, and extend `tests/designCompliance.test.ts`.
 
-**Rule modules:** `scripts/design-audit/rules/` — `layout-contract`, `hero`, `nav`, `cards`, `colors`, `strict` (motion, hover, spacing, focus-ring, agent-stack).
+**Rule modules:** `scripts/design-audit/rules/` — `layout-contract`, `hero`, `nav`, `cards`, `colors`, `motion-continuity` (hero remount/hover flicker), `strict` (motion, hover, spacing, focus-ring, agent-stack).

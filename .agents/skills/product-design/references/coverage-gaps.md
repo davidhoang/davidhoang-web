@@ -24,8 +24,8 @@ Format:
 
 ## 2026-07-26 — iPad Magic Keyboard hero hover flicker
 
-**Symptom:** Homepage hero cards remounted animated WebP on every hover activate and cleared `hoveredCard` when Safari nulls `relatedTarget`, causing dramatic still↔animated / lift flicker on iPad Pro + Magic Keyboard (vestibular risk).
-**Fix applied:** Restore continuous layered media (no remount key); `elementFromPoint` + delayed hover clear; gate JS hover lift/media via `shouldEnablePointerHoverMotion()` / `data-hover-motion`; design.md § Motion continuity rule 6.
+**Symptom:** Homepage hero cards remounted animated WebP on every hover activate and cleared `hoveredCard` when Safari nulls `relatedTarget`, causing dramatic still↔animated / lift flicker on iPad Pro + Magic Keyboard (vestibular risk). Regression path: PR #104 fixed it; a later “restart config card animation on hover” remount (`animPlayKey`) reintroduced it.
+**Fix applied:** Restore continuous layered media (no remount key); `elementFromPoint` + delayed hover clear; gate JS hover lift/media via `shouldEnablePointerHoverMotion()` / `data-hover-motion`; design.md § Motion continuity banned-pattern table + rule 6; CI core rule `hero-motion-continuity` in `scripts/design-audit/rules/motion-continuity.mjs`.
 **Status:** resolved
 
 ---
