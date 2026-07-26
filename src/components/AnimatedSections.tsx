@@ -32,13 +32,12 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
     : {
-        hidden: { opacity: 1, y: 25, scale: 0.98 },
+        hidden: { opacity: 0, y: 16 },
         visible: {
           opacity: 1,
           y: 0,
-          scale: 1,
           transition: {
-            duration: 0.5,
+            duration: 0.55,
             ease: EASE_STANDARD,
           },
         },
@@ -63,12 +62,12 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
       {items.map((item, index) => (
         <motion.div
           key={index}
-          className="philosophy-item card"
+          className="philosophy-item"
           role="listitem"
           id={item.id}
           variants={itemVariants}
         >
-          <p className="text-body" dangerouslySetInnerHTML={{ __html: item.content }} />
+          <p dangerouslySetInnerHTML={{ __html: item.content }} />
         </motion.div>
       ))}
     </motion.div>

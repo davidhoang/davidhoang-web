@@ -41,12 +41,16 @@ function CardHeroMedia({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  // Defer heavy animated WebPs / video sources until first hover/selection so
-  // idle cards only pay for the small still (LCP-friendly).
+  // Defer heavy animated WebPs / video until hover so idle cards only pay for the still.
   const [loadActiveMedia, setLoadActiveMedia] = useState(false);
+  // Remount animated still-swap images on each activate — browsers often won't
+  // restart animated WebP/GIF playback when only toggling opacity.
+  const [animPlayKey, setAnimPlayKey] = useState(0);
 
   useEffect(() => {
-    if (isHeroMediaActive) setLoadActiveMedia(true);
+    if (!isHeroMediaActive) return;
+    setLoadActiveMedia(true);
+    setAnimPlayKey((key) => key + 1);
   }, [isHeroMediaActive]);
 
   useEffect(() => {
@@ -119,9 +123,10 @@ function CardHeroMedia({
           />
           {loadActiveMedia && (
             <img
+              key={`hero-anim-${card.id}-${animPlayKey}`}
               className={[
                 'card-hero-image card-hero-image--layer',
-                showDrift ? 'card-hero-image--drift' : '',
+                showDrift && isHeroMediaActive ? 'card-hero-image--drift' : '',
               ]
                 .filter(Boolean)
                 .join(' ')}
@@ -130,7 +135,6 @@ function CardHeroMedia({
               width={600}
               height={338}
               decoding="async"
-              loading="lazy"
               aria-hidden={!isHeroMediaActive}
               data-visible={isHeroMediaActive}
             />
