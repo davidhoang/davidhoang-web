@@ -106,14 +106,16 @@ function ScatteredCard({
   );
   const prefersReducedMotion = useReducedMotion();
   const pointerHoverMotion = usePointerHoverMotionEnabled();
-  const hoverDisabled = Boolean(prefersReducedMotion) || !pointerHoverMotion;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
+  const hoverDisabled = Boolean(prefersReducedMotion);
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled);
   const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
     hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });

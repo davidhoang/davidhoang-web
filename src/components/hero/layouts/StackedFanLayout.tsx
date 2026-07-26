@@ -99,10 +99,10 @@ function FanCard({
   const isFront = isMobileStack ? mobileStack.offset === 0 : true;
   const prefersReducedMotion = useReducedMotion();
   const pointerHoverMotion = usePointerHoverMotionEnabled();
-  const tilt = useHeroCardTilt(dial, isMobileStack || !pointerHoverMotion);
-  // iPadOS reports hover:none even with Magic Keyboard, but still fires mouseenter —
-  // disabling JS lift/media there prevents flicker (and fights with CSS transform:none).
-  const hoverDisabled = Boolean(prefersReducedMotion) || isMobileStack || !pointerHoverMotion;
+  // Pointer/tilt gated for hybrid; keyboard focus lift stays enabled (see pointerHoverDisabled).
+  const hoverDisabled = Boolean(prefersReducedMotion) || isMobileStack;
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, isMobileStack || pointerHoverDisabled);
 
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
@@ -110,6 +110,7 @@ function FanCard({
     hoveredCard,
     isLoaded,
     hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });

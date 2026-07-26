@@ -45,7 +45,7 @@ Homepage hero cards (`src/components/hero/`) have a hard motion-continuity contr
 **Always:**
 - Layer still + active media; crossfade with `data-visible` / opacity
 - Use `createStableCardHoverSetter` + `handleCardHoverLeave`
-- Gate hover motion with `usePointerHoverMotionEnabled()` in every hero layout
+- Gate **pointer** hover with `pointerHoverDisabled: !usePointerHoverMotionEnabled()` (do not fold into `hoverDisabled` — keyboard Tab focus must still lift/activate media)
 
 CI enforces this via `hero-motion-continuity` (`npm run audit:design:check`).
 

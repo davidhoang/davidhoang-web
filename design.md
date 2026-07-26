@@ -281,7 +281,7 @@ This section is **regression-sensitive**. PR #104 fixed iPad/trackpad flicker; a
 3. **Single motion driver after entrance** — one-time deal/entrance animations use spring physics. After `hasAnimatedIn`, drive rest / focused / pressed / selected / dimmed entirely through `animate` targets from `heroCardInteraction.ts` (shared interaction springs). Do **not** use `whileHover` / `whileTap` on the same transform properties — gesture props interrupt springs mid-flight and cause jumpy returns when focus changes or a click lands.
 4. **Pause, don't reset** — looping video or drift motion pauses when idle; do not reset `currentTime` or re-add animation classes on every hover toggle.
 5. **Prefer transform/opacity** — state changes animate via `transform` and `opacity` only (see [Hover state hygiene](#hover-state-hygiene)). Filter/brightness shifts may crossfade but must not remount elements.
-6. **No JS hover lift on hybrid / non-hover pointers** — iPadOS reports `(hover: none)` even with Magic Keyboard, but still fires `mouseenter`. Gate lift, tilt, and media-activate with `shouldEnablePointerHoverMotion()` / `data-hover-motion` so trackpad hover cannot thrash still↔animated media (vestibular / photosensitive risk).
+6. **No JS pointer-hover lift on hybrid / non-hover pointers** — iPadOS reports `(hover: none)` even with Magic Keyboard, but still fires `mouseenter`. Gate **pointer** hover (`mouseenter` / tilt / `hoveredCard`) with `pointerHoverDisabled` ← `!shouldEnablePointerHoverMotion()` / `data-hover-motion`. Do **not** fold that into `hoverDisabled` — keyboard Tab focus must still lift/activate media via `useHeroCardInteraction` (`resolveHeroCardFocus`).
 
 **Banned patterns (hero cards — do not reintroduce):**
 
@@ -290,13 +290,13 @@ This section is **regression-sensitive**. PR #104 fixed iPad/trackpad flicker; a
 | `key={\`hero-anim-${…}\`}` / `animPlayKey` / remounting `<img>` or `<video>` when `isHeroMediaActive` flips | Restarts WebP/GIF decode; strobes on hover thrash | Mount active media once (`loadActiveMedia`); toggle `data-visible` / opacity |
 | Toggling `.card-hero-image--drift` with `isHeroMediaActive ? …` | Restarts `@keyframes` every enter/leave | Apply drift once the active layer is loaded; hide via opacity |
 | Clearing `hoveredCard` on every `mouseleave` without `.hero-card` / `elementFromPoint` checks | Idle frame between overlapping cards; Safari nulls `relatedTarget` | `handleCardHoverLeave` + `createStableCardHoverSetter` (keep hover only over another `.hero-card`, not empty wrapper) |
-| JS hover lift / media-activate without `usePointerHoverMotionEnabled()` (or equivalent `data-hover-motion` gate) | Magic Keyboard `mouseenter` under `(hover: none)` → flicker | Gate with `shouldEnablePointerHoverMotion()` |
+| JS pointer hover without `pointerHoverDisabled` / folding hybrid gating into `hoverDisabled` | Magic Keyboard `mouseenter` flicker **or** Tab focus loses lift/media | `pointerHoverDisabled` for pointer only; keep keyboard focus via `resolveHeroCardFocus` |
 | Restarting animated media “so it plays from the start on hover” | Same as remount-on-hover — **not an acceptable tradeoff** | Accept loop continuity; prefer video `play()`/`pause()` without `currentTime = 0` |
 
 **Required wiring:**
 
 - `CardStackHero.tsx` → `createStableCardHoverSetter` for shared hover state
-- Hero layouts → `usePointerHoverMotionEnabled()` in `hoverDisabled` / tilt disable
+- Hero layouts → `pointerHoverDisabled: !usePointerHoverMotionEnabled()` for tilt/`mouseenter`; `hoverDisabled` only for reduced-motion / mobile-stack (not hybrid)
 - `MainLayout.astro` + `syncHybridPointerAttribute()` → set `data-hover-motion` and `data-hybrid-pointer` before paint
 - `CardBase.tsx` → layered still/active media; continuous drift; no remount keys
 

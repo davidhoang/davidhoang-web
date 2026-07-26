@@ -128,8 +128,13 @@ describe('hero motion continuity contract', () => {
     for (const name of layouts) {
       const content = readFileSync(join(ROOT, 'src/components/hero/layouts', name), 'utf-8');
       expect(content).toContain('usePointerHoverMotionEnabled');
+      expect(content).toContain('pointerHoverDisabled');
       expect(content).not.toMatch(
         /onMouseEnter=\{\(\)\s*=>\s*!selectedCard\s*&&\s*onCardHover\s*\(/
+      );
+      // Hybrid gating must not be folded into hoverDisabled (kills keyboard focus lift).
+      expect(content).not.toMatch(
+        /hoverDisabled\s*=\s*[^=\n]*!pointerHoverMotion/
       );
     }
   });

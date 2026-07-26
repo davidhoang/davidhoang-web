@@ -55,14 +55,16 @@ function RolodexCard({
   const isFront = offset === 0;
   const isAdjacent = offset === 1 || offset === totalCards - 1;
 
-  const hoverDisabled = Boolean(prefersReducedMotion) || !pointerHoverMotion || !isFront;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
+  const hoverDisabled = Boolean(prefersReducedMotion) || !isFront;
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled || !isFront);
   const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
     hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });

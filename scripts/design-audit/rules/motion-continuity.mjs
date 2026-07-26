@@ -126,6 +126,13 @@ export function auditHeroMotionContinuity(ctx) {
         `${rel(full)} must gate hover with usePointerHoverMotionEnabled() (design.md § Motion continuity)`,
       );
     }
+    if (!content.includes('pointerHoverDisabled')) {
+      ctx.addContractViolation(
+        full,
+        'hero-motion-continuity',
+        `${rel(full)} must use pointerHoverDisabled (not hoverDisabled) for hybrid pointer gating so keyboard focus lift remains (design.md § Motion continuity)`,
+      );
+    }
 
     // Catch ungated featured/hover enter handlers that ignore data-hover-motion
     // (e.g. CinematicLayout FeaturedCard while FilmstripCard was already gated).
@@ -136,7 +143,18 @@ export function auditHeroMotionContinuity(ctx) {
         full,
         lineOf(content, ungatedHoverEnter.index ?? 0),
         'hero-motion-continuity',
-        `${rel(full)} has ungated onMouseEnter→onCardHover — require !hoverDisabled / usePointerHoverMotionEnabled (design.md § Motion continuity)`,
+        `${rel(full)} has ungated onMouseEnter→onCardHover — require !pointerHoverDisabled / usePointerHoverMotionEnabled (design.md § Motion continuity)`,
+      );
+    }
+
+    // Folding !pointerHoverMotion into hoverDisabled suppresses Tab focus lift.
+    const foldedHybrid = /hoverDisabled\s*=\s*[^=\n]*!pointerHoverMotion/.exec(content);
+    if (foldedHybrid) {
+      ctx.addViolation(
+        full,
+        lineOf(content, foldedHybrid.index ?? 0),
+        'hero-motion-continuity',
+        `${rel(full)} folds hybrid gating into hoverDisabled — use pointerHoverDisabled instead (design.md § Motion continuity)`,
       );
     }
   }

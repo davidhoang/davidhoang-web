@@ -4,6 +4,7 @@ import {
   heroCardInteractionTransition,
   HERO_INTERACTION_SPRING,
   HERO_PRESS_SPRING,
+  resolveHeroCardFocus,
   resolveHeroCardPhase,
 } from '../src/components/hero/heroCardInteraction';
 
@@ -54,6 +55,56 @@ describe('resolveHeroCardPhase', () => {
         isPressed: false,
       })
     ).toBe('entering');
+  });
+});
+
+describe('resolveHeroCardFocus', () => {
+  it('allows keyboard focus when pointer hover is disabled (iPad + Magic Keyboard)', () => {
+    expect(
+      resolveHeroCardFocus({
+        hoverDisabled: false,
+        pointerHoverDisabled: true,
+        isOtherSelected: false,
+        isHovered: true,
+        isKeyboardFocused: true,
+      })
+    ).toBe(true);
+  });
+
+  it('ignores hoveredCard when pointer hover is disabled', () => {
+    expect(
+      resolveHeroCardFocus({
+        hoverDisabled: false,
+        pointerHoverDisabled: true,
+        isOtherSelected: false,
+        isHovered: true,
+        isKeyboardFocused: false,
+      })
+    ).toBe(false);
+  });
+
+  it('suppresses keyboard and pointer focus when hoverDisabled', () => {
+    expect(
+      resolveHeroCardFocus({
+        hoverDisabled: true,
+        pointerHoverDisabled: false,
+        isOtherSelected: false,
+        isHovered: true,
+        isKeyboardFocused: true,
+      })
+    ).toBe(false);
+  });
+
+  it('keeps pointer hover when enabled', () => {
+    expect(
+      resolveHeroCardFocus({
+        hoverDisabled: false,
+        pointerHoverDisabled: false,
+        isOtherSelected: false,
+        isHovered: true,
+        isKeyboardFocused: false,
+      })
+    ).toBe(true);
   });
 });
 

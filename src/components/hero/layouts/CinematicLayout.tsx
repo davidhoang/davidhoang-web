@@ -46,8 +46,8 @@ function FeaturedCard({
   const cinematic = dial.cinematic;
   const isSelected = selectedCard === card.id;
   const pointerHoverMotion = usePointerHoverMotionEnabled();
-  const hoverDisabled = reducedMotion || !pointerHoverMotion;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled || reducedMotion);
 
   return (
     <motion.div
@@ -69,7 +69,7 @@ function FeaturedCard({
         scale: { type: 'spring', stiffness: cinematic.featuredScaleStiffness, damping: cinematic.featuredScaleDamping },
       }}
       onMouseEnter={() => {
-        if (!selectedCard && !hoverDisabled) onCardHover(card.id);
+        if (!selectedCard && !pointerHoverDisabled && !reducedMotion) onCardHover(card.id);
       }}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
@@ -117,14 +117,16 @@ function FilmstripCard({
   const dial = useHeroDial();
   const cinematic = dial.cinematic;
   const pointerHoverMotion = usePointerHoverMotionEnabled();
-  const hoverDisabled = reducedMotion || !pointerHoverMotion;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || hoverDisabled);
+  const hoverDisabled = reducedMotion;
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled);
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
     hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
