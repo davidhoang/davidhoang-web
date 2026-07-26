@@ -87,20 +87,35 @@
 .philosophy-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: calc(var(--spacing-md) + var(--spacing-xs));
-  column-gap: clamp(var(--spacing-md), 4vw, var(--spacing-3xl));
+  row-gap: clamp(var(--spacing-lg), 3vw, var(--spacing-2xl));
+  column-gap: clamp(var(--spacing-xl), 6vw, var(--spacing-3xl));
   padding-right: var(--spacing-lg);
   align-items: start;
   min-width: 0;
 }
 
-.philosophy-item p {
-  margin: 0;
+/* Plain editorial text — no card chrome */
+.philosophy-item {
+  height: auto;
+  max-width: 36ch;
+  box-sizing: border-box;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
-.philosophy-item {
-  height: 100%;
-  box-sizing: border-box;
+.philosophy-item p {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.philosophy-item p strong {
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .philosophy-item h3 {
@@ -211,7 +226,6 @@
   gap: 0;
 }
 
-[data-grid-style="split"] .philosophy-item,
 [data-grid-style="split"] .portfolio-content {
   border-radius: 0;
 }
@@ -311,11 +325,16 @@
   .philosophy-grid {
     grid-template-columns: 1fr;
     padding-right: 0;
+    row-gap: var(--spacing-xl);
+  }
+
+  .philosophy-item {
+    max-width: none;
   }
 
   .philosophy-item p {
-    font-size: var(--body-size-mobile);
-    line-height: var(--body-line-height);
+    font-size: 1.125rem;
+    line-height: 1.6;
   }
 
   .portfolio-grid {
