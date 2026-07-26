@@ -59,29 +59,30 @@
   white-space: nowrap;
 }
 
+/* Full-bleed breakout (same pattern as .card-stack-section) — background on the
+   section itself so a 100vw ::before cannot inflate scrollWidth and trip the
+   theme-renderer horizontal-overflow check. */
 .design-philosophy {
   position: relative;
   z-index: 2;
   isolation: isolate;
-  border-top: none;
-  padding-top: var(--spacing-lg);
-  /* Transparent shell — full-bleed paint lives on ::before so the edge matches the hero’s 100vw */
-  background: transparent;
-}
-
-/* Full-viewport surface so the section edge isn’t an inset white slab over the dot grid */
-.design-philosophy::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
+  box-sizing: border-box;
   width: 100vw;
-  translate: -50% 0;
+  margin-left: calc(50% - 50vw);
   background: var(--color-bg);
   border-top: 1px solid var(--color-border);
-  z-index: -1;
-  pointer-events: none;
+  padding-top: var(--spacing-lg);
+  /* Recreate .container gutters after breaking out of the content column */
+  padding-left: max(
+    var(--container-padding),
+    env(safe-area-inset-left, 0px),
+    calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
+  );
+  padding-right: max(
+    var(--container-padding),
+    env(safe-area-inset-right, 0px),
+    calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
+  );
 }
 
 .philosophy-grid {
@@ -316,7 +317,7 @@
     --hero-cards-tuck: clamp(1.25rem, 5vw, 2rem);
   }
 
-  .design-philosophy,
+  /* .design-philosophy already recreates container gutters via its breakout padding */
   .portfolio-section {
     padding-left: var(--container-padding, 1rem);
     padding-right: var(--container-padding, 1rem);
