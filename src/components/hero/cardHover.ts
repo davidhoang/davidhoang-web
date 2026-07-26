@@ -17,7 +17,33 @@ export const HERO_HOVER_TWEEN = {
 export const HERO_HOVER_CLEAR_DELAY_MS = 120;
 
 /**
- * True when the pointer is still inside the card fan after a leave event.
+ * True when `target` is a hero card (or descendant) inside `wrapper`.
+ * Bare `.cards-wrapper` / layout chrome does not count — leaving through empty
+ * wrapper space must clear hover (otherwise lift/media stick until another enter).
+ */
+export function isHeroCardWithinWrapper(
+  wrapper: Element,
+  target: EventTarget | null
+): boolean {
+  if (target == null) return false;
+
+  let el: Element | null = null;
+  if (typeof Element !== 'undefined' && target instanceof Element) {
+    el = target;
+  } else if (typeof Node !== 'undefined' && target instanceof Node) {
+    el = target.nodeType === 1 ? (target as Element) : target.parentElement;
+  } else if (typeof (target as { closest?: unknown }).closest === 'function') {
+    // Test doubles / non-DOM EventTargets that implement closest.
+    el = target as Element;
+  }
+
+  if (!el || typeof el.closest !== 'function') return false;
+  const card = el.closest('.hero-card');
+  return Boolean(card && wrapper.contains(card));
+}
+
+/**
+ * True when the pointer is still over a hero card in the fan after a leave event.
  * Safari/iPadOS often nulls `relatedTarget` when moving between overlapping cards.
  */
 export function isPointerInsideCardsWrapper(
@@ -26,18 +52,14 @@ export function isPointerInsideCardsWrapper(
   clientX: number,
   clientY: number
 ): boolean {
-  if (related != null) {
-    try {
-      if (wrapper.contains(related as Node)) return true;
-    } catch {
-      // relatedTarget wasn't a Node (shouldn't happen in browsers)
-    }
-  }
+  if (isHeroCardWithinWrapper(wrapper, related)) return true;
 
   // relatedTarget is frequently null on iPad + Magic Keyboard trackpad.
+  // Only keep hover when the probe lands on another .hero-card — not empty
+  // wrapper space (wrapper.contains(wrapper) would incorrectly stay hovered).
   if (related == null && typeof document !== 'undefined') {
     const under = document.elementFromPoint(clientX, clientY);
-    if (under && wrapper.contains(under)) return true;
+    if (isHeroCardWithinWrapper(wrapper, under)) return true;
   }
 
   return false;
