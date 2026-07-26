@@ -109,6 +109,8 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   // Observe data-card-style and data-hero-layout on <html>.
   // On mobile (≤768px), force stacked-fan regardless of theme — editorial,
   // scattered, and rolodex assume desktop dimensions and overflow on phones.
+  // Also listen for theme-changed (dispatched on document) so layout sync isn't
+  // solely dependent on MutationObserver delivery under a busy main thread.
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
 
@@ -130,10 +132,12 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
       attributeFilter: ['data-card-style', 'data-hero-layout'],
     });
     mql.addEventListener('change', update);
+    document.addEventListener('theme-changed', update);
 
     return () => {
       observer.disconnect();
       mql.removeEventListener('change', update);
+      document.removeEventListener('theme-changed', update);
     };
   }, []);
 

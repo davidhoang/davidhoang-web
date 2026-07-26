@@ -64,7 +64,8 @@
   Break out like `.card-stack-section` (width 100vw) instead of a 100vw ::before —
   absolutely positioned 100vw pseudos inflate this section’s scrollWidth and fail
   the theme-renderer overflow check even when documentOverflowPx is 0.
-  Horizontal padding recreates main.container’s centered content column.
+  Horizontal padding recreates main.container’s centered content column
+  (outer centering gutter + container padding).
 */
 .design-philosophy {
   position: relative;
@@ -79,12 +80,12 @@
   padding-left: max(
     var(--container-padding),
     env(safe-area-inset-left, 0px),
-    calc((100vw - var(--container-max-width, 1200px)) / 2)
+    calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
   );
   padding-right: max(
     var(--container-padding),
     env(safe-area-inset-right, 0px),
-    calc((100vw - var(--container-max-width, 1200px)) / 2)
+    calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
   );
   background: var(--color-bg);
 }
@@ -321,7 +322,7 @@
     --hero-cards-tuck: clamp(1.25rem, 5vw, 2rem);
   }
 
-  .design-philosophy,
+  /* .design-philosophy already recreates container gutters via its breakout padding */
   .portfolio-section {
     padding-left: var(--container-padding, 1rem);
     padding-right: var(--container-padding, 1rem);
