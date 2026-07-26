@@ -34,10 +34,14 @@ export function scaleFanPosition(
 ) {
   const defaults = heroDialDefaults.stackedFan.fan;
   const fan = dial.stackedFan.fan;
+  // Guard DialKit persist/init zeros — spread 0 stacks every card on the center card.
+  const spread = fan.spread > 0 ? fan.spread : defaults.spread;
+  const yOffset = Number.isFinite(fan.yOffset) ? fan.yOffset : defaults.yOffset;
+  const rotation = Number.isFinite(fan.rotation) ? fan.rotation : defaults.rotation;
   return {
-    x: position.x * (fan.spread / defaults.spread),
-    y: position.y * (fan.yOffset / defaults.yOffset),
-    rotation: position.rotation * (fan.rotation / defaults.rotation),
+    x: position.x * (spread / defaults.spread),
+    y: defaults.yOffset === 0 ? position.y : position.y * (yOffset / defaults.yOffset),
+    rotation: defaults.rotation === 0 ? position.rotation : position.rotation * (rotation / defaults.rotation),
   };
 }
 

@@ -32,10 +32,18 @@ interface CardStackHeroProps {
   aboutThumbnailSrc?: string;
 }
 
+function openCardLink(link?: string) {
+  if (!link) return;
+  const external = /^(https?:)?\/\//i.test(link);
+  if (external) {
+    window.open(link, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  window.location.href = link;
+}
+
 export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps = {}) {
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -168,77 +176,11 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     };
   }, [isInView, isLayoutReady]);
 
-  // Fullscreen hero card (stacked-fan portal) should lock page scroll
-  useEffect(() => {
-    if (!selectedCard || heroLayout !== 'stacked-fan') return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [selectedCard, heroLayout]);
-
-  // Focus management: move focus to selected card, restore on close
-  useEffect(() => {
-    if (selectedCard) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
-      // Focus the selected card element
-      requestAnimationFrame(() => {
-        const card = document.querySelector('.card-selected') as HTMLElement;
-        if (card) card.focus();
-      });
-    } else if (previousFocusRef.current) {
-      previousFocusRef.current.focus();
-      previousFocusRef.current = null;
-    }
-  }, [selectedCard]);
-
-  const handleCardClick = (cardId: string, link?: string) => {
-    if (cardId === 'about' && link) {
-      window.location.href = link;
-      return;
-    }
-    setSelectedCard((prev) => {
-      const closing = prev === cardId;
-      // Opening or switching cards: fan unmounts without mouseleave, so hover state can go stale.
-      if (!closing) {
-        setHoveredCard(null);
-      }
-      return closing ? null : cardId;
-    });
+  const handleCardClick = (_cardId: string, link?: string) => {
+    setHoveredCard(null);
+    openCardLink(link);
   };
 
-  const handleCardDismiss = () => {
-    setSelectedCard(null);
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedCard) return;
-
-      const currentIndex = cards.findIndex(card => card.id === selectedCard);
-
-      if (e.key === 'Escape') {
-        setSelectedCard(null);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        const nextIndex = (currentIndex + 1) % cards.length;
-        setSelectedCard(cards[nextIndex].id);
-        setHoveredCard(null);
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
-        setSelectedCard(cards[prevIndex].id);
-        setHoveredCard(null);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedCard]);
-
-  const hasSelection = selectedCard !== null;
   const LayoutComponent = layoutComponents[heroLayout];
 
   return (
@@ -250,38 +192,23 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     >
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
-          <HeroTitle hasSelection={hasSelection} isVisible={isLoaded} />
+          <HeroTitle hasSelection={false} isVisible={isLoaded} />
         </header>
         <Suspense fallback={null}>
           <LayoutComponent
             key={entranceKey}
             cards={displayCards}
-            selectedCard={selectedCard}
+            selectedCard={null}
             hoveredCard={hoveredCard}
             isLoaded={isLoaded}
             hasAnimatedIn={hasAnimatedIn}
             cardStyle={cardStyle}
             onCardClick={handleCardClick}
-            onCardDismiss={handleCardDismiss}
+            onCardDismiss={() => {}}
             onCardHover={setHoveredCard}
           />
         </Suspense>
       </div>
-
-      {selectedCard && (
-        <div
-          className={`click-outside-overlay${
-            heroLayout === 'stacked-fan' ? ' click-outside-overlay--hero-fullscreen' : ''
-          }${
-            heroLayout === 'stacked-fan' && isMobileHeroViewport()
-              ? ' click-outside-overlay--hero-sheet'
-              : ''
-          }`}
-          onClick={() => setSelectedCard(null)}
-          role="presentation"
-        />
-      )}
-
     </div>
     </MotionConfig>
     </HeroDialProvider>

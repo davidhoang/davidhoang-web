@@ -16,7 +16,7 @@ const currentYear = new Date().getFullYear();
 
         {footerSections.map((section) => (
           <nav class="footer-col" aria-label={section.title}>
-            <details class="footer-col__details">
+            <details class="footer-col__details" open>
               <summary class="footer-col__heading">{section.title}</summary>
               <ul role="list">
                 {section.links.map((link) => (
@@ -55,3 +55,20 @@ const currentYear = new Date().getFullYear();
     </section>
   </div>
 </footer>
+
+<script>
+  // Markup starts with open so desktop always shows links (no JS dependency /
+  // no FOUC). Collapse on mobile for the accordion pattern.
+  const footerDetails = document.querySelectorAll('.footer-col__details');
+  const desktopNav = window.matchMedia('(min-width: 769px)');
+
+  const syncFooterDetails = () => {
+    footerDetails.forEach((el) => {
+      if (desktopNav.matches) el.setAttribute('open', '');
+      else el.removeAttribute('open');
+    });
+  };
+
+  syncFooterDetails();
+  desktopNav.addEventListener('change', syncFooterDetails);
+</script>

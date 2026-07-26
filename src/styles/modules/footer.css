@@ -340,8 +340,18 @@
 }
 
 @media (min-width: 769px) {
+  /* Keep columns expanded on desktop while <details> stays closed in the DOM
+     (so mobile can still accordion). Chrome 131+ slots content into
+     ::details-content with content-visibility:hidden when closed — the old
+     display:block on the <ul> no longer reveals the links. */
+  .footer-col__details::details-content {
+    content-visibility: visible;
+    height: auto;
+    overflow: visible;
+  }
+
   .footer-col__details > ul {
-    display: block;
+    display: block !important;
   }
 
   .footer-col__heading {

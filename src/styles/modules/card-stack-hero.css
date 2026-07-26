@@ -14,7 +14,9 @@
 }
 
 .card-stack-hero--stacked-fan {
-  overflow: hidden;
+  /* Must stay fully visible: overflow-x:hidden + overflow-y:visible computes to
+     overflow-y:auto (CSS quirk) and clips card bottoms short of the next section. */
+  overflow: visible;
 }
 
 .card-stack-container {
@@ -206,6 +208,10 @@
   margin-top: auto;
   flex-shrink: 0;
   transform-origin: center bottom;
+  /* Drop cards into the section below; negative margin keeps layout height stable */
+  position: relative;
+  top: var(--hero-cards-tuck, 3.5rem);
+  margin-bottom: calc(-1 * var(--hero-cards-tuck, 3.5rem));
 }
 
 /* Hide cards until viewport layout is applied (prevents desktop-size flash on mobile). */
