@@ -1332,9 +1332,9 @@
     padding-right: 0;
   }
 
-  /* Mirrors readMobileHeroCardDimensions: 5rem reserved (gutters + side peek), 312px cap */
+  /* Mirrors readMobileHeroCardDimensions: 5rem reserved, 252px floor, 312px cap */
   .card-stack-hero-skeleton__cards {
-    --mobile-hero-card-width: min(calc(100vw - 5rem), 312px);
+    --mobile-hero-card-width: clamp(252px, calc(100vw - 5rem), 312px);
     width: calc(var(--mobile-hero-card-width) + 40px);
     height: calc(var(--mobile-hero-card-width) * 4 / 3 + 68px);
     margin-top: clamp(0.25rem, 1.5vw, 0.75rem);
