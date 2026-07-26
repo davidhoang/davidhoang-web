@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react';
+import { MOBILE_STACK_OFFSETS } from './hero/mobileHeroStack';
 
 // Lazy load the CardStackHero component (735 lines, uses framer-motion)
 const CardStackHero = lazy(() => import('./CardStackHero'));
@@ -6,6 +7,8 @@ const CardStackHero = lazy(() => import('./CardStackHero'));
 const LCP_STILL_SRC = '/images/davidhoang-web-config-still.webp';
 const LCP_STILL_WIDTH = 600;
 const LCP_STILL_HEIGHT = 338;
+
+const SKELETON_STACK = MOBILE_STACK_OFFSETS.slice(0, 4);
 
 // Skeleton placeholder that mirrors hero title + card stack footprint (reduces layout jump).
 // Front card includes a real LCP <img> so the preloaded still paints before React hydrates.
@@ -20,7 +23,7 @@ const CardStackHeroSkeleton = ({ lcpImageSrc }: { lcpImageSrc?: string }) => (
         <div className="card-stack-hero-skeleton__bar card-stack-hero-skeleton__bar--eyebrow" />
         <div className="card-stack-hero-skeleton__bar card-stack-hero-skeleton__bar--title" />
         <div className="card-stack-hero-skeleton__cards">
-          {[0, 1, 2, 3].map((i) => (
+          {SKELETON_STACK.map((pose, i) => (
             <div
               key={i}
               className={
@@ -30,8 +33,8 @@ const CardStackHeroSkeleton = ({ lcpImageSrc }: { lcpImageSrc?: string }) => (
               }
               style={{
                 opacity: 0.4 + i * 0.1,
-                transform: `translate(${i === 0 ? 0 : i === 1 ? 12 : i === 2 ? -10 : 8}px, ${i * 14}px) rotate(${i === 0 ? 0 : i === 1 ? 2.5 : i === 2 ? -2 : 1.5}deg) scale(${1 - i * 0.035})`,
-                zIndex: 4 - i,
+                transform: `translate(${pose.x}px, ${pose.y}px) rotate(${pose.rotation}deg) scale(${pose.scale})`,
+                zIndex: SKELETON_STACK.length - i,
                 animationDelay: `${i * 0.12}s`,
               }}
             >
