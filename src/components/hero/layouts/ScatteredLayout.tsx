@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
@@ -17,13 +17,42 @@ function seededRandom(seed: number) {
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 }
 
-function getDateSeed(): number {
+/**
+ * Seed scattered positions from the active theme date (`data-daily-theme`)
+ * so layout is a pure function of theme fields — required for signature-cache
+ * ranking to compare apples-to-apples across days. Falls back to calendar today.
+ */
+function getThemeDateSeed(): number {
+  if (typeof document !== 'undefined') {
+    const dateStr = document.documentElement.getAttribute('data-daily-theme');
+    if (dateStr && /^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      const [year, month, day] = dateStr.split('-').map(Number);
+      return year * 10000 + month * 100 + day;
+    }
+  }
   const d = new Date();
   return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
 }
 
-function generatePositions(count: number) {
-  const seed = getDateSeed();
+function subscribeThemeDateSeed(onChange: () => void) {
+  if (typeof document === 'undefined') return () => {};
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-daily-theme'],
+  });
+  window.addEventListener('theme-changed', onChange);
+  return () => {
+    observer.disconnect();
+    window.removeEventListener('theme-changed', onChange);
+  };
+}
+
+function useThemeDateSeed(): number {
+  return useSyncExternalStore(subscribeThemeDateSeed, getThemeDateSeed, getThemeDateSeed);
+}
+
+function generatePositions(count: number, seed: number) {
   const positions: { x: number; y: number; rotation: number }[] = [];
 
   for (let i = 0; i < count; i++) {
@@ -172,7 +201,11 @@ export default function ScatteredLayout({
   onCardHover,
 }: LayoutProps) {
   const isGlass = cardStyle === 'glass';
-  const positions = generatePositions(cards.length);
+  const dateSeed = useThemeDateSeed();
+  const positions = useMemo(
+    () => generatePositions(cards.length, dateSeed),
+    [cards.length, dateSeed],
+  );
 
   return (
     <div className="cards-wrapper">
