@@ -14,7 +14,6 @@ export const mobileSecondaryNavItems = [
   { path: '/investing', label: 'Investing' },
   { path: '/advising', label: 'Advising' },
   { path: '/works', label: 'Works' },
-  { path: '/art-collection', label: 'Art Collection' },
   { path: '/daily-themes', label: 'Daily Themes' },
 ] as const;
 
@@ -29,7 +28,6 @@ export const commandPalettePages = [
   { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
   { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
   { title: 'Works', description: 'Selected work and projects', path: '/works', type: 'page' },
-  { title: 'Art Collection', description: 'Curated artwork collection', path: '/art-collection', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
 ] as const;
 

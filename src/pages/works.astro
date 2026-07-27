@@ -1,189 +1,221 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { works, workKindLabel } from '../data/works';
 
-// Page metadata
-const pageDescription = "A collection of my work and projects.";
-const ogImage = "/images/works/works-inspirato.webp";
-
-// Work items - you can add more items here
-const works = [
-  {
-    id: 'inspirato',
-    image: '/images/works/works-inspirato.webp',
-    alt: 'Inspirato work showcase',
-    context: 'Inspirato | Black Pixel (2015)'
-  },
-  {
-    id: 'twitter-camera',
-    image: '/images/works/works-twitter-camera.webp',
-    alt: 'Twitter Camera work showcase',
-    context: 'Twitter Camera | Twitter'
-  }
-];
+const pageDescription =
+  'A table of contents for selected work — talks, role writeups, and portfolio case studies.';
+const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
-<MainLayout title="Works" description={pageDescription} ogImage={ogImage}>
-  <PageHeader title="Works" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Works" />
-  <div class="works-container">
-    <div class="works-inner">
-      <div class="works-grid">
-        {works.map((work) => (
-          <div class="work-item">
-            <div class="work-image-container">
-              <div class="work-image-wrapper img-frame">
-                <img 
-                  src={work.image} 
-                  alt={work.alt}
-                  loading="lazy"
-                />
-              </div>
-              <div class="work-context">
-                {work.context}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+<MainLayout title="Works | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <PageHeader
+    title="Works"
+    image="/images/highlights/img-highlights-proof-of-concept.webp"
+    alt="Works"
+  />
+  <div class="works-index container-narrow">
+    <p class="works-index__lede">
+      Selected projects across talks, roles, and product work. Linked entries go somewhere you can
+      watch or read today; the rest are placeholders for case studies I’ll publish here.
+    </p>
+
+    <ol class="works-toc" aria-label="Works table of contents">
+      {
+        works.map((entry) => {
+          const kindLabel = workKindLabel(entry.kind);
+          const isLive = Boolean(entry.href);
+          const ariaLabel = entry.external
+            ? `${entry.title} (${kindLabel}, opens in new tab)`
+            : isLive
+              ? `${entry.title} (${kindLabel})`
+              : `${entry.title} (${kindLabel}, coming soon)`;
+
+          return (
+            <li class:list={['works-toc__row', { 'works-toc__row--linked': isLive }]}>
+              {isLive && entry.href ? (
+                <a
+                  class="works-toc__link"
+                  href={entry.href}
+                  target={entry.external ? '_blank' : undefined}
+                  rel={entry.external ? 'noopener noreferrer' : undefined}
+                  aria-label={ariaLabel}
+                >
+                  <span class="works-toc__when">{entry.when}</span>
+                  <span class="works-toc__main">
+                    <span class="works-toc__title-row">
+                      <span class="works-toc__title">{entry.title}</span>
+                      {entry.external && (
+                        <span class="works-toc__external" aria-hidden="true">↗</span>
+                      )}
+                    </span>
+                    <span class="works-toc__meta">
+                      <span class="works-toc__kind">{kindLabel}</span>
+                      <span class="works-toc__summary">{entry.summary}</span>
+                    </span>
+                  </span>
+                </a>
+              ) : (
+                <div class="works-toc__static" aria-label={ariaLabel}>
+                  <span class="works-toc__when">{entry.when}</span>
+                  <span class="works-toc__main">
+                    <span class="works-toc__title-row">
+                      <span class="works-toc__title">{entry.title}</span>
+                      <span class="works-toc__status">Coming soon</span>
+                    </span>
+                    <span class="works-toc__meta">
+                      <span class="works-toc__kind">{kindLabel}</span>
+                      <span class="works-toc__summary">{entry.summary}</span>
+                    </span>
+                  </span>
+                </div>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
   </div>
 </MainLayout>
 
 <style>
-  .works-container {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 2rem clamp(1rem, 4vw, 4rem);
-    box-sizing: border-box;
+  .works-index {
+    margin-inline: auto;
+    padding: var(--spacing-xl) 0 var(--spacing-3xl);
   }
 
-  .works-inner {
-    width: 100%;
-    max-width: var(--container-wide-width, 1400px);
-    margin: 0 auto;
+  .works-index__lede {
+    margin: 0 0 var(--spacing-xl);
+    max-width: 42rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
   }
 
-  .works-grid {
+  .works-toc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .works-toc__row {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  }
+
+  .works-toc__link,
+  .works-toc__static {
+    display: grid;
+    grid-template-columns: minmax(4.5rem, 5.5rem) minmax(0, 1fr);
+    gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
+    align-items: start;
+    padding: calc(var(--spacing-sm) + 0.15rem) 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .works-toc__link {
+    margin-inline: calc(-1 * clamp(0.45rem, 1.4vw, 0.65rem));
+    padding-inline: clamp(0.45rem, 1.4vw, 0.65rem);
+    border-radius: var(--radius-sm);
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-inertia);
+  }
+
+  .works-toc__link:hover {
+    background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
+    transform: translateX(2px);
+  }
+
+  .works-toc__link:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .works-toc__when {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: var(--letter-spacing-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+    padding-top: 0.2em;
+  }
+
+  .works-toc__main {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
-    width: 100%;
+    gap: 0.35rem;
+    min-width: 0;
   }
 
-  .work-item {
-    width: 100%;
-  }
-
-  .work-image-container {
-    width: 100%;
-    padding: clamp(1rem, 3vw, 2rem);
-    padding-bottom: clamp(1.5rem, 4vw, 3rem);
-    background: var(--color-sidebar-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md, 8px);
-    overflow: hidden;
+  .works-toc__title-row {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.65rem;
   }
 
-  .work-image-wrapper {
-    width: 100%;
-    aspect-ratio: 1920 / 1080;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .work-image-container img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: contain;
-  }
-
-  .work-context {
-    text-align: center;
+  .works-toc__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+    font-weight: var(--heading-weight);
+    line-height: 1.25;
+    letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
     color: var(--color-text);
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    font-weight: 500;
-    white-space: nowrap;
-    margin-top: clamp(1rem, 2vw, 1.5rem);
-    width: 100%;
+    text-wrap: balance;
   }
 
-  /* Desktop Large (1440px+) */
-  @media (min-width: 1440px) {
-    .works-container {
-      padding: 3rem clamp(2rem, 5vw, 6rem);
-    }
-
-    .works-inner {
-      max-width: 1600px;
-    }
-
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: clamp(2rem, 4vw, 3rem);
-      padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
-    }
+  .works-toc__link:hover .works-toc__title {
+    color: var(--color-link);
   }
 
-  /* Desktop Extra Large (1920px+) */
-  @media (min-width: 1920px) {
-    .works-container {
-      padding: 4rem clamp(3rem, 6vw, 8rem);
-    }
-
-    .works-inner {
-      max-width: 1920px;
-    }
-
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: clamp(2.5rem, 5vw, 4rem);
-      padding-bottom: clamp(3rem, 6vw, 4.5rem);
-    }
+  .works-toc__external {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    line-height: 1;
   }
 
-  @media (max-width: 768px) {
-    .works-container {
-      padding: var(--spacing-lg) var(--spacing-md);
-    }
-
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: var(--spacing-md);
-      padding-bottom: 1.5rem;
-    }
+  .works-toc__status {
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
 
-  @media (max-width: 480px) {
-    .works-container {
-      padding: var(--spacing-md) calc(var(--spacing-sm) + var(--spacing-xs));
+  .works-toc__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.75rem;
+  }
+
+  .works-toc__kind {
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-link);
+  }
+
+  .works-toc__summary {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 520px) {
+    .works-toc__link,
+    .works-toc__static {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
     }
 
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: calc(var(--spacing-sm) + var(--spacing-xs));
-      padding-bottom: 1.25rem;
+    .works-toc__when {
+      padding-top: 0;
     }
   }
 </style>
-
