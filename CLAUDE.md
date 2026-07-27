@@ -15,7 +15,7 @@ Site: https://www.davidhoang.com
 - `src/content/writing/` — Blog posts (markdown, frontmatter: title, pubDate, description, draft, ogImage, coverImage)
 - `src/content/notes/` — Digital garden notes (markdown, frontmatter adds: stage, tags, updatedDate)
 - `src/layouts/` — MainLayout.astro (site-wide), WritingPost.astro / WritingLayout.astro (writing), NoteLayout.astro (notes)
-- `src/pages/api/` — Server-rendered endpoints (OG image generation, bio summary)
+- `src/pages/api/` — Server-rendered endpoints (OG image generation)
 - `src/styles/` — Global CSS, design tokens, self-hosted font declarations
 - `src/utils/` — Font preloading, responsive images, theme utilities
 - `src/assets/images/` — Image source of truth (blog, hero, odyssey, etc.); mirrored to `public/images/` at build/dev time

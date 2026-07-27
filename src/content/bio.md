@@ -1,7 +1,7 @@
 <!-- 
   Bio sections are organized by H2 headings (##).
-  The "AI Summary" section is automatically generated daily via cron job.
-  See BIO_AI_SUMMARY_SETUP.md for configuration details.
+  The optional AI Summary on /about is loaded from src/data/bio-ai-summary.json
+  at build time — edit that file (or regenerate offline) and redeploy to update it.
 -->
 
 ## Social length
