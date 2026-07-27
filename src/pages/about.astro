@@ -232,7 +232,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     width: max-content;
     max-width: 100%;
     margin: 0;
-    padding: 0 0 0.var(--spacing-xl);
+    padding: 0 0 calc(var(--spacing-xs) - 0.05rem);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -254,7 +254,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     flex: 0 0 auto;
     min-width: fit-content;
     margin: 0;
-    padding: 0.var(--spacing-xl) calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem));
+    padding: calc(var(--spacing-xs) - 0.05rem) calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem));
     font-family: inherit;
     font-size: 0.6875rem;
     font-weight: 500;
@@ -423,7 +423,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 
     .bio-pipe-segment {
       font-size: 0.65625rem;
-      padding: calc(var(--spacing-xs) - 0.1rem) 0.var(--spacing-3xl);
+      padding: calc(var(--spacing-xs) - 0.1rem) calc(var(--spacing-xs) + 0.15rem);
     }
 
     .bio-section-title {

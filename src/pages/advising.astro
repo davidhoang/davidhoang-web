@@ -2,7 +2,6 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 
-// Set this to your Tally, Typeform, or other inquiry form URL once created.
 const advisingInquiryUrl = 'https://tally.so/r/D4M0lb';
 
 const pageDescription =
@@ -14,7 +13,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   <PageHeader title="Advising" image={ogImage} alt="Low-fidelity design sketch" />
   <div class="advising-content container-narrow">
     <section class="advising-intro">
-      <p class="advising-eyebrow">Low-volume advisory for design leaders</p>
+      <p class="text-eyebrow advising-eyebrow">Low-volume advisory for design leaders</p>
       <p>
         I've spent 20 years building and scaling design teams — currently as VP of AI Design at
         Atlassian, and previously as VP of Marketing and Design at Replit, the first Head of Design
@@ -90,17 +89,17 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
       </ul>
     </section>
 
-    <section class="advising-cta" aria-labelledby="advising-apply-heading">
+    <section class="card advising-cta" aria-labelledby="advising-apply-heading">
       <h2 id="advising-apply-heading">Apply</h2>
       <p>
         Share a little about your company, your team, and the leadership challenge you're
         navigating. I'll review it personally and follow up if I think I can be useful.
       </p>
-      <a class="advising-cta__button" href={advisingInquiryUrl} target="_blank" rel="noopener noreferrer">
+      <a class="btn btn-primary advising-cta__button" href={advisingInquiryUrl} target="_blank" rel="noopener noreferrer">
         Submit an inquiry
         <span class="advising-cta__arrow" aria-hidden="true">→</span>
       </a>
-      <p class="advising-cta__note">Opens in a new tab. I read every submission, but only follow up where there is a clear fit.</p>
+      <p class="text-caption advising-cta__note">Opens in a new tab. I read every submission, but only follow up where there is a clear fit.</p>
     </section>
   </div>
 </MainLayout>
@@ -115,24 +114,22 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
     margin-bottom: var(--spacing-2xl);
   }
 
-  .advising-eyebrow {
-    margin-bottom: var(--spacing-md) !important;
-    font-size: 0.78rem !important;
+  .advising-content .advising-eyebrow {
+    display: block;
+    margin: 0 0 var(--spacing-md);
     font-weight: 700;
-    line-height: 1.2 !important;
+    line-height: 1.2;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-muted) !important;
   }
 
-  .advising-intro p {
+  .advising-intro > p:not(.advising-eyebrow) {
     margin: 0;
     font-size: 1.125rem;
     line-height: 1.7;
     color: var(--color-text);
   }
 
-  .advising-intro p:not(.advising-eyebrow) + p {
+  .advising-intro > p:not(.advising-eyebrow) + p {
     margin-top: var(--spacing-lg);
   }
 
@@ -225,11 +222,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
   .advising-cta {
     margin-top: var(--spacing-2xl);
-    padding: clamp(1.5rem, 4vw, 2.25rem);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg, 12px);
-    background: var(--color-card-bg, var(--color-bg));
-    box-shadow: var(--card-shadow, 0 1px 0 color-mix(in srgb, var(--color-text) 6%, transparent));
+    padding: clamp(var(--spacing-lg), 4vw, calc(var(--spacing-xl) + var(--spacing-sm)));
   }
 
   .advising-cta h2 {
@@ -240,7 +233,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
     letter-spacing: -0.01em;
   }
 
-  .advising-cta p {
+  .advising-cta > p:not(.advising-cta__note) {
     margin: 0 0 var(--spacing-lg) 0;
     font-size: 1.0625rem;
     line-height: 1.6;
@@ -249,34 +242,11 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
   }
 
   .advising-cta__button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-size: 1rem;
     font-weight: 600;
-    line-height: 1.2;
-    color: var(--color-bg, #fff);
-    text-decoration: none;
-    background: var(--color-text);
-    border: 1px solid var(--color-text);
-    border-radius: var(--radius-md, 8px);
-    transition:
-      background-color var(--duration-normal) var(--ease-standard),
-      color var(--duration-normal) var(--ease-standard),
-      transform var(--duration-normal) var(--ease-inertia);
   }
 
   .advising-cta__button::after {
     display: none;
-  }
-
-  @media (hover: hover) {
-    .advising-cta__button:hover {
-      background: color-mix(in srgb, var(--color-text) 88%, var(--color-link));
-      color: var(--color-bg, #fff);
-      transform: translateY(-1px);
-    }
   }
 
   .advising-cta__arrow {
@@ -289,10 +259,8 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
     }
   }
 
-  .advising-cta__note {
-    margin: var(--spacing-md) 0 0 !important;
-    font-size: 0.875rem !important;
-    color: var(--color-muted) !important;
+  .advising-content .advising-cta__note {
+    margin: var(--spacing-md) 0 0;
   }
 
   @media (max-width: 768px) {
@@ -300,18 +268,32 @@ const ogImage = '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
       padding: 0 var(--spacing-md) var(--spacing-2xl) var(--spacing-md);
     }
 
-    .advising-intro p {
+    .advising-intro > p:not(.advising-eyebrow) {
       font-size: 1rem;
+    }
+
+    .advising-section {
+      margin-bottom: var(--spacing-xl);
+      padding-top: var(--spacing-md);
+    }
+
+    .advising-section li {
+      margin-bottom: calc(var(--spacing-sm) + var(--spacing-xs));
     }
 
     .advising-capacity {
       display: block;
+      margin-bottom: var(--spacing-xl);
     }
 
     .advising-capacity strong {
       display: block;
       margin-top: var(--spacing-sm);
       text-align: left;
+    }
+
+    .advising-cta__button {
+      width: 100%;
     }
   }
 </style>

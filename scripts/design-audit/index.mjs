@@ -6,6 +6,7 @@ import { auditHeroAstro, auditHeroCssFile } from './rules/hero.mjs';
 import { auditNavAstro, auditNavCssFile } from './rules/nav.mjs';
 import { auditCardsInFile } from './rules/cards.mjs';
 import { auditAstroColors, auditCssColors } from './rules/colors.mjs';
+import { auditMalformedSpacingTokens } from './rules/tokens.mjs';
 import {
   auditAgentStack,
   auditAstroFocus,
@@ -35,11 +36,12 @@ export function runDesignAudit(options = {}) {
   auditLayoutContract(ctx);
 
   for (const file of walk(join(ROOT, 'src', 'styles'), '.css')) {
+    const content = readFileSync(file, 'utf-8');
     auditHeroCssFile(ctx, file);
     auditNavCssFile(ctx, file);
     auditCardsInFile(ctx, file);
+    auditMalformedSpacingTokens(ctx, file, content);
     if (ctx.strict) {
-      const content = readFileSync(file, 'utf-8');
       auditCssColors(ctx, file, content);
       auditCssHover(ctx, file);
       auditCssMotion(ctx, file);
@@ -54,6 +56,7 @@ export function runDesignAudit(options = {}) {
     auditNavAstro(ctx, file, content);
     auditCardsInFile(ctx, file);
     auditAstroColors(ctx, file, content);
+    auditMalformedSpacingTokens(ctx, file, content);
     if (ctx.strict) {
       auditAstroHover(ctx, file, content);
       auditAstroMotion(ctx, file, content);
@@ -63,8 +66,10 @@ export function runDesignAudit(options = {}) {
   }
 
   for (const file of walk(join(ROOT, 'src'), '.tsx')) {
+    const content = readFileSync(file, 'utf-8');
     auditCardsInFile(ctx, file);
     auditHeroLayoutOpacity(ctx, file);
+    auditMalformedSpacingTokens(ctx, file, content);
     if (ctx.strict) auditTsxMotion(ctx, file);
   }
 

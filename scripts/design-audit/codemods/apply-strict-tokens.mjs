@@ -11,7 +11,8 @@ import { STRICT_GRANDFATHER, SKIP_FILES, SKIP_DIRS } from '../shared.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
-/** Longest-first rem/px → token (padding/margin/gap lines only) */
+/** Longest-first rem/px → token (padding/margin/gap lines only).
+ * Sorted by from-string length descending so `0.4rem` wins over `4rem`. */
 const SPACING_VALUE_MAP = [
   ['4rem', 'var(--spacing-3xl)'],
   ['3rem', 'var(--spacing-2xl)'],
@@ -49,6 +50,7 @@ const SPACING_VALUE_MAP = [
   ['4px', 'var(--spacing-xs)'],
   ['2px', 'calc(var(--spacing-xs) - 2px)'],
 ];
+SPACING_VALUE_MAP.sort((a, b) => b[0].length - a[0].length);
 
 const MOTION_REPLACEMENTS = [
   ['0.4s', 'var(--duration-slower)'],

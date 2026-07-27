@@ -198,7 +198,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     display: grid;
     grid-template-columns: minmax(4.75rem, 6.25rem) minmax(0, 1fr);
     gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
-    padding: 0.7var(--spacing-xl) 0;
+    padding: calc(var(--spacing-sm) + 0.22rem) 0;
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
     align-items: baseline;
   }
@@ -275,7 +275,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   @media (max-width: 768px) {
     .speaking-chronicle__entry {
       grid-template-columns: 1fr;
-      gap: 0.var(--spacing-xl);
+      gap: calc(var(--spacing-xs) - 0.05rem);
       padding-block: 0.85rem;
       align-items: start;
     }

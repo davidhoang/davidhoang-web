@@ -540,7 +540,7 @@ export const { registry } = defineRegistry(themeCatalog, {
               <p style={{
                 fontSize: '0.8rem',
                 color: 'var(--color-muted)',
-                margin: '0.var(--spacing-xl) 0 0',
+                margin: 'calc(var(--spacing-xs) - 0.05rem) 0 0',
                 lineHeight: 1.5,
                 fontFamily: 'var(--font-body)',
               }}>

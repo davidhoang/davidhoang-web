@@ -481,13 +481,13 @@ const noteJsonLd = {
 
   .note-article .note-content :global(ul > li) {
     margin: 0;
-    padding: 0.var(--spacing-xl) 0;
+    padding: calc(var(--spacing-xs) - 0.05rem) 0;
   }
 
   .note-article .note-content :global(ul ul) {
     list-style: circle;
-    margin: 0.var(--spacing-3xl) 0 0;
-    gap: 0.var(--spacing-2xl);
+    margin: calc(var(--spacing-xs) + 0.15rem) 0 0;
+    gap: calc(var(--spacing-xs) + 0.05rem);
   }
 
   .note-article .note-content :global(ul ul ul) {
@@ -523,7 +523,7 @@ const noteJsonLd = {
   }
 
   .note-links__list li {
-    padding: 0.var(--spacing-3xl) 0;
+    padding: calc(var(--spacing-xs) + 0.15rem) 0;
   }
 
   .note-links__list a {
