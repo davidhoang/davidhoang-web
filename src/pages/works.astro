@@ -8,7 +8,13 @@ const pageDescription =
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
-<MainLayout title="Works | David Hoang" description={pageDescription} ogImage={ogImage}>
+{/* Unpublished: not in nav/⌘K/sitemap. Direct /works still works for preview. */}
+<MainLayout
+  title="Works | David Hoang"
+  description={pageDescription}
+  ogImage={ogImage}
+  robots="noindex, nofollow"
+>
   <PageHeader
     title="Works"
     image="/images/highlights/img-highlights-proof-of-concept.webp"

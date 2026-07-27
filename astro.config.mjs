@@ -79,7 +79,10 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      filter: (page) => !page.includes('/default-layout'),
+      filter: (page) =>
+        !page.includes('/default-layout') &&
+        // /works is built but unpublished — restore when ready to ship
+        !page.includes('/works'),
     }),
   ],
   vite: {
