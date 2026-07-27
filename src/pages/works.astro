@@ -23,7 +23,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   <div class="works-index container-narrow">
     <p class="works-index__lede">
       Career chapters live in cards. Talks, launches, and other one-offs stay as text lines — like
-      Hatch’s Design &amp; (Blank). Portfolio case studies will plug in here as they ship.
+      Hatch’s Design &amp; (Blank).
     </p>
 
     <ol class="works-stream" aria-label="Works">
@@ -51,7 +51,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                     ))}
                   </ul>
                 )}
-                {!isLive && <p class="works-card__status">Case study coming soon</p>}
               </>
             );
 
@@ -78,9 +77,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 
           const ariaLabel = entry.external
             ? `${entry.title} (${kindLabel}, opens in new tab)`
-            : isLive
-              ? `${entry.title} (${kindLabel})`
-              : `${entry.title} (${kindLabel}, coming soon)`;
+            : `${entry.title} (${kindLabel})`;
 
           return (
             <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
@@ -107,10 +104,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                 <div class="works-line works-line--static" aria-label={ariaLabel}>
                   <span class="works-line__when">{entry.when}</span>
                   <span class="works-line__body">
-                    <span class="works-line__title">
-                      {entry.title}
-                      <span class="works-line__status">Coming soon</span>
-                    </span>
+                    <span class="works-line__title">{entry.title}</span>
                     {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
                   </span>
                 </div>
@@ -238,15 +232,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     color: var(--color-text);
   }
 
-  .works-card__status {
-    margin: 1rem 0 0;
-    font-size: var(--text-eyebrow-size, 0.6875rem);
-    font-weight: 600;
-    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-
   /* —— One-off event lines —— */
   .works-stream__item--line {
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
@@ -321,14 +306,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     font-size: 0.8rem;
     color: var(--color-muted);
     line-height: 1;
-  }
-
-  .works-line__status {
-    font-size: var(--text-eyebrow-size, 0.6875rem);
-    font-weight: 600;
-    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
-    text-transform: uppercase;
-    color: var(--color-muted);
   }
 
   .works-line__summary {

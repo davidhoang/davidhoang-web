@@ -180,14 +180,14 @@ export const works: WorkEntry[] = [
   {
     id: 'inspirato',
     title: 'Inspirato',
-    summary: 'Product design with Black Pixel — case study coming soon.',
+    summary: 'Product design with Black Pixel.',
     kind: 'portfolio',
     when: '2015',
   },
   {
     id: 'twitter-camera',
     title: 'Twitter Camera',
-    summary: 'Selected product work — case study coming soon.',
+    summary: 'Selected product work on Twitter’s camera experience.',
     kind: 'portfolio',
     when: '—',
   },
