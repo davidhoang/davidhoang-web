@@ -1,189 +1,323 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { works, workKindLabel, workPresentation } from '../data/works';
 
-// Page metadata
-const pageDescription = "A collection of my work and projects.";
-const ogImage = "/images/works/works-inspirato.webp";
-
-// Work items - you can add more items here
-const works = [
-  {
-    id: 'inspirato',
-    image: '/images/works/works-inspirato.webp',
-    alt: 'Inspirato work showcase',
-    context: 'Inspirato | Black Pixel (2015)'
-  },
-  {
-    id: 'twitter-camera',
-    image: '/images/works/works-twitter-camera.webp',
-    alt: 'Twitter Camera work showcase',
-    context: 'Twitter Camera | Twitter'
-  }
-];
+const pageDescription =
+  'Selected work — career chapters as cards, talks and one-off events as a vertical list.';
+const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
-<MainLayout title="Works" description={pageDescription} ogImage={ogImage}>
-  <PageHeader title="Works" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Works" />
-  <div class="works-container">
-    <div class="works-inner">
-      <div class="works-grid">
-        {works.map((work) => (
-          <div class="work-item">
-            <div class="work-image-container">
-              <div class="work-image-wrapper img-frame">
-                <img 
-                  src={work.image} 
-                  alt={work.alt}
-                  loading="lazy"
-                />
-              </div>
-              <div class="work-context">
-                {work.context}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+{/* Unpublished: not in nav/⌘K/sitemap. Direct /works still works for preview. */}
+<MainLayout
+  title="Works | David Hoang"
+  description={pageDescription}
+  ogImage={ogImage}
+  robots="noindex, nofollow"
+>
+  <PageHeader
+    title="Works"
+    image="/images/highlights/img-highlights-proof-of-concept.webp"
+    alt="Works"
+  />
+  <div class="works-index container-narrow">
+    <p class="works-index__lede">
+      Career chapters live in cards. Talks, launches, and other one-offs stay as text lines — like
+      Hatch’s Design &amp; (Blank).
+    </p>
+
+    <ol class="works-stream" aria-label="Works">
+      {
+        works.map((entry) => {
+          const presentation = workPresentation(entry);
+          const kindLabel = workKindLabel(entry.kind);
+          const isLive = Boolean(entry.href);
+
+          if (presentation === 'card') {
+            const cardAria = `${entry.title}${entry.role ? `, ${entry.role}` : ''} (${kindLabel})`;
+            const cardInner = (
+              <>
+                <div class="works-card__top">
+                  <span class="works-card__when">{entry.when}</span>
+                  <span class="works-card__kind">{kindLabel}</span>
+                </div>
+                <h2 class="works-card__title">{entry.title}</h2>
+                {entry.role && <p class="works-card__role">{entry.role}</p>}
+                {entry.summary && <p class="works-card__summary">{entry.summary}</p>}
+                {entry.highlights && entry.highlights.length > 0 && (
+                  <ul class="works-card__highlights">
+                    {entry.highlights.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            );
+
+            return (
+              <li class="works-stream__item works-stream__item--card">
+                {isLive && entry.href ? (
+                  <a
+                    class="card card-filled works-card works-card--linked"
+                    href={entry.href}
+                    target={entry.external ? '_blank' : undefined}
+                    rel={entry.external ? 'noopener noreferrer' : undefined}
+                    aria-label={cardAria}
+                  >
+                    {cardInner}
+                  </a>
+                ) : (
+                  <div class="card card-filled works-card" aria-label={cardAria}>
+                    {cardInner}
+                  </div>
+                )}
+              </li>
+            );
+          }
+
+          const ariaLabel = entry.external
+            ? `${entry.title} (${kindLabel}, opens in new tab)`
+            : `${entry.title} (${kindLabel})`;
+
+          return (
+            <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
+              {isLive && entry.href ? (
+                <a
+                  class="works-line"
+                  href={entry.href}
+                  target={entry.external ? '_blank' : undefined}
+                  rel={entry.external ? 'noopener noreferrer' : undefined}
+                  aria-label={ariaLabel}
+                >
+                  <span class="works-line__when">{entry.when}</span>
+                  <span class="works-line__body">
+                    <span class="works-line__title">
+                      {entry.title}
+                      {entry.external && (
+                        <span class="works-line__external" aria-hidden="true">↗</span>
+                      )}
+                    </span>
+                    {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                  </span>
+                </a>
+              ) : (
+                <div class="works-line works-line--static" aria-label={ariaLabel}>
+                  <span class="works-line__when">{entry.when}</span>
+                  <span class="works-line__body">
+                    <span class="works-line__title">{entry.title}</span>
+                    {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                  </span>
+                </div>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
   </div>
 </MainLayout>
 
 <style>
-  .works-container {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 2rem clamp(1rem, 4vw, 4rem);
-    box-sizing: border-box;
+  .works-index {
+    margin-inline: auto;
+    padding: var(--spacing-xl) 0 var(--spacing-3xl);
   }
 
-  .works-inner {
-    width: 100%;
-    max-width: var(--container-wide-width, 1400px);
-    margin: 0 auto;
+  .works-index__lede {
+    margin: 0 0 var(--spacing-xl);
+    max-width: 42rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
   }
 
-  .works-grid {
+  .works-stream {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
-    width: 100%;
+    gap: var(--spacing-sm);
   }
 
-  .work-item {
-    width: 100%;
+  /* —— Career cards —— */
+  .works-stream__item--card {
+    margin: calc(var(--spacing-sm) + 0.15rem) 0;
   }
 
-  .work-image-container {
-    width: 100%;
-    padding: clamp(1rem, 3vw, 2rem);
-    padding-bottom: clamp(1.5rem, 4vw, 3rem);
-    background: var(--color-sidebar-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md, 8px);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .work-image-wrapper {
-    width: 100%;
-    aspect-ratio: 1920 / 1080;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .work-image-container img {
-    width: 100%;
-    height: 100%;
+  .works-card {
     display: block;
-    object-fit: contain;
+    text-decoration: none;
+    color: inherit;
   }
 
-  .work-context {
-    text-align: center;
+  .works-card--linked {
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .works-card--linked:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+  }
+
+  .works-card--linked:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .works-card__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-xs) var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .works-card__when {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    letter-spacing: var(--letter-spacing-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .works-card__kind {
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-link);
+  }
+
+  .works-card__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: var(--heading-weight);
+    line-height: 1.15;
+    letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
     color: var(--color-text);
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    font-weight: 500;
-    white-space: nowrap;
-    margin-top: clamp(1rem, 2vw, 1.5rem);
-    width: 100%;
   }
 
-  /* Desktop Large (1440px+) */
-  @media (min-width: 1440px) {
-    .works-container {
-      padding: 3rem clamp(2rem, 5vw, 6rem);
+  .works-card__role {
+    margin: var(--spacing-xs) 0 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .works-card__summary {
+    margin: var(--spacing-md) 0 0;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+  }
+
+  .works-card__highlights {
+    margin: var(--spacing-md) 0 0;
+    padding: 0 0 0 var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .works-card__highlights li {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+
+  /* —— One-off event lines —— */
+  .works-stream__item--line {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  }
+
+  .works-stream__item--line:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .works-line {
+    display: grid;
+    grid-template-columns: minmax(4.25rem, 5.25rem) minmax(0, 1fr);
+    gap: var(--spacing-sm) clamp(0.75rem, 2vw, 1.15rem);
+    align-items: baseline;
+    padding: calc(var(--spacing-sm) + var(--spacing-xs)) 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .works-stream__item--linked .works-line {
+    margin-inline: calc(-1 * clamp(0.4rem, 1.2vw, 0.6rem));
+    padding-inline: clamp(0.4rem, 1.2vw, 0.6rem);
+    border-radius: var(--radius-sm);
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-inertia);
+  }
+
+  @media (hover: hover) {
+    .works-stream__item--linked .works-line:hover {
+      background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
+      transform: translateX(2px);
     }
 
-    .works-inner {
-      max-width: 1600px;
-    }
-
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: clamp(2rem, 4vw, 3rem);
-      padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+    .works-stream__item--linked .works-line:hover .works-line__title {
+      color: var(--color-link);
     }
   }
 
-  /* Desktop Extra Large (1920px+) */
-  @media (min-width: 1920px) {
-    .works-container {
-      padding: 4rem clamp(3rem, 6vw, 8rem);
-    }
-
-    .works-inner {
-      max-width: 1920px;
-    }
-
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: clamp(2.5rem, 5vw, 4rem);
-      padding-bottom: clamp(3rem, 6vw, 4.5rem);
-    }
+  .works-line:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
-  @media (max-width: 768px) {
-    .works-container {
-      padding: var(--spacing-lg) var(--spacing-md);
-    }
-
-    .works-grid {
-      gap: var(--spacing-md);
-    }
-
-    .work-image-container {
-      padding: var(--spacing-md);
-      padding-bottom: 1.5rem;
-    }
+  .works-line__when {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: var(--letter-spacing-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
   }
 
-  @media (max-width: 480px) {
-    .works-container {
-      padding: var(--spacing-md) calc(var(--spacing-sm) + var(--spacing-xs));
-    }
+  .works-line__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
 
-    .works-grid {
-      gap: var(--spacing-md);
-    }
+  .works-line__title {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-xs) var(--spacing-sm);
+    font-size: 1rem;
+    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
+  }
 
-    .work-image-container {
-      padding: calc(var(--spacing-sm) + var(--spacing-xs));
-      padding-bottom: 1.25rem;
+  .works-line__external {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    line-height: 1;
+  }
+
+  .works-line__summary {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 520px) {
+    .works-line {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xs);
     }
   }
 </style>
-
