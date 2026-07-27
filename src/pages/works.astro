@@ -1,10 +1,10 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import { works, workKindLabel } from '../data/works';
+import { works, workKindLabel, workPresentation } from '../data/works';
 
 const pageDescription =
-  'A table of contents for selected work — talks, role writeups, and portfolio case studies.';
+  'Selected work — career chapters as cards, talks and one-off events as a vertical list.';
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
@@ -16,15 +16,60 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   />
   <div class="works-index container-narrow">
     <p class="works-index__lede">
-      Selected projects across talks, roles, and product work. Linked entries go somewhere you can
-      watch or read today; the rest are placeholders for case studies I’ll publish here.
+      Career chapters live in cards. Talks, launches, and other one-offs stay as text lines — like
+      Hatch’s Design &amp; (Blank). Portfolio case studies will plug in here as they ship.
     </p>
 
-    <ol class="works-toc" aria-label="Works table of contents">
+    <ol class="works-stream" aria-label="Works">
       {
         works.map((entry) => {
+          const presentation = workPresentation(entry);
           const kindLabel = workKindLabel(entry.kind);
           const isLive = Boolean(entry.href);
+
+          if (presentation === 'card') {
+            const cardAria = `${entry.title}${entry.role ? `, ${entry.role}` : ''} (${kindLabel})`;
+            const cardInner = (
+              <>
+                <div class="works-card__top">
+                  <span class="works-card__when">{entry.when}</span>
+                  <span class="works-card__kind">{kindLabel}</span>
+                </div>
+                <h2 class="works-card__title">{entry.title}</h2>
+                {entry.role && <p class="works-card__role">{entry.role}</p>}
+                {entry.summary && <p class="works-card__summary">{entry.summary}</p>}
+                {entry.highlights && entry.highlights.length > 0 && (
+                  <ul class="works-card__highlights">
+                    {entry.highlights.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                {!isLive && <p class="works-card__status">Case study coming soon</p>}
+              </>
+            );
+
+            return (
+              <li class="works-stream__item works-stream__item--card">
+                {isLive && entry.href ? (
+                  <a
+                    class="card card-filled works-card works-card--linked"
+                    href={entry.href}
+                    target={entry.external ? '_blank' : undefined}
+                    rel={entry.external ? 'noopener noreferrer' : undefined}
+                    aria-label={cardAria}
+                  >
+                    {cardInner}
+                  </a>
+                ) : (
+                  <div class="card card-filled works-card" aria-label={cardAria}>
+                    {cardInner}
+                  </div>
+                )}
+              </li>
+            );
+          }
+
           const ariaLabel = entry.external
             ? `${entry.title} (${kindLabel}, opens in new tab)`
             : isLive
@@ -32,41 +77,35 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
               : `${entry.title} (${kindLabel}, coming soon)`;
 
           return (
-            <li class:list={['works-toc__row', { 'works-toc__row--linked': isLive }]}>
+            <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
               {isLive && entry.href ? (
                 <a
-                  class="works-toc__link"
+                  class="works-line"
                   href={entry.href}
                   target={entry.external ? '_blank' : undefined}
                   rel={entry.external ? 'noopener noreferrer' : undefined}
                   aria-label={ariaLabel}
                 >
-                  <span class="works-toc__when">{entry.when}</span>
-                  <span class="works-toc__main">
-                    <span class="works-toc__title-row">
-                      <span class="works-toc__title">{entry.title}</span>
+                  <span class="works-line__when">{entry.when}</span>
+                  <span class="works-line__body">
+                    <span class="works-line__title">
+                      {entry.title}
                       {entry.external && (
-                        <span class="works-toc__external" aria-hidden="true">↗</span>
+                        <span class="works-line__external" aria-hidden="true">↗</span>
                       )}
                     </span>
-                    <span class="works-toc__meta">
-                      <span class="works-toc__kind">{kindLabel}</span>
-                      <span class="works-toc__summary">{entry.summary}</span>
-                    </span>
+                    {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
                   </span>
                 </a>
               ) : (
-                <div class="works-toc__static" aria-label={ariaLabel}>
-                  <span class="works-toc__when">{entry.when}</span>
-                  <span class="works-toc__main">
-                    <span class="works-toc__title-row">
-                      <span class="works-toc__title">{entry.title}</span>
-                      <span class="works-toc__status">Coming soon</span>
+                <div class="works-line works-line--static" aria-label={ariaLabel}>
+                  <span class="works-line__when">{entry.when}</span>
+                  <span class="works-line__body">
+                    <span class="works-line__title">
+                      {entry.title}
+                      <span class="works-line__status">Coming soon</span>
                     </span>
-                    <span class="works-toc__meta">
-                      <span class="works-toc__kind">{kindLabel}</span>
-                      <span class="works-toc__summary">{entry.summary}</span>
-                    </span>
+                    {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
                   </span>
                 </div>
               )}
@@ -93,91 +132,192 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     color: var(--color-muted);
   }
 
-  .works-toc {
+  .works-stream {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 
-  .works-toc__row {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  /* —— Career cards —— */
+  .works-stream__item--card {
+    margin: calc(var(--spacing-sm) + 0.15rem) 0;
   }
 
-  .works-toc__link,
-  .works-toc__static {
-    display: grid;
-    grid-template-columns: minmax(4.5rem, 5.5rem) minmax(0, 1fr);
-    gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
-    align-items: start;
-    padding: calc(var(--spacing-sm) + 0.15rem) 0;
+  .works-card {
+    display: block;
     text-decoration: none;
     color: inherit;
   }
 
-  .works-toc__link {
-    margin-inline: calc(-1 * clamp(0.45rem, 1.4vw, 0.65rem));
-    padding-inline: clamp(0.45rem, 1.4vw, 0.65rem);
+  .works-card--linked {
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .works-card--linked:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+  }
+
+  .works-card--linked:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .works-card__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.35rem 1rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .works-card__when {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    letter-spacing: var(--letter-spacing-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .works-card__kind {
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-link);
+  }
+
+  .works-card__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: var(--heading-weight);
+    line-height: 1.15;
+    letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
+    color: var(--color-text);
+  }
+
+  .works-card__role {
+    margin: 0.35rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .works-card__summary {
+    margin: 0.85rem 0 0;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+  }
+
+  .works-card__highlights {
+    margin: 0.85rem 0 0;
+    padding: 0 0 0 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .works-card__highlights li {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+
+  .works-card__status {
+    margin: 1rem 0 0;
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* —— One-off event lines —— */
+  .works-stream__item--line {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  }
+
+  .works-stream__item--line:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .works-line {
+    display: grid;
+    grid-template-columns: minmax(4.25rem, 5.25rem) minmax(0, 1fr);
+    gap: 0.5rem clamp(0.75rem, 2vw, 1.15rem);
+    align-items: baseline;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .works-stream__item--linked .works-line {
+    margin-inline: calc(-1 * clamp(0.4rem, 1.2vw, 0.6rem));
+    padding-inline: clamp(0.4rem, 1.2vw, 0.6rem);
     border-radius: var(--radius-sm);
     transition:
       background-color var(--duration-normal) var(--ease-standard),
       transform var(--duration-slower) var(--ease-inertia);
   }
 
-  .works-toc__link:hover {
-    background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
-    transform: translateX(2px);
+  @media (hover: hover) {
+    .works-stream__item--linked .works-line:hover {
+      background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
+      transform: translateX(2px);
+    }
+
+    .works-stream__item--linked .works-line:hover .works-line__title {
+      color: var(--color-link);
+    }
   }
 
-  .works-toc__link:focus-visible {
+  .works-line:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
   }
 
-  .works-toc__when {
+  .works-line__when {
     font-size: 0.8125rem;
     line-height: 1.45;
     letter-spacing: var(--letter-spacing-caption);
     font-variant-numeric: tabular-nums;
     color: var(--color-muted);
-    padding-top: 0.2em;
   }
 
-  .works-toc__main {
+  .works-line__body {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.2rem;
     min-width: 0;
   }
 
-  .works-toc__title-row {
-    display: flex;
+  .works-line__title {
+    display: inline-flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.4rem 0.65rem;
-  }
-
-  .works-toc__title {
-    font-family: var(--font-heading);
-    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
-    font-weight: var(--heading-weight);
-    line-height: 1.25;
-    letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
+    gap: 0.4rem 0.55rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-body);
     color: var(--color-text);
-    text-wrap: balance;
   }
 
-  .works-toc__link:hover .works-toc__title {
-    color: var(--color-link);
-  }
-
-  .works-toc__external {
-    font-size: 0.85rem;
+  .works-line__external {
+    font-size: 0.8rem;
     color: var(--color-muted);
     line-height: 1;
   }
 
-  .works-toc__status {
+  .works-line__status {
     font-size: var(--text-eyebrow-size, 0.6875rem);
     font-weight: 600;
     letter-spacing: var(--text-eyebrow-tracking, 0.12em);
@@ -185,37 +325,16 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     color: var(--color-muted);
   }
 
-  .works-toc__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.35rem 0.75rem;
-  }
-
-  .works-toc__kind {
-    font-size: var(--text-eyebrow-size, 0.6875rem);
-    font-weight: 600;
-    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
-    text-transform: uppercase;
-    color: var(--color-link);
-  }
-
-  .works-toc__summary {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    letter-spacing: var(--letter-spacing-body);
+  .works-line__summary {
+    font-size: 0.9rem;
+    line-height: 1.45;
     color: var(--color-muted);
   }
 
   @media (max-width: 520px) {
-    .works-toc__link,
-    .works-toc__static {
+    .works-line {
       grid-template-columns: 1fr;
-      gap: 0.25rem;
-    }
-
-    .works-toc__when {
-      padding-top: 0;
+      gap: 0.15rem;
     }
   }
 </style>
