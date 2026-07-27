@@ -173,8 +173,8 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 0.35rem 1rem;
-    margin-bottom: 0.65rem;
+    gap: var(--spacing-xs) var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
   }
 
   .works-card__when {
@@ -204,14 +204,14 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-card__role {
-    margin: 0.35rem 0 0;
+    margin: var(--spacing-xs) 0 0;
     font-size: 1.05rem;
     line-height: 1.4;
     color: var(--color-text);
   }
 
   .works-card__summary {
-    margin: 0.85rem 0 0;
+    margin: var(--spacing-md) 0 0;
     font-size: 0.98rem;
     line-height: 1.55;
     letter-spacing: var(--letter-spacing-body);
@@ -219,11 +219,11 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-card__highlights {
-    margin: 0.85rem 0 0;
-    padding: 0 0 0 1.15rem;
+    margin: var(--spacing-md) 0 0;
+    padding: 0 0 0 var(--spacing-md);
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: var(--spacing-xs);
   }
 
   .works-card__highlights li {
@@ -244,9 +244,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   .works-line {
     display: grid;
     grid-template-columns: minmax(4.25rem, 5.25rem) minmax(0, 1fr);
-    gap: 0.5rem clamp(0.75rem, 2vw, 1.15rem);
+    gap: var(--spacing-sm) clamp(0.75rem, 2vw, 1.15rem);
     align-items: baseline;
-    padding: 0.75rem 0;
+    padding: calc(var(--spacing-sm) + var(--spacing-xs)) 0;
     text-decoration: none;
     color: inherit;
   }
@@ -287,7 +287,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   .works-line__body {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: var(--spacing-xs);
     min-width: 0;
   }
 
@@ -295,7 +295,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     display: inline-flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.4rem 0.55rem;
+    gap: var(--spacing-xs) var(--spacing-sm);
     font-size: 1rem;
     line-height: 1.4;
     letter-spacing: var(--letter-spacing-body);
@@ -317,7 +317,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   @media (max-width: 520px) {
     .works-line {
       grid-template-columns: 1fr;
-      gap: 0.15rem;
+      gap: var(--spacing-xs);
     }
   }
 </style>
