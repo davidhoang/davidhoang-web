@@ -138,7 +138,7 @@ Shader: ${theme.shader?.type || 'none'} (${(theme.shader?.colors || []).join(', 
 Make the showcase feel like a miniature launch artifact for this specific daily UI, not a generic palette sample.`;
 
   const message = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 2048,
     system: CATALOG_PROMPT,
     messages: [{ role: 'user', content: userPrompt }],
