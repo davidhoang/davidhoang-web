@@ -2,8 +2,8 @@
  * Works index — career role cards + one-off event lines (talks, launches, milestones).
  * Add portfolio case studies later at paths like /works/slug.
  *
- * Unpublished: /works is noindex + out of nav/⌘K/sitemap until ready to ship.
- * Re-add to navigation.ts + sitemap filter when publishing.
+ * Published at /works (indexable + sitemap) but not linked from top nav, footer, or ⌘K yet.
+ * Add to navigation.ts when ready to promote in site IA.
  */
 export type WorkKind = 'role' | 'talk' | 'event' | 'portfolio';
 
