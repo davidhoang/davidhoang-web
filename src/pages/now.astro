@@ -17,12 +17,12 @@ const ogImage = "/images/img-david-now.webp";
     image={imgDavidNow.src}
     alt="David Hoang portrait photo, current headshot"
   />
-  <div class="now-content container-narrow">
-    <p class="now-meta">
+  <div class="content-page now-content container-narrow">
+    <p class="content-page__meta">
       Last updated: Saturday, June 6, 2026. Learn more about
       <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
     </p>
-    <div class="now-section">
+    <div class="now-photos">
       <div class="now-grid">
         <div class="now-grid-item">
           <Image src={imgDavidSydney} alt="David Hoang standing in Sydney, Australia with city skyline in the background" loading="lazy" decoding="async" />
@@ -35,70 +35,27 @@ const ogImage = "/images/img-david-now.webp";
         </div>
       </div>
     </div>
-    <div class="now-section">
+    <section class="content-page__section now-activities">
       <h2>What I'm currently up to</h2>
-      <ul role="list" aria-label="Current activities and projects">
+      <ul class="content-page__list content-page__list--bullets" role="list" aria-label="Current activities and projects">
           <li>Working at Atlassian on AI and Ecosystem</li>
           <li>Writing <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
           <li>Learning Agent Experience</li>
           <li>Angel investing</li>
           <li>Living in California and traveling to Sydney</li>
       </ul>
-    </div>
+    </section>
   </div>
 </MainLayout>
 
 <style>
-
-  .now-content {
-    margin-inline: auto;
-    padding: var(--spacing-xl) 0 var(--spacing-3xl);
+  .now-photos {
+    margin-bottom: var(--spacing-2xl);
   }
 
-  .now-meta {
-    margin: 0 0 var(--spacing-xl);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--color-muted);
-  }
-
-  .now-section {
-    margin-bottom: var(--spacing-3xl);
-  }
-
-  .now-section h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    line-height: 1.15;
-    letter-spacing: var(--letter-spacing-heading-md);
-    margin: 0 0 var(--spacing-lg);
-    color: var(--color-text);
-    text-wrap: balance;
-  }
-
-  .now-section ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .now-section li {
-    position: relative;
-    padding-left: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    color: var(--color-muted);
-  }
-
-  .now-section li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.72em;
-    width: 0.375rem;
-    height: 0.375rem;
-    border-radius: var(--radius-full);
-    background: color-mix(in srgb, var(--color-link) 55%, var(--color-muted));
+  .now-activities {
+    border-top: none;
+    padding-top: 0;
   }
 
   .now-grid {
@@ -118,12 +75,8 @@ const ogImage = "/images/img-david-now.webp";
   }
 
   @media (max-width: 768px) {
-    .now-content {
-      padding: var(--spacing-md) var(--spacing-md) var(--spacing-2xl);
-    }
-
-    .now-section {
-      margin-bottom: var(--spacing-2xl);
+    .now-photos {
+      margin-bottom: var(--spacing-xl);
     }
 
     .now-grid {
@@ -135,4 +88,4 @@ const ogImage = "/images/img-david-now.webp";
       aspect-ratio: 16 / 11;
     }
   }
-</style> 
+</style>

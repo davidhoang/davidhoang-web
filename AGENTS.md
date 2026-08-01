@@ -11,7 +11,7 @@ Cross-tool product design instructions follow the [Vercel agent design stack](ht
 | Cursor discovery | `.cursor/skills/product-design/` (pointer), `.cursor/skills/davidhoang-ui/` (alias) |
 | Cursor file rules | `.cursor/rules/design-system.mdc`, `.cursor/rules/site-nav-css.mdc` |
 | Lint | `npm run audit:design:check` → `scripts/design-audit/` (CI on every PR) |
-| Cloud agent pre-PR | `npm run audit:ui:changed -- --check` (core rules on changed UI files) |
+| Cloud agent pre-PR | `npm run audit:ui:changed -- --check --strict` (core + strict on changed UI files) |
 | Strict token lint | `npm run audit:design:strict` (report-only on full codebase) |
 | Evals | `evals/` (+ optional `@vercel/agent-eval`) |
 | Theme contrast | `npm run audit-contrast` (runs in build) |
@@ -29,11 +29,11 @@ Cross-tool product design instructions follow the [Vercel agent design stack](ht
 Cloud agents **must** run design linters before committing UI changes:
 
 ```bash
-# Required before push — core rules on files you changed (matches CI scope for those files)
-npm run audit:ui:changed -- --check
+# Required before push — core + strict rules on files you changed
+npm run audit:ui:changed -- --check --strict
 
-# Optional — token/hover/motion rules on changed files only
-npm run audit:design:changed -- --check --strict
+# Optional — full-codebase core rules (same as CI always)
+npm run audit:design:check
 ```
 
 **Read order for UI work:**

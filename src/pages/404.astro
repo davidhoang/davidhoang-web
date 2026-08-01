@@ -9,14 +9,14 @@ import MainLayout from '../layouts/MainLayout.astro';
       <span class="digit" style="--i:1">0</span>
       <span class="digit" style="--i:2">4</span>
     </div>
-    <h1>Page not found</h1>
-    <p class="message">The page you're looking for doesn't exist or has been moved.</p>
+    <h1 class="text-heading">Page not found</h1>
+    <p class="message text-muted">The page you're looking for doesn't exist or has been moved.</p>
     <nav class="suggestions" aria-label="Suggested pages">
       <a href="/">Home</a>
       <a href="/writing">Writing</a>
       <a href="/about">About</a>
     </nav>
-    <p class="cmd-hint">
+    <p class="cmd-hint text-caption">
       Or press <kbd>⌘</kbd><kbd>K</kbd> to search
     </p>
   </div>
@@ -29,12 +29,12 @@ import MainLayout from '../layouts/MainLayout.astro';
       justify-content: center;
       text-align: center;
       min-height: 70vh;
-      padding: 2rem 1rem;
+      padding: var(--spacing-xl) var(--spacing-md);
     }
 
     .error-code {
       display: flex;
-      gap: 0.05em;
+      gap: 0;
       font-size: clamp(7rem, 18vw, 12rem);
       font-weight: 700;
       line-height: 1;
@@ -47,7 +47,7 @@ import MainLayout from '../layouts/MainLayout.astro';
     .digit {
       display: inline-block;
       opacity: 0;
-      animation: digitReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: digitReveal var(--duration-slower) var(--ease-emphasized) forwards;
       animation-delay: calc(var(--i) * 0.08s + 0.1s);
     }
 
@@ -66,45 +66,44 @@ import MainLayout from '../layouts/MainLayout.astro';
 
     h1 {
       font-size: clamp(1.5rem, 4vw, 2.25rem);
-      font-weight: 600;
-      margin: -0.5rem 0 0.75rem;
-      letter-spacing: -0.02em;
+      font-weight: var(--heading-weight);
+      margin: calc(-1 * var(--spacing-sm)) 0 var(--spacing-sm);
+      letter-spacing: var(--letter-spacing-heading-lg);
       opacity: 0;
-      animation: fadeUp 0.4s ease-out 0.35s forwards;
+      animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.35s forwards;
     }
 
     .message {
-      color: var(--color-muted);
-      font-size: 1.05rem;
-      margin: 0 0 2rem;
+      font-size: var(--body-size);
+      margin: 0 0 var(--spacing-xl);
       max-width: 36ch;
       line-height: 1.5;
       opacity: 0;
-      animation: fadeUp 0.4s ease-out 0.45s forwards;
+      animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.45s forwards;
     }
 
     .suggestions {
       display: flex;
-      gap: 0.75rem;
+      gap: var(--spacing-sm);
       flex-wrap: wrap;
       justify-content: center;
       opacity: 0;
-      animation: fadeUp 0.4s ease-out 0.55s forwards;
+      animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.55s forwards;
     }
 
     .suggestions a {
       color: var(--color-text);
       text-decoration: none;
       font-weight: 500;
-      padding: 0.5rem 1.25rem;
+      padding: var(--spacing-sm) calc(var(--spacing-md) + var(--spacing-xs));
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-full, 999px);
+      border-radius: var(--radius-full);
       font-size: 0.9rem;
       transition:
-        background-color var(--duration-fast, 0.15s) ease,
-        border-color var(--duration-fast, 0.15s) ease,
-        color var(--duration-fast, 0.15s) ease,
-        transform var(--duration-fast, 0.15s) ease;
+        background-color var(--duration-fast) var(--ease-standard),
+        border-color var(--duration-fast) var(--ease-standard),
+        color var(--duration-fast) var(--ease-standard),
+        transform var(--duration-fast) var(--ease-standard);
     }
 
     .suggestions a::after {
@@ -121,28 +120,26 @@ import MainLayout from '../layouts/MainLayout.astro';
     }
 
     .suggestions a:focus-visible {
-      outline: 2px solid var(--color-link);
-      outline-offset: 2px;
+      outline: var(--focus-ring);
+      outline-offset: var(--focus-ring-offset);
     }
 
     .cmd-hint {
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      color: var(--color-muted);
+      margin-top: var(--spacing-xl);
       opacity: 0;
-      animation: fadeUp 0.4s ease-out 0.65s forwards;
+      animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.65s forwards;
     }
 
     kbd {
       display: inline-block;
-      padding: 0.15em 0.4em;
+      padding: calc(var(--spacing-xs) - 0.1rem) calc(var(--spacing-xs) + 0.15rem);
       font-size: 0.8em;
       font-family: inherit;
       line-height: 1;
       color: var(--color-muted);
       background: color-mix(in srgb, var(--color-text) 6%, transparent);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm, 4px);
+      border-radius: var(--radius-sm);
       box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 8%, transparent);
     }
 
@@ -177,11 +174,11 @@ import MainLayout from '../layouts/MainLayout.astro';
       }
 
       .suggestions {
-        gap: 0.5rem;
+        gap: var(--spacing-sm);
       }
 
       .suggestions a {
-        padding: 0.4rem 1rem;
+        padding: calc(var(--spacing-xs) + 0.15rem) var(--spacing-md);
         font-size: 0.85rem;
       }
     }

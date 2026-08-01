@@ -34,8 +34,6 @@ export const STRICT_GRANDFATHER = new Set([
   'src/styles/modules/utilities.css',
   'src/styles/modules/card-stack-hero.css',
   'src/styles/modules/accessibility-responsive.css',
-  'src/pages/404.astro',
-  'src/pages/daily-themes.astro',
 ]);
 
 export const UI_EXTENSIONS = new Set(['.css', '.astro', '.tsx', '.jsx']);

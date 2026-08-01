@@ -33,6 +33,7 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 - [ ] Nav untouched unless editing files listed in `surfaces-nav.md`
 - [ ] Astro for static UI; React only when client interactivity is required
 - [ ] Reuse primitives from `src/styles/global.css` and `src/styles/modules/` first
+- [ ] Secondary pages use `.content-page*` (`layout.css`) instead of one-off section CSS
 
 ## After UI changes
 

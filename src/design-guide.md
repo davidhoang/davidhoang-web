@@ -16,9 +16,10 @@ This guide documents the design primitives and CSS classes that automatically re
 8. [Dividers](#dividers)
 9. [Links](#links)
 10. [Inputs](#inputs)
-11. [Containers](#containers)
-12. [Utility Classes](#utility-classes)
-13. [Theme-Specific Variations](#theme-variations)
+11. [Content pages](#content-pages)
+12. [Containers](#containers)
+13. [Utility Classes](#utility-classes)
+14. [Theme-Specific Variations](#theme-variations)
 
 ---
 
@@ -416,6 +417,25 @@ Form input elements.
 - Border uses `--color-border`
 - Focus ring uses `--color-link`
 - Border radius uses `--radius-md`
+
+---
+
+## Content pages
+
+Secondary pages (Advising, Investing, Now, Works, etc.) share a content rhythm via classes in `src/styles/modules/layout.css`:
+
+| Class | Role |
+|-------|------|
+| `.content-page` | Narrow-column page body padding (`--spacing-xl` top, `--section-spacing` bottom) |
+| `.content-page--compact-top` | Zero top padding when the hero already provides separation |
+| `.content-page__intro` | Lead paragraphs (`--prose-size`) |
+| `.content-page__lede` / `__meta` | Muted supporting copy |
+| `.content-page__section` | Bordered section with theme-aware vertical rhythm |
+| `.content-page__list` | Unstyled list base |
+| `.content-page__list--bullets` | Dot markers |
+| `.content-page__list--linked` | Writing/link lists with note lines |
+
+Prefer these over per-page scoped duplicates. Pair with `.container-narrow` for reading width.
 
 ---
 

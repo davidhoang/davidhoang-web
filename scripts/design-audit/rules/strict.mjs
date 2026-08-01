@@ -156,7 +156,7 @@ const AGENT_STACK_CONTRACT = [
   {
     file: '.github/workflows/ci.yml',
     rule: 'ci-design-audit',
-    mustInclude: ['audit:design:check'],
+    mustInclude: ['audit:design:check', '--strict'],
   },
   {
     file: 'design.md',

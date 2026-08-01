@@ -8,15 +8,15 @@ const ogImage = "/images/img-dh.webp";
 
 <MainLayout title="Investing | David Hoang" description={pageDescription} ogImage={ogImage}>
   <PageHeader title="Investing" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Investing" />
-  <div class="investing-content container-narrow">
+  <div class="content-page content-page--compact-top investing-content container-narrow">
 
-    <section class="investing-intro">
+    <section class="content-page__intro">
       <p>I'm an angel investor and advisor for early-stage startups. I back founders building products that solve real problems for people — particularly at the intersection of design, AI, and creative tools. I'm drawn to teams that care deeply about craft and believe great products come from understanding people first.</p>
     </section>
 
-    <section class="investing-section">
+    <section class="content-page__section">
       <h2>AI & Machine Learning</h2>
-      <ul>
+      <ul class="content-page__list">
         <li><a href="https://visualelectric.com/" target="_blank" rel="noopener noreferrer">Visual Electric</a> — AI-native image generation for designers</li>
         <li><a href="https://ozu.ai" target="_blank" rel="noopener noreferrer">OZU</a> — AI-powered creative tools</li>
         <li><a href="https://www.usegalileo.ai/explore" target="_blank" rel="noopener noreferrer">Galileo AI</a> — AI-generated UI design <span class="exit-badge">Acquired by Google</span></li>
@@ -24,9 +24,9 @@ const ogImage = "/images/img-dh.webp";
       </ul>
     </section>
 
-    <section class="investing-section">
+    <section class="content-page__section">
       <h2>Design & Developer Tools</h2>
-      <ul>
+      <ul class="content-page__list">
         <li><a href="https://www.dittowords.com" target="_blank" rel="noopener noreferrer">Ditto</a> — Design-integrated copy management</li>
         <li><a href="https://www.eraser.io" target="_blank" rel="noopener noreferrer">Eraser</a> — Technical design docs and diagramming</li>
         <li><a href="https://www.cycle.app" target="_blank" rel="noopener noreferrer">Cycle</a> — Product feedback and insights</li>
@@ -34,9 +34,9 @@ const ogImage = "/images/img-dh.webp";
       </ul>
     </section>
 
-    <section class="investing-section">
+    <section class="content-page__section">
       <h2>Communication & Creator Economy</h2>
-      <ul>
+      <ul class="content-page__list">
         <li><a href="https://sublime.app" target="_blank" rel="noopener noreferrer">Sublime</a> — Curated content and social reading</li>
         <li><a href="https://texts.com" target="_blank" rel="noopener noreferrer">Texts.com</a> — Unified messaging client <span class="exit-badge">Acquired by Automattic</span></li>
         <li><a href="https://www.passionfroot.me" target="_blank" rel="noopener noreferrer">Passionfroot</a> — Creator business management</li>
@@ -44,117 +44,48 @@ const ogImage = "/images/img-dh.webp";
       </ul>
     </section>
 
-    <section class="investing-advising-note">
-      <p>
+    <section class="content-page__section investing-advising-note">
+      <p class="text-muted investing-note-copy">
         I also keep a small <a href="/advising">advisory practice for Heads of Design</a>
         navigating org scale, executive partnership, and design's role in company strategy.
       </p>
     </section>
 
-    <section class="investing-cta">
+    <section class="content-page__section investing-cta">
       <p>If you're a founder building something in these spaces, I'd love to hear from you — <a href="mailto:david@davidhoang.com">david@davidhoang.com</a>.</p>
     </section>
   </div>
 </MainLayout>
 
 <style>
-  .investing-content {
-    margin-inline: auto;
-    padding: 0 0 var(--spacing-3xl) 0;
-  }
-
-  .investing-intro {
-    margin-bottom: var(--spacing-2xl);
-  }
-
-  .investing-intro p {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--color-text);
-  }
-
-  .investing-section {
-    margin-bottom: var(--spacing-2xl);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .investing-section h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 var(--spacing-md) 0;
-    color: var(--color-text);
-    letter-spacing: -0.01em;
-  }
-
-  .investing-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .investing-section li {
-    margin-bottom: var(--spacing-sm);
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    color: var(--color-muted);
-  }
-
-  .investing-section li a {
-    color: var(--color-link);
-    font-weight: 500;
-  }
-
   .exit-badge {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: var(--text-eyebrow-size, 0.6875rem);
     font-weight: 600;
     letter-spacing: 0.03em;
     color: var(--color-muted);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm, 4px);
+    border-radius: var(--radius-sm);
     padding: calc(var(--spacing-xs) - 0.125rem) var(--spacing-sm);
-    margin-left: 0.25rem;
+    margin-left: var(--spacing-xs);
     vertical-align: middle;
   }
 
-  .investing-advising-note {
-    margin-top: var(--spacing-2xl);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .investing-advising-note p {
+  .investing-note-copy {
     margin: 0;
-    font-size: 1.0625rem;
+    font-size: var(--body-size);
     line-height: 1.65;
-    color: var(--color-muted);
   }
 
-  .investing-advising-note a {
+  .investing-note-copy a {
     color: var(--color-link);
     font-weight: 600;
   }
 
-  .investing-cta {
-    margin-top: var(--spacing-2xl);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--color-border);
-  }
-
   .investing-cta p {
-    font-size: 1.0625rem;
-    line-height: 1.6;
+    margin: 0;
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
     color: var(--color-text);
-  }
-
-  @media (max-width: 768px) {
-    .investing-content {
-      padding: 0 var(--spacing-md) var(--spacing-2xl);
-    }
-
-    .investing-intro p {
-      font-size: 1rem;
-    }
   }
 </style>

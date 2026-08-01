@@ -12,6 +12,10 @@ Full primitive reference: `src/design-guide.md`.
 
 Theme-tunable: `--card-padding`, `--content-padding`, `--section-spacing`, `--container-padding`.
 
+## Content page classes
+
+Use `.content-page` (+ `__intro` / `__section` / `__list`) from `layout.css` for secondary pages instead of one-off scoped section CSS. See `src/design-guide.md` § Content pages.
+
 ## Motion tokens
 
 Durations: `--duration-fast` … `--duration-slowest`. Easings: `--ease-inertia`, `--ease-standard`, `--ease-emphasized`, `--ease-spring`.

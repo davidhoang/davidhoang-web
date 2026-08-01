@@ -27,6 +27,7 @@ describe('design compliance audit (CI core)', () => {
 describe('agent design stack contract', () => {
   const requiredRefs = [
     { file: '.github/workflows/ci.yml', needle: 'audit:design:check' },
+    { file: '.github/workflows/ci.yml', needle: '--strict' },
     { file: 'design.md', needle: 'npm run audit:design' },
     { file: '.agents/skills/product-design/SKILL.md', needle: 'audit:design:check' },
     { file: 'AGENTS.md', needle: 'audit:design:check' },

@@ -36,9 +36,9 @@ jobs:
       - name: Design compliance
         run: npm run audit:design:check
 
-      - name: Design compliance (changed files)
+      - name: Design compliance (changed files, strict)
         if: github.event_name == 'pull_request'
-        run: npm run audit:ui:changed -- --check --base=origin/${{ github.base_ref }}
+        run: npm run audit:ui:changed -- --check --strict --base=origin/${{ github.base_ref }}
 
       - name: Production build
         run: npm run build
