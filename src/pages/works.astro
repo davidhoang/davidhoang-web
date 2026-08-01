@@ -14,8 +14,8 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     image="/images/highlights/img-highlights-proof-of-concept.webp"
     alt="Works"
   />
-  <div class="works-index container-narrow">
-    <p class="works-index__lede">
+  <div class="content-page works-index container-narrow">
+    <p class="content-page__lede works-index__lede">
       Career chapters live in cards. Talks, launches, and other one-offs stay as text lines — like
       Hatch’s Design &amp; (Blank).
     </p>
@@ -112,20 +112,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 </MainLayout>
 
 <style>
-  .works-index {
-    margin-inline: auto;
-    padding: var(--spacing-xl) 0 var(--spacing-3xl);
-  }
-
-  .works-index__lede {
-    margin: 0 0 var(--spacing-xl);
-    max-width: 42rem;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    letter-spacing: var(--letter-spacing-body);
-    color: var(--color-muted);
-  }
-
   .works-stream {
     list-style: none;
     margin: 0;
@@ -172,7 +158,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-card__when {
-    font-size: 0.8125rem;
+    font-size: var(--text-caption-size, 0.8125rem);
     line-height: 1.35;
     letter-spacing: var(--letter-spacing-caption);
     font-variant-numeric: tabular-nums;
@@ -199,14 +185,14 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 
   .works-card__role {
     margin: var(--spacing-xs) 0 0;
-    font-size: 1.05rem;
+    font-size: var(--body-size);
     line-height: 1.4;
     color: var(--color-text);
   }
 
   .works-card__summary {
     margin: var(--spacing-md) 0 0;
-    font-size: 0.98rem;
+    font-size: var(--body-size);
     line-height: 1.55;
     letter-spacing: var(--letter-spacing-body);
     color: var(--color-muted);
@@ -271,7 +257,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-line__when {
-    font-size: 0.8125rem;
+    font-size: var(--text-caption-size, 0.8125rem);
     line-height: 1.45;
     letter-spacing: var(--letter-spacing-caption);
     font-variant-numeric: tabular-nums;
@@ -290,7 +276,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     flex-wrap: wrap;
     align-items: baseline;
     gap: var(--spacing-xs) var(--spacing-sm);
-    font-size: 1rem;
+    font-size: var(--body-size);
     line-height: 1.4;
     letter-spacing: var(--letter-spacing-body);
     color: var(--color-text);
@@ -303,7 +289,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-line__summary {
-    font-size: 0.9rem;
+    font-size: var(--text-caption-size, 0.9rem);
     line-height: 1.45;
     color: var(--color-muted);
   }

@@ -8,7 +8,7 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 |---------|-------|-------|--------|
 | `npm run audit:design` | Full codebase | Core | No |
 | `npm run audit:design:check` | Full codebase | Core | Yes (CI) |
-| `npm run audit:ui:changed -- --check` | Git-changed UI files | Core | Yes |
+| `npm run audit:ui:changed -- --check --strict` | Git-changed UI files | Core + strict | Yes |
 | `npm run audit:design:changed -- --check --strict` | Git-changed UI files | Core + strict | Yes |
 | `npm run audit:design:strict` | Full codebase | Core + strict | No |
 

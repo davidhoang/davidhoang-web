@@ -3,7 +3,8 @@ name: davidhoang.com
 description: Personal site with a daily auto-generated theme system. Themes vary typography, color, padding, and surface treatments — never layout positioning.
 defaultLayout:
   nav:
-    height: 40px
+    height: 48px
+    mobileHeight: 56px
     offsetTop: 24px
     contentTopPadding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem)
     desktop:
@@ -16,6 +17,8 @@ defaultLayout:
       width: calc(100% - 2rem)
       maxWidth: 400px
       padding: 0 16px
+      height: 56px
+      offsetTop: 0px
   breakpoints:
     small: 320px
     mobileSmall: 520px
@@ -126,7 +129,7 @@ The nav is a fixed floating-pill defined in `src/components/Navigation.astro`. T
 | 769–1024px | `min(440px, calc(100vw - 40px))` | `24px 30px` |
 | ≥1025px | `min(480px, calc(100vw - 40px))` | `24px 34px` |
 
-`--nav-height` is fixed at `40px` and `--nav-offset-top` at `24px`, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
+`--nav-height` is fixed at `48px` on desktop (≥769px) and `56px` on mobile (≤768px, plus safe-area on the bar itself). `--nav-offset-top` is `24px` on desktop and `0px` on mobile, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
 
 ### Spacing scale
 

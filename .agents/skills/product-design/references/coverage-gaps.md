@@ -14,6 +14,14 @@ Format:
 
 ---
 
+## 2026-08-01 — Secondary page layout + strict CI on changed files
+
+**Symptom:** Advising/Investing/Now/Works each reinvented intro/section/list CSS; `design.md` still listed `--nav-height: 40px` while code used 48/56; strict token rules were optional for cloud agents; 404 and daily-themes were grandfathered with hardcoded spacing/motion/colors.
+**Fix applied:** `.content-page*` primitives in `layout.css`; nav height corrected in `design.md`; CI + AGENTS require `--strict` on changed UI files; 404 tokenized; themes-explorer styles moved to `themes-explorer.css` with tokens and danger color vars; both pages removed from `STRICT_GRANDFATHER`.
+**Status:** resolved
+
+---
+
 ## 2026-07-25 — Malformed spacing token interpolation (`0.var(--…)`)
 
 **Symptom:** A rem→token codemod replaced substrings inside values like `0.2rem` / `0.4rem` / `0.72rem`, producing invalid CSS such as `0.var(--spacing-xl)` and `0.7var(--spacing-xl)`. Featured, About, Notes, and several components shipped broken spacing.
