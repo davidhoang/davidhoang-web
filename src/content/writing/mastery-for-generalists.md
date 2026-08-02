@@ -32,11 +32,11 @@ If you grew up in the 90s and are experiencing lower back pain, you may remember
 
 - If you're comfortable hiring people better than you at everything, you might be a generalist
 
-Generalists are people who love variety, connecting the dots, and curious. In contrast, specialists usually focus and go deeper on a certain practice. I use the clinical metaphor above a lot when describing generalists and specialists. A brain surgeon could conduct a physical if needed the same way a primary care provider could do certain operations in the case of an emergency. However, based on the level of skill and precision, a specialist is more effective. Every designer can contribute to a design system and having a specialist in design systems will merit in more effective outcomes.
+Generalists are people who love variety, connecting the dots, and are curious. In contrast, specialists usually focus and go deeper on a certain practice. I use the clinical metaphor above a lot when describing generalists and specialists. A brain surgeon could conduct a physical if needed the same way a primary care provider could do certain operations in the case of an emergency. However, based on the level of skill and precision, a specialist is more effective. Every designer can contribute to a design system and having a specialist in design systems will merit in more effective outcomes.
 
 ## Why be a generalist?
 
-"Jack of all trades, master of none" can sound negative—almost implying one isn't good at anything. Do you ever feel like you don't fit into a specialty? Being a generalist allows flexibility and has broader range in what you can do. This is a great skill for early stage startups when wearing multiple hats is common. As the company grows, it'll specialize at scale, and it makes sense. You don't want your generalist co-founder to continue being responsible for people experience or finance and bring in the specialists. What happens to people who when they relinquish the said hats? You're able to freelance and move around more. There might be a new initiative that needs to get spun up. If you're interested in management, many people managers are generalists.
+"Jack of all trades, master of none" can sound negative—almost implying one isn't good at anything. Do you ever feel like you don't fit into a specialty? Being a generalist allows flexibility and has broader range in what you can do. This is a great skill for early stage startups when wearing multiple hats is common. As the company grows, it'll specialize at scale, and it makes sense. You don't want your generalist co-founder to continue being responsible for people experience or finance and bring in the specialists. What happens to people when they relinquish the said hats? You're able to freelance and move around more. There might be a new initiative that needs to get spun up. If you're interested in management, many people managers are generalists.
 
 ## Generalists spark alchemy
 
@@ -68,4 +68,4 @@ Mastering the generalist path means everyone will be better than you at somethin
 
 [Originally posted on Proof of Concept](https://www.proofofconcept.pub/p/mastery-for-generalists)
 
-Being a generalist does not mean the work is shallow. It's right sizing the amount of up skill needed to get the job done. If the path of a generalist resonates with you, continue diversifying your skill portfolio and extend your range.
+Being a generalist does not mean the work is shallow. It's right sizing the amount of upskill needed to get the job done. If the path of a generalist resonates with you, continue diversifying your skill portfolio and extend your range.

@@ -43,7 +43,7 @@ As you have conversations, identify what signals might tell you if a role is a g
 Anti-goals come before signals and are a strong filter before conversations. These aren’t essential, but they help in creating constraints to guide you along the way. A few of the anti-goals I established were:
 
 I do not care about title whatsoever. I’m in a privileged point in my career where it’s no longer important
-Org size: I’ve led teams 30-40 people before. I knew in a market decimated by layoffs and the rise of AI, orgs would look differently and number of people on the team wouldn’t be a measure of success
+Org size: I’ve led teams 30-40 people before. I knew in a market decimated by layoffs and the rise of AI, orgs would look different and number of people on the team wouldn’t be a measure of success
 No repeating of “the same job.” I wanted to make sure wherever I ended up presented a new challenge and opportunity for me to grow as a person.
 Recap
 Don't spend all your time career planning, but have an idea of what makes sense for you. Like all the good things in life, they happen organically when you’re not trying too hard to make it happen.

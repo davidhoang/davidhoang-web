@@ -43,7 +43,7 @@ Traditional MVC separated data, UI, and logic; AI and decentralized protocols (l
 
 ### Model
 
-- Models expand beyond a single datasource into LLMs, APIs, external datasets, and federated data
+- Models expand beyond a single data source into LLMs, APIs, external datasets, and federated data
 - Users may choose models, build their own, or bring their own dataset (BYOD)
 - Models become negotiable components, not fixed infrastructure
 

@@ -21,7 +21,7 @@ Enter, ecosystem design. A truly user-centered design journey that allows for a 
 
 So, what sets ecosystem design apart from user-centric design? For starters, ecosystem design is a lens for product design that anticipates and welcomes inputs from the user and the other tools they use.
 
-User-centered design assumes users will behave predictably and stay within the bounds of their own design. But users have evolved quickly, and there are too many external and internal factors constantly influencing the choices they make. This means that by the time you tidily map out your user journey, the user will have likely changed their mind or performed an action you haven't anticipated.
+User-centered design assumes users will behave predictably and stay within the bounds of your design. But users have evolved quickly, and there are too many external and internal factors constantly influencing the choices they make. This means that by the time you tidily map out your user journey, the user will have likely changed their mind or performed an action you haven't anticipated.
 
 By contrast, instead of anticipating user behavior in a point A to point B sequence, ecosystem design anticipates user _misbehavior._ The user subverts and breaks boundaries naturally as they interact with a product. Ecosystem design recognizes that users don't create in isolation or behave in a straightforward manner, and that as a designer, you're responsible for creating space in your ecosystem for users to choose their own renegade journeys.
 

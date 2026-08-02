@@ -5,7 +5,7 @@ description: "How managers should position themselves for success"
 tags: ["leadership","career"]
 ---
 
-One of the top questions I get asked is what a portfolio for a manager should look like. Unsurprisingly, the answer is like any design answer: it depends. The ultimate output of a portfolio looks different based on so many factors: whether you're in brand or product, the type of management role, and what you're optimizing for. In this session, we'll look at the goals of a manager’s portfolio, what you are optimizing for, and the core elements of a portfolio. There are a few common artifacts you'll have as a manager: résumé/CV, portfolio deck, and website. The last two might be the combo of your portfolio.
+One of the top questions I get asked is what a portfolio for a manager should look like. Unsurprisingly, the answer is like any design answer: it depends. The ultimate output of a portfolio looks different based on so many factors: whether you're in brand or product, the type of management role, and what you're optimizing for. In this post, we'll look at the goals of a manager’s portfolio, what you are optimizing for, and the core elements of a portfolio. There are a few common artifacts you'll have as a manager: résumé/CV, portfolio deck, and website. The last two might be the combo of your portfolio.
 
 ## Setting clear portfolio goals
 The truth is at some point in your management career you will not need a portfolio! You will be reached out to by recruiters or apply based on your experience and credibility, which is a much harder thing to maintain than a portfolio! You might be optimizing your portfolio for different reasons than looking for a new career opportunity. For example, you might want to get into public speaking at meetups and conferences. The content you show there is going to be much different than what you show in a career portfolio.
@@ -97,7 +97,7 @@ I recommend that managers have a blog, whether on their personal website, or Med
 ### Featured 
 Work: Case studies and portfolio pieces you might want to include online. Be mindful of the company metrics you share publicly in case it's confidential
 
-By the end of the management cohort, we’ll work on your portfolio, your about page, and one case study of a project you led.
+When you're done building your portfolio, you'll have your about page and at least one case study of a project you led.
 
 ## Best practices and tips
 There is no one-size-fits-all approach for a leadership portfolio. However, here are some tips to keep in mind as you build your portfolio.

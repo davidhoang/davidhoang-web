@@ -45,7 +45,7 @@ That was the promise of the decentralized web and blockchain: portability, owner
 
 ### Agents as Controllers
 
-This is where it gets interesting. If LLMs are the new Models and apps are our Views, AI agents step into the Controller role—except they don't just relay input anymore. They interpret, decide, act, and coordinate across distributed systems. With Model Context Protocols (MCP), agents dynamically handle context switching, planning, and executing across multiple apps and data sources.
+This is where it gets interesting. If LLMs are the new Models and apps are our Views, AI agents step into the Controller role—except they don't just relay input anymore. They interpret, decide, act, and coordinate across distributed systems. With Model Context Protocol (MCP), agents dynamically handle context switching, planning, and executing across multiple apps and data sources.
 
 They're not just smarter waiters. They're like sous-chefs, sommeliers, and maître d's rolled into one—making judgment calls in real time.
 

@@ -48,4 +48,4 @@ To celebrate, I’ll reflect on 40 things I learned in my years on Planet Earth.
 37. When you can't afford to travel, read books. They'll take you to places and give you perspective without leaving your house.
 38. "I don't know," is one of the most powerful things you can say.
 39. In your late 20s and 30s, most friend gatherings will be either at a wedding or funeral. You'll say, "we need to get together more aside from weddings and funerals," but the next time will be a wedding or funeral. Don't let that happen.
-40. Age is not an indicator of wisdom or experience. Because someone is a certain age doesn't mean they give good advice, like me (especially me).
+40. Age is not an indicator of wisdom or experience. Just because someone is a certain age doesn't mean they give good advice, like me (especially me).

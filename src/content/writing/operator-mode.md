@@ -1,7 +1,7 @@
 ---
 title: "Operator Mode"
 pubDate: 2024-09-15
-description: "Issue 212: Doing work as a non-founder and non professional management class"
+description: "Issue 212: Doing work as a non-founder and non-professional management class"
 tags: ["career","leadership"]
 ---
 
@@ -22,7 +22,7 @@ In my experience, there are two primary regrets founders have. The first is rais
 It sucks to see that happen. Instead, founders are better equipped to find operators that add value to their needs. There are three core areas I believe are most valuable for founders: managers with strong craft, expansive experience, and scaling the mission.
 
 ### 1) Craft-oriented managers
-The concept of professional managers is the biggest mistake. A professional manager is perceived as someone who is hands off, focuses on administration of management, and a master bullshitter. Trust me, these people exist and it's true. Let me ask you a question. As a designer, how would you feel as a designer if the person that has authority over your job has a degree in Design Management but has never been a designer? Imagine an army general who has never seen combat, only studying philosophy and tactics. In my opinion, that's not management.
+The concept of professional managers is the biggest mistake. A professional manager is perceived as someone who is hands off, focuses on administration of management, and a master bullshitter. Trust me, these people exist and it's true. Let me ask you a question. As a designer, how would you feel if the person that has authority over your job has a degree in Design Management but has never been a designer? Imagine an army general who has never seen combat, only studying philosophy and tactics. In my opinion, that's not management.
 
 Most direct reports don't expect their manager to be the best designer on the team, but they need to know that at one point they were in their career. In order to grow in your craft—one of the top performance indicators in every career ladder—you need someone who knows the craft to elevate yours.
 
@@ -44,7 +44,7 @@ My belief is this doesn't mean to blindly execute without question. In fact, the
 The goal of an experienced operator is to not be a professional manager. The purpose is to help the founder achieve the vision, hopefully with a desired outcome for everyone at the company. It's difficult to achieve both, but that should be the motivation. Let me share three areas I focus on to help founders and why I think they want me in the first place.
 
 ### Filling founder gaps
-Operator Mode is about filling the gaps of the founder, not replacing them. I remember talking to a former colleague at Replit. One of the main reasons we joined was to work with an inspiring founder like Amjad; give him the amplification (but also counter-balances) to be the best founder possible. The goal is not to silence founders but make them better.
+Operator Mode is about filling the gaps of the founder, not replacing them. I remember talking to a former colleague at Replit. One of the main reasons we joined was to work with an inspiring founder like Amjad; give him the amplification (but also counter-balance) to be the best founder possible. The goal is not to silence founders but make them better.
 
 The responsibility in Operator Mode is to find areas you can take over for the founder to be more effective. Most pure founders don’t love managing, and they need managers they can entrust to look over the things they care about. I find the duty of an experienced operator to a founder as a crucial one. Founders have been grinding and putting their heart and soul into their company, and now they entrust you with it.
 

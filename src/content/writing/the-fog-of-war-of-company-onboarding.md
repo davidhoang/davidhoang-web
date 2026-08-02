@@ -13,7 +13,7 @@ I describe onboarding as navigating the Fog of War—a game concept. The "Fog of
 
 ![Screenshot of Command & Conquer showing the fog of war game mechanic](/images/blog/img-204-command-and-conquer.webp)
 
-The Fog of War is my metaphor for onboarding to a new company. You start at an empty point, and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire Fog of War first to get a full landscape of the map. Just because you haven’t uncovered the Fog of War doesn’t mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
+The Fog of War is my metaphor for onboarding to a new company. You start at an empty point, and the onboarding document the company gives you is the game instruction manual. It’s a great resource, but it doesn’t have to be the only one you use to play the game. The natural action might be to clear out the entire Fog of War first to get a full landscape of the map. Just because you haven’t uncovered the Fog of War doesn’t mean things aren’t happening. You have to quickly bridge the gap between expanding what you know and anticipating what might happen.
 
 **Capturing all the historical context is an impossible task**
 
