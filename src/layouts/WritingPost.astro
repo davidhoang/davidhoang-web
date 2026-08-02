@@ -11,6 +11,19 @@ import { resolveAssetImage } from '../utils/assetImages';
 import '../styles/pages/writing-post.css';
 
 const { data, relatedContent = [], headings = [] } = Astro.props;
+const tocHeadings = headings.filter((h: { depth: number }) => h.depth >= 1 && h.depth <= 3);
+
+const blogContent = {
+  forwards: {
+    old: { name: 'contentFadeOut', duration: '0.15s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'blogSlideIn', duration: '0.4s', delay: '0.08s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'blogSlideOut', duration: '0.2s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'contentSlideBack', duration: '0.35s', delay: '0.05s', easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fillMode: 'backwards' },
+  },
+};
+
 const { title, description, pubDate, tags } = data;
 const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 
@@ -54,7 +67,7 @@ const breadcrumbJsonLd = {
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <BlogMeta slot="head" ogImage={ogImage} publishDate={pubDate} tags={tags} />
 
-  <article class="writing-post">
+  <article class="writing-post" data-has-toc={tocHeadings.length > 0 ? '' : undefined} transition:animate={blogContent}>
     {coverImage && (
       <div class="writing-post__hero layout-breakout">
         {coverAsset ? (
@@ -88,25 +101,26 @@ const breadcrumbJsonLd = {
       <div class="writing-post__meta">
         <time datetime={pubDate}>{formatLongDate(new Date(pubDate))}</time>
       </div>
-      {tags && tags.length > 0 && (
-        <ul class="writing-post__tags" aria-label="Tags">
-          {tags.map((tag: string) => (
-            <li class="writing-post__tag text-eyebrow">{tag}</li>
-          ))}
-        </ul>
-      )}
     </header>
 
     <div class="writing-post__grid">
+      {tocHeadings.length > 0 && <SidebarWriting headings={headings} variant="toc-left" />}
       <div class="writing-post__main">
         {data.companionPrototype && <CompanionPrototype slug={data.companionPrototype} />}
         <div class="prose-content writing-post__prose">
           <slot />
         </div>
+        {tags && tags.length > 0 && (
+          <ul class="writing-post__tags" aria-label="Tags">
+            {tags.map((tag: string) => (
+              <li class="writing-post__tag text-eyebrow">{tag}</li>
+            ))}
+          </ul>
+        )}
         <RelatedContentSection items={relatedContent} heading="Keep reading" />
         <CommentsSection />
       </div>
-      <SidebarWriting headings={headings} variant="sidebar" />
+      <SidebarWriting variant="meta-sidebar" />
     </div>
   </article>
 
