@@ -14,7 +14,7 @@ Cross-tool product design instructions follow the [Vercel agent design stack](ht
 | Cloud agent pre-PR | `npm run audit:ui:changed -- --check --strict` (core + strict on changed UI files) |
 | Strict token lint | `npm run audit:design:strict` (report-only on full codebase) |
 | Evals | `evals/` (+ optional `@vercel/agent-eval`) |
-| Theme contrast | `npm run audit-contrast` (runs in build) |
+| Theme contrast | `npm run audit-contrast` (build auto-fix) · `npm run audit-contrast:check` · `evals/theme-contrast/` |
 
 **Before UI work:** read `design.md`, then `.agents/skills/product-design/SKILL.md`. Cursor also applies `.cursor/rules/design-system.mdc` on matching files.
 

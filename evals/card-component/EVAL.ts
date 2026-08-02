@@ -9,7 +9,8 @@ test('ThemeCard.astro exists', () => {
 
 test('uses card primitive', () => {
   const content = readFileSync(COMPONENT, 'utf-8');
-  expect(content).toMatch(/class=["'][^"']*\bcard\b/);
+  // Astro may use class="…card…" or class:list={[..., 'card', ...]}
+  expect(content).toMatch(/class=["'][^"']*\bcard\b|class:list=\{[^}]*['"]card['"]/);
 });
 
 test('no hardcoded hex colors in component', () => {

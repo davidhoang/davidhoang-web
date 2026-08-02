@@ -204,7 +204,8 @@ export function auditSpacingTokens(ctx, file, css, blockStartLine = 1) {
   const lines = css.split('\n');
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    if (!/(?:padding|margin|gap)\s*:/.test(line)) continue;
+    // Require a property boundary so custom props like `--writing-gap` are not matched.
+    if (!/(?<![\w-])(?:padding|margin|gap)\s*:/.test(line)) continue;
     if (/var\(--(?:spacing-|card-|content-|section-)/.test(line)) continue;
     if (/^\s*\/\*/.test(line.trim()) || line.includes('/*')) continue;
     if (/calc\(|clamp\(|env\(|100%|100vw|auto|inherit|initial|unset|0(?:px|rem)?\s*;/.test(line)) continue;

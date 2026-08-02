@@ -327,6 +327,7 @@ Themes are generated through framework-owned art-direction recipes rather than i
 
 - Recipe constraints may narrow the global bounds below, but may never expand them.
 - The renderer rejects horizontal content overflow, non-fixed nav, transparent cards, mobile multi-column grids, and hero-template mismatches.
+- **WCAG AA contrast is a hard gate.** Body/link/muted/nav text pairs must meet 4.5:1 against page, card, and nav backgrounds (`scripts/lib/contrast.mjs`). The generator auto-fixes when possible, re-checks after surface hue realignment, rejects unfixable candidates, and will not save a failing winner. Regression fixtures live in `evals/theme-contrast/`; `npm run audit-contrast:check` fails CI/build inventory when shipped themes regress.
 - The model controls palette, type pairing, and styling nuance; it never emits arbitrary coordinates or changes framework section order.
 
 ### Container width

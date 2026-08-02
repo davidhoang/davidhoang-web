@@ -576,7 +576,7 @@ const stickySlotClass = [
     }
 
     .writing-meta-sidebar-slot .sidebar-toc-panel {
-      padding: 1rem;
+      padding: var(--spacing-md);
     }
   }
 
@@ -600,7 +600,7 @@ const stickySlotClass = [
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    margin: 0 0 0.625rem;
+    margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs) / 2);
     color: var(--color-muted);
     opacity: 0.85;
   }

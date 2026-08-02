@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { contrastRatio, validateThemeContrast } from '../scripts/lib/contrast.mjs';
+import {
+  contrastRatio,
+  validateThemeContrast,
+  auditThemeContrast,
+  enforceThemeContrast,
+  CONTRAST_PAIRS,
+} from '../scripts/lib/contrast.mjs';
 
 describe('contrastRatio', () => {
   it('returns 21:1 for black vs white', () => {
@@ -99,5 +105,75 @@ describe('validateThemeContrast', () => {
   it('is a no-op when colors block is missing', () => {
     expect(validateThemeContrast({})).toEqual([]);
     expect(validateThemeContrast({ colors: {} })).toEqual([]);
+  });
+});
+
+describe('auditThemeContrast / enforceThemeContrast', () => {
+  const compliant = {
+    colors: {
+      light: {
+        '--color-bg': '#FFFFFF',
+        '--color-card-bg': '#FAFAFA',
+        '--color-nav-bg': '#FFFFFF',
+        '--color-text': '#222222',
+        '--color-link': '#0066CC',
+        '--color-muted': '#555555',
+        '--color-nav-text': '#222222',
+      },
+    },
+  };
+
+  it('audits without mutating the theme', () => {
+    const theme = {
+      colors: {
+        light: {
+          '--color-bg': '#FFFFFF',
+          '--color-card-bg': '#FFFFFF',
+          '--color-nav-bg': '#FFFFFF',
+          '--color-text': '#CCCCCC',
+          '--color-link': '#0066CC',
+          '--color-muted': '#555555',
+          '--color-nav-text': '#222222',
+        },
+      },
+    };
+    const before = structuredClone(theme);
+    const failures = auditThemeContrast(theme);
+    expect(failures.length).toBeGreaterThan(0);
+    expect(theme).toEqual(before);
+  });
+
+  it('enforce leaves a compliant theme untouched', () => {
+    const theme = structuredClone(compliant);
+    const { fixes, failures } = enforceThemeContrast(theme);
+    expect(fixes).toEqual([]);
+    expect(failures).toEqual([]);
+    expect(theme).toEqual(compliant);
+  });
+
+  it('enforce auto-fixes recoverable low contrast', () => {
+    const theme = {
+      colors: {
+        light: {
+          '--color-bg': '#FFFFFF',
+          '--color-card-bg': '#FFFFFF',
+          '--color-nav-bg': '#FFFFFF',
+          '--color-text': '#BBBBBB',
+          '--color-link': '#0066CC',
+          '--color-muted': '#555555',
+          '--color-nav-text': '#222222',
+        },
+      },
+    };
+    const { fixes } = enforceThemeContrast(theme);
+    expect(fixes.length).toBeGreaterThan(0);
+    expect(auditThemeContrast(theme)).toEqual([]);
+  });
+
+  it('exports AA thresholds on every registered pair', () => {
+    expect(CONTRAST_PAIRS.length).toBeGreaterThanOrEqual(6);
+    for (const [, , target] of CONTRAST_PAIRS) {
+      expect(target).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });

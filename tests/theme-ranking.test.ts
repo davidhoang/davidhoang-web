@@ -76,6 +76,46 @@ describe('rankThemeCandidates', () => {
     expect(result.winner.id).toBe('candidate-z-safe');
   });
 
+  it('ranks contrast-failing candidates behind contrast-safe ones', () => {
+    const contrastSafe = theme('Contrast Safe', 'editorial', 'magazine', {
+      bg: '#FFFFFF',
+      contrastMode: 'standard',
+    });
+    contrastSafe.colors.light['--color-nav-bg'] = '#FFFFFF';
+    contrastSafe.colors.light['--color-nav-text'] = '#222222';
+    contrastSafe.colors.dark['--color-nav-bg'] = '#111111';
+    contrastSafe.colors.dark['--color-nav-text'] = '#EEEEEE';
+
+    const contrastFail = theme('Contrast Fail', 'cinematic', 'split', {
+      bg: '#FFFFFF',
+      contrastMode: 'low',
+    });
+    contrastFail.colors.light['--color-text'] = '#DDDDDD';
+    contrastFail.colors.light['--color-link'] = '#EEEEEE';
+    contrastFail.colors.light['--color-muted'] = '#F0F0F0';
+    contrastFail.colors.light['--color-nav-bg'] = '#FFFFFF';
+    contrastFail.colors.light['--color-nav-text'] = '#EEEEEE';
+
+    const result = rankThemeCandidates([
+      {
+        id: 'candidate-contrast-fail',
+        theme: contrastFail,
+        assessment: { score: 0, changesFromYesterday: 8 },
+      },
+      {
+        id: 'candidate-contrast-safe',
+        theme: contrastSafe,
+        assessment: { score: 1, changesFromYesterday: 0 },
+      },
+    ], [recent], null);
+
+    expect(result.winner.id).toBe('candidate-contrast-safe');
+    expect(
+      result.ranked.find((c) => c.id === 'candidate-contrast-fail')?.issues
+        .some((issue) => issue.startsWith('contrast:')),
+    ).toBe(true);
+  });
+
   it('prefers a distinct palette over a warm-cream attractor clone when both are safe', () => {
     const report = {
       viewports,
@@ -113,13 +153,17 @@ function theme(
   grid: string,
   options: { bg: string; contrastMode: string } = { bg: '#FFFFFF', contrastMode: 'standard' },
 ) {
+  // Keep ranking fixtures WCAG-safe so contrast gating only fires when tests opt into failures.
+  const isLightBg = relativeLuminance(options.bg) > 0.5;
   const light = {
     '--color-bg': options.bg,
-    '--color-text': '#222222',
-    '--color-link': '#3355AA',
+    '--color-text': isLightBg ? '#222222' : '#F2F2F2',
+    '--color-link': isLightBg ? '#3355AA' : '#88AAFF',
     '--color-card-bg': options.bg,
-    '--color-border': '#CCCCCC',
-    '--color-muted': '#666666',
+    '--color-border': isLightBg ? '#CCCCCC' : '#333333',
+    '--color-muted': isLightBg ? '#555555' : '#BBBBBB',
+    '--color-nav-bg': options.bg,
+    '--color-nav-text': isLightBg ? '#222222' : '#F2F2F2',
   };
   return {
     name,
@@ -142,10 +186,21 @@ function theme(
         '--color-card-bg': '#1A1A1A',
         '--color-border': '#333333',
         '--color-muted': '#AAAAAA',
+        '--color-nav-bg': '#111111',
+        '--color-nav-text': '#EEEEEE',
       },
     },
     fonts: { heading: { name: `${name} Display` }, body: { name: `${name} Text` } },
   };
+}
+
+function relativeLuminance(hex: string) {
+  const cleaned = hex.replace('#', '');
+  const channels = [0, 2, 4].map((offset) => {
+    const value = Number.parseInt(cleaned.slice(offset, offset + 2), 16) / 255;
+    return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
 }
 
 function rendered(signature: number[], issues: string[]) {
