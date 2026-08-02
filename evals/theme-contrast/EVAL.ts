@@ -28,7 +28,7 @@ test('contrast pair registry covers body/link/muted/nav on key surfaces', () => 
     'link on card background',
     'nav text on nav background',
   ]));
-  expect(CONTRAST_PAIRS.every(([, , target]) => target >= 4.5)).toBe(true);
+  expect(CONTRAST_PAIRS.every(([, , target]) => Number(target) >= 4.5)).toBe(true);
 });
 
 test('passing fixture has zero contrast failures', () => {

@@ -807,7 +807,7 @@ async function generateTheme(options = {}) {
     );
   }
 
-  for (const [index, candidate] of candidates.entries()) {
+  for (const candidate of candidates) {
     console.log(
       `Candidate ${candidate.id}: "${candidate.theme.name}" — ${(candidate.assessment.score * 100).toFixed(0)}% max similarity, ` +
       `${candidate.assessment.changesFromYesterday} changes from yesterday.`,

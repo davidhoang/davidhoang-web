@@ -12,6 +12,7 @@
 /**
  * Pairs checked for WCAG AA body-text contrast (4.5:1).
  * Exported so evals and audits stay in sync with the generator gate.
+ * @type {ReadonlyArray<[string, string, number, string]>}
  */
 export const CONTRAST_PAIRS = [
   ['--color-text', '--color-bg', 4.5, 'body text on background'],
