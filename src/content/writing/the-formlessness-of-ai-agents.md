@@ -15,6 +15,8 @@ In [The Avengers #54](https://marvel.fandom.com/wiki/Avengers_Vol_1_54), a myste
 
 By the time anyone sees Ultron, he's already on version five. He was created, gained sentience, rebelled against his creator, hypnotized Pym into forgetting he ever existed, and then quietly iterated through four bodies in secret as a self-upgrade. Each time Ultron is defeated, he rebuilds to a better enclosure for the same intelligence. Like a hermit crab moving through shells, Ultron wasn't becoming something new but finding the optimal fit.
 
+![Ultron rebuilds through successive bodies in Marvel comics](/images/blog/2026/img-2026-04-12-formlessness-ultron-variants.webp)
+
 Our AI tools are having their Ultron moment. In a few years of the scaling era of AI, capabilities have evolved rapidly and are compounding. They are breaking out of the chat boxes with tiny context windows and are now taking actions, running in the background, and using similar tools as us. It's not AGI, but it turns out serendipitous cron jobs invoke a sentient connection to many human beings.
 
 The question in the Ultron moment is, "what is the right body for this intelligence?"
@@ -33,11 +35,11 @@ OpenClaw is an open‑source framework for controlling your computer through nat
 
 Tom saw a fundamental problem: how do you get OpenClaw to control actual motors in real time? His answer was ClawBody, a software bridge that connects OpenClaw to physical hardware so you can train agents in simulation, then deploy them to real robots. Chris asked a different question: what if robots could actually understand spatial depth? He integrated Intel RealSense cameras with OpenClaw and a vision‑language model so robots can track a person through space, maintain distance, and navigate obstacles, all driven by natural language.
 
-*ClawBody by Tom*
+![ClawBody by Tom](/images/blog/2026/img-2026-04-12-formlessness-clawbody.webp)
 
 Then there's ClawStage, a device built by HooRii Technology that turns OpenClaw into a companion robot — a Raspberry Pi 5 with a transparent display that creates a hologram-like effect for an animated AI persona, with a camera and microphone array that let it perceive its surroundings and respond to voice directionally. Hackster users can design custom personalities for it, download characters from a shared hub, and make the intelligence feel like someone.
 
-*A vignette of different shells and encapsulations for AI; some more functional than others.*
+![A vignette of different shells and encapsulations for AI; some more functional than others.](/images/blog/2026/img-2026-04-12-formlessness-vignette.webp)
 
 A project called Dimensional integrated OpenClaw with the Unitree G1 humanoid robot and gave it Spatial Agent Memory. The agent understands physical space and temporality, knows the layout of rooms, the location of objects, where people tend to be.
 
