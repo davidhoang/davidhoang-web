@@ -30,7 +30,12 @@ import Anthropic from '@anthropic-ai/sdk';
 import { generateInspirationPrompt, listInspirations } from './lib/inspiration.mjs';
 import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
-import { validateThemeContrast } from './lib/contrast.mjs';
+import {
+  auditThemeContrast,
+  enforceThemeContrast,
+  formatContrastFailures,
+  validateThemeContrast,
+} from './lib/contrast.mjs';
 import { enforceHeadingHeavierThanBody } from './lib/typography-weights.mjs';
 import {
   enforceThemeRecipe,
@@ -613,6 +618,15 @@ function normalizeThemeData(themeData, headingFonts, bodyFonts, context, recipe,
     }
   }
 
+  // Surface hue realignment can break text/link contrast — re-enforce before shipping.
+  const { fixes: postHarmonyContrastFixes } = enforceThemeContrast(themeData);
+  if (postHarmonyContrastFixes.length > 0) {
+    console.log(`\nContrast re-fixes after surface harmony (${postHarmonyContrastFixes.length}):`);
+    for (const fix of postHarmonyContrastFixes) {
+      console.log(`  [${fix.mode}] ${fix.pair}: ${fix.original} → ${fix.fixed} (${fix.originalRatio} → ${fix.fixedRatio}, target: ${fix.target}:1)`);
+    }
+  }
+
   const contentPadVal = parseFloat(themeData.layout?.contentPadding) || 1.5;
   const cardStyle = themeData.cards?.style;
   if (contentPadVal <= 1 && (cardStyle === 'outlined' || cardStyle === 'filled')) {
@@ -753,8 +767,9 @@ async function generateTheme(options = {}) {
   const candidateCount = Math.min(5, Math.max(1, options.candidateCount || DEFAULT_THEME_CANDIDATE_COUNT));
   console.log(`\nGenerating ${candidateCount} candidates in parallel...`);
 
-  const candidates = await Promise.all(
+  const candidateAttempts = await Promise.all(
     Array.from({ length: candidateCount }, async (_, index) => {
+      const id = `candidate-${index + 1}`;
       const candidateDirection = [
         '## CANDIDATE EXPLORATION',
         `Candidate ${index + 1} of ${candidateCount}`,
@@ -762,24 +777,39 @@ async function generateTheme(options = {}) {
         'Keep the scheduled hero, grid, and recipe. Make the styling materially different from the other likely interpretations of this recipe.',
       ].join('\n');
       const fullPrompt = `${basePrompt}${contextSections}\n\n${candidateDirection}`;
-      const themeData = await requestThemeCandidate({
-        client,
-        fullPrompt,
-        imagePrefixBlocks,
-        headingFonts,
-        bodyFonts,
-        context,
-        recipe: schedule.recipe,
-        schedule,
-      });
-      const assessment = assessDiversity(themeData, recentThemes);
-      return { id: `candidate-${index + 1}`, theme: themeData, assessment };
+      try {
+        const themeData = await requestThemeCandidate({
+          client,
+          fullPrompt,
+          imagePrefixBlocks,
+          headingFonts,
+          bodyFonts,
+          context,
+          recipe: schedule.recipe,
+          schedule,
+        });
+        const assessment = assessDiversity(themeData, recentThemes);
+        return { id, theme: themeData, assessment };
+      } catch (error) {
+        console.warn(`Candidate ${index + 1} rejected: ${error.message}`);
+        return { id, theme: null, assessment: null, error };
+      }
     }),
   );
 
+  const candidates = candidateAttempts.filter((candidate) => candidate.theme);
+  if (candidates.length === 0) {
+    const reasons = candidateAttempts
+      .map((candidate) => candidate.error?.message || 'unknown failure')
+      .join(' | ');
+    throw new Error(
+      `All theme candidates failed validation or WCAG AA contrast checks. No theme was saved. ${reasons}`,
+    );
+  }
+
   for (const [index, candidate] of candidates.entries()) {
     console.log(
-      `Candidate ${index + 1}: "${candidate.theme.name}" — ${(candidate.assessment.score * 100).toFixed(0)}% max similarity, ` +
+      `Candidate ${candidate.id}: "${candidate.theme.name}" — ${(candidate.assessment.score * 100).toFixed(0)}% max similarity, ` +
       `${candidate.assessment.changesFromYesterday} changes from yesterday.`,
     );
   }
@@ -839,6 +869,15 @@ async function generateTheme(options = {}) {
 
   if (renderReport && ranking.ranked.every((candidate) => candidate.issues.length > 0)) {
     throw new Error('All rendered theme candidates failed viewport safety checks. No theme was saved.');
+  }
+
+  // Final contrast gate — never persist a theme that still fails WCAG AA.
+  const winnerContrastFailures = auditThemeContrast(ranking.winner.theme);
+  if (winnerContrastFailures.length > 0) {
+    throw new Error(
+      `Selected theme "${ranking.winner.theme.name}" failed WCAG AA contrast checks. ` +
+        `No theme was saved. ${formatContrastFailures(winnerContrastFailures)}`,
+    );
   }
 
   if (signatureCache && renderReport) {

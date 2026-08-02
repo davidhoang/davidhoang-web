@@ -10,15 +10,26 @@ Fixtures for measuring whether coding agents follow `design.md` when building UI
 | Canonical skill | `.agents/skills/product-design/` |
 | Cursor entry | `.cursor/skills/product-design/`, `.cursor/rules/design-system.mdc` |
 | Lint rules | `npm run audit:design:check` (CI) · `npm run audit:ui:changed -- --check` (cloud agents) |
-| Automated tests | `tests/designCompliance.test.ts` (vitest) |
+| Theme contrast | `npm run audit-contrast:check` · `evals/theme-contrast/` |
+| Automated tests | `tests/designCompliance.test.ts` + `evals/**/EVAL.ts` (vitest) |
 | Agent evals | This folder + optional `@vercel/agent-eval` |
 
 ## Running vitest checks
 
 ```bash
 npm run audit:design   # lint design.md rules
-npm test               # includes designCompliance.test.ts
+npm run audit-contrast:check  # WCAG AA gate on daily-themes.json
+npm test               # includes designCompliance + evals/**/EVAL.ts
 ```
+
+### Theme contrast regression (`evals/theme-contrast/`)
+
+Protects accessibility as daily themes change. Fixtures lock the contract:
+
+- `fixtures/passing-theme.json` must audit clean
+- `fixtures/failing-theme.json` must surface contrast failures
+- Ranking treats `contrast:*` issues as hard safety (same tier as viewport overflow)
+- `scripts/generate-daily-theme.mjs` re-enforces contrast after surface harmony and refuses to save a failing winner
 
 ## Running full agent evals (optional)
 

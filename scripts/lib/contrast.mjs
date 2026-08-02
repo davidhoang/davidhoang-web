@@ -6,6 +6,22 @@
  * 3:1 for large text and UI components).
  */
 
+/** @typedef {{ mode: string, pair: string, foreground: string, background: string, ratio: number, target: number }} ContrastFailure */
+/** @typedef {{ mode: string, pair: string, original: string, fixed: string, originalRatio: string, fixedRatio: string, target: number }} ContrastFix */
+
+/**
+ * Pairs checked for WCAG AA body-text contrast (4.5:1).
+ * Exported so evals and audits stay in sync with the generator gate.
+ */
+export const CONTRAST_PAIRS = [
+  ['--color-text', '--color-bg', 4.5, 'body text on background'],
+  ['--color-link', '--color-bg', 4.5, 'link on background'],
+  ['--color-muted', '--color-bg', 4.5, 'muted text on background'],
+  ['--color-text', '--color-card-bg', 4.5, 'text on card background'],
+  ['--color-link', '--color-card-bg', 4.5, 'link on card background'],
+  ['--color-nav-text', '--color-nav-bg', 4.5, 'nav text on nav background'],
+];
+
 /**
  * Parse a hex color string to RGB values
  */
@@ -124,26 +140,47 @@ function adjustColorForContrast(fgHex, bgHex, targetRatio) {
 }
 
 /**
+ * Non-mutating audit of one color mode.
+ * @returns {ContrastFailure[]}
+ */
+function auditMode(colors, modeName) {
+  /** @type {ContrastFailure[]} */
+  const failures = [];
+  if (!colors) return failures;
+
+  for (const [fgVar, bgVar, minRatio, label] of CONTRAST_PAIRS) {
+    const fg = colors[fgVar];
+    const bgColor = colors[bgVar];
+    if (!fg || !bgColor) continue;
+
+    const ratio = contrastRatio(fg, bgColor);
+    if (ratio < minRatio) {
+      failures.push({
+        mode: modeName,
+        pair: label,
+        foreground: fg,
+        background: bgColor,
+        ratio,
+        target: minRatio,
+      });
+    }
+  }
+
+  return failures;
+}
+
+/**
  * Validate and fix contrast issues in a theme's color mode (light or dark)
  *
  * Returns an object with { colors, fixes } where fixes lists any changes made
  */
 function validateMode(colors, modeName) {
+  /** @type {ContrastFix[]} */
   const fixes = [];
-
-  // Pairs to check: [foreground var, background var, min ratio, label]
-  const checks = [
-    ['--color-text', '--color-bg', 4.5, 'body text on background'],
-    ['--color-link', '--color-bg', 4.5, 'link on background'],
-    ['--color-muted', '--color-bg', 4.5, 'muted text on background'],
-    ['--color-text', '--color-card-bg', 4.5, 'text on card background'],
-    ['--color-link', '--color-card-bg', 4.5, 'link on card background'],
-    ['--color-nav-text', '--color-nav-bg', 4.5, 'nav text on nav background'],
-  ];
 
   const fixed = { ...colors };
 
-  for (const [fgVar, bgVar, minRatio, label] of checks) {
+  for (const [fgVar, bgVar, minRatio, label] of CONTRAST_PAIRS) {
     const fg = fixed[fgVar];
     const bgColor = fixed[bgVar];
     if (!fg || !bgColor) continue;
@@ -169,9 +206,36 @@ function validateMode(colors, modeName) {
 }
 
 /**
- * Validate and fix contrast for an entire theme
+ * Non-mutating WCAG AA audit for a theme.
+ * Does not change theme colors — safe for regression checks and --check mode.
  *
- * Modifies colors in-place and returns a list of fixes applied
+ * @param {object} themeData
+ * @returns {ContrastFailure[]}
+ */
+export function auditThemeContrast(themeData) {
+  /** @type {ContrastFailure[]} */
+  const failures = [];
+
+  if (themeData?.colors?.light) {
+    failures.push(...auditMode(themeData.colors.light, 'light'));
+  }
+
+  if (themeData?.colors?.dark) {
+    failures.push(...auditMode(themeData.colors.dark, 'dark'));
+  }
+
+  return failures;
+}
+
+/**
+ * Validate and fix contrast for an entire theme.
+ *
+ * Modifies colors in-place and returns a list of fixes applied.
+ * Prefer {@link enforceThemeContrast} at generation time so unfixable
+ * palettes cannot ship.
+ *
+ * @param {object} themeData
+ * @returns {ContrastFix[]}
  */
 export function validateThemeContrast(themeData) {
   const allFixes = [];
@@ -189,4 +253,40 @@ export function validateThemeContrast(themeData) {
   }
 
   return allFixes;
+}
+
+/**
+ * Format contrast failures for logs and error messages.
+ * @param {ContrastFailure[]} failures
+ */
+export function formatContrastFailures(failures) {
+  return failures
+    .map(
+      (f) =>
+        `[${f.mode}] ${f.pair}: ${f.foreground} on ${f.background} ` +
+        `(${f.ratio.toFixed(2)}:1 < ${f.target}:1)`,
+    )
+    .join('; ');
+}
+
+/**
+ * Fix contrast issues, then hard-fail if any pair still misses WCAG AA.
+ * Mutates theme colors in place when fixes are applied.
+ *
+ * @param {object} themeData
+ * @returns {{ fixes: ContrastFix[], failures: ContrastFailure[] }}
+ * @throws {Error} when contrast still fails after auto-fix
+ */
+export function enforceThemeContrast(themeData) {
+  const fixes = validateThemeContrast(themeData);
+  const failures = auditThemeContrast(themeData);
+
+  if (failures.length > 0) {
+    throw new Error(
+      `Theme failed WCAG AA contrast checks after auto-fix (${failures.length}): ` +
+        formatContrastFailures(failures),
+    );
+  }
+
+  return { fixes, failures };
 }

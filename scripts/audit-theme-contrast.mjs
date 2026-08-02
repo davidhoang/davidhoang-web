@@ -14,7 +14,11 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { validateThemeContrast } from './lib/contrast.mjs';
+import {
+  auditThemeContrast,
+  formatContrastFailures,
+  validateThemeContrast,
+} from './lib/contrast.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const THEMES_PATH = join(__dirname, '..', 'src', 'data', 'daily-themes.json');
@@ -30,6 +34,23 @@ function main() {
   console.log(`Auditing ${themes.length} themes for WCAG AA contrast...\n`);
 
   for (const theme of themes) {
+    if (checkOnly) {
+      const failures = auditThemeContrast(theme);
+      if (failures.length === 0) {
+        console.log(`  ✓ ${theme.name} (${theme.date})`);
+      } else {
+        totalFailures++;
+        console.log(`  ✗ ${theme.name} (${theme.date}) — ${failures.length} failure${failures.length > 1 ? 's' : ''}:`);
+        for (const failure of failures) {
+          console.log(
+            `      ${failure.mode} ${failure.pair}: ${failure.foreground} on ${failure.background} ` +
+              `(${failure.ratio.toFixed(2)}:1 < ${failure.target}:1)`,
+          );
+        }
+      }
+      continue;
+    }
+
     const fixes = validateThemeContrast(theme);
 
     if (fixes.length === 0) {
@@ -44,14 +65,33 @@ function main() {
     }
   }
 
+  if (checkOnly) {
+    console.log(`\n${themes.length} themes checked, ${totalFailures} had contrast failures.`);
+    if (totalFailures > 0) {
+      console.log('\n--check mode: no files modified.');
+      process.exit(1);
+    }
+    return;
+  }
+
   console.log(`\n${themes.length} themes checked, ${totalFailures} had issues, ${totalFixes} colors fixed.`);
 
-  if (totalFixes > 0 && !checkOnly) {
+  if (totalFixes > 0) {
+    // Re-audit after fixes — refuse to leave unfixable failures on disk silently.
+    const remaining = themes.flatMap((theme) =>
+      auditThemeContrast(theme).map((failure) => ({ theme, failure })),
+    );
     writeFileSync(THEMES_PATH, JSON.stringify(data, null, 2) + '\n');
     console.log(`\nFixed themes written to ${THEMES_PATH}`);
-  } else if (totalFixes > 0 && checkOnly) {
-    console.log('\n--check mode: no files modified.');
-    process.exit(1);
+    if (remaining.length > 0) {
+      console.error(
+        `\n${remaining.length} contrast failure(s) remain after auto-fix:\n` +
+          remaining
+            .map(({ theme, failure }) => `  ${theme.name}: ${formatContrastFailures([failure])}`)
+            .join('\n'),
+      );
+      process.exit(1);
+    }
   }
 }
 

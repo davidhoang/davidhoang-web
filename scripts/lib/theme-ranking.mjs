@@ -1,10 +1,12 @@
 import { assessDiversity } from './theme-diversity.mjs';
 import { attractorPenalty, nearestColorDistance } from './theme-color-distance.mjs';
+import { auditThemeContrast } from './contrast.mjs';
 
 /**
  * Rank normalized candidates using real render safety, grayscale layout
  * distance from recent themes, palette distance, categorical diversity,
  * and penalties for overused cream/lavender AI attractors.
+ * Contrast failures are hard safety issues (same tier as viewport overflow).
  * @param {Array<{ id: string, theme: object, assessment?: object }>} candidates
  * @param {object[]} recentThemes
  * @param {any} [renderReport]
@@ -18,9 +20,14 @@ export function rankThemeCandidates(candidates, recentThemes, renderReport = nul
   const ranked = candidates.map((candidate) => {
     const assessment = candidate.assessment || assessDiversity(candidate.theme, recentThemes);
     const rendered = renderReport?.results?.[candidate.id];
-    const issues = rendered
+    const renderIssues = rendered
       ? Object.values(rendered.viewports).flatMap((viewport) => viewport.metrics.issues)
       : [];
+    const contrastFailures = auditThemeContrast(candidate.theme);
+    const contrastIssues = contrastFailures.map(
+      (failure) => `contrast:${failure.mode}:${failure.pair}`,
+    );
+    const issues = [...renderIssues, ...contrastIssues];
     const visualDistance = rendered
       ? nearestRecentVisualDistance(candidate.id, recentEntries, renderReport)
       : 0;
@@ -49,6 +56,7 @@ export function rankThemeCandidates(candidates, recentThemes, renderReport = nul
       attractorPenalty: attractor,
       renderCoverage,
       issues,
+      contrastFailures,
     };
   }).sort((a, b) => {
     const safetyOrder = Number(a.issues.length > 0) - Number(b.issues.length > 0);

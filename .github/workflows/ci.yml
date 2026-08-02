@@ -24,6 +24,9 @@ jobs:
       - name: Type check
         run: npm run check
 
+      - name: Theme contrast check
+        run: npm run audit-contrast:check
+
       - name: Unit tests
         run: npm test
 
