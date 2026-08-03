@@ -14,6 +14,7 @@ export const mobileSecondaryNavItems = [
   { path: '/investing', label: 'Investing' },
   { path: '/advising', label: 'Advising' },
   { path: '/daily-themes', label: 'Daily Themes' },
+  { path: '/design-guide', label: 'Design Guide' },
 ] as const;
 
 export const commandPalettePages = [
@@ -27,6 +28,7 @@ export const commandPalettePages = [
   { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
   { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
+  { title: 'Design Guide', description: 'Theme-responsive design system primitives', path: '/design-guide', type: 'page' },
 ] as const;
 
 export const footerBrand = {
@@ -49,6 +51,8 @@ export const footerSections = [
         external: true,
       },
       { href: '/design-resources', label: 'Design Resources', ariaLabel: 'Design resources and tools', external: false },
+      { href: '/design-guide', label: 'Design Guide', ariaLabel: 'Design system guide', external: false },
+      { href: '/daily-themes', label: 'Daily Themes', ariaLabel: 'Daily themes explorer', external: false },
     ],
   },
   {

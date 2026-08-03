@@ -7,18 +7,23 @@ defaultLayout:
     mobileHeight: 56px
     offsetTop: 24px
     contentTopPadding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem)
-    desktop:
-      minMaxWidth: min(480px, calc(100vw - 40px))
-      padding: 24px 34px
-    tablet:
-      width: calc(100% - 32px)
-      padding: 0 16px
+    # Horizontal padding lives on .site-nav (not .nav-container). Source: nav.css + site-nav-css.mdc
+    desktopWide: # ≥1441px
+      maxWidth: min(600px, calc(100vw - 40px))
+      padding: 0 40px
+    desktopMid: # 1025–1440px
+      maxWidth: min(700px, calc(100vw - 56px))
+      padding: 0 42px
+    tabletDesktop: # 769–1024px (and calmer 769–1440 overrides)
+      maxWidth: min(620px, calc(100vw - 48px))
+      padding: 0 36px
     mobile:
-      width: calc(100% - 2rem)
-      maxWidth: 400px
-      padding: 0 16px
+      width: 100%
+      padding: 0
+      containerPadding: 0 1rem # .nav-container only
       height: 56px
       offsetTop: 0px
+      safeAreaHeight: calc(56px + env(safe-area-inset-top, 0px))
   breakpoints:
     small: 320px
     mobileSmall: 520px
@@ -122,14 +127,14 @@ The canonical site structure. Themes cannot override anything in this section.
 
 The nav is a fixed floating-pill defined in `src/components/Navigation.astro`. Theme JSON cannot vary nav style, height, or padding — the generator strips any `navigation` field from theme output (`scripts/generate-daily-theme.mjs`).
 
-| Viewport | Width | Inner padding |
+| Viewport | Max / width | `.site-nav` padding |
 |---|---|---|
-| ≤520px | `calc(100% - 2rem)`, max 400px | `0 16px` |
-| 521–768px | `calc(100% - 32px)` | `0 16px` |
-| 769–1024px | `min(440px, calc(100vw - 40px))` | `24px 30px` |
-| ≥1025px | `min(480px, calc(100vw - 40px))` | `24px 34px` |
+| ≤768px | `100%` (full bleed bar) | `0` (+ `padding-top: env(safe-area-inset-top)`); `.nav-container` uses `0 1rem` |
+| 769–1024px | `min(620px, calc(100vw - 48px))` | `0 36px` |
+| 1025–1440px | `min(700px, calc(100vw - 56px))` | `0 42px` |
+| ≥1441px | `min(600px, calc(100vw - 40px))` | `0 40px` |
 
-`--nav-height` is fixed at `48px` on desktop (≥769px) and `56px` on mobile (≤768px, plus safe-area on the bar itself). `--nav-offset-top` is `24px` on desktop and `0px` on mobile, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
+Desktop horizontal padding lives on `.site-nav`, never on `.nav-container` or a global `.container` (see `.cursor/rules/site-nav-css.mdc`). `--nav-height` is fixed at `48px` on desktop (≥769px) and `56px` on mobile (≤768px; the bar itself is `calc(56px + env(safe-area-inset-top))`). `--nav-offset-top` is `24px` on desktop and `0px` on mobile, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
 
 ### Spacing scale
 
@@ -237,6 +242,7 @@ Mobile (≤768px) is allowed — and encouraged — to **override presentation**
 
 **Implementation pattern:** detect mobile via `isMobileHeroViewport()` or `[data-viewport-tier]`; apply mobile-only CSS classes and React branches; keep desktop path unchanged.
 
+### Motion tokens
 
 All transition timings and easings live in `src/styles/modules/variables.css`. New components must use these tokens — never hardcode `0.3s` or `cubic-bezier(...)` literals in `transition:` declarations.
 

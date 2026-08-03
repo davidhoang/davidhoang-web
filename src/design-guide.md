@@ -18,8 +18,13 @@ This guide documents the design primitives and CSS classes that automatically re
 10. [Inputs](#inputs)
 11. [Content pages](#content-pages)
 12. [Containers](#containers)
-13. [Utility Classes](#utility-classes)
-14. [Theme-Specific Variations](#theme-variations)
+13. [Motion](#motion)
+14. [Focus](#focus)
+15. [Contrast](#contrast)
+16. [Utility Classes](#utility-classes)
+17. [Theme-Specific Variations](#theme-variations)
+
+Live gallery: [`/design-guide`](/design-guide) · Theme archive: [`/daily-themes`](/daily-themes) · Agent contract: [`design.md`](/design.md)
 
 ---
 
@@ -439,6 +444,43 @@ Prefer these over per-page scoped duplicates. Pair with `.container-narrow` for 
 
 ---
 
+## Motion
+
+Use duration and easing tokens from `src/styles/modules/variables.css` — never hardcode `0.3s` or raw `cubic-bezier(...)` in new CSS.
+
+| Token | Value / role |
+|-------|----------------|
+| `--duration-fast` … `--duration-slowest` | 0.15s → 0.6s |
+| `--ease-inertia`, `--ease-inertia-smooth` | Default / soft ease-out |
+| `--ease-standard` | UI state changes |
+| `--ease-emphasized` | Entrance reveals |
+| `--ease-spring` | Slight overshoot |
+
+See `design.md` § Motion tokens and § Motion continuity.
+
+---
+
+## Focus
+
+Keyboard focus indicators use a single token set:
+
+```css
+--focus-ring-width: 2px;
+--focus-ring-offset: 3px;
+--focus-ring-color: var(--color-link);
+--focus-ring: var(--focus-ring-width) solid var(--focus-ring-color);
+```
+
+Do not hardcode `outline: 2px solid …`. Global coverage lives in `accessibility-responsive.css`.
+
+---
+
+## Contrast
+
+Daily themes must keep body, link, muted, and nav text at **WCAG AA 4.5:1** against page, card, and nav backgrounds. Hard gate in `scripts/lib/contrast.mjs`; CI via `npm run audit-contrast:check`.
+
+---
+
 ## Containers
 
 Layout containers for content width control.
@@ -582,7 +624,12 @@ const heroLayout = document.documentElement.getAttribute('data-hero-layout');
 
 ## File Locations
 
-- **CSS Variables & Primitives**: `src/styles/global.css`
+- **Agent contract**: `design.md`
+- **CSS Variables**: `src/styles/modules/variables.css`
+- **Primitives**: `src/styles/global.css`, `src/styles/modules/shared-components.css`, `src/styles/modules/design-system.css`
+- **Layout / content pages**: `src/styles/modules/layout.css`
+- **Theme overrides**: `src/styles/modules/theme-variations.css`
+- **Live gallery**: `src/pages/design-guide.astro` → `/design-guide`
 - **Theme Data**: `src/data/daily-themes.json`
 - **Theme Toggle Component**: `src/components/DailyThemeToggle.astro`
 - **Theme Generator**: `scripts/generate-daily-theme.mjs`
