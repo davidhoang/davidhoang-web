@@ -7,7 +7,11 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
   <div class="design-guide">
     <header class="guide-header">
       <h1 class="text-heading">Design System Guide</h1>
-      <p class="text-body text-muted">Visual reference for theme-responsive primitives. Toggle the daily theme to see how components adapt.</p>
+      <p class="text-body text-muted">
+        Visual reference for theme-responsive primitives. Toggle the daily theme in the nav to see how components adapt — or explore past themes on
+        <a class="link" href="/daily-themes">Daily Themes</a>.
+        Agent contract: <code class="text-mono">design.md</code>.
+      </p>
     </header>
 
     <!-- Table of Contents -->
@@ -26,6 +30,11 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
         <a href="#dividers" class="link">Dividers</a>
         <a href="#spacing" class="link">Spacing</a>
         <a href="#layout" class="link">Layout</a>
+        <a href="#content-pages" class="link">Content pages</a>
+        <a href="#motion" class="link">Motion</a>
+        <a href="#focus" class="link">Focus</a>
+        <a href="#contrast" class="link">Contrast</a>
+        <a href="#theme-info" class="link">Current theme</a>
       </div>
     </nav>
 
@@ -58,6 +67,12 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
         </div>
         <div class="color-swatch" style="background: var(--color-nav-bg); border: 1px solid var(--color-border);">
           <span class="color-label">--color-nav-bg</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-card-bg); border: 1px solid var(--color-border);">
+          <span class="color-label">--color-card-bg</span>
+        </div>
+        <div class="color-swatch" style="background: var(--color-nav-text);">
+          <span class="color-label" style="color: var(--color-nav-bg);">--color-nav-text</span>
         </div>
       </div>
     </section>
@@ -377,6 +392,18 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
 
         <div class="spacing-item" style="width: var(--spacing-2xl); height: var(--spacing-2xl);"></div>
         <span class="text-caption">2xl (48px)</span>
+
+        <div class="spacing-item" style="width: var(--spacing-3xl); height: var(--spacing-3xl);"></div>
+        <span class="text-caption">3xl (64px)</span>
+      </div>
+
+      <h3 class="text-heading mt-xl mb-md">Theme-tunable spacing</h3>
+      <p class="text-body text-sm mb-md">Use these when a daily theme should be able to tune rhythm; otherwise prefer <code class="text-mono">--spacing-*</code>.</p>
+      <div class="token-chip-row">
+        <span class="token-chip text-mono text-caption">--card-padding</span>
+        <span class="token-chip text-mono text-caption">--content-padding</span>
+        <span class="token-chip text-mono text-caption">--section-spacing</span>
+        <span class="token-chip text-mono text-caption">--container-padding</span>
       </div>
 
       <h3 class="text-heading mt-xl mb-md">Border Radius</h3>
@@ -414,36 +441,175 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
       </div>
     </section>
 
+    <!-- Content pages -->
+    <section id="content-pages" class="guide-section">
+      <h2 class="text-heading">Content pages</h2>
+      <p class="text-body mb-lg">
+        Secondary pages (Advising, Investing, Now, Works) share rhythm via <code class="text-mono">.content-page*</code> in
+        <code class="text-mono">layout.css</code>. Prefer these over per-page section CSS.
+      </p>
+
+      <div class="content-page content-page--compact-top guide-content-page-demo">
+        <section class="content-page__intro">
+          <p class="text-eyebrow">.content-page__intro</p>
+          <p>Lead paragraphs use prose sizing. Pair the shell with <code class="text-mono">.container-narrow</code> for reading width.</p>
+        </section>
+        <p class="content-page__lede">.content-page__lede — muted supporting copy.</p>
+        <section class="content-page__section">
+          <h2 class="content-page__section-title">.content-page__section</h2>
+          <ul class="content-page__list content-page__list--bullets">
+            <li>Bullet lists use <code class="text-mono">.content-page__list--bullets</code></li>
+            <li>Linked lists use <code class="text-mono">.content-page__list--linked</code></li>
+          </ul>
+        </section>
+        <section class="content-page__section">
+          <h2 class="content-page__section-title">Linked list</h2>
+          <ul class="content-page__list content-page__list--linked">
+            <li>
+              <a href="/advising">Advising</a>
+              <span class="content-page__list-note">example linked row with note</span>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <!-- Motion -->
+    <section id="motion" class="guide-section">
+      <h2 class="text-heading">Motion</h2>
+      <p class="text-body mb-lg">
+        Use <code class="text-mono">var(--duration-*)</code> and <code class="text-mono">var(--ease-*)</code> — never hardcode
+        <code class="text-mono">0.3s</code> or raw <code class="text-mono">cubic-bezier(...)</code> in new CSS.
+      </p>
+
+      <h3 class="text-heading text-lg mb-md">Durations</h3>
+      <div class="motion-duration-list">
+        <div class="motion-duration-row">
+          <span class="text-mono text-caption">--duration-fast (0.15s)</span>
+          <div class="motion-track"><div class="motion-bar" style="transition-duration: var(--duration-fast);"></div></div>
+        </div>
+        <div class="motion-duration-row">
+          <span class="text-mono text-caption">--duration-normal (0.2s)</span>
+          <div class="motion-track"><div class="motion-bar" style="transition-duration: var(--duration-normal);"></div></div>
+        </div>
+        <div class="motion-duration-row">
+          <span class="text-mono text-caption">--duration-slow (0.3s)</span>
+          <div class="motion-track"><div class="motion-bar" style="transition-duration: var(--duration-slow);"></div></div>
+        </div>
+        <div class="motion-duration-row">
+          <span class="text-mono text-caption">--duration-slower (0.4s)</span>
+          <div class="motion-track"><div class="motion-bar" style="transition-duration: var(--duration-slower);"></div></div>
+        </div>
+        <div class="motion-duration-row">
+          <span class="text-mono text-caption">--duration-slowest (0.6s)</span>
+          <div class="motion-track"><div class="motion-bar" style="transition-duration: var(--duration-slowest);"></div></div>
+        </div>
+      </div>
+      <p class="text-caption text-muted guide-mt-md">Hover the tracks (desktop) to compare durations with <code class="text-mono">--ease-standard</code>.</p>
+
+      <h3 class="text-heading text-lg mt-xl mb-md">Easings</h3>
+      <div class="token-chip-row">
+        <span class="token-chip text-mono text-caption">--ease-inertia</span>
+        <span class="token-chip text-mono text-caption">--ease-inertia-smooth</span>
+        <span class="token-chip text-mono text-caption">--ease-standard</span>
+        <span class="token-chip text-mono text-caption">--ease-emphasized</span>
+        <span class="token-chip text-mono text-caption">--ease-spring</span>
+      </div>
+    </section>
+
+    <!-- Focus -->
+    <section id="focus" class="guide-section">
+      <h2 class="text-heading">Focus</h2>
+      <p class="text-body mb-lg">
+        Keyboard focus uses <code class="text-mono">--focus-ring*</code> tokens. Tab through the controls below — do not hardcode
+        <code class="text-mono">outline: 2px solid …</code>.
+      </p>
+      <div class="flex gap-md items-center flex-wrap">
+        <button class="btn btn-primary" type="button">Primary focus</button>
+        <button class="btn btn-secondary" type="button">Secondary focus</button>
+        <a class="link" href="#focus">Link focus</a>
+        <input class="input" type="text" placeholder="Input focus" aria-label="Focus demo input" />
+      </div>
+      <div class="token-chip-row guide-mt-md">
+        <span class="token-chip text-mono text-caption">--focus-ring-width</span>
+        <span class="token-chip text-mono text-caption">--focus-ring-offset</span>
+        <span class="token-chip text-mono text-caption">--focus-ring-color</span>
+        <span class="token-chip text-mono text-caption">--focus-ring</span>
+      </div>
+    </section>
+
+    <!-- Contrast -->
+    <section id="contrast" class="guide-section">
+      <h2 class="text-heading">Contrast</h2>
+      <p class="text-body mb-lg">
+        Daily themes must keep body, link, muted, and nav text at WCAG AA (<strong>4.5:1</strong>) against page, card, and nav backgrounds.
+        Generator gate: <code class="text-mono">scripts/lib/contrast.mjs</code> · CI: <code class="text-mono">npm run audit-contrast:check</code>.
+      </p>
+      <div class="contrast-grid">
+        <div class="contrast-sample" style="background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border);">
+          <span class="text-caption">text on bg</span>
+          <p class="text-body m-0">Body copy on page background</p>
+        </div>
+        <div class="contrast-sample" style="background: var(--color-card-bg); color: var(--color-text); border: 1px solid var(--color-border);">
+          <span class="text-caption">text on card</span>
+          <p class="text-body m-0">Body copy on card surface</p>
+        </div>
+        <div class="contrast-sample" style="background: var(--color-bg); color: var(--color-muted); border: 1px solid var(--color-border);">
+          <span class="text-caption">muted on bg</span>
+          <p class="text-muted m-0">Muted supporting text</p>
+        </div>
+        <div class="contrast-sample" style="background: var(--color-bg); color: var(--color-link); border: 1px solid var(--color-border);">
+          <span class="text-caption">link on bg</span>
+          <p class="m-0"><a class="link" href="#contrast">Link color sample</a></p>
+        </div>
+        <div class="contrast-sample" style="background: var(--color-nav-bg); color: var(--color-nav-text); border: 1px solid var(--color-border);">
+          <span class="text-caption">nav text on nav bg</span>
+          <p class="text-body m-0">Navigation label</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Theme Info -->
     <section id="theme-info" class="guide-section">
-      <h2 class="text-heading">Current Theme</h2>
-      <p class="text-body mb-lg">Information about the currently active theme.</p>
+      <h2 class="text-heading">Current theme</h2>
+      <p class="text-body mb-lg">
+        Live <code class="text-mono">data-*</code> attributes from the active daily theme. Navigation is framework-controlled and is not theme-variable.
+        Browse the archive on <a class="link" href="/daily-themes">Daily Themes</a>.
+      </p>
 
       <div class="card card-outlined" id="theme-details">
         <div class="grid grid-cols-2 gap-md">
           <div>
-            <span class="text-caption">Theme Active</span>
+            <span class="text-caption">Theme active</span>
             <p class="text-body" id="theme-active">Checking...</p>
           </div>
           <div>
-            <span class="text-caption">Nav Style</span>
-            <p class="text-body" id="theme-nav">—</p>
-          </div>
-          <div>
-            <span class="text-caption">Card Style</span>
+            <span class="text-caption">Card style</span>
             <p class="text-body" id="theme-card">—</p>
           </div>
           <div>
-            <span class="text-caption">Link Style</span>
+            <span class="text-caption">Link style</span>
             <p class="text-body" id="theme-link">—</p>
           </div>
           <div>
-            <span class="text-caption">Hero Layout</span>
+            <span class="text-caption">Hero layout</span>
             <p class="text-body" id="theme-hero">—</p>
           </div>
           <div>
-            <span class="text-caption">Image Style</span>
+            <span class="text-caption">Image style</span>
             <p class="text-body" id="theme-image">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Grid style</span>
+            <p class="text-body" id="theme-grid">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Background texture</span>
+            <p class="text-body" id="theme-texture">—</p>
+          </div>
+          <div>
+            <span class="text-caption">Footer style</span>
+            <p class="text-body" id="theme-footer">—</p>
           </div>
         </div>
       </div>
@@ -704,12 +870,96 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
     flex: 1;
   }
 
+  .guide-mt-md {
+    margin-top: var(--spacing-md);
+  }
+
+  .token-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .token-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-sidebar-bg);
+    color: var(--color-text);
+  }
+
+  .guide-content-page-demo {
+    max-width: 42rem;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-card-bg);
+  }
+
+  .motion-duration-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .motion-duration-row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 14rem) 1fr;
+    gap: var(--spacing-md);
+    align-items: center;
+  }
+
+  .motion-track {
+    height: var(--spacing-md);
+    border-radius: var(--radius-full);
+    background: var(--color-sidebar-bg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .motion-bar {
+    width: 28%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-link);
+    transition-property: transform;
+    transition-timing-function: var(--ease-standard);
+  }
+
+  @media (hover: hover) {
+    .motion-track:hover .motion-bar {
+      transform: translateX(240%);
+    }
+  }
+
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .contrast-sample {
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
   @media (max-width: 768px) {
     .color-grid,
     .card-grid,
     .surface-grid,
-    .image-grid {
+    .image-grid,
+    .contrast-grid {
       grid-template-columns: 1fr;
+    }
+
+    .motion-duration-row {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xs);
     }
 
     .link-sample {
@@ -725,22 +975,26 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
     const root = document.documentElement;
 
     const themeActive = root.hasAttribute('data-daily-theme');
-    const navStyle = root.getAttribute('data-nav-style') || 'default';
     const cardStyle = root.getAttribute('data-card-style') || 'default';
     const linkStyle = root.getAttribute('data-link-style') || 'default';
     const heroLayout = root.getAttribute('data-hero-layout') || 'default';
     const imageStyle = root.getAttribute('data-image-style') || 'default';
+    const gridStyle = root.getAttribute('data-grid-style') || 'standard';
+    const texture = root.getAttribute('data-bg-texture') || 'none';
+    const footerStyle = root.getAttribute('data-footer-style') || 'default';
 
     const set = (id: string, value: string) => {
       const el = document.getElementById(id);
       if (el) el.textContent = value;
     };
     set('theme-active', themeActive ? 'Yes (' + root.getAttribute('data-daily-theme') + ')' : 'No (using default)');
-    set('theme-nav', navStyle);
     set('theme-card', cardStyle);
     set('theme-link', linkStyle);
     set('theme-hero', heroLayout);
     set('theme-image', imageStyle);
+    set('theme-grid', gridStyle);
+    set('theme-texture', texture);
+    set('theme-footer', footerStyle);
   }
 
   // Update on load
