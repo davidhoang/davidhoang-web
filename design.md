@@ -272,15 +272,35 @@ The View Transitions API (used in `MainLayout.astro` and writing/note layouts) c
 
 Interactive motion must feel **fluid and uninterrupted**. Animations must never visibly restart when pointer state changes (hover, focus, or moving between adjacent targets).
 
+This section is **regression-sensitive**. PR #104 fixed iPad/trackpad flicker; a later “restart animation on hover” change remounted hero media and reintroduced a dramatic still↔animated strobe on iPad Pro + Magic Keyboard (vestibular / photosensitive risk). CI enforces the machine-checkable parts via `hero-motion-continuity` in `npm run audit:design:check`.
+
 **Rules:**
 
 1. **No remount-on-hover** — do not swap React `key`, conditionally mount/unmount media, or toggle CSS classes that restart `@keyframes` when hover moves between siblings. Keep both states in the DOM and crossfade with `opacity` (or `visibility`) so the animation timeline continues.
-2. **No idle frame between hovers** — when moving between cards in a group, do not clear hover state on `mouseleave` if the pointer entered another card in the same `.cards-wrapper`. Use `handleCardHoverLeave()` from `src/components/hero/cardHover.ts` (checks `relatedTarget` against the wrapper).
+2. **No idle frame between hovers** — when moving between cards in a group, do not clear hover state on `mouseleave` if the pointer entered another **`.hero-card`** in the same `.cards-wrapper`. Use `handleCardHoverLeave()` from `src/components/hero/cardHover.ts` (`isHeroCardWithinWrapper` on `relatedTarget` / `elementFromPoint` — bare wrapper space must clear) and the delayed clear from `createStableCardHoverSetter()` so Safari/iPad null `relatedTarget` does not flash rest.
 3. **Single motion driver after entrance** — one-time deal/entrance animations use spring physics. After `hasAnimatedIn`, drive rest / focused / pressed / selected / dimmed entirely through `animate` targets from `heroCardInteraction.ts` (shared interaction springs). Do **not** use `whileHover` / `whileTap` on the same transform properties — gesture props interrupt springs mid-flight and cause jumpy returns when focus changes or a click lands.
 4. **Pause, don't reset** — looping video or drift motion pauses when idle; do not reset `currentTime` or re-add animation classes on every hover toggle.
 5. **Prefer transform/opacity** — state changes animate via `transform` and `opacity` only (see [Hover state hygiene](#hover-state-hygiene)). Filter/brightness shifts may crossfade but must not remount elements.
+6. **No JS pointer-hover lift on hybrid / non-hover pointers** — iPadOS reports `(hover: none)` even with Magic Keyboard, but still fires `mouseenter`. Gate **pointer** hover (`mouseenter` / tilt / `hoveredCard`) with `pointerHoverDisabled` ← `!shouldEnablePointerHoverMotion()` / `data-hover-motion`. Do **not** fold that into `hoverDisabled` — keyboard Tab focus must still lift/activate media via `useHeroCardInteraction` (`resolveHeroCardFocus`).
 
-**Hero reference:** `CardBase.tsx` (layered hero media), `heroCardInteraction.ts` (phase + springs), `StackedFanLayout.tsx` (animate-driven focus/press), `cardHover.ts` (wrapper-aware hover leave), `card-stack-hero.css` (`.card-hero-image--layer`, continuous drift).
+**Banned patterns (hero cards — do not reintroduce):**
+
+| Banned | Why | Do this instead |
+|---|---|---|
+| `key={\`hero-anim-${…}\`}` / `animPlayKey` / remounting `<img>` or `<video>` when `isHeroMediaActive` flips | Restarts WebP/GIF decode; strobes on hover thrash | Mount active media once (`loadActiveMedia`); toggle `data-visible` / opacity |
+| Toggling `.card-hero-image--drift` with `isHeroMediaActive ? …` | Restarts `@keyframes` every enter/leave | Apply drift once the active layer is loaded; hide via opacity |
+| Clearing `hoveredCard` on every `mouseleave` without `.hero-card` / `elementFromPoint` checks | Idle frame between overlapping cards; Safari nulls `relatedTarget` | `handleCardHoverLeave` + `createStableCardHoverSetter` (keep hover only over another `.hero-card`, not empty wrapper) |
+| JS pointer hover without `pointerHoverDisabled` / folding hybrid gating into `hoverDisabled` | Magic Keyboard `mouseenter` flicker **or** Tab focus loses lift/media | `pointerHoverDisabled` for pointer only; keep keyboard focus via `resolveHeroCardFocus` |
+| Restarting animated media “so it plays from the start on hover” | Same as remount-on-hover — **not an acceptable tradeoff** | Accept loop continuity; prefer video `play()`/`pause()` without `currentTime = 0` |
+
+**Required wiring:**
+
+- `CardStackHero.tsx` → `createStableCardHoverSetter` for shared hover state
+- Hero layouts → `pointerHoverDisabled: !usePointerHoverMotionEnabled()` for tilt/`mouseenter`; `hoverDisabled` only for reduced-motion / mobile-stack (not hybrid)
+- `MainLayout.astro` + `syncHybridPointerAttribute()` → set `data-hover-motion` and `data-hybrid-pointer` before paint
+- `CardBase.tsx` → layered still/active media; continuous drift; no remount keys
+
+**Hero reference:** `CardBase.tsx` (layered hero media), `heroCardInteraction.ts` (phase + springs), `StackedFanLayout.tsx` (animate-driven focus/press), `cardHover.ts` (wrapper-aware hover leave), `usePointerHoverMotion.ts`, `card-stack-hero.css` (`.card-hero-image--layer`, continuous drift).
 
 ### Focus ring
 
@@ -301,12 +321,15 @@ The `forced-colors` block (Windows High Contrast) intentionally uses system `Hig
 
 Hover affordances (lift, shadow growth, color shift) are **desktop-only**. iOS Safari applies `:hover` briefly after a tap and the styles persist until the user taps elsewhere — so on touch devices, lift animations get "stuck" and read as a broken selected state.
 
-A global rule in `src/styles/modules/accessibility-responsive.css` strips `transform` inside `:hover` at `@media (hover: none)`. This is the safety net.
+A global rule in `src/styles/modules/accessibility-responsive.css` strips `transform` inside `:hover` at `@media (hover: none)`. This is the safety net for **CSS** `:hover`.
+
+**JS hover is a separate footgun:** iPadOS often matches `(hover: none)` even with Magic Keyboard, but still delivers `mouseenter` / `mouseleave`. Any Framer Motion / React hover lift or media swap must also gate on `shouldEnablePointerHoverMotion()` / `data-hover-motion` (see [Motion continuity](#motion-continuity) rule 6). Do not assume “trackpad attached ⇒ CSS hover media matches.”
 
 **Convention for new hover effects:**
 
-- `transform` on hover is automatically neutralized on touch — no extra work needed.
+- `transform` on hover is automatically neutralized on touch — no extra work needed for pure CSS.
 - For other hover side-effects (`box-shadow`, `background-color`, `color`), prefer wrapping in `@media (hover: hover)` so they don't fire on tap. Existing nav (`Navigation.astro`) and link rules (`links.css`) already follow this pattern.
+- For JS-driven hover (React state, Framer Motion `animate` targets, media activate): also require `data-hover-motion="true"` / `usePointerHoverMotionEnabled()`.
 - Resting state must be the visually complete state. If the design relies on hover to communicate something, it's broken on touch by definition.
 
 ### Breakpoints

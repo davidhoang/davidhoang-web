@@ -112,10 +112,40 @@ interface UseHeroCardInteractionOptions {
   selectedCard: string | null;
   hoveredCard: string | null;
   isLoaded: boolean;
-  /** When true, hover/focus lift is suppressed (e.g. mobile stack, reduced motion). */
+  /**
+   * Suppress all focus/hover lift including keyboard (e.g. mobile stack, reduced motion).
+   * Do **not** fold hybrid/pointer gating into this — use `pointerHoverDisabled` instead
+   * so Tab focus still lifts/activates media on iPad + Magic Keyboard.
+   */
   hoverDisabled?: boolean;
+  /**
+   * Suppress pointer hover (`mouseenter` / `hoveredCard`) only — hybrid devices,
+   * `(hover: none)`. Keyboard focus lift remains enabled unless `hoverDisabled`.
+   */
+  pointerHoverDisabled?: boolean;
   onCardHover: (cardId: string | null) => void;
   onTiltReset?: () => void;
+}
+
+/** Pure focus resolver — pointer hover and keyboard focus are independently gated. */
+export function resolveHeroCardFocus(options: {
+  hoverDisabled: boolean;
+  pointerHoverDisabled: boolean;
+  isOtherSelected: boolean;
+  isHovered: boolean;
+  isKeyboardFocused: boolean;
+}): boolean {
+  const {
+    hoverDisabled,
+    pointerHoverDisabled,
+    isOtherSelected,
+    isHovered,
+    isKeyboardFocused,
+  } = options;
+  if (hoverDisabled || isOtherSelected) return false;
+  if (isKeyboardFocused) return true;
+  if (!pointerHoverDisabled && isHovered) return true;
+  return false;
 }
 
 /**
@@ -129,6 +159,7 @@ export function useHeroCardInteraction({
   hoveredCard,
   isLoaded,
   hoverDisabled = false,
+  pointerHoverDisabled = false,
   onCardHover,
   onTiltReset,
 }: UseHeroCardInteractionOptions) {
@@ -137,8 +168,13 @@ export function useHeroCardInteraction({
 
   const isSelected = selectedCard === cardId;
   const isOtherSelected = selectedCard !== null && !isSelected;
-  const isFocused =
-    !hoverDisabled && !isOtherSelected && (hoveredCard === cardId || isKeyboardFocused);
+  const isFocused = resolveHeroCardFocus({
+    hoverDisabled,
+    pointerHoverDisabled,
+    isOtherSelected,
+    isHovered: hoveredCard === cardId,
+    isKeyboardFocused,
+  });
 
   useEffect(() => {
     if (isSelected || hoverDisabled) {
@@ -155,10 +191,10 @@ export function useHeroCardInteraction({
   });
 
   const onMouseEnter = useCallback(() => {
-    if (!selectedCard && !hoverDisabled) {
+    if (!selectedCard && !hoverDisabled && !pointerHoverDisabled) {
       onCardHover(cardId);
     }
-  }, [selectedCard, hoverDisabled, onCardHover, cardId]);
+  }, [selectedCard, hoverDisabled, pointerHoverDisabled, onCardHover, cardId]);
 
   const onMouseLeave = useCallback(
     (e: MouseEvent<HTMLElement>) => {
@@ -181,6 +217,7 @@ export function useHeroCardInteraction({
   }, []);
 
   const onFocus = useCallback(() => {
+    // Keyboard focus is independent of pointer-hover gating (iPad + Magic Keyboard).
     if (!hoverDisabled && !isOtherSelected) {
       setIsKeyboardFocused(true);
     }

@@ -3,17 +3,43 @@ export function isTabletClassViewport(width = typeof window !== 'undefined' ? wi
   return width >= 769 && width <= 1440;
 }
 
+function hasTouchCapability(): boolean {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
+  return navigator.maxTouchPoints > 0 || window.matchMedia('(any-pointer: coarse)').matches;
+}
+
+function hasHoverCapability(): boolean {
+  if (typeof window === 'undefined') return false;
+  // Primary (hover: hover) is unreliable on iPadOS with Magic Keyboard; any-hover
+  // becomes true when a trackpad/mouse that can hover is attached.
+  return (
+    window.matchMedia('(hover: hover)').matches ||
+    window.matchMedia('(any-hover: hover)').matches
+  );
+}
+
 /**
- * Touch-capable device that also reports hover (iPad + Magic Keyboard trackpad).
- * iPadOS always matches (hover: none) at the media-query level even with a
- * trackpad attached — use maxTouchPoints as the reliable signal.
+ * Touch-capable device that also has a hover-capable pointer (iPad + Magic Keyboard,
+ * Surface, etc.). Used to calm hover motion that flickers under hybrid input.
  */
 export function isHybridPointerDevice(): boolean {
   if (typeof window === 'undefined') return false;
-  const hasTouchScreen = navigator.maxTouchPoints > 0;
-  const hasHover = window.matchMedia('(hover: hover)').matches;
-  const hasCoarse = window.matchMedia('(any-pointer: coarse)').matches;
-  return hasHover && (hasCoarse || hasTouchScreen);
+  return hasHoverCapability() && hasTouchCapability();
+}
+
+/**
+ * Whether JS-driven hover lift / media activate should run.
+ *
+ * False when:
+ * - primary pointer cannot hover (`hover: none`, including iPadOS even with trackpad
+ *   mouse events — CSS also strips `transform` on `:hover` in that media query)
+ * - hybrid pointer (touch + hover) where trackpad hover thrash is common
+ */
+export function shouldEnablePointerHoverMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (!window.matchMedia('(hover: hover)').matches) return false;
+  if (isHybridPointerDevice()) return false;
+  return true;
 }
 
 /** Sentient nav drift — desktop laptops only; disabled on tablet / hybrid devices. */
@@ -28,4 +54,5 @@ export function shouldEnableSentientNav(): boolean {
 
 export function syncHybridPointerAttribute(root: HTMLElement = document.documentElement): void {
   root.setAttribute('data-hybrid-pointer', isHybridPointerDevice() ? 'true' : 'false');
+  root.setAttribute('data-hover-motion', shouldEnablePointerHoverMotion() ? 'true' : 'false');
 }

@@ -23,7 +23,7 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 - [ ] Colors via `var(--color-*)` only (no raw hex in new scoped styles)
 - [ ] Spacing via `var(--spacing-*)` or theme tokens (`--card-padding`, `--section-spacing`, etc.)
 - [ ] Motion via `var(--duration-*)` and `var(--ease-*)`
-- [ ] Motion continuity: no remount/restart on hover; wrapper-aware hover leave; entrance springs vs interaction tweens (see `design.md` § Motion continuity)
+- [ ] Motion continuity (hero): no `animPlayKey` / remount `key` on hover; no drift class toggle with `isHeroMediaActive`; `createStableCardHoverSetter` + `handleCardHoverLeave`; gate pointer with `pointerHoverDisabled` (not `hoverDisabled`) so Tab focus still lifts (see `design.md` § Motion continuity — CI: `hero-motion-continuity`)
 - [ ] Cards opaque — `flat`, `elevated`, `outlined`, `filled` only; never `glass`
 - [ ] Hover: color, shadow, transform only — no padding/margin/gap/width/height changes
 - [ ] Focus rings use `--focus-ring*` tokens

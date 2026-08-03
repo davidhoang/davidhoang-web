@@ -10,6 +10,7 @@ import {
 } from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 function cardClassName(card: Card, extra: string, isGlass: boolean) {
   return [
@@ -44,7 +45,9 @@ function FeaturedCard({
   const dial = useHeroDial();
   const cinematic = dial.cinematic;
   const isSelected = selectedCard === card.id;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled || reducedMotion);
 
   return (
     <motion.div
@@ -65,7 +68,9 @@ function FeaturedCard({
         layout: { type: 'spring', stiffness: cinematic.layoutStiffness, damping: cinematic.layoutDamping },
         scale: { type: 'spring', stiffness: cinematic.featuredScaleStiffness, damping: cinematic.featuredScaleDamping },
       }}
-      onMouseEnter={() => !selectedCard && onCardHover(card.id)}
+      onMouseEnter={() => {
+        if (!selectedCard && !pointerHoverDisabled && !reducedMotion) onCardHover(card.id);
+      }}
       onMouseMove={tilt.onMouseMove}
       onMouseLeave={(e) => handleCardHoverLeave(e, onCardHover, tilt.reset)}
       onClick={() => { tilt.reset(); onCardClick(card.id, card.link); }}
@@ -111,13 +116,17 @@ function FilmstripCard({
 }: FilmstripProps) {
   const dial = useHeroDial();
   const cinematic = dial.cinematic;
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const hoverDisabled = reducedMotion;
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled);
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
-    hoverDisabled: reducedMotion,
+    hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
@@ -129,7 +138,7 @@ function FilmstripCard({
   };
 
   const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
-    focused: reducedMotion
+    focused: hoverDisabled
       ? undefined
       : {
           scale: cinematic.filmstripHoverScale,

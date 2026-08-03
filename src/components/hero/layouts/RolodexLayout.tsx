@@ -9,6 +9,7 @@ import {
 } from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 interface RolodexCardProps {
   card: Card;
@@ -44,6 +45,7 @@ function RolodexCard({
   const dial = useHeroDial();
   const rolodex = dial.rolodex;
   const prefersReducedMotion = useReducedMotion();
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
 
   const offset = (index - activeIndex + totalCards) % totalCards;
   const angle = offset * angleStep;
@@ -53,13 +55,16 @@ function RolodexCard({
   const isFront = offset === 0;
   const isAdjacent = offset === 1 || offset === totalCards - 1;
 
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const hoverDisabled = Boolean(prefersReducedMotion) || !isFront;
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled || !isFront);
   const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
-    hoverDisabled: Boolean(prefersReducedMotion) || !isFront,
+    hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
@@ -85,13 +90,12 @@ function RolodexCard({
   };
 
   const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
-    focused:
-      prefersReducedMotion || !isFront
-        ? undefined
-        : {
-            scale: rolodex.hoverScale,
-            y: rolodex.hoverLiftY,
-          },
+    focused: hoverDisabled
+      ? undefined
+      : {
+          scale: rolodex.hoverScale,
+          y: rolodex.hoverLiftY,
+        },
     pressed: { scale: rolodex.tapScale },
     selected: {
       x: 0,

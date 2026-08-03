@@ -233,9 +233,13 @@ const ogImageUrl = ogImage.startsWith('http')
           var heroTier = w <= 480 ? 'compact' : w <= 768 ? 'mobile' : w <= 1024 ? 'tablet' : 'desktop';
           document.documentElement.setAttribute('data-viewport-tier', viewportTier);
           document.documentElement.setAttribute('data-hero-viewport', heroTier);
-          var hybridPointer = (navigator.maxTouchPoints > 0 || window.matchMedia('(any-pointer: coarse)').matches)
-            && window.matchMedia('(hover: hover)').matches;
+          var hasTouch = navigator.maxTouchPoints > 0 || window.matchMedia('(any-pointer: coarse)').matches;
+          var hasHover = window.matchMedia('(hover: hover)').matches
+            || window.matchMedia('(any-hover: hover)').matches;
+          var hybridPointer = hasTouch && hasHover;
+          var hoverMotion = window.matchMedia('(hover: hover)').matches && !hybridPointer;
           document.documentElement.setAttribute('data-hybrid-pointer', hybridPointer ? 'true' : 'false');
+          document.documentElement.setAttribute('data-hover-motion', hoverMotion ? 'true' : 'false');
         }
         syncViewportTier();
         window.__syncViewportTier = syncViewportTier;

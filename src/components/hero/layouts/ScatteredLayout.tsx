@@ -9,6 +9,7 @@ import {
 } from '../heroCardInteraction';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, scaleScatteredPosition, useHeroCardTilt } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 function seededRandom(seed: number) {
   let t = seed + 0x6D2B79F5;
@@ -104,13 +105,17 @@ function ScatteredCard({
     [position, dial.scattered.spreadX, dial.scattered.spreadY, dial.scattered.maxRotation]
   );
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useHeroCardTilt(dial, Boolean(selectedCard));
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const hoverDisabled = Boolean(prefersReducedMotion);
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, Boolean(selectedCard) || pointerHoverDisabled);
   const { phase, isSelected, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
     selectedCard,
     hoveredCard,
     isLoaded,
-    hoverDisabled: Boolean(prefersReducedMotion),
+    hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
@@ -124,7 +129,7 @@ function ScatteredCard({
   };
 
   const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
-    focused: prefersReducedMotion
+    focused: hoverDisabled
       ? undefined
       : {
           scale: scattered.hoverScale,

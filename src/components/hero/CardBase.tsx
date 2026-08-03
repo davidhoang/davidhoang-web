@@ -41,16 +41,13 @@ function CardHeroMedia({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  // Defer heavy animated WebPs / video until hover so idle cards only pay for the still.
+  // Defer heavy animated WebPs / video until first activate so idle cards only pay for the still.
+  // Keep the active layer mounted after that — remounting on every hover restart causes flicker
+  // (especially on iPad + Magic Keyboard trackpad where hover can thrash).
   const [loadActiveMedia, setLoadActiveMedia] = useState(false);
-  // Remount animated still-swap images on each activate — browsers often won't
-  // restart animated WebP/GIF playback when only toggling opacity.
-  const [animPlayKey, setAnimPlayKey] = useState(0);
 
   useEffect(() => {
-    if (!isHeroMediaActive) return;
-    setLoadActiveMedia(true);
-    setAnimPlayKey((key) => key + 1);
+    if (isHeroMediaActive) setLoadActiveMedia(true);
   }, [isHeroMediaActive]);
 
   useEffect(() => {
@@ -123,10 +120,10 @@ function CardHeroMedia({
           />
           {loadActiveMedia && (
             <img
-              key={`hero-anim-${card.id}-${animPlayKey}`}
               className={[
                 'card-hero-image card-hero-image--layer',
-                showDrift && isHeroMediaActive ? 'card-hero-image--drift' : '',
+                // Drift runs continuously once loaded — visibility via opacity, not class remount.
+                showDrift ? 'card-hero-image--drift' : '',
               ]
                 .filter(Boolean)
                 .join(' ')}

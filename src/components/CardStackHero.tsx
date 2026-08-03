@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, laz
 import { MotionConfig } from 'framer-motion';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
+import { createStableCardHoverSetter } from './hero/cardHover';
 import { isMobileHeroViewport, readHeroViewportTier } from './hero/heroViewport';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
@@ -53,6 +54,15 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const [entranceKey, setEntranceKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const stableHoverRef = useRef(createStableCardHoverSetter(setHoveredCard));
+  const onCardHover = useCallback((cardId: string | null) => {
+    stableHoverRef.current.onCardHover(cardId);
+  }, []);
+
+  useEffect(() => {
+    const { cancelPendingClear } = stableHoverRef.current;
+    return () => cancelPendingClear();
+  }, []);
 
   const replayEntrance = useCallback(() => {
     setHasAnimatedIn(false);
@@ -181,6 +191,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   }, [isInView, isLayoutReady]);
 
   const handleCardClick = (_cardId: string, link?: string) => {
+    stableHoverRef.current.cancelPendingClear();
     setHoveredCard(null);
     openCardLink(link);
   };
@@ -209,7 +220,7 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
             cardStyle={cardStyle}
             onCardClick={handleCardClick}
             onCardDismiss={() => {}}
-            onCardHover={setHoveredCard}
+            onCardHover={onCardHover}
           />
         </Suspense>
       </div>

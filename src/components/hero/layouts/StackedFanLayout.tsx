@@ -16,6 +16,7 @@ import {
 } from '../mobileHeroStack';
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt, useScaledFanPosition } from '../heroDialUtils';
+import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -97,8 +98,11 @@ function FanCard({
   const stackScale = isMobileStack ? mobileStack.position.scale : 1;
   const isFront = isMobileStack ? mobileStack.offset === 0 : true;
   const prefersReducedMotion = useReducedMotion();
-  const tilt = useHeroCardTilt(dial, isMobileStack);
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  // Pointer/tilt gated for hybrid; keyboard focus lift stays enabled (see pointerHoverDisabled).
   const hoverDisabled = Boolean(prefersReducedMotion) || isMobileStack;
+  const pointerHoverDisabled = !pointerHoverMotion;
+  const tilt = useHeroCardTilt(dial, isMobileStack || pointerHoverDisabled);
 
   const { phase, isFocused, clearPress, pointerHandlers } = useHeroCardInteraction({
     cardId: card.id,
@@ -106,6 +110,7 @@ function FanCard({
     hoveredCard,
     isLoaded,
     hoverDisabled,
+    pointerHoverDisabled,
     onCardHover,
     onTiltReset: tilt.reset,
   });
