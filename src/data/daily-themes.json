@@ -1,6 +1,369 @@
 {
   "themes": [
     {
+      "name": "Misty Aperture",
+      "description": "A Swiss-grid gallery at first light — cool mist over warm linen, where generous negative space and a single teal accent do the quiet work of a whole orchestra.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C2C30",
+          "--color-bg": "#EEF0EC",
+          "--color-link": "#20766B",
+          "--color-link-hover": "#1F7A6E",
+          "--color-border": "#C8CCC6",
+          "--color-muted": "#686B69",
+          "--color-sidebar-bg": "#E6E9E4",
+          "--color-nav-bg": "#EEF0EC",
+          "--color-nav-text": "#2C2C30",
+          "--color-card-bg": "#F5F6F4"
+        },
+        "dark": {
+          "--color-text": "#E8EAE6",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#2ABFAE",
+          "--color-link-hover": "#52D9CB",
+          "--color-border": "#253830",
+          "--color-muted": "#748985",
+          "--color-sidebar-bg": "#111E20",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#E8EAE6",
+          "--color-card-bg": "#142428"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Work Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "20px",
+        "containerMaxWidth": "1160px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEF0EC",
+          "#2A9D8F"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-08-04",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Misty Aperture",
+              "subtitle": "August 4, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid",
+              "div3",
+              "bot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "First light through frosted glass. One teal note sustains where lesser palettes would crowd the silence.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EEF0EC",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#F5F6F4",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#20766B",
+                  "label": "Teal"
+                },
+                {
+                  "hex": "#686B69",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#C8CCC6",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#2C2C30",
+                  "label": "Ink"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "ht",
+              "meta",
+              "badges"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Gallery at First Light",
+              "variant": "heading",
+              "weight": "300"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Radius",
+                  "value": "20px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif heading",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "analogous",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EEF0EC",
+                "#2A9D8F"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tokens",
+              "apply"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "text",
+                  "value": "#2C2C30"
+                },
+                {
+                  "name": "bg",
+                  "value": "#EEF0EC"
+                },
+                {
+                  "name": "link",
+                  "value": "#20766B"
+                },
+                {
+                  "name": "card",
+                  "value": "#F5F6F4"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Misty Aperture",
+              "action": "apply-theme",
+              "date": "2026-08-04"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Light Blade",
       "description": "Raw concrete brutalism pierced by ethereal golden light, inspired by Tadao Ando's sacred architecture",
       "colors": {
@@ -1384,242 +1747,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Electric Tokyo",
-      "description": "Shibuya neon reflections in rain-soaked streets, where digital noise meets atmospheric stillness",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1A2E",
-          "--color-bg": "#F8F5FF",
-          "--color-link": "#D9117D",
-          "--color-link-hover": "#FF6B35",
-          "--color-border": "#E0D4F7",
-          "--color-muted": "#7563A0",
-          "--color-sidebar-bg": "#F0EBFF",
-          "--color-nav-bg": "#F8F5FF",
-          "--color-nav-text": "#1A1A2E",
-          "--color-card-bg": "#FEFCFF"
-        },
-        "dark": {
-          "--color-text": "#E8E4F3",
-          "--color-bg": "#1A1A2E",
-          "--color-link": "#FF1493",
-          "--color-link-hover": "#00BFFF",
-          "--color-border": "#2D2B42",
-          "--color-muted": "#8D86C9",
-          "--color-sidebar-bg": "#16213E",
-          "--color-nav-bg": "#1A1A2E",
-          "--color-nav-text": "#E8E4F3",
-          "--color-card-bg": "#1B1B3A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "display",
-          "stack": "'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "'wght' 700, 'wdth' 90"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 0 24px rgba(255, 20, 147, 0.1)",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "neuro",
-        "colors": [
-          "#FF1493",
-          "#00BFFF",
-          "#1A1A2E"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "display",
-        "stack": "'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-06-07",
-      "showcase": {
-        "root": "tc",
-        "elements": {
-          "tc": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Electric Tokyo",
-              "subtitle": "Neon-soaked digital atmosphere"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "p1",
-              "d1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SHIBUYA NIGHTS",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#D9117D",
-                  "label": "link"
-                },
-                {
-                  "hex": "#FF6B35",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#7563A0",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#E0D4F7",
-                  "label": "border"
-                },
-                {
-                  "hex": "#F0EBFF",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#1A1A2E",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "lp",
-              "t1"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rain reflects the glow of digital billboards in Tokyo's electric maze",
-              "variant": "body"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-06-15"
+  "currentDate": "2026-08-04"
 }
