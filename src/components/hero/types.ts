@@ -70,9 +70,10 @@ export const cards: Card[] = [
     pattern: 'dots',
     link: 'https://youtu.be/piGC-iFwmrk',
     linkText: 'Watch talk',
-    heroImage: '/images/davidhoang-web-config.webp',
-    /** Static first frame — animated hero only while hovered / expanded (see CardHeroMedia). */
+    heroImage: '/images/davidhoang-web-config-still.webp',
+    /** Static first frame — video only while hovered / expanded (see CardHeroMedia). */
     heroImageStill: '/images/davidhoang-web-config-still.webp',
+    heroVideo: '/images/davidhoang-web-config.mp4',
   },
   {
     id: 'diveclub',
@@ -83,8 +84,9 @@ export const cards: Card[] = [
     pattern: 'waves',
     link: 'https://www.youtube.com/watch?v=6Z88rLjF-lc',
     linkText: 'Listen',
-    heroImage: '/images/davidhoang-web-ridd.webp',
+    heroImage: '/images/davidhoang-web-ridd-still.webp',
     heroImageStill: '/images/davidhoang-web-ridd-still.webp',
+    heroVideo: '/images/davidhoang-web-ridd.mp4',
   },
   {
     id: 'hatch',
@@ -96,8 +98,9 @@ export const cards: Card[] = [
     pattern: 'grid',
     link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
     linkText: 'Watch keynote',
-    heroImage: '/images/davidhoang-web-hatch.webp',
+    heroImage: '/images/davidhoang-web-hatch-still.webp',
     heroImageStill: '/images/davidhoang-web-hatch-still.webp',
+    heroVideo: '/images/davidhoang-web-hatch.mp4',
   },
   {
     id: 'about',

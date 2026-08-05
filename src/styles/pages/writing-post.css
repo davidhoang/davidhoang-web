@@ -152,19 +152,27 @@
 }
 
 /* Keep images inside the prose column — no bleed into the meta sidebar */
-.writing-post__prose :is(img, picture, figure) {
+.writing-post__prose :is(img, picture, figure, video) {
   max-width: 100%;
 }
 
 .writing-post__prose figure img,
 .writing-post__prose > p > img,
-.writing-post__prose > img {
+.writing-post__prose > img,
+.writing-post__prose .writing-inline-video,
+.writing-post__prose video {
   width: 100%;
   max-width: 100%;
   height: auto;
   margin-inline: 0;
   border-radius: var(--radius-md);
   display: block;
+}
+
+.writing-post__prose .writing-inline-video,
+.writing-post__prose video {
+  margin-block: var(--spacing-md);
+  background: var(--color-sidebar-bg);
 }
 
 .writing-post__prose > hr:last-of-type {

@@ -18,6 +18,7 @@ const namedChunkGzipCeilingsKiB = {
   ShaderBackground: 15,
   HeroCardShaderPattern: 12,
   client: 60, // react-dom client runtime
+  'react-vendor': 60,
   useMagneticTilt: 45, // framer-motion-heavy shared chunk
   // Vite manualChunks from astro.config.mjs (catch vendor/island regressions)
   'framer-motion': 55,
