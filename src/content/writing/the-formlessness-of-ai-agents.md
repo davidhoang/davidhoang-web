@@ -35,7 +35,9 @@ OpenClaw is an open‑source framework for controlling your computer through nat
 
 Tom saw a fundamental problem: how do you get OpenClaw to control actual motors in real time? His answer was ClawBody, a software bridge that connects OpenClaw to physical hardware so you can train agents in simulation, then deploy them to real robots. Chris asked a different question: what if robots could actually understand spatial depth? He integrated Intel RealSense cameras with OpenClaw and a vision‑language model so robots can track a person through space, maintain distance, and navigate obstacles, all driven by natural language.
 
-![ClawBody by Tom](/images/blog/2026/img-2026-04-12-formlessness-clawbody.webp)
+<div class="writing-inline-video-wrap">
+<video class="writing-inline-video" autoplay muted loop playsinline controls preload="metadata" poster="/images/blog/2026/img-2026-04-12-formlessness-clawbody-still.webp" width="554" height="312"><source src="/images/blog/2026/img-2026-04-12-formlessness-clawbody.mp4" type="video/mp4" /></video>
+</div>
 
 Then there's ClawStage, a device built by HooRii Technology that turns OpenClaw into a companion robot — a Raspberry Pi 5 with a transparent display that creates a hologram-like effect for an animated AI persona, with a camera and microphone array that let it perceive its surroundings and respond to voice directionally. Hackster users can design custom personalities for it, download characters from a shared hub, and make the intelligence feel like someone.
 

@@ -194,12 +194,61 @@ async function resizeLargeWebP(filePath) {
   }
 }
 
+const ANIMATED_WEBP_QUALITY = 45;
+const ANIMATED_WEBP_ALPHA_QUALITY = 40;
+const ANIMATED_COMPRESS_THRESHOLD_BYTES = 500 * 1024; // Prefer MP4 for huge animations; only trim oversized WebPs
+
+async function compressAnimatedWebP(filePath) {
+  const stats = statSync(filePath);
+  if (stats.size < ANIMATED_COMPRESS_THRESHOLD_BYTES) {
+    results.skipped.push({ path: filePath, reason: 'Animated WebP under size threshold' });
+    return;
+  }
+
+  try {
+    const inputMeta = await sharp(filePath, { animated: true, limitInputPixels: false }).metadata();
+    const pages = inputMeta.pages || 1;
+    const buf = await sharp(filePath, { animated: true, limitInputPixels: false })
+      .webp({ quality: ANIMATED_WEBP_QUALITY, alphaQuality: ANIMATED_WEBP_ALPHA_QUALITY, effort: 6 })
+      .toBuffer();
+    const outputMeta = await sharp(buf, { animated: true, limitInputPixels: false }).metadata();
+
+    if ((outputMeta.pages || 1) !== pages) {
+      results.skipped.push({
+        path: filePath,
+        reason: `Animated re-encode changed frame count (${pages} → ${outputMeta.pages || 1})`,
+      });
+      return;
+    }
+
+    if (buf.length >= stats.size * (1 - MIN_SAVINGS_RATIO)) {
+      results.skipped.push({ path: filePath, reason: 'Animated WebP already well-compressed' });
+      return;
+    }
+
+    const { writeFileSync } = await import('fs');
+    writeFileSync(filePath, buf);
+    const savedBytes = stats.size - buf.length;
+    results.compressed = results.compressed || [];
+    results.compressed.push({
+      path: filePath,
+      originalSize: stats.size,
+      newSize: buf.length,
+      savedBytes,
+      savedPercent: ((savedBytes / stats.size) * 100).toFixed(1),
+    });
+    results.totalSavedBytes += savedBytes;
+  } catch (error) {
+    results.errors.push({ path: filePath, error: error.message });
+  }
+}
+
 async function compressWebP(filePath) {
   const stats = statSync(filePath);
   if (stats.size < COMPRESS_THRESHOLD_BYTES) return;
 
   if (await isAnimatedWebP(filePath)) {
-    results.skipped.push({ path: filePath, reason: 'Animated WebP (compress skipped)' });
+    await compressAnimatedWebP(filePath);
     return;
   }
 

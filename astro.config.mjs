@@ -8,27 +8,40 @@ import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
 
 const MANUAL_CHUNKS = [
-  ['framer-motion', ['framer-motion']],
-  ['paper-shaders', ['@paper-design/shaders-react']],
+  // Vendor packages first — keep them free of app-component cycles.
+  ['react-vendor', ['node_modules/react/', 'node_modules/react-dom/', 'node_modules/scheduler/']],
+  ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
+  ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
   [
     'hero-components',
     [
       'src/components/CardStackHero.tsx',
+      'src/components/CardStackHeroLazy.tsx',
       'src/components/hero/types.ts',
       'src/components/hero/CardBase.tsx',
       'src/components/hero/HeroTitle.tsx',
       'src/components/hero/layouts/StackedFanLayout.tsx',
-      'src/components/HeroImageShader.tsx',
+      // HeroImageShader stays out — PageHeader mounts it site-wide and must not
+      // pull CardStackHero / framer-motion onto every page.
     ],
   ],
-  ['shader-components', ['src/components/ShaderBackground.tsx']],
-  ['utils', ['src/utils', 'src/plugins']],
+  [
+    'shader-components',
+    [
+      'src/components/ShaderBackground.tsx',
+      'src/components/HeroImageShader.tsx',
+      'src/components/TextureCardShader.tsx',
+    ],
+  ],
+  ['utils', ['src/utils/', 'src/plugins/']],
 ];
 
 function manualChunks(id) {
+  // Normalize Windows paths so includes() matchers stay reliable.
+  const normalized = id.replace(/\\/g, '/');
   for (const [chunkName, matchers] of MANUAL_CHUNKS) {
-    if (matchers.some((matcher) => id.includes(matcher))) {
+    if (matchers.some((matcher) => normalized.includes(matcher))) {
       return chunkName;
     }
   }
