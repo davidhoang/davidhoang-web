@@ -1,6 +1,321 @@
 {
   "themes": [
     {
+      "name": "Arroyo Ledger",
+      "description": "Dawn light catching the adobe wall — terracotta dust, ochre shadow, and the precise geometry of a surveyor's field index.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C1F14",
+          "--color-bg": "#FDEBD0",
+          "--color-link": "#AD3E0C",
+          "--color-link-hover": "#8B2E06",
+          "--color-border": "#C9A882",
+          "--color-muted": "#7D6248",
+          "--color-sidebar-bg": "#F5DDB8",
+          "--color-nav-bg": "#FDEBD0",
+          "--color-nav-text": "#2C1F14",
+          "--color-card-bg": "#FAE2C4"
+        },
+        "dark": {
+          "--color-text": "#F0DEC4",
+          "--color-bg": "#261A11",
+          "--color-link": "#E8854A",
+          "--color-link-hover": "#F5A86B",
+          "--color-border": "#5A3E2A",
+          "--color-muted": "#A18162",
+          "--color-sidebar-bg": "#2E2014",
+          "--color-nav-bg": "#261A11",
+          "--color-nav-text": "#F0DEC4",
+          "--color-card-bg": "#301F13"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FDEBD0",
+          "#C9A882"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-08-07",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Arroyo Ledger",
+              "subtitle": "August 7, 2026"
+            },
+            "children": [
+              "s-outer"
+            ]
+          },
+          "s-outer": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "palette",
+              "s-top",
+              "div1",
+              "s-mid",
+              "div2",
+              "s-bot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Dawn light on adobe — terracotta dust, ochre shadow, and the precise geometry of a surveyor's field index.",
+              "emphasis": "quiet"
+            }
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDEBD0",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#FAE2C4",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#C9A882",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#AD3E0C",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#7D6248",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#2C1F14",
+                  "label": "Ink"
+                }
+              ]
+            }
+          },
+          "s-top": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "heading-sample",
+              "hero-prev"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Field Notes, Section IV",
+              "variant": "heading",
+              "weight": "bold"
+            }
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Hero: Rolodex"
+            }
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            }
+          },
+          "s-mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "layout-prev"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Link style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Radius",
+                  "value": "2px"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Analogous"
+                }
+              ]
+            }
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            }
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            }
+          },
+          "s-bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b-serif",
+              "b-mono",
+              "b-card",
+              "b-retro",
+              "apply-btn"
+            ]
+          },
+          "b-serif": {
+            "type": "Badge",
+            "props": {
+              "text": "Fraunces serif",
+              "variant": "outlined"
+            }
+          },
+          "b-mono": {
+            "type": "Badge",
+            "props": {
+              "text": "IBM Plex Mono",
+              "variant": "outlined"
+            }
+          },
+          "b-card": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            }
+          },
+          "b-retro": {
+            "type": "Badge",
+            "props": {
+              "text": "retro footer",
+              "variant": "filled"
+            }
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Arroyo Ledger",
+              "action": "apply-theme",
+              "date": "2026-08-07"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Misty Aperture",
       "description": "A Swiss-grid gallery at first light — cool mist over warm linen, where generous negative space and a single teal accent do the quiet work of a whole orchestra.",
       "colors": {
@@ -1519,235 +1834,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Concrete Prayer",
-      "description": "Raw minimalism meets divine light in a meditation on material and spirit",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D2D2D",
-          "--color-bg": "#F5F1ED",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#C8C0B8",
-          "--color-muted": "#6E6B66",
-          "--color-sidebar-bg": "#F0ECE6",
-          "--color-nav-bg": "#F5F1ED",
-          "--color-nav-text": "#2D2D2D",
-          "--color-card-bg": "#F8F4F0"
-        },
-        "dark": {
-          "--color-text": "#E8E4E0",
-          "--color-bg": "#1A1816",
-          "--color-link": "#F4C430",
-          "--color-link-hover": "#FFD700",
-          "--color-border": "#3A3632",
-          "--color-muted": "#8A8680",
-          "--color-sidebar-bg": "#201E1C",
-          "--color-nav-bg": "#1A1816",
-          "--color-nav-text": "#E8E4E0",
-          "--color-card-bg": "#211F1D"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "'wght' 700"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-06-08",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Concrete Prayer",
-              "subtitle": "Raw minimalism meets divine light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "s2",
-              "p1",
-              "s3"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Material & Spirit",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp1"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "syne",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "lp1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2D2D2D",
-                  "label": "text"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "link"
-                },
-                {
-                  "hex": "#C8C0B8",
-                  "label": "border"
-                },
-                {
-                  "hex": "#F5F1ED",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#F8F4F0",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t2",
-              "t3"
-            ]
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Divine illumination through stark geometry",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "t3": {
-            "type": "TypeSample",
-            "props": {
-              "text": "zero radius • flat cards • inter body",
-              "variant": "caption"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-04"
+  "currentDate": "2026-08-07"
 }
