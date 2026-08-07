@@ -8,6 +8,7 @@ import FontPreloader from '../components/FontPreloader.astro';
 import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
+import { buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
@@ -310,31 +311,10 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- System stack font; remove external font preloads to reduce blocking. If reintroducing, prefer self-hosted and display=swap. -->
     <ClientRouter />
 
-    <!-- JSON-LD Structured Data -->
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://www.davidhoang.com/#person",
-          "name": "David Hoang",
-          "url": "https://www.davidhoang.com",
-          "sameAs": [
-            "https://twitter.com/davidhoang",
-            "https://github.com/davidhoang",
-            "https://linkedin.com/in/dhoang2"
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://www.davidhoang.com/#website",
-          "name": "David Hoang",
-          "url": "https://www.davidhoang.com",
-          "description": description,
-          "author": { "@id": "https://www.davidhoang.com/#person" }
-        }
-      ]
-    })} />
+    <!-- JSON-LD Structured Data (stable Person / WebSite / Blog / Notes graph) -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(buildSiteGraphJsonLd({
+      description: SITE_DESCRIPTION,
+    }))} />
 
     <slot name="head" />
 
@@ -775,6 +755,11 @@ const ogImageUrl = ogImage.startsWith('http')
         const { injectSpeedInsights } = await import('@vercel/speed-insights');
         injectSpeedInsights();
       }
+    </script>
+    <!-- Progressive experimental WebMCP — no-ops unless the browser exposes modelContext -->
+    <script>
+      import { initWebMcp } from '../scripts/webmcp';
+      initWebMcp();
     </script>
   </body>
 </html>

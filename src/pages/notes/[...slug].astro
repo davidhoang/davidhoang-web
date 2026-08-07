@@ -11,6 +11,13 @@ import { noteStageInfo } from '../../utils/noteStageInfo';
 import { parseYoutubeVideoId } from '../../utils/youtube';
 import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
 import RelatedContentSection from '../../components/RelatedContentSection.astro';
+import BlogMeta from '../../components/BlogMeta.astro';
+import { formatLongDate } from '../../utils/formatDate';
+import {
+  absoluteUrl,
+  buildNoteCreativeWorkJsonLd,
+  toIsoDate,
+} from '../../utils/structuredData';
 
 const overviewMd = new MarkdownIt({ html: false, linkify: true, breaks: true });
 
@@ -71,34 +78,27 @@ const ogImage =
   coverImage ||
   `/api/og?title=${encodeURIComponent(note.data.title)}&description=${encodeURIComponent(pageDescription)}&type=notes`;
 
-// Structured data for notes
-const siteUrl = 'https://www.davidhoang.com';
-const pathname = Astro.url.pathname.replace(/\/+$/, '');
-const canonicalUrl = `${siteUrl}${pathname}`;
+// Structured data for notes — CreativeWork (garden notes are not BlogPosting).
+const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
+const canonicalUrl = absoluteUrl(pathname);
 const markdownUrl = note.data.draft ? undefined : `${pathname}.md`;
-const noteOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
-const noteIsoDate = note.data.pubDate.toISOString();
-const noteIsoModified = note.data.updatedDate ? note.data.updatedDate.toISOString() : noteIsoDate;
+const noteOgImageUrl = absoluteUrl(ogImage);
+const noteIsoDate = toIsoDate(note.data.pubDate);
+const noteIsoModified = note.data.updatedDate
+  ? toIsoDate(note.data.updatedDate)
+  : noteIsoDate;
+const hasDistinctUpdate =
+  !!note.data.updatedDate && noteIsoModified !== noteIsoDate;
 
-const noteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": note.data.title,
-  "description": pageDescription,
-  "datePublished": noteIsoDate,
-  "dateModified": noteIsoModified,
-  "author": {
-    "@type": "Person",
-    "name": "David Hoang",
-    "url": "https://www.davidhoang.com"
-  },
-  "image": noteOgImageUrl,
-  "url": canonicalUrl,
-  "publisher": {
-    "@type": "Person",
-    "name": "David Hoang"
-  }
-};
+const noteJsonLd = buildNoteCreativeWorkJsonLd({
+  title: note.data.title,
+  description: pageDescription,
+  canonicalUrl,
+  datePublished: note.data.pubDate,
+  dateModified: note.data.updatedDate ?? note.data.pubDate,
+  imageUrl: noteOgImageUrl,
+  tags,
+});
 ---
 
 <MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage}>
@@ -106,6 +106,13 @@ const noteJsonLd = {
   {markdownUrl && (
     <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href={markdownUrl} />
   )}
+  <BlogMeta
+    slot="head"
+    ogImage={ogImage}
+    publishDate={note.data.pubDate}
+    modifiedDate={note.data.updatedDate}
+    tags={tags}
+  />
   {coverImage && (
     <div class="note-hero">
       <img
@@ -128,6 +135,15 @@ const noteJsonLd = {
 
     <header class="note-header">
       <h1>{note.data.title}</h1>
+      <div class="note-meta-row note-meta-row--dates">
+        <time datetime={noteIsoDate}>{formatLongDate(note.data.pubDate)}</time>
+        {hasDistinctUpdate && note.data.updatedDate && (
+          <span class="note-updated">
+            Updated{' '}
+            <time datetime={noteIsoModified}>{formatLongDate(note.data.updatedDate)}</time>
+          </span>
+        )}
+      </div>
       {tags.length > 0 && (
         <div class="note-meta-row">
           <span class="note-tags-inline">
@@ -274,6 +290,17 @@ const noteJsonLd = {
     font-size: 0.875rem;
     color: var(--color-muted);
     margin-bottom: 1rem;
+  }
+
+  .note-meta-row--dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-sm);
+    align-items: baseline;
+  }
+
+  .note-updated {
+    color: var(--color-muted);
   }
 
   .note-tags-inline {

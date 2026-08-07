@@ -5,13 +5,24 @@ import PageHeader from '../components/PageHeader.astro';
 import imgDavidSydney from '../assets/images/img-david-sydney.webp';
 import imgDavidNow from '../assets/images/img-david-now.webp';
 import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
+import {
+  buildNowPageJsonLd,
+  NOW_LAST_UPDATED,
+  NOW_LAST_UPDATED_LABEL,
+} from '../utils/structuredData';
 
 // Page metadata
 const pageDescription = "What I'm currently up to: working on AI and Ecosystem at Atlassian, writing Proof of Concept, learning Agent Experience, angel investing, and traveling between California and Sydney.";
 const ogImage = "/images/img-david-now.webp";
+
+const nowJsonLd = buildNowPageJsonLd({
+  description: pageDescription,
+  dateModified: NOW_LAST_UPDATED,
+});
 ---
 
 <MainLayout title="Now | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(nowJsonLd)} />
   <PageHeader
     title="Now"
     image={imgDavidNow.src}
@@ -19,7 +30,7 @@ const ogImage = "/images/img-david-now.webp";
   />
   <div class="content-page now-content container-narrow">
     <p class="content-page__meta">
-      Last updated: Saturday, June 6, 2026. Learn more about
+      Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about
       <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
     </p>
     <div class="now-photos">
