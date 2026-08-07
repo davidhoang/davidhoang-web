@@ -2,10 +2,16 @@
 interface Props {
   ogImage?: string;
   publishDate: Date;
+  /** When set and distinct from publishDate, emits article:modified_time. */
+  modifiedDate?: Date;
   tags?: string[];
 }
 
-const { ogImage, publishDate, tags } = Astro.props;
+const { ogImage, publishDate, modifiedDate, tags } = Astro.props;
+const modifiedIso =
+  modifiedDate && modifiedDate.getTime() !== publishDate.getTime()
+    ? modifiedDate.toISOString()
+    : undefined;
 const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.com').replace(/\/$/, '');
 const imageUrl = ogImage
   ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`)
@@ -30,6 +36,7 @@ const imageType = (() => {
     <head>; this component must be slotted into <head> (slot="head") and only adds
     the article + image-type tags MainLayout doesn't cover — no duplicates. */}
 <meta property="article:published_time" content={publishDate.toISOString()} />
+{modifiedIso && <meta property="article:modified_time" content={modifiedIso} />}
 <meta property="article:author" content="David Hoang" />
 {tags && tags.map((tag) => (
   <meta property="article:tag" content={tag} />
