@@ -6,6 +6,16 @@
  * Searches across pages, writing posts, and notes.
  */
 
+import { reportAgentEvent } from './agent-experience';
+import {
+  buildSearchEmptyEvent,
+  buildSearchErrorEvent,
+  buildSearchOpenEvent,
+  buildSearchSelectEvent,
+  resolveSearchResultType,
+  type SearchTrigger,
+} from '../utils/agentExperienceMetrics';
+
 interface SearchItem {
   title: string;
   description: string;
@@ -102,6 +112,7 @@ function createResultItem(item: SearchItem, resultIndex: number, query = '') {
   link.role = 'option';
   link.ariaSelected = 'false';
   link.dataset.path = item.path;
+  link.dataset.type = item.type;
   link.style.setProperty('--cmd-palette-stagger', `${resultIndex * 0.02}s`);
 
   const main = document.createElement('span');
@@ -208,6 +219,7 @@ export function initCommandPalette() {
   let triggerElement: HTMLElement | null = null;
   let searchIndex: SearchItem[] = [];
   let indexLoadId = 0;
+  let reportedEmptyForOpen = false;
 
   async function ensureSearchIndex() {
     const loadId = ++indexLoadId;
@@ -222,18 +234,21 @@ export function initCommandPalette() {
       if (loadId !== indexLoadId) return false;
       results!.replaceChildren(createErrorState('Search is temporarily unavailable'));
       if (liveRegion) liveRegion.textContent = 'Search index failed to load';
+      reportAgentEvent(buildSearchErrorEvent());
       return false;
     }
   }
 
   // --- Core actions ---
 
-  async function open() {
+  async function open(trigger: SearchTrigger = 'unknown') {
     // Remember what triggered the palette so we can restore focus on close
     triggerElement = document.activeElement as HTMLElement | null;
     nav!.classList.add('cmd-palette-active');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
+    reportedEmptyForOpen = false;
+    reportAgentEvent(buildSearchOpenEvent(trigger));
 
     const ready = searchIndex.length > 0 || await ensureSearchIndex();
     if (!ready) return;
@@ -272,7 +287,17 @@ export function initCommandPalette() {
     triggerElement = null;
   }
 
-  function navigate(path: string) {
+  function reportSelectFromElement(el: Element | null) {
+    const resultType = resolveSearchResultType(
+      el instanceof HTMLElement ? el.dataset.type : null,
+    );
+    if (resultType) {
+      reportAgentEvent(buildSearchSelectEvent(resultType));
+    }
+  }
+
+  function navigate(path: string, el?: Element | null) {
+    reportSelectFromElement(el ?? null);
     close();
     window.location.href = path;
   }
@@ -300,6 +325,11 @@ export function initCommandPalette() {
     if (matches.length === 0) {
       results!.replaceChildren(createEmptyState(q));
       if (liveRegion) liveRegion.textContent = `No results for ${q}`;
+      // One empty outcome per palette open — never include the query string.
+      if (!reportedEmptyForOpen) {
+        reportedEmptyForOpen = true;
+        reportAgentEvent(buildSearchEmptyEvent());
+      }
       showResults();
       return;
     }
@@ -359,23 +389,23 @@ export function initCommandPalette() {
     // ⌘K hint always opens palette
     if (target.closest('.cmd-k-hint')) {
       e.preventDefault();
-      void open();
+      void open('click');
       return;
     }
     if (target.closest('a') || target.closest('button')) return;
-    void open();
+    void open('click');
   }
 
   function handleDesktopNavClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (target.closest('.cmd-k-hint')) {
       e.preventDefault();
-      void open();
+      void open('click');
       return;
     }
     if (target.closest('a')) return;
     e.preventDefault();
-    void open();
+    void open('click');
   }
 
   // Input typing
@@ -407,9 +437,9 @@ export function initCommandPalette() {
       case 'Enter':
         e.preventDefault();
         if (activeIndex >= 0 && items[activeIndex]) {
-          navigate(items[activeIndex].getAttribute('data-path')!);
+          navigate(items[activeIndex].getAttribute('data-path')!, items[activeIndex]);
         } else if (items.length > 0) {
-          navigate(items[0].getAttribute('data-path')!);
+          navigate(items[0].getAttribute('data-path')!, items[0]);
         }
         break;
       case 'Tab':
@@ -421,7 +451,9 @@ export function initCommandPalette() {
 
   // Click a result
   function handleResultClick(e: MouseEvent) {
-    if ((e.target as HTMLElement).closest('.cmd-palette-item')) {
+    const item = (e.target as HTMLElement).closest('.cmd-palette-item');
+    if (item) {
+      reportSelectFromElement(item);
       close();
     }
   }
@@ -440,7 +472,7 @@ export function initCommandPalette() {
       if (nav!.classList.contains('cmd-palette-active')) {
         close();
       } else {
-        void open();
+        void open('keyboard');
       }
       return;
     }

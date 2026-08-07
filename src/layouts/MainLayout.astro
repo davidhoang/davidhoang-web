@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
 import ShaderBackground from '../components/ShaderBackground';
 import FontPreloader from '../components/FontPreloader.astro';
+import Analytics from '@vercel/analytics/astro';
 import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
@@ -775,6 +776,37 @@ const ogImageUrl = ogImage.startsWith('http')
         const { injectSpeedInsights } = await import('@vercel/speed-insights');
         injectSpeedInsights();
       }
+    </script>
+    <!--
+      Privacy beforeSend must be assigned before <Analytics> constructs.
+      Strips sensitive query params from pageview URLs (never sends email/query text).
+    -->
+    <script is:inline>
+      window.webAnalyticsBeforeSend = function (event) {
+        if (!event || !event.url) return event;
+        try {
+          var url = new URL(event.url);
+          ['email', 'e-mail', 'query', 'q', 'search', 'searchQuery', 'utm_term', 'utm_content'].forEach(
+            function (param) {
+              url.searchParams.delete(param);
+            },
+          );
+          return Object.assign({}, event, { url: url.toString() });
+        } catch (e) {
+          return event;
+        }
+      };
+    </script>
+    {import.meta.env.PROD && <Analytics mode="production" />}
+    <script>
+      import { initAgentExperience } from '../scripts/agent-experience';
+
+      function bootAgentExperience() {
+        initAgentExperience();
+      }
+
+      bootAgentExperience();
+      document.addEventListener('astro:page-load', bootAgentExperience);
     </script>
   </body>
 </html>
