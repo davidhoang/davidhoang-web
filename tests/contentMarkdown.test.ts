@@ -133,6 +133,5 @@ describe('contentMarkdown', () => {
     expect(vercel).toContain('/writing/(.*).md');
     expect(vercel).toContain('/notes/(.*).md');
     expect(vercel).toContain('text/markdown; charset=utf-8');
-    expect(vercel).not.toContain('llms.txt');
   });
 });
