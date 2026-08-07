@@ -31,6 +31,62 @@ export const commandPalettePages = [
   { title: 'Design Guide', description: 'Theme-responsive design system primitives', path: '/design-guide', type: 'page' },
 ] as const;
 
+/**
+ * Static pages included in /search-index.json for agents and ⌘K.
+ * Superset of commandPalettePages — covers intentional sitemap-visible
+ * destinations that are easy to omit from nav/palette alone (e.g. /works).
+ * Excludes utility routes (/default-layout, /404) and deprecated /labs.
+ */
+export const discoverableStaticPages = [
+  {
+    title: 'Home',
+    description:
+      'David Hoang — designer, investor, and builder. VP of Design, Rovo & AI and Ecosystem at Atlassian.',
+    path: '/',
+    type: 'page' as const,
+  },
+  ...commandPalettePages,
+  {
+    title: 'Works',
+    description:
+      'Selected work — career chapters as cards, talks and one-off events as a vertical list.',
+    path: '/works',
+    type: 'page' as const,
+  },
+  {
+    title: 'Design Resources',
+    description: 'Curated design tools, references, and resources.',
+    path: '/design-resources',
+    type: 'page' as const,
+  },
+  {
+    title: 'Thesis',
+    description:
+      'Convictions on the future of software design, AI-native management, and human × AI collaboration.',
+    path: '/thesis',
+    type: 'page' as const,
+  },
+  {
+    title: 'CV',
+    description: 'Curriculum vitae — roles and timeline.',
+    path: '/cv',
+    type: 'page' as const,
+  },
+  {
+    title: 'Prototypes',
+    description: 'Standalone proof-of-concept visuals and experiments.',
+    path: '/prototypes',
+    type: 'page' as const,
+  },
+  {
+    title: 'Tectonic Cross-Section',
+    description:
+      'Prototype: design leadership plate tectonics — uplift, thrust, and the new mountain range.',
+    path: '/prototypes/design-leadership-obduction',
+    type: 'page' as const,
+  },
+] as const;
+
 export const footerBrand = {
   tagline: 'Design, writing, and experiments.',
   emailHref: 'mailto:david@davidhoang.com',
