@@ -1,3 +1,103 @@
+# robots.txt for https://www.davidhoang.com
+#
+# Policy (human-readable): docs/ai-crawler-policy.md
+#
+# Stance: published site content is publicly crawlable for traditional search,
+# AI retrieval / citation, and model-training crawlers that honor robots.txt.
+# Only /api/ is disallowed (security / non-indexable endpoints).
+#
+# Limitations: robots.txt is voluntary. It cannot reliably distinguish every AI
+# use (user-triggered fetches, scrapers that ignore robots.txt, or operators
+# that combine training + retrieval under one user-agent). Group comments below
+# are documentation for maintainers; they are not a guarantee of enforcement.
+#
+# Syntax: RFC 9309-compatible (User-agent / Allow / Disallow / Sitemap).
+# Specific user-agent groups are listed before the wildcard default.
+
+# --- Traditional web search ---
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+
+# --- AI retrieval / search indexing & user-triggered fetches ---
+# These bots are commonly associated with answering or citing pages (not a
+# complete list; operators may change roles over time).
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /api/
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /api/
+
+# --- Model-training / extended AI datasets ---
+# Listed explicitly so training opt-out is a deliberate edit, not an accident.
+# Current policy: allowed (same public access as the rest of the site).
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /api/
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /api/
+
+# --- Default (all other crawlers) ---
 User-agent: *
 Allow: /
 Disallow: /api/
