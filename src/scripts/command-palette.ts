@@ -36,6 +36,21 @@ const TYPE_ORDER = ['page', 'writing', 'note'];
 let searchIndexCache: SearchItem[] | null = null;
 let searchIndexPromise: Promise<SearchItem[]> | null = null;
 
+/** Prefer bare arrays; tolerate a transitional `{ items }` envelope. */
+function normalizeSearchIndexPayload(payload: unknown): SearchItem[] {
+  if (Array.isArray(payload)) {
+    return payload as SearchItem[];
+  }
+  if (
+    payload &&
+    typeof payload === 'object' &&
+    Array.isArray((payload as { items?: unknown }).items)
+  ) {
+    return (payload as { items: SearchItem[] }).items;
+  }
+  throw new Error('Invalid search index payload');
+}
+
 function loadSearchIndex(): Promise<SearchItem[]> {
   if (searchIndexCache) return Promise.resolve(searchIndexCache);
   if (!searchIndexPromise) {
@@ -44,9 +59,10 @@ function loadSearchIndex(): Promise<SearchItem[]> {
         if (!response.ok) {
           throw new Error(`Failed to load search index (${response.status})`);
         }
-        return response.json() as Promise<SearchItem[]>;
+        return response.json();
       })
-      .then((index) => {
+      .then((payload) => {
+        const index = normalizeSearchIndexPayload(payload);
         searchIndexCache = index;
         return index;
       })

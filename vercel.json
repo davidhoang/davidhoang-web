@@ -36,7 +36,21 @@
     {
       "source": "/search-index.json",
       "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
+        { "key": "X-Search-Index-Schema-Version", "value": "1" }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/.well-known/agent.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
+        { "key": "Content-Type", "value": "application/json; charset=utf-8" }
       ]
     }
   ]
