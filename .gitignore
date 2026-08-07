@@ -4,8 +4,9 @@ dist/
 # generated types
 .astro/
 
-# dependencies
-node_modules/
+# dependencies (no trailing slash: also ignores a node_modules symlink,
+# e.g. when linking an install into a git worktree)
+node_modules
 
 # logs
 npm-debug.log*
