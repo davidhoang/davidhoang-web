@@ -179,6 +179,10 @@ Generated themes are stored in `src/data/daily-themes.json`:
 └── public/              # Static public files
 ```
 
+## Analytics & privacy
+
+Privacy-conscious measurement for agent/answer-engine experience uses [Vercel Web Analytics](https://vercel.com/docs/analytics) (plus existing Speed Insights). Custom events cover AI referral classification, command-palette search outcomes, and newsletter submit attempts — never query text, emails, or page content. AI crawler traffic must be measured in Vercel Firewall/Observability, not the browser. See [docs/agent-experience-measurement.md](docs/agent-experience-measurement.md).
+
 ## Learn More
 
 - [Astro Documentation](https://docs.astro.build)

@@ -42,6 +42,7 @@ Site: https://www.davidhoang.com
 - Sitemap auto-generated via @astrojs/sitemap (excludes /default-layout)
 - Performance: font LCP optimizer, responsive image srcset, aggressive bundle splitting, terser minification
 - Vercel Speed Insights for real-world Core Web Vitals monitoring
+- Vercel Web Analytics for privacy-conscious agent-experience events (AI referrals, search/newsletter outcomes); crawler traffic via Vercel Firewall — see `docs/agent-experience-measurement.md`
 - View transitions enabled with custom animations and reduced-motion support
 - Daily theme system with auto-generated themes
 

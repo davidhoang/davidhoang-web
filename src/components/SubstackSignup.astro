@@ -424,6 +424,9 @@ const showHeader = showTitle || Boolean(description?.trim());
 </style>
 
 <script>
+  import { reportAgentEvent } from '../scripts/agent-experience';
+  import { buildNewsletterSubmitEvent } from '../utils/agentExperienceMetrics';
+
   const PLACEHOLDER_ROTATION = [
     'you@vibes-and-prototypes.dev',
     'ship-it@experimental.news',
@@ -434,6 +437,10 @@ const showHeader = showTitle || Boolean(description?.trim());
 
   document.querySelectorAll('form[data-substack-signup]').forEach((form) => {
     form.addEventListener('submit', () => {
+      // Cross-origin Substack POST navigates away — only "attempted" is reliable here.
+      // Never send the email field (or any form values) to analytics.
+      reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
+
       const button = form.querySelector('.subscribe-button') as HTMLButtonElement | null;
       if (button) {
         button.classList.add('is-loading');
