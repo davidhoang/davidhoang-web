@@ -42,6 +42,7 @@ const ogImage = data.ogImage || coverImage || `/api/og?title=${encodeURIComponen
 
 const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
 const canonicalUrl = absoluteUrl(pathname);
+const markdownUrl = data.draft ? undefined : `${pathname}.md`;
 const ogImageUrl = absoluteUrl(ogImage);
 const isoDate = toIsoDate(pubDate);
 const publishDate = pubDate instanceof Date ? pubDate : new Date(pubDate);
@@ -67,6 +68,9 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
 <WritingLayout title={title} description={pageDescription} ogImage={ogImage} disableContentMoodFilter>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  {markdownUrl && (
+    <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href={markdownUrl} />
+  )}
   <BlogMeta slot="head" ogImage={ogImage} publishDate={publishDate} tags={tags} />
 
   <article class="writing-post" data-has-toc={tocHeadings.length > 0 ? '' : undefined} transition:animate={blogContent}>

@@ -81,6 +81,7 @@ const ogImage =
 // Structured data for notes — CreativeWork (garden notes are not BlogPosting).
 const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
 const canonicalUrl = absoluteUrl(pathname);
+const markdownUrl = note.data.draft ? undefined : `${pathname}.md`;
 const noteOgImageUrl = absoluteUrl(ogImage);
 const noteIsoDate = toIsoDate(note.data.pubDate);
 const noteIsoModified = note.data.updatedDate
@@ -102,6 +103,9 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
 
 <MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage}>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
+  {markdownUrl && (
+    <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href={markdownUrl} />
+  )}
   <BlogMeta
     slot="head"
     ogImage={ogImage}
