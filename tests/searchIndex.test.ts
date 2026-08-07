@@ -2,10 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { commandPalettePages, discoverableStaticPages } from '../src/data/navigation';
 import {
   absoluteUrl,
-  buildSearchIndexDocument,
+  buildSearchIndex,
   normalizePath,
   parseSearchIndexItems,
   SEARCH_INDEX_SCHEMA_VERSION,
+  SEARCH_INDEX_SCHEMA_VERSION_HEADER,
   SEARCH_INDEX_SITE,
   toIsoDate,
 } from '../src/utils/searchIndex';
@@ -31,6 +32,13 @@ describe('toIsoDate', () => {
   });
 });
 
+describe('schema version contract', () => {
+  it('exports a stable integer version and header name', () => {
+    expect(SEARCH_INDEX_SCHEMA_VERSION).toBe(1);
+    expect(SEARCH_INDEX_SCHEMA_VERSION_HEADER).toBe('X-Search-Index-Schema-Version');
+  });
+});
+
 describe('discoverableStaticPages', () => {
   it('includes every command-palette page plus sitemap-visible destinations', () => {
     const paths = new Set(discoverableStaticPages.map((page) => page.path));
@@ -53,11 +61,8 @@ describe('discoverableStaticPages', () => {
   });
 });
 
-describe('buildSearchIndexDocument', () => {
-  const generatedAt = '2026-08-07T01:00:00.000Z';
-
-  const document = buildSearchIndexDocument({
-    generatedAt,
+describe('buildSearchIndex', () => {
+  const items = buildSearchIndex({
     pages: [
       { title: 'Home', description: 'Home page', path: '/' },
       { title: 'Works', description: 'Selected work', path: '/works' },
@@ -86,16 +91,14 @@ describe('buildSearchIndexDocument', () => {
     ],
   });
 
-  it('emits a stable versioned envelope', () => {
-    expect(document.schemaVersion).toBe(SEARCH_INDEX_SCHEMA_VERSION);
-    expect(document.schemaVersion).toBe(1);
-    expect(document.generatedAt).toBe(generatedAt);
-    expect(document.site).toBe(SEARCH_INDEX_SITE);
-    expect(Array.isArray(document.items)).toBe(true);
+  it('emits a bare array body (not an object envelope)', () => {
+    expect(Array.isArray(items)).toBe(true);
+    expect(items).not.toHaveProperty('schemaVersion');
+    expect(items).not.toHaveProperty('items');
   });
 
   it('preserves command-palette fields on every item', () => {
-    for (const item of document.items) {
+    for (const item of items) {
       expect(typeof item.title).toBe('string');
       expect(typeof item.description).toBe('string');
       expect(typeof item.path).toBe('string');
@@ -105,7 +108,7 @@ describe('buildSearchIndexDocument', () => {
   });
 
   it('adds richer fields for writing and notes', () => {
-    const writing = document.items.find((item) => item.path === '/writing/hello');
+    const writing = items.find((item) => item.path === '/writing/hello');
     expect(writing).toMatchObject({
       type: 'writing',
       pubDate: '2025-06-15',
@@ -113,7 +116,7 @@ describe('buildSearchIndexDocument', () => {
       url: `${SEARCH_INDEX_SITE}/writing/hello`,
     });
 
-    const note = document.items.find((item) => item.path === '/notes/seed');
+    const note = items.find((item) => item.path === '/notes/seed');
     expect(note).toMatchObject({
       type: 'note',
       pubDate: '2025-01-04',
@@ -126,17 +129,22 @@ describe('buildSearchIndexDocument', () => {
   });
 
   it('dedupes by path and normalizes trailing slashes', () => {
-    const aboutMatches = document.items.filter((item) => item.path === '/about');
+    const aboutMatches = items.filter((item) => item.path === '/about');
     expect(aboutMatches).toHaveLength(1);
   });
 });
 
 describe('parseSearchIndexItems', () => {
-  it('reads items from the v1 envelope', () => {
+  it('reads the public bare-array shape', () => {
+    const bare = [
+      { title: 'About', description: 'Bio', path: '/about', type: 'page' as const },
+    ];
+    expect(parseSearchIndexItems(bare)).toEqual(bare);
+  });
+
+  it('tolerates a transitional { items } envelope', () => {
     const items = parseSearchIndexItems({
       schemaVersion: 1,
-      generatedAt: '2026-08-07T00:00:00.000Z',
-      site: SEARCH_INDEX_SITE,
       items: [
         { title: 'About', description: 'Bio', path: '/about', type: 'page' },
       ],
@@ -144,13 +152,6 @@ describe('parseSearchIndexItems', () => {
     expect(items).toEqual([
       { title: 'About', description: 'Bio', path: '/about', type: 'page' },
     ]);
-  });
-
-  it('keeps legacy bare arrays working for older consumers', () => {
-    const legacy = [
-      { title: 'About', description: 'Bio', path: '/about', type: 'page' as const },
-    ];
-    expect(parseSearchIndexItems(legacy)).toEqual(legacy);
   });
 
   it('rejects invalid payloads', () => {

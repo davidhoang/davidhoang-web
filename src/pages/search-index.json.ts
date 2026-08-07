@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import { discoverableStaticPages } from '../data/navigation';
 import { resolveNoteStage } from '../content/noteStages';
 import {
-  buildSearchIndexDocument,
+  buildSearchIndex,
+  SEARCH_INDEX_SCHEMA_VERSION,
+  SEARCH_INDEX_SCHEMA_VERSION_HEADER,
   SEARCH_INDEX_SITE,
 } from '../utils/searchIndex';
 
@@ -16,7 +18,7 @@ export const GET: APIRoute = async () => {
   const writingPosts = await getCollection('writing', ({ data }) => !data.draft);
   const notesPosts = await getCollection('notes', ({ data }) => !data.draft);
 
-  const document = buildSearchIndexDocument({
+  const items = buildSearchIndex({
     site: SEARCH_INDEX_SITE,
     pages: discoverableStaticPages.map((page) => ({
       title: page.title,
@@ -42,10 +44,11 @@ export const GET: APIRoute = async () => {
     })),
   });
 
-  return new Response(JSON.stringify(document), {
+  return new Response(JSON.stringify(items), {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': CACHE_CONTROL,
+      [SEARCH_INDEX_SCHEMA_VERSION_HEADER]: String(SEARCH_INDEX_SCHEMA_VERSION),
     },
   });
 };

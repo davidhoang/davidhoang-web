@@ -2,19 +2,16 @@
  * /search-index.json — machine-readable discovery index for ⌘K and agents.
  *
  * Schema version: SEARCH_INDEX_SCHEMA_VERSION (integer).
- * Bump when removing/renaming fields or changing the top-level document shape.
- * Additive optional fields on items do not require a bump.
+ * Published on every response as header SEARCH_INDEX_SCHEMA_VERSION_HEADER
+ * (`X-Search-Index-Schema-Version`). Bump when removing/renaming item fields or
+ * changing the top-level JSON shape (must remain a bare array). Additive
+ * optional fields on items do not require a bump.
  *
- * Document shape (v1):
- * {
- *   schemaVersion: number,
- *   generatedAt: string (ISO-8601),
- *   site: string (canonical origin),
- *   items: SearchIndexItem[]
- * }
+ * Response body (v1): SearchIndexItem[] — a JSON array (not an object envelope).
  *
  * Each item always includes title, description, path, type for command-palette
- * compatibility. Agents also get url (absolute), optional dates/tags/stage/excerpt.
+ * and external-consumer compatibility. Agents also get url (absolute), optional
+ * dates/tags/stage/excerpt.
  */
 
 import type { NoteStage } from '../content/noteStages';
@@ -22,8 +19,14 @@ import type { NoteStage } from '../content/noteStages';
 /** Canonical public origin (matches astro.config `site`). */
 export const SEARCH_INDEX_SITE = 'https://www.davidhoang.com';
 
-/** Integer schema version for the JSON document envelope. */
+/**
+ * Integer schema version for item fields and the bare-array body shape.
+ * Exposed to clients via SEARCH_INDEX_SCHEMA_VERSION_HEADER.
+ */
 export const SEARCH_INDEX_SCHEMA_VERSION = 1;
+
+/** Stable response header that advertises SEARCH_INDEX_SCHEMA_VERSION. */
+export const SEARCH_INDEX_SCHEMA_VERSION_HEADER = 'X-Search-Index-Schema-Version';
 
 export type SearchIndexItemType = 'page' | 'writing' | 'note';
 
@@ -50,13 +53,6 @@ export type SearchIndexItem = SearchIndexCompatFields & {
    * When omitted, agents should treat `description` as the excerpt.
    */
   excerpt?: string;
-};
-
-export type SearchIndexDocument = {
-  schemaVersion: number;
-  generatedAt: string;
-  site: string;
-  items: SearchIndexItem[];
 };
 
 export type SearchIndexPageInput = {
@@ -87,7 +83,6 @@ export type SearchIndexNoteInput = {
 
 export type BuildSearchIndexInput = {
   site?: string;
-  generatedAt?: Date | string;
   pages: readonly SearchIndexPageInput[];
   writing: readonly SearchIndexWritingInput[];
   notes: readonly SearchIndexNoteInput[];
@@ -186,15 +181,12 @@ function buildNoteItem(note: SearchIndexNoteInput, site: string): SearchIndexIte
 }
 
 /**
- * Pure builder for the versioned search-index document.
+ * Pure builder for the search-index array body.
  * Callers must exclude drafts before passing writing/notes.
+ * Schema version is advertised via SEARCH_INDEX_SCHEMA_VERSION_HEADER, not the body.
  */
-export function buildSearchIndexDocument(input: BuildSearchIndexInput): SearchIndexDocument {
+export function buildSearchIndex(input: BuildSearchIndexInput): SearchIndexItem[] {
   const site = (input.site ?? SEARCH_INDEX_SITE).replace(/\/+$/, '');
-  const generatedAt =
-    typeof input.generatedAt === 'string'
-      ? input.generatedAt
-      : (input.generatedAt ?? new Date()).toISOString();
 
   const byPubDateDesc = <T extends { pubDate: Date }>(a: T, b: T) =>
     b.pubDate.valueOf() - a.pubDate.valueOf();
@@ -209,17 +201,12 @@ export function buildSearchIndexDocument(input: BuildSearchIndexInput): SearchIn
     .sort(byPubDateDesc)
     .map((note) => buildNoteItem(note, site));
 
-  return {
-    schemaVersion: SEARCH_INDEX_SCHEMA_VERSION,
-    generatedAt,
-    site,
-    items: uniqueByPath([...pageItems, ...writingItems, ...noteItems]),
-  };
+  return uniqueByPath([...pageItems, ...writingItems, ...noteItems]);
 }
 
 /**
  * Normalize a fetched payload for command-palette consumers.
- * Accepts the v1 envelope or a legacy bare array of items.
+ * Accepts the public bare array, or a transitional `{ items }` envelope.
  */
 export function parseSearchIndexItems(payload: unknown): SearchIndexCompatFields[] {
   if (Array.isArray(payload)) {
@@ -228,9 +215,9 @@ export function parseSearchIndexItems(payload: unknown): SearchIndexCompatFields
   if (
     payload &&
     typeof payload === 'object' &&
-    Array.isArray((payload as SearchIndexDocument).items)
+    Array.isArray((payload as { items?: unknown }).items)
   ) {
-    return (payload as SearchIndexDocument).items.filter(isCompatItem);
+    return ((payload as { items: unknown[] }).items).filter(isCompatItem);
   }
   throw new Error('Invalid search index payload');
 }

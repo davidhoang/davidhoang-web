@@ -26,7 +26,7 @@ const TYPE_ORDER = ['page', 'writing', 'note'];
 let searchIndexCache: SearchItem[] | null = null;
 let searchIndexPromise: Promise<SearchItem[]> | null = null;
 
-/** Support v1 `{ items }` envelope and legacy bare arrays. */
+/** Prefer bare arrays; tolerate a transitional `{ items }` envelope. */
 function normalizeSearchIndexPayload(payload: unknown): SearchItem[] {
   if (Array.isArray(payload)) {
     return payload as SearchItem[];
