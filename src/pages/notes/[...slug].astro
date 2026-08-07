@@ -73,7 +73,9 @@ const ogImage =
 
 // Structured data for notes
 const siteUrl = 'https://www.davidhoang.com';
-const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
+const pathname = Astro.url.pathname.replace(/\/+$/, '');
+const canonicalUrl = `${siteUrl}${pathname}`;
+const markdownUrl = note.data.draft ? undefined : `${pathname}.md`;
 const noteOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 const noteIsoDate = note.data.pubDate.toISOString();
 const noteIsoModified = note.data.updatedDate ? note.data.updatedDate.toISOString() : noteIsoDate;
@@ -101,6 +103,9 @@ const noteJsonLd = {
 
 <MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage}>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
+  {markdownUrl && (
+    <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href={markdownUrl} />
+  )}
   {coverImage && (
     <div class="note-hero">
       <img
