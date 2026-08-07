@@ -34,7 +34,7 @@ const INDEX: SearchIndexItem[] = [
 ];
 
 function mockModelContext() {
-  const registerTool = vi.fn(async () => undefined);
+  const registerTool = vi.fn<WebMcpModelContext['registerTool']>(async () => undefined);
   const ctx = {
     registerTool,
     addEventListener: vi.fn(),
