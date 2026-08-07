@@ -776,5 +776,10 @@ const ogImageUrl = ogImage.startsWith('http')
         injectSpeedInsights();
       }
     </script>
+    <!-- Progressive experimental WebMCP — no-ops unless the browser exposes modelContext -->
+    <script>
+      import { initWebMcp } from '../scripts/webmcp';
+      initWebMcp();
+    </script>
   </body>
 </html>
