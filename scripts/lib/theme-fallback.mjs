@@ -9,6 +9,10 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
+/**
+ * @typedef {Record<string, any>} ThemeRecord
+ */
+
 export const LAST_GOOD_THEME_CACHE_VERSION = 1;
 export const CLAUDE_API_UNAVAILABLE_CODE = 'CLAUDE_API_UNAVAILABLE';
 
@@ -40,7 +44,8 @@ export function lastGoodThemeCachePath(rootDir) {
 
 /**
  * Strip internal generator tracking fields before caching/saving.
- * @param {object} theme
+ * @param {ThemeRecord | null | undefined} theme
+ * @returns {ThemeRecord | null}
  */
 export function sanitizeThemeForCache(theme) {
   if (!theme || typeof theme !== 'object') return null;
@@ -49,14 +54,15 @@ export function sanitizeThemeForCache(theme) {
     _contextMarkdown,
     ...rest
   } = theme;
-  return structuredClone(rest);
+  return /** @type {ThemeRecord} */ (structuredClone(rest));
 }
 
 /**
  * Persist a successfully generated theme as the last-good cache.
  * @param {string} rootDir
- * @param {object} theme
+ * @param {ThemeRecord} theme
  * @param {{ savedAt?: string }} [options]
+ * @returns {{ version: number, savedAt: string, sourceDate: string | null, theme: ThemeRecord }}
  */
 export function saveLastGoodTheme(rootDir, theme, options = {}) {
   const sanitized = sanitizeThemeForCache(theme);
@@ -67,7 +73,7 @@ export function saveLastGoodTheme(rootDir, theme, options = {}) {
   const payload = {
     version: LAST_GOOD_THEME_CACHE_VERSION,
     savedAt: options.savedAt || new Date().toISOString(),
-    sourceDate: sanitized.date || null,
+    sourceDate: typeof sanitized.date === 'string' ? sanitized.date : null,
     theme: sanitized,
   };
 
@@ -80,7 +86,7 @@ export function saveLastGoodTheme(rootDir, theme, options = {}) {
 /**
  * Load the dedicated last-good cache, falling back to daily-themes.json[0].
  * @param {string} rootDir
- * @returns {{ theme: object, source: 'cache' | 'history', sourceDate: string | null } | null}
+ * @returns {{ theme: ThemeRecord, source: 'cache' | 'history', sourceDate: string | null } | null}
  */
 export function loadLastGoodTheme(rootDir) {
   const cachePath = lastGoodThemeCachePath(rootDir);
@@ -88,7 +94,7 @@ export function loadLastGoodTheme(rootDir) {
     const raw = JSON.parse(readFileSync(cachePath, 'utf-8'));
     if (raw?.theme && typeof raw.theme === 'object') {
       return {
-        theme: structuredClone(raw.theme),
+        theme: /** @type {ThemeRecord} */ (structuredClone(raw.theme)),
         source: 'cache',
         sourceDate: raw.sourceDate || raw.theme.date || null,
       };
@@ -103,7 +109,7 @@ export function loadLastGoodTheme(rootDir) {
     const latest = themesData?.themes?.[0];
     if (latest && typeof latest === 'object') {
       return {
-        theme: structuredClone(latest),
+        theme: /** @type {ThemeRecord} */ (structuredClone(latest)),
         source: 'history',
         sourceDate: latest.date || null,
       };
@@ -117,8 +123,9 @@ export function loadLastGoodTheme(rootDir) {
 
 /**
  * Clone a prior theme for reuse on a new calendar day.
- * @param {object} theme
+ * @param {ThemeRecord} theme
  * @param {string} date YYYY-MM-DD
+ * @returns {ThemeRecord}
  */
 export function buildFallbackTheme(theme, date) {
   const next = sanitizeThemeForCache(theme);
@@ -184,6 +191,12 @@ export function allCandidatesFailedFromApi(candidateAttempts) {
  * Resolve a reusable fallback theme for today, or null if none exists.
  * @param {string} rootDir
  * @param {string} [date]
+ * @returns {{
+ *   theme: ThemeRecord,
+ *   source: 'cache' | 'history',
+ *   sourceDate: string | null,
+ *   reusedFrom: string,
+ * } | null}
  */
 export function resolveLastGoodFallback(rootDir, date = new Date().toISOString().split('T')[0]) {
   const loaded = loadLastGoodTheme(rootDir);
@@ -193,6 +206,6 @@ export function resolveLastGoodFallback(rootDir, date = new Date().toISOString()
     theme: buildFallbackTheme(loaded.theme, date),
     source: loaded.source,
     sourceDate: loaded.sourceDate,
-    reusedFrom: loaded.theme?.name || 'unknown',
+    reusedFrom: typeof loaded.theme?.name === 'string' ? loaded.theme.name : 'unknown',
   };
 }
