@@ -12,6 +12,11 @@
  * Environment:
  *   ANTHROPIC_API_KEY - Required for Claude API access
  *
+ * Resilience:
+ *   Successful runs cache the winner in src/data/last-good-theme.json.
+ *   If the Claude API is unavailable (or the key is missing), the generator
+ *   reuses that last-good theme for today and exits 0 so deploys are not blocked.
+ *
  * Options:
  *   --inspiration "Name"   Pick a design inspiration from the bank
  *   --recipe "id"          Force an art-direction recipe
@@ -57,6 +62,13 @@ import {
   saveSignatureCache,
 } from './lib/theme-signature-cache.mjs';
 import { hexToHsl } from './lib/theme-color-distance.mjs';
+import {
+  allCandidatesFailedFromApi,
+  ClaudeApiUnavailableError,
+  isClaudeApiError,
+  resolveLastGoodFallback,
+  saveLastGoodTheme,
+} from './lib/theme-fallback.mjs';
 
 const DEFAULT_THEME_CANDIDATE_COUNT = 3;
 const CANDIDATE_LENSES = [
@@ -687,8 +699,9 @@ async function generateTheme(options = {}) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
-    console.error('Error: ANTHROPIC_API_KEY environment variable is required');
-    process.exit(1);
+    throw new ClaudeApiUnavailableError(
+      'ANTHROPIC_API_KEY environment variable is required',
+    );
   }
 
   const client = new Anthropic({ apiKey });
@@ -802,6 +815,11 @@ async function generateTheme(options = {}) {
     const reasons = candidateAttempts
       .map((candidate) => candidate.error?.message || 'unknown failure')
       .join(' | ');
+    if (allCandidatesFailedFromApi(candidateAttempts)) {
+      throw new ClaudeApiUnavailableError(
+        `All theme candidates failed because the Claude API was unavailable. ${reasons}`,
+      );
+    }
     throw new Error(
       `All theme candidates failed validation or WCAG AA contrast checks. No theme was saved. ${reasons}`,
     );
@@ -909,11 +927,22 @@ async function requestThemeCandidate({
       ...imagePrefixBlocks,
       { type: 'text', text: prompt },
     ];
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: contentBlocks }],
-    });
+    let message;
+    try {
+      message = await client.messages.create({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: contentBlocks }],
+      });
+    } catch (apiError) {
+      if (isClaudeApiError(apiError)) {
+        throw new ClaudeApiUnavailableError(
+          `Claude API unavailable while generating theme candidate: ${apiError.message}`,
+          { cause: apiError },
+        );
+      }
+      throw apiError;
+    }
     const responseText = message.content[0].text.trim();
 
     try {
@@ -1078,6 +1107,27 @@ function parseArgs() {
   return options;
 }
 
+function applyApiFallback(error) {
+  const today = new Date().toISOString().split('T')[0];
+  const fallback = resolveLastGoodFallback(rootDir, today);
+  if (!fallback) {
+    return null;
+  }
+
+  console.warn(`\nClaude API unavailable: ${error.message}`);
+  console.warn(
+    `Reusing last-good theme "${fallback.reusedFrom}"` +
+      `${fallback.sourceDate ? ` from ${fallback.sourceDate}` : ''}` +
+      ` (source: ${fallback.source}) as today's theme.`,
+  );
+
+  // Keep any prior showcase payload from the cached theme; do not call Claude again.
+  updateThemeHistory(fallback.theme);
+  updateBuildLog(fallback.theme, 'fallback');
+  console.log('\nDaily theme fallback complete (last-good theme reused).');
+  return fallback.theme;
+}
+
 // Main
 async function main() {
   try {
@@ -1115,10 +1165,23 @@ async function main() {
     }
 
     updateThemeHistory(theme);
+    saveLastGoodTheme(rootDir, theme);
+    console.log('Cached last-good theme for API outage fallback');
     updateBuildLog(theme);
 
     console.log('\nDaily theme generation complete!');
   } catch (error) {
+    if (isClaudeApiError(error)) {
+      const reused = applyApiFallback(error);
+      if (reused) {
+        process.exit(0);
+      }
+      console.error('Error generating theme:', error.message);
+      console.error('No last-good theme cache or history available to fall back to.');
+      updateBuildLog({ name: 'Generation Failed' }, 'error');
+      process.exit(1);
+    }
+
     console.error('Error generating theme:', error.message);
 
     // Log failure

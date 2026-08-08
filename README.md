@@ -83,6 +83,7 @@ The website features an AI-powered theme generation system that creates a unique
 5. Playwright renders every candidate (and only cache-miss recent themes) at 390px, 1440px, and 1920px
 6. Ranking prefers viewport-safe candidates with higher layout + palette distance from recent themes, and penalizes warm-cream / lavender AI attractors
 7. The winning theme is saved to `src/data/daily-themes.json` (7-day history); edge signatures land in `src/data/theme-render-signatures.json` for the next run
+8. The winner is also cached in `src/data/last-good-theme.json`. If the Claude API is unavailable at generation time, that last-good theme is reused for today (build log status `fallback`) so the daily-theme workflow can still complete
 
 Navigation dimensions and page scaffolding remain framework-controlled across every theme.
 
