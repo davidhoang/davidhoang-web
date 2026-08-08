@@ -8,6 +8,10 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
+/**
+ * @typedef {Record<string, any>} ThemeRecord
+ */
+
 export const LAST_GOOD_THEME_RELATIVE_PATH = join('src', 'data', 'last-good-theme.json');
 export const DAILY_THEMES_RELATIVE_PATH = join('src', 'data', 'daily-themes.json');
 
@@ -153,7 +157,7 @@ export function dailyThemesPath(rootDir) {
 }
 
 /**
- * @param {object | null | undefined} theme
+ * @param {ThemeRecord | null | undefined} theme
  * @returns {boolean}
  */
 export function isUsableTheme(theme) {
@@ -169,7 +173,8 @@ export function isUsableTheme(theme) {
 /**
  * Persist a successfully generated theme as the last-good cache.
  * @param {string} rootDir
- * @param {object} theme
+ * @param {ThemeRecord} theme
+ * @returns {{ cachedAt: string, sourceDate: string | null, theme: ThemeRecord }}
  */
 export function saveLastGoodTheme(rootDir, theme) {
   if (!isUsableTheme(theme)) {
@@ -183,7 +188,7 @@ export function saveLastGoodTheme(rootDir, theme) {
   const payload = {
     cachedAt: new Date().toISOString(),
     sourceDate: themeToSave.date || null,
-    theme: themeToSave,
+    theme: /** @type {ThemeRecord} */ (themeToSave),
   };
 
   writeFileSync(path, JSON.stringify(payload, null, 2));
@@ -193,13 +198,13 @@ export function saveLastGoodTheme(rootDir, theme) {
 /**
  * Load the dedicated last-good cache, if present.
  * @param {string} rootDir
- * @returns {object | null}
+ * @returns {ThemeRecord | null}
  */
 export function loadLastGoodThemeCache(rootDir) {
   try {
     const raw = JSON.parse(readFileSync(lastGoodThemePath(rootDir), 'utf-8'));
-    if (isUsableTheme(raw?.theme)) return raw.theme;
-    if (isUsableTheme(raw)) return raw;
+    if (isUsableTheme(raw?.theme)) return /** @type {ThemeRecord} */ (raw.theme);
+    if (isUsableTheme(raw)) return /** @type {ThemeRecord} */ (raw);
     return null;
   } catch {
     return null;
@@ -209,6 +214,7 @@ export function loadLastGoodThemeCache(rootDir) {
 /**
  * Load themes history file.
  * @param {string} rootDir
+ * @returns {{ themes: ThemeRecord[], currentDate: string | null }}
  */
 export function loadDailyThemesData(rootDir) {
   try {
@@ -221,7 +227,7 @@ export function loadDailyThemesData(rootDir) {
 /**
  * Resolve the best last-good theme from cache, then history.
  * @param {string} rootDir
- * @returns {object | null}
+ * @returns {ThemeRecord | null}
  */
 export function loadLastGoodTheme(rootDir) {
   const cached = loadLastGoodThemeCache(rootDir);
@@ -234,8 +240,9 @@ export function loadLastGoodTheme(rootDir) {
 
 /**
  * Clone a prior theme for today's date when Claude is unavailable.
- * @param {object} theme
+ * @param {ThemeRecord} theme
  * @param {{ date: string, reason?: string }} options
+ * @returns {ThemeRecord}
  */
 export function reuseLastGoodTheme(theme, { date, reason = 'Claude API unavailable' } = {}) {
   if (!isUsableTheme(theme)) {
@@ -245,7 +252,7 @@ export function reuseLastGoodTheme(theme, { date, reason = 'Claude API unavailab
     throw new Error('Fallback theme requires a YYYY-MM-DD date');
   }
 
-  const reused = structuredClone(theme);
+  const reused = /** @type {ThemeRecord} */ (structuredClone(theme));
   const sourceDate = reused.date || null;
 
   reused.date = date;
@@ -268,7 +275,8 @@ export function reuseLastGoodTheme(theme, { date, reason = 'Claude API unavailab
 /**
  * Decide whether generation should fall back instead of failing the job.
  * @param {unknown} error
- * @param {object | null} lastGood
+ * @param {ThemeRecord | null} lastGood
+ * @returns {boolean}
  */
 export function shouldUseLastGoodFallback(error, lastGood) {
   return isClaudeApiUnavailableError(error) && isUsableTheme(lastGood);
