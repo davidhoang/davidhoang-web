@@ -1,0 +1,380 @@
+{
+  "cachedAt": "2026-08-08T21:20:40.394Z",
+  "sourceDate": "2026-08-08",
+  "theme": {
+    "name": "Botanical Sérigraphie",
+    "description": "Art Nouveau's botanical obsession filtered through dawn's pale awakening — silkscreen-flat cards, jewel-toned botanical accents, and an organic scattered rhythm.",
+    "colors": {
+      "colorScheme": "split-complementary",
+      "contrastMode": "standard",
+      "light": {
+        "--color-text": "#2C2416",
+        "--color-bg": "#EEF5EE",
+        "--color-link": "#7B3FA0",
+        "--color-link-hover": "#5A2D75",
+        "--color-border": "#B8D4B8",
+        "--color-muted": "#5B755B",
+        "--color-sidebar-bg": "#E4F0E4",
+        "--color-nav-bg": "#EEF5EE",
+        "--color-nav-text": "#2C2416",
+        "--color-card-bg": "#F5FAF5"
+      },
+      "dark": {
+        "--color-text": "#DFF0DF",
+        "--color-bg": "#0D1F22",
+        "--color-link": "#C084E0",
+        "--color-link-hover": "#D9ADEE",
+        "--color-border": "#2A4A30",
+        "--color-muted": "#6B8D70",
+        "--color-sidebar-bg": "#0A1A1C",
+        "--color-nav-bg": "#0D1F22",
+        "--color-nav-text": "#DFF0DF",
+        "--color-card-bg": "#122A2E"
+      }
+    },
+    "fonts": {
+      "heading": {
+        "name": "Lora",
+        "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Lora', Georgia, 'Times New Roman', serif"
+      },
+      "body": {
+        "name": "Figtree",
+        "url": "https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "sans-serif",
+        "stack": "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      }
+    },
+    "typography": {
+      "headingWeight": "700",
+      "bodyWeight": "400",
+      "bodyLineHeight": "1.75",
+      "letterSpacing": "0.01em",
+      "headingLetterSpacing": "-0.02em",
+      "headingTransform": "none",
+      "scaleRatio": "1.618",
+      "fontVariationSettings": "normal"
+    },
+    "cards": {
+      "style": "filled",
+      "shadow": "none",
+      "borderWidth": "2px",
+      "padding": "1.5rem"
+    },
+    "layout": {
+      "borderRadius": "12px",
+      "containerMaxWidth": "1140px",
+      "sectionSpacing": "4rem",
+      "contentPadding": "1.5rem",
+      "gridStyle": "magazine"
+    },
+    "hero": {
+      "layout": "scattered"
+    },
+    "links": {
+      "style": "highlight"
+    },
+    "background": {
+      "texture": "dots"
+    },
+    "images": {
+      "style": "duotone",
+      "hover": "glow",
+      "opacity": "0.92",
+      "borderRadius": "10px"
+    },
+    "footer": {
+      "style": "retro"
+    },
+    "shader": {
+      "type": "none",
+      "colors": [
+        "#EEF5EE",
+        "#B8D4B8"
+      ]
+    },
+    "font": {
+      "name": "Lora",
+      "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+      "category": "serif",
+      "stack": "'Lora', Georgia, 'Times New Roman', serif"
+    },
+    "artDirection": {
+      "recipe": "playground",
+      "name": "Color Playground",
+      "dominantPrimitive": "surface"
+    },
+    "date": "2026-08-08",
+    "showcase": {
+      "root": "card",
+      "elements": {
+        "card": {
+          "type": "ThemeCard",
+          "props": {
+            "title": "Botanical Sérigraphie",
+            "subtitle": "August 8, 2026"
+          },
+          "children": [
+            "manifesto",
+            "div1",
+            "palette",
+            "div2",
+            "mid",
+            "div3",
+            "meta",
+            "div4",
+            "bot"
+          ]
+        },
+        "manifesto": {
+          "type": "ThemeManifesto",
+          "props": {
+            "text": "Pressed petals under silkscreen ink. Dawn light through a greenhouse pane. Every card a herbarium specimen — flat, jewelled, alive.",
+            "emphasis": "quiet"
+          },
+          "children": []
+        },
+        "div1": {
+          "type": "Divider",
+          "props": {
+            "style": "dotted"
+          },
+          "children": []
+        },
+        "palette": {
+          "type": "ColorPalette",
+          "props": {
+            "colors": [
+              {
+                "hex": "#EEF5EE",
+                "label": "Greenhouse"
+              },
+              {
+                "hex": "#B8D4B8",
+                "label": "Fern Mist"
+              },
+              {
+                "hex": "#7B3FA0",
+                "label": "Silkscreen"
+              },
+              {
+                "hex": "#5B755B",
+                "label": "Moss Ink"
+              },
+              {
+                "hex": "#2C2416",
+                "label": "Press Dark"
+              },
+              {
+                "hex": "#F5FAF5",
+                "label": "Card Bloom"
+              }
+            ]
+          },
+          "children": []
+        },
+        "div2": {
+          "type": "Divider",
+          "props": {
+            "style": "dashed"
+          },
+          "children": []
+        },
+        "mid": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "stretch"
+          },
+          "children": [
+            "left",
+            "right"
+          ]
+        },
+        "left": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "start"
+          },
+          "children": [
+            "ht",
+            "badges",
+            "tokens"
+          ]
+        },
+        "ht": {
+          "type": "TypeSample",
+          "props": {
+            "text": "Flora Sérigraphée",
+            "variant": "heading",
+            "weight": "700"
+          },
+          "children": []
+        },
+        "badges": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "sm",
+            "align": "center"
+          },
+          "children": [
+            "b1",
+            "b2",
+            "b3"
+          ]
+        },
+        "b1": {
+          "type": "Badge",
+          "props": {
+            "text": "serif / Lora",
+            "variant": "outlined"
+          },
+          "children": []
+        },
+        "b2": {
+          "type": "Badge",
+          "props": {
+            "text": "magazine grid",
+            "variant": "filled"
+          },
+          "children": []
+        },
+        "b3": {
+          "type": "Badge",
+          "props": {
+            "text": "duotone images",
+            "variant": "outlined"
+          },
+          "children": []
+        },
+        "tokens": {
+          "type": "TokenGrid",
+          "props": {
+            "tokens": [
+              {
+                "name": "radius",
+                "value": "12px"
+              },
+              {
+                "name": "texture",
+                "value": "dot-grid"
+              },
+              {
+                "name": "link",
+                "value": "highlight"
+              },
+              {
+                "name": "scheme",
+                "value": "split-complementary"
+              }
+            ]
+          },
+          "children": []
+        },
+        "right": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "center"
+          },
+          "children": [
+            "hero",
+            "layout"
+          ]
+        },
+        "hero": {
+          "type": "HeroLayoutPreview",
+          "props": {
+            "layout": "scattered",
+            "label": "Scattered Specimens"
+          },
+          "children": []
+        },
+        "layout": {
+          "type": "LayoutPreview",
+          "props": {
+            "style": "magazine"
+          },
+          "children": []
+        },
+        "div3": {
+          "type": "Divider",
+          "props": {
+            "style": "dotted"
+          },
+          "children": []
+        },
+        "meta": {
+          "type": "ThemeMeta",
+          "props": {
+            "items": [
+              {
+                "label": "Body Font",
+                "value": "Figtree (sans-serif)"
+              },
+              {
+                "label": "Card Style",
+                "value": "Filled · hover glow"
+              },
+              {
+                "label": "Footer",
+                "value": "Retro"
+              },
+              {
+                "label": "Shader",
+                "value": "None — pure flat"
+              },
+              {
+                "label": "Contrast",
+                "value": "Standard"
+              }
+            ]
+          },
+          "children": []
+        },
+        "div4": {
+          "type": "Divider",
+          "props": {
+            "style": "solid"
+          },
+          "children": []
+        },
+        "bot": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "center"
+          },
+          "children": [
+            "swatch",
+            "apply"
+          ]
+        },
+        "swatch": {
+          "type": "ColorSwatch",
+          "props": {
+            "color": "#7B3FA0",
+            "label": "Accent — Silkscreen Violet"
+          },
+          "children": []
+        },
+        "apply": {
+          "type": "ThemeActionButton",
+          "props": {
+            "label": "Apply Botanical Sérigraphie",
+            "action": "apply-theme",
+            "date": "2026-08-08"
+          },
+          "children": []
+        }
+      }
+    }
+  }
+}
