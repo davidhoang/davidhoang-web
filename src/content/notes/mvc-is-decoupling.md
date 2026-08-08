@@ -5,6 +5,7 @@ pubDate: 2025-01-04
 stage: thoughts
 tags: ["software", "ai", "architecture"]
 relatedWriting: ["a-new-mvc-is-emerging"]
+relatedNotes: ["dynamic-interfaces"]
 ---
 
 Traditional MVC separated data, UI, and logic. AI and decentralized protocols are shifting this toward dynamic, agent-orchestrated, distributed systems.

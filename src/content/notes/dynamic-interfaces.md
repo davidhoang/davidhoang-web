@@ -16,6 +16,7 @@ pubDate: 2026-04-04
 stage: sketching
 tags: ["interface-design", "ai", "systems"]
 relatedWriting: ["waiting-for-ais-pull-to-refresh-moment", "a-new-mvc-is-emerging"]
+relatedNotes: ["mvc-is-decoupling", "ai-interface-systems"]
 links:
   - title: "Dynamic Interfaces — Proof of Concept"
     url: "https://www.proofofconcept.pub/p/dynamic-interface"
