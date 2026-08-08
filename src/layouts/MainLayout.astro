@@ -653,11 +653,15 @@ const ogImageUrl = ogImage.startsWith('http')
     </div>
 
     <script>
-      /** Mood filter on .content-filter-wrapper breaks position:sticky; disable on long-form posts (see theme-variations.css). */
+      /** Mood filter + overflow-x:hidden break position:sticky; bypass on pages with sticky Contents. */
       function syncBlogPostMoodFilterBypass() {
         document.body.classList.toggle(
           'layout-no-content-filter',
-          Boolean(document.querySelector('article.blog-post, article.writing-post')),
+          Boolean(
+            document.querySelector(
+              'article.blog-post, article.writing-post, .contents-nav',
+            ),
+          ),
         );
       }
       syncBlogPostMoodFilterBypass();

@@ -24,7 +24,7 @@ This guide documents the design primitives and CSS classes that automatically re
 16. [Utility Classes](#utility-classes)
 17. [Theme-Specific Variations](#theme-variations)
 
-Live gallery: [`/design-guide`](/design-guide) · Theme archive: [`/daily-themes`](/daily-themes) · Agent contract: [`design.md`](/design.md)
+[Guide](/design-guide) · [design.md](/design.md) · [Components](/design-guide.md) · [Themes](/daily-themes)
 
 ---
 

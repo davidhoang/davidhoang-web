@@ -1,4 +1,6 @@
 ---
+import ContentsNav from './ContentsNav.astro';
+
 interface Heading {
   depth: number;
   slug: string;
@@ -55,9 +57,9 @@ const asideAria =
   variant === 'meta-only' || variant === 'meta-sidebar'
     ? 'Newsletter and social links'
     : variant === 'sidebar'
-      ? 'Table of contents and links'
+      ? 'Contents and links'
       : variant === 'toc-left' || variant === 'toc-only'
-        ? 'Table of contents'
+        ? 'Contents'
         : 'Sidebar with additional information';
 
 const stickySlotClass = [
@@ -72,30 +74,17 @@ const stickySlotClass = [
 {
   showAside &&
     (variant === 'toc-left' ? (
-      <aside class="writing-toc-left" role="navigation" aria-label="Table of contents">
-        <div class="writing-toc-left__inner">
-          <p class="writing-toc-left__label">Table of Contents</p>
-          <ul class="toc-list writing-toc-left__list" role="list">
-            {tocHeadings.map((heading) => (
-              <li class:list={['toc-item', `toc-item--depth-${heading.depth}`]}>
-                <a href={`#${heading.slug}`} class="toc-link writing-toc-left__link" data-heading-slug={heading.slug}>
-                  {heading.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </aside>
+      <ContentsNav items={tocHeadings} />
     ) : useStickyPanel ? (
       <aside class={stickySlotClass} role="complementary" aria-label={asideAria}>
         <div
           class:list={['sidebar-toc-panel', variant === 'meta-sidebar' && 'writing-meta-sidebar__panel']}
           role={showToc ? 'navigation' : undefined}
-          aria-label={showToc ? 'Table of contents' : undefined}
+          aria-label={showToc ? 'Contents' : undefined}
         >
           {showToc && (
             <>
-              <h2 class="toc-heading">Table of Contents</h2>
+              <h2 class="toc-heading">Contents</h2>
               <ul class="toc-list" role="list">
                 {tocHeadings.map((heading) => (
                   <li class:list={['toc-item', `toc-item--depth-${heading.depth}`]}>
@@ -140,8 +129,8 @@ const stickySlotClass = [
     ) : (
       <aside class={asideClass} role="complementary" aria-label={asideAria}>
         {showToc && (
-          <nav class="sidebar-section toc-section" aria-label="Table of contents">
-            <h2>Table of Contents</h2>
+          <nav class="sidebar-section toc-section" aria-label="Contents">
+            <h2 class="toc-heading">Contents</h2>
             <ul class="toc-list" role="list">
               {tocHeadings.map((heading) => (
                 <li class:list={['toc-item', `toc-item--depth-${heading.depth}`]}>
@@ -191,41 +180,46 @@ const stickySlotClass = [
   }
 
   function initTocScrollSpy() {
-    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+    /* Left sticky ContentsNav owns its own spy; only wire card/inline TOC links here. */
+    const tocLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(
+        '.sidebar-toc-panel .toc-link, .toc-section .toc-link',
+      ),
+    );
     if (tocLinks.length === 0) return;
 
-    const headingElements: HTMLElement[] = [];
-    tocLinks.forEach((link) => {
-      const slug = link.dataset.headingSlug;
-      if (slug) {
-        const el = document.getElementById(slug);
-        if (el) headingElements.push(el);
-      }
-    });
+    const headingElements = tocLinks
+      .map((link) => {
+        const slug = link.dataset.headingSlug;
+        return slug ? document.getElementById(slug) : null;
+      })
+      .filter((el): el is HTMLElement => Boolean(el));
 
     if (headingElements.length === 0) return;
 
-    function updateActiveHeading() {
-      const scrollY = window.scrollY;
-      const offset = 120;
+    const setActive = (activeSlug: string | undefined) => {
+      tocLinks.forEach((link) => {
+        link.classList.toggle('active', link.dataset.headingSlug === activeSlug);
+        if (link.dataset.headingSlug === activeSlug) {
+          link.setAttribute('aria-current', 'true');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    };
 
+    const updateActiveHeading = () => {
+      const offset = 120;
       let activeSlug = headingElements[0]?.id;
       for (const heading of headingElements) {
-        if (heading.offsetTop - offset <= scrollY) {
+        if (heading.getBoundingClientRect().top - offset <= 0) {
           activeSlug = heading.id;
         } else {
           break;
         }
       }
-
-      tocLinks.forEach((link) => {
-        if (link.dataset.headingSlug === activeSlug) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
+      setActive(activeSlug);
+    };
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -239,21 +233,22 @@ const stickySlotClass = [
           const behavior = reduceMotion.matches ? 'auto' : 'smooth';
           target.scrollIntoView({ behavior, block: 'start' });
           history.pushState(null, '', `#${slug}`);
+          setActive(slug);
         }
       });
     });
 
     let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateActiveHeading();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActiveHeading();
+        ticking = false;
+      });
+    };
 
+    window.addEventListener('scroll', onScroll, { passive: true });
     updateActiveHeading();
   }
 
@@ -301,10 +296,10 @@ const stickySlotClass = [
   }
 
   .toc-heading {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-transform: none;
     margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs)) 0;
     color: var(--color-muted);
   }
@@ -421,14 +416,6 @@ const stickySlotClass = [
     padding-left: 1.25rem;
   }
 
-  .writing-toc-left__list .toc-item--depth-2 {
-    padding-left: 0.5rem;
-  }
-
-  .writing-toc-left__list .toc-item--depth-3 {
-    padding-left: 1rem;
-  }
-
   .toc-link {
     display: block;
     width: 100%;
@@ -531,10 +518,6 @@ const stickySlotClass = [
       display: none !important;
     }
 
-    .writing-toc-left {
-      display: none;
-    }
-
     .writing-meta-sidebar-slot .sidebar-toc-panel {
       position: static;
       max-width: 100%;
@@ -578,60 +561,6 @@ const stickySlotClass = [
     .writing-meta-sidebar-slot .sidebar-toc-panel {
       padding: var(--spacing-md);
     }
-  }
-
-  /* Left-column TOC — text-only, no card (writing posts) */
-  .writing-toc-left {
-    align-self: stretch;
-    min-width: 0;
-    justify-self: end;
-  }
-
-  .writing-toc-left__inner {
-    position: sticky;
-    top: calc(var(--nav-offset-top, 24px) + var(--nav-height, 48px) + 1.5rem);
-    z-index: 2;
-    padding-top: 0.25rem;
-    text-align: right;
-  }
-
-  .writing-toc-left__label {
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs) / 2);
-    color: var(--color-muted);
-    opacity: 0.85;
-  }
-
-  .writing-toc-left__list {
-    border: none;
-  }
-
-  .writing-toc-left__link {
-    padding: 0.25rem 0;
-    font-size: 0.75rem;
-    line-height: 1.45;
-    border-left: none;
-    border-radius: 0;
-    background: transparent;
-    text-align: right;
-  }
-
-  .writing-toc-left__link:hover {
-    background: transparent;
-    color: var(--color-text);
-  }
-
-  .writing-toc-left__link.active {
-    color: var(--color-text);
-    font-weight: 500;
-    background: transparent;
-    border-left: none;
-    text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-link) 45%, transparent);
-    text-underline-offset: 0.2em;
   }
 
   /* Right-column meta sidebar (writing posts) */

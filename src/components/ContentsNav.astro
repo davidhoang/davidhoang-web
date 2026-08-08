@@ -1,0 +1,300 @@
+---
+interface Item {
+  slug: string;
+  text: string;
+  depth?: number;
+}
+
+interface Props {
+  items: Item[];
+  label?: string;
+}
+
+const { items, label = 'Contents' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <aside class="contents-nav" role="navigation" aria-label={label}>
+      <div class="contents-nav__inner">
+        <p class="contents-nav__label">{label}</p>
+        <ul class="contents-nav__list" role="list">
+          <li class="contents-nav__indicator" aria-hidden="true"></li>
+          {items.map((item) => (
+            <li class:list={['contents-nav__item', `contents-nav__item--depth-${item.depth ?? 2}`]}>
+              <a
+                href={`#${item.slug}`}
+                class="toc-link contents-nav__link"
+                data-heading-slug={item.slug}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  )
+}
+
+<script>
+  function initContentsNavSpy() {
+    const roots = document.querySelectorAll<HTMLElement>('.contents-nav');
+    if (roots.length === 0) return;
+
+    roots.forEach((root) => {
+      if (root.dataset.tocSpy === '1') return;
+      root.dataset.tocSpy = '1';
+
+      const list = root.querySelector<HTMLElement>('.contents-nav__list');
+      const indicator = root.querySelector<HTMLElement>('.contents-nav__indicator');
+      const tocLinks = Array.from(root.querySelectorAll<HTMLAnchorElement>('.toc-link'));
+      if (!list || !indicator || tocLinks.length === 0) return;
+
+      const headingElements = tocLinks
+        .map((link) => {
+          const slug = link.dataset.headingSlug;
+          return slug ? document.getElementById(slug) : null;
+        })
+        .filter((el): el is HTMLElement => Boolean(el));
+
+      if (headingElements.length === 0) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let activeSlug: string | undefined;
+      let indicatorReady = false;
+
+      const moveIndicator = (link: HTMLAnchorElement | undefined) => {
+        if (!link) {
+          indicator.style.opacity = '0';
+          return;
+        }
+
+        const listRect = list.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        const top = linkRect.top - listRect.top + list.scrollTop;
+        const height = linkRect.height;
+
+        if (!indicatorReady || reduceMotion.matches) {
+          indicator.style.transition = 'none';
+        } else {
+          indicator.style.transition = '';
+        }
+
+        indicator.style.opacity = '1';
+        indicator.style.transform = `translate3d(0, ${top}px, 0)`;
+        indicator.style.height = `${height}px`;
+
+        if (!indicatorReady) {
+          // Force layout so the first move doesn't animate from 0
+          void indicator.offsetHeight;
+          indicatorReady = true;
+          indicator.style.transition = '';
+        }
+      };
+
+      const setActive = (nextSlug: string | undefined) => {
+        if (nextSlug === activeSlug) return;
+
+        activeSlug = nextSlug;
+        let activeLink: HTMLAnchorElement | undefined;
+
+        tocLinks.forEach((link) => {
+          const isActive = link.dataset.headingSlug === nextSlug;
+          link.classList.toggle('active', isActive);
+          if (isActive) {
+            link.setAttribute('aria-current', 'true');
+            activeLink = link;
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+
+        moveIndicator(activeLink);
+      };
+
+      const updateActiveHeading = () => {
+        const offset = 120;
+        let nextSlug = headingElements[0]?.id;
+        for (const heading of headingElements) {
+          if (heading.getBoundingClientRect().top - offset <= 0) {
+            nextSlug = heading.id;
+          } else {
+            break;
+          }
+        }
+        setActive(nextSlug);
+      };
+
+      tocLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const slug = link.dataset.headingSlug;
+          if (!slug) return;
+          const target = document.getElementById(slug);
+          if (!target) return;
+          const behavior = reduceMotion.matches ? 'auto' : 'smooth';
+          target.scrollIntoView({ behavior, block: 'start' });
+          history.pushState(null, '', `#${slug}`);
+          setActive(slug);
+        });
+      });
+
+      let ticking = false;
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            updateActiveHeading();
+            ticking = false;
+          });
+        },
+        { passive: true },
+      );
+
+      window.addEventListener('resize', () => {
+        const current = tocLinks.find((link) => link.dataset.headingSlug === activeSlug);
+        moveIndicator(current);
+      });
+
+      updateActiveHeading();
+    });
+  }
+
+  document.addEventListener('astro:page-load', initContentsNavSpy);
+</script>
+
+<style>
+  .contents-nav {
+    align-self: stretch;
+    min-width: 0;
+    justify-self: start;
+    overflow: visible;
+  }
+
+  .contents-nav__inner {
+    position: sticky;
+    top: calc(var(--nav-offset-top, 24px) + var(--nav-height, 48px) + var(--spacing-lg));
+    z-index: 2;
+    max-height: calc(100dvh - var(--nav-offset-top, 24px) - var(--nav-height, 48px) - var(--spacing-2xl));
+    overflow: clip auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    padding-block: var(--spacing-xs);
+    text-align: left;
+  }
+
+  .contents-nav__label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-muted);
+  }
+
+  .contents-nav__list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contents-nav__indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: 1px;
+    background: var(--color-link);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, 0, 0);
+    transition:
+      transform var(--duration-slower) var(--ease-emphasized),
+      height var(--duration-slower) var(--ease-emphasized),
+      opacity var(--duration-normal) var(--ease-standard);
+    will-change: transform, height;
+  }
+
+  .contents-nav__item {
+    margin: 0;
+  }
+
+  .contents-nav__item--depth-2 .contents-nav__link {
+    padding-left: var(--spacing-sm);
+  }
+
+  .contents-nav__item--depth-3 .contents-nav__link {
+    padding-left: var(--spacing-md);
+  }
+
+  .contents-nav__link {
+    display: block;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding: calc(var(--spacing-xs) + 0.1rem) var(--spacing-sm);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--color-muted);
+    text-decoration: none;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    text-align: left;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    transition:
+      color var(--duration-slow) var(--ease-standard),
+      opacity var(--duration-slow) var(--ease-standard);
+  }
+
+  .contents-nav__link::before,
+  .contents-nav__link::after {
+    display: none;
+  }
+
+  .contents-nav__list:has(.contents-nav__link.active) .contents-nav__link:not(.active) {
+    opacity: 0.72;
+  }
+
+  .contents-nav__link:hover {
+    background: transparent;
+    color: var(--color-text);
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  .contents-nav__link:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .contents-nav__link.active {
+    color: var(--color-text);
+    opacity: 1;
+    background: transparent;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contents-nav__indicator,
+    .contents-nav__link {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .contents-nav {
+      display: none;
+    }
+  }
+</style>

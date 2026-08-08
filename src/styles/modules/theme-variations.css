@@ -60,6 +60,16 @@ body.layout-no-content-filter .content-filter-wrapper {
   transition: none !important;
 }
 
+/*
+  overflow-x: hidden on html/body (base.css) computes overflow-y to auto, so body
+  becomes a non-scrolling scrollport and position:sticky descendants never pin.
+  clip clips without creating a scroll container — required for sticky writing TOC.
+*/
+html:has(body.layout-no-content-filter),
+body.layout-no-content-filter {
+  overflow-x: clip;
+}
+
 /* E-ink mode overrides mood/intensity */
 [data-e-ink="true"] .content-filter-wrapper {
   filter: none !important;

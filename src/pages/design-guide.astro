@@ -1,42 +1,59 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import ThemeCard from '../components/eval/ThemeCard.astro';
+import ContentsNav from '../components/ContentsNav.astro';
+
+const guideSections = [
+  { slug: 'colors', text: 'Colors' },
+  { slug: 'typography', text: 'Typography' },
+  { slug: 'buttons', text: 'Buttons' },
+  { slug: 'cards', text: 'Cards' },
+  { slug: 'surfaces', text: 'Surfaces' },
+  { slug: 'images', text: 'Images' },
+  { slug: 'badges', text: 'Badges' },
+  { slug: 'links', text: 'Links' },
+  { slug: 'inputs', text: 'Inputs' },
+  { slug: 'dividers', text: 'Dividers' },
+  { slug: 'spacing', text: 'Spacing' },
+  { slug: 'layout', text: 'Layout' },
+  { slug: 'content-pages', text: 'Content pages' },
+  { slug: 'motion', text: 'Motion' },
+  { slug: 'focus', text: 'Focus' },
+  { slug: 'contrast', text: 'Contrast' },
+  { slug: 'theme-info', text: 'Current theme' },
+];
+
+const docsNav = [
+  { href: '/design-guide', label: 'Guide', current: true },
+  { href: '/design.md', label: 'design.md' },
+  { href: '/design-guide.md', label: 'Components' },
+  { href: '/daily-themes', label: 'Themes' },
+] as const;
 ---
 
-<MainLayout title="Design Guide | David Hoang">
+<MainLayout title="Design Guide | David Hoang" disableContentMoodFilter={true} containerClass="container container-full">
   <div class="design-guide">
     <header class="guide-header">
+      <nav class="guide-docs-nav" aria-label="Design system docs">
+        {docsNav.map((item) => (
+          <a
+            href={item.href}
+            class="guide-docs-nav__link"
+            aria-current={item.current ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
       <h1 class="text-heading">Design System Guide</h1>
       <p class="text-body text-muted">
-        Visual reference for theme-responsive primitives. Toggle the daily theme in the nav to see how components adapt — or explore past themes on
-        <a class="link" href="/daily-themes">Daily Themes</a>.
-        Agent contract: <code class="text-mono">design.md</code>.
+        Visual reference for theme-responsive primitives. Toggle the daily theme in the nav to see how components adapt.
       </p>
     </header>
 
-    <!-- Table of Contents -->
-    <nav class="guide-toc card card-filled">
-      <h2 class="text-heading text-lg">Contents</h2>
-      <div class="toc-grid">
-        <a href="#colors" class="link">Colors</a>
-        <a href="#typography" class="link">Typography</a>
-        <a href="#buttons" class="link">Buttons</a>
-        <a href="#cards" class="link">Cards</a>
-        <a href="#surfaces" class="link">Surfaces</a>
-        <a href="#images" class="link">Images</a>
-        <a href="#badges" class="link">Badges</a>
-        <a href="#links" class="link">Links</a>
-        <a href="#inputs" class="link">Inputs</a>
-        <a href="#dividers" class="link">Dividers</a>
-        <a href="#spacing" class="link">Spacing</a>
-        <a href="#layout" class="link">Layout</a>
-        <a href="#content-pages" class="link">Content pages</a>
-        <a href="#motion" class="link">Motion</a>
-        <a href="#focus" class="link">Focus</a>
-        <a href="#contrast" class="link">Contrast</a>
-        <a href="#theme-info" class="link">Current theme</a>
-      </div>
-    </nav>
+    <div class="design-guide__layout">
+      <ContentsNav items={guideSections} />
+      <div class="design-guide__main">
 
     <!-- Colors -->
     <section id="colors" class="guide-section">
@@ -614,6 +631,9 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
         </div>
       </div>
     </section>
+
+      </div>
+    </div>
   </div>
 </MainLayout>
 
@@ -651,13 +671,58 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
 </style>
 <style>
   .design-guide {
-    max-width: 900px;
+    --guide-toc: 11rem;
+    --guide-prose: min(56rem, 100%);
+    --guide-gap: clamp(1.5rem, 2.5vw, 2.5rem);
+    max-width: calc(var(--guide-toc) + var(--guide-gap) + var(--guide-prose));
     margin: 0 auto;
-    padding: var(--spacing-xl) var(--container-padding);
+    padding: var(--spacing-xl) var(--writing-gutter, var(--container-padding));
   }
 
   .guide-header {
+    max-width: var(--guide-prose);
+    margin-inline: auto;
     margin-bottom: var(--spacing-2xl);
+  }
+
+  .guide-docs-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .guide-docs-nav__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding-bottom: var(--spacing-xs);
+    transition:
+      color var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
+  }
+
+  .guide-docs-nav__link::before,
+  .guide-docs-nav__link::after {
+    display: none;
+  }
+
+  .guide-docs-nav__link:hover {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .guide-docs-nav__link[aria-current='page'] {
+    color: var(--color-text);
+    border-bottom-color: var(--color-link);
+  }
+
+  .guide-docs-nav__link:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .guide-header h1 {
@@ -665,24 +730,36 @@ import ThemeCard from '../components/eval/ThemeCard.astro';
     margin-bottom: var(--spacing-md);
   }
 
-  .guide-toc {
-    margin-bottom: var(--spacing-2xl);
+  .design-guide__layout {
+    display: grid;
+    grid-template-columns: var(--guide-toc) minmax(0, var(--guide-prose));
+    column-gap: var(--guide-gap);
+    align-items: start;
   }
 
-  .guide-toc h2 {
-    margin-bottom: var(--spacing-md);
+  .design-guide__main {
+    min-width: 0;
   }
 
-  .toc-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm) var(--spacing-lg);
+  @media (max-width: 1024px) {
+    .design-guide {
+      max-width: var(--guide-prose);
+    }
+
+    .design-guide__layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .guide-header {
+      margin-inline: 0;
+    }
   }
 
   .guide-section {
     margin-bottom: var(--spacing-3xl);
     padding-bottom: var(--spacing-2xl);
     border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: calc(var(--nav-offset-top, 24px) + var(--nav-height, 48px) + var(--spacing-lg));
   }
 
   .guide-section:last-child {
