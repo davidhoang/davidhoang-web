@@ -1,0 +1,9 @@
+{
+  "install": "npm install\nnode --input-type=module -e \"import { syncPublicImages } from './scripts/lib/sync-public-images.mjs'; syncPublicImages();\"",
+  "terminals": [
+    {
+      "name": "astro-dev",
+      "command": "npm run dev -- --host 0.0.0.0 --port 4321"
+    }
+  ]
+}

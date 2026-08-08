@@ -26,6 +26,14 @@ Cross-tool product design instructions follow the [Vercel agent design stack](ht
 
 ## Cursor Cloud specific instructions
 
+### Environment bootstrap
+
+- Dependencies and `public/images` sync run via `.cursor/environment.json` `install` (`npm install` + image mirror).
+- The Astro dev server is started by the `astro-dev` terminal on port **4321** (`npm run dev -- --host 0.0.0.0 --port 4321`).
+- Smoke-check before UI work: `curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:4321/` (expect `200`).
+- Unit tests: `npm test`. Design lint before UI commits: commands below.
+- `ANTHROPIC_API_KEY` is only required for `npm run generate-theme`, not for normal local development.
+
 Cloud agents **must** run design linters before committing UI changes:
 
 ```bash
