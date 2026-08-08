@@ -23,12 +23,12 @@ const guideSections = [
   { slug: 'theme-info', text: 'Current theme' },
 ];
 
-const docsNav = [
+const docsNav: { href: string; label: string; current?: boolean }[] = [
   { href: '/design-guide', label: 'Guide', current: true },
   { href: '/design.md', label: 'design.md' },
   { href: '/design-guide.md', label: 'Components' },
   { href: '/daily-themes', label: 'Themes' },
-] as const;
+];
 ---
 
 <MainLayout title="Design Guide | David Hoang" disableContentMoodFilter={true} containerClass="container container-full">
