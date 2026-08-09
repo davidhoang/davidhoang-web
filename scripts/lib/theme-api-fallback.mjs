@@ -281,3 +281,61 @@ export function reuseLastGoodTheme(theme, { date, reason = 'Claude API unavailab
 export function shouldUseLastGoodFallback(error, lastGood) {
   return isClaudeApiUnavailableError(error) && isUsableTheme(lastGood);
 }
+
+/**
+ * @typedef {object} FallbackOutcome
+ * @property {'keep' | 'reuse' | 'none'} action
+ * @property {ThemeRecord | null} theme
+ * @property {string} reason
+ * @property {string | null} sourceDate
+ */
+
+/**
+ * Resolve how a failed generation run should recover without regenerating.
+ *
+ * Precedence:
+ * 1. `keep` — a usable theme already exists for today (e.g. a re-triggered run),
+ *    so preserve it as-is regardless of the error kind. Nothing is rewritten.
+ * 2. `reuse` — the error is a Claude API outage and a usable last-good theme
+ *    exists, so clone it for today.
+ * 3. `none` — no safe fallback; the caller should fail the job.
+ *
+ * This is a pure function: it performs no I/O and does not mutate its inputs.
+ *
+ * @param {object} params
+ * @param {unknown} params.error
+ * @param {string} params.today - target date in YYYY-MM-DD
+ * @param {ThemeRecord | null} [params.existingToday] - theme already written for today
+ * @param {ThemeRecord | null} [params.lastGood] - resolved last-good theme
+ * @returns {FallbackOutcome}
+ */
+export function resolveLastGoodFallback({ error, today, existingToday = null, lastGood = null }) {
+  const message =
+    error && typeof error === 'object' && 'message' in error && error.message
+      ? String(error.message)
+      : typeof error === 'string' && error
+        ? error
+        : '';
+  const reason = message || 'Claude API unavailable';
+
+  if (isUsableTheme(existingToday)) {
+    return {
+      action: 'keep',
+      theme: /** @type {ThemeRecord} */ (existingToday),
+      reason,
+      sourceDate: existingToday.date || null,
+    };
+  }
+
+  if (!shouldUseLastGoodFallback(error, lastGood)) {
+    return { action: 'none', theme: null, reason, sourceDate: null };
+  }
+
+  const reused = reuseLastGoodTheme(/** @type {ThemeRecord} */ (lastGood), { date: today, reason });
+  return {
+    action: 'reuse',
+    theme: reused,
+    reason,
+    sourceDate: reused._fallback?.sourceDate ?? null,
+  };
+}

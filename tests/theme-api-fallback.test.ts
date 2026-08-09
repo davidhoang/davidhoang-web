@@ -9,6 +9,7 @@ import {
   createClaudeApiUnavailableError,
   isClaudeApiUnavailableError,
   loadLastGoodTheme,
+  resolveLastGoodFallback,
   reuseLastGoodTheme,
   saveLastGoodTheme,
   shouldUseLastGoodFallback,
@@ -192,5 +193,79 @@ describe('last-good theme cache', () => {
     expect(raw.theme.name).toBe('Fallback Fixture');
     expect(raw.theme._contextImage).toBeUndefined();
     expect(raw.theme._fallback).toBeUndefined();
+  });
+});
+
+describe('resolveLastGoodFallback', () => {
+  it('keeps an existing theme already written for today regardless of error kind', () => {
+    const existingToday = sampleTheme('2026-08-09');
+    const validationError = new Error('schema validation failed');
+
+    const outcome = resolveLastGoodFallback({
+      error: validationError,
+      today: '2026-08-09',
+      existingToday,
+      // A last-good is present but must be ignored in favor of today's theme.
+      lastGood: sampleTheme('2026-08-01'),
+    });
+
+    expect(outcome.action).toBe('keep');
+    expect(outcome.theme).toBe(existingToday);
+    expect(outcome.sourceDate).toBe('2026-08-09');
+    expect(outcome.reason).toBe('schema validation failed');
+  });
+
+  it('reuses the last-good theme on an API outage when today has nothing yet', () => {
+    const lastGood = sampleTheme('2026-08-07');
+    const outcome = resolveLastGoodFallback({
+      error: createClaudeApiUnavailableError('529 overloaded'),
+      today: '2026-08-09',
+      existingToday: null,
+      lastGood,
+    });
+
+    expect(outcome.action).toBe('reuse');
+    expect(outcome.sourceDate).toBe('2026-08-07');
+    expect(outcome.theme?.date).toBe('2026-08-09');
+    expect(outcome.theme?._fallback).toMatchObject({ reused: true, sourceDate: '2026-08-07' });
+    // Source theme is never mutated.
+    expect(lastGood.date).toBe('2026-08-07');
+  });
+
+  it('returns "none" for non-outage errors even when a last-good exists', () => {
+    const outcome = resolveLastGoodFallback({
+      error: new Error('Unrecognized key "background"'),
+      today: '2026-08-09',
+      existingToday: null,
+      lastGood: sampleTheme('2026-08-07'),
+    });
+
+    expect(outcome.action).toBe('none');
+    expect(outcome.theme).toBeNull();
+  });
+
+  it('returns "none" on an API outage when no usable fallback theme exists', () => {
+    const outcome = resolveLastGoodFallback({
+      error: createClaudeApiUnavailableError('Claude API unavailable'),
+      today: '2026-08-09',
+      existingToday: null,
+      lastGood: null,
+    });
+
+    expect(outcome.action).toBe('none');
+    expect(outcome.theme).toBeNull();
+    expect(outcome.reason).toBe('Claude API unavailable');
+  });
+
+  it('falls back to a default reason when the error has no message', () => {
+    const outcome = resolveLastGoodFallback({
+      error: {},
+      today: '2026-08-09',
+      existingToday: null,
+      lastGood: null,
+    });
+
+    expect(outcome.action).toBe('none');
+    expect(outcome.reason).toBe('Claude API unavailable');
   });
 });
