@@ -1,6 +1,340 @@
 {
   "themes": [
     {
+      "name": "Amber Signal",
+      "description": "Tokyo pre-dawn: warm amber vending machine glow against deep indigo, sharp poster geometry softened by atmospheric stillness.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1035",
+          "--color-bg": "#FEF3E2",
+          "--color-link": "#B54409",
+          "--color-link-hover": "#A83A06",
+          "--color-border": "#C8A87A",
+          "--color-muted": "#836947",
+          "--color-sidebar-bg": "#FDEBD0",
+          "--color-nav-bg": "#FEF3E2",
+          "--color-nav-text": "#1A1035",
+          "--color-card-bg": "#FDF0DA"
+        },
+        "dark": {
+          "--color-text": "#F5E6C8",
+          "--color-bg": "#0D0A1F",
+          "--color-link": "#F5A623",
+          "--color-link-hover": "#FFD166",
+          "--color-border": "#2E2650",
+          "--color-muted": "#81779C",
+          "--color-sidebar-bg": "#120E2A",
+          "--color-nav-bg": "#0D0A1F",
+          "--color-nav-text": "#F5E6C8",
+          "--color-card-bg": "#160F2E"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1150px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.92",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#D4500A",
+          "#0D0A1F",
+          "#F5A623"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-08-09",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Amber Signal",
+              "subtitle": "2026-08-09 — Tokyo pre-dawn"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "palette",
+              "div2",
+              "s2",
+              "s3",
+              "div3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "4:47am. The vending machine doesn't sleep. Its amber hum carves geometry into the indigo dark — a still life of signal and silence before the city remembers itself.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "heading",
+              "badge-row"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "AMBER SIGNAL",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display / serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FEF3E2",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#1A1035",
+                  "label": "text"
+                },
+                {
+                  "hex": "#D4500A",
+                  "label": "signal"
+                },
+                {
+                  "hex": "#F5A623",
+                  "label": "amber"
+                },
+                {
+                  "hex": "#C8A87A",
+                  "label": "border"
+                },
+                {
+                  "hex": "#0D0A1F",
+                  "label": "indigo"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "meta"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "editorial hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "grid",
+                  "value": "asymmetric"
+                },
+                {
+                  "label": "shader",
+                  "value": "none"
+                },
+                {
+                  "label": "texture",
+                  "value": "grid"
+                },
+                {
+                  "label": "links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "images",
+                  "value": "duotone"
+                },
+                {
+                  "label": "footer",
+                  "value": "brutalist"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "caption",
+              "apply"
+            ]
+          },
+          "caption": {
+            "type": "TypeSample",
+            "props": {
+              "text": "split-complementary · Source Serif 4 · Bebas Neue",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Amber Signal",
+              "action": "apply-theme",
+              "date": "2026-08-09"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Botanical Sérigraphie",
       "description": "Art Nouveau's botanical obsession filtered through dawn's pale awakening — silkscreen-flat cards, jewel-toned botanical accents, and an organic scattered rhythm.",
       "colors": {
@@ -1764,246 +2098,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Deco Dawn",
-      "description": "Art Deco glamour meets soft morning light with gold geometric details and luxurious serif typography.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0F0A",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#8A6508",
-          "--color-link-hover": "#DAA520",
-          "--color-border": "#E6D7C8",
-          "--color-muted": "#7D684D",
-          "--color-sidebar-bg": "#FAE5D3",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#1A0F0A",
-          "--color-card-bg": "#FEFAF6"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFA500",
-          "--color-border": "#3D2A1A",
-          "--color-muted": "#A68B5B",
-          "--color-sidebar-bg": "#2C1810",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#261A11"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.05em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(184,134,11,0.15)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "lift",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "dot-grid",
-        "colors": [
-          "#B8860B",
-          "#FFD700"
-        ]
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "date": "2026-06-10",
-      "showcase": {
-        "root": "r1",
-        "elements": {
-          "r1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Deco Dawn",
-              "subtitle": "Art Deco glamour meets morning light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "h1",
-              "s2",
-              "d1",
-              "p1",
-              "s3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Golden Geometries",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "cream"
-                },
-                {
-                  "hex": "#DAA520",
-                  "label": "gold"
-                },
-                {
-                  "hex": "#8A6508",
-                  "label": "amber"
-                },
-                {
-                  "hex": "#7D684D",
-                  "label": "bronze"
-                },
-                {
-                  "hex": "#1A0F0A",
-                  "label": "espresso"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Luxurious morning typography with geometric precision",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-08"
+  "currentDate": "2026-08-09"
 }
