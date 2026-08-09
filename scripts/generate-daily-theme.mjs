@@ -68,8 +68,7 @@ import {
   loadDailyThemesData,
   loadLastGoodTheme,
   saveLastGoodTheme,
-  shouldUseLastGoodFallback,
-  reuseLastGoodTheme,
+  resolveLastGoodFallback,
 } from './lib/theme-api-fallback.mjs';
 
 const DEFAULT_THEME_CANDIDATE_COUNT = 3;
@@ -1040,40 +1039,39 @@ function updateBuildLog(theme, status = 'success', extras = {}) {
  */
 function applyLastGoodThemeFallback(error) {
   const today = new Date().toISOString().split('T')[0];
-  const reason = error?.message || 'Claude API unavailable';
   const themesData = loadDailyThemesData(rootDir);
-  const existingToday = themesData.themes?.find((theme) => theme.date === today);
+  const existingToday = themesData.themes?.find((theme) => theme.date === today) || null;
+  // Only consult the cached last-good theme when today has nothing to keep.
+  const lastGood = existingToday ? null : loadLastGoodTheme(rootDir);
 
-  // Prefer keeping a previously written theme for today over rewriting history.
-  if (existingToday) {
+  const outcome = resolveLastGoodFallback({ error, today, existingToday, lastGood });
+
+  if (outcome.action === 'keep') {
+    // Prefer keeping a previously written theme for today over rewriting history.
     console.warn(
-      `Claude API unavailable (${reason}). Keeping existing theme "${existingToday.name}" for ${today}.`,
+      `Claude API unavailable (${outcome.reason}). Keeping existing theme "${outcome.theme.name}" for ${today}.`,
     );
-    updateBuildLog(existingToday, 'fallback-kept', {
-      fallbackReason: reason,
-      fallbackSourceDate: existingToday.date,
+    updateBuildLog(outcome.theme, 'fallback-kept', {
+      fallbackReason: outcome.reason,
+      fallbackSourceDate: outcome.sourceDate,
     });
-    return existingToday;
+    return outcome.theme;
   }
 
-  const lastGood = loadLastGoodTheme(rootDir);
-  if (!shouldUseLastGoodFallback(error, lastGood)) {
-    return null;
+  if (outcome.action === 'reuse') {
+    console.warn(
+      `Claude API unavailable (${outcome.reason}). Reusing last-good theme "${outcome.theme.name}"` +
+        `${outcome.sourceDate ? ` from ${outcome.sourceDate}` : ''} for ${today}.`,
+    );
+    updateThemeHistory(outcome.theme);
+    updateBuildLog(outcome.theme, 'fallback', {
+      fallbackReason: outcome.reason,
+      fallbackSourceDate: outcome.sourceDate,
+    });
+    return outcome.theme;
   }
 
-  const reused = reuseLastGoodTheme(lastGood, { date: today, reason });
-  console.warn(
-    `Claude API unavailable (${reason}). Reusing last-good theme "${reused.name}"` +
-      `${reused._fallback?.sourceDate ? ` from ${reused._fallback.sourceDate}` : ''} for ${today}.`,
-  );
-
-  updateThemeHistory(reused);
-  updateBuildLog(reused, 'fallback', {
-    fallbackReason: reason,
-    fallbackSourceDate: reused._fallback?.sourceDate || null,
-  });
-
-  return reused;
+  return null;
 }
 
 // Parse CLI arguments
