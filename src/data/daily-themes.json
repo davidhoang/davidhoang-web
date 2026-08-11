@@ -1,6 +1,381 @@
 {
   "themes": [
     {
+      "name": "Gilded Threshold",
+      "description": "Art Deco glamour filtered through a dawn awakening — black lacquer and burnished gold meet the first pale light, images emerging like photographs in a darkroom.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1409",
+          "--color-bg": "#FEF3E2",
+          "--color-link": "#836008",
+          "--color-link-hover": "#8B6508",
+          "--color-border": "#D4B483",
+          "--color-muted": "#7E684D",
+          "--color-sidebar-bg": "#F9EAD0",
+          "--color-nav-bg": "#FEF3E2",
+          "--color-nav-text": "#1C1409",
+          "--color-card-bg": "#F5E6C8"
+        },
+        "dark": {
+          "--color-text": "#F0DEB0",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#D4A843",
+          "--color-link-hover": "#F0C860",
+          "--color-border": "#3D2E18",
+          "--color-muted": "#958066",
+          "--color-sidebar-bg": "#221408",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F0DEB0",
+          "--color-card-bg": "#241508"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "1px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "gradient"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.92",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#D4A843",
+          "#FEF3E2"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-08-11",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Gilded Threshold",
+              "subtitle": "2026-08-11 · Art Deco Dawn"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "palette",
+              "div2",
+              "s2",
+              "s3",
+              "div3",
+              "s4",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Black lacquer and burnished gold. The moment before full light — when everything is still becoming.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Gilded Threshold",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "duotone",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1409",
+                  "label": "Lacquer"
+                },
+                {
+                  "hex": "#836008",
+                  "label": "Burnish"
+                },
+                {
+                  "hex": "#D4B483",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#F5E6C8",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#F9EAD0",
+                  "label": "Sidebar"
+                },
+                {
+                  "hex": "#FEF3E2",
+                  "label": "Dawn"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "meta"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "Color-only"
+                },
+                {
+                  "label": "Radius",
+                  "value": "16px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Gradient"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "grid",
+              "tokens"
+            ]
+          },
+          "grid": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "split"
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#FEF3E2"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#1C1409"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#836008"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#D4B483"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#F5E6C8"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "b4"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Images emerge like photographs in a darkroom — slow, inevitable, gold.",
+              "variant": "caption",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "analogous",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Gilded Threshold",
+              "action": "apply-theme",
+              "date": "2026-08-11"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Paper & Petrichor",
       "description": "A dawn journal spread — uncoated paper warmth meets the charged stillness of morning air after rain, grounded in organic serif texture and quiet material density.",
       "colors": {
@@ -1978,253 +2353,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Sacred Concrete",
-      "description": "Raw concrete meets ethereal light in a study of material minimalism and spiritual atmosphere.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2C2C",
-          "--color-bg": "#F5F1ED",
-          "--color-link": "#79641F",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#D4C4B0",
-          "--color-muted": "#706B66",
-          "--color-sidebar-bg": "#F0EBE6",
-          "--color-nav-bg": "#F5F1ED",
-          "--color-nav-text": "#2C2C2C",
-          "--color-card-bg": "#EFEAE4"
-        },
-        "dark": {
-          "--color-text": "#E8E2DB",
-          "--color-bg": "#1A1814",
-          "--color-link": "#F4D03F",
-          "--color-link-hover": "#F7DC6F",
-          "--color-border": "#3D3832",
-          "--color-muted": "#A69C94",
-          "--color-sidebar-bg": "#211E1A",
-          "--color-nav-bg": "#1A1814",
-          "--color-nav-text": "#E8E2DB",
-          "--color-card-bg": "#1F1C18"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "800px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "2rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#F5F1ED",
-          "#D4AF37"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "date": "2026-06-14",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Sacred Concrete",
-              "subtitle": "Material minimalism meets ethereal light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s2",
-              "d1",
-              "s3"
-            ]
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat",
-              "variant": "filled"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            }
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s4",
-              "s5"
-            ]
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "t2",
-              "l1"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Light",
-              "variant": "heading",
-              "weight": "600"
-            }
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Concrete foundations hold ethereal moments",
-              "variant": "body"
-            }
-          },
-          "l1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            }
-          },
-          "s5": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F1ED",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#2C2C2C",
-                  "label": "text"
-                },
-                {
-                  "hex": "#79641F",
-                  "label": "link"
-                },
-                {
-                  "hex": "#D4C4B0",
-                  "label": "border"
-                },
-                {
-                  "hex": "#706B66",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#F0EBE6",
-                  "label": "sidebar"
-                }
-              ]
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-10"
+  "currentDate": "2026-08-11"
 }
