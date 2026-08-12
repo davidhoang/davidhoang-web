@@ -1,6 +1,392 @@
 {
   "themes": [
     {
+      "name": "Concrete Matins",
+      "description": "Tadao Ando's Church of the Light translated into a dawn index — raw formwork texture, a single shaft of gold cutting through graphite and ash, structure as devotion.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2A27",
+          "--color-bg": "#EDE9E3",
+          "--color-link": "#8C5913",
+          "--color-link-hover": "#9A5E0A",
+          "--color-border": "#B8B0A4",
+          "--color-muted": "#6E6861",
+          "--color-sidebar-bg": "#E3DFD8",
+          "--color-nav-bg": "#EDE9E3",
+          "--color-nav-text": "#2C2A27",
+          "--color-card-bg": "#E8E4DD"
+        },
+        "dark": {
+          "--color-text": "#E8E2D8",
+          "--color-bg": "#1E1C19",
+          "--color-link": "#D4921F",
+          "--color-link-hover": "#F0B040",
+          "--color-border": "#3E3A35",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#171511",
+          "--color-nav-bg": "#1E1C19",
+          "--color-nav-text": "#E8E2D8",
+          "--color-card-bg": "#252320"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.88",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE9E3",
+          "#C47D1A"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-08-12",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Matins",
+              "subtitle": "2026 · 08 · 12"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Structure is the sermon. A single shaft of gold through formwork grey — devotion made visible at dawn.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "col1",
+              "col2"
+            ]
+          },
+          "col1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "ht",
+              "pal",
+              "brow"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Light Divides\nThe Dark",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDE9E3",
+                  "label": "Ash"
+                },
+                {
+                  "hex": "#2C2A27",
+                  "label": "Formwork"
+                },
+                {
+                  "hex": "#8C5913",
+                  "label": "Gold Shaft"
+                },
+                {
+                  "hex": "#B8B0A4",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#6E6861",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E8E4DD",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "brow": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "col2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "layout"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Hero · Rolodex"
+            }
+          },
+          "layout": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tok"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Syne"
+                },
+                {
+                  "label": "Body",
+                  "value": "Literata"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Images",
+                  "value": "Grayscale → Hover Colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#EDE9E3"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#2C2A27"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#8C5913"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#B8B0A4"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#6E6861"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "body-sample",
+              "cta"
+            ]
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Ando believed the wound of light heals. Here, each border is a joint in the formwork — precise, load-bearing, devotional.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "cta": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Concrete Matins",
+              "action": "apply-theme",
+              "date": "2026-08-12"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Gilded Threshold",
       "description": "Art Deco glamour filtered through a dawn awakening — black lacquer and burnished gold meet the first pale light, images emerging like photographs in a darkroom.",
       "colors": {
@@ -2110,250 +2496,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Light Blade",
-      "description": "Raw concrete brutalism pierced by ethereal golden light, inspired by Tadao Ando's sacred architecture",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2D2A26",
-          "--color-bg": "#F5F3F0",
-          "--color-link": "#7F6921",
-          "--color-link-hover": "#B8941F",
-          "--color-border": "#C4BFB8",
-          "--color-muted": "#6B6762",
-          "--color-sidebar-bg": "#EFEBE6",
-          "--color-nav-bg": "#F5F3F0",
-          "--color-nav-text": "#2D2A26",
-          "--color-card-bg": "#FAFAF8"
-        },
-        "dark": {
-          "--color-text": "#E8E4DF",
-          "--color-bg": "#1C1A17",
-          "--color-link": "#FFD700",
-          "--color-link-hover": "#FFC107",
-          "--color-border": "#3A3630",
-          "--color-muted": "#8B8680",
-          "--color-sidebar-bg": "#252219",
-          "--color-nav-bg": "#1C1A17",
-          "--color-nav-text": "#E8E4DF",
-          "--color-card-bg": "#242118"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "display",
-          "stack": "'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "-0.02em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "'wght' 800, 'wdth' 95"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1000px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "grain",
-        "colors": [
-          "#D4AF37",
-          "#C4BFB8"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "display",
-        "stack": "'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "date": "2026-06-15",
-      "showcase": {
-        "root": "c1",
-        "elements": {
-          "c1": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Light Blade",
-              "subtitle": "Concrete brutalism meets golden light"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "p1",
-              "s2",
-              "h1",
-              "d1",
-              "s3"
-            ]
-          },
-          "p1": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F3F0",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#FAFAF8",
-                  "label": "card"
-                },
-                {
-                  "hex": "#7F6921",
-                  "label": "link"
-                },
-                {
-                  "hex": "#B8941F",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#C4BFB8",
-                  "label": "border"
-                },
-                {
-                  "hex": "#2D2A26",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "lp1"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sacred Geometry",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "brutalist",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "lp1": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw concrete textures",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Ethereal illumination",
-              "variant": "caption"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-11"
+  "currentDate": "2026-08-12"
 }
