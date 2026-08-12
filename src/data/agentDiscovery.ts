@@ -9,7 +9,7 @@ export const AGENT_DISCOVERY_VERSION = '1.0.0';
 const discoveryResourceSchema = z.object({
   id: z.string().min(1),
   type: z.enum(['sitemap', 'rss', 'search-index', 'robots']),
-  url: z.string().url(),
+  url: z.url(),
   description: z.string().min(1),
 });
 
@@ -17,7 +17,7 @@ const humanActionSchema = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   description: z.string().min(1),
-  url: z.string().url(),
+  url: z.url(),
   kind: z.enum(['page', 'form', 'email']),
 });
 
@@ -28,10 +28,10 @@ export const agentDiscoverySchema = z.object({
     name: z.string().min(1),
     siteName: z.string().min(1),
     description: z.string().min(1),
-    url: z.string().url(),
-    sameAs: z.array(z.string().url()).min(1),
+    url: z.url(),
+    sameAs: z.array(z.url()).min(1),
   }),
-  canonicalOrigin: z.string().url(),
+  canonicalOrigin: z.url(),
   discovery: z.object({
     resources: z.array(discoveryResourceSchema).min(1),
   }),
@@ -39,7 +39,7 @@ export const agentDiscoverySchema = z.object({
   attribution: z.object({
     required: z.literal(true),
     preferredCitation: z.string().min(1),
-    linkBack: z.string().url(),
+    linkBack: z.url(),
     guidance: z.string().min(1),
   }),
   usage: z.object({
