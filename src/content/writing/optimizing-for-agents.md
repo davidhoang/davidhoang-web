@@ -1,8 +1,7 @@
 ---
 title: "Optimizing a Personal Website for AI Agents"
-pubDate: 2026-08-10
+pubDate: 2026-08-11
 description: "Treating agent experience as a first-class design surface — what I found, what I changed, and what I deliberately chose not to do."
-draft: true
 tags: ["ai", "agents", "web"]
 relatedWriting: ["the-formlessness-of-ai-agents"]
 ---
