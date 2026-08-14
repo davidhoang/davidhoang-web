@@ -229,6 +229,36 @@ export function buildNoteCreativeWorkJsonLd(input: NoteCreativeWorkInput): JsonL
   return jsonLd;
 }
 
+/**
+ * ProfilePage wrapping the About page, whose primary subject is the Person.
+ * This is the schema.org pattern for a personal "about me" page and extends
+ * the site-wide Person coverage with an explicit page→person relationship.
+ */
+export function buildProfilePageJsonLd(input?: {
+  canonicalUrl?: string;
+  dateModified?: Date | string;
+}): JsonLd {
+  const canonicalUrl = input?.canonicalUrl ?? `${CANONICAL_SITE}/about`;
+
+  const jsonLd: JsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': `${canonicalUrl}#profilepage`,
+    url: canonicalUrl,
+    name: `About ${SITE_NAME}`,
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(WEBSITE_ID),
+    mainEntity: idRef(PERSON_ID),
+    about: idRef(PERSON_ID),
+  };
+
+  if (input?.dateModified != null) {
+    jsonLd.dateModified = toIsoDate(input.dateModified);
+  }
+
+  return jsonLd;
+}
+
 export type BreadcrumbItem = {
   name: string;
   item: string;
