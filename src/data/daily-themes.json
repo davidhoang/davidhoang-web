@@ -1,6 +1,385 @@
 {
   "themes": [
     {
+      "name": "Nave & Graphite",
+      "description": "Tadao Ando's concrete chapel transposed to print — a single blade of warm light cuts through heavy shadow, all restraint and spiritual weight.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2A2620",
+          "--color-bg": "#EDE8E1",
+          "--color-link": "#925218",
+          "--color-link-hover": "#8B4513",
+          "--color-border": "#9A9188",
+          "--color-muted": "#6E675F",
+          "--color-sidebar-bg": "#E4DED6",
+          "--color-nav-bg": "#EDE8E1",
+          "--color-nav-text": "#2A2620",
+          "--color-card-bg": "#E8E2DA"
+        },
+        "dark": {
+          "--color-text": "#E8E2D8",
+          "--color-bg": "#1C1914",
+          "--color-link": "#D4883A",
+          "--color-link-hover": "#F0A84E",
+          "--color-border": "#3E3830",
+          "--color-muted": "#8E8780",
+          "--color-sidebar-bg": "#221F19",
+          "--color-nav-bg": "#1C1914",
+          "--color-nav-text": "#E8E2D8",
+          "--color-card-bg": "#242018"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Work Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1150px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE8E1"
+        ]
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-08-14",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Nave & Graphite",
+              "subtitle": "August 14, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Concrete is honest. Light earns its place. Every margin is load-bearing.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "badge-row",
+              "palette"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "A Blade of Warm Light",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDE8E1",
+                  "label": "Chapel Linen"
+                },
+                {
+                  "hex": "#2A2620",
+                  "label": "Formwork"
+                },
+                {
+                  "hex": "#925218",
+                  "label": "Nave Amber"
+                },
+                {
+                  "hex": "#9A9188",
+                  "label": "Cast Shadow"
+                },
+                {
+                  "hex": "#6E675F",
+                  "label": "Aggregate"
+                },
+                {
+                  "hex": "#E8E2DA",
+                  "label": "Card Dust"
+                }
+              ]
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "meta"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Link style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px — no mercy"
+                },
+                {
+                  "label": "Images",
+                  "value": "Grayscale → colorize"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None — pure linen"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tokens",
+              "layout-prev"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#925218"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#6E675F"
+                },
+                {
+                  "name": "heading-font",
+                  "value": "Bodoni Moda"
+                },
+                {
+                  "name": "body-font",
+                  "value": "Work Sans"
+                }
+              ]
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "apply-btn"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Tadao Ando in type. Restraint is the ornament.",
+              "variant": "caption",
+              "weight": "normal"
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Nave & Graphite",
+              "action": "apply-theme",
+              "date": "2026-08-14"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Chalk & Frequency",
       "description": "Dawn light through a concrete slit — soft warmth breaking against structured weight, where heavy type anchors an otherwise breath-light surface.",
       "colors": {
@@ -2141,322 +2520,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Arroyo Ledger",
-      "description": "Dawn light catching the adobe wall — terracotta dust, ochre shadow, and the precise geometry of a surveyor's field index.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C1F14",
-          "--color-bg": "#FDEBD0",
-          "--color-link": "#AD3E0C",
-          "--color-link-hover": "#8B2E06",
-          "--color-border": "#C9A882",
-          "--color-muted": "#7D6248",
-          "--color-sidebar-bg": "#F5DDB8",
-          "--color-nav-bg": "#FDEBD0",
-          "--color-nav-text": "#2C1F14",
-          "--color-card-bg": "#FAE2C4"
-        },
-        "dark": {
-          "--color-text": "#F0DEC4",
-          "--color-bg": "#261A11",
-          "--color-link": "#E8854A",
-          "--color-link-hover": "#F5A86B",
-          "--color-border": "#5A3E2A",
-          "--color-muted": "#A18162",
-          "--color-sidebar-bg": "#2E2014",
-          "--color-nav-bg": "#261A11",
-          "--color-nav-text": "#F0DEC4",
-          "--color-card-bg": "#301F13"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "2px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FDEBD0",
-          "#C9A882"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-08-07",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Arroyo Ledger",
-              "subtitle": "August 7, 2026"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s-top",
-              "div1",
-              "s-mid",
-              "div2",
-              "s-bot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Dawn light on adobe — terracotta dust, ochre shadow, and the precise geometry of a surveyor's field index.",
-              "emphasis": "quiet"
-            }
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDEBD0",
-                  "label": "Linen"
-                },
-                {
-                  "hex": "#FAE2C4",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#C9A882",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#AD3E0C",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#7D6248",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#2C1F14",
-                  "label": "Ink"
-                }
-              ]
-            }
-          },
-          "s-top": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "heading-sample",
-              "hero-prev"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Field Notes, Section IV",
-              "variant": "heading",
-              "weight": "bold"
-            }
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Hero: Rolodex"
-            }
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "layout-prev"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Link style",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Radius",
-                  "value": "2px"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Analogous"
-                }
-              ]
-            }
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            }
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b-serif",
-              "b-mono",
-              "b-card",
-              "b-retro",
-              "apply-btn"
-            ]
-          },
-          "b-serif": {
-            "type": "Badge",
-            "props": {
-              "text": "Fraunces serif",
-              "variant": "outlined"
-            }
-          },
-          "b-mono": {
-            "type": "Badge",
-            "props": {
-              "text": "IBM Plex Mono",
-              "variant": "outlined"
-            }
-          },
-          "b-card": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined card",
-              "variant": "filled"
-            }
-          },
-          "b-retro": {
-            "type": "Badge",
-            "props": {
-              "text": "retro footer",
-              "variant": "filled"
-            }
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Arroyo Ledger",
-              "action": "apply-theme",
-              "date": "2026-08-07"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-13"
+  "currentDate": "2026-08-14"
 }
