@@ -1,4 +1,7 @@
 ---
+import { absoluteUrl, CANONICAL_SITE } from '../utils/structuredData';
+import { buildOgImageUrl } from '../utils/ogImage';
+
 interface Props {
   title: string;
   description?: string;
@@ -6,6 +9,15 @@ interface Props {
 }
 
 const { title, description, fonts } = Astro.props;
+
+// Prototypes previously shipped no social meta, so shares rendered blank.
+// Give them a canonical URL and an on-brand generated OG card.
+const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
+const canonicalUrl = Astro.site ? absoluteUrl(pathname, Astro.site.toString()) : `${CANONICAL_SITE}${pathname}`;
+const ogImageUrl = absoluteUrl(
+  buildOgImageUrl({ title, description, type: 'page' }),
+  Astro.site ? Astro.site.toString() : CANONICAL_SITE,
+);
 ---
 
 <!DOCTYPE html>
@@ -15,6 +27,26 @@ const { title, description, fonts } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:site_name" content="davidhoang.com" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@davidhoang" />
+    <meta name="twitter:creator" content="@davidhoang" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={title} />
     {
       fonts && (
         <>
