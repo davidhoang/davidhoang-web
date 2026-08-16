@@ -1,6 +1,308 @@
 {
   "themes": [
     {
+      "name": "Vespers & Vellum",
+      "description": "Dawn light filtering through library windows onto aged vellum — the quiet reverence of a scholarly morning, warm concrete meeting soft gold.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2C2416",
+          "--color-bg": "#F5EDDA",
+          "--color-link": "#845928",
+          "--color-link-hover": "#5C3A10",
+          "--color-border": "#D6C9A8",
+          "--color-muted": "#746956",
+          "--color-sidebar-bg": "#EDE3CC",
+          "--color-nav-bg": "#F5EDDA",
+          "--color-nav-text": "#2C2416",
+          "--color-card-bg": "#EEE4CB"
+        },
+        "dark": {
+          "--color-text": "#E8DCC4",
+          "--color-bg": "#1C1410",
+          "--color-link": "#C49A4E",
+          "--color-link-hover": "#E8C06A",
+          "--color-border": "#3A2E1E",
+          "--color-muted": "#8E806A",
+          "--color-sidebar-bg": "#231A12",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#E8DCC4",
+          "--color-card-bg": "#261D14"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Bitter",
+          "url": "https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bitter', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.88",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EDDA",
+          "#C49A4E"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-08-16",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Vespers & Vellum",
+              "subtitle": "August 16, 2026"
+            },
+            "children": [
+              "main-stack"
+            ]
+          },
+          "main-stack": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "pal",
+              "mid-row",
+              "type1",
+              "div1",
+              "meta",
+              "bot-row"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Dawn arrives through leaded glass. The vellum already knows what the day will ask of it. Warm concrete, soft gold — a scholar's hour made interface.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EDDA",
+                  "label": "Vellum"
+                },
+                {
+                  "hex": "#EDE3CC",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#D6C9A8",
+                  "label": "Dust"
+                },
+                {
+                  "hex": "#C49A4E",
+                  "label": "Gilt"
+                },
+                {
+                  "hex": "#845928",
+                  "label": "Tanbark"
+                },
+                {
+                  "hex": "#2C2416",
+                  "label": "Inkwell"
+                }
+              ]
+            },
+            "children": []
+          },
+          "mid-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero-prev",
+              "shader-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Stacked Fan"
+            }
+          },
+          "shader-prev": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#F5EDDA",
+                "#C49A4E"
+              ]
+            }
+          },
+          "type1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "The Quiet Reverence of a Scholarly Morning",
+              "variant": "heading",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Stacked Fan"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grain"
+                },
+                {
+                  "label": "Link",
+                  "value": "Animated Underline"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "Low"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "bot-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "apply-btn"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "analogous",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Theme",
+              "action": "apply-theme",
+              "date": "2026-08-16"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Nave & Graphite",
       "description": "Tadao Ando's concrete chapel transposed to print — a single blade of warm light cuts through heavy shadow, all restraint and spiritual weight.",
       "colors": {
@@ -2144,383 +2446,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Botanical Sérigraphie",
-      "description": "Art Nouveau's botanical obsession filtered through dawn's pale awakening — silkscreen-flat cards, jewel-toned botanical accents, and an organic scattered rhythm.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C2416",
-          "--color-bg": "#EEF5EE",
-          "--color-link": "#7B3FA0",
-          "--color-link-hover": "#5A2D75",
-          "--color-border": "#B8D4B8",
-          "--color-muted": "#5B755B",
-          "--color-sidebar-bg": "#E4F0E4",
-          "--color-nav-bg": "#EEF5EE",
-          "--color-nav-text": "#2C2416",
-          "--color-card-bg": "#F5FAF5"
-        },
-        "dark": {
-          "--color-text": "#DFF0DF",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#C084E0",
-          "--color-link-hover": "#D9ADEE",
-          "--color-border": "#2A4A30",
-          "--color-muted": "#6B8D70",
-          "--color-sidebar-bg": "#0A1A1C",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#DFF0DF",
-          "--color-card-bg": "#122A2E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Lora",
-          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Lora', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Figtree",
-          "url": "https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.92",
-        "borderRadius": "10px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EEF5EE",
-          "#B8D4B8"
-        ]
-      },
-      "font": {
-        "name": "Lora",
-        "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Lora', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-08-08",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Botanical Sérigraphie",
-              "subtitle": "August 8, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "div2",
-              "mid",
-              "div3",
-              "meta",
-              "div4",
-              "bot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Pressed petals under silkscreen ink. Dawn light through a greenhouse pane. Every card a herbarium specimen — flat, jewelled, alive.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EEF5EE",
-                  "label": "Greenhouse"
-                },
-                {
-                  "hex": "#B8D4B8",
-                  "label": "Fern Mist"
-                },
-                {
-                  "hex": "#7B3FA0",
-                  "label": "Silkscreen"
-                },
-                {
-                  "hex": "#5B755B",
-                  "label": "Moss Ink"
-                },
-                {
-                  "hex": "#2C2416",
-                  "label": "Press Dark"
-                },
-                {
-                  "hex": "#F5FAF5",
-                  "label": "Card Bloom"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "left",
-              "right"
-            ]
-          },
-          "left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "ht",
-              "badges",
-              "tokens"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Flora Sérigraphée",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif / Lora",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "magazine grid",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "duotone images",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "radius",
-                  "value": "12px"
-                },
-                {
-                  "name": "texture",
-                  "value": "dot-grid"
-                },
-                {
-                  "name": "link",
-                  "value": "highlight"
-                },
-                {
-                  "name": "scheme",
-                  "value": "split-complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "hero",
-              "layout"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Specimens"
-            },
-            "children": []
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Body Font",
-                  "value": "Figtree (sans-serif)"
-                },
-                {
-                  "label": "Card Style",
-                  "value": "Filled · hover glow"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None — pure flat"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "Standard"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div4": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "swatch",
-              "apply"
-            ]
-          },
-          "swatch": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#7B3FA0",
-              "label": "Accent — Silkscreen Violet"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Botanical Sérigraphie",
-              "action": "apply-theme",
-              "date": "2026-08-08"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-14"
+  "currentDate": "2026-08-16"
 }
