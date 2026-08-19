@@ -1,6 +1,349 @@
 {
   "themes": [
     {
+      "name": "Shaft & Stone",
+      "description": "Tadao Ando's raw concrete meets a single blade of Scandinavian dawn light — heavy material surfaces fractured by one luminous gesture.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2820",
+          "--color-bg": "#EDE8E1",
+          "--color-link": "#935C29",
+          "--color-link-hover": "#8B5A1A",
+          "--color-border": "#C8BFB0",
+          "--color-muted": "#706660",
+          "--color-sidebar-bg": "#E5DFD7",
+          "--color-nav-bg": "#EDE8E1",
+          "--color-nav-text": "#2C2820",
+          "--color-card-bg": "#F5F1EC"
+        },
+        "dark": {
+          "--color-text": "#E8E0D4",
+          "--color-bg": "#1C1810",
+          "--color-link": "#D4924A",
+          "--color-link-hover": "#F0B870",
+          "--color-border": "#3A3228",
+          "--color-muted": "#8E8578",
+          "--color-sidebar-bg": "#221E16",
+          "--color-nav-bg": "#1C1810",
+          "--color-nav-text": "#E8E0D4",
+          "--color-card-bg": "#242018"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Karla",
+          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE8E1",
+          "#D4924A"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-08-19",
+      "showcase": {
+        "root": "root",
+        "elements": {
+          "root": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Shaft & Stone",
+              "subtitle": "2026-08-19"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "palette",
+              "div2",
+              "s2",
+              "meta",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Concrete doesn't apologize. Neither does light. This is the moment one blade of Scandinavian dawn finds a seam in raw brutalist mass — heavy, still, luminous.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Shaft & Stone",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "brutalist warmth",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDE8E1",
+                  "label": "Concrete"
+                },
+                {
+                  "hex": "#2C2820",
+                  "label": "Soot"
+                },
+                {
+                  "hex": "#935C29",
+                  "label": "Dawn Blade"
+                },
+                {
+                  "hex": "#C8BFB0",
+                  "label": "Seam"
+                },
+                {
+                  "hex": "#F5F1EC",
+                  "label": "Cast"
+                },
+                {
+                  "hex": "#706660",
+                  "label": "Quarry"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "tokens"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic hero — full-bleed slab"
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "radius",
+                  "value": "16px"
+                },
+                {
+                  "name": "grid",
+                  "value": "split"
+                },
+                {
+                  "name": "links",
+                  "value": "color-only"
+                },
+                {
+                  "name": "card",
+                  "value": "filled"
+                },
+                {
+                  "name": "texture",
+                  "value": "none"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "meta",
+              "body-sample"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Fraunces"
+                },
+                {
+                  "label": "Body",
+                  "value": "Karla"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Analogous"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Boxed"
+                },
+                {
+                  "label": "Images",
+                  "value": "Vivid / hover lift"
+                }
+              ]
+            },
+            "children": []
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Material surface. Singular light. The architecture of restraint.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Shaft & Stone",
+              "action": "apply-theme",
+              "date": "2026-08-19"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Vespers & Vellum",
       "description": "Dawn light filtering through library windows onto aged vellum — the quiet reverence of a scholarly morning, warm concrete meeting soft gold.",
       "colors": {
@@ -2112,341 +2455,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Amber Signal",
-      "description": "Tokyo pre-dawn: warm amber vending machine glow against deep indigo, sharp poster geometry softened by atmospheric stillness.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1035",
-          "--color-bg": "#FEF3E2",
-          "--color-link": "#B54409",
-          "--color-link-hover": "#A83A06",
-          "--color-border": "#C8A87A",
-          "--color-muted": "#836947",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#FEF3E2",
-          "--color-nav-text": "#1A1035",
-          "--color-card-bg": "#FDF0DA"
-        },
-        "dark": {
-          "--color-text": "#F5E6C8",
-          "--color-bg": "#0D0A1F",
-          "--color-link": "#F5A623",
-          "--color-link-hover": "#FFD166",
-          "--color-border": "#2E2650",
-          "--color-muted": "#81779C",
-          "--color-sidebar-bg": "#120E2A",
-          "--color-nav-bg": "#0D0A1F",
-          "--color-nav-text": "#F5E6C8",
-          "--color-card-bg": "#160F2E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "2",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1150px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.92",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#D4500A",
-          "#0D0A1F",
-          "#F5A623"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-08-09",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Amber Signal",
-              "subtitle": "2026-08-09 — Tokyo pre-dawn"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "palette",
-              "div2",
-              "s2",
-              "s3",
-              "div3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "4:47am. The vending machine doesn't sleep. Its amber hum carves geometry into the indigo dark — a still life of signal and silence before the city remembers itself.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "heading",
-              "badge-row"
-            ]
-          },
-          "heading": {
-            "type": "TypeSample",
-            "props": {
-              "text": "AMBER SIGNAL",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display / serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FEF3E2",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#1A1035",
-                  "label": "text"
-                },
-                {
-                  "hex": "#D4500A",
-                  "label": "signal"
-                },
-                {
-                  "hex": "#F5A623",
-                  "label": "amber"
-                },
-                {
-                  "hex": "#C8A87A",
-                  "label": "border"
-                },
-                {
-                  "hex": "#0D0A1F",
-                  "label": "indigo"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "meta"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "editorial hero"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "grid",
-                  "value": "asymmetric"
-                },
-                {
-                  "label": "shader",
-                  "value": "none"
-                },
-                {
-                  "label": "texture",
-                  "value": "grid"
-                },
-                {
-                  "label": "links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "radius",
-                  "value": "0px"
-                },
-                {
-                  "label": "images",
-                  "value": "duotone"
-                },
-                {
-                  "label": "footer",
-                  "value": "brutalist"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "caption",
-              "apply"
-            ]
-          },
-          "caption": {
-            "type": "TypeSample",
-            "props": {
-              "text": "split-complementary · Source Serif 4 · Bebas Neue",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Amber Signal",
-              "action": "apply-theme",
-              "date": "2026-08-09"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-16"
+  "currentDate": "2026-08-19"
 }
