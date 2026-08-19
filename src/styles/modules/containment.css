@@ -1,0 +1,33 @@
+/* Layout containment — isolate reflow/paint for card surfaces (PC-8).
+   Avoid content-visibility on hero/interactive stacks; use it on list/grid rows. */
+
+.card,
+.card-elevated,
+.card-outlined,
+.card-filled,
+.node-card {
+  contain: layout paint;
+}
+
+.content-filter-wrapper {
+  isolation: isolate;
+}
+
+.philosophy-item,
+.portfolio-content,
+.writing-card,
+.writing-feed__item,
+.note-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .philosophy-item,
+  .portfolio-content,
+  .writing-card,
+  .writing-feed__item,
+  .note-card {
+    content-visibility: visible;
+  }
+}
