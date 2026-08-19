@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
 import type { CareerOdysseyData, PositionedNode, Connection } from './types';
 import { calculateLayout, buildConnections, getCanvasBounds, getYearRange, getYear } from './layout';
 import { CareerNode } from './CareerNode';
 import { ConnectionLine } from './ConnectionLine';
-import { NodeDetailModal } from './NodeDetailModal';
+
+const NodeDetailModal = lazy(() =>
+  import('./NodeDetailModal').then((mod) => ({ default: mod.NodeDetailModal })),
+);
 
 interface Props {
   careerData: CareerOdysseyData;
@@ -288,14 +291,18 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
         </div>
       </div>
 
-      {/* Detail panel */}
-      <NodeDetailModal
-        node={selectedNode}
-        allNodes={nodeMap}
-        onClose={() => setSelectedNode(null)}
-        onNavigate={navigateToNode}
-        isMobile={isMobile}
-      />
+      {/* Detail panel — lazy so avatars/focus-trap stay off the initial canvas chunk */}
+      {selectedNode && (
+        <Suspense fallback={null}>
+          <NodeDetailModal
+            node={selectedNode}
+            allNodes={nodeMap}
+            onClose={() => setSelectedNode(null)}
+            onNavigate={navigateToNode}
+            isMobile={isMobile}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };
