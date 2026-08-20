@@ -1,6 +1,411 @@
 {
   "themes": [
     {
+      "name": "Amber & Indigo",
+      "description": "A dawn index card — warm amber light pooling against deep indigo structure, like a Tokyo side street caught between night and morning.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1035",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#B8390E",
+          "--color-link-hover": "#E8520A",
+          "--color-border": "#C4A882",
+          "--color-muted": "#836A5B",
+          "--color-sidebar-bg": "#F5E6D3",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#1A1035",
+          "--color-card-bg": "#F9EAD8"
+        },
+        "dark": {
+          "--color-text": "#F0E4CF",
+          "--color-bg": "#0F0A1E",
+          "--color-link": "#F4A135",
+          "--color-link-hover": "#FFB84D",
+          "--color-border": "#2E2050",
+          "--color-muted": "#87799B",
+          "--color-sidebar-bg": "#150E28",
+          "--color-nav-bg": "#0F0A1E",
+          "--color-nav-text": "#F0E4CF",
+          "--color-card-bg": "#1A1235"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Outfit",
+          "url": "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F4A135",
+          "#0F0A1E"
+        ]
+      },
+      "font": {
+        "name": "Outfit",
+        "url": "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "sans-serif",
+        "stack": "'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-08-20",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Amber & Indigo",
+              "subtitle": "2026-08-20 · Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Dawn pooling on index cards. Tokyo side-street amber bleeding into the last cold hour of indigo night — structured, warm, unresolved.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "ht",
+              "br",
+              "bc",
+              "bm"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Between Night & Morning",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "bc": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "bm": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "s2a",
+              "s2b"
+            ]
+          },
+          "s2a": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "shader",
+              "hero"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#1A1035",
+                  "label": "text"
+                },
+                {
+                  "hex": "#F4A135",
+                  "label": "amber"
+                },
+                {
+                  "hex": "#0F0A1E",
+                  "label": "indigo"
+                },
+                {
+                  "hex": "#B8390E",
+                  "label": "link"
+                },
+                {
+                  "hex": "#C4A882",
+                  "label": "border"
+                }
+              ]
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#F4A135",
+                "#0F0A1E"
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex hero · grid texture"
+            },
+            "children": []
+          },
+          "s2b": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "meta",
+              "tokens",
+              "lp"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "Bracket [ ]"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                },
+                {
+                  "label": "Radius",
+                  "value": "4px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Images",
+                  "value": "Muted / hover colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF2E9"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#1A1035"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#B8390E"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#C4A882"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#F9EAD8"
+                }
+              ]
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "body-sample",
+              "cap-sample"
+            ]
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Source Serif 4 — the body holds its warmth",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "cap-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Complementary · Dawn Index",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Amber & Indigo",
+              "action": "apply-theme",
+              "date": "2026-08-20"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Shaft & Stone",
       "description": "Tadao Ando's raw concrete meets a single blade of Scandinavian dawn light — heavy material surfaces fractured by one luminous gesture.",
       "colors": {
@@ -2107,355 +2512,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Paper & Petrichor",
-      "description": "A dawn journal spread — uncoated paper warmth meets the charged stillness of morning air after rain, grounded in organic serif texture and quiet material density.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C2416",
-          "--color-bg": "#F5EFE0",
-          "--color-link": "#7A4F2E",
-          "--color-link-hover": "#4E2F14",
-          "--color-border": "#D9CEBB",
-          "--color-muted": "#776956",
-          "--color-sidebar-bg": "#EDE6D4",
-          "--color-nav-bg": "#F5EFE0",
-          "--color-nav-text": "#2C2416",
-          "--color-card-bg": "#EDE6D4"
-        },
-        "dark": {
-          "--color-text": "#E8DECA",
-          "--color-bg": "#1C1410",
-          "--color-link": "#C49A6C",
-          "--color-link-hover": "#E0B887",
-          "--color-border": "#3A2E22",
-          "--color-muted": "#8E816F",
-          "--color-sidebar-bg": "#221A13",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#E8DECA",
-          "--color-card-bg": "#261E16"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EFE0",
-          "#D9CEBB"
-        ]
-      },
-      "font": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-08-10",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Paper & Petrichor",
-              "subtitle": "August 10, 2026"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "hs",
-              "br1",
-              "palette",
-              "s2",
-              "divd",
-              "s3",
-              "meta",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Dawn light on uncoated paper. The smell of rain still in the air. A journal spread before the day speaks.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "hs": {
-            "type": "TypeSample",
-            "props": {
-              "text": "The Morning After Rain",
-              "variant": "heading",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "br1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE0",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#EDE6D4",
-                  "label": "Cream"
-                },
-                {
-                  "hex": "#D9CEBB",
-                  "label": "Worn Edge"
-                },
-                {
-                  "hex": "#776956",
-                  "label": "Muted Ink"
-                },
-                {
-                  "hex": "#7A4F2E",
-                  "label": "Sepia Link"
-                },
-                {
-                  "hex": "#2C2416",
-                  "label": "Press Black"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#F5EFE0",
-                "#D9CEBB"
-              ]
-            },
-            "children": []
-          },
-          "divd": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "layout",
-              "tokens"
-            ]
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "Heading",
-                  "value": "Newsreader"
-                },
-                {
-                  "name": "Body",
-                  "value": "Crimson Text"
-                },
-                {
-                  "name": "Radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "Links",
-                  "value": "animated-underline"
-                },
-                {
-                  "name": "Images",
-                  "value": "muted / hover colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Palette",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Paper & Petrichor",
-              "action": "apply-theme",
-              "date": "2026-08-10"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-19"
+  "currentDate": "2026-08-20"
 }
