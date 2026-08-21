@@ -1,5 +1,6 @@
-import { motion, useInView, useReducedMotion, MotionConfig } from 'framer-motion';
-import { useRef, type ReactNode } from 'react';
+import { motion, useReducedMotion, MotionConfig } from 'framer-motion';
+import { type ReactNode } from 'react';
+import { useSharedInView } from '../hooks/useSharedInView';
 
 const EASE_STANDARD = [0.25, 0.1, 0.25, 1] as const;
 
@@ -25,8 +26,7 @@ interface PortfolioItem {
 }
 
 export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { ref, isInView } = useSharedInView({ once: true, margin: '-80px' });
   const prefersReducedMotion = useReducedMotion();
 
   const itemVariants = prefersReducedMotion
@@ -130,8 +130,7 @@ export function AnimatedPortfolioGrid({
 }: {
   items: PortfolioItem[];
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { ref, isInView } = useSharedInView({ once: true, margin: '-80px' });
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -167,8 +166,7 @@ export function AnimatedSection({
   className?: string;
   delay?: number;
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const { ref, isInView } = useSharedInView({ once: true, margin: '-50px' });
   const prefersReducedMotion = useReducedMotion();
 
   return (

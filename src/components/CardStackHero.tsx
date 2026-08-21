@@ -1,5 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, lazy, Suspense } from 'react';
-import { MotionConfig } from 'framer-motion';
+import { MotionConfig, useReducedMotion } from 'framer-motion';
+import { useSharedInView } from '../hooks/useSharedInView';
 import { cards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { createStableCardHoverSetter } from './hero/cardHover';
@@ -47,13 +48,19 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
-  const [isInView, setIsInView] = useState(false);
   const [cardStyle, setCardStyle] = useState<string | null>(null);
   const [heroLayout, setHeroLayout] = useState<HeroLayout>(readInitialHeroLayout);
   const [cardPaletteRev, setCardPaletteRev] = useState(0);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const [entranceKey, setEntranceKey] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { ref: containerRef, isInView } = useSharedInView<HTMLDivElement>({
+    threshold: 0.1,
+    rootMargin: '50px',
+    once: true,
+    enabled: !prefersReducedMotion,
+    fallbackInView: true,
+  });
   const stableHoverRef = useRef(createStableCardHoverSetter(setHoveredCard));
   const onCardHover = useCallback((cardId: string | null) => {
     stableHoverRef.current.onCardHover(cardId);
@@ -151,32 +158,13 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     };
   }, []);
 
-  // IntersectionObserver for deferred animation
+  // Shared observer pool defers hero entrance until the stack is on-screen.
+  // Reduced-motion skips observation and shows the settled layout immediately.
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      setIsInView(true);
-      setIsLoaded(true);
-      setHasAnimatedIn(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: '50px' }
-    );
-
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
+    if (!prefersReducedMotion) return;
+    setIsLoaded(true);
+    setHasAnimatedIn(true);
+  }, [prefersReducedMotion]);
 
   // Trigger entrance animation after in view and layout is sized for viewport
   useEffect(() => {
