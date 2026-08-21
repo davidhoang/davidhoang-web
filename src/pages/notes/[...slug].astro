@@ -10,6 +10,7 @@ import {
 import { noteStageInfo } from '../../utils/noteStageInfo';
 import { parseYoutubeVideoId } from '../../utils/youtube';
 import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
+import { findNoteBacklinks } from '../../utils/noteBacklinks';
 import RelatedContentSection from '../../components/RelatedContentSection.astro';
 import BlogMeta from '../../components/BlogMeta.astro';
 import { formatLongDate } from '../../utils/formatDate';
@@ -61,6 +62,11 @@ const relatedContent = findRelatedContent({
   writingEntries: allPosts,
   noteEntries: allNotes.filter((entry) => entry.id !== note.id),
   limit: 4,
+});
+
+const backlinks = findNoteBacklinks({
+  noteId: note.id,
+  notes: allNotes,
 });
 
 function linkAttrs(url: string) {
@@ -195,6 +201,23 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
     </section>
 
     <RelatedContentSection items={relatedContent} heading="Related" />
+
+    {backlinks.length > 0 && (
+      <section class="note-section" aria-labelledby="backlinks-heading">
+        <h2 id="backlinks-heading" class="note-section__heading">What links here</h2>
+        <p class="note-section__lede">Other notes in the garden that point to this one.</p>
+        <ul class="note-links__list note-backlinks__list">
+          {backlinks.map((item) => (
+            <li>
+              <a href={item.href}>{item.title}</a>
+              {item.description && (
+                <span class="note-backlinks__desc"> — {item.description}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <section class="note-section" aria-labelledby="links-heading">
       <h2 id="links-heading" class="note-section__heading">Links</h2>
@@ -331,6 +354,18 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
     font-style: italic;
     margin: 0;
     line-height: 1.5;
+  }
+
+  .note-section__lede {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    margin: 0 0 var(--spacing-md);
+    line-height: 1.5;
+  }
+
+  .note-backlinks__desc {
+    color: var(--color-muted);
+    font-size: 0.875rem;
   }
 
   .note-section--overview .note-section__heading {
