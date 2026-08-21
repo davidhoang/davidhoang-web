@@ -112,18 +112,20 @@ describe('ObserverPool', () => {
     io.trigger(target, true);
     expect(calls).toEqual([true]);
     expect(io.elements.has(target)).toBe(false);
-    expect(pool.stats()).toEqual({ observers: 0, elements: 0 });
+    expect(pool.stats()).toEqual({ observers: 1, elements: 0 });
 
-    io.trigger(target, true);
-    expect(calls).toEqual([true]);
+    const reuse = el('hero-2');
+    pool.observe(reuse, () => {}, { threshold: 0.1, once: true });
+    expect(MockIntersectionObserver.instances).toHaveLength(1);
+    expect(pool.stats()).toEqual({ observers: 1, elements: 1 });
   });
 
-  it('unsubscribe removes the watcher and disconnects empty observers', () => {
+  it('unsubscribe removes the watcher but keeps the pooled observer', () => {
     const target = el('section');
     const stop = pool.observe(target, () => {}, { rootMargin: '-50px' });
     expect(pool.stats().observers).toBe(1);
     stop();
-    expect(pool.stats()).toEqual({ observers: 0, elements: 0 });
+    expect(pool.stats()).toEqual({ observers: 1, elements: 0 });
     expect(MockIntersectionObserver.instances[0]!.elements.has(target)).toBe(false);
   });
 

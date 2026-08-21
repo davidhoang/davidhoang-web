@@ -101,7 +101,6 @@ export class ObserverPool {
       if (!byElement?.has(element)) continue;
       byElement.delete(element);
       this.observers.get(key)?.unobserve(element);
-      this.prune(key);
     }
   }
 
@@ -137,7 +136,6 @@ export class ObserverPool {
     if (set.size === 0) {
       byElement!.delete(target);
       this.observers.get(key)?.unobserve(target);
-      this.prune(key);
     }
   }
 
@@ -149,18 +147,6 @@ export class ObserverPool {
     if (set.size === 0) {
       byElement!.delete(element);
       this.observers.get(key)?.unobserve(element);
-    }
-    this.prune(key);
-  }
-
-  private prune(key: string): void {
-    const byElement = this.watchers.get(key);
-    if (byElement && byElement.size > 0) return;
-    this.watchers.delete(key);
-    const observer = this.observers.get(key);
-    if (observer) {
-      observer.disconnect();
-      this.observers.delete(key);
     }
   }
 }
