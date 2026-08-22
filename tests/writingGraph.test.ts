@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { buildGraph, getKeywords } from '../src/utils/writingGraph';
+import {
+  buildGraph,
+  formatGraphReasons,
+  getGraphConnections,
+  getKeywords,
+} from '../src/utils/writingGraph';
 
 type Post = {
   id: string;
@@ -153,5 +158,27 @@ describe('buildGraph', () => {
     expect(tagEdge).toBeDefined();
     expect(kwEdge).toBeDefined();
     expect(tagEdge!.weight).toBeGreaterThan(kwEdge!.weight);
+  });
+});
+
+describe('graph accessibility helpers', () => {
+  it('formats connection reasons for people', () => {
+    expect(formatGraphReasons(['related', 'keywords', 'tags: design'])).toBe(
+      'related essay · shared themes · tags: design',
+    );
+  });
+
+  it('returns connected nodes in stable title order', () => {
+    const graph = buildGraph([
+      post('a', 'Alpha', [], '', ['c', 'b']),
+      post('b', 'Beta'),
+      post('c', 'Charlie'),
+    ]);
+
+    expect(getGraphConnections(graph, 'a').map(({ node }) => node.title)).toEqual([
+      'Beta',
+      'Charlie',
+    ]);
+    expect(getGraphConnections(graph, 'b')[0]?.node.id).toBe('a');
   });
 });

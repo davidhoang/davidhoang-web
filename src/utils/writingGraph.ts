@@ -32,6 +32,36 @@ export type Graph = {
   edges: GraphEdge[];
 };
 
+export type GraphConnection = {
+  node: GraphNode;
+  reasons: string[];
+};
+
+export function formatGraphReasons(reasons: string[]): string {
+  return reasons
+    .map((reason) =>
+      reason === 'related'
+        ? 'related essay'
+        : reason === 'keywords'
+          ? 'shared themes'
+          : reason,
+    )
+    .join(' · ');
+}
+
+export function getGraphConnections(graph: Graph, nodeId: string): GraphConnection[] {
+  const nodesById = new Map(graph.nodes.map((node) => [node.id, node]));
+
+  return graph.edges
+    .flatMap((edge) => {
+      const connectedId =
+        edge.source === nodeId ? edge.target : edge.target === nodeId ? edge.source : undefined;
+      const node = connectedId ? nodesById.get(connectedId) : undefined;
+      return node ? [{ node, reasons: edge.reasons }] : [];
+    })
+    .sort((a, b) => a.node.title.localeCompare(b.node.title));
+}
+
 type PostInput = {
   id: string;
   data: {

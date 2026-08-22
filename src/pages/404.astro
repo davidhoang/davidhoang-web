@@ -12,13 +12,13 @@ import MainLayout from '../layouts/MainLayout.astro';
     <h1 class="text-heading">Page not found</h1>
     <p class="message text-muted">The page you're looking for doesn't exist or has been moved.</p>
     <nav class="suggestions" aria-label="Suggested pages">
-      <a href="/">Home</a>
-      <a href="/writing">Writing</a>
-      <a href="/about">About</a>
+      <a href="/notes">Notes</a>
+      <a href="/works">Works</a>
+      <a href="/featured">Featured</a>
     </nav>
-    <p class="cmd-hint text-caption">
+    <button type="button" class="cmd-hint text-caption" data-open-command-palette>
       Or press <kbd>⌘</kbd><kbd>K</kbd> to search
-    </p>
+    </button>
   </div>
 
   <style>
@@ -125,9 +125,19 @@ import MainLayout from '../layouts/MainLayout.astro';
     }
 
     .cmd-hint {
+      appearance: none;
+      border: 0;
+      background: none;
+      color: var(--color-muted);
+      cursor: pointer;
       margin-top: var(--spacing-xl);
       opacity: 0;
       animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.65s forwards;
+    }
+
+    .cmd-hint:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: var(--focus-ring-offset);
     }
 
     kbd {

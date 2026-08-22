@@ -495,6 +495,21 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
       // Used twice: against `document.documentElement` on initial load (pre-paint) and against
       // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).
       function applyThemePreferencesToRoot(root, ssrDateOfRoot) {
+        try {
+          var url = new URL(window.location.href);
+          var requestedDate = url.searchParams.get('theme');
+          if (url.searchParams.get('layout') !== 'default' && requestedDate && themesApplyMap[requestedDate]) {
+            localStorage.setItem('daily-theme-mode', 'true');
+            localStorage.setItem('daily-theme-date', requestedDate);
+            localStorage.setItem('e-ink-mode', 'false');
+          } else if (requestedDate && !themesApplyMap[requestedDate]) {
+            url.searchParams.delete('theme');
+            history.replaceState(null, '', url.pathname + (url.search ? url.search : '') + url.hash);
+          }
+        } catch(e) {
+          // no-op
+        }
+
         var stored = localStorage.getItem('theme');
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         var theme = stored || (prefersDark ? 'dark' : 'light');
@@ -648,7 +663,7 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
     <Navigation />
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
-      <div transition:persist="shader-background">
+      <div class="shader-background-shell" transition:persist="shader-background">
         <ShaderBackground client:idle />
       </div>
       <div class="page-transition-shell" transition:animate={pageFade}>

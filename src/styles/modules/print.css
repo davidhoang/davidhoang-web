@@ -5,6 +5,11 @@
    Strips UI chrome, optimizes typography for paper.
    ============================================ */
 
+@page cv {
+  size: letter;
+  margin: 0.6in;
+}
+
 @media print {
   /* --- Hide UI chrome --- */
   nav,
@@ -20,6 +25,9 @@
   [data-comments-section],
   footer,
   [data-daily-theme-toggle],
+  .daily-theme-toggle,
+  #theme-calendar,
+  .shader-background-shell,
   .shader-bg,
   .noise-canvas,
   .particle-canvas,
@@ -52,12 +60,52 @@
     margin: 0 !important;
   }
 
+  main#main-content {
+    padding-top: 0 !important;
+  }
+
   .content-grid {
     display: block !important;
   }
 
   .content-filter-wrapper {
     filter: none !important;
+  }
+
+  /* --- CV: compact, one-page PDF/print layout --- */
+  .cv-container {
+    page: cv;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .cv-name {
+    font-size: 24pt !important;
+    margin: 0 0 0.08in !important;
+  }
+
+  .cv-title {
+    font-size: 12pt !important;
+    margin: 0 0 0.3in !important;
+  }
+
+  .cv-section {
+    margin-bottom: 0.18in !important;
+    break-inside: avoid;
+  }
+
+  .cv-item {
+    margin-bottom: 0.03in !important;
+  }
+
+  .cv-link {
+    display: none !important;
+  }
+
+  .cv-links {
+    margin-top: 0.3in !important;
+    gap: 0.2in !important;
   }
 
   /* --- Typography --- */

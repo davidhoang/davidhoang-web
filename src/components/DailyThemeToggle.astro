@@ -249,6 +249,7 @@ const hasThemes = themes.length > 0;
 
   function initDailyTheme() {
     applyDefaultLayoutFromUrl();
+    applyThemeFromUrl();
 
     const toggleBtn = document.getElementById('daily-theme-toggle');
     const calendar = document.getElementById('theme-calendar');
@@ -308,6 +309,7 @@ const hasThemes = themes.length > 0;
         document.documentElement.setAttribute('data-e-ink', 'false');
         toggleBtn.setAttribute('aria-pressed', 'false');
         removeDailyTheme();
+        syncThemeQueryParam(null);
         clearCalendarSelections(calendar);
         defaultBtn.classList.add('active');
       });
@@ -323,6 +325,7 @@ const hasThemes = themes.length > 0;
         document.documentElement.setAttribute('data-shader', 'none');
         toggleBtn.setAttribute('aria-pressed', 'false');
         removeDailyTheme();
+        syncThemeQueryParam(null);
         clearCalendarSelections(calendar);
         eInkBtn.classList.add('active');
       });
@@ -410,6 +413,7 @@ const hasThemes = themes.length > 0;
         toggleBtn.setAttribute('aria-pressed', 'true');
 
         applyDailyTheme(date);
+        syncThemeQueryParam(date);
 
         // Dispatch event for preference tracking
         const themeDataStr = btn.getAttribute('data-theme-data');
@@ -580,6 +584,7 @@ const hasThemes = themes.length > 0;
         localStorage.setItem('e-ink-mode', 'false');
         document.documentElement.setAttribute('data-e-ink', 'false');
         removeDailyTheme();
+        url.searchParams.delete('theme');
         url.searchParams.delete('layout');
         const qs = url.searchParams.toString();
         const clean = url.pathname + (qs ? '?' + qs : '') + url.hash;
@@ -604,6 +609,39 @@ const hasThemes = themes.length > 0;
         removeDailyTheme();
         location.replace('/');
       }
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function syncThemeQueryParam(date) {
+    try {
+      const url = new URL(window.location.href);
+      if (date) url.searchParams.set('theme', date);
+      else url.searchParams.delete('theme');
+      const qs = url.searchParams.toString();
+      history.replaceState(null, '', url.pathname + (qs ? '?' + qs : '') + url.hash);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function applyThemeFromUrl() {
+    try {
+      const url = new URL(window.location.href);
+      const date = url.searchParams.get('theme');
+      if (!date) return;
+
+      if (!themes.some(theme => theme.date === date)) {
+        syncThemeQueryParam(null);
+        return;
+      }
+
+      localStorage.setItem('daily-theme-mode', 'true');
+      localStorage.setItem('daily-theme-date', date);
+      localStorage.setItem('e-ink-mode', 'false');
+      document.documentElement.setAttribute('data-e-ink', 'false');
+      applyDailyTheme(date);
     } catch (e) {
       /* ignore */
     }
