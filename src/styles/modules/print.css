@@ -61,7 +61,9 @@
   }
 
   main#main-content {
+    min-height: auto !important;
     padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 
   .content-grid {
@@ -70,6 +72,11 @@
 
   .content-filter-wrapper {
     filter: none !important;
+  }
+
+  .content-filter-wrapper,
+  .page-transition-shell {
+    min-height: 0 !important;
   }
 
   /* --- CV: compact, one-page PDF/print layout --- */
