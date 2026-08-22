@@ -476,6 +476,12 @@ export function initCommandPalette() {
 
   // Click outside to close
   function handleDocumentClick(e: MouseEvent) {
+    const openTrigger = (e.target as HTMLElement).closest('[data-open-command-palette]');
+    if (openTrigger && !nav!.classList.contains('cmd-palette-active')) {
+      e.preventDefault();
+      void open('click');
+      return;
+    }
     if (!nav!.contains(e.target as Node) && nav!.classList.contains('cmd-palette-active')) {
       close();
     }

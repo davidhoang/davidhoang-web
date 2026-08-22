@@ -6,6 +6,7 @@ import SidebarWriting from '../components/SidebarWriting.astro';
 import CommentsSection from '../components/CommentsSection.astro';
 import RelatedContentSection from '../components/RelatedContentSection.astro';
 import CompanionPrototype from '../components/CompanionPrototype.astro';
+import ShareControls from '../components/ShareControls.astro';
 import { formatLongDate } from '../utils/formatDate';
 import { resolveAssetImage } from '../utils/assetImages';
 import {
@@ -17,7 +18,7 @@ import {
 } from '../utils/structuredData';
 import '../styles/pages/writing-post.css';
 
-const { data, relatedContent = [], headings = [] } = Astro.props;
+const { data, relatedContent = [], headings = [], readingTime } = Astro.props;
 const tocHeadings = headings.filter((h: { depth: number }) => h.depth >= 1 && h.depth <= 3);
 
 const blogContent = {
@@ -106,6 +107,10 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
       {description && <p class="writing-post__deck">{description}</p>}
       <div class="writing-post__meta">
         <time datetime={isoDate}>{formatLongDate(publishDate)}</time>
+        {readingTime && (
+          <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
+        )}
+        <ShareControls url={canonicalUrl} title={title} description={pageDescription} />
       </div>
     </header>
 

@@ -1,5 +1,5 @@
 ---
-import type { Graph } from '../utils/writingGraph';
+import { formatGraphReasons, getGraphConnections, type Graph } from '../utils/writingGraph';
 
 interface Props {
   graph: Graph;
@@ -8,6 +8,10 @@ interface Props {
 const { graph } = Astro.props;
 
 const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
+const accessibleGraph = graph.nodes.map((node) => ({
+  node,
+  connections: getGraphConnections(graph, node.id),
+}));
 ---
 
 <div class="writing-graph" data-writing-graph data-max-degree={maxDegree}>
@@ -15,14 +19,38 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
     class="writing-graph__svg"
     viewBox="0 0 800 600"
     preserveAspectRatio="xMidYMid meet"
-    role="img"
+    role="group"
     aria-label="Network of writing posts connected by shared topics and related essays"
+    aria-describedby="writing-graph-hint"
   >
     <g data-graph-edges class="writing-graph__edges"></g>
     <g data-graph-nodes class="writing-graph__nodes"></g>
   </svg>
   <div class="writing-graph__tooltip" data-graph-tooltip aria-hidden="true"></div>
-  <p class="writing-graph__hint" data-graph-hint>Hover a node to see connections. Click to read.</p>
+  <p id="writing-graph-hint" class="writing-graph__hint" data-graph-hint aria-live="polite">
+    Focus or point to a node to see connections. Activate to read.
+  </p>
+  <nav class="sr-only" aria-label="Essay connections in the writing graph">
+    <ul>
+      {accessibleGraph.map(({ node, connections }) => (
+        <li>
+          <a href={node.url}>{node.title}</a>
+          {connections.length > 0 && (
+            <span>
+              {` — Connected to ${connections
+                .map(({ node: connected, reasons }) => {
+                  const reasonText = formatGraphReasons(reasons);
+                  return reasonText
+                    ? `${connected.title} (${reasonText})`
+                    : connected.title;
+                })
+                .join('; ')}`}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
 </div>
 
 <script is:inline define:vars={{ graph }}>
@@ -184,6 +212,7 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
         const a = document.createElementNS(svgNS, 'a');
         a.setAttribute('href', n.url);
         a.setAttribute('data-node-id', n.id);
+        a.setAttribute('aria-label', n.title);
         a.classList.add('writing-graph__node');
 
         const circle = document.createElementNS(svgNS, 'circle');
@@ -211,12 +240,31 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
           showNodeHint(n, adjacency, edgeReasons, nodes);
         });
         a.addEventListener('mouseleave', () => {
+          if (document.activeElement === a) return;
           clearHighlight();
           resetHint();
         });
         a.addEventListener('blur', () => {
-          clearHighlight();
-          resetHint();
+          window.setTimeout(() => {
+            if (nodesG.contains(document.activeElement)) return;
+            clearHighlight();
+            resetHint();
+          }, 0);
+        });
+        a.addEventListener('keydown', (event) => {
+          if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(event.key)) return;
+          event.preventDefault();
+          const neighborIds = [...(adjacency.get(n.id) ?? [])];
+          const candidates = (neighborIds.length > 0 ? neighborIds : nodes.map((node) => node.id))
+            .filter((id) => id !== n.id)
+            .map((id) => nodes.find((node) => node.id === id))
+            .filter(Boolean)
+            .sort((a, b) => a.title.localeCompare(b.title));
+          const target =
+            event.key === 'ArrowLeft' || event.key === 'ArrowUp'
+              ? candidates.at(-1)
+              : candidates[0];
+          nodesG.querySelector(`[data-node-id="${CSS.escape(target?.id || '')}"]`)?.focus();
         });
 
         nodesG.appendChild(a);
@@ -249,7 +297,7 @@ const maxDegree = Math.max(1, ...graph.nodes.map((n) => n.degree));
     }
 
     function resetHint() {
-      if (hint) hint.textContent = 'Hover a node to see connections. Click to read.';
+      if (hint) hint.textContent = 'Focus or point to a node to see connections. Activate to read.';
     }
 
     function highlight(activeId, adjacency) {
