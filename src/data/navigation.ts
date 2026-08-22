@@ -10,9 +10,14 @@ export const navItems = [
 export const mobileSecondaryNavItems = [
   { path: '/now', label: 'Now' },
   { path: '/notes', label: 'Notes' },
+  { path: '/works', label: 'Works' },
+  { path: '/cv', label: 'CV' },
   { path: '/career-odyssey', label: 'Career Odyssey' },
+  { path: '/thesis', label: 'Thesis' },
   { path: '/investing', label: 'Investing' },
   { path: '/advising', label: 'Advising' },
+  { path: '/design-resources', label: 'Design Resources' },
+  { path: '/prototypes', label: 'Prototypes' },
   { path: '/daily-themes', label: 'Daily Themes' },
   { path: '/design-guide', label: 'Design Guide' },
 ] as const;
@@ -29,6 +34,38 @@ export const commandPalettePages = [
   { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
   { title: 'Design Guide', description: 'Theme-responsive design system primitives', path: '/design-guide', type: 'page' },
+  {
+    title: 'Works',
+    description:
+      'Selected work — career chapters as cards, talks and one-off events as a vertical list.',
+    path: '/works',
+    type: 'page',
+  },
+  {
+    title: 'Design Resources',
+    description: 'Curated design tools, references, and resources.',
+    path: '/design-resources',
+    type: 'page',
+  },
+  {
+    title: 'Thesis',
+    description:
+      'Convictions on the future of software design, AI-native management, and human × AI collaboration.',
+    path: '/thesis',
+    type: 'page',
+  },
+  {
+    title: 'CV',
+    description: 'Curriculum vitae — roles and timeline.',
+    path: '/cv',
+    type: 'page',
+  },
+  {
+    title: 'Prototypes',
+    description: 'Standalone proof-of-concept visuals and experiments.',
+    path: '/prototypes',
+    type: 'page',
+  },
 ] as const;
 
 /**
@@ -46,38 +83,6 @@ export const discoverableStaticPages = [
     type: 'page' as const,
   },
   ...commandPalettePages,
-  {
-    title: 'Works',
-    description:
-      'Selected work — career chapters as cards, talks and one-off events as a vertical list.',
-    path: '/works',
-    type: 'page' as const,
-  },
-  {
-    title: 'Design Resources',
-    description: 'Curated design tools, references, and resources.',
-    path: '/design-resources',
-    type: 'page' as const,
-  },
-  {
-    title: 'Thesis',
-    description:
-      'Convictions on the future of software design, AI-native management, and human × AI collaboration.',
-    path: '/thesis',
-    type: 'page' as const,
-  },
-  {
-    title: 'CV',
-    description: 'Curriculum vitae — roles and timeline.',
-    path: '/cv',
-    type: 'page' as const,
-  },
-  {
-    title: 'Prototypes',
-    description: 'Standalone proof-of-concept visuals and experiments.',
-    path: '/prototypes',
-    type: 'page' as const,
-  },
   {
     title: 'Tectonic Cross-Section',
     description:
@@ -98,8 +103,12 @@ export const footerSections = [
     links: [
       { href: '/about', label: 'About', ariaLabel: 'About David Hoang', external: false },
       { href: '/featured', label: 'Featured', ariaLabel: 'Featured work and press', external: false },
+      { href: '/works', label: 'Works', ariaLabel: 'Selected work', external: false },
+      { href: '/cv', label: 'CV', ariaLabel: 'Curriculum vitae', external: false },
+      { href: '/thesis', label: 'Thesis', ariaLabel: 'Design and AI thesis', external: false },
       { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
       { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
+      { href: '/prototypes', label: 'Prototypes', ariaLabel: 'Interactive prototypes', external: false },
       {
         href: 'https://curius.app/david-hoang',
         label: 'Curius',
