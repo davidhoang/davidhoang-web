@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import vercel from '@astrojs/vercel';
@@ -45,6 +47,40 @@ function manualChunks(id) {
       return chunkName;
     }
   }
+}
+
+/**
+ * Dev-only: Astro's routeGuard 404s HTML navigations when a file exists at
+ * repo root (`existsAtRootAsFile`). That shadows `src/pages/design.md.ts`.
+ * Unshift after Astro installs the guard so /design.md is served as markdown.
+ */
+function serveRootMarkdownRoutesPlugin() {
+  return {
+    name: 'serve-root-markdown-routes',
+    enforce: 'post',
+    configureServer(server) {
+      const handler = (req, res, next) => {
+        const url = req.url?.split('?')[0];
+        if (url !== '/design.md') {
+          next();
+          return;
+        }
+
+        try {
+          const markdown = readFileSync(join(process.cwd(), 'design.md'), 'utf8');
+          res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+          res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+          res.end(markdown);
+        } catch {
+          next();
+        }
+      };
+
+      return () => {
+        server.middlewares.stack.unshift({ route: '', handle: handler });
+      };
+    },
+  };
 }
 
 /** Populate public/images from src/assets/images (single source of truth). */
@@ -97,6 +133,7 @@ export default defineConfig({
   ],
   vite: {
     plugins: [
+      serveRootMarkdownRoutesPlugin(),
       copyAssetsPlugin(),
       ...(process.env.ANALYZE ? [visualizer({
         filename: 'dist/bundle-stats.html',

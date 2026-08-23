@@ -134,4 +134,13 @@ describe('contentMarkdown', () => {
     expect(vercel).toContain('/notes/(.*).md');
     expect(vercel).toContain('text/markdown; charset=utf-8');
   });
+
+  it('serves repo-root design.md before Astro routeGuard so /design.md is not a 404', () => {
+    const astroConfig = readFileSync(join(ROOT, 'astro.config.mjs'), 'utf8');
+    const endpoint = readFileSync(join(ROOT, 'src/pages/design.md.ts'), 'utf8');
+
+    expect(endpoint).toContain("join(process.cwd(), 'design.md')");
+    expect(astroConfig).toContain("name: 'serve-root-markdown-routes'");
+    expect(astroConfig).toContain("url !== '/design.md'");
+  });
 });
