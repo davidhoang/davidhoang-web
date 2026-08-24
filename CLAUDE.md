@@ -44,7 +44,7 @@ Site: https://www.davidhoang.com
 - Vercel Speed Insights for real-world Core Web Vitals monitoring
 - Vercel Web Analytics for privacy-conscious agent-experience events (AI referrals, search/newsletter outcomes); crawler traffic via Vercel Firewall — see `docs/agent-experience-measurement.md`
 - View transitions enabled with custom animations and reduced-motion support
-- Daily theme system with auto-generated themes
+- Daily theme system with auto-generated themes. On Claude API outages the generator (`scripts/generate-daily-theme.mjs`) recovers instead of failing the deploy: it keeps a theme already written for today (`fallback-kept`), otherwise reuses `src/data/last-good-theme.json` for today's date (`fallback`). Recovery logic lives in `scripts/lib/theme-api-fallback.mjs` (`resolveLastGoodFallback`); non-outage errors (schema/contrast validation) still fail the job. See `.github/workflows/daily-theme.yml`.
 
 ## Code style
 - Prefer minimal changes; don't over-engineer

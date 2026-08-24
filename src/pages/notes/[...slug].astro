@@ -10,9 +10,13 @@ import {
 import { noteStageInfo } from '../../utils/noteStageInfo';
 import { parseYoutubeVideoId } from '../../utils/youtube';
 import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
+import { findNoteBacklinks } from '../../utils/noteBacklinks';
 import RelatedContentSection from '../../components/RelatedContentSection.astro';
 import BlogMeta from '../../components/BlogMeta.astro';
+import CommentsSection from '../../components/CommentsSection.astro';
+import ShareControls from '../../components/ShareControls.astro';
 import { formatLongDate } from '../../utils/formatDate';
+import { estimateReadingMinutes, formatReadingTime } from '../../utils/readingTime';
 import {
   absoluteUrl,
   buildNoteCreativeWorkJsonLd,
@@ -63,6 +67,11 @@ const relatedContent = findRelatedContent({
   limit: 4,
 });
 
+const backlinks = findNoteBacklinks({
+  noteId: note.id,
+  notes: allNotes,
+});
+
 function linkAttrs(url: string) {
   return /^https?:\/\//i.test(url)
     ? { target: '_blank' as const, rel: 'noopener noreferrer' }
@@ -71,6 +80,7 @@ function linkAttrs(url: string) {
 
 const overviewSource = (note.data.overview ?? note.data.description ?? '').trim();
 const overviewHtml = overviewSource ? renderNoteOverview(overviewSource) : '';
+const readingTime = formatReadingTime(estimateReadingMinutes([overviewSource, note.body]));
 const overviewYoutubeId = parseYoutubeVideoId(note.data.overviewYoutube);
 const coverImage = note.data.coverImage;
 const ogImage =
@@ -143,6 +153,12 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
             <time datetime={noteIsoModified}>{formatLongDate(note.data.updatedDate)}</time>
           </span>
         )}
+        <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
+        <ShareControls
+          url={canonicalUrl}
+          title={note.data.title}
+          description={pageDescription}
+        />
       </div>
       {tags.length > 0 && (
         <div class="note-meta-row">
@@ -195,6 +211,24 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
     </section>
 
     <RelatedContentSection items={relatedContent} heading="Related" />
+    <CommentsSection postId={pathname} />
+
+    {backlinks.length > 0 && (
+      <section class="note-section" aria-labelledby="backlinks-heading">
+        <h2 id="backlinks-heading" class="note-section__heading">What links here</h2>
+        <p class="note-section__lede">Other notes in the garden that point to this one.</p>
+        <ul class="note-links__list note-backlinks__list">
+          {backlinks.map((item) => (
+            <li>
+              <a href={item.href}>{item.title}</a>
+              {item.description && (
+                <span class="note-backlinks__desc"> — {item.description}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <section class="note-section" aria-labelledby="links-heading">
       <h2 id="links-heading" class="note-section__heading">Links</h2>
@@ -296,7 +330,7 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-xs) var(--spacing-sm);
-    align-items: baseline;
+    align-items: center;
   }
 
   .note-updated {
@@ -331,6 +365,18 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
     font-style: italic;
     margin: 0;
     line-height: 1.5;
+  }
+
+  .note-section__lede {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    margin: 0 0 var(--spacing-md);
+    line-height: 1.5;
+  }
+
+  .note-backlinks__desc {
+    color: var(--color-muted);
+    font-size: 0.875rem;
   }
 
   .note-section--overview .note-section__heading {

@@ -4,6 +4,7 @@ description: "Exploring how AI is reshaping interface design and interaction pat
 pubDate: 2025-01-15
 stage: thoughts
 tags: ["ai", "interface-design", "systems"]
+relatedNotes: ["dynamic-interfaces"]
 coverImage: "/images/highlights/img-highlights-replit.webp"
 ---
 

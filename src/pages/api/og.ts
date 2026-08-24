@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { ImageResponse } from '@vercel/og';
+import { resolveOgBadge, resolveOgTitleFontSize } from '../../utils/ogImage';
 
 export const prerender = false;
 
@@ -9,11 +10,10 @@ export const GET: APIRoute = async ({ url }) => {
   const type = url.searchParams.get('type') || 'writing';
 
   // Clamp font size for long titles
-  const titleLength = title.length;
-  const titleFontSize = titleLength > 80 ? 40 : titleLength > 50 ? 48 : 56;
+  const titleFontSize = resolveOgTitleFontSize(title.length);
 
-  // Type label for the badge
-  const typeLabel = type === 'notes' ? 'Notes' : 'Writing';
+  // Type label for the badge — general pages (type=page) render without one.
+  const typeLabel = resolveOgBadge(type);
 
   const html = {
     type: 'div',
@@ -59,32 +59,36 @@ export const GET: APIRoute = async ({ url }) => {
               padding: '60px 72px 0 72px',
             },
             children: [
-              // Type badge
-              {
-                type: 'div',
-                props: {
-                  style: {
-                    display: 'flex',
-                    marginBottom: '20px',
-                  },
-                  children: [
+              // Type badge (omitted for general pages with no label)
+              ...(typeLabel
+                ? [
                     {
                       type: 'div',
                       props: {
                         style: {
-                          fontSize: '13px',
-                          fontWeight: 600,
-                          color: '#888',
-                          fontFamily: 'Inter, sans-serif',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.1em',
+                          display: 'flex',
+                          marginBottom: '20px',
                         },
-                        children: typeLabel,
+                        children: [
+                          {
+                            type: 'div',
+                            props: {
+                              style: {
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                color: '#888',
+                                fontFamily: 'Inter, sans-serif',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.1em',
+                              },
+                              children: typeLabel,
+                            },
+                          },
+                        ],
                       },
                     },
-                  ],
-                },
-              },
+                  ]
+                : []),
               // Title
               {
                 type: 'div',

@@ -6,11 +6,15 @@
  * Generates a new color palette, font pairing, and layout variations
  * using Claude API. Keeps 7 days of theme history.
  *
+ * When Claude is unavailable (outage, auth, rate limit, network), reuses the
+ * cached last-good theme for today so the scheduled workflow can still build
+ * and deploy. See scripts/lib/theme-api-fallback.mjs.
+ *
  * Usage:
  *   node scripts/generate-daily-theme.mjs
  *
  * Environment:
- *   ANTHROPIC_API_KEY - Required for Claude API access
+ *   ANTHROPIC_API_KEY - Required for Claude API access (falls back to last-good if missing/unreachable)
  *
  * Options:
  *   --inspiration "Name"   Pick a design inspiration from the bank
@@ -57,6 +61,15 @@ import {
   saveSignatureCache,
 } from './lib/theme-signature-cache.mjs';
 import { hexToHsl } from './lib/theme-color-distance.mjs';
+import {
+  ANTHROPIC_API_KEY_MISSING_CODE,
+  allErrorsAreClaudeApiUnavailable,
+  createClaudeApiUnavailableError,
+  loadDailyThemesData,
+  loadLastGoodTheme,
+  saveLastGoodTheme,
+  resolveLastGoodFallback,
+} from './lib/theme-api-fallback.mjs';
 
 const DEFAULT_THEME_CANDIDATE_COUNT = 3;
 const CANDIDATE_LENSES = [
@@ -687,8 +700,10 @@ async function generateTheme(options = {}) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
-    console.error('Error: ANTHROPIC_API_KEY environment variable is required');
-    process.exit(1);
+    throw createClaudeApiUnavailableError(
+      'ANTHROPIC_API_KEY environment variable is required',
+      { code: ANTHROPIC_API_KEY_MISSING_CODE },
+    );
   }
 
   const client = new Anthropic({ apiKey });
@@ -799,9 +814,18 @@ async function generateTheme(options = {}) {
 
   const candidates = candidateAttempts.filter((candidate) => candidate.theme);
   if (candidates.length === 0) {
-    const reasons = candidateAttempts
-      .map((candidate) => candidate.error?.message || 'unknown failure')
+    const candidateErrors = candidateAttempts.map((candidate) => candidate.error);
+    const reasons = candidateErrors
+      .map((error) => error?.message || 'unknown failure')
       .join(' | ');
+
+    if (allErrorsAreClaudeApiUnavailable(candidateErrors)) {
+      throw createClaudeApiUnavailableError(
+        `Claude API unavailable while generating theme candidates. ${reasons}`,
+        { cause: candidateErrors[0] },
+      );
+    }
+
     throw new Error(
       `All theme candidates failed validation or WCAG AA contrast checks. No theme was saved. ${reasons}`,
     );
@@ -935,7 +959,7 @@ function updateThemeHistory(newTheme) {
   const themesPath = join(rootDir, 'src', 'data', 'daily-themes.json');
 
   // Strip internal tracking fields before saving
-  const { _contextImage, _contextMarkdown, ...themeToSave } = newTheme;
+  const { _contextImage, _contextMarkdown, _fallback, ...themeToSave } = newTheme;
 
   let themesData;
   try {
@@ -962,7 +986,7 @@ function updateThemeHistory(newTheme) {
   return themesData;
 }
 
-function updateBuildLog(theme, status = 'success') {
+function updateBuildLog(theme, status = 'success', extras = {}) {
   const logPath = join(rootDir, 'src', 'data', 'build-log.json');
 
   let logData;
@@ -997,7 +1021,8 @@ function updateBuildLog(theme, status = 'success') {
     contrastMode: theme.colors?.contrastMode,
     recipe: theme.artDirection?.recipe,
     contextImage: theme._contextImage || null,
-    contextMarkdown: theme._contextMarkdown || null
+    contextMarkdown: theme._contextMarkdown || null,
+    ...extras,
   });
 
   // Keep 30 days of build history
@@ -1005,6 +1030,48 @@ function updateBuildLog(theme, status = 'success') {
 
   writeFileSync(logPath, JSON.stringify(logData, null, 2));
   console.log(`Updated ${logPath}`);
+}
+
+/**
+ * Reuse the cached last-good theme so API outages do not fail the workflow.
+ * @param {unknown} error
+ * @returns {object | null} reused theme, or null when fallback is not possible
+ */
+function applyLastGoodThemeFallback(error) {
+  const today = new Date().toISOString().split('T')[0];
+  const themesData = loadDailyThemesData(rootDir);
+  const existingToday = themesData.themes?.find((theme) => theme.date === today) || null;
+  // Only consult the cached last-good theme when today has nothing to keep.
+  const lastGood = existingToday ? null : loadLastGoodTheme(rootDir);
+
+  const outcome = resolveLastGoodFallback({ error, today, existingToday, lastGood });
+
+  if (outcome.action === 'keep') {
+    // Prefer keeping a previously written theme for today over rewriting history.
+    console.warn(
+      `Claude API unavailable (${outcome.reason}). Keeping existing theme "${outcome.theme.name}" for ${today}.`,
+    );
+    updateBuildLog(outcome.theme, 'fallback-kept', {
+      fallbackReason: outcome.reason,
+      fallbackSourceDate: outcome.sourceDate,
+    });
+    return outcome.theme;
+  }
+
+  if (outcome.action === 'reuse') {
+    console.warn(
+      `Claude API unavailable (${outcome.reason}). Reusing last-good theme "${outcome.theme.name}"` +
+        `${outcome.sourceDate ? ` from ${outcome.sourceDate}` : ''} for ${today}.`,
+    );
+    updateThemeHistory(outcome.theme);
+    updateBuildLog(outcome.theme, 'fallback', {
+      fallbackReason: outcome.reason,
+      fallbackSourceDate: outcome.sourceDate,
+    });
+    return outcome.theme;
+  }
+
+  return null;
 }
 
 // Parse CLI arguments
@@ -1115,14 +1182,27 @@ async function main() {
     }
 
     updateThemeHistory(theme);
+    saveLastGoodTheme(rootDir, theme);
     updateBuildLog(theme);
 
     console.log('\nDaily theme generation complete!');
   } catch (error) {
     console.error('Error generating theme:', error.message);
 
-    // Log failure
-    updateBuildLog({ name: 'Generation Failed' }, 'error');
+    try {
+      const reused = applyLastGoodThemeFallback(error);
+      if (reused) {
+        console.log('\nDaily theme fallback complete (last-good theme reused).');
+        return;
+      }
+    } catch (fallbackError) {
+      console.error('Last-good theme fallback failed:', fallbackError.message);
+    }
+
+    // Log failure when fallback is unavailable or inappropriate
+    updateBuildLog({ name: 'Generation Failed' }, 'error', {
+      fallbackReason: error.message,
+    });
 
     process.exit(1);
   }

@@ -1,4 +1,10 @@
-# Optimizing a Personal Website for AI Agents
+---
+title: "Optimizing a Personal Website for AI Agents"
+pubDate: 2026-08-11
+description: "Treating agent experience as a first-class design surface — what I found, what I changed, and what I deliberately chose not to do."
+tags: ["ai", "agents", "web"]
+relatedWriting: ["the-formlessness-of-ai-agents"]
+---
 
 For most of the web's life, the question behind "who is my site for?" had one answer: people, and the search crawlers that help people find it. That's changing. A growing share of visits now come from AI agents — answer engines summarizing a page, assistants fetching a bio, retrieval bots gathering context for a model. They don't scroll, they don't hover, and they don't care about a hero animation. They want structure, stable endpoints, and clear permissions.
 

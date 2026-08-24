@@ -30,7 +30,7 @@ function makeFanTree() {
   const chrome = {
     id: 'chrome',
     className: 'cinematic-filmstrip',
-    closest(selector: string) {
+    closest(_selector: string) {
       return null;
     },
   };

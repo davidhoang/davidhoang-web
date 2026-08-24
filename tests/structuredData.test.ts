@@ -9,6 +9,7 @@ import {
   buildBreadcrumbListJsonLd,
   buildNoteCreativeWorkJsonLd,
   buildNowPageJsonLd,
+  buildProfilePageJsonLd,
   buildSiteGraphJsonLd,
   NOW_LAST_UPDATED,
   SITE_LANGUAGE,
@@ -150,6 +151,25 @@ describe('buildNowPageJsonLd', () => {
   });
 });
 
+describe('buildProfilePageJsonLd', () => {
+  it('marks the about page as a ProfilePage whose subject is the Person', () => {
+    const json = buildProfilePageJsonLd();
+    expect(json['@type']).toBe('ProfilePage');
+    expect(json['@id']).toBe('https://www.davidhoang.com/about#profilepage');
+    expect(json.url).toBe('https://www.davidhoang.com/about');
+    expect(json.inLanguage).toBe(SITE_LANGUAGE);
+    expect(json.isPartOf).toEqual({ '@id': WEBSITE_ID });
+    expect(json.mainEntity).toEqual({ '@id': PERSON_ID });
+    expect(json.about).toEqual({ '@id': PERSON_ID });
+    expect(json.dateModified).toBeUndefined();
+  });
+
+  it('includes an ISO dateModified when provided', () => {
+    const json = buildProfilePageJsonLd({ dateModified: '2026-01-15T00:00:00.000Z' });
+    expect(json.dateModified).toBe('2026-01-15T00:00:00.000Z');
+  });
+});
+
 describe('buildBreadcrumbListJsonLd', () => {
   it('numbers ListItem positions from 1', () => {
     const json = buildBreadcrumbListJsonLd([
@@ -181,6 +201,7 @@ describe('JSON-LD serializability', () => {
         datePublished: '2025-01-01T00:00:00.000Z',
       }),
       buildNowPageJsonLd({ description: 'D', dateModified: NOW_LAST_UPDATED }),
+      buildProfilePageJsonLd(),
     ];
 
     for (const payload of payloads) {

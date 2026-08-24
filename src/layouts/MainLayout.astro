@@ -10,6 +10,7 @@ import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
 import { buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
+import { buildOgImageUrl } from '../utils/ogImage';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
@@ -178,7 +179,7 @@ interface Props {
 const { 
   title, 
   description = "The official website of David Hoang", 
-  ogImage = "/images/img-dh-web-light.webp",
+  ogImage,
   hideFooter = false,
   pageType,
   disableContentMoodFilter = false,
@@ -214,11 +215,20 @@ const canonicalURL = Astro.site
   ? new URL(normalizedPathname, Astro.site).href
   : normalizedPathname;
 
+// Resolve the OG image. Pages that don't provide a bespoke image get an
+// on-brand generated card (page title + description) rather than the single
+// static site portrait, so every share has consistent, page-specific context.
+const resolvedOgImage = ogImage ?? buildOgImageUrl({
+  title: pageTitle,
+  description,
+  type: 'page',
+});
+
 // Construct full URL for ogImage
 const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.com').replace(/\/$/, '');
-const ogImageUrl = ogImage.startsWith('http') 
-  ? ogImage 
-  : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+const ogImageUrl = resolvedOgImage.startsWith('http') 
+  ? resolvedOgImage 
+  : `${siteUrl}${resolvedOgImage.startsWith('/') ? resolvedOgImage : `/${resolvedOgImage}`}`;
 ---
 
 <!DOCTYPE html>
@@ -485,6 +495,21 @@ const ogImageUrl = ogImage.startsWith('http')
       // Used twice: against `document.documentElement` on initial load (pre-paint) and against
       // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).
       function applyThemePreferencesToRoot(root, ssrDateOfRoot) {
+        try {
+          var url = new URL(window.location.href);
+          var requestedDate = url.searchParams.get('theme');
+          if (url.searchParams.get('layout') !== 'default' && requestedDate && themesApplyMap[requestedDate]) {
+            localStorage.setItem('daily-theme-mode', 'true');
+            localStorage.setItem('daily-theme-date', requestedDate);
+            localStorage.setItem('e-ink-mode', 'false');
+          } else if (requestedDate && !themesApplyMap[requestedDate]) {
+            url.searchParams.delete('theme');
+            history.replaceState(null, '', url.pathname + (url.search ? url.search : '') + url.hash);
+          }
+        } catch(e) {
+          // no-op
+        }
+
         var stored = localStorage.getItem('theme');
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         var theme = stored || (prefersDark ? 'dark' : 'light');
@@ -638,7 +663,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <Navigation />
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
-      <div transition:persist="shader-background">
+      <div class="shader-background-shell" transition:persist="shader-background">
         <ShaderBackground client:idle />
       </div>
       <div class="page-transition-shell" transition:animate={pageFade}>

@@ -4,6 +4,9 @@ import PageHeader from '../components/PageHeader.astro';
 import AiDisclaimer from '../components/AiDisclaimer.astro';
 import bioContent from '../content/bio.md?raw';
 import aiSummaryData from '../data/bio-ai-summary.json';
+import { buildProfilePageJsonLd } from '../utils/structuredData';
+
+const profilePageJsonLd = buildProfilePageJsonLd();
 
 // Page metadata
 const pageDescription = "I'm a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -103,6 +106,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 ---
 
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(profilePageJsonLd)} />
   <PageHeader
     title="About"
     image="/images/header-images/img-about.webp"

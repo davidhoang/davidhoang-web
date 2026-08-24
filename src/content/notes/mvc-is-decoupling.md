@@ -5,6 +5,7 @@ pubDate: 2025-01-04
 stage: thoughts
 tags: ["software", "ai", "architecture"]
 relatedWriting: ["a-new-mvc-is-emerging"]
+relatedNotes: ["dynamic-interfaces"]
 ---
 
 Traditional MVC separated data, UI, and logic. AI and decentralized protocols are shifting this toward dynamic, agent-orchestrated, distributed systems.
@@ -36,4 +37,4 @@ Everything was monolithic. Data lived in your app. UI was bespoke. Logic was det
 
 The controller evolves most dramatically. User input remains ground truth, but AI can propose or execute adjustments. Non-deterministic workflows become the norm.
 
-*This note is extracted from my longer essay on Dynamic Interfaces.*
+*This note is extracted from my longer essay; the garden companion is [Dynamic Interfaces](/notes/dynamic-interfaces).*
