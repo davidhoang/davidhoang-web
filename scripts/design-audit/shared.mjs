@@ -17,7 +17,6 @@ export const SKIP_FILES = new Set([
   'src/styles/modules/print.css',
   'src/layouts/MainLayout.astro',
   'src/pages/daily-themes.astro',
-  'src/components/AiDisclaimer.astro',
   'src/components/SubstackSignup.astro',
 ]);
 
