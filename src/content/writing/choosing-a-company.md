@@ -1,6 +1,6 @@
 ---
 title: "Choosing a company"
-pubDate: 2023-12-31
+pubDate: 2023-11-05
 description: "A framework for evaluating your next role"
 coverImage: "/images/blog/img-2023-01-05-choosing-company.webp"
 tags: ["career"]
