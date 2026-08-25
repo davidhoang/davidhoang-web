@@ -232,7 +232,7 @@
 }
 
 /* Legacy aliases — migrate to .text-eyebrow modifiers */
-:is(.post-kicker, .featured-label, .related-posts__heading, .subscribe-page__eyebrow, .advising-eyebrow) {
+:is(.post-kicker, .featured-label, .related-posts__heading, .subscribe-page__eyebrow) {
   font-size: var(--text-eyebrow-size, 0.6875rem);
   font-weight: 600;
   letter-spacing: var(--text-eyebrow-tracking, 0.14em);
@@ -240,8 +240,7 @@
 }
 
 .featured-label,
-.subscribe-page__eyebrow,
-.advising-eyebrow {
+.subscribe-page__eyebrow {
   color: var(--color-link);
 }
 

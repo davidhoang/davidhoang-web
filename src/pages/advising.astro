@@ -6,14 +6,18 @@ const advisingInquiryUrl = 'https://tally.so/r/D4M0lb';
 
 const pageDescription =
   'A small advisory practice for Heads of Design at growth-stage startups navigating org scale, executive partnership, and design as a strategic function.';
-const ogImage = '/images/blog/2022/img-2022-10-16-meetup-one-medical.webp';
+const ogImage = '/images/header-images/img-header-advising.webp';
 ---
 
 <MainLayout title="Advising | David Hoang" description={pageDescription} ogImage={ogImage}>
-  <PageHeader title="Advising" image={ogImage} alt="Low-fidelity design sketch" />
+  <PageHeader
+    title="Advising"
+    image={ogImage}
+    alt="Ink sketch of a letter and a group of people"
+    priority={true}
+  />
   <div class="content-page content-page--compact-top advising-content container-narrow">
     <section class="content-page__intro">
-      <p class="text-eyebrow advising-eyebrow">Low-volume advisory for design leaders</p>
       <p>
         I've spent 20 years building and scaling design teams — currently as VP of AI Design at
         Atlassian, and previously as VP of Marketing and Design at Replit, the first Head of Design
@@ -35,8 +39,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-meetup-one-medical.webp';
     </section>
 
     <section class="advising-capacity" aria-label="Advising capacity">
-      <span class="text-eyebrow">Capacity</span>
-      <strong>A handful of relationships each year</strong>
+      <p>A handful of relationships each year</p>
     </section>
 
     <section class="content-page__section">
@@ -105,26 +108,17 @@ const ogImage = '/images/blog/2022/img-2022-10-16-meetup-one-medical.webp';
 </MainLayout>
 
 <style>
-  .advising-content .advising-eyebrow {
-    display: block;
-    margin: 0 0 var(--spacing-md);
-  }
-
   .advising-capacity {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-md);
     margin: calc(-1 * var(--spacing-sm)) 0 var(--spacing-2xl);
     padding: var(--spacing-md) 0;
     border-block: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
   }
 
-  .advising-capacity strong {
+  .advising-capacity p {
+    margin: 0;
     font-size: var(--body-size);
     font-weight: 600;
     color: var(--color-text);
-    text-align: right;
   }
 
   .advising-cta {
@@ -163,14 +157,7 @@ const ogImage = '/images/blog/2022/img-2022-10-16-meetup-one-medical.webp';
 
   @media (max-width: 768px) {
     .advising-capacity {
-      display: block;
       margin-bottom: var(--spacing-xl);
-    }
-
-    .advising-capacity strong {
-      display: block;
-      margin-top: var(--spacing-sm);
-      text-align: left;
     }
 
     .advising-cta__button {
