@@ -51,25 +51,3 @@ export const pocVentureInvestments: readonly PocVentureInvestment[] = [
   { name: 'Cycle', href: 'https://www.cycle.app/' },
   { name: 'Carrd', href: 'https://carrd.co/' },
 ];
-
-/** Strings that must never appear on the public fund page or its markdown. */
-export const pocVenturesForbiddenCopy = [
-  'fund i investors',
-  'joey banks',
-  'ellen chisa',
-  'min lp',
-  'lp check',
-  'link to invest',
-  'coming soon',
-  '20% carry',
-  'management fee',
-  'gp commit',
-  'capital call',
-  'capital calls',
-  '$5m',
-  '$5 m',
-  '100-300k',
-  '100–300k',
-  '$100k',
-  '$100 k',
-] as const;

@@ -1,10 +1,27 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import {
-  pocVentureInvestments,
-  pocVentures,
-  pocVenturesForbiddenCopy,
-} from '../src/data/pocVentures';
+import { pocVentureInvestments, pocVentures } from '../src/data/pocVentures';
+
+const forbiddenCopy = [
+  'fund i investors',
+  'joey banks',
+  'ellen chisa',
+  'min lp',
+  'lp check',
+  'link to invest',
+  'coming soon',
+  '20% carry',
+  'management fee',
+  'gp commit',
+  'capital call',
+  'capital calls',
+  '$5m',
+  '$5 m',
+  '100-300k',
+  '100–300k',
+  '$100k',
+  '$100 k',
+] as const;
 
 function readPublicSurfaces(): string {
   const files = [
@@ -33,7 +50,7 @@ describe('Proof of Concept Ventures public front door', () => {
 
   it('keeps LP, raise, and fund-mechanics copy off public surfaces', () => {
     const haystack = readPublicSurfaces();
-    for (const needle of pocVenturesForbiddenCopy) {
+    for (const needle of forbiddenCopy) {
       expect(haystack, `forbidden copy leaked: ${needle}`).not.toContain(needle);
     }
   });
