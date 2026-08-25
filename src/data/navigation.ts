@@ -50,7 +50,7 @@ export const commandPalettePages = [
   {
     title: 'Thesis',
     description:
-      'Convictions on the future of software design, AI-native management, and human × AI collaboration.',
+      'Convictions on design and AI — with further reading into essays and notes.',
     path: '/thesis',
     type: 'page',
   },
@@ -105,7 +105,7 @@ export const footerSections = [
       { href: '/featured', label: 'Featured', ariaLabel: 'Featured work and press', external: false },
       { href: '/works', label: 'Works', ariaLabel: 'Selected work', external: false },
       { href: '/cv', label: 'CV', ariaLabel: 'Curriculum vitae', external: false },
-      { href: '/thesis', label: 'Thesis', ariaLabel: 'Design and AI thesis', external: false },
+      { href: '/thesis', label: 'Thesis', ariaLabel: 'Thesis hub: convictions with further reading', external: false },
       { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
       { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
       { href: '/prototypes', label: 'Prototypes', ariaLabel: 'Interactive prototypes', external: false },
