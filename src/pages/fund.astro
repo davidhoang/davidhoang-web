@@ -1,0 +1,76 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { pocVentureInvestments, pocVentures } from '../data/pocVentures';
+
+const pageDescription = pocVentures.pageDescription;
+const ogImage = '/images/img-dh.webp';
+---
+
+<MainLayout title={`${pocVentures.name} | David Hoang`} description={pageDescription} ogImage={ogImage}>
+  <PageHeader title={pocVentures.name} variant="text-only" subtitle={pocVentures.tagline} />
+  <div class="content-page content-page--compact-top fund-content container-narrow">
+    <section class="content-page__intro">
+      <p>{pocVentures.mission}</p>
+      <p>{pocVentures.missionDetail}</p>
+    </section>
+
+    <section class="content-page__section" aria-labelledby="fund-investments-heading">
+      <h2 id="fund-investments-heading">Selected investments</h2>
+      <ul class="content-page__list content-page__list--bullets">
+        {
+          pocVentureInvestments.map((company) => (
+            <li>
+              {company.href ? (
+                <a href={company.href} target="_blank" rel="noopener noreferrer">
+                  {company.name}
+                </a>
+              ) : (
+                company.name
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="content-page__section fund-inquire" aria-labelledby="fund-inquire-heading">
+      <h2 id="fund-inquire-heading">Inquire</h2>
+      <p>
+        Reach {pocVentures.gpName} at
+        <a href={pocVentures.inquiryMailto}>{pocVentures.inquiryEmail}</a>
+        or
+        <a href={pocVentures.twitterHref} target="_blank" rel="noopener noreferrer">{pocVentures.twitterHandle}</a>
+        on X.
+      </p>
+      <a class="btn btn-primary fund-inquire__button" href={pocVentures.inquiryMailto}>
+        Email {pocVentures.inquiryEmail}
+      </a>
+    </section>
+  </div>
+</MainLayout>
+
+<style>
+  .fund-inquire p {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    color: var(--color-text);
+    max-width: 52ch;
+  }
+
+  .fund-inquire a:not(.btn) {
+    color: var(--color-link);
+    font-weight: 600;
+  }
+
+  .fund-inquire__button::after {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .fund-inquire__button {
+      width: 100%;
+    }
+  }
+</style>

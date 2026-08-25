@@ -51,6 +51,7 @@ describe('discoverableStaticPages', () => {
     expect(paths.has('/thesis')).toBe(true);
     expect(paths.has('/cv')).toBe(true);
     expect(paths.has('/prototypes')).toBe(true);
+    expect(paths.has('/fund')).toBe(true);
   });
 
   it('excludes utility and deprecated destinations', () => {

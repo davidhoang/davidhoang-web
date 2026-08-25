@@ -6,7 +6,7 @@ import {
   mobileSecondaryNavItems,
 } from '../src/data/navigation';
 
-const secondaryPaths = ['/works', '/cv', '/thesis', '/prototypes', '/design-resources'];
+const secondaryPaths = ['/works', '/cv', '/thesis', '/prototypes', '/design-resources', '/fund'];
 
 describe('secondary page discovery', () => {
   it.each(secondaryPaths)('exposes %s in every human discovery surface', (path) => {
