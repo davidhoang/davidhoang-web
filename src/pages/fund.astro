@@ -1,6 +1,5 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import PageHeader from '../components/PageHeader.astro';
 import { pocVentureInvestments, pocVentures } from '../data/pocVentures';
 
 const pageDescription = pocVentures.pageDescription;
@@ -8,13 +7,13 @@ const ogImage = '/images/img-dh.webp';
 ---
 
 <MainLayout title={`${pocVentures.name} | David Hoang`} description={pageDescription} ogImage={ogImage}>
-  <PageHeader
-    class="fund-header"
-    title={pocVentures.name}
-    variant="text-only"
-    subtitle={pocVentures.tagline}
-  />
-  <div class="content-page content-page--compact-top fund-content container-narrow">
+  <div class="content-page fund-content container-narrow">
+    <header class="fund-masthead">
+      <p class="text-eyebrow">Fund</p>
+      <h1 class="fund-masthead__title">{pocVentures.name}</h1>
+      <p class="fund-masthead__tagline">{pocVentures.tagline}</p>
+    </header>
+
     <section class="content-page__intro">
       <p>{pocVentures.mission}</p>
       <p>{pocVentures.missionDetail}</p>
@@ -56,11 +55,32 @@ const ogImage = '/images/img-dh.webp';
 </MainLayout>
 
 <style>
-  :global(.fund-header.page-header--text .page-header__title) {
-    line-height: 1.15;
+  .fund-masthead {
+    margin: 0 0 var(--spacing-2xl);
+  }
+
+  .fund-masthead .text-eyebrow {
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .fund-masthead__title {
+    margin: 0 0 var(--spacing-md);
+    font-family: var(--font-heading);
+    font-size: var(--h3-size);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--h3-letter-spacing);
+    line-height: var(--h3-line-height);
+    color: var(--color-text);
     white-space: normal;
-    overflow-wrap: break-word;
-    max-width: 100%;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .fund-masthead__tagline {
+    margin: 0;
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    color: var(--color-muted);
   }
 
   .fund-inquire p {
