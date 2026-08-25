@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { thesisReadingHref, thesisSections } from '../src/data/thesis';
 
-const root = path.resolve(import.meta.dirname, '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('thesis hub data', () => {
   it('keeps reading lists short and complete', () => {
