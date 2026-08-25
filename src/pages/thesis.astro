@@ -1,191 +1,233 @@
 ---
+import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import {
+  thesisReadingHref,
+  thesisSections,
+  type ThesisReadingLink,
+} from '../data/thesis';
 
-// Page metadata
-const pageDescription = "My convictions on the future of software design, AI-native management, the post-IDE world, and human x AI collaboration.";
-const ogImage = "/images/img-dh.webp";
+const pageDescription =
+  'My convictions on the future of software design, AI-native management, the post-IDE world, and human × AI collaboration — with further reading into essays and notes.';
+const ogImage = '/images/img-dh.webp';
+
+const writingById = new Map(
+  (await getCollection('writing', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
+);
+const notesById = new Map(
+  (await getCollection('notes', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
+);
+
+function resolveReading(link: ThesisReadingLink) {
+  if (link.kind === 'writing') {
+    const entry = writingById.get(link.id);
+    if (!entry) {
+      throw new Error(`Thesis hub: missing writing entry "${link.id}"`);
+    }
+    return {
+      ...link,
+      title: entry.data.title,
+      href: thesisReadingHref(link),
+      external: false as const,
+    };
+  }
+  if (link.kind === 'notes') {
+    const entry = notesById.get(link.id);
+    if (!entry) {
+      throw new Error(`Thesis hub: missing notes entry "${link.id}"`);
+    }
+    return {
+      ...link,
+      title: entry.data.title,
+      href: thesisReadingHref(link),
+      external: false as const,
+    };
+  }
+  return {
+    ...link,
+    href: thesisReadingHref(link),
+    external: true as const,
+  };
+}
+
+const sections = thesisSections.map((section) => ({
+  ...section,
+  reading: section.reading.map(resolveReading),
+}));
 ---
 
-<MainLayout title="Thesis" description={pageDescription} ogImage={ogImage}>
-  <PageHeader title="Conviction" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Conviction" />
-  <div class="container">
-    <section>
-      <p class="lede">
-        A working set of convictions on where software design is headed, how teams should
-        operate with AI, and what changes when the IDE stops being the center of gravity.
-        These are living notes — updated as experiments and writing sharpen the edges.
+<MainLayout title="Thesis | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <PageHeader
+    title="Conviction"
+    image="/images/highlights/img-highlights-proof-of-concept.webp"
+    alt="Conviction"
+  />
+  <div class="content-page thesis-hub container-narrow">
+    <section class="content-page__intro">
+      <p class="text-eyebrow">Living thesis</p>
+      <p>
+        A working set of convictions on where software design is headed, how teams should operate
+        with AI, and what changes when the IDE stops being the center of gravity. Each section links
+        to essays and notes that argue the point — conviction to evidence in one click.
       </p>
     </section>
-    <section class="toc" aria-labelledby="toc-heading">
-      
-      <h2 id="toc-heading" class="toc-title">Table of contents</h2>
+
+    <section class="thesis-toc" aria-labelledby="toc-heading">
+      <h2 id="toc-heading" class="text-eyebrow thesis-toc__title">Table of contents</h2>
       <nav aria-label="Table of contents">
-        <ul>
-          <li><a href="#future-of-software-design">The future of software design</a></li>
-          <li><a href="#ai-native-management">AI-native management</a></li>
-          <li><a href="#post-ide-world">Post-IDE world</a></li>
-          <li><a href="#human-x-ai-collaboration">Human x AI collaboration</a></li>
-        </ul>
+        <ol class="thesis-toc__list">
+          {
+            sections.map((section) => (
+              <li>
+                <a href={`#${section.id}`}>{section.title}</a>
+              </li>
+            ))
+          }
+        </ol>
       </nav>
     </section>
-    <div class="hero-grid">
-      <div class="containers">
-        <section id="future-of-software-design" class="thesis-section">
-          <h2>The future of software design</h2>
-          <p>Design is shifting from artifacts to outcomes. The work moves upstream: defining systems, interfaces, and constraints that enable software to be assembled, not just designed. AI accelerates this shift by compressing the distance between intent and implementation.</p>
-          <ul>
-            <li><strong>Systems over screens</strong>: Designers specify behaviors, contracts, and data models that span products and platforms.</li>
-            <li><strong>Proof over prototype</strong>: Real, runnable proofs replace static mockups; fidelity is functionality.</li>
-            <li><strong>Human-in-the-loop</strong>: Designers become editors and directors of AI-generated variants, curating toward taste and performance.</li>
-          </ul>
-          <p>Further reading: <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a> and selected writing on <a href="/writing" >design and engineering</a>.</p>
-        </section>
 
-        <section id="ai-native-management" class="thesis-section">
-          <h2>AI-native management</h2>
-          <p>Teams are evolving from maker-only to maker–model ensembles. Management shifts from headcount planning to capability planning—what combination of people, data, and models delivers outcomes reliably and safely.</p>
-          <ul>
-            <li><strong>Orchestration</strong>: Managers design workflows where agents handle repetitive work and people handle ambiguity.</li>
-            <li><strong>Quality as a product</strong>: Evaluation data, benchmarks, and red-teaming become first-class assets.</li>
-            <li><strong>Ethics and controls</strong>: Guardrails, consent, and attribution are operating requirements, not post-facto checks.</li>
+    {
+      sections.map((section) => (
+        <section id={section.id} class="content-page__section thesis-section" aria-labelledby={`${section.id}-title`}>
+          <h2 id={`${section.id}-title`}>{section.title}</h2>
+          <p>{section.lede}</p>
+          <ul class="content-page__list content-page__list--bullets">
+            {section.points.map((point) => (
+              <li>
+                <strong>{point.label}:</strong> {point.body}
+              </li>
+            ))}
           </ul>
-          <p>Related essays on leadership and AI: <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a>.</p>
+          <div class="thesis-reading">
+            <h3 class="text-eyebrow thesis-reading__heading">Further reading</h3>
+            <ul class="content-page__list content-page__list--linked">
+              {section.reading.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    {...(item.external
+                      ? { target: '_blank', rel: 'noopener noreferrer' }
+                      : {})}
+                  >
+                    {item.title}
+                    {item.external ? <span class="thesis-reading__ext" aria-hidden="true"> ↗</span> : null}
+                  </a>
+                  <span class="content-page__list-note">{item.note}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
+      ))
+    }
 
-        <section id="post-ide-world" class="thesis-section">
-          <h2>Post IDE world</h2>
-          <p>As coding shifts from manual keystrokes to conversational and agentic workflows, the IDE becomes a collaboration surface rather than the primary tool. The primitives are problems, tests, and contracts; the output is orchestrated by agents and reviewed by humans.</p>
-          <ul>
-            <li><strong>Intent-first</strong>: Problem decomposition, specs, and evaluation drive generation.</li>
-            <li><strong>Continuous verification</strong>: Tests, types, and instrumentation are the new UI.</li>
-            <li><strong>Composable agents</strong>: Tool-using agents coordinate across repos, clouds, and runtimes.</li>
-          </ul>
-          <p>See experiments and notes at <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a>.</p>
-        </section>
-
-        <section id="human-x-ai-collaboration" class="thesis-section">
-          <h2>Human x AI collaboration</h2>
-          <p>Great outcomes emerge when people and models play to their strengths. Humans set direction, define taste, and handle ambiguity; AI accelerates exploration, handles repetition, and scales evaluation.</p>
-          <ul>
-            <li><a href="https://davidhoang.substack.com/p/real-time-strategy-games-and-ai-interfaces" target="_blank">Real-time strategy and AI interfaces</a></li>
-          </ul>
-        </section>
-      </div>
-    </div>
+    <section class="content-page__section thesis-more" aria-labelledby="thesis-more-heading">
+      <h2 id="thesis-more-heading">Keep exploring</h2>
+      <ul class="content-page__list content-page__list--linked">
+        <li>
+          <a href="/writing">Writing</a>
+          <span class="content-page__list-note">Longer essays across craft, career, and AI</span>
+        </li>
+        <li>
+          <a href="/notes">Notes</a>
+          <span class="content-page__list-note">The digital garden — sketches that feed the thesis</span>
+        </li>
+        <li>
+          <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">
+            Proof of Concept
+            <span class="thesis-reading__ext" aria-hidden="true"> ↗</span>
+          </a>
+          <span class="content-page__list-note">Weekly writing where many of these ideas first shipped</span>
+        </li>
+      </ul>
+    </section>
   </div>
 </MainLayout>
 
 <style>
-  .hero-grid {
-    display: flex;
-    justify-content: left;
-    padding: var(--spacing-md) 0;
-  }
-
-  .about-content {
-    max-width: 800px;
-    width: 100%;
-  }
-
-  .about-image {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .toc {
-    height: 200px;
-    margin: calc(var(--spacing-sm) + var(--spacing-xs)) 0 var(--spacing-xl);
-    padding: var(--spacing-md) var(--spacing-md) var(--spacing-md);
+  .thesis-hub .thesis-toc {
+    margin: 0 0 var(--spacing-2xl);
+    padding: var(--spacing-md);
     border-radius: var(--radius-md);
     background: var(--color-sidebar-bg);
-    display: flow-root;
-    overflow: visible;
   }
 
-
-  .toc-title {
-    font-size: 0.9rem;
-    line-height: 1.2;
+  .thesis-toc__title {
     margin: 0 0 var(--spacing-sm);
-    color: var(--color-muted);
   }
 
-  .toc ul {
-    display: block;
-    padding-left: 0;
-    margin: var(--spacing-xs) 0 0;
+  .thesis-toc__list {
     list-style: none;
-  }
-
-  .toc li {
-    margin: calc(var(--spacing-xs) + 0.1rem) 0;
-  }
-
-  .toc a {
-    text-decoration: none;
+    margin: 0;
     padding: 0;
-    border-radius: 0;
-    background: none;
-    border-bottom: none;
   }
 
-  .toc a::after {
-    display: none;
+  .thesis-toc__list li {
+    margin: var(--spacing-xs) 0;
   }
 
-  .lede {
-    margin-top: 0.5rem;
-    color: var(--color-muted);
+  .thesis-toc__list a {
+    color: var(--color-link);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  @media (hover: hover) {
+    .thesis-toc__list a:hover {
+      color: var(--color-accent, var(--color-text));
+    }
   }
 
   .thesis-section {
-    scroll-margin-top: 72px;
+    scroll-margin-top: calc(var(--nav-height, 48px) + var(--spacing-lg));
   }
 
-  .thesis-section + .thesis-section {
-    margin-top: 2rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--color-border);
+  .thesis-reading {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
   }
 
-  @keyframes sectionTarget {
-    0% { background-color: var(--color-search-target); }
-    100% { background-color: transparent; }
+  .thesis-reading__heading {
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .thesis-reading__ext {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  .thesis-more {
+    margin-top: var(--spacing-xl);
+  }
+
+  @keyframes thesis-section-target {
+    0% {
+      background-color: var(--color-search-target);
+    }
+    100% {
+      background-color: transparent;
+    }
   }
 
   .thesis-section:target {
-    animation: sectionTarget 1000ms ease-out;
+    animation: thesis-section-target var(--duration-slowest) var(--ease-inertia);
+    border-radius: var(--radius-sm, 4px);
   }
 
   :global(html) {
     scroll-behavior: smooth;
   }
 
-  @media (max-width: 768px) {
-    .hero-grid {
-      padding: 0 var(--spacing-md);
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) {
+      scroll-behavior: auto;
     }
 
-    .about-content {
-      max-width: 100%;
+    .thesis-section:target {
+      animation: none;
     }
-  }
-
-  @media (max-width: 480px) {
-    .hero-grid {
-      padding: 0 var(--spacing-sm);
-    }
-
-    .about-content {
-      max-width: 100%;
-    }
-  }
-
-  .about-image {
-    border-radius: var(--radius-md);
-    margin-bottom: 1rem;
   }
 </style>
-
-<!-- no tabs script needed for anchor-based TOC -->

@@ -50,7 +50,7 @@ export const commandPalettePages = [
   {
     title: 'Thesis',
     description:
-      'Convictions on the future of software design, AI-native management, and human × AI collaboration.',
+      'Convictions on design and AI — with further reading into essays and notes.',
     path: '/thesis',
     type: 'page',
   },
