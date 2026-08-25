@@ -8,7 +8,12 @@ const ogImage = '/images/img-dh.webp';
 ---
 
 <MainLayout title={`${pocVentures.name} | David Hoang`} description={pageDescription} ogImage={ogImage}>
-  <PageHeader title={pocVentures.name} variant="text-only" subtitle={pocVentures.tagline} />
+  <PageHeader
+    class="fund-header"
+    title={pocVentures.name}
+    variant="text-only"
+    subtitle={pocVentures.tagline}
+  />
   <div class="content-page content-page--compact-top fund-content container-narrow">
     <section class="content-page__intro">
       <p>{pocVentures.mission}</p>
@@ -37,11 +42,11 @@ const ogImage = '/images/img-dh.webp';
     <section class="content-page__section fund-inquire" aria-labelledby="fund-inquire-heading">
       <h2 id="fund-inquire-heading">Inquire</h2>
       <p>
-        Reach {pocVentures.gpName} at
+        Reach {pocVentures.gpName} at{' '}
         <a href={pocVentures.inquiryMailto}>{pocVentures.inquiryEmail}</a>
-        or
+        {' '}or{' '}
         <a href={pocVentures.twitterHref} target="_blank" rel="noopener noreferrer">{pocVentures.twitterHandle}</a>
-        on X.
+        {' '}on X.
       </p>
       <a class="btn btn-primary fund-inquire__button" href={pocVentures.inquiryMailto}>
         Email {pocVentures.inquiryEmail}
@@ -51,6 +56,13 @@ const ogImage = '/images/img-dh.webp';
 </MainLayout>
 
 <style>
+  :global(.fund-header.page-header--text .page-header__title) {
+    line-height: 1.15;
+    white-space: normal;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+
   .fund-inquire p {
     margin: 0 0 var(--spacing-lg);
     font-size: var(--body-size);
