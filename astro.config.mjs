@@ -61,7 +61,8 @@ function serveRootMarkdownRoutesPlugin() {
     configureServer(server) {
       const handler = (req, res, next) => {
         const url = req.url?.split('?')[0];
-        const rootMarkdown: Record<string, string> = {
+        /** @type {Record<string, string>} */
+        const rootMarkdown = {
           '/design.md': 'design.md',
           '/poc-ventures.md': 'poc-ventures.md',
         };
