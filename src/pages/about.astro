@@ -1,9 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import AiDisclaimer from '../components/AiDisclaimer.astro';
 import bioContent from '../content/bio.md?raw';
-import aiSummaryData from '../data/bio-ai-summary.json';
 import { buildProfilePageJsonLd } from '../utils/structuredData';
 
 const profilePageJsonLd = buildProfilePageJsonLd();
@@ -46,7 +44,7 @@ function markdownToHtml(markdown: string): string {
 function parseBioMarkdown() {
   // Split by H2 headings (##)
   const lines = bioContent.split('\n');
-  const bios: Array<{ title: string; content: string; isAI?: boolean }> = [];
+  const bios: Array<{ title: string; content: string }> = [];
   let currentTitle = '';
   let currentContent: string[] = [];
   
@@ -80,25 +78,7 @@ function parseBioMarkdown() {
   return bios;
 }
 
-// Load AI Summary if available
-function loadAISummary() {
-  if (aiSummaryData.content && aiSummaryData.content.trim()) {
-    return {
-      title: 'AI Summary',
-      content: markdownToHtml(aiSummaryData.content),
-      isAI: true,
-    };
-  }
-  return null;
-}
-
 const bioSections = parseBioMarkdown();
-const aiSummary = loadAISummary();
-
-// Add AI Summary at the end if available
-if (aiSummary) {
-  bioSections.push(aiSummary);
-}
 
 const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'medium') >= 0 
   ? bioSections.findIndex(b => b.title.toLowerCase() === 'medium')
@@ -145,7 +125,6 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
               aria-hidden={index !== defaultIndex}
               inert={index !== defaultIndex}
             >
-              {bio.isAI && <AiDisclaimer />}
               <h2 class="bio-section-title">{bio.title}</h2>
               <div set:html={bio.content}></div>
             </div>

@@ -1,7 +1,6 @@
-<!-- 
+<!--
   Bio sections are organized by H2 headings (##).
-  The optional AI Summary on /about is loaded from src/data/bio-ai-summary.json
-  at build time — edit that file (or regenerate offline) and redeploy to update it.
+  Each heading becomes a tab on /about.
 -->
 
 ## Social length
