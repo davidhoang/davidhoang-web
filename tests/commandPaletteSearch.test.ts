@@ -51,7 +51,7 @@ describe('command palette fuzzy ranking', () => {
 
   it('matches multiple word prefixes, acronyms, and ordered fuzzy characters', () => {
     expect(rankCommandPaletteItems('career ody', items)[0]?.title).toBe('Career Odyssey');
-    expect(rankCommandPaletteItems('ds', items)[0]?.title).toBe('Design Resources');
+    expect(rankCommandPaletteItems('ds', items)[0]?.title).toBe('Design Systems Thinking');
     expect(rankCommandPaletteItems('dsgnrsrcs', items)[0]?.title).toBe('Design Resources');
   });
 
