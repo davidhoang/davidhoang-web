@@ -15,17 +15,17 @@ import {
   resolveSearchResultType,
   type SearchTrigger,
 } from '../utils/agentExperienceMetrics';
-
-interface SearchItem {
-  title: string;
-  description: string;
-  path: string;
-  type: 'page' | 'writing' | 'note';
-}
+import {
+  rankCommandPaletteItems,
+  readRecentSearches,
+  saveRecentSearch,
+  type CommandPaletteSearchItem as SearchItem,
+} from '../utils/commandPaletteSearch';
 
 const SEARCH_INDEX_URL = '/search-index.json';
 
 const TYPE_LABELS: Record<string, string> = {
+  recent: 'Recent searches',
   page: 'Pages',
   writing: 'Writing',
   note: 'Notes',
@@ -72,30 +72,6 @@ function loadSearchIndex(): Promise<SearchItem[]> {
       });
   }
   return searchIndexPromise;
-}
-
-function fuzzyMatch(query: string, text: string): boolean {
-  if (!text) return false;
-  const q = query.toLowerCase();
-  const t = text.toLowerCase();
-  if (t.includes(q)) return true;
-  let qi = 0;
-  for (let i = 0; i < t.length && qi < q.length; i++) {
-    if (t[i] === q[qi]) qi++;
-  }
-  return qi === q.length;
-}
-
-function scoreMatch(query: string, item: SearchItem): number {
-  const q = query.toLowerCase();
-  const title = item.title.toLowerCase();
-  const desc = (item.description || '').toLowerCase();
-  if (title.startsWith(q)) return 100;
-  if (title.includes(q)) return 80;
-  if (desc.includes(q)) return 50;
-  if (fuzzyMatch(q, item.title)) return 30;
-  if (fuzzyMatch(q, item.description)) return 10;
-  return 0;
 }
 
 function appendHighlightedText(parent: HTMLElement, text: string, query: string) {
@@ -161,6 +137,32 @@ function createGroupLabel(type: string, count: number) {
   label.append(countEl);
 
   return label;
+}
+
+function createRecentSearchItem(query: string, resultIndex: number) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.id = `cmd-palette-opt-${resultIndex}`;
+  button.className = 'cmd-palette-item cmd-palette-item--recent';
+  button.role = 'option';
+  button.ariaSelected = 'false';
+  button.dataset.recentQuery = query;
+  button.style.setProperty('--cmd-palette-stagger', `${resultIndex * 0.02}s`);
+
+  const main = document.createElement('span');
+  main.className = 'cmd-palette-item__main';
+
+  const title = document.createElement('span');
+  title.className = 'cmd-palette-item__title';
+  title.textContent = query;
+
+  const description = document.createElement('span');
+  description.className = 'cmd-palette-item__desc';
+  description.textContent = 'Search again';
+
+  main.append(title, description);
+  button.append(main);
+  return button;
 }
 
 function createEmptyState(query: string) {
@@ -313,9 +315,16 @@ export function initCommandPalette() {
   }
 
   function navigate(path: string, el?: Element | null) {
+    saveRecentSearch(input!.value);
     reportSelectFromElement(el ?? null);
     close();
     window.location.href = path;
+  }
+
+  function runRecentSearch(query: string) {
+    input!.value = query;
+    render(query);
+    input!.focus();
   }
 
   // --- Rendering ---
@@ -326,17 +335,32 @@ export function initCommandPalette() {
 
     if (!q) {
       const pages = searchIndex.filter(i => i.type === 'page');
-      results!.replaceChildren(...pages.map(item => createResultItem(item, resultIndex++)));
-      if (liveRegion) liveRegion.textContent = `${pages.length} pages`;
+      const recentSearches = readRecentSearches();
+      const rendered: HTMLElement[] = [];
+
+      if (recentSearches.length > 0) {
+        rendered.push(createGroupLabel('recent', recentSearches.length));
+        recentSearches.forEach((recentQuery) => {
+          rendered.push(createRecentSearchItem(recentQuery, resultIndex++));
+        });
+      }
+
+      rendered.push(createGroupLabel('page', pages.length));
+      pages.forEach((item) => {
+        rendered.push(createResultItem(item, resultIndex++));
+      });
+
+      results!.replaceChildren(...rendered);
+      if (liveRegion) {
+        liveRegion.textContent = recentSearches.length > 0
+          ? `${recentSearches.length} recent searches and ${pages.length} pages`
+          : `${pages.length} pages`;
+      }
       showResults();
       return;
     }
 
-    const matches = searchIndex
-      .map(item => ({ ...item, score: scoreMatch(q, item) }))
-      .filter(item => item.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 12);
+    const matches = rankCommandPaletteItems(q, searchIndex);
 
     if (matches.length === 0) {
       results!.replaceChildren(createEmptyState(q));
@@ -453,9 +477,23 @@ export function initCommandPalette() {
       case 'Enter':
         e.preventDefault();
         if (activeIndex >= 0 && items[activeIndex]) {
-          navigate(items[activeIndex].getAttribute('data-path')!, items[activeIndex]);
+          const activeItem = items[activeIndex] as HTMLElement;
+          const recentQuery = activeItem.dataset.recentQuery;
+          const path = activeItem.dataset.path;
+          if (recentQuery) {
+            runRecentSearch(recentQuery);
+          } else if (path) {
+            navigate(path, activeItem);
+          }
         } else if (items.length > 0) {
-          navigate(items[0].getAttribute('data-path')!, items[0]);
+          const firstItem = items[0] as HTMLElement;
+          const recentQuery = firstItem.dataset.recentQuery;
+          const path = firstItem.dataset.path;
+          if (recentQuery) {
+            runRecentSearch(recentQuery);
+          } else if (path) {
+            navigate(path, firstItem);
+          }
         }
         break;
       case 'Tab':
@@ -469,6 +507,13 @@ export function initCommandPalette() {
   function handleResultClick(e: MouseEvent) {
     const item = (e.target as HTMLElement).closest('.cmd-palette-item');
     if (item) {
+      const recentQuery = (item as HTMLElement).dataset.recentQuery;
+      if (recentQuery) {
+        e.preventDefault();
+        runRecentSearch(recentQuery);
+        return;
+      }
+      saveRecentSearch(input!.value);
       reportSelectFromElement(item);
       close();
     }

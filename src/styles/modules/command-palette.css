@@ -252,6 +252,7 @@
 .cmd-palette-item {
   display: flex;
   align-items: center;
+  appearance: none;
   width: 100%;
   margin: 0;
   padding: 0.5rem 0.75rem;
@@ -266,7 +267,9 @@
   color: var(--color-nav-text);
   background: transparent;
   box-shadow: none;
+  font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 500;
+  text-align: left;
   animation: cmd-palette-item-in 0.32s cubic-bezier(0.33, 1, 0.68, 1) both;
   animation-delay: var(--cmd-palette-stagger, 0s);
   transition:
