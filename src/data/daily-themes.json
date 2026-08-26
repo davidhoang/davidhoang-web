@@ -1,6 +1,402 @@
 {
   "themes": [
     {
+      "name": "Indigo Signal",
+      "description": "A disciplined information rail channeling Tokyo's neon-against-night geometry — compressed type hierarchy, ink-deep surfaces, and a single amber pulse cutting through monochrome restraint.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1830",
+          "--color-bg": "#EBF0F7",
+          "--color-link": "#AB4C09",
+          "--color-link-hover": "#9E3E04",
+          "--color-border": "#B8C4D8",
+          "--color-muted": "#606E85",
+          "--color-sidebar-bg": "#DDE5F0",
+          "--color-nav-bg": "#EBF0F7",
+          "--color-nav-text": "#1A1830",
+          "--color-card-bg": "#F2F5FA"
+        },
+        "dark": {
+          "--color-text": "#E8EDF5",
+          "--color-bg": "#0A1628",
+          "--color-link": "#F4A033",
+          "--color-link-hover": "#FFB955",
+          "--color-border": "#1E2E4A",
+          "--color-muted": "#73849D",
+          "--color-sidebar-bg": "#0D1C38",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#E8EDF5",
+          "--color-card-bg": "#0F2040"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#0A1628",
+          "#F4A033"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-08-26",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Indigo Signal",
+              "subtitle": "2026-08-26 · Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "One amber pulse. A city grid compressed into type. This is not decoration — it is signal.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "badge-row",
+              "meta"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "TOKYO RAIL / NIGHT GRID",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif header",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Images",
+                  "value": "Grayscale → Colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "layout-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "palette",
+              "tokens"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A1830",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#EBF0F7",
+                  "label": "Field"
+                },
+                {
+                  "hex": "#AB4C09",
+                  "label": "Amber"
+                },
+                {
+                  "hex": "#606E85",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#DDE5F0",
+                  "label": "Rail"
+                },
+                {
+                  "hex": "#F2F5FA",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--border-radius",
+                  "value": "2px"
+                },
+                {
+                  "name": "--heading-font",
+                  "value": "Space Grotesk"
+                },
+                {
+                  "name": "--body-font",
+                  "value": "Source Serif 4"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#AB4C09"
+                },
+                {
+                  "name": "--color-scheme",
+                  "value": "complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "body-sample",
+              "caption-sample"
+            ]
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Compressed hierarchy. Ink-deep surfaces.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "caption-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "neon / restraint / pulse",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Indigo Signal",
+              "action": "apply-theme",
+              "date": "2026-08-26"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Dawncast Concrete",
       "description": "Tadao Ando's stillness at first light — warm graphite planes split by a single shaft of gold, where mass and radiance hold equal weight.",
       "colors": {
@@ -2120,309 +2516,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Vespers & Vellum",
-      "description": "Dawn light filtering through library windows onto aged vellum — the quiet reverence of a scholarly morning, warm concrete meeting soft gold.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C2416",
-          "--color-bg": "#F5EDDA",
-          "--color-link": "#845928",
-          "--color-link-hover": "#5C3A10",
-          "--color-border": "#D6C9A8",
-          "--color-muted": "#746956",
-          "--color-sidebar-bg": "#EDE3CC",
-          "--color-nav-bg": "#F5EDDA",
-          "--color-nav-text": "#2C2416",
-          "--color-card-bg": "#EEE4CB"
-        },
-        "dark": {
-          "--color-text": "#E8DCC4",
-          "--color-bg": "#1C1410",
-          "--color-link": "#C49A4E",
-          "--color-link-hover": "#E8C06A",
-          "--color-border": "#3A2E1E",
-          "--color-muted": "#8E806A",
-          "--color-sidebar-bg": "#231A12",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#E8DCC4",
-          "--color-card-bg": "#261D14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Bitter",
-          "url": "https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bitter', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.88",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EDDA",
-          "#C49A4E"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-08-16",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Vespers & Vellum",
-              "subtitle": "August 16, 2026"
-            },
-            "children": [
-              "main-stack"
-            ]
-          },
-          "main-stack": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "pal",
-              "mid-row",
-              "type1",
-              "div1",
-              "meta",
-              "bot-row"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Dawn arrives through leaded glass. The vellum already knows what the day will ask of it. Warm concrete, soft gold — a scholar's hour made interface.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EDDA",
-                  "label": "Vellum"
-                },
-                {
-                  "hex": "#EDE3CC",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#D6C9A8",
-                  "label": "Dust"
-                },
-                {
-                  "hex": "#C49A4E",
-                  "label": "Gilt"
-                },
-                {
-                  "hex": "#845928",
-                  "label": "Tanbark"
-                },
-                {
-                  "hex": "#2C2416",
-                  "label": "Inkwell"
-                }
-              ]
-            },
-            "children": []
-          },
-          "mid-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero-prev",
-              "shader-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan"
-            }
-          },
-          "shader-prev": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#F5EDDA",
-                "#C49A4E"
-              ]
-            }
-          },
-          "type1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "The Quiet Reverence of a Scholarly Morning",
-              "variant": "heading",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Link",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "Low"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "bot-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "apply-btn"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "analogous",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Theme",
-              "action": "apply-theme",
-              "date": "2026-08-16"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-25"
+  "currentDate": "2026-08-26"
 }
