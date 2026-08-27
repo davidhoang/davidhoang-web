@@ -64,7 +64,6 @@ function serveRootMarkdownRoutesPlugin() {
         /** @type {Record<string, string>} */
         const rootMarkdown = {
           '/design.md': 'design.md',
-          '/poc-ventures.md': 'poc-ventures.md',
         };
         const markdownFile = url ? rootMarkdown[url] : undefined;
         if (!markdownFile) {

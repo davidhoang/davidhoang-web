@@ -3,6 +3,10 @@
   "buildCommand": "npm run build",
   "framework": "astro",
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/fund", "destination": "/investing", "statusCode": 301 },
+    { "source": "/poc-ventures.md", "destination": "/investing", "statusCode": 301 }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -51,13 +55,6 @@
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
         { "key": "Content-Type", "value": "application/json; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/poc-ventures.md",
-      "headers": [
-        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
       ]
     },
     {
