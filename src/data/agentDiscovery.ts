@@ -181,13 +181,6 @@ export function buildAgentDiscoveryContract(
         kind: 'form',
       },
       {
-        id: 'poc-ventures',
-        label: 'Proof of Concept Ventures',
-        description: 'Read the fund mission and selected investments, then inquire by email.',
-        url: absoluteUrl('/fund', origin),
-        kind: 'page',
-      },
-      {
         id: 'contact-email',
         label: 'Email',
         description: 'Contact David by email.',

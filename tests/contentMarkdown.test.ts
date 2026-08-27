@@ -132,20 +132,19 @@ describe('contentMarkdown', () => {
     const vercel = readFileSync(join(ROOT, 'vercel.json'), 'utf8');
     expect(vercel).toContain('/writing/(.*).md');
     expect(vercel).toContain('/notes/(.*).md');
-    expect(vercel).toContain('/poc-ventures.md');
     expect(vercel).toContain('text/markdown; charset=utf-8');
+    expect(vercel).toContain('"source": "/poc-ventures.md"');
+    expect(vercel).toContain('"destination": "/investing"');
   });
 
   it('serves repo-root markdown before Astro routeGuard so /design.md is not a 404', () => {
     const astroConfig = readFileSync(join(ROOT, 'astro.config.mjs'), 'utf8');
     const endpoint = readFileSync(join(ROOT, 'src/pages/design.md.ts'), 'utf8');
-    const fundEndpoint = readFileSync(join(ROOT, 'src/pages/poc-ventures.md.ts'), 'utf8');
 
     expect(endpoint).toContain("join(process.cwd(), 'design.md')");
-    expect(fundEndpoint).toContain("join(process.cwd(), 'poc-ventures.md')");
     expect(astroConfig).toContain("name: 'serve-root-markdown-routes'");
     expect(astroConfig).toContain("'/design.md': 'design.md'");
-    expect(astroConfig).toContain("'/poc-ventures.md': 'poc-ventures.md'");
+    expect(astroConfig).not.toContain("'/poc-ventures.md': 'poc-ventures.md'");
     expect(astroConfig).toContain('if (!markdownFile)');
   });
 });
