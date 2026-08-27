@@ -51,8 +51,8 @@ function manualChunks(id) {
 
 /**
  * Dev-only: Astro's routeGuard 404s HTML navigations when a file exists at
- * repo root (`existsAtRootAsFile`). That shadows `src/pages/design.md.ts`.
- * Unshift after Astro installs the guard so /design.md is served as markdown.
+ * repo root (`existsAtRootAsFile`). That shadows `src/pages/*.md.ts` routes.
+ * Unshift after Astro installs the guard so those markdown files are served.
  */
 function serveRootMarkdownRoutesPlugin() {
   return {
@@ -61,13 +61,19 @@ function serveRootMarkdownRoutesPlugin() {
     configureServer(server) {
       const handler = (req, res, next) => {
         const url = req.url?.split('?')[0];
-        if (url !== '/design.md') {
+        /** @type {Record<string, string>} */
+        const rootMarkdown = {
+          '/design.md': 'design.md',
+          '/poc-ventures.md': 'poc-ventures.md',
+        };
+        const markdownFile = url ? rootMarkdown[url] : undefined;
+        if (!markdownFile) {
           next();
           return;
         }
 
         try {
-          const markdown = readFileSync(join(process.cwd(), 'design.md'), 'utf8');
+          const markdown = readFileSync(join(process.cwd(), markdownFile), 'utf8');
           res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
           res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
           res.end(markdown);

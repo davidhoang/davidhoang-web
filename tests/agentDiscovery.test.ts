@@ -61,12 +61,13 @@ describe('buildAgentDiscoveryContract', () => {
     expect(types.has('search-index')).toBe(true);
   });
 
-  it('exposes human actions for subscribe, advising, and contact', () => {
+  it('exposes human actions for subscribe, advising, the fund, and contact', () => {
     const ids = contract.humanActions.map((action) => action.id);
     expect(ids).toEqual(
       expect.arrayContaining([
         'subscribe',
         'advising-inquiry',
+        'poc-ventures',
         'contact-email',
         'browse-writing',
         'browse-notes',
@@ -77,6 +78,10 @@ describe('buildAgentDiscoveryContract', () => {
     const advising = contract.humanActions.find((action) => action.id === 'advising-inquiry');
     expect(advising?.url).toBe('https://tally.so/r/D4M0lb');
     expect(advising?.kind).toBe('form');
+
+    const fund = contract.humanActions.find((action) => action.id === 'poc-ventures');
+    expect(fund?.url).toBe(`${CANONICAL_ORIGIN}/fund`);
+    expect(fund?.kind).toBe('page');
 
     const email = contract.humanActions.find((action) => action.id === 'contact-email');
     expect(email?.url).toBe('mailto:david@davidhoang.com');

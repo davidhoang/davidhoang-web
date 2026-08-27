@@ -1,0 +1,108 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { pocVentureInvestments, pocVentures } from '../data/pocVentures';
+
+const pageDescription = pocVentures.pageDescription;
+const ogImage = '/images/img-dh.webp';
+---
+
+<MainLayout title={`${pocVentures.name} | David Hoang`} description={pageDescription} ogImage={ogImage}>
+  <div class="content-page fund-content container-narrow">
+    <header class="fund-masthead">
+      <p class="text-eyebrow">Fund</p>
+      <h1 class="fund-masthead__title">{pocVentures.name}</h1>
+      <p class="fund-masthead__tagline">{pocVentures.tagline}</p>
+    </header>
+
+    <section class="content-page__intro">
+      <p>{pocVentures.mission}</p>
+      <p>{pocVentures.missionDetail}</p>
+    </section>
+
+    <section class="content-page__section" aria-labelledby="fund-investments-heading">
+      <h2 id="fund-investments-heading">Selected investments</h2>
+      <ul class="content-page__list content-page__list--bullets">
+        {
+          pocVentureInvestments.map((company) => (
+            <li>
+              {company.href ? (
+                <a href={company.href} target="_blank" rel="noopener noreferrer">
+                  {company.name}
+                </a>
+              ) : (
+                company.name
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="content-page__section fund-inquire" aria-labelledby="fund-inquire-heading">
+      <h2 id="fund-inquire-heading">Inquire</h2>
+      <p>
+        Reach {pocVentures.gpName} at{' '}
+        <a href={pocVentures.inquiryMailto}>{pocVentures.inquiryEmail}</a>
+        {' '}or{' '}
+        <a href={pocVentures.twitterHref} target="_blank" rel="noopener noreferrer">{pocVentures.twitterHandle}</a>
+        {' '}on X.
+      </p>
+      <a class="btn btn-primary fund-inquire__button" href={pocVentures.inquiryMailto}>
+        Email {pocVentures.inquiryEmail}
+      </a>
+    </section>
+  </div>
+</MainLayout>
+
+<style>
+  .fund-masthead {
+    margin: 0 0 var(--spacing-2xl);
+  }
+
+  .fund-masthead .text-eyebrow {
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .fund-masthead__title {
+    margin: 0 0 var(--spacing-md);
+    font-family: var(--font-heading);
+    font-size: var(--h3-size);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--h3-letter-spacing);
+    line-height: var(--h3-line-height);
+    color: var(--color-text);
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .fund-masthead__tagline {
+    margin: 0;
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    color: var(--color-muted);
+  }
+
+  .fund-inquire p {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    color: var(--color-text);
+    max-width: 52ch;
+  }
+
+  .fund-inquire a:not(.btn) {
+    color: var(--color-link);
+    font-weight: 600;
+  }
+
+  .fund-inquire__button::after {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .fund-inquire__button {
+      width: 100%;
+    }
+  }
+</style>

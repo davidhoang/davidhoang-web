@@ -15,6 +15,7 @@ export const mobileSecondaryNavItems = [
   { path: '/career-odyssey', label: 'Career Odyssey' },
   { path: '/thesis', label: 'Thesis' },
   { path: '/investing', label: 'Investing' },
+  { path: '/fund', label: 'Proof of Concept Ventures' },
   { path: '/advising', label: 'Advising' },
   { path: '/design-resources', label: 'Design Resources' },
   { path: '/prototypes', label: 'Prototypes' },
@@ -31,6 +32,12 @@ export const commandPalettePages = [
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
   { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
+  {
+    title: 'Proof of Concept Ventures',
+    description: 'Pre-seed and seed fund front door — mission, selected investments, and inquire.',
+    path: '/fund',
+    type: 'page',
+  },
   { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
   { title: 'Design Guide', description: 'Theme-responsive design system primitives', path: '/design-guide', type: 'page' },
@@ -107,6 +114,12 @@ export const footerSections = [
       { href: '/cv', label: 'CV', ariaLabel: 'Curriculum vitae', external: false },
       { href: '/thesis', label: 'Thesis', ariaLabel: 'Thesis hub: convictions with further reading', external: false },
       { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
+      {
+        href: '/fund',
+        label: 'Proof of Concept Ventures',
+        ariaLabel: 'Proof of Concept Ventures fund',
+        external: false,
+      },
       { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
       { href: '/prototypes', label: 'Prototypes', ariaLabel: 'Interactive prototypes', external: false },
       {
