@@ -1,6 +1,10 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { discoverableStaticPages } from '../data/navigation';
+import {
+  SEARCH_INDEX_INCLUDE_DRAFTS,
+  isExcludedFromSearchIndex,
+} from '../data/searchIndexConfig';
 import { resolveNoteStage } from '../content/noteStages';
 import {
   buildSearchIndex,
@@ -14,17 +18,22 @@ export const prerender = true;
 /** Align with vercel.json Cache-Control for non-Vercel previews. */
 const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';
 
+const isPublished = ({ data }: { data: { draft?: boolean } }) =>
+  SEARCH_INDEX_INCLUDE_DRAFTS || !data.draft;
+
 export const GET: APIRoute = async () => {
-  const writingPosts = await getCollection('writing', ({ data }) => !data.draft);
-  const notesPosts = await getCollection('notes', ({ data }) => !data.draft);
+  const writingPosts = await getCollection('writing', isPublished);
+  const notesPosts = await getCollection('notes', isPublished);
 
   const items = buildSearchIndex({
     site: SEARCH_INDEX_SITE,
-    pages: discoverableStaticPages.map((page) => ({
-      title: page.title,
-      description: page.description,
-      path: page.path,
-    })),
+    pages: discoverableStaticPages
+      .filter((page) => !isExcludedFromSearchIndex(page.path))
+      .map((page) => ({
+        title: page.title,
+        description: page.description,
+        path: page.path,
+      })),
     writing: writingPosts.map((post) => ({
       id: post.id,
       title: post.data.title,
