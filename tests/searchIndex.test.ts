@@ -51,11 +51,11 @@ describe('discoverableStaticPages', () => {
     expect(paths.has('/thesis')).toBe(true);
     expect(paths.has('/cv')).toBe(true);
     expect(paths.has('/prototypes')).toBe(true);
-    expect(paths.has('/fund')).toBe(false);
   });
 
   it('excludes utility and deprecated destinations', () => {
     const paths = discoverableStaticPages.map((page) => page.path);
+    expect(paths).not.toContain('/fund');
     expect(paths).not.toContain('/default-layout');
     expect(paths).not.toContain('/labs');
     expect(paths).not.toContain('/404');
