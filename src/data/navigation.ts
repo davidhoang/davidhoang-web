@@ -72,7 +72,7 @@ export const commandPalettePages = [
  * Static pages included in /search-index.json for agents and ⌘K.
  * Superset of commandPalettePages — covers intentional sitemap-visible
  * destinations that are easy to omit from nav/palette alone (e.g. /works).
- * Excludes utility routes (/default-layout, /404) and deprecated /labs.
+ * Utility/deprecated routes are listed in searchIndexConfig.ts (not here).
  */
 export const discoverableStaticPages = [
   {

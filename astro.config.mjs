@@ -8,6 +8,7 @@ import sitemap from '@astrojs/sitemap';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
+import { isIndexedSitemapPage } from './src/data/searchIndexConfig.ts';
 
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
@@ -133,7 +134,7 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      filter: (page) => !page.includes('/default-layout'),
+      filter: isIndexedSitemapPage,
     }),
   ],
   vite: {

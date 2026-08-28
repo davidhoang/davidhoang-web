@@ -1,6 +1,8 @@
 /**
  * /search-index.json — machine-readable discovery index for ⌘K and agents.
  *
+ * Include/exclude policy lives in `src/data/searchIndexConfig.ts` (PC-40).
+ *
  * Schema version: SEARCH_INDEX_SCHEMA_VERSION (integer).
  * Published on every response as header SEARCH_INDEX_SCHEMA_VERSION_HEADER
  * (`X-Search-Index-Schema-Version`). Bump when removing/renaming item fields or
