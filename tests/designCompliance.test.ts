@@ -63,6 +63,25 @@ describe('layout contract rules', () => {
   });
 });
 
+describe('CSS containment contract (PC-8)', () => {
+  it('containment.css isolates cards and list rows without wrapping the page', () => {
+    const content = readFileSync(join(ROOT, 'src/styles/modules/containment.css'), 'utf-8');
+    expect(content).toContain('contain: layout paint');
+    expect(content).toContain('content-visibility: auto');
+    expect(content).toContain('isolation: isolate');
+    expect(content).not.toMatch(/\.content-filter-wrapper\s*\{[^}]*contain\s*:/);
+    expect(content).not.toMatch(/^\s*will-change:\s*filter/m);
+    expect(content).not.toMatch(/\.hero-card\s*\{[^}]*content-visibility/);
+  });
+
+  it('design.md documents forbidden wrapper/hero containment', () => {
+    const content = readFileSync(join(ROOT, 'design.md'), 'utf-8');
+    expect(content).toContain('### CSS containment (performance)');
+    expect(content).toContain('contain: strict');
+    expect(content).toContain('--hero-cards-tuck');
+  });
+});
+
 describe('token integrity rules', () => {
   it('wires malformed-spacing-token into core audit and keeps Featured clean', () => {
     expect(readFileSync(join(ROOT, 'scripts/design-audit/rules/tokens.mjs'), 'utf-8')).toContain(

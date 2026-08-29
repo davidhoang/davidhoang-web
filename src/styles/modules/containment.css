@@ -1,25 +1,62 @@
-/* Layout containment — isolate reflow/paint for card surfaces (PC-8).
-   Avoid content-visibility on hero/interactive stacks; use it on list/grid rows. */
+/* Layout containment — isolate reflow/paint (PC-8).
+ *
+ * Safe subset of the ticket. Naive copies of the Jira snippet will break
+ * layout: contain:strict|size on .content-filter-wrapper freezes the page at
+ * min-height and clips below-the-fold content; contain:paint on that wrapper
+ * clips homepage hero tuck (--hero-cards-tuck); will-change:filter keeps a
+ * full-page compositor layer. Hero tiles use .hero-card, not .card — do not
+ * put content-visibility on .hero-card, .card-stack-hero, or .site-nav.
+ */
 
+/* 1. Cards — layout + paint isolation.
+   contain:paint clips overflowing *descendants*, not this element's own
+   box-shadow or transform (interactive lift stays visible). */
 .card,
 .card-elevated,
 .card-outlined,
-.card-filled,
-.node-card {
+.card-filled {
   contain: layout paint;
 }
 
+/* Odyssey detail sheet: layout only — paint would clip embeds / close control. */
+.node-card {
+  contain: layout;
+}
+
+/* 2. Mood filter wrapper — stacking context only.
+   Filter already creates a containing block for fixed descendants (nav is
+   mounted outside this wrapper). Do not add contain or will-change:filter. */
 .content-filter-wrapper {
   isolation: isolate;
 }
 
+/* 3. Animated home grids — layout containment without paint so Framer
+   enter (translateY / scale) can overflow during the animation. */
+.philosophy-grid,
+.portfolio-grid,
+.animated-section {
+  contain: layout;
+}
+
+/* 4. Off-screen list / grid rows — skip rendering until near the viewport. */
 .philosophy-item,
 .portfolio-content,
 .writing-card,
 .writing-feed__item,
-.note-card {
+.note-card,
+.works-stream__item,
+.related-content__card,
+.editorial-media-card {
   content-visibility: auto;
   contain-intrinsic-size: auto 200px;
+}
+
+.works-stream__item--card {
+  contain-intrinsic-size: auto 280px;
+}
+
+.works-stream__item--line {
+  contain-intrinsic-size: auto 4.5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -27,7 +64,32 @@
   .portfolio-content,
   .writing-card,
   .writing-feed__item,
-  .note-card {
+  .note-card,
+  .works-stream__item,
+  .related-content__card,
+  .editorial-media-card {
+    content-visibility: visible;
+  }
+}
+
+@media print {
+  .card,
+  .card-elevated,
+  .card-outlined,
+  .card-filled,
+  .node-card,
+  .philosophy-grid,
+  .portfolio-grid,
+  .animated-section,
+  .philosophy-item,
+  .portfolio-content,
+  .writing-card,
+  .writing-feed__item,
+  .note-card,
+  .works-stream__item,
+  .related-content__card,
+  .editorial-media-card {
+    contain: none;
     content-visibility: visible;
   }
 }

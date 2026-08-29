@@ -27,6 +27,8 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 | `nav-unscoped` | site-nav-css.mdc | No unscoped `nav {}` selectors |
 | `no-glass-cards` | design.md § Card opacity | No glass card styles |
 | `no-hardcoded-colors` | design.md | No hex in scoped Astro `<style>` blocks |
+| `containment-no-wrapper-contain` | design.md § CSS containment | No `contain` / `will-change:filter` on `.content-filter-wrapper` |
+| `containment-no-hero-*` | design.md § CSS containment | No `content-visibility` or `contain:paint\|size\|strict` on hero/nav |
 | `ci-design-audit` | agent stack | Skill/CI/docs reference audit commands |
 
 ### Strict (report-only full scan; optional on changed files)
@@ -67,6 +69,7 @@ scripts/
     shared.mjs                  # File walk, skip lists, git diff
     rules/
       layout-contract.mjs
+      containment.mjs
       hero.mjs
       nav.mjs
       cards.mjs

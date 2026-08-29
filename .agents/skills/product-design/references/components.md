@@ -40,6 +40,7 @@ Durations: `--duration-fast` … `--duration-slowest`. Easings: `--ease-inertia`
 |---------|------|
 | Tokens | `src/styles/modules/variables.css` |
 | Primitives | `src/styles/global.css`, `src/styles/modules/shared-components.css` |
+| Containment | `src/styles/modules/containment.css` (cards + list rows; never on nav/hero/filter wrapper) |
 | Theme overrides | `src/styles/modules/theme-variations.css` |
 | Nav | `src/components/Navigation.astro`, `src/styles/modules/nav.css` |
 | Hero | `src/components/CardStackHero.tsx` |

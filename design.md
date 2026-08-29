@@ -412,6 +412,23 @@ The generator auto-bumps `containerMaxWidth` if it's too small for the chosen gr
 - The legacy `glass` style is removed; the generator promotes any `cards.style: "glass"` to `"elevated"` post-generation, and the React hero layouts normalize `data-card-style="glass"` to `elevated` at runtime so any leftover themes render correctly.
 - If a theme needs a softer surface, drop saturation on `--color-card-bg` rather than reaching for transparency.
 
+### CSS containment (performance)
+
+Cards and off-screen list rows isolate layout work in `src/styles/modules/containment.css` (PC-8).
+
+**Do:**
+- `contain: layout paint` on `.card` surfaces (hero tiles use `.hero-card`, not `.card`)
+- `contain: layout` on animated home grids (`.philosophy-grid`, `.portfolio-grid`) — **not** paint, so enter motion can overflow
+- `content-visibility: auto` + `contain-intrinsic-size` on list/grid **rows** (writing, notes, works, philosophy/portfolio items)
+- `isolation: isolate` on `.content-filter-wrapper`
+
+**Never:**
+- `contain: strict`, `contain: size`, `contain: layout`, or `contain: paint` on `.content-filter-wrapper`, `.site-nav`, `.card-stack-hero`, or `.hero-card` — size containment freezes the page at `min-height`; paint containment clips homepage hero tuck (`--hero-cards-tuck`) and overlapping tiles
+- `content-visibility` on hero tiles or site nav (LCP and overlap)
+- `will-change: filter` on the mood filter wrapper (keeps a full-page compositor layer)
+
+CI enforces the forbidden patterns via `containment-no-wrapper-contain` / `containment-no-hero-*` in `scripts/design-audit/rules/containment.mjs`.
+
 ### Surface harmony
 
 When `--color-bg` is tinted (anything other than `#ffffff`), the surrounding surfaces must form a smooth tonal hierarchy:

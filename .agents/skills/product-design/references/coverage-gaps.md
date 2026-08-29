@@ -14,6 +14,14 @@ Format:
 
 ---
 
+## 2026-08-29 — CSS containment on filter wrapper / hero
+
+**Symptom:** PC-8’s suggested CSS (`contain: strict` + `will-change: filter` on `.content-filter-wrapper`; `content-visibility` on `.card-stack-item` / all `.card`) would clip homepage hero tuck, freeze page height, and skip LCP tiles.
+**Fix applied:** `containment.css` safe subset; design.md § CSS containment; audit rules `containment-no-wrapper-contain`, `containment-no-hero-content-visibility`, `containment-no-hero-paint`.
+**Status:** resolved
+
+---
+
 ## 2026-08-01 — Secondary page layout + strict CI on changed files
 
 **Symptom:** Advising/Investing/Now/Works each reinvented intro/section/list CSS; `design.md` still listed `--nav-height: 40px` while code used 48/56; strict token rules were optional for cloud agents; 404 and daily-themes were grandfathered with hardcoded spacing/motion/colors.

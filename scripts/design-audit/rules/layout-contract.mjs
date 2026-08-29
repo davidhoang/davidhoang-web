@@ -43,6 +43,23 @@ export const LAYOUT_CONTRACT = [
     ],
   },
   {
+    file: 'src/styles/modules/containment.css',
+    rule: 'css-containment-contract',
+    mustInclude: [
+      'contain: layout paint',
+      'content-visibility: auto',
+      'isolation: isolate',
+      '.philosophy-item',
+      '.writing-card',
+      '.works-stream__item',
+    ],
+  },
+  {
+    file: 'src/styles/global.css',
+    rule: 'css-containment-import',
+    mustInclude: ["@import 'modules/containment.css' layer(components);"],
+  },
+  {
     file: 'src/styles/pages/home.css',
     rule: 'home-theme-grid-contract',
     mustInclude: [
