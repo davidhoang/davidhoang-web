@@ -39,7 +39,9 @@
 /* Apply combined mood + intensity filters to content wrapper
    NOTE: Cannot apply filter to body because it breaks position: fixed
    and position: sticky for descendants (filter creates a new containing block).
-   Apply to .content-filter-wrapper instead. */
+   Apply to .content-filter-wrapper instead.
+   Do not add contain (layout/paint/size/strict) or will-change:filter here —
+   see containment.css (PC-8). Filter + size containment would clip hero tuck. */
 .content-filter-wrapper {
   display: flex;
   flex-direction: column;

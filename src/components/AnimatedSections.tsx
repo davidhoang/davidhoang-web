@@ -173,7 +173,7 @@ export function AnimatedSection({
     <MotionConfig reducedMotion="user">
     <motion.div
       ref={ref}
-      className={className}
+      className={['animated-section', className].filter(Boolean).join(' ')}
       initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
       transition={
