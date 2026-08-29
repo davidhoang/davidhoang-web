@@ -1,6 +1,391 @@
 {
   "themes": [
     {
+      "name": "Graphite Matins",
+      "description": "Raw concrete stillness meets a single blade of morning light — structural type, pencil-gray surfaces, and one warm gold accent carry the weight.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2E2A26",
+          "--color-bg": "#EAE6E1",
+          "--color-link": "#7B612B",
+          "--color-link-hover": "#8C6A28",
+          "--color-border": "#C8C2BA",
+          "--color-muted": "#68625C",
+          "--color-sidebar-bg": "#E2DDD7",
+          "--color-nav-bg": "#EAE6E1",
+          "--color-nav-text": "#2E2A26",
+          "--color-card-bg": "#E6E1DB"
+        },
+        "dark": {
+          "--color-text": "#DDD9D3",
+          "--color-bg": "#1C1A17",
+          "--color-link": "#C9A455",
+          "--color-link-hover": "#E0C07A",
+          "--color-border": "#3A3630",
+          "--color-muted": "#8B8680",
+          "--color-sidebar-bg": "#211F1B",
+          "--color-nav-bg": "#1C1A17",
+          "--color-nav-text": "#DDD9D3",
+          "--color-card-bg": "#232018"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EAE6E1",
+          "#C8C2BA"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-08-29",
+      "showcase": {
+        "root": "root",
+        "elements": {
+          "root": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Graphite Matins",
+              "subtitle": "Aug 29, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "s2",
+              "div2",
+              "s3",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Concrete holds its breath. One gold thread catches the first light. Everything else is pencil and patience.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "col1",
+              "col2"
+            ]
+          },
+          "col1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hed",
+              "badgerow",
+              "hero"
+            ]
+          },
+          "hed": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Still Before Motion",
+              "variant": "heading",
+              "weight": "light"
+            },
+            "children": []
+          },
+          "badgerow": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "low contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Hero: stacked-fan"
+            },
+            "children": []
+          },
+          "col2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "shader"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Link",
+                  "value": "Animated underline"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grain"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Analogous"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#EAE6E1",
+                "#C8C2BA",
+                "#7B612B"
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "tok"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EAE6E1",
+                  "label": "Bg"
+                },
+                {
+                  "hex": "#E6E1DB",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#C8C2BA",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#68625C",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#2E2A26",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#7B612B",
+                  "label": "Gold"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "Heading",
+                  "value": "Cormorant Garamond"
+                },
+                {
+                  "name": "Body",
+                  "value": "IBM Plex Sans"
+                },
+                {
+                  "name": "Radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "Image",
+                  "value": "muted / hover colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "lay"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Raw structure. Quiet warmth.",
+              "variant": "caption",
+              "weight": "regular"
+            },
+            "children": []
+          },
+          "lay": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Graphite Matins",
+              "action": "apply-theme",
+              "date": "2026-08-29"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Amber Circuit",
       "description": "Graphic poster energy channeled through Tokyo rain-slick contrasts — warm amber ground against deep indigo geometry, where condensed type hits like neon on wet asphalt.",
       "colors": {
@@ -2206,355 +2591,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Saffron Interference",
-      "description": "A typographically charged dawn composition where condensed amber headlines crackle against misty morning surfaces — cozy warmth interrupted by one electric surprise.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2A1A0A",
-          "--color-bg": "#FEF3E2",
-          "--color-link": "#B54900",
-          "--color-link-hover": "#B84500",
-          "--color-border": "#D4A96A",
-          "--color-muted": "#8C6A3F",
-          "--color-sidebar-bg": "#FDEBD0",
-          "--color-nav-bg": "#FEF3E2",
-          "--color-nav-text": "#2A1A0A",
-          "--color-card-bg": "#FDF0DC"
-        },
-        "dark": {
-          "--color-text": "#F5E6CC",
-          "--color-bg": "#1C1410",
-          "--color-link": "#FF8C42",
-          "--color-link-hover": "#FFAD70",
-          "--color-border": "#4A3020",
-          "--color-muted": "#9C8065",
-          "--color-sidebar-bg": "#221810",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F5E6CC",
-          "--color-card-bg": "#241A12"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Vollkorn",
-          "url": "https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Vollkorn', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.04em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "10px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "10px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FEF3E2",
-          "#E05A00"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-08-21",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Saffron Interference",
-              "subtitle": "August 21, 2026 — Daily UI"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Condensed amber headlines crackle at first light — warm fog split by one electric interruption.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "hed",
-              "badges"
-            ]
-          },
-          "hed": {
-            "type": "TypeSample",
-            "props": {
-              "text": "DAWN CRACKLES",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display / Bebas Neue",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "split-complementary",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FEF3E2",
-                  "label": "Fog"
-                },
-                {
-                  "hex": "#FDF0DC",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#D4A96A",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#B54900",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#8C6A3F",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#2A1A0A",
-                  "label": "Ink"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Hero: scattered"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tok"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Filled / 10px radius"
-                },
-                {
-                  "label": "Links",
-                  "value": "Highlight style"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dot grid"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                },
-                {
-                  "label": "Images",
-                  "value": "Vivid + hover glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#FEF3E2"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#B54900"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#D4A96A"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#2A1A0A"
-                },
-                {
-                  "name": "--radius",
-                  "value": "10px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Saffron Interference",
-              "action": "apply-theme",
-              "date": "2026-08-21"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-08-28"
+  "currentDate": "2026-08-29"
 }
