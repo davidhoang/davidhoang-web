@@ -3,7 +3,7 @@
    ============================================
    
    Cascade layers keep theme overrides predictable.
-   Route-specific CSS (career-odyssey, home, card-stack-hero)
+   Route-specific CSS (career-odyssey, daily-themes, home, card-stack-hero)
    is imported from individual pages for code-splitting.
    
    ============================================ */
@@ -29,10 +29,10 @@
 @import 'modules/footer.css' layer(components);
 @import 'modules/command-palette.css' layer(components);
 @import 'modules/shared-components.css' layer(components);
-@import 'modules/themes-explorer.css' layer(components);
 
 /* Specialized Components */
 /* career-odyssey.css is imported only on the /career-odyssey page */
+/* themes-explorer.css is imported only on the /daily-themes page */
 @import 'modules/daily-theme-toggle.css' layer(components);
 
 /* Theme System */

@@ -745,20 +745,17 @@ html:not([data-image-style]) .hero-portrait {
   }
 }
 
-/* Exclude writing/blog prose images from theme filters.
-   Blog posts should display inline images as-is for editorial integrity.
+/* Exclude prose images from theme filters.
+   Writing and notes should display inline images as-is for editorial integrity.
    Framed thumbnails (.img-frame) may still use the shared hover zoom. */
-:is(.blog-post, .prose-content, article.blog-post) img {
+.prose-content img {
   filter: none !important;
   mix-blend-mode: normal !important;
   box-shadow: none;
-}
-
-:is(.blog-post, .prose-content, article.blog-post) .prose-content img {
   transform: none;
 }
 
-:is(.blog-post, .prose-content, article.blog-post) .prose-content img:hover {
+.prose-content img:hover {
   filter: none !important;
   transform: none !important;
   box-shadow: none !important;
@@ -787,19 +784,8 @@ html:not([data-image-style]) .hero-portrait {
   margin-top: max(var(--section-spacing, 2rem), 2rem);
 }
 
-/* Blog post content needs padding to keep prose off harsh bg edges */
-[data-daily-theme] .blog-post .content-grid {
-  padding-bottom: max(var(--section-spacing, 2rem), 2rem);
-}
-
 [data-daily-theme] .writing-post__grid {
   padding-bottom: max(var(--section-spacing, 2rem), 2rem);
-}
-
-/* Notes and writing index pages — space out list items */
-[data-daily-theme] .writing-list,
-[data-daily-theme] .notes-list {
-  gap: max(var(--section-spacing, 1.5rem), 1rem);
 }
 
 /* ============================================
