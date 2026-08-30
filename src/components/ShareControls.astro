@@ -15,8 +15,8 @@ const { url, title, description = '' } = Astro.props;
   data-share-title={title}
   data-share-description={description}
 >
-  <button type="button" class="btn btn-ghost btn-sm" data-share-copy>Copy link</button>
-  <button type="button" class="btn btn-ghost btn-sm" data-share-native hidden>Share</button>
+  <button type="button" class="btn btn-secondary btn-sm" data-share-copy>Copy link</button>
+  <button type="button" class="btn btn-secondary btn-sm" data-share-native hidden>Share</button>
   <span class="sr-only" role="status" aria-live="polite" data-share-status></span>
 </div>
 
@@ -88,7 +88,17 @@ const { url, title, description = '' } = Astro.props;
   .share-controls {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
     align-items: center;
+    flex-shrink: 0;
+    margin-inline-start: auto;
+  }
+
+  .share-controls .btn {
+    font-size: 0.75rem;
+    line-height: 1.25;
+    padding: calc(var(--spacing-xs) * 0.75) var(--spacing-sm);
+    gap: var(--spacing-xs);
+    font-weight: 500;
   }
 </style>

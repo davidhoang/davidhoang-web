@@ -106,10 +106,12 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
       <h1 class="writing-post__title" transition:name={`title-${slug}`}>{title}</h1>
       {description && <p class="writing-post__deck">{description}</p>}
       <div class="writing-post__meta">
-        <time datetime={isoDate}>{formatLongDate(publishDate)}</time>
-        {readingTime && (
-          <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
-        )}
+        <div class="writing-post__meta-info">
+          <time datetime={isoDate}>{formatLongDate(publishDate)}</time>
+          {readingTime && (
+            <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
+          )}
+        </div>
         <ShareControls url={canonicalUrl} title={title} description={pageDescription} />
       </div>
     </header>
