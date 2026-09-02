@@ -1,6 +1,342 @@
 {
   "themes": [
     {
+      "name": "Botanical Telegraph",
+      "description": "Art Nouveau's sinuous botanicals meet a dawn information index — jewel-toned tendrils climbing a misty grid, structured yet alive.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C3A2E",
+          "--color-bg": "#EDF5F0",
+          "--color-link": "#3D7A5C",
+          "--color-link-hover": "#1F5C3E",
+          "--color-border": "#B5CFB8",
+          "--color-muted": "#556F5B",
+          "--color-sidebar-bg": "#E2EEE5",
+          "--color-nav-bg": "#EDF5F0",
+          "--color-nav-text": "#2C3A2E",
+          "--color-card-bg": "#F3F8F4"
+        },
+        "dark": {
+          "--color-text": "#D4E8D8",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#6BBFA0",
+          "--color-link-hover": "#9ED8BE",
+          "--color-border": "#2A4A3E",
+          "--color-muted": "#698E7B",
+          "--color-sidebar-bg": "#0A1A1D",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#D4E8D8",
+          "--color-card-bg": "#112629"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Spectral",
+          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "DM Sans",
+          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDF5F0",
+          "#B5CFB8"
+        ]
+      },
+      "font": {
+        "name": "Spectral",
+        "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'Spectral', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-09-02",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Botanical Telegraph",
+              "subtitle": "2026 · Sept 02"
+            },
+            "children": [
+              "s-outer"
+            ]
+          },
+          "s-outer": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "palette",
+              "s-row1",
+              "div1",
+              "s-row2",
+              "div2",
+              "s-bot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Jewel-toned tendrils climb a misty grid — Art Nouveau's living line meets the dawn information index. Structured. Breathing.",
+              "emphasis": "quiet"
+            }
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C3A2E",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#EDF5F0",
+                  "label": "Mist"
+                },
+                {
+                  "hex": "#3D7A5C",
+                  "label": "Tendril"
+                },
+                {
+                  "hex": "#B5CFB8",
+                  "label": "Frond"
+                },
+                {
+                  "hex": "#556F5B",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#F3F8F4",
+                  "label": "Card"
+                }
+              ]
+            }
+          },
+          "s-row1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero-prev",
+              "type-head"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            }
+          },
+          "type-head": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "The Tendril Index",
+              "variant": "heading",
+              "weight": "600"
+            }
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Morning dispatch, grid-ruled, vine-lit.",
+              "variant": "body"
+            }
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            }
+          },
+          "s-row2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "layout-prev"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None / Grid Texture"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "4px"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                }
+              ]
+            }
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            }
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            }
+          },
+          "s-bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "spacer-btn",
+              "apply-btn"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Spectral serif",
+              "variant": "outlined"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "analogous",
+              "variant": "outlined"
+            }
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "filled"
+            }
+          },
+          "spacer-btn": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "none",
+              "align": "stretch"
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Theme",
+              "action": "apply-theme",
+              "date": "2026-09-02"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Asphalt Blossom",
       "description": "The quietude of a Tokyo dawn — rain-slick charcoal dissolving into soft rose light, where grid precision meets atmospheric stillness.",
       "colors": {
@@ -2236,367 +2572,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Misty Broadsheet",
-      "description": "A Swiss-inflected morning journal where ink-gray type floats on mist-washed paper, cards carry the weight through quiet elevation and measured borders, and grayscale imagery colorizes like a photograph developing in morning light.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C2C30",
-          "--color-bg": "#EEF0F2",
-          "--color-link": "#2868CE",
-          "--color-link-hover": "#1A4FA0",
-          "--color-border": "#C8CDD4",
-          "--color-muted": "#626873",
-          "--color-sidebar-bg": "#E6E9EC",
-          "--color-nav-bg": "#EEF0F2",
-          "--color-nav-text": "#2C2C30",
-          "--color-card-bg": "#F5F6F8"
-        },
-        "dark": {
-          "--color-text": "#DDE1E7",
-          "--color-bg": "#141820",
-          "--color-link": "#6EA8F5",
-          "--color-link-hover": "#93BDF8",
-          "--color-border": "#2A3040",
-          "--color-muted": "#838894",
-          "--color-sidebar-bg": "#1A1F2A",
-          "--color-nav-bg": "#141820",
-          "--color-nav-text": "#DDE1E7",
-          "--color-card-bg": "#1E2330"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EEF0F2",
-          "#C8CDD4"
-        ]
-      },
-      "font": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-08-23",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Misty Broadsheet",
-              "subtitle": "August 23, 2026"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s2",
-              "divider1",
-              "s3",
-              "divider2",
-              "s4",
-              "hero-preview",
-              "action"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Ink-gray type floats on mist-washed paper. Photographs develop in morning light. The broadsheet never shouts.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EEF0F2",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#F5F6F8",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#2C2C30",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#626873",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#C8CDD4",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#2868CE",
-                  "label": "Link"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif heading",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "analogous",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "divider1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "typo",
-              "layout"
-            ]
-          },
-          "typo": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "h2"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Morning, in Gray",
-              "variant": "heading",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "h2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Quiet elevation. Measured borders. IBM Plex Sans carries the body text with Swiss precision.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "divider2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "meta",
-              "shader"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Images",
-                  "value": "Grayscale → Colorize"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                }
-              ]
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#EEF0F2",
-                "#C8CDD4"
-              ]
-            },
-            "children": []
-          },
-          "hero-preview": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Grayscale images bloom at hover"
-            },
-            "children": []
-          },
-          "action": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Misty Broadsheet",
-              "action": "apply-theme",
-              "date": "2026-08-23"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-01"
+  "currentDate": "2026-09-02"
 }
