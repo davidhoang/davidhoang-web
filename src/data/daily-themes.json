@@ -1,6 +1,392 @@
 {
   "themes": [
     {
+      "name": "Terrazzo Matins",
+      "description": "Memphis geometry meets Ando's dawn light — bold geometric type fractures a pale concrete ground while soft gold accents bloom like early morning shafts through raw aggregate.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2A2320",
+          "--color-bg": "#F5EFE8",
+          "--color-link": "#AA4F08",
+          "--color-link-hover": "#A84D08",
+          "--color-border": "#C8B89E",
+          "--color-muted": "#75685E",
+          "--color-sidebar-bg": "#EDE5DB",
+          "--color-nav-bg": "#F5EFE8",
+          "--color-nav-text": "#2A2320",
+          "--color-card-bg": "#FBF7F2"
+        },
+        "dark": {
+          "--color-text": "#EDE5DB",
+          "--color-bg": "#1C1410",
+          "--color-link": "#F09040",
+          "--color-link-hover": "#F7B86A",
+          "--color-border": "#3D2E24",
+          "--color-muted": "#8E8076",
+          "--color-sidebar-bg": "#241A14",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#EDE5DB",
+          "--color-card-bg": "#231915"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Unbounded",
+          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "none",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "zoom",
+        "opacity": "0.92",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EFE8",
+          "#D4630A"
+        ]
+      },
+      "font": {
+        "name": "Unbounded",
+        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-09-03",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Terrazzo Matins",
+              "subtitle": "2026 · 09 · 03"
+            },
+            "children": [
+              "manifesto",
+              "d1",
+              "s1",
+              "s2",
+              "d2",
+              "s3",
+              "meta",
+              "d3",
+              "s4",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Concrete remembers the night. Gold remembers the sun. Terrazzo holds both — fractured, patient, luminous at dawn.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "badge-row"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Raw Light",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display · serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "split-complementary",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "shader-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "shader-prev": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "dot-grid",
+              "colors": [
+                "#F5EFE8",
+                "#D4630A",
+                "#C8B89E"
+              ]
+            },
+            "children": []
+          },
+          "d2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "palette",
+              "cap"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EFE8",
+                  "label": "Ground"
+                },
+                {
+                  "hex": "#2A2320",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#AA4F08",
+                  "label": "Ember"
+                },
+                {
+                  "hex": "#C8B89E",
+                  "label": "Aggregate"
+                },
+                {
+                  "hex": "#75685E",
+                  "label": "Dusk"
+                },
+                {
+                  "hex": "#FBF7F2",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Memphis geometry fractures a pale concrete ground.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dots"
+                },
+                {
+                  "label": "Link",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Image",
+                  "value": "Duotone · Hover Zoom"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                },
+                {
+                  "label": "Radius",
+                  "value": "8px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d3": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "tok",
+              "btn"
+            ]
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EFE8"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#AA4F08"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#C8B89E"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "Unbounded"
+                },
+                {
+                  "name": "--font-body",
+                  "value": "Literata"
+                }
+              ]
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Terrazzo Matins",
+              "action": "apply-theme",
+              "date": "2026-09-03"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Botanical Telegraph",
       "description": "Art Nouveau's sinuous botanicals meet a dawn information index — jewel-toned tendrils climbing a misty grid, structured yet alive.",
       "colors": {
@@ -2238,341 +2624,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Dawncast Concrete",
-      "description": "Tadao Ando's stillness at first light — warm graphite planes split by a single shaft of gold, where mass and radiance hold equal weight.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2E2A25",
-          "--color-bg": "#EDE8E1",
-          "--color-link": "#8C5E07",
-          "--color-link-hover": "#A06A06",
-          "--color-border": "#C9C2B8",
-          "--color-muted": "#6E6761",
-          "--color-sidebar-bg": "#E5DFD7",
-          "--color-nav-bg": "#EDE8E1",
-          "--color-nav-text": "#2E2A25",
-          "--color-card-bg": "#F5F1EC"
-        },
-        "dark": {
-          "--color-text": "#E8E2D9",
-          "--color-bg": "#1C1814",
-          "--color-link": "#D4960F",
-          "--color-link-hover": "#F0B733",
-          "--color-border": "#3A342C",
-          "--color-muted": "#8E867F",
-          "--color-sidebar-bg": "#211D18",
-          "--color-nav-bg": "#1C1814",
-          "--color-nav-text": "#E8E2D9",
-          "--color-card-bg": "#252018"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.92",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EDE8E1",
-          "#C8860A"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-08-25",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Dawncast Concrete",
-              "subtitle": "August 25, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "meta-hero",
-              "div2",
-              "pal",
-              "div3",
-              "typo",
-              "badge-row",
-              "div4",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Mass holds its breath. One shaft of gold splits warm graphite at the hour when concrete learns to glow.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "meta-hero": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero-prev",
-              "meta"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Radius",
-                  "value": "16px"
-                },
-                {
-                  "label": "Images",
-                  "value": "Duotone / Hover Glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EDE8E1",
-                  "label": "Dawnstone"
-                },
-                {
-                  "hex": "#2E2A25",
-                  "label": "Graphite"
-                },
-                {
-                  "hex": "#C8860A",
-                  "label": "Gilt"
-                },
-                {
-                  "hex": "#8C5E07",
-                  "label": "Amber Link"
-                },
-                {
-                  "hex": "#C9C2B8",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#F5F1EC",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "typo": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Where Mass Meets Radiance",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Literata carries the quiet — a serif at rest inside the concrete plane.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Syne / Literata",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Filled Cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Analogous",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "Still / Editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div4": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Dawncast Concrete",
-              "action": "apply-theme",
-              "date": "2026-08-25"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-02"
+  "currentDate": "2026-09-03"
 }
