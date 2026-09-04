@@ -1,6 +1,399 @@
 {
   "themes": [
     {
+      "name": "Light Shard",
+      "description": "Tadao Ando's Church of the Light distilled into graphic type — raw concrete weight split by a single golden blade, restrained to the point of severity.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1A17",
+          "--color-bg": "#EDE8E1",
+          "--color-link": "#815E08",
+          "--color-link-hover": "#8B6508",
+          "--color-border": "#1C1A17",
+          "--color-muted": "#6E675E",
+          "--color-sidebar-bg": "#E4DED6",
+          "--color-nav-bg": "#EDE8E1",
+          "--color-nav-text": "#1C1A17",
+          "--color-card-bg": "#E8E2DA"
+        },
+        "dark": {
+          "--color-text": "#EDE8E1",
+          "--color-bg": "#161310",
+          "--color-link": "#D4A017",
+          "--color-link-hover": "#F0C040",
+          "--color-border": "#EDE8E1",
+          "--color-muted": "#8A8278",
+          "--color-sidebar-bg": "#1E1A16",
+          "--color-nav-bg": "#161310",
+          "--color-nav-text": "#EDE8E1",
+          "--color-card-bg": "#1A1712"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE8E1",
+          "#B8860B"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-04",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Light Shard",
+              "subtitle": "2026 · 09 · 04"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Where concrete meets gospel light — one cut, no apology. The golden blade does not decorate. It divides.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "heading",
+              "badge-row"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "CHURCH OF THE LIGHT",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "brutalist",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "palette",
+              "shader",
+              "caption"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDE8E1",
+                  "label": "Concrete"
+                },
+                {
+                  "hex": "#1C1A17",
+                  "label": "Shadow"
+                },
+                {
+                  "hex": "#815E08",
+                  "label": "Blade"
+                },
+                {
+                  "hex": "#B8860B",
+                  "label": "Gold"
+                },
+                {
+                  "hex": "#6E675E",
+                  "label": "Ash"
+                },
+                {
+                  "hex": "#E8E2DA",
+                  "label": "Slab"
+                }
+              ]
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EDE8E1",
+                "#B8860B",
+                "#1C1A17"
+              ]
+            },
+            "children": []
+          },
+          "caption": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Bebas Neue · IBM Plex Sans · 0px radius · outlined",
+              "variant": "caption",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "meta"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Split · Grid Texture"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Images",
+                  "value": "Grayscale / Hover Colorize"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Brutalist"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "tokens"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#EDE8E1"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#1C1A17"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#815E08"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#6E675E"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Light Shard",
+              "action": "apply-theme",
+              "date": "2026-09-04"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Terrazzo Matins",
       "description": "Memphis geometry meets Ando's dawn light — bold geometric type fractures a pale concrete ground while soft gold accents bloom like early morning shafts through raw aggregate.",
       "colors": {
@@ -2228,403 +2621,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Indigo Signal",
-      "description": "A disciplined information rail channeling Tokyo's neon-against-night geometry — compressed type hierarchy, ink-deep surfaces, and a single amber pulse cutting through monochrome restraint.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1830",
-          "--color-bg": "#EBF0F7",
-          "--color-link": "#AB4C09",
-          "--color-link-hover": "#9E3E04",
-          "--color-border": "#B8C4D8",
-          "--color-muted": "#606E85",
-          "--color-sidebar-bg": "#DDE5F0",
-          "--color-nav-bg": "#EBF0F7",
-          "--color-nav-text": "#1A1830",
-          "--color-card-bg": "#F2F5FA"
-        },
-        "dark": {
-          "--color-text": "#E8EDF5",
-          "--color-bg": "#0A1628",
-          "--color-link": "#F4A033",
-          "--color-link-hover": "#FFB955",
-          "--color-border": "#1E2E4A",
-          "--color-muted": "#73849D",
-          "--color-sidebar-bg": "#0D1C38",
-          "--color-nav-bg": "#0A1628",
-          "--color-nav-text": "#E8EDF5",
-          "--color-card-bg": "#0F2040"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "2px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#0A1628",
-          "#F4A033"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-08-26",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Indigo Signal",
-              "subtitle": "2026-08-26 · Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "One amber pulse. A city grid compressed into type. This is not decoration — it is signal.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "left-col",
-              "right-col"
-            ]
-          },
-          "left-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "badge-row",
-              "meta"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "TOKYO RAIL / NIGHT GRID",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif header",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined card",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Images",
-                  "value": "Grayscale → Colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "right-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            },
-            "children": []
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "palette",
-              "tokens"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A1830",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#EBF0F7",
-                  "label": "Field"
-                },
-                {
-                  "hex": "#AB4C09",
-                  "label": "Amber"
-                },
-                {
-                  "hex": "#606E85",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#DDE5F0",
-                  "label": "Rail"
-                },
-                {
-                  "hex": "#F2F5FA",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--border-radius",
-                  "value": "2px"
-                },
-                {
-                  "name": "--heading-font",
-                  "value": "Space Grotesk"
-                },
-                {
-                  "name": "--body-font",
-                  "value": "Source Serif 4"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#AB4C09"
-                },
-                {
-                  "name": "--color-scheme",
-                  "value": "complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "body-sample",
-              "caption-sample"
-            ]
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Compressed hierarchy. Ink-deep surfaces.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "caption-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "neon / restraint / pulse",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Indigo Signal",
-              "action": "apply-theme",
-              "date": "2026-08-26"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-03"
+  "currentDate": "2026-09-04"
 }
