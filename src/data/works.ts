@@ -1,9 +1,8 @@
 /**
  * Works index — career role cards + one-off event lines (talks, launches, milestones).
- * Add portfolio case studies later at paths like /works/slug.
+ * Case studies (PC-21) should land at paths like /works/{slug}.
  *
- * Published at /works (indexable + sitemap) but not linked from top nav, footer, or ⌘K yet.
- * Add to navigation.ts when ready to promote in site IA.
+ * Linked from footer, mobile secondary nav, and ⌘K — not the short top nav.
  */
 export type WorkKind = 'role' | 'talk' | 'event' | 'portfolio';
 
