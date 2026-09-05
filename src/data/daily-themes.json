@@ -1,6 +1,381 @@
 {
   "themes": [
     {
+      "name": "Concrete Breviary",
+      "description": "Tadao Ando's restraint translated into type — raw warm gray, a single shaft of amber light, and the quiet weight of well-set serif text at dawn.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2C2420",
+          "--color-bg": "#EDE9E3",
+          "--color-link": "#7F5E1D",
+          "--color-link-hover": "#8A6218",
+          "--color-border": "#C8C0B4",
+          "--color-muted": "#706860",
+          "--color-sidebar-bg": "#E6E1D9",
+          "--color-nav-bg": "#EDE9E3",
+          "--color-nav-text": "#2C2420",
+          "--color-card-bg": "#E8E3DC"
+        },
+        "dark": {
+          "--color-text": "#DDD6CC",
+          "--color-bg": "#1C1713",
+          "--color-link": "#C9973A",
+          "--color-link-hover": "#E2B455",
+          "--color-border": "#3A332B",
+          "--color-muted": "#8E857F",
+          "--color-sidebar-bg": "#221E19",
+          "--color-nav-bg": "#1C1713",
+          "--color-nav-text": "#DDD6CC",
+          "--color-card-bg": "#231F1A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "EB Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "borderWidth": "1px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE9E3",
+          "#C9973A"
+        ]
+      },
+      "font": {
+        "name": "EB Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-05",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete Breviary",
+              "subtitle": "September 5, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "s2",
+              "div2",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Ando's silence made typographic. One amber shaft. The rest is warm gray and patience.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "heading",
+              "br",
+              "meta"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Light enters slowly.",
+              "variant": "heading",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "low contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Stacked Fan"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grain"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated Underline"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#EDE9E3",
+                "#C9973A"
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "palette",
+              "tokens"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDE9E3",
+                  "label": "Bg"
+                },
+                {
+                  "hex": "#E8E3DC",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#C8C0B4",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#706860",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#2C2420",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#7F5E1D",
+                  "label": "Amber"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "Heading",
+                  "value": "EB Garamond"
+                },
+                {
+                  "name": "Body",
+                  "value": "Source Serif 4"
+                },
+                {
+                  "name": "Radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "Scheme",
+                  "value": "Analogous"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "apply"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Restraint is its own ornament.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Concrete Breviary",
+              "action": "apply-theme",
+              "date": "2026-09-05"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Light Shard",
       "description": "Tadao Ando's Church of the Light distilled into graphic type — raw concrete weight split by a single golden blade, restrained to the point of severity.",
       "colors": {
@@ -2230,398 +2605,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Magenta Voltage",
-      "description": "Neon-drenched energy channeled through sharp material contrasts — hot pink slashing across deep charcoal, every card edge a deliberate cut.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1220",
-          "--color-bg": "#FCF0FA",
-          "--color-link": "#C90066",
-          "--color-link-hover": "#FF1493",
-          "--color-border": "#E8B4D8",
-          "--color-muted": "#8A5A78",
-          "--color-sidebar-bg": "#F5E0F2",
-          "--color-nav-bg": "#FCF0FA",
-          "--color-nav-text": "#1A1220",
-          "--color-card-bg": "#F7E2F5"
-        },
-        "dark": {
-          "--color-text": "#F5E8F8",
-          "--color-bg": "#140A1E",
-          "--color-link": "#FF3DA8",
-          "--color-link-hover": "#FF80CC",
-          "--color-border": "#5C2B52",
-          "--color-muted": "#B07898",
-          "--color-sidebar-bg": "#1E1028",
-          "--color-nav-bg": "#140A1E",
-          "--color-nav-text": "#F5E8F8",
-          "--color-card-bg": "#1C0E28"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bricolage Grotesque",
-          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
-          "category": "display",
-          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Rubik",
-          "url": "https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "3px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "marquee"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#D4006B",
-          "#140A1E"
-        ]
-      },
-      "font": {
-        "name": "Bricolage Grotesque",
-        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
-        "category": "display",
-        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-08-27",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Magenta Voltage",
-              "subtitle": "2026-08-27 · High Contrast · Split-Complementary"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Hot pink doesn't ask permission. It cuts through charcoal like a laser tag through smoke — every edge deliberate, every card a statement. This is UI as electric event.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "col1",
-              "col2"
-            ]
-          },
-          "col1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2",
-              "b3",
-              "pal"
-            ]
-          },
-          "col2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "VOLTAGE CUTS DEEP",
-              "variant": "heading",
-              "weight": "800"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Bricolage Grotesque",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Outlined Cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Dots Texture",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#C90066",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#FF1493",
-                  "label": "Hover"
-                },
-                {
-                  "hex": "#1A1220",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#FCF0FA",
-                  "label": "BG"
-                },
-                {
-                  "hex": "#E8B4D8",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#8A5A78",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#D4006B",
-                "#140A1E",
-                "#FCF0FA"
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tok"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Scattered"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Radius",
-                  "value": "8px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Marquee"
-                },
-                {
-                  "label": "Images",
-                  "value": "Vivid / Hover Glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#C90066"
-                },
-                {
-                  "name": "--color-link-hover",
-                  "value": "#FF1493"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#F7E2F5"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#E8B4D8"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#8A5A78"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "ts1",
-              "b4"
-            ]
-          },
-          "ts1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sharp edges. Louder presence. No apologies.",
-              "variant": "caption",
-              "weight": "500"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "High Contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Magenta Voltage",
-              "action": "apply-theme",
-              "date": "2026-08-27"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-04"
+  "currentDate": "2026-09-05"
 }
