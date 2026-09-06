@@ -24,9 +24,11 @@ export type SearchIndexCollection = (typeof SEARCH_INDEX_COLLECTIONS)[number];
  * Exact HTML paths that exist as routes but must not appear in the index.
  * Keep this list explicit so a new page cannot be omitted by accident
  * without a test failure (see tests/searchIndexConfig.test.ts).
+ * Unlisted pages (e.g. /projects) belong here so they stay off ⌘K and the sitemap.
  */
 export const SEARCH_INDEX_EXCLUDE_PATHS = [
   '/labs',
+  '/projects',
   '/404',
   '/default-layout',
 ] as const;

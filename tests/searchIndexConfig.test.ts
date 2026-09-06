@@ -58,6 +58,7 @@ describe('search index policy (PC-40)', () => {
 
   it('excludes utility, deprecated, feed, and machine endpoints', () => {
     expect(isExcludedFromSearchIndex('/labs')).toBe(true);
+    expect(isExcludedFromSearchIndex('/projects')).toBe(true);
     expect(isExcludedFromSearchIndex('/404')).toBe(true);
     expect(isExcludedFromSearchIndex('/default-layout')).toBe(true);
     expect(isExcludedFromSearchIndex('/api/og')).toBe(true);
@@ -72,6 +73,7 @@ describe('search index policy (PC-40)', () => {
   it('aligns sitemap filtering with the same exclude contract', () => {
     expect(isIndexedSitemapPage('https://www.davidhoang.com/about')).toBe(true);
     expect(isIndexedSitemapPage('https://www.davidhoang.com/labs')).toBe(false);
+    expect(isIndexedSitemapPage('https://www.davidhoang.com/projects')).toBe(false);
     expect(isIndexedSitemapPage('https://www.davidhoang.com/default-layout')).toBe(false);
   });
 
