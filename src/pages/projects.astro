@@ -1,11 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import ProjectTileShader from '../components/ProjectTileShader';
 import { projects } from '../data/projects';
 
 const pageDescription =
   'Build in public — software experiments shipped while they are still being figured out.';
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
+
+/** Zero-width breaks let long domain titles wrap at the dots instead of mid-word. */
+const wrappableTitle = (title: string) => title.replace(/\./g, '.\u200B');
 ---
 
 <MainLayout
@@ -19,163 +23,299 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     image="/images/highlights/img-highlights-proof-of-concept.webp"
     alt="Projects"
   />
-  <div class="content-page content-page--compact-top projects-page container-narrow">
+  <div class="content-page content-page--compact-top projects-page container">
     <p class="content-page__lede">
       Software I am building in public. These are live experiments — incomplete on purpose,
       updated as the work teaches me something.
     </p>
 
-    <ol class="projects-list" aria-label="Build in public projects">
+    <ul class="projects-gallery" aria-label="Build in public projects">
       {
-        projects.map((project, index) => (
-          <li class="projects-list__item">
-            <article class="card card-filled project-card">
-              <div class="project-card__meta">
-                <span class="project-card__index">{String(index + 1).padStart(2, '0')}</span>
-                <span class="project-card__built">Built with {project.builtWith}</span>
+        projects.map((project) => (
+          <li class="projects-gallery__item">
+            <article class="project-tile">
+              {/* client:idle, not client:visible — the shader renders nothing on the
+                  server, so there is no child element for the visible observer to watch. */}
+              <div class="project-tile__art" aria-hidden="true">
+                <ProjectTileShader variant={project.shader} client:idle />
               </div>
-              <h2 class="project-card__title">
-                <a href={project.href} target="_blank" rel="noopener noreferrer">
-                  {project.title}
-                </a>
-              </h2>
-              <p class="project-card__summary">{project.summary}</p>
-              <p class="project-card__actions">
-                <a
-                  class="project-card__primary"
-                  href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {project.hrefLabel}
-                  <span aria-hidden="true">↗</span>
-                </a>
-                {project.links?.map((link) => (
-                  <a
-                    class="project-card__secondary"
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </p>
+
+              <div class="project-tile__panel">
+                <div class="project-tile__caption">
+                  <p class="project-tile__eyebrow">{project.tagline}</p>
+                  <h2 class="project-tile__title">
+                    <a href={project.href} target="_blank" rel="noopener noreferrer">
+                      {wrappableTitle(project.title)}
+                      <span class="project-tile__ext" aria-hidden="true">↗</span>
+                    </a>
+                  </h2>
+                </div>
+
+                <div class="project-tile__reveal">
+                  <div class="project-tile__reveal-inner">
+                    <p class="project-tile__summary">{project.summary}</p>
+
+                    <dl class="project-tile__meta">
+                      {project.meta.map((item) => (
+                        <div class="project-tile__meta-row">
+                          <dt>{item.label}</dt>
+                          <dd>{item.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+
+                    {project.links && project.links.length > 0 && (
+                      <p class="project-tile__links">
+                        {project.links.map((link) => (
+                          <a href={link.href} target="_blank" rel="noopener noreferrer">
+                            {link.label}
+                          </a>
+                        ))}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             </article>
           </li>
         ))
       }
-    </ol>
+    </ul>
   </div>
 </MainLayout>
 
 <style>
-  .projects-list {
+  .projects-gallery {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
     gap: var(--spacing-md);
   }
 
-  .project-card {
-    display: block;
-    color: inherit;
-  }
-
-  .project-card__meta {
+  /*
+   * Base layout (touch, no-hover): artwork on top, metadata stacked below in flow.
+   * Pointer devices switch to a fixed-ratio tile with the panel overlaying the art.
+   */
+  .project-tile {
+    position: relative;
+    isolation: isolate;
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-xs) var(--spacing-md);
-    margin-bottom: var(--spacing-sm);
+    flex-direction: column;
+    height: 100%;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    transition:
+      transform var(--duration-slow) var(--ease-inertia-smooth),
+      border-color var(--duration-normal) ease,
+      box-shadow var(--duration-slow) ease;
   }
 
-  .project-card__index {
+  /* Gradient stands in for the shader before hydration, on e-ink, and without WebGL. */
+  .project-tile__art {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    z-index: 0;
+    background:
+      radial-gradient(
+        120% 120% at 12% 8%,
+        color-mix(in srgb, var(--color-link) 62%, var(--color-bg)) 0%,
+        transparent 58%
+      ),
+      linear-gradient(
+        150deg,
+        color-mix(in srgb, var(--color-link) 34%, var(--color-bg)) 0%,
+        color-mix(in srgb, var(--color-muted) 22%, var(--color-bg)) 100%
+      );
+  }
+
+  .project-tile__art :global(canvas) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .project-tile__panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: color-mix(in srgb, var(--color-bg) 86%, transparent);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+    transition: grid-template-rows var(--duration-slower) var(--ease-inertia-smooth);
+  }
+
+  .project-tile__caption {
+    padding: calc(var(--spacing-sm) + var(--spacing-xs)) var(--spacing-md);
+  }
+
+  .project-tile__eyebrow {
+    margin: 0 0 var(--spacing-xs);
     font-size: var(--text-eyebrow-size, 0.6875rem);
     font-weight: 600;
     letter-spacing: var(--text-eyebrow-tracking, 0.12em);
     text-transform: uppercase;
-    font-variant-numeric: tabular-nums;
-    color: var(--color-link);
-  }
-
-  .project-card__built {
-    font-size: var(--text-caption-size, 0.8125rem);
-    line-height: 1.35;
-    letter-spacing: var(--letter-spacing-caption);
+    line-height: 1.3;
     color: var(--color-muted);
   }
 
-  .project-card__title {
+  .project-tile__title {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
     font-weight: var(--heading-weight);
     line-height: 1.15;
     letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
+    overflow-wrap: anywhere;
   }
 
-  .project-card__title a {
+  .project-tile__title a {
     color: var(--color-text);
     text-decoration: none;
   }
 
-  @media (hover: hover) {
-    .project-card__title a:hover {
+  .project-tile__ext {
+    margin-left: 0.35rem;
+    font-size: 0.7em;
+    color: var(--color-muted);
+  }
+
+  .project-tile__reveal {
+    overflow: hidden;
+  }
+
+  .project-tile__reveal-inner {
+    padding: 0 var(--spacing-md) calc(var(--spacing-sm) + var(--spacing-xs));
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+  }
+
+  .project-tile__summary {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--text-caption-size, 0.875rem);
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  .project-tile__meta {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .project-tile__meta-row {
+    display: grid;
+    grid-template-columns: minmax(4.5rem, 5.5rem) minmax(0, 1fr);
+    gap: var(--spacing-sm);
+    align-items: baseline;
+  }
+
+  .project-tile__meta dt {
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .project-tile__meta dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .project-tile__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-md);
+    margin: var(--spacing-sm) 0 0;
+  }
+
+  .project-tile__links a {
+    font-size: var(--text-caption-size, 0.8125rem);
+    font-weight: 650;
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  /* Pointer devices get the reveal; touch sees the metadata up front. */
+  @media (hover: hover) and (pointer: fine) {
+    .project-tile {
+      aspect-ratio: 1 / 1;
+      justify-content: flex-end;
+    }
+
+    .project-tile__art {
+      position: absolute;
+      inset: 0;
+      aspect-ratio: auto;
+    }
+
+    .project-tile__panel {
+      grid-template-rows: auto 0fr;
+    }
+
+    .project-tile:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--color-border) 60%, var(--color-link) 40%);
+      box-shadow: 0 14px 34px -16px color-mix(in srgb, var(--color-text) 26%, transparent);
+    }
+
+    .project-tile__reveal-inner {
+      opacity: 0;
+      transition: opacity var(--duration-slower) var(--ease-inertia-smooth);
+    }
+
+    .project-tile:hover .project-tile__panel,
+    .project-tile:focus-within .project-tile__panel {
+      grid-template-rows: auto 1fr;
+      background: color-mix(in srgb, var(--color-bg) 93%, transparent);
+    }
+
+    .project-tile:hover .project-tile__reveal-inner,
+    .project-tile:focus-within .project-tile__reveal-inner {
+      opacity: 1;
+    }
+
+    .project-tile:hover .project-tile__title a {
       color: var(--color-link);
     }
   }
 
-  .project-card__title a:focus-visible {
+  .project-tile__title a:focus-visible,
+  .project-tile__links a:focus-visible {
     outline: var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
   }
 
-  .project-card__summary {
-    margin: var(--spacing-md) 0 0;
-    font-size: var(--body-size);
-    line-height: 1.55;
-    letter-spacing: var(--letter-spacing-body);
-    color: var(--color-muted);
+  .project-tile__links a:hover {
+    text-decoration: underline;
   }
 
-  .project-card__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--spacing-sm) var(--spacing-md);
-    margin: var(--spacing-md) 0 0;
-  }
+  @media (prefers-reduced-motion: reduce) {
+    .project-tile,
+    .project-tile__panel,
+    .project-tile__reveal-inner {
+      transition: none;
+    }
 
-  .project-card__primary,
-  .project-card__secondary {
-    font-size: var(--text-caption-size, 0.9rem);
-    line-height: 1.4;
-    text-decoration: none;
-  }
-
-  .project-card__primary {
-    color: var(--color-link);
-    font-weight: 650;
-  }
-
-  .project-card__secondary {
-    color: var(--color-muted);
-  }
-
-  @media (hover: hover) {
-    .project-card__primary:hover,
-    .project-card__secondary:hover {
-      text-decoration: underline;
+    .project-tile:hover {
+      transform: none;
     }
   }
 
-  .project-card__primary:focus-visible,
-  .project-card__secondary:focus-visible {
-    outline: var(--focus-ring);
-    outline-offset: var(--focus-ring-offset);
+  @media (hover: hover) and (pointer: fine) and (max-width: 640px) {
+    .project-tile {
+      aspect-ratio: 4 / 3;
+    }
   }
 </style>
