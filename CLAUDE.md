@@ -36,6 +36,7 @@ Site: https://www.davidhoang.com
 - **Top nav** (`src/data/navigation.ts` → `navItems`, rendered in `Navigation.astro`): About, Writing, Featured, Subscribe — keep this list short
 - **Footer only** (`src/components/Footer.astro`): Notes and Advising are footer links, not top nav; use footer for secondary pages (Career Odyssey, Now, RSS, etc.)
 - **Command palette** (`commandPalettePages` + build-time writing/notes index): all discoverable pages including Notes and Advising
+- **Unlisted pages** (`SEARCH_INDEX_EXCLUDE_PATHS`): `/labs`, `/projects` — live at their URLs but omitted from ⌘K, sitemap, and `llms.txt`
 
 ## Architecture notes
 - RSS: `/rss.xml` is **writing only** (full content, same scope as `/rss/writing.xml`). Notes: `/rss/notes.xml`. Per-tag feeds `/rss/tag/{tag}.xml` are **writing** posts with that tag only (not notes).

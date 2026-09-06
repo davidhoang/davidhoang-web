@@ -58,6 +58,7 @@ describe('discoverableStaticPages', () => {
     expect(paths).not.toContain('/fund');
     expect(paths).not.toContain('/default-layout');
     expect(paths).not.toContain('/labs');
+    expect(paths).not.toContain('/projects');
     expect(paths).not.toContain('/404');
   });
 });
