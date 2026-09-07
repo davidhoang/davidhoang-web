@@ -34,6 +34,23 @@ export type SearchTrigger = (typeof SEARCH_TRIGGERS)[number];
 export const NEWSLETTER_OUTCOMES = ['attempted'] as const;
 export type NewsletterOutcome = (typeof NEWSLETTER_OUTCOMES)[number];
 
+export const NEWSLETTER_PLACEMENTS = ['home', 'subscribe', 'writing', 'other'] as const;
+export type NewsletterPlacement = (typeof NEWSLETTER_PLACEMENTS)[number];
+
+export const ACQUISITION_SOURCES = [
+  ...AI_REFERRAL_SOURCES,
+  'organic_search',
+  'referral',
+  'direct',
+  'unknown',
+] as const;
+export type AcquisitionSource = (typeof ACQUISITION_SOURCES)[number];
+
+export type NewsletterAttribution = {
+  placement: NewsletterPlacement;
+  source: AcquisitionSource;
+};
+
 /** Event names sent to Vercel Web Analytics custom events. */
 export const AGENT_EVENT_NAMES = {
   aiReferral: 'ai_referral',
@@ -52,7 +69,10 @@ export type AgentEventPayload =
   | { name: typeof AGENT_EVENT_NAMES.searchSelect; data: { resultType: SearchResultType } }
   | { name: typeof AGENT_EVENT_NAMES.searchEmpty; data: { hadQuery: 'yes' } }
   | { name: typeof AGENT_EVENT_NAMES.searchError; data: { reason: 'index_load' } }
-  | { name: typeof AGENT_EVENT_NAMES.newsletterSubmit; data: { outcome: NewsletterOutcome } };
+  | {
+      name: typeof AGENT_EVENT_NAMES.newsletterSubmit;
+      data: { outcome: NewsletterOutcome } & Partial<NewsletterAttribution>;
+    };
 
 /** Keys that must never appear on outbound analytics payloads. */
 export const FORBIDDEN_PAYLOAD_KEYS = [
@@ -91,7 +111,7 @@ const AI_REFERRAL_HOST_RULES: HostRule[] = [
   { source: 'copilot', hosts: ['copilot.microsoft.com'] },
   { source: 'you', hosts: ['you.com'] },
   { source: 'meta_ai', hosts: ['meta.ai', 'www.meta.ai'] },
-  { source: 'grok', hosts: ['grok.x.ai', 'x.ai'] },
+  { source: 'grok', hosts: ['grok.com', 'grok.x.ai', 'x.ai'] },
   { source: 'poe', hosts: ['poe.com'] },
   { source: 'phind', hosts: ['phind.com'] },
   { source: 'deepseek', hosts: ['chat.deepseek.com', 'deepseek.com'] },
@@ -116,6 +136,7 @@ const AI_UTM_SOURCE_MAP: Record<string, AiReferralSource> = {
   meta_ai: 'meta_ai',
   'meta.ai': 'meta_ai',
   grok: 'grok',
+  'grok.com': 'grok',
   poe: 'poe',
   phind: 'phind',
   deepseek: 'deepseek',
@@ -128,6 +149,21 @@ const AI_UTM_MEDIUM_HINTS = new Set([
   'answer-engine',
   'chatbot',
 ]);
+
+const SEARCH_REFERRAL_HOSTS = [
+  'google.com',
+  'google.co.uk',
+  'google.ca',
+  'google.com.au',
+  'bing.com',
+  'search.yahoo.com',
+  'duckduckgo.com',
+  'search.brave.com',
+  'ecosia.org',
+  'kagi.com',
+  'baidu.com',
+  'yandex.com',
+];
 
 function normalizeHost(hostname: string): string {
   return hostname.trim().toLowerCase().replace(/\.$/, '');
@@ -182,7 +218,7 @@ export function classifyAiReferralOrigin(
   input: ClassifyAiReferralInput,
 ): AiReferralSource | null {
   const utmSource = normalizeUtmToken(input.utmSource);
-  if (utmSource && AI_UTM_SOURCE_MAP[utmSource]) {
+  if (utmSource && Object.prototype.hasOwnProperty.call(AI_UTM_SOURCE_MAP, utmSource)) {
     return AI_UTM_SOURCE_MAP[utmSource];
   }
 
@@ -199,6 +235,53 @@ export function classifyAiReferralOrigin(
   }
 
   return null;
+}
+
+export function resolveAcquisitionSource(value: unknown): AcquisitionSource | null {
+  return typeof value === 'string' && (ACQUISITION_SOURCES as readonly string[]).includes(value)
+    ? (value as AcquisitionSource)
+    : null;
+}
+
+/** Classify locally; only the returned fixed-value source belongs in analytics. */
+export function classifyAcquisitionSource(input: {
+  referrer?: string | null;
+  currentUrl?: string | null;
+}): AcquisitionSource {
+  let currentUrl: URL | null = null;
+  if (input.currentUrl) {
+    try {
+      currentUrl = new URL(input.currentUrl);
+      if (currentUrl.protocol !== 'https:' && currentUrl.protocol !== 'http:') return 'unknown';
+    } catch {
+      return 'unknown';
+    }
+  }
+
+  const aiSource = classifyAiReferralOrigin({
+    referrer: input.referrer,
+    utmSource: currentUrl?.searchParams.get('utm_source'),
+    utmMedium: currentUrl?.searchParams.get('utm_medium'),
+  });
+  if (aiSource) return aiSource;
+
+  const referrerHost = parseReferrerHost(input.referrer);
+  if (!referrerHost) {
+    // An absent referrer is a coarse direct bucket, not proof of typed navigation.
+    return input.referrer?.trim() ? 'unknown' : 'direct';
+  }
+  if (currentUrl && referrerHost === normalizeHost(currentUrl.hostname)) return 'unknown';
+  if (SEARCH_REFERRAL_HOSTS.some((host) => hostMatches(referrerHost, host))) return 'organic_search';
+  return 'referral';
+}
+
+/** Resolve the signup surface without exposing arbitrary page paths. */
+export function resolveNewsletterPlacement(pathname: string): NewsletterPlacement {
+  const path = pathname.replace(/\/+$/, '') || '/';
+  if (path === '/') return 'home';
+  if (path === '/subscribe') return 'subscribe';
+  if (path === '/writing' || path.startsWith('/writing/')) return 'writing';
+  return 'other';
 }
 
 export function buildAiReferralEvent(
@@ -240,10 +323,14 @@ export function buildSearchErrorEvent(): AgentEventPayload {
 
 export function buildNewsletterSubmitEvent(
   outcome: NewsletterOutcome = 'attempted',
+  context: Partial<NewsletterAttribution> = {},
 ): AgentEventPayload {
+  const placement = (NEWSLETTER_PLACEMENTS as readonly unknown[]).includes(context.placement)
+    ? context.placement as NewsletterPlacement
+    : 'other';
   return {
     name: AGENT_EVENT_NAMES.newsletterSubmit,
-    data: { outcome },
+    data: { outcome, placement, source: resolveAcquisitionSource(context.source) ?? 'unknown' },
   };
 }
 
@@ -269,6 +356,13 @@ export function isSafeAgentEventPayload(
     } else if (typeof value !== 'number' && typeof value !== 'boolean') {
       return false;
     }
+  }
+  if (payload.name === AGENT_EVENT_NAMES.newsletterSubmit) {
+    const newsletterData = payload.data;
+    if (newsletterData.outcome !== 'attempted') return false;
+    if (Object.keys(newsletterData).some((key) => !['outcome', 'placement', 'source'].includes(key))) return false;
+    if ('placement' in newsletterData && !(NEWSLETTER_PLACEMENTS as readonly unknown[]).includes(newsletterData.placement)) return false;
+    if ('source' in newsletterData && !resolveAcquisitionSource(newsletterData.source)) return false;
   }
   return true;
 }

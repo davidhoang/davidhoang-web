@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { proofOfConcept } from '../src/data/proofOfConcept';
 import {
   AGENT_DISCOVERY_VERSION,
   agentDiscoverySchema,
@@ -59,6 +60,7 @@ describe('buildAgentDiscoveryContract', () => {
     expect(types.has('sitemap')).toBe(true);
     expect(types.has('rss')).toBe(true);
     expect(types.has('search-index')).toBe(true);
+    expect(types.has('llms-txt')).toBe(true);
   });
 
   it('exposes human actions for subscribe, advising, and contact', () => {
@@ -81,6 +83,11 @@ describe('buildAgentDiscoveryContract', () => {
 
     const email = contract.humanActions.find((action) => action.id === 'contact-email');
     expect(email?.url).toBe('mailto:david@davidhoang.com');
+
+    const subscribe = contract.humanActions.find((action) => action.id === 'subscribe');
+    expect(subscribe?.url).toBe(`${CANONICAL_ORIGIN}${proofOfConcept.subscribePath}`);
+    expect(subscribe?.description).toBe(proofOfConcept.description);
+    expect(contract.identity.description).toContain(proofOfConcept.description);
   });
 
   it('requires attribution with a preferred citation and link-back', () => {
@@ -90,14 +97,15 @@ describe('buildAgentDiscoveryContract', () => {
     expect(contract.attribution.guidance.toLowerCase()).toContain('attribute');
   });
 
-  it('does not advertise endpoints that do not exist on main', () => {
+  it('advertises the implemented llms guide while excluding private and API endpoints', () => {
     expect(() => assertNoForbiddenEndpoints(contract)).not.toThrow();
 
     const advertised = collectAdvertisedUrls(contract).join('\n');
-    expect(advertised).not.toContain('/llms.txt');
+    expect(advertised).toContain('/llms.txt');
     expect(advertised).not.toContain('/.agent/inbox');
     expect(advertised).not.toContain('/api/og');
     expect(advertised).not.toContain('/api/theme-query');
+    expect(contract.usage.notes.join('\n')).not.toContain('does not imply');
   });
 });
 

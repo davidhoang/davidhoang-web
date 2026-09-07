@@ -1,4 +1,6 @@
 ---
+import { proofOfConcept } from '../data/proofOfConcept';
+
 interface Props {
   title?: string;
   description?: string;
@@ -10,8 +12,8 @@ interface Props {
 }
 
 const {
-  title = 'Proof of Concept',
-  description = 'Get the weekly newsletter about design, technology, and experimentation.',
+  title = proofOfConcept.name,
+  description = proofOfConcept.signupDescription,
   showTitle = true,
   headingId,
   compact = false,
@@ -70,7 +72,7 @@ const showHeader = showTitle || Boolean(description?.trim());
 
       <div class="form-actions">
         <button type="submit" class="subscribe-button">
-          <span class="subscribe-button-label">Subscribe</span>
+          <span class="subscribe-button-label">Subscribe free</span>
           <span class="subscribe-button-icon" aria-hidden="true">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -86,6 +88,9 @@ const showHeader = showTitle || Boolean(description?.trim());
     </div>
     <p class="sr-only" role="status" data-signup-status></p>
   </form>
+  {showHeader && Astro.url.pathname !== proofOfConcept.subscribePath && (
+    <p class="signup-details"><a href={proofOfConcept.subscribePath}>About the newsletter and where to start →</a></p>
+  )}
 </div>
 
 <style>
@@ -99,6 +104,11 @@ const showHeader = showTitle || Boolean(description?.trim());
 
   .signup-header {
     margin-bottom: var(--spacing-xl);
+  }
+
+  .signup-details {
+    margin: var(--spacing-lg) 0 0;
+    font-size: 0.9375rem;
   }
 
   .signup-title {
@@ -421,7 +431,7 @@ const showHeader = showTitle || Boolean(description?.trim());
 </style>
 
 <script>
-  import { reportAgentEvent } from '../scripts/agent-experience';
+  import { getNewsletterAttribution, reportAgentEvent } from '../scripts/agent-experience';
   import { buildNewsletterSubmitEvent } from '../utils/agentExperienceMetrics';
 
   function resetSignup(form: HTMLFormElement) {
@@ -440,7 +450,7 @@ const showHeader = showTitle || Boolean(description?.trim());
       form.dataset.initialized = 'true';
       form.addEventListener('submit', () => {
         // Cross-origin POST navigates away; never include form values in analytics.
-        reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
+        reportAgentEvent(buildNewsletterSubmitEvent('attempted', getNewsletterAttribution()));
         form.setAttribute('aria-busy', 'true');
         const status = form.querySelector<HTMLElement>('[data-signup-status]');
         if (status) status.textContent = 'Opening newsletter signup…';

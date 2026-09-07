@@ -6,10 +6,15 @@
 import { track } from '@vercel/analytics';
 import {
   type AgentEventPayload,
+  type AcquisitionSource,
+  type NewsletterAttribution,
   type SearchTrigger,
   buildAiReferralEvent,
+  classifyAcquisitionSource,
   classifyAiReferralOrigin,
   isSafeAgentEventPayload,
+  resolveAcquisitionSource,
+  resolveNewsletterPlacement,
   sanitizeAnalyticsUrl,
 } from '../utils/agentExperienceMetrics';
 
@@ -17,7 +22,44 @@ declare global {
   interface Window {
     __agentExperienceInit?: boolean;
     __agentReferralSent?: boolean;
+    __agentAcquisitionSource?: AcquisitionSource;
   }
+}
+
+const ACQUISITION_STORAGE_KEY = 'agent-experience-acquisition';
+
+/** Retain the tab's first source through internal navigation; store only an enum. */
+function getAcquisitionSource(): AcquisitionSource {
+  const memorySource = resolveAcquisitionSource(window.__agentAcquisitionSource);
+  if (memorySource) return memorySource;
+
+  let storedSource: AcquisitionSource | null = null;
+  try {
+    storedSource = resolveAcquisitionSource(sessionStorage.getItem(ACQUISITION_STORAGE_KEY));
+  } catch {
+    // Storage can be unavailable; in-memory attribution still covers client navigation.
+  }
+
+  const source = storedSource ?? classifyAcquisitionSource({
+    referrer: document.referrer,
+    currentUrl: window.location.href,
+  });
+  window.__agentAcquisitionSource = source;
+  try {
+    sessionStorage.setItem(ACQUISITION_STORAGE_KEY, source);
+  } catch {
+    // Analytics must never depend on storage access.
+  }
+  return source;
+}
+
+/** Signup context contains no URL, referrer, email, or campaign text. */
+export function getNewsletterAttribution(): NewsletterAttribution {
+  if (typeof window === 'undefined') return { placement: 'other', source: 'unknown' };
+  return {
+    placement: resolveNewsletterPlacement(window.location.pathname),
+    source: getAcquisitionSource(),
+  };
 }
 
 export function reportAgentEvent(payload: AgentEventPayload): void {
@@ -64,6 +106,8 @@ export function analyticsBeforeSend<T extends { url?: string }>(event: T): T | n
 
 export function initAgentExperience(): void {
   if (typeof window === 'undefined') return;
+  // Capture acquisition on arrival, before an internal route can discard its context.
+  getAcquisitionSource();
   if (window.__agentExperienceInit) {
     reportAiReferralOnce();
     return;

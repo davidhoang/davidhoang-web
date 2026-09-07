@@ -1,50 +1,96 @@
 ---
+import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { proofOfConcept } from '../data/proofOfConcept';
+import { buildSubscribePageJsonLd } from '../utils/structuredData';
 
-const pageDescription =
-  'Subscribe to Proof of Concept, a digital newsletter publication that explores experimentation and maximizing your creative output. Free issue every Sunday.';
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
+const writing = await getCollection('writing', ({ data }) => !data.draft);
+const readingPath = [
+  { id: 'operator-mode', pillar: 'Lead', note: 'Lead through craft, fill founder gaps, and scale the company’s culture.' },
+  { id: 'building-your-designs', pillar: 'Build', note: 'Turn ideas into working prototypes that expose trade-offs and improve product decisions.' },
+  { id: 'designs-seat-at-the-cap-table-part-i', pillar: 'Business', note: 'Bring design judgment into startup strategy, ownership, and investing.' },
+].map((item) => {
+  const post = writing.find((entry) => entry.id === item.id);
+  if (!post) throw new Error(`Missing published Design GM reading: ${item.id}`);
+  return { ...item, title: post.data.title, href: `/writing/${post.id}` };
+});
 ---
 
-<MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
+<MainLayout title={proofOfConcept.title} description={proofOfConcept.description} ogImage={ogImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(buildSubscribePageJsonLd())} />
   <PageHeader
-    title="Subscribe"
+    title={proofOfConcept.name}
     image="/images/header-images/img-header-subscribe.webp"
     alt="Subscribe to Proof of Concept"
+    class="subscribe-hero"
+    priority={true}
   />
-  <div class="container container-narrow subscribe-page">
+  <div class="container-narrow content-page content-page--compact-top subscribe-page">
     <div class="subscribe-page__stack">
       <header class="subscribe-page__intro">
-        <p class="subscribe-page__eyebrow">Proof of Concept</p>
-        <h2 class="subscribe-page__title">A newsletter about experimentation and creative output</h2>
-        <p class="subscribe-page__lead">
-          One free issue every Sunday — design, technology, and entrepreneurship. Thanks for reading.
-        </p>
+        <p class="subscribe-page__eyebrow">The Design GM newsletter</p>
+        <h2 class="subscribe-page__title">{proofOfConcept.tagline}</h2>
+        <p class="subscribe-page__lead">{proofOfConcept.introduction}</p>
       </header>
-      <section class="subscribe-page__panel" aria-labelledby="subscribe-form-title">
-        <h3 class="subscribe-page__panel-title" id="subscribe-form-title">Join the list</h3>
-        <p class="subscribe-page__panel-hint">Enter your email below. You can unsubscribe anytime.</p>
+      <section class="subscribe-page__panel" id="newsletter" aria-labelledby="subscribe-form-title">
+        <h2 class="subscribe-page__panel-title" id="subscribe-form-title">One free issue every Sunday.</h2>
+        <p class="subscribe-page__panel-hint">Essays by David Hoang on leadership, entrepreneurship, and experimentation. Unsubscribe anytime.</p>
         <SubstackSignup showTitle={false} description="" compact />
+        <p class="subscribe-page__alternative"><a href={`${proofOfConcept.url}/subscribe`}>Subscribe on Substack</a></p>
       </section>
     </div>
+
+    <section class="content-page__section" aria-labelledby="design-gm-heading">
+      <h2 id="design-gm-heading">What is a Design GM?</h2>
+      <p>{proofOfConcept.definition}</p>
+      <p>Each Sunday, I write about the judgment, systems, and experiments behind shipping real products — from taste and craft to ecosystems, agents, and running design as a business.</p>
+    </section>
+
+    <section class="content-page__section" aria-labelledby="reading-heading">
+      <h2 id="reading-heading">Start with these essays</h2>
+      <ul class="content-page__list content-page__list--linked">
+        {readingPath.map((item) => (
+          <li>
+            <span class="subscribe-page__eyebrow">{item.pillar}</span>
+            <a href={item.href}>{item.title}</a>
+            <span class="content-page__list-note">{item.note}</span>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/writing">Explore all writing</a></p>
+    </section>
+
+    <section class="content-page__section" aria-labelledby="author-heading">
+      <h2 id="author-heading">Who writes Proof of Concept?</h2>
+      <p>{proofOfConcept.authorDescription}</p>
+      <p>Proof of Concept is where I work through what it means to lead, build, and experiment like an owner. <a href="/about">More about David</a>.</p>
+      <a href="#newsletter" class="btn btn-primary">Get the Sunday letter</a>
+    </section>
   </div>
 </MainLayout>
 
 <style>
-  .subscribe-page {
-    padding-bottom: clamp(3rem, 8vw, 5rem);
+  /* Keep the signup visible sooner using the header's existing size controls. */
+  :global(.subscribe-hero) {
+    --hero-height: 32vh;
+    --hero-height-mobile: 28vh;
+    --section-spacing: var(--spacing-xl);
   }
+
   .subscribe-page__stack {
     display: flex;
     flex-direction: column;
-    gap: clamp(2rem, 5vw, 3rem);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
   }
   .subscribe-page__intro {
-    padding-top: 0.25rem;
+    padding-top: var(--spacing-xs);
   }
   .subscribe-page__eyebrow {
+    display: block;
     margin: 0 0 var(--spacing-sm);
     font-size: 0.75rem;
     font-weight: 600;
@@ -72,11 +118,11 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     background: var(--color-card-bg, var(--color-bg));
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg, 12px);
-    padding: clamp(1.5rem, 4vw, 2.25rem);
+    padding: var(--card-padding);
     box-shadow: var(--card-shadow, 0 1px 0 color-mix(in srgb, var(--color-text) 6%, transparent));
   }
   .subscribe-page__panel-title {
-    margin: 0 0 calc(var(--spacing-xs) + 0.1rem);
+    margin: 0 0 var(--spacing-sm);
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-text);
@@ -87,6 +133,10 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     line-height: 1.5;
     color: var(--color-muted);
     max-width: 42ch;
+  }
+  .subscribe-page__alternative {
+    margin: var(--spacing-md) 0 0;
+    font-size: 0.875rem;
   }
   /* Form block: no top rule inside the card; compact variant already scales type */
   .subscribe-page__panel :global(.substack-signup) {

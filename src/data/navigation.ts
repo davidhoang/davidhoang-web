@@ -1,3 +1,5 @@
+import { proofOfConcept } from './proofOfConcept';
+
 /** Primary top nav links — keep this list short; see Footer.astro for footer-only pages. */
 export const navItems = [
   { path: '/about', label: 'About' },
@@ -23,10 +25,15 @@ export const mobileSecondaryNavItems = [
 ] as const;
 
 export const commandPalettePages = [
-  { title: 'About', description: 'About David Hoang', path: '/about', type: 'page' },
+  { title: 'About', description: proofOfConcept.authorDescription, path: '/about', type: 'page' },
   { title: 'Writing', description: 'Essays and articles', path: '/writing', type: 'page' },
   { title: 'Featured', description: 'Featured work and press', path: '/featured', type: 'page' },
-  { title: 'Subscribe', description: 'Subscribe to updates', path: '/subscribe', type: 'page' },
+  {
+    title: `Subscribe to ${proofOfConcept.name}`,
+    description: proofOfConcept.description,
+    path: proofOfConcept.subscribePath,
+    type: 'page',
+  },
   { title: 'Now', description: 'What David is doing now', path: '/now', type: 'page' },
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
@@ -78,7 +85,7 @@ export const discoverableStaticPages = [
   {
     title: 'Home',
     description:
-      'David Hoang — designer, investor, and builder. VP of Design, Rovo & AI and Ecosystem at Atlassian.',
+      `David Hoang — designer, writer, and investor. ${proofOfConcept.description}`,
     path: '/',
     type: 'page' as const,
   },
@@ -126,10 +133,10 @@ export const footerSections = [
       { href: '/writing', label: 'Writing', ariaLabel: 'Writing', external: false },
       { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
       { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
-      { href: '/subscribe', label: 'Subscribe', ariaLabel: 'Subscribe to updates', external: false },
+      { href: proofOfConcept.subscribePath, label: 'Subscribe', ariaLabel: `Subscribe to ${proofOfConcept.name}`, external: false },
       { href: '/rss.xml', label: 'RSS', ariaLabel: 'Writing RSS feed', external: false },
       {
-        href: 'https://www.proofofconcept.pub',
+        href: proofOfConcept.url,
         label: 'Newsletter',
         ariaLabel: 'Proof of Concept newsletter (opens in new tab)',
         external: true,

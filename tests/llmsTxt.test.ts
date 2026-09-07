@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { absoluteUrl, buildLlmsTxt, CANONICAL_SITE } from '../src/utils/llmsTxt';
+import { proofOfConcept } from '../src/data/proofOfConcept';
 
 describe('absoluteUrl', () => {
   it('builds canonical https://www.davidhoang.com URLs without trailing slash', () => {
@@ -37,7 +38,7 @@ describe('buildLlmsTxt', () => {
   it('follows llms.txt shape: H1, blockquote, then H2 link sections', () => {
     expect(sample.startsWith('# David Hoang\n')).toBe(true);
     expect(sample).toContain(
-      '> Personal website of David Hoang — designer, investor, and builder.',
+      '> Personal website of David Hoang — designer, writer, and investor.',
     );
     expect(sample).toMatch(/^## Pages$/m);
     expect(sample).toMatch(/^## Writing$/m);
@@ -70,5 +71,15 @@ describe('buildLlmsTxt', () => {
     expect(sample).toContain('https://www.davidhoang.com');
     expect(sample).toContain('Draft writing and notes are omitted');
     expect(sample).toContain('search-index.json');
+  });
+
+  it('explains Design GM and separates the publication destination from the local signup page', () => {
+    expect(sample).toMatch(/^## Proof of Concept$/m);
+    expect(sample).toContain(proofOfConcept.description);
+    expect(sample).toContain(proofOfConcept.definition);
+    expect(sample).toContain(
+      `[About Proof of Concept and subscribe](${CANONICAL_SITE}${proofOfConcept.subscribePath})`,
+    );
+    expect(sample).toContain(`[Read Proof of Concept](${proofOfConcept.url})`);
   });
 });

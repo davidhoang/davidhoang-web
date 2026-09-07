@@ -3,6 +3,7 @@ import {
   BLOG_ID,
   NOTES_ID,
   PERSON_ID,
+  PUBLICATION_ID,
   WEBSITE_ID,
   absoluteUrl,
   buildBlogPostingJsonLd,
@@ -10,12 +11,15 @@ import {
   buildNoteCreativeWorkJsonLd,
   buildNowPageJsonLd,
   buildProfilePageJsonLd,
+  buildPublicationJsonLd,
   buildSiteGraphJsonLd,
+  buildSubscribePageJsonLd,
   NOW_LAST_UPDATED,
   SITE_LANGUAGE,
   toIsoDate,
   toIsoDateOnly,
 } from '../src/utils/structuredData';
+import { proofOfConcept } from '../src/data/proofOfConcept';
 
 describe('structuredData helpers', () => {
   it('absoluteUrl joins site + path without trailing slash', () => {
@@ -31,7 +35,7 @@ describe('structuredData helpers', () => {
 });
 
 describe('buildSiteGraphJsonLd', () => {
-  it('emits Person, WebSite, Blog, and Notes with stable linked @ids', () => {
+  it('emits the author, site, local collections, and publication with distinct linked identities', () => {
     const graph = buildSiteGraphJsonLd();
     expect(graph['@context']).toBe('https://schema.org');
     const nodes = graph['@graph'] as Array<Record<string, unknown>>;
@@ -41,6 +45,8 @@ describe('buildSiteGraphJsonLd', () => {
     expect(byId.get(WEBSITE_ID)?.['@type']).toBe('WebSite');
     expect(byId.get(BLOG_ID)?.['@type']).toBe('Blog');
     expect(byId.get(NOTES_ID)?.['@type']).toBe('CollectionPage');
+    expect(byId.get(PUBLICATION_ID)?.['@type']).toBe('Periodical');
+    expect(new Set(nodes.map((node) => node['@id'])).size).toBe(nodes.length);
 
     const website = byId.get(WEBSITE_ID)!;
     expect(website.inLanguage).toBe(SITE_LANGUAGE);
@@ -57,7 +63,45 @@ describe('buildSiteGraphJsonLd', () => {
     const website = (graph['@graph'] as Array<Record<string, unknown>>).find(
       (n) => n['@id'] === WEBSITE_ID,
     )!;
-    expect(website.description).toBe('The official website of David Hoang');
+    expect(website.description).toContain('David Hoang');
+    expect(website.description).toContain(proofOfConcept.description);
+  });
+});
+
+describe('Proof of Concept publication and subscription page', () => {
+  it('links the publication to David without reclassifying the local archive', () => {
+    const publication = buildPublicationJsonLd();
+    expect(publication['@id']).toBe(PUBLICATION_ID);
+    expect(publication.name).toBe(proofOfConcept.name);
+    expect(publication.url).toBe(proofOfConcept.url);
+    expect(publication.author).toEqual({ '@id': PERSON_ID });
+    expect(publication.publisher).toEqual({ '@id': PERSON_ID });
+    expect(publication.isPartOf).toBeUndefined();
+    expect(publication.description).toContain('Design GM');
+    expect(publication.about).toEqual(
+      expect.arrayContaining([{ '@type': 'Thing', name: 'The business of design' }]),
+    );
+
+    const nodes = buildSiteGraphJsonLd()['@graph'] as Array<Record<string, unknown>>;
+    const archive = nodes.find((node) => node['@id'] === BLOG_ID)!;
+    expect(archive['@type']).toBe('Blog');
+    expect(archive.url).toBe('https://www.davidhoang.com/writing');
+  });
+
+  it('makes the publication the subject of its local subscription page', () => {
+    const page = buildSubscribePageJsonLd();
+    const publication = buildPublicationJsonLd();
+    expect(page['@context']).toBe('https://schema.org');
+    expect(page['@type']).toBe('WebPage');
+    expect(page.url).toBe('https://www.davidhoang.com/subscribe');
+    expect(page.name).toBe(proofOfConcept.title);
+    expect(page.description).toBe(proofOfConcept.description);
+    expect(page.isPartOf).toEqual({ '@id': WEBSITE_ID });
+    expect(page.mainEntity).toEqual({ '@id': publication['@id'] });
+    expect(publication.mainEntityOfPage).toEqual({
+      '@type': 'WebPage',
+      '@id': page['@id'],
+    });
   });
 });
 
@@ -202,6 +246,7 @@ describe('JSON-LD serializability', () => {
       }),
       buildNowPageJsonLd({ description: 'D', dateModified: NOW_LAST_UPDATED }),
       buildProfilePageJsonLd(),
+      buildSubscribePageJsonLd(),
     ];
 
     for (const payload of payloads) {

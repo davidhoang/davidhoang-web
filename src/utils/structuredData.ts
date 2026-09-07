@@ -2,6 +2,7 @@
  * Schema.org JSON-LD builders for davidhoang.com.
  * Keep entities linked via stable @ids; only emit facts supported by page/content data.
  */
+import { proofOfConcept } from '../data/proofOfConcept';
 
 export const CANONICAL_SITE = 'https://www.davidhoang.com';
 
@@ -9,10 +10,12 @@ export const PERSON_ID = `${CANONICAL_SITE}/#person`;
 export const WEBSITE_ID = `${CANONICAL_SITE}/#website`;
 export const BLOG_ID = `${CANONICAL_SITE}/writing#blog`;
 export const NOTES_ID = `${CANONICAL_SITE}/notes#garden`;
+export const PUBLICATION_ID = `${proofOfConcept.url}/#publication`;
 
 export const SITE_NAME = 'David Hoang';
 export const SITE_ALTERNATE_NAME = 'davidhoang.com';
-export const SITE_DESCRIPTION = 'The official website of David Hoang';
+export const SITE_DESCRIPTION =
+  `David Hoang — designer, writer, and investor. ${proofOfConcept.description}`;
 export const SITE_LANGUAGE = 'en-US';
 
 /** Stable portrait used on About — safe Person.image. */
@@ -21,8 +24,7 @@ export const PERSON_IMAGE = `${CANONICAL_SITE}/images/img-david-sf.webp`;
 /** Matches About page copy — do not invent titles beyond this. */
 export const PERSON_JOB_TITLE = 'VP and Head of Design, Rovo & AI and Ecosystem';
 export const PERSON_WORKS_FOR = 'Atlassian';
-export const PERSON_DESCRIPTION =
-  "Designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian.";
+export const PERSON_DESCRIPTION = proofOfConcept.authorDescription;
 
 export const PERSON_SAME_AS = [
   'https://twitter.com/davidhoang',
@@ -112,6 +114,40 @@ export function buildBlogJsonLd(): JsonLd {
   };
 }
 
+/** The external publication is distinct from the local /writing archive. */
+export function buildPublicationJsonLd(): JsonLd {
+  return {
+    '@type': 'Periodical',
+    '@id': PUBLICATION_ID,
+    name: proofOfConcept.name,
+    url: proofOfConcept.url,
+    description: proofOfConcept.description,
+    inLanguage: SITE_LANGUAGE,
+    author: idRef(PERSON_ID),
+    publisher: idRef(PERSON_ID),
+    about: proofOfConcept.topics.map((name) => ({ '@type': 'Thing', name })),
+    mainEntityOfPage: webPageRef(absoluteUrl(proofOfConcept.subscribePath)),
+  };
+}
+
+/** The subscription page explains the publication within David's personal site. */
+export function buildSubscribePageJsonLd(): JsonLd {
+  const canonicalUrl = absoluteUrl(proofOfConcept.subscribePath);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+    url: canonicalUrl,
+    name: proofOfConcept.title,
+    description: proofOfConcept.description,
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(WEBSITE_ID),
+    mainEntity: idRef(PUBLICATION_ID),
+    about: idRef(PUBLICATION_ID),
+    author: idRef(PERSON_ID),
+  };
+}
+
 export function buildNotesGardenJsonLd(): JsonLd {
   return {
     '@type': 'CollectionPage',
@@ -125,7 +161,7 @@ export function buildNotesGardenJsonLd(): JsonLd {
   };
 }
 
-/** Site-wide @graph: Person + WebSite (+ Blog + Notes collection for stable linking). */
+/** Site-wide entities with stable links to the local archive and external publication. */
 export function buildSiteGraphJsonLd(options?: { description?: string }): JsonLd {
   return {
     '@context': 'https://schema.org',
@@ -134,6 +170,7 @@ export function buildSiteGraphJsonLd(options?: { description?: string }): JsonLd
       buildWebSiteJsonLd(options?.description ?? SITE_DESCRIPTION),
       buildBlogJsonLd(),
       buildNotesGardenJsonLd(),
+      buildPublicationJsonLd(),
     ],
   };
 }

@@ -1,4 +1,5 @@
 /** Pure builder for /llms.txt — keep route thin and unit-testable. */
+import { proofOfConcept } from '../data/proofOfConcept';
 
 export const CANONICAL_SITE = 'https://www.davidhoang.com';
 
@@ -43,7 +44,7 @@ function section(title: string, links: readonly LlmsLink[], site: string): strin
 }
 
 const DEFAULT_SUMMARY =
-  'Personal website of David Hoang — designer, investor, and builder. Essays, digital garden notes, career journey, and experiments.';
+  `Personal website of David Hoang — designer, writer, and investor. ${proofOfConcept.description}`;
 
 const DEFAULT_DETAILS =
   'Canonical host is https://www.davidhoang.com. Draft writing and notes are omitted. Prefer the links below; sitemap and search-index.json cover broader discovery.';
@@ -55,6 +56,19 @@ export function buildLlmsTxt(input: LlmsTxtInput): string {
   const site = (input.site ?? CANONICAL_SITE).replace(/\/+$/, '');
   const summary = (input.summary ?? DEFAULT_SUMMARY).trim();
   const details = (input.details ?? DEFAULT_DETAILS).trim();
+
+  const publication: LlmsLink[] = [
+    {
+      title: `About ${proofOfConcept.name} and subscribe`,
+      path: proofOfConcept.subscribePath,
+      description: proofOfConcept.introduction,
+    },
+    {
+      title: `Read ${proofOfConcept.name}`,
+      path: proofOfConcept.url,
+      description: 'The publication website and newsletter issues.',
+    },
+  ];
 
   const feeds: LlmsLink[] = [
     {
@@ -85,6 +99,10 @@ export function buildLlmsTxt(input: LlmsTxtInput): string {
     `> ${summary}`,
     '',
     details,
+    '',
+    section('Proof of Concept', publication, site),
+    '',
+    proofOfConcept.definition,
     '',
     section('Pages', input.pages, site),
     '',

@@ -1,3 +1,5 @@
+import { proofOfConcept } from '../../data/proofOfConcept';
+
 export interface Card {
   id: string;
   title: string;
@@ -54,12 +56,12 @@ export const cards: Card[] = [
   {
     id: 'poc',
     title: 'Proof of Concept',
-    subtitle: 'Newsletter',
-    description: 'A weekly newsletter about design, technology, and experimentation. Exploring the intersection of creativity, code, and community.',
+    subtitle: 'The Design GM newsletter',
+    description: proofOfConcept.signupDescription,
     color: '#E85D04',
     pattern: 'lines',
-    link: 'https://www.proofofconcept.pub',
-    linkText: 'Subscribe'
+    link: proofOfConcept.subscribePath,
+    linkText: 'Subscribe free'
   },
   {
     id: 'config',

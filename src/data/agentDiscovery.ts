@@ -1,14 +1,15 @@
 import { z } from 'zod';
+import { proofOfConcept } from './proofOfConcept';
 
 /** Canonical public origin (matches astro.config `site`). */
 export const CANONICAL_ORIGIN = 'https://www.davidhoang.com';
 
 /** Contract schema version — bump when breaking the JSON shape. */
-export const AGENT_DISCOVERY_VERSION = '1.0.0';
+export const AGENT_DISCOVERY_VERSION = '1.1.0';
 
 const discoveryResourceSchema = z.object({
   id: z.string().min(1),
-  type: z.enum(['sitemap', 'rss', 'search-index', 'robots']),
+  type: z.enum(['sitemap', 'rss', 'search-index', 'robots', 'llms-txt']),
   url: z.url(),
   description: z.string().min(1),
 });
@@ -52,8 +53,7 @@ export const agentDiscoverySchema = z.object({
 export type AgentDiscoveryContract = z.infer<typeof agentDiscoverySchema>;
 
 /**
- * Paths advertised in the contract. Only include resources that exist on main today.
- * Do not list /llms.txt or other planned endpoints until they ship.
+ * Paths advertised in the contract. Only include implemented public resources.
  */
 export const PUBLIC_DISCOVERY_PATHS = [
   '/sitemap-index.xml',
@@ -62,10 +62,10 @@ export const PUBLIC_DISCOVERY_PATHS = [
   '/rss/notes.xml',
   '/search-index.json',
   '/robots.txt',
+  '/llms.txt',
 ] as const;
 
 const FORBIDDEN_ADVERTISED_PATHS = [
-  '/llms.txt',
   '/.agent/inbox',
   '/api/og',
   '/api/theme-query',
@@ -83,7 +83,7 @@ export function buildAgentDiscoveryContract(
   options: { origin?: string; updated?: string } = {},
 ): AgentDiscoveryContract {
   const origin = (options.origin ?? CANONICAL_ORIGIN).replace(/\/+$/, '');
-  const updated = options.updated ?? '2026-08-07';
+  const updated = options.updated ?? '2026-09-07';
 
   const contract: AgentDiscoveryContract = {
     version: AGENT_DISCOVERY_VERSION,
@@ -92,7 +92,7 @@ export function buildAgentDiscoveryContract(
       name: 'David Hoang',
       siteName: 'davidhoang.com',
       description:
-        'Personal website of David Hoang — designer, investor, and builder. Essays, digital garden notes, career journey, and experiments.',
+        `Personal website of David Hoang — designer, writer, and investor. ${proofOfConcept.description}`,
       url: origin,
       sameAs: [
         'https://twitter.com/davidhoang',
@@ -103,6 +103,12 @@ export function buildAgentDiscoveryContract(
     canonicalOrigin: origin,
     discovery: {
       resources: [
+        {
+          id: 'llms-txt',
+          type: 'llms-txt',
+          url: absoluteUrl('/llms.txt', origin),
+          description: 'A concise guide to David Hoang, Proof of Concept, and published site content.',
+        },
         {
           id: 'sitemap',
           type: 'sitemap',
@@ -168,8 +174,8 @@ export function buildAgentDiscoveryContract(
       {
         id: 'subscribe',
         label: 'Subscribe',
-        description: 'Subscribe to the Proof of Concept newsletter.',
-        url: absoluteUrl('/subscribe', origin),
+        description: proofOfConcept.description,
+        url: absoluteUrl(proofOfConcept.subscribePath, origin),
         kind: 'form',
       },
       {
@@ -200,7 +206,7 @@ export function buildAgentDiscoveryContract(
         'Lightweight discovery and usage contract for agents. Prefer public discovery resources below; do not invent APIs or agent inboxes.',
       preferPublicDiscoveryResources: true,
       notes: [
-        'This document is separate from llms.txt and does not imply that /llms.txt exists.',
+        'This contract complements /llms.txt, the plain-text guide to the site and publication.',
         'Only advertise and fetch endpoints listed under discovery.resources.',
         'Human actions are browser/email flows for people; there is no machine action inbox.',
         'Respect robots.txt. Do not call /api/ endpoints for content discovery.',

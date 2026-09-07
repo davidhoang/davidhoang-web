@@ -77,6 +77,7 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
 
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   const prefersReducedMotion = useReducedMotion();
+  const isExternal = /^https?:\/\//.test(item.link);
 
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
@@ -115,7 +116,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       <div className="portfolio-item-text">
         <p className="text-body">
           {item.text.split(item.linkText)[0]}
-          <a href={item.link} target="_blank" rel="noopener noreferrer">
+          <a href={item.link} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined}>
             {item.linkText}
           </a>
           {item.text.split(item.linkText)[1] || ''}

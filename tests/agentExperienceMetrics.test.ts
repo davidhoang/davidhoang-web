@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { afterEach, describe, it, expect, vi } from 'vitest';
 import {
   AGENT_EVENT_NAMES,
   FORBIDDEN_PAYLOAD_KEYS,
@@ -9,11 +9,17 @@ import {
   buildSearchOpenEvent,
   buildSearchSelectEvent,
   classifyAiReferralOrigin,
+  classifyAcquisitionSource,
   isSafeAgentEventPayload,
   resolveSearchResultType,
+  resolveNewsletterPlacement,
   sanitizeAnalyticsUrl,
   type AgentEventPayload,
+  type NewsletterAttribution,
 } from '../src/utils/agentExperienceMetrics';
+import { getNewsletterAttribution, initAgentExperience } from '../src/scripts/agent-experience';
+
+vi.mock('@vercel/analytics', () => ({ track: vi.fn() }));
 
 describe('classifyAiReferralOrigin', () => {
   it('classifies ChatGPT referrer hosts', () => {
@@ -46,6 +52,7 @@ describe('classifyAiReferralOrigin', () => {
   });
 
   it('classifies Grok, Poe, Phind, DeepSeek, and Meta AI', () => {
+    expect(classifyAiReferralOrigin({ referrer: 'https://grok.com/chat/123' })).toBe('grok');
     expect(classifyAiReferralOrigin({ referrer: 'https://grok.x.ai/' })).toBe(
       'grok',
     );
@@ -89,6 +96,80 @@ describe('classifyAiReferralOrigin', () => {
   it('ignores invalid referrer URLs', () => {
     expect(classifyAiReferralOrigin({ referrer: 'not a url' })).toBeNull();
     expect(classifyAiReferralOrigin({ referrer: 'javascript:alert(1)' })).toBeNull();
+    expect(classifyAiReferralOrigin({ utmSource: 'constructor' })).toBeNull();
+    expect(classifyAiReferralOrigin({ referrer: 'https://grok.com.example.com/' })).toBeNull();
+  });
+});
+
+describe('newsletter acquisition and placement', () => {
+  it('classifies sources without returning URL or campaign text', () => {
+    const currentUrl = 'https://www.davidhoang.com/writing/design-gm';
+    for (const [referrer, source] of [
+      ['https://grok.com/chat/private', 'grok'],
+      ['https://www.google.com/search?q=private', 'organic_search'],
+      ['https://news.ycombinator.com/item?id=123', 'referral'],
+      ['https://www.davidhoang.com/', 'unknown'],
+      ['https://google.com.example.com/', 'referral'],
+      ['', 'direct'],
+      ['not a URL', 'unknown'],
+    ]) {
+      expect(classifyAcquisitionSource({ referrer, currentUrl })).toBe(source);
+    }
+    expect(classifyAcquisitionSource({
+      referrer: 'https://www.google.com/',
+      currentUrl: `${currentUrl}?utm_source=chatgpt&email=private@example.com`,
+    })).toBe('chatgpt');
+    expect(classifyAcquisitionSource({
+      currentUrl: `${currentUrl}?utm_source=private-campaign&utm_medium=ai`,
+    })).toBe('other_ai');
+    expect(classifyAcquisitionSource({ currentUrl: 'not a URL' })).toBe('unknown');
+  });
+
+  it('groups signup routes into fixed placement labels', () => {
+    expect(resolveNewsletterPlacement('/')).toBe('home');
+    expect(resolveNewsletterPlacement('/subscribe/')).toBe('subscribe');
+    expect(resolveNewsletterPlacement('/writing')).toBe('writing');
+    expect(resolveNewsletterPlacement('/writing/a-private-slug/')).toBe('writing');
+    expect(resolveNewsletterPlacement('/writing-tools')).toBe('other');
+  });
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('keeps the first acquisition source through client and full-page navigation', () => {
+    const stored = new Map<string, string>();
+    vi.stubGlobal('sessionStorage', {
+      getItem: (key: string) => stored.get(key) ?? null,
+      setItem: (key: string, value: string) => stored.set(key, value),
+    });
+    vi.stubGlobal('window', { location: { href: 'https://www.davidhoang.com/?utm_source=chatgpt', pathname: '/' } });
+    vi.stubGlobal('document', { referrer: '' });
+    initAgentExperience();
+
+    window.location.pathname = '/subscribe';
+    window.location.href = 'https://www.davidhoang.com/subscribe';
+    expect(getNewsletterAttribution()).toEqual({ placement: 'subscribe', source: 'chatgpt' });
+
+    vi.stubGlobal('window', { location: { href: 'https://www.davidhoang.com/writing', pathname: '/writing' } });
+    vi.stubGlobal('document', { referrer: 'https://www.davidhoang.com/subscribe' });
+    expect(getNewsletterAttribution()).toEqual({ placement: 'writing', source: 'chatgpt' });
+    expect([...stored.values()]).toEqual(['chatgpt']);
+  });
+
+  it('discards unrecognized stored attribution and tolerates blocked storage', () => {
+    vi.stubGlobal('window', { location: { href: 'https://www.davidhoang.com/subscribe', pathname: '/subscribe' } });
+    vi.stubGlobal('document', { referrer: 'https://grok.com/' });
+    vi.stubGlobal('sessionStorage', {
+      getItem: () => 'private@example.com',
+      setItem: () => { throw new Error('Storage blocked'); },
+    });
+    expect(getNewsletterAttribution()).toEqual({ placement: 'subscribe', source: 'grok' });
+
+    vi.stubGlobal('window', { location: { href: 'https://www.davidhoang.com/', pathname: '/' } });
+    vi.stubGlobal('sessionStorage', {
+      getItem: () => { throw new Error('Storage blocked'); },
+      setItem: () => { throw new Error('Storage blocked'); },
+    });
+    expect(getNewsletterAttribution()).toEqual({ placement: 'home', source: 'grok' });
   });
 });
 
@@ -136,10 +217,20 @@ describe('event payload builders', () => {
     const event = buildNewsletterSubmitEvent('attempted');
     expect(event).toEqual({
       name: AGENT_EVENT_NAMES.newsletterSubmit,
-      data: { outcome: 'attempted' },
+      data: { outcome: 'attempted', placement: 'other', source: 'unknown' },
     });
     expect(isSafeAgentEventPayload(event)).toBe(true);
     expect(JSON.stringify(event)).not.toMatch(/@/);
+  });
+
+  it('adds only allowlisted newsletter attribution and ignores unknown context fields', () => {
+    const event = buildNewsletterSubmitEvent('attempted', { placement: 'subscribe', source: 'grok' });
+    expect(event.data).toEqual({ outcome: 'attempted', placement: 'subscribe', source: 'grok' });
+    expect(isSafeAgentEventPayload(event)).toBe(true);
+
+    const unsafeContext = { placement: '/private-path', source: 'private@example.com', email: 'private@example.com' };
+    expect(buildNewsletterSubmitEvent('attempted', unsafeContext as unknown as NewsletterAttribution).data)
+      .toEqual({ outcome: 'attempted', placement: 'other', source: 'unknown' });
   });
 });
 
@@ -168,6 +259,17 @@ describe('isSafeAgentEventPayload', () => {
       data: { hadQuery: 'design systems tomorrow' },
     } as unknown as AgentEventPayload;
     expect(isSafeAgentEventPayload(withSentence)).toBe(false);
+  });
+
+  it('rejects arbitrary newsletter attribution and unobservable success outcomes', () => {
+    for (const data of [
+      { outcome: 'attempted', source: 'https://grok.com/' },
+      { outcome: 'attempted', placement: '/subscribe' },
+      { outcome: 'attempted', campaign: 'private' },
+      { outcome: 'success', source: 'chatgpt', placement: 'home' },
+    ]) {
+      expect(isSafeAgentEventPayload({ name: AGENT_EVENT_NAMES.newsletterSubmit, data } as AgentEventPayload)).toBe(false);
+    }
   });
 });
 

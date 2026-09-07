@@ -38,7 +38,7 @@ async function optimizePortfolioImage(src: ImageMetadata) {
 const dhWebOptimized = await getImage({ src: dhWebLightAsset, width: 480, format: 'webp' });
 
 // Page metadata
-const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian. Previously at Replit, Webflow, and One Medical.";
+const pageDescription = "David Hoang is a designer, writer, and investor. Explore essays on leadership, building products, and business in Proof of Concept, the Design GM newsletter.";
 const ogImage = "/images/img-dh-web-light.webp";
 
 // Philosophy items data
@@ -76,7 +76,7 @@ const portfolioItems = [
   },
   {
     text: 'December 2019: Launched Proof of Concept, a newsletter about design, technology, and entrepreneurship.',
-    link: 'https://www.proofofconcept.pub',
+    link: '/subscribe',
     linkText: 'Proof of Concept',
     image: await optimizePortfolioImage(imgPoc),
     imageAlt: 'Proof of Concept newsletter branding and design layout',
