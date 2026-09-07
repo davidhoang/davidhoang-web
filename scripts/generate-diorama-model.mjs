@@ -47,6 +47,14 @@ const materials = {
     roughness: 0.95,
     metalness: 0,
   }),
+  // Roof decks are lighter than the walls so the terracotta trim below them
+  // stays legible as a thin line rather than merging into an orange slab.
+  roofDeck: new THREE.MeshStandardMaterial({
+    name: 'Clay_RoofDeck_Sand',
+    color: '#e4cba4',
+    roughness: 0.96,
+    metalness: 0,
+  }),
   trim: new THREE.MeshStandardMaterial({
     name: 'Clay_Trim_Cream',
     color: '#e9d8ba',
@@ -133,7 +141,7 @@ addBox('GarageWing', [5.6, 3.15, 6.4], [GARAGE_X, 1.575, -0.2], materials.stucco
 addBox('GarageParapetTrim', [5.95, 0.14, 6.75], [GARAGE_X, 3.22, -0.2], materials.tile, {
   radius: 0.05,
 });
-addBox('GarageRoof', [5.7, 0.2, 6.5], [GARAGE_X, 3.39, -0.2], materials.stuccoWarm, {
+addBox('GarageRoof', [5.7, 0.2, 6.5], [GARAGE_X, 3.39, -0.2], materials.roofDeck, {
   radius: 0.06,
 });
 
@@ -147,7 +155,7 @@ addBox('EntryCourtWall', [3.6, 2.45, 0.5], [ENTRY_X, 1.225, 1.45], materials.stu
 addBox('EntryCoreTrim', [3.9, 0.12, 4.9], [ENTRY_X, 2.81, -1.1], materials.tile, {
   radius: 0.05,
 });
-addBox('EntryCoreRoof', [3.7, 0.18, 4.7], [ENTRY_X, 2.96, -1.1], materials.stuccoWarm, {
+addBox('EntryCoreRoof', [3.7, 0.18, 4.7], [ENTRY_X, 2.96, -1.1], materials.roofDeck, {
   radius: 0.05,
 });
 
@@ -156,7 +164,7 @@ addBox('LeftWing', [5.0, 2.85, 6.0], [WING_X, 1.425, -0.4], materials.stucco, {
   segments: 2,
 });
 addBox('LeftWingTrim', [5.4, 0.14, 6.4], [WING_X, 2.92, -0.4], materials.tile, { radius: 0.05 });
-addBox('LeftWingRoof', [5.2, 0.18, 6.2], [WING_X, 3.08, -0.4], materials.stuccoWarm, {
+addBox('LeftWingRoof', [5.2, 0.18, 6.2], [WING_X, 3.08, -0.4], materials.roofDeck, {
   radius: 0.05,
 });
 // Low clay-tile ridge set back behind the parapet, as in the reference elevation.
