@@ -125,7 +125,7 @@ function Scene() {
         minPolarAngle={Math.PI / 5}
         maxPolarAngle={Math.PI / 2.15}
         target={[0, 1, 0]}
-        onChange={invalidate}
+        onChange={() => invalidate()}
       />
     </>
   );
