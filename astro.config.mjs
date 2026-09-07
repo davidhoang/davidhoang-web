@@ -13,6 +13,8 @@ import { isIndexedSitemapPage } from './src/data/searchIndexConfig.ts';
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
   ['react-vendor', ['node_modules/react/', 'node_modules/react-dom/', 'node_modules/scheduler/']],
+  // Only the /now homes island imports this optional renderer.
+  ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx']],
   ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
@@ -40,15 +42,13 @@ const MANUAL_CHUNKS = [
   ['utils', ['src/utils/', 'src/plugins/']],
 ];
 
-function manualChunks(id) {
-  // Normalize Windows paths so includes() matchers stay reliable.
-  const normalized = id.replace(/\\/g, '/');
-  for (const [chunkName, matchers] of MANUAL_CHUNKS) {
-    if (matchers.some((matcher) => normalized.includes(matcher))) {
-      return chunkName;
-    }
-  }
-}
+// Explicit priority prevents a late-loading feature from capturing shared React
+// dependencies and turning a dynamic import into a site-wide renderer download.
+const chunkGroups = MANUAL_CHUNKS.map(([name, matchers], index) => ({
+  name,
+  priority: MANUAL_CHUNKS.length - index,
+  test: (id) => matchers.some(matcher => id.replace(/\\/g, '/').includes(matcher)),
+}));
 
 /**
  * Dev-only: Astro's routeGuard 404s HTML navigations when a file exists at
@@ -179,7 +179,7 @@ export default defineConfig({
           chunkFileNames: 'assets/[name].[hash].js',
           assetFileNames: 'assets/[name].[hash].[ext]',
           // Manual chunks for heavy libraries and components.
-          manualChunks,
+          codeSplitting: { groups: chunkGroups },
         }
       },
       // Increase chunk size warnings threshold
