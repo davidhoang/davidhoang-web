@@ -58,9 +58,10 @@
   max-width: 100%;
 }
 
+/* Anchored bottom-left: the site's floating theme toggle occupies bottom-right. */
 .diorama-canvas__hint {
   position: absolute;
-  right: var(--spacing-md);
+  left: var(--spacing-md);
   bottom: var(--spacing-md);
   margin: 0;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -136,7 +137,7 @@
   }
 
   .diorama-canvas__hint {
-    right: var(--spacing-sm);
+    left: var(--spacing-sm);
     bottom: var(--spacing-sm);
   }
 }
