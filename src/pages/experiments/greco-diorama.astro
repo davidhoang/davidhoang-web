@@ -1,0 +1,41 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import GrecoDiorama from '../../components/diorama/GrecoDiorama';
+import '../../styles/modules/diorama.css';
+
+const pageDescription =
+  'A soft-clay, interactive desert house diorama and reusable Astro-to-GLB experiment.';
+---
+
+<MainLayout
+  title="Greco Court Clay Diorama"
+  description={pageDescription}
+  containerClass="container container-wide"
+>
+  <article class="content-page diorama-page">
+    <header class="diorama-page__header">
+      <p class="diorama-page__eyebrow">WebGL experiment · Palm Springs</p>
+      <h1>Greco Court, shaped in clay</h1>
+      <p class="diorama-page__lede">
+        A toy-like study of warm stucco masses, a low desert roofline, and
+        sparse landscaping. Drag the scene to look around.
+      </p>
+    </header>
+
+    <section
+      class="diorama-stage card card-elevated"
+      aria-label="Interactive house model"
+    >
+      <GrecoDiorama client:visible />
+    </section>
+
+    <aside class="diorama-page__note">
+      <h2>About this model</h2>
+      <p>
+        This is a conceptual single-story desert-house placeholder, not a
+        measured or photoreal reconstruction of the property. Its simple forms
+        establish the reusable Blender-to-GLB scene pipeline.
+      </p>
+    </aside>
+  </article>
+</MainLayout>
