@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import dailyThemes from '../../data/daily-themes.json';
+import { createAnthropicTextStream } from '../../utils/anthropicTextStream';
 
 export const prerender = false;
 
@@ -190,39 +191,8 @@ Based on the user's query, compose a json-render spec that presents the relevant
       );
     }
 
-    // Pipe the SSE stream, extracting text deltas and forwarding as raw text
-    const reader = response.body!.getReader();
-    const decoder = new TextDecoder();
-
-    const stream = new ReadableStream({
-      async pull(controller) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) {
-            controller.close();
-            return;
-          }
-
-          const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split('\n');
-
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            const data = line.slice(6);
-            if (data === '[DONE]') continue;
-
-            try {
-              const event = JSON.parse(data);
-              if (event.type === 'content_block_delta' && event.delta?.text) {
-                controller.enqueue(new TextEncoder().encode(event.delta.text));
-              }
-            } catch {
-              // skip unparseable lines
-            }
-          }
-        }
-      },
-    });
+    // Buffer SSE framing across chunks while preserving streaming and cancellation.
+    const stream = response.body!.pipeThrough(createAnthropicTextStream());
 
     return new Response(stream, {
       status: 200,
