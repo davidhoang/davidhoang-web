@@ -344,5 +344,5 @@ export function buildNowPageJsonLd(input: NowPageInput): JsonLd {
 }
 
 /** Shared /now last-updated day — keep visible copy and JSON-LD in sync. */
-export const NOW_LAST_UPDATED = '2026-06-06';
-export const NOW_LAST_UPDATED_LABEL = 'Saturday, June 6, 2026';
+export const NOW_LAST_UPDATED = '2026-09-07';
+export const NOW_LAST_UPDATED_LABEL = 'Monday, September 7, 2026';
