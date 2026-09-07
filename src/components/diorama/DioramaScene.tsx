@@ -43,13 +43,19 @@ function ResponsiveFraming() {
   const invalidate = useThree((state) => state.invalidate);
 
   useEffect(() => {
+    // Aspect is derived from the canvas size rather than read off the camera:
+    // R3F syncs camera.aspect from a parent effect, which runs after this one,
+    // so reading it here would fit the previous viewport on every resize.
+    const aspect = width / height;
+    camera.aspect = aspect;
+
     const verticalFov = (camera.fov * Math.PI) / 180;
-    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
+    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * aspect);
     const distance =
       Math.max(
         FRAME_HALF_WIDTH / Math.sin(horizontalFov / 2),
         FRAME_HALF_HEIGHT / Math.sin(verticalFov / 2),
-      ) * 1.04;
+      ) * 1.06;
 
     camera.position.copy(FRAME_DIRECTION).multiplyScalar(distance).add(FRAME_TARGET);
     camera.updateProjectionMatrix();
@@ -151,12 +157,14 @@ const RIDGES: {
   rotation: number;
   color: string;
 }[] = [
-  { position: [-8.6, -2.2, -3.6], scale: [3.2, 5.6, 2.6], rotation: 1.7, color: palette.ridgeFar },
-  { position: [-5.6, -2.6, -6.4], scale: [3.8, 7.6, 2.8], rotation: 0.5, color: palette.ridgeNear },
+  // Kept clear of the house: the rear wall sits at z = -4, and each ellipsoid's
+  // cross-section at ground level must stay behind it to avoid interpenetration.
+  { position: [-8.6, -2.2, -6.5], scale: [2.7, 5.4, 2.4], rotation: 1.7, color: palette.ridgeFar },
+  { position: [-5.6, -2.6, -6.8], scale: [3.8, 7.6, 2.8], rotation: 0.5, color: palette.ridgeNear },
   { position: [-1.2, -3.0, -7.8], scale: [4.4, 9.4, 3.0], rotation: 1.1, color: palette.ridgeFar },
   { position: [3.2, -2.8, -7.4], scale: [4.0, 8.6, 2.8], rotation: 2.2, color: palette.ridgeNear },
-  { position: [7.0, -2.4, -5.2], scale: [3.4, 6.4, 2.6], rotation: 0.8, color: palette.ridgeFar },
-  { position: [8.4, -2.0, -2.4], scale: [2.8, 4.8, 2.2], rotation: 2.6, color: palette.ridgeNear },
+  { position: [7.8, -2.4, -6.4], scale: [3.2, 6.2, 2.4], rotation: 0.8, color: palette.ridgeFar },
+  { position: [9.0, -2.0, -5.0], scale: [2.4, 4.4, 2.0], rotation: 2.6, color: palette.ridgeNear },
 ];
 
 function MountainBackdrop() {
