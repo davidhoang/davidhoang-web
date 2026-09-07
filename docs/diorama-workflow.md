@@ -15,6 +15,27 @@ of 2863 Greco Court. Regenerate it with:
 npm run generate:diorama-model
 ```
 
+## Visual references
+
+Two references drive the scene, and they serve different purposes. Keep them
+separate when reviewing changes.
+
+| Reference | Governs | Does not govern |
+|---|---|---|
+| Clay diorama concept render | Materials, palette, rounded base, staging, lighting | Architecture |
+| Front elevation photograph | Massing proportions and the order of masses across the front | Style, color, landscaping |
+
+Read left to right, the elevation gives: a tile-roofed wing, a recessed entry
+court under a timber pergola, then a dominant two-car garage with a white
+sectional door. The placeholder reproduces that order and rough proportion only.
+Depth, the rear of the building, the interior, and every plant position are
+invented. Do not describe the model as accurate, and do not add details — window
+counts, elevations, finishes — that a photograph cannot confirm.
+
+The concept render sets the finish: matte sand stucco, terracotta trim and
+pergola, a pale warm background, and the whole scene resting on a rounded
+plinth with a terracotta rim.
+
 ## Source files
 
 - **Template source of truth:** `diorama-template.blend`
@@ -49,6 +70,14 @@ Property references should guide only details that can be verified from source
 material. Label studies as conceptual until dimensions, elevations, and
 architectural details have been confirmed.
 
+Two composition rules earned from this scene:
+
+- **Parapets take a sand cap over a narrow terracotta trim.** Coloring whole
+  roof caps terracotta merges neighbouring masses into a single orange slab and
+  erases the massing.
+- **The pergola sits below the parapet and projects past the court wall.** Level
+  with the roofline it reads as a stripe rather than a structure.
+
 ## Blender → web export checklist
 
 1. Save the editable house file as `.blend`; never use the exported GLB as the
@@ -77,6 +106,26 @@ architectural details have been confirmed.
    `/experiments/greco-diorama` on mobile and desktop.
 10. Keep the shipped GLB under 1–2 MB and verify it returns `200` with the
     correct binary content.
+
+## Scene shell notes
+
+The React island owns everything except the building: the plinth, mountain
+backdrop, palms, xeriscape, hardscape, lighting, and framing. Only the house
+comes from `house.glb`, which keeps the download small and lets the Blender file
+stay focused on architecture.
+
+Two constraints are easy to regress:
+
+- **The canvas needs an explicit CSS height.** React Three Fiber's wrapper sizes
+  itself with `height: 100%`, which cannot resolve against a `min-height`-only
+  parent and silently collapses the canvas to a sliver.
+- **Do not wrap the model in drei's `<Center>`.** The export already rests on
+  `Y = 0` and carries its ground-plan position; re-centering displaces it out of
+  the framed view.
+
+`ResponsiveFraming` fits the diorama per axis on mount and resize. A single
+bounding-sphere fit is dominated by the base's width and pushes the camera far
+enough back to shrink the scene.
 
 ## Optional typed component
 

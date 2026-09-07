@@ -35,9 +35,11 @@
   background: var(--color-card-bg);
 }
 
+/* An explicit height is required: the R3F wrapper sizes itself with height:100%,
+   which cannot resolve against a min-height-only parent and collapses the canvas. */
 .diorama-canvas {
   position: relative;
-  min-height: min(68vh, 46rem);
+  height: clamp(24rem, 68vh, 46rem);
   overflow: clip;
   border-radius: var(--radius-lg);
   background: var(--color-sidebar-bg);
@@ -120,7 +122,7 @@
   }
 
   .diorama-canvas {
-    min-height: 62vh;
+    height: clamp(20rem, 58vh, 30rem);
   }
 
   .diorama-canvas__hint {
