@@ -2,9 +2,14 @@
    Accessibility
    ============================================ */
 
+/* Component display rules must not reveal filtered items or unavailable controls. */
+[hidden]:not([hidden='until-found']) {
+  display: none !important;
+}
+
 /* Account for fixed nav when jumping to anchors */
 :where(:target) {
-  scroll-margin-top: calc(var(--nav-height) + 3rem);
+  scroll-margin-top: calc(var(--nav-height) + var(--nav-offset-top) + var(--spacing-lg));
 }
 
 /* Accessible focus styles — consistent ring sourced from --focus-ring tokens.
@@ -22,7 +27,9 @@
 
 /* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     transition: none !important;
     animation: none !important;
     scroll-behavior: auto !important;

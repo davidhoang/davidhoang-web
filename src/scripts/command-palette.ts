@@ -260,19 +260,23 @@ export function initCommandPalette() {
   // --- Core actions ---
 
   async function open(trigger: SearchTrigger = 'unknown') {
+    if (nav!.classList.contains('cmd-palette-active')) return;
     // Remember what triggered the palette so we can restore focus on close
     triggerElement = document.activeElement as HTMLElement | null;
     nav!.classList.add('cmd-palette-active');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
+    nav!.querySelector('.cmd-k-hint')?.setAttribute('aria-expanded', 'true');
+    input!.focus({ preventScroll: true });
     reportedEmptyForOpen = false;
     reportAgentEvent(buildSearchOpenEvent(trigger));
 
     const ready = searchIndex.length > 0 || await ensureSearchIndex();
     if (!ready) return;
 
-    render('');
+    render(input!.value);
     requestAnimationFrame(() => {
+      if (!nav!.classList.contains('cmd-palette-active')) return;
       input!.focus();
       activeIndex = 0;
       highlightActive();
@@ -288,20 +292,14 @@ export function initCommandPalette() {
     nav!.classList.remove('cmd-palette-active', 'cmd-palette-has-results');
     input!.value = '';
     input!.setAttribute('aria-expanded', 'false');
+    nav!.querySelector('.cmd-k-hint')?.setAttribute('aria-expanded', 'false');
     input!.removeAttribute('aria-activedescendant');
     results!.innerHTML = '';
     results!.classList.remove('has-results');
     footer?.classList.remove('visible');
     activeIndex = -1;
     input!.blur();
-    // Avoid a loud focus ring on nav chrome after closing the palette
-    const shouldRestoreFocus =
-      triggerElement &&
-      typeof triggerElement.focus === 'function' &&
-      !triggerElement.closest('.site-nav');
-    if (shouldRestoreFocus) {
-      triggerElement!.focus({ preventScroll: true });
-    }
+    triggerElement?.focus({ preventScroll: true });
     triggerElement = null;
   }
 

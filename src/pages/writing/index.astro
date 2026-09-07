@@ -58,6 +58,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
           class="writing-view-tab is-active"
           role="tab"
           aria-selected="true"
+          id="writing-tab-editorial"
+          aria-controls="writing-panel-editorial"
+          tabindex="0"
           data-view-tab="editorial"
         >
           Editorial
@@ -67,6 +70,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
           class="writing-view-tab"
           role="tab"
           aria-selected="false"
+          id="writing-tab-list"
+          aria-controls="writing-panel-list"
+          tabindex="-1"
           data-view-tab="list"
         >
           List
@@ -76,6 +82,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
           class="writing-view-tab"
           role="tab"
           aria-selected="false"
+          id="writing-tab-graph"
+          aria-controls="writing-panel-graph"
+          tabindex="-1"
           data-view-tab="graph"
         >
           Graph
@@ -88,9 +97,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     <div class="writing-toolbar" data-filterable>
       <p class="writing-toolbar__label" id="writing-tag-label">Topics</p>
       <div class="writing-filter-chips" role="group" aria-labelledby="writing-tag-label">
-        <button type="button" class="writing-chip is-active" data-tag="all">All</button>
+        <button type="button" class="writing-chip is-active" data-tag="all" aria-pressed="true">All</button>
         {allTags.map((tag) => (
-          <button type="button" class="writing-chip" data-tag={tag}>
+          <button type="button" class="writing-chip" data-tag={tag} aria-pressed="false">
             {tag}
           </button>
         ))}
@@ -98,7 +107,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     </div>
   )}
 
-  <div data-view-panel="editorial">
+  <div data-view-panel="editorial" id="writing-panel-editorial" role="tabpanel" aria-labelledby="writing-tab-editorial" tabindex="0">
     {featured && (
       <section class="writing-spotlight" aria-label="Featured essay">
         <a
@@ -178,7 +187,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     )}
   </div>
 
-  <div data-view-panel="list" hidden>
+  <div data-view-panel="list" id="writing-panel-list" role="tabpanel" aria-labelledby="writing-tab-list" tabindex="0" hidden>
     <section class="writing-feed" aria-label="Essay list">
       <ul class="writing-feed__list">
         {postsWithMeta.map(({ post, thumbnail }) => (
@@ -220,7 +229,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     </section>
   </div>
 
-  <div data-view-panel="graph" hidden>
+  <div data-view-panel="graph" id="writing-panel-graph" role="tabpanel" aria-labelledby="writing-tab-graph" tabindex="0" hidden>
     <WritingGraph graph={graph} />
   </div>
 
@@ -231,6 +240,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 
 <script>
   function initWritingFilters() {
+    const toolbar = document.querySelector<HTMLElement>('.writing-toolbar');
+    if (!toolbar || toolbar.dataset.initialized === 'true') return;
+    toolbar.dataset.initialized = 'true';
     const noResults = document.getElementById('writing-no-results');
     const tagChips = Array.from(document.querySelectorAll<HTMLButtonElement>('.writing-chip'));
     const filterItems = Array.from(document.querySelectorAll<HTMLElement>('[data-filter-item]'));
@@ -249,6 +261,8 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
         item.hidden = !visible;
         const listRow = item.closest('li');
         if (listRow) listRow.hidden = !visible;
+        const spotlight = item.closest<HTMLElement>('.writing-spotlight');
+        if (spotlight) spotlight.hidden = !visible;
 
         if (visible) visibleCount++;
       });
@@ -265,13 +279,20 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     tagChips.forEach((chip) => {
       chip.addEventListener('click', () => {
         activeTag = chip.dataset.tag || 'all';
-        tagChips.forEach((c) => c.classList.toggle('is-active', c === chip));
+        tagChips.forEach((c) => {
+          c.classList.toggle('is-active', c === chip);
+          c.setAttribute('aria-pressed', String(c === chip));
+        });
         applyFilters();
       });
     });
+    toolbar.addEventListener('writing:view-change', applyFilters);
   }
 
   function initWritingViewTabs() {
+    const tablist = document.querySelector<HTMLElement>('.writing-view-tabs');
+    if (!tablist || tablist.dataset.initialized === 'true') return;
+    tablist.dataset.initialized = 'true';
     const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-tab]'));
     const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
     const filterable = Array.from(document.querySelectorAll<HTMLElement>('[data-filterable]'));
@@ -283,6 +304,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
         const active = t.dataset.viewTab === view;
         t.classList.toggle('is-active', active);
         t.setAttribute('aria-selected', active ? 'true' : 'false');
+        t.tabIndex = active ? 0 : -1;
       });
       panels.forEach((p) => {
         const active = p.dataset.viewPanel === view;
@@ -297,17 +319,30 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
         el.hidden = !showFilters;
       });
       if (!showFilters && noResults) noResults.hidden = true;
+      document.querySelector('.writing-toolbar')?.dispatchEvent(new CustomEvent('writing:view-change'));
 
       if (push) {
         const url = new URL(window.location.href);
         if (view === 'editorial') url.searchParams.delete('view');
         else url.searchParams.set('view', view);
-        window.history.replaceState({}, '', url.toString());
+        window.history.replaceState(window.history.state, '', url.toString());
       }
     }
 
     tabs.forEach((t) => {
       t.addEventListener('click', () => setView(t.dataset.viewTab || 'editorial', true));
+      t.addEventListener('keydown', (event) => {
+        let index = tabs.indexOf(t);
+        if (event.key === 'ArrowRight') index = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') index = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') index = 0;
+        else if (event.key === 'End') index = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        const next = tabs[index];
+        setView(next.dataset.viewTab || 'editorial', true);
+        next.focus();
+      });
     });
 
     const viewParam = new URLSearchParams(window.location.search).get('view');

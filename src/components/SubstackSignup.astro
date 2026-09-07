@@ -55,12 +55,14 @@ const showHeader = showTitle || Boolean(description?.trim());
             type="email"
             id={emailFieldId}
             name="email"
-            placeholder="you@vibes-and-prototypes.dev"
+            placeholder="you@example.com"
             required
             class="email-input"
             aria-label="Email address for newsletter signup"
             autocomplete="email"
-            data-placeholder-rotate
+            inputmode="email"
+            autocapitalize="none"
+            spellcheck="false"
           />
           <div class="email-input-rail" aria-hidden="true"></div>
         </div>
@@ -82,6 +84,7 @@ const showHeader = showTitle || Boolean(description?.trim());
         </button>
       </div>
     </div>
+    <p class="sr-only" role="status" data-signup-status></p>
   </form>
 </div>
 
@@ -90,16 +93,16 @@ const showHeader = showTitle || Boolean(description?.trim());
     container-type: inline-size;
     container-name: substack-signup;
     border-top: 1px solid var(--color-border);
-    padding: 4rem 0 3rem 0;
+    padding: var(--section-spacing) 0 var(--spacing-2xl);
     width: 100%;
   }
 
   .signup-header {
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
   }
 
   .signup-title {
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs));
     font-weight: 700;
     color: var(--color-text);
     letter-spacing: -0.04em;
@@ -133,7 +136,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    gap: 1rem 1.25rem;
+    gap: var(--spacing-md) calc(var(--spacing-md) + var(--spacing-xs));
     width: 100%;
   }
 
@@ -159,7 +162,7 @@ const showHeader = showTitle || Boolean(description?.trim());
   .email-input {
     width: 100%;
     min-width: 0;
-    padding: 0.25em 0;
+    padding: var(--spacing-sm) 0;
     border: none;
     border-radius: 0;
     font-size: clamp(1.35rem, min(2.65cqw + 0.65rem, 3.8vw), 3.35rem);
@@ -187,14 +190,14 @@ const showHeader = showTitle || Boolean(description?.trim());
 
   .email-input::placeholder {
     color: var(--color-muted);
-    opacity: 0.35;
+    opacity: 1;
     font-weight: 600;
   }
 
   .email-input-rail {
     height: 4px;
     border-radius: 999px;
-    margin-top: 0.15rem;
+    margin-top: var(--spacing-xs);
     background: color-mix(in srgb, var(--color-border) 85%, transparent);
     position: relative;
     overflow: hidden;
@@ -211,8 +214,8 @@ const showHeader = showTitle || Boolean(description?.trim());
     opacity: 0.45;
     transition:
       transform var(--duration-slower) var(--ease-emphasized),
-      opacity var(--duration-slow) ease,
-      background-color var(--duration-slow) ease;
+      opacity var(--duration-slow) var(--ease-standard),
+      background-color var(--duration-slow) var(--ease-standard);
   }
 
   .email-input-shell:focus-within .email-input-rail::after {
@@ -225,8 +228,8 @@ const showHeader = showTitle || Boolean(description?.trim());
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 1.75rem 1rem 2rem;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
     background: var(--color-link);
     color: var(--color-bg);
     border: none;
@@ -238,8 +241,8 @@ const showHeader = showTitle || Boolean(description?.trim());
     white-space: nowrap;
     transition:
       transform var(--duration-normal) var(--ease-spring),
-      box-shadow var(--duration-normal) ease,
-      background var(--duration-normal) ease;
+      box-shadow var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard);
     flex-shrink: 0;
     box-shadow: 0 4px 0 color-mix(in srgb, var(--color-text) 18%, transparent);
   }
@@ -249,26 +252,32 @@ const showHeader = showTitle || Boolean(description?.trim());
     transition: transform var(--duration-slower) var(--ease-spring);
   }
 
-  .subscribe-button:hover {
-    background: var(--color-link-hover);
-    transform: translateY(-3px) rotate(-1deg);
-    box-shadow:
-      0 8px 24px color-mix(in srgb, var(--color-link) 35%, transparent),
-      0 6px 0 color-mix(in srgb, var(--color-text) 12%, transparent);
+  @media (hover: hover) {
+    .subscribe-button:hover {
+      background: var(--color-link-hover);
+      transform: translateY(-3px) rotate(-1deg);
+      box-shadow:
+        0 8px 24px color-mix(in srgb, var(--color-link) 35%, transparent),
+        0 6px 0 color-mix(in srgb, var(--color-text) 12%, transparent);
+    }
   }
 
-  .subscribe-button:hover .subscribe-button-icon {
-    transform: translate(3px, -3px) rotate(12deg);
+  @media (hover: hover) {
+    .subscribe-button:hover .subscribe-button-icon {
+      transform: translate(3px, -3px) rotate(12deg);
+    }
   }
 
   [data-theme='dark'] .subscribe-button {
     box-shadow: 0 4px 0 color-mix(in srgb, var(--color-bg) 25%, transparent);
   }
 
-  [data-theme='dark'] .subscribe-button:hover {
-    box-shadow:
-      0 8px 28px color-mix(in srgb, var(--color-link) 45%, transparent),
-      0 6px 0 color-mix(in srgb, var(--color-bg) 18%, transparent);
+  @media (hover: hover) {
+    [data-theme='dark'] .subscribe-button:hover {
+      box-shadow:
+        0 8px 28px color-mix(in srgb, var(--color-link) 45%, transparent),
+        0 6px 0 color-mix(in srgb, var(--color-bg) 18%, transparent);
+    }
   }
 
   .subscribe-button:active {
@@ -302,11 +311,11 @@ const showHeader = showTitle || Boolean(description?.trim());
     height: 18px;
     top: 50%;
     left: 50%;
-    margin: -9px 0 0 -9px;
+    translate: -50% -50%;
     border: 2px solid var(--color-bg);
     border-top-color: transparent;
     border-radius: 50%;
-    animation: btn-spin 0.6s linear infinite;
+    animation: btn-spin var(--duration-slowest) linear infinite;
   }
 
   @keyframes btn-spin {
@@ -321,12 +330,12 @@ const showHeader = showTitle || Boolean(description?.trim());
   }
 
   .substack-signup.compact {
-    padding: 1.5rem 0;
+    padding: var(--spacing-lg) 0;
   }
 
   .substack-signup.compact .signup-title {
     font-size: 1.5rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--spacing-xs);
   }
 
   .substack-signup.compact .signup-title--brand {
@@ -337,7 +346,7 @@ const showHeader = showTitle || Boolean(description?.trim());
 
   .substack-signup.compact .signup-description {
     font-size: 0.95rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-md);
   }
 
   .substack-signup.compact .email-input {
@@ -350,20 +359,22 @@ const showHeader = showTitle || Boolean(description?.trim());
   }
 
   .substack-signup.compact .subscribe-button {
-    padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+    padding: calc(var(--spacing-sm) + var(--spacing-xs)) var(--spacing-lg);
     font-size: 1rem;
     box-shadow: none;
     width: 100%;
   }
 
-  .substack-signup.compact .subscribe-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  @media (hover: hover) {
+    .substack-signup.compact .subscribe-button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--card-shadow);
+    }
   }
 
   @media (max-width: 768px) {
     .substack-signup {
-      padding: 3rem 0 2rem 0;
+      padding: var(--spacing-2xl) 0 var(--spacing-xl);
     }
 
     .signup-title--brand {
@@ -374,7 +385,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     .signup-form-row {
       flex-direction: column;
       align-items: stretch;
-      gap: 1.25rem;
+      gap: calc(var(--spacing-md) + var(--spacing-xs));
     }
 
     .form-actions {
@@ -389,20 +400,6 @@ const showHeader = showTitle || Boolean(description?.trim());
     .email-input {
       font-size: clamp(1.5rem, 6.5vw, 2.25rem);
     }
-  }
-
-  .email-input.error + .email-input-rail::after {
-    background: #dc2626;
-    transform: scaleX(1);
-    opacity: 1;
-    animation: none;
-  }
-
-  .email-input.success + .email-input-rail::after {
-    background: #16a34a;
-    transform: scaleX(1);
-    opacity: 1;
-    animation: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -427,35 +424,35 @@ const showHeader = showTitle || Boolean(description?.trim());
   import { reportAgentEvent } from '../scripts/agent-experience';
   import { buildNewsletterSubmitEvent } from '../utils/agentExperienceMetrics';
 
-  const PLACEHOLDER_ROTATION = [
-    'you@vibes-and-prototypes.dev',
-    'ship-it@experimental.news',
-    'curious@late-sunday-reads.com',
-    'hot-takes@inbox.engineering',
-    'maybe@subscribe-anyway.org',
-  ];
+  function resetSignup(form: HTMLFormElement) {
+    const button = form.querySelector<HTMLButtonElement>('.subscribe-button');
+    button?.classList.remove('is-loading');
+    if (button) button.disabled = false;
+    form.removeAttribute('aria-busy');
+    const status = form.querySelector<HTMLElement>('[data-signup-status]');
+    if (status) status.textContent = '';
+  }
 
-  document.querySelectorAll('form[data-substack-signup]').forEach((form) => {
-    form.addEventListener('submit', () => {
-      // Cross-origin Substack POST navigates away — only "attempted" is reliable here.
-      // Never send the email field (or any form values) to analytics.
-      reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
-
-      const button = form.querySelector('.subscribe-button') as HTMLButtonElement | null;
-      if (button) {
-        button.classList.add('is-loading');
-        button.disabled = true;
-      }
+  function initSignups() {
+    document.querySelectorAll<HTMLFormElement>('form[data-substack-signup]').forEach((form) => {
+      resetSignup(form);
+      if (form.dataset.initialized === 'true') return;
+      form.dataset.initialized = 'true';
+      form.addEventListener('submit', () => {
+        // Cross-origin POST navigates away; never include form values in analytics.
+        reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
+        form.setAttribute('aria-busy', 'true');
+        const status = form.querySelector<HTMLElement>('[data-signup-status]');
+        if (status) status.textContent = 'Opening newsletter signup…';
+        const button = form.querySelector<HTMLButtonElement>('.subscribe-button');
+        button?.classList.add('is-loading');
+        if (button) button.disabled = true;
+      });
     });
+  }
 
-    const rotateInput = form.querySelector('[data-placeholder-rotate]') as HTMLInputElement | null;
-    if (rotateInput && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      let i = 0;
-      window.setInterval(() => {
-        if (document.activeElement === rotateInput) return;
-        i = (i + 1) % PLACEHOLDER_ROTATION.length;
-        rotateInput.placeholder = PLACEHOLDER_ROTATION[i];
-      }, 3200);
-    }
-  });
+  initSignups();
+  document.addEventListener('astro:page-load', initSignups);
+  // Browser Back can restore the submitted form from the back/forward cache.
+  window.addEventListener('pageshow', initSignups);
 </script>

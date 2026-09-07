@@ -39,7 +39,7 @@ const notesPlaceholderSketch =
     <h2 id="notes-intro-heading" class="sr-only">About this garden</h2>
     <p class="notes-intro__lede">
       A living collection of ideas—unlike linear blog posts, these pages grow, split, and merge as I learn.
-      Filter by topic or stage, or search across everything.
+      Filter by topic or stage, or search across everything.{' '}
       <a href="/rss/notes.xml" class="notes-intro__rss">RSS feed</a>
     </p>
     <div class="stage-legend">
@@ -56,9 +56,9 @@ const notesPlaceholderSketch =
     <nav class="filter-panel" aria-label="Filter by topic">
       <h3 class="filter-panel__title">Topics</h3>
       <div class="filter-chips filter-chips--topics" id="topic-chips">
-        <button type="button" class="chip chip--topic active" data-tag="all">All topics</button>
+        <button type="button" class="chip chip--topic active" data-tag="all" aria-pressed="true">All topics</button>
         {allTags.map((tag) => (
-          <button type="button" class="chip chip--topic" data-tag={tag}>
+          <button type="button" class="chip chip--topic" data-tag={tag} aria-pressed="false">
             {tag}
           </button>
         ))}
@@ -68,9 +68,9 @@ const notesPlaceholderSketch =
     <nav class="filter-panel" aria-label="Filter by note stage">
       <h3 class="filter-panel__title">Stage</h3>
       <div class="filter-chips filter-chips--stages" id="stage-chips">
-        <button type="button" class="chip chip--stage active" data-stage="all">All stages</button>
+        <button type="button" class="chip chip--stage active" data-stage="all" aria-pressed="true">All stages</button>
         {NOTE_STAGE_VALUES.map((s) => (
-          <button type="button" class="chip chip--stage" data-stage={s}>
+          <button type="button" class="chip chip--stage" data-stage={s} aria-pressed="false">
             <span class="chip__glyph">{noteStageInfo[s].icon}</span>
             {noteStageInfo[s].label}
           </button>
@@ -78,8 +78,11 @@ const notesPlaceholderSketch =
       </div>
     </nav>
 
-    <div class="notes-search-wrap">
-      <SearchInput id="notes-search" placeholder="Search titles and descriptions…" />
+    <div class="notes-search-row">
+      <div class="notes-search-wrap">
+        <SearchInput id="notes-search" label="Search notes" placeholder="Search notes…" />
+      </div>
+      <p class="notes-results-count" id="notes-results-count" role="status" aria-live="polite" aria-atomic="true">{notes.length} {notes.length === 1 ? 'note' : 'notes'}</p>
     </div>
   </div>
 
@@ -140,7 +143,10 @@ const notesPlaceholderSketch =
       })
     )}
   </div>
-  <p class="no-results" id="notes-no-results">No notes match your filters.</p>
+  <div class="no-results" id="notes-no-results" hidden>
+    <p>No notes match your filters.</p>
+    <button type="button" class="btn btn-secondary" id="notes-reset-filters">Clear filters</button>
+  </div>
 </MainLayout>
 
 <style>
@@ -227,12 +233,13 @@ const notesPlaceholderSketch =
     padding: calc(var(--spacing-xs) + 0.15rem) calc(var(--spacing-md) - calc(var(--spacing-xs) - 0.1rem));
     font-size: 0.8125rem;
     cursor: pointer;
+    white-space: nowrap;
     color: var(--color-text);
     touch-action: manipulation;
     transition:
-      color 0.2s var(--ease-inertia),
-      background-color 0.2s var(--ease-inertia),
-      border-color 0.2s var(--ease-inertia);
+      color var(--duration-normal) var(--ease-inertia),
+      background-color var(--duration-normal) var(--ease-inertia),
+      border-color var(--duration-normal) var(--ease-inertia);
   }
 
   /* iOS HIG / WCAG 2.5.5: minimum 44×44 tap target on touch. */
@@ -269,14 +276,33 @@ const notesPlaceholderSketch =
     opacity: 1;
   }
 
+  .notes-search-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm) var(--spacing-md);
+  }
+
   .notes-search-wrap {
+    flex: 1 1 18rem;
+    min-width: 0;
     max-width: 24rem;
+  }
+
+  .notes-search-wrap :global(.search-wrapper) {
+    margin-bottom: 0;
+  }
+
+  .notes-results-count {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-muted);
   }
 
   .notes-grid {
     max-width: var(--container-max-width, 72rem);
     margin: 0 auto;
-    padding: 0 var(--content-padding, 1.25rem) 3rem;
+    padding: 0 var(--content-padding) var(--spacing-2xl);
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: calc(var(--spacing-md) + var(--spacing-xs));
@@ -286,6 +312,7 @@ const notesPlaceholderSketch =
     grid-column: span 4;
     display: flex;
     flex-direction: column;
+    min-width: 0;
     min-height: 100%;
     background-color: var(--color-sidebar-bg) !important;
     background-image: none !important;
@@ -295,9 +322,9 @@ const notesPlaceholderSketch =
     color: inherit;
     overflow: hidden;
     transition:
-      transform 0.25s var(--ease-inertia),
-      box-shadow 0.25s var(--ease-inertia),
-      border-color 0.25s var(--ease-inertia);
+      transform var(--duration-slow) var(--ease-inertia),
+      box-shadow var(--duration-slow) var(--ease-inertia),
+      border-color var(--duration-slow) var(--ease-inertia);
   }
 
   .note-card:hover {
@@ -324,10 +351,6 @@ const notesPlaceholderSketch =
     flex: 1;
     justify-content: center;
     padding: calc(var(--spacing-lg) + var(--spacing-sm));
-  }
-
-  .note-card--spotlight.note-card--cover .note-card__body {
-    padding-left: 0;
   }
 
   .note-card--spotlight .note-card__title {
@@ -363,10 +386,12 @@ const notesPlaceholderSketch =
     flex-direction: column;
     padding: calc(var(--spacing-md) + var(--spacing-xs)) calc(var(--spacing-md) + var(--spacing-sm)) calc(var(--spacing-md) + var(--spacing-xs));
     flex: 1;
+    min-width: 0;
   }
 
   .note-card__meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: calc(var(--spacing-sm) + var(--spacing-xs));
@@ -375,7 +400,7 @@ const notesPlaceholderSketch =
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-muted);
-    margin-bottom: 0.65rem;
+    margin-bottom: var(--spacing-sm);
   }
 
   .note-card__meta time {
@@ -411,7 +436,7 @@ const notesPlaceholderSketch =
     display: flex;
     gap: calc(var(--spacing-xs) + calc(var(--spacing-xs) - 0.125rem));
     flex-wrap: wrap;
-    margin-top: 0.85rem;
+    margin-top: var(--spacing-md);
   }
 
   .note-card__tag {
@@ -431,11 +456,18 @@ const notesPlaceholderSketch =
   }
 
   .no-results {
-    display: none;
     text-align: center;
     color: var(--color-muted);
-    padding: 2rem var(--content-padding, 1.25rem);
+    padding: var(--spacing-xl) var(--content-padding);
     font-size: 0.9375rem;
+  }
+
+  .no-results[hidden] {
+    display: none;
+  }
+
+  .no-results p {
+    margin-bottom: var(--spacing-md);
   }
 
   @media (max-width: 1024px) {
@@ -456,16 +488,12 @@ const notesPlaceholderSketch =
       aspect-ratio: 16 / 9;
     }
 
-  .note-card--spotlight .note-card__body {
+    .note-card--spotlight .note-card__body {
       padding: calc(var(--spacing-md) + var(--spacing-xs));
-    }
-
-    .note-card--spotlight.note-card--cover .note-card__body {
-      padding-left: 1.25rem;
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .note-card {
       grid-column: 1 / -1;
     }
@@ -474,10 +502,13 @@ const notesPlaceholderSketch =
       flex-wrap: nowrap;
       overflow-x: auto;
       overflow-y: hidden;
-      padding-bottom: 0.5rem;
+      padding: var(--spacing-xs);
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
-      mask-image: linear-gradient(to right, black 92%, transparent);
+    }
+
+    .filter-chips--topics .chip {
+      flex-shrink: 0;
     }
 
     .notes-intro__lede {
@@ -489,11 +520,16 @@ const notesPlaceholderSketch =
 
 <script>
   function initNotesFilters() {
+    const grid = document.getElementById('notes-grid');
+    if (!grid || grid.dataset.initialized === 'true') return;
+    grid.dataset.initialized = 'true';
     const tagBtns = document.querySelectorAll('#topic-chips .chip--topic');
     const stageBtns = document.querySelectorAll('#stage-chips .chip--stage');
     const noteCards = document.querySelectorAll('.note-card');
     const searchInput = document.getElementById('notes-search') as HTMLInputElement;
     const noResults = document.getElementById('notes-no-results');
+    const resultCount = document.getElementById('notes-results-count');
+    const resetButton = document.getElementById('notes-reset-filters');
     const clearBtn = searchInput?.parentElement?.querySelector('.search-clear') as HTMLElement;
 
     let activeTag = 'all';
@@ -502,6 +538,17 @@ const notesPlaceholderSketch =
     function applyFilters() {
       const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
       let visibleCount = 0;
+
+      tagBtns.forEach((btn) => {
+        const active = btn.getAttribute('data-tag') === activeTag;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+      stageBtns.forEach((btn) => {
+        const active = btn.getAttribute('data-stage') === activeStage;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
 
       if (clearBtn) {
         clearBtn.style.display = query ? 'flex' : 'none';
@@ -526,16 +573,14 @@ const notesPlaceholderSketch =
       });
 
       if (noResults) {
-        (noResults as HTMLElement).style.display =
-          visibleCount === 0 ? 'block' : 'none';
+        noResults.hidden = visibleCount > 0 || noteCards.length === 0;
       }
+      if (resultCount) resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'note' : 'notes'}`;
     }
 
     tagBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         activeTag = btn.getAttribute('data-tag') || 'all';
-        tagBtns.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
         applyFilters();
       });
     });
@@ -543,8 +588,6 @@ const notesPlaceholderSketch =
     stageBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
         activeStage = btn.getAttribute('data-stage') || 'all';
-        stageBtns.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
         applyFilters();
       });
     });
@@ -562,6 +605,15 @@ const notesPlaceholderSketch =
         }
       });
     }
+
+    resetButton?.addEventListener('click', () => {
+      activeTag = 'all';
+      activeStage = 'all';
+      searchInput.value = '';
+      applyFilters();
+      searchInput.focus();
+    });
+    applyFilters();
   }
 
   initNotesFilters();

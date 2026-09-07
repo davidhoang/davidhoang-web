@@ -53,6 +53,21 @@ npm run budget    # Check built JS assets against bundle budgets
 npm run preview
 ```
 
+### UI regression checks
+
+With the development server running in another terminal:
+
+```bash
+npm run test:ui
+# To target a different local port or a preview:
+UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
+```
+
+Uses the installed Playwright Chromium browser (`npx playwright install chromium` if needed).
+Checks keyboard navigation, search, writing and notes filters, mobile menu focus,
+newsletter form recovery, and responsive layouts from 320px to 1920px.
+Newsletter submissions are canceled in the browser; the check never sends an email to Substack.
+
 ### Other Commands
 
 ```bash
