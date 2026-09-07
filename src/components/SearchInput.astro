@@ -2,12 +2,14 @@
 interface Props {
   id: string;
   placeholder?: string;
+  label?: string;
 }
 
-const { id, placeholder = 'Search...' } = Astro.props;
+const { id, placeholder = 'Search...', label = 'Search' } = Astro.props;
 ---
 
 <div class="search-wrapper">
+  <label for={id} class="sr-only">{label}</label>
   <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <circle cx="11" cy="11" r="8"/>
     <line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -33,21 +35,22 @@ const { id, placeholder = 'Search...' } = Astro.props;
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
   }
 
   .search-icon {
     position: absolute;
-    left: 0.75rem;
+    left: calc(var(--spacing-sm) + var(--spacing-xs));
     color: var(--color-muted);
     pointer-events: none;
   }
 
   .search-input {
     width: 100%;
-    padding: calc(var(--spacing-sm) + var(--spacing-xs)) calc(var(--spacing-xl) + var(--spacing-sm)) calc(var(--spacing-sm) + var(--spacing-xs)) 2.25rem;
+    min-height: 48px;
+    padding: calc(var(--spacing-sm) + var(--spacing-xs)) var(--spacing-2xl) calc(var(--spacing-sm) + var(--spacing-xs)) calc(var(--spacing-xl) + var(--spacing-xs));
     font-family: var(--font-body, inherit);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     color: var(--color-text);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
@@ -83,7 +86,9 @@ const { id, placeholder = 'Search...' } = Astro.props;
 
   .search-clear {
     position: absolute;
-    right: 0.5rem;
+    right: var(--spacing-xs);
+    width: 44px;
+    height: 44px;
     background: none;
     border: none;
     color: var(--color-muted);
@@ -95,7 +100,10 @@ const { id, placeholder = 'Search...' } = Astro.props;
     border-radius: var(--radius-sm, 4px);
   }
 
-  .search-clear:hover {
-    color: var(--color-text);
+  @media (hover: hover) {
+    .search-clear:hover {
+      color: var(--color-text);
+      background: var(--color-sidebar-bg);
+    }
   }
 </style>

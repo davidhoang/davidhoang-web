@@ -25,7 +25,15 @@ const currentPath = Astro.url.pathname;
         </a>
       </li>
       <li class="cmd-k-item">
-        <kbd class="cmd-k-hint" aria-label="Press Command K to search" title="Search (⌘K)">⌘K</kbd>
+        <button
+          type="button"
+          class="cmd-k-hint"
+          aria-label="Search site"
+          aria-controls="cmdPalette"
+          aria-expanded="false"
+          aria-keyshortcuts="Meta+K Control+K"
+          title="Search (⌘K / Ctrl+K)"
+        ><kbd>⌘K</kbd></button>
       </li>
     </ul>
     <!-- Command Palette -->
@@ -69,6 +77,7 @@ const currentPath = Astro.url.pathname;
   class="mobile-menu"
   aria-hidden="true"
   hidden
+  inert
 >
   <div class="mobile-menu__panel">
     <nav class="mobile-menu__nav" aria-label="Mobile navigation">
@@ -146,6 +155,15 @@ const currentPath = Astro.url.pathname;
     cleanupFunctions.forEach(fn => fn());
     cleanupFunctions = [];
     const generation = ++navFxGeneration;
+
+    // The nav persists across Astro navigation, so its server-rendered state can be stale.
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll<HTMLAnchorElement>('.site-nav a[href], .mobile-menu a[href]').forEach((link) => {
+      const path = new URL(link.href).pathname.replace(/\/$/, '') || '/';
+      const active = currentPath === path || (path !== '/' && currentPath.startsWith(`${path}/`));
+      if (active) link.setAttribute('aria-current', currentPath === path ? 'page' : 'location');
+      else link.removeAttribute('aria-current');
+    });
 
     initShader();
     syncHybridPointerAttribute();

@@ -11,7 +11,7 @@
   display: none;
   flex: 1;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
   height: 100%;
   min-width: 0;
 }
@@ -41,16 +41,16 @@
 
 .cmd-palette-input input::placeholder {
   color: var(--color-nav-text);
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .cmd-palette-hint {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-family: var(--font-body), system-ui, sans-serif;
   color: var(--color-nav-text);
-  opacity: 0.35;
+  opacity: 1;
   background: color-mix(in srgb, var(--color-nav-text) 10%, transparent);
-  padding: 0.15rem 0.4rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: 4px;
   border: 1px solid color-mix(in srgb, var(--color-nav-text) 15%, transparent);
   pointer-events: none;
@@ -77,7 +77,7 @@
 }
 
 .site-nav.cmd-palette-active .cmd-palette-hint {
-  opacity: 0.55;
+  opacity: 1;
   background: color-mix(in srgb, var(--color-link) 8%, transparent);
   border-color: color-mix(in srgb, var(--color-link) 22%, transparent);
 }
@@ -104,9 +104,6 @@
 
 @media (hover: hover) and (min-width: 769px) {
   .site-nav.cmd-palette-active:hover {
-    top: 24px;
-    min-width: min(580px, calc(100vw - 40px));
-    max-width: min(580px, calc(100vw - 40px));
     border-radius: 28px;
     box-shadow:
       0 0 0 1px color-mix(in srgb, var(--color-link) 18%, transparent),
@@ -148,11 +145,11 @@
 .cmd-palette-results {
   display: none;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: var(--spacing-xs);
   max-height: min(320px, 50vh);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0.45rem 1rem 0.55rem;
+  padding: var(--spacing-sm) var(--spacing-md);
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--color-nav-text) 15%, transparent) transparent;
 }
@@ -182,11 +179,11 @@
   display: none;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  font-size: 0.6rem;
+  gap: var(--spacing-md);
+  font-size: 0.8125rem;
   color: var(--color-nav-text);
-  opacity: 0.48;
-  padding: 0.5rem 1.25rem 0.55rem;
+  opacity: 1;
+  padding: var(--spacing-sm) var(--spacing-lg);
   border-top: 1px solid color-mix(in srgb, var(--color-border) 55%, var(--color-link) 8%);
   font-family: var(--font-body), system-ui, sans-serif;
   flex-shrink: 0;
@@ -202,11 +199,11 @@
 }
 
 .cmd-palette-footer kbd {
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 500;
   background: color-mix(in srgb, var(--color-link) 8%, transparent);
-  padding: 0.12rem 0.38rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: 5px;
   border: 1px solid color-mix(in srgb, var(--color-link) 22%, transparent);
   color: var(--color-nav-text);
@@ -216,28 +213,28 @@
 .cmd-palette-footer__keys {
   display: inline-flex;
   align-items: center;
-  gap: 0.28rem;
+  gap: var(--spacing-xs);
 }
 
 .cmd-group-label {
   display: block;
   width: 100%;
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-nav-text);
-  opacity: 0.42;
-  padding: 0.5rem 0.35rem 0.2rem;
+  opacity: 1;
+  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xs);
 }
 
 .cmd-group-label:first-child {
-  padding-top: 0.15rem;
+  padding-top: var(--spacing-xs);
 }
 
 .cmd-group-count {
   font-weight: 400;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 @keyframes cmd-palette-item-in {
@@ -257,10 +254,10 @@
   appearance: none;
   width: 100%;
   margin: 0;
-  padding: 0.5rem 0.75rem;
+  padding: var(--spacing-sm) calc(var(--spacing-sm) + var(--spacing-xs));
   min-height: 44px;
   touch-action: manipulation;
-  border-radius: 9999px;
+  border-radius: var(--radius-md);
   box-sizing: border-box;
   cursor: pointer;
   position: relative;
@@ -272,13 +269,13 @@
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 500;
   text-align: left;
-  animation: cmd-palette-item-in 0.32s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation: cmd-palette-item-in var(--duration-slow) var(--ease-inertia-smooth) both;
   animation-delay: var(--cmd-palette-stagger, 0s);
   transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    color 0.2s ease;
+    background var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    box-shadow var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal) var(--ease-standard);
 }
 
 .cmd-palette-item::before {
@@ -327,7 +324,7 @@
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
-  gap: 0.08rem;
+  gap: var(--spacing-xs);
   position: relative;
   z-index: 1;
 }
@@ -337,7 +334,7 @@
   font-weight: 600;
   line-height: 1.35;
   color: inherit;
-  transition: color 0.2s ease;
+  transition: color var(--duration-normal) var(--ease-standard);
 }
 
 .cmd-palette-item.is-highlighted .cmd-palette-item__title {
@@ -346,17 +343,19 @@
 }
 
 .cmd-palette-item__desc {
-  font-size: 0.6rem;
-  opacity: 0.48;
+  font-size: 0.8125rem;
+  opacity: 1;
   line-height: 1.3;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
   max-width: 100%;
 }
 
 .cmd-palette-item.is-highlighted .cmd-palette-item__desc {
-  opacity: 0.56;
+  opacity: 1;
 }
 
 .cmd-palette-highlight {
@@ -364,7 +363,7 @@
   color: inherit;
   font-weight: 700;
   border-radius: 3px;
-  padding: 0 0.1em;
+  padding: 0;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
@@ -377,8 +376,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-  padding: 1.5rem 0.75rem;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-lg) var(--spacing-md);
   text-align: center;
   color: var(--color-nav-text);
 }
@@ -392,12 +391,12 @@
 
 .cmd-empty-text {
   font-size: 0.75rem;
-  opacity: 0.48;
+  opacity: 1;
 }
 
 .cmd-empty-hint {
-  font-size: 0.625rem;
-  opacity: 0.32;
+  font-size: 0.8125rem;
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
@@ -410,7 +409,7 @@
     transform: translateX(-50%) !important;
     border-radius: 20px !important;
     height: auto !important;
-    padding: 0 16px !important;
+    padding: 0 var(--spacing-md) !important;
   }
 
   .site-nav.cmd-palette-active.cmd-palette-has-results {
@@ -446,7 +445,7 @@
 
   .cmd-palette-results {
     max-height: min(50vh, 360px);
-    padding: 0.5rem 0.75rem 0.75rem;
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
   }
 
   .cmd-palette-hint,

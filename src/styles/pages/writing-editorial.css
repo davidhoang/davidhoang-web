@@ -132,6 +132,7 @@
 }
 
 .writing-view-tab {
+  min-height: 44px;
   appearance: none;
   border: none;
   background: transparent;
@@ -355,7 +356,7 @@
   text-decoration: none;
 }
 
-.writing-feed__item:first-child {
+.writing-feed__list > li:first-child .writing-feed__item {
   padding-top: 0;
 }
 
@@ -429,6 +430,15 @@
 }
 
 @media (max-width: 480px) {
+  .writing-masthead__actions .writing-view-tabs {
+    width: 100%;
+  }
+
+  .writing-view-tab {
+    flex: 1;
+    padding-inline: var(--spacing-sm);
+  }
+
   .writing-feed__item {
     grid-template-columns: 72px minmax(0, 1fr);
     gap: calc(var(--spacing-sm) + var(--spacing-xs));

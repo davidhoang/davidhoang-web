@@ -13,6 +13,8 @@ export function initMobileMenu(): (() => void) | undefined {
   const hamburger = menuButton.querySelector('.hamburger-icon');
   let scrollPosition = 0;
   let isOpen = false;
+  let openFrame = 0;
+  let inertElements: Array<{ element: HTMLElement; wasInert: boolean }> = [];
 
   function isMobile(): boolean {
     return window.innerWidth <= MOBILE_BREAKPOINT;
@@ -27,13 +29,22 @@ export function initMobileMenu(): (() => void) | undefined {
     nav?.classList.add('mobile-menu-active');
 
     mobileMenu.hidden = false;
+    mobileMenu.inert = false;
     mobileMenu.setAttribute('aria-hidden', 'false');
     menuButton.setAttribute('aria-expanded', 'true');
     menuButton.setAttribute('aria-label', 'Close menu');
     hamburger?.classList.add('is-active');
 
-    requestAnimationFrame(() => {
+    inertElements = Array.from(document.body.children)
+      .filter((element): element is HTMLElement =>
+        element instanceof HTMLElement && element !== nav && element !== mobileMenu &&
+        !['SCRIPT', 'STYLE', 'LINK'].includes(element.tagName))
+      .map((element) => ({ element, wasInert: element.inert }));
+    inertElements.forEach(({ element }) => { element.inert = true; });
+
+    openFrame = requestAnimationFrame(() => {
       mobileMenu.classList.add('is-open');
+      mobileMenu.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
     });
 
     isOpen = true;
@@ -42,22 +53,22 @@ export function initMobileMenu(): (() => void) | undefined {
   function close(restoreFocus = true): void {
     if (!isOpen) return;
 
+    cancelAnimationFrame(openFrame);
+
     mobileMenu.classList.remove('is-open');
     mobileMenu.setAttribute('aria-hidden', 'true');
+    mobileMenu.inert = true;
     menuButton.setAttribute('aria-expanded', 'false');
     menuButton.setAttribute('aria-label', 'Open mobile menu');
     hamburger?.classList.remove('is-active');
     document.body.classList.remove('mobile-menu-open');
     nav?.classList.remove('mobile-menu-active');
 
-    const onTransitionEnd = (event: TransitionEvent) => {
-      if (event.target !== mobileMenu) return;
-      if (!mobileMenu.classList.contains('is-open')) {
-        mobileMenu.hidden = true;
-      }
-    };
-
-    mobileMenu.addEventListener('transitionend', onTransitionEnd, { once: true });
+    inertElements.forEach(({ element, wasInert }) => { element.inert = wasInert; });
+    inertElements = [];
+    // CSS visibility owns the exit transition; inert removes its links immediately,
+    // including when reduced motion means no transitionend event will fire.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) mobileMenu.hidden = true;
 
     window.scrollTo(0, scrollPosition);
 
@@ -88,9 +99,17 @@ export function initMobileMenu(): (() => void) | undefined {
   }
 
   function handleKeydown(event: KeyboardEvent): void {
+    if (!isOpen) return;
     if (event.key === 'Escape' && isOpen) {
       event.preventDefault();
       close();
+    }
+    if (event.key === 'Tab') {
+      const targets = [menuButton, ...mobileMenu.querySelectorAll<HTMLAnchorElement>('a[href]')];
+      const current = targets.indexOf(document.activeElement as HTMLElement);
+      const next = event.shiftKey ? current - 1 : current + 1;
+      event.preventDefault();
+      targets[(next + targets.length) % targets.length]?.focus();
     }
   }
 
@@ -100,6 +119,10 @@ export function initMobileMenu(): (() => void) | undefined {
     }
   }
 
+  function handleTransitionEnd(event: TransitionEvent): void {
+    if (event.target === mobileMenu && !isOpen) mobileMenu.hidden = true;
+  }
+
   function handleBeforeSwap(): void {
     if (isOpen) {
       close(false);
@@ -107,6 +130,7 @@ export function initMobileMenu(): (() => void) | undefined {
   }
 
   menuButton.addEventListener('click', handleMenuClick);
+  mobileMenu.addEventListener('transitionend', handleTransitionEnd);
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', handleMenuLinkClick);
   });
@@ -116,6 +140,7 @@ export function initMobileMenu(): (() => void) | undefined {
 
   return () => {
     menuButton.removeEventListener('click', handleMenuClick);
+    mobileMenu.removeEventListener('transitionend', handleTransitionEnd);
     mobileMenu.querySelectorAll('a').forEach(link => {
       link.removeEventListener('click', handleMenuLinkClick);
     });
