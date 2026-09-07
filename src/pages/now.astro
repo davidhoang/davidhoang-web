@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import HomeViewer from '../components/homes/HomeViewer';
 import imgDavidSydney from '../assets/images/img-david-sydney.webp';
 import imgDavidNow from '../assets/images/img-david-now.webp';
 import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
@@ -46,6 +47,14 @@ const nowJsonLd = buildNowPageJsonLd({
         </div>
       </div>
     </div>
+    <section class="content-page__section now-homes" aria-labelledby="homes-heading">
+      <h2 id="homes-heading">Two places I call home</h2>
+      <p class="content-page__intro">A little desert, a little city. My homes in miniature.</p>
+      <div class="homes-pair">
+        <HomeViewer client:visible={{ rootMargin: '300px' }} kind="desert" name="Palm Springs" location="Greco Court · with Kai" modelUrl="/models/homes/greco-court.glb" posterUrl="/images/homes/greco-court.webp" />
+        <HomeViewer client:visible={{ rootMargin: '300px' }} kind="clocktower" name="San Francisco" location="The Clocktower · SoMa" modelUrl="/models/homes/clocktower.glb" posterUrl="/images/homes/clocktower.webp" />
+      </div>
+    </section>
     <section class="content-page__section now-activities">
       <h2>What I'm currently up to</h2>
       <ul class="content-page__list content-page__list--bullets" role="list" aria-label="Current activities and projects">
@@ -53,7 +62,7 @@ const nowJsonLd = buildNowPageJsonLd({
           <li>Writing <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
           <li>Learning Agent Experience</li>
           <li>Angel investing</li>
-          <li>Living in California and traveling to Sydney</li>
+          <li>Living between Palm Springs and San Francisco, and traveling to Sydney</li>
       </ul>
     </section>
   </div>

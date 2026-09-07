@@ -11,6 +11,16 @@ const budgets = {
   maxTotalJsGzipKiB: 260,
 };
 
+// This optional renderer is lazy-imported by the /now homes island near the
+// viewport. Keep its allowance separate so the existing site's budget stays 260 KiB.
+const optionalChunkBudgets = {
+  'homes-3d': { rawKiB: 1050, gzipKiB: 280 },
+};
+function optionalBudget(file) {
+  const name = basename(file);
+  return Object.entries(optionalChunkBudgets).find(([key]) => name.startsWith(`${key}.`))?.[1];
+}
+
 /** Named chunk ceilings (gzip KiB). Matched against asset basename prefixes. */
 const namedChunkGzipCeilingsKiB = {
   // Primary home islands / shared vendors (names from Vite output)
@@ -63,10 +73,29 @@ const jsAssets = files.map((file) => {
   };
 }).sort((a, b) => b.gzipBytes - a.gzipBytes);
 
-const totalJsGzipBytes = jsAssets.reduce((sum, asset) => sum + asset.gzipBytes, 0);
+const totalJsGzipBytes = jsAssets.filter(asset => !optionalBudget(asset.file)).reduce((sum, asset) => sum + asset.gzipBytes, 0);
+const optionalJsGzipBytes = jsAssets.filter(asset => optionalBudget(asset.file)).reduce((sum, asset) => sum + asset.gzipBytes, 0);
 const failures = [];
 
+// A static vendor → 3D import defeats the island's lazy boundary even when its
+// file-size allowance passes. Only the dynamically imported HomeScene facade
+// may statically reference the optional renderer.
+const static3dImport = /\b(?:import|export)\s*(?:[^;'"()]*?from\s*)?["'][^"']*(?:homes-3d|HomeScene)\.[^"']+["']/;
 for (const asset of jsAssets) {
+  if (optionalBudget(asset.file) || basename(asset.file).startsWith('HomeScene.')) continue;
+  if (static3dImport.test(readFileSync(asset.file, 'utf8'))) {
+    failures.push(`${relative('.', asset.file)} statically imports the optional 3D renderer`);
+  }
+}
+
+for (const asset of jsAssets) {
+  const optional = optionalBudget(asset.file);
+  if (optional) {
+    if (asset.rawBytes > optional.rawKiB * KIB || asset.gzipBytes > optional.gzipKiB * KIB) {
+      failures.push(`${relative('.', asset.file)} exceeds its optional 3D allowance (${optional.rawKiB} KiB raw / ${optional.gzipKiB} KiB gzip)`);
+    }
+    continue;
+  }
   if (asset.rawBytes > budgets.maxJsAssetRawKiB * KIB) {
     failures.push(`${relative('.', asset.file)} raw ${formatKiB(asset.rawBytes)} > ${budgets.maxJsAssetRawKiB} KiB`);
   }
@@ -90,7 +119,9 @@ if (totalJsGzipBytes > budgets.maxTotalJsGzipKiB * KIB) {
 }
 
 console.log('Bundle budget');
-console.log(`Total JS gzip: ${formatKiB(totalJsGzipBytes)} / ${budgets.maxTotalJsGzipKiB} KiB`);
+console.log(`Core JS gzip: ${formatKiB(totalJsGzipBytes)} / ${budgets.maxTotalJsGzipKiB} KiB`);
+console.log(`Optional /now 3D gzip: ${formatKiB(optionalJsGzipBytes)} / 280 KiB`);
+if (optionalJsGzipBytes > 280 * KIB) failures.push('Optional /now 3D total exceeds 280 KiB gzip');
 console.log('Largest JS assets:');
 for (const asset of jsAssets.slice(0, 8)) {
   const named = namedChunkKey(asset.file);
