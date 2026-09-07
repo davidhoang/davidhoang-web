@@ -11,11 +11,11 @@ type Props = { kind: HomeKind; modelUrl: string; view: HomeView; revision: numbe
 type Framing = { position: [number, number, number]; target: [number, number, number]; width: number; height: number };
 const framing: Record<HomeKind, Record<HomeView, Framing>> = {
   desert: {
-    home: { position: [25, 27, 37], target: [0, 2, 0], width: 30, height: 25 },
+    home: { position: [22.2, 28, 32.8], target: [-2.8, 3, -4.2], width: 35, height: 30 },
     detail: { position: [0.25, 1.85, 9.8], target: [-1.9, 0.78, 6.35], width: 2.8, height: 2.8 },
   },
   clocktower: {
-    home: { position: [32, 32, 48], target: [0, 7, 0], width: 39, height: 33 },
+    home: { position: [29.2, 32, 43.8], target: [-2.8, 7, -4.2], width: 43, height: 37 },
     detail: { position: [1.5, 18.5, 11], target: [-8.25, 15.8, -2.65], width: 11, height: 12 },
   },
 };
@@ -77,7 +77,7 @@ export default function HomeScene({ kind, modelUrl, view, revision, onReady, lab
     <directionalLight position={[18, 20, -18]} intensity={1.7} color={studio.fill} />
     <Suspense fallback={null}>
       <Model url={modelUrl} onReady={onReady} />
-      <ContactShadows position={[0, kind === 'desert' ? -0.94 : -1.04, 0]} opacity={0.32} scale={48} blur={2.4} far={24} resolution={512} frames={1} color={studio.shadow} />
+      <ContactShadows position={[0, kind === 'desert' ? -0.98 : -1.04, 0]} opacity={0.18} scale={64} blur={3} far={24} resolution={512} frames={1} color={studio.shadow} />
     </Suspense>
     <CameraRig kind={kind} view={view} revision={revision} />
   </Canvas>;

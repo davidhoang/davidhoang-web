@@ -2,9 +2,11 @@
 
 `/now` shows Palm Springs (with Kai) and San Francisco's Clocktower as automatically interactive clay miniatures. Desktop uses a wide two-column layout, mobile stacks the homes. Only the city names appear below the models. Drag orbits; Shift/right-drag pans; wheel zooms. Touch supports one-finger orbit and two-finger pan/zoom. Focused canvases accept arrow-key pan and + / − zoom. Each scene has a refresh icon at its top-right corner to restore the initial view. Gesture directions remain available to screen readers.
 
+The Palm Springs vignette includes layered clay mountain ridges. The San Francisco vignette includes bay water, small sailboats and a suspension bridge. This scenic context is part of the GLB, so it rotates and pans with the home. It is deliberately compressed in scale and location for the composition.
+
 ## Source and exports
 
-The editable source is the separately delivered `greco-diorama` Blender kit: `greco-court.blend`, `clocktower.blend`, and `diorama-template.blend`. Keep `.blend` as the master. Its `export_web.py` evaluates modifiers into temporary copies; `render_posters.py` renders the exported geometry. Running `npm run assets` in the kit compresses the models with Meshopt and prepares transparent WebP posters.
+The editable source is the separately delivered `greco-diorama` Blender kit: `greco-court.blend`, `clocktower.blend`, and `diorama-template.blend`. Keep `.blend` as the master. Collection **07 · Scenery** contains the editable backdrops; `add_scenery.py` regenerates that collection while preserving the houses and Kai. Its `export_web.py` evaluates modifiers into temporary copies; `render_posters.py` renders the exported geometry. Running `npm run assets` in the kit compresses the models with Meshopt and prepares transparent WebP posters.
 
 Copy the generated assets into this repository:
 

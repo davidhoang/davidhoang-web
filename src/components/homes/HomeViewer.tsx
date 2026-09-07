@@ -18,8 +18,8 @@ export default function HomeViewer({ kind, modelUrl, posterUrl, name }: Props) {
   useEffect(() => setMounted(true), []);
   const onReady = useCallback(() => setReady(true), []);
   const description = kind === 'desert'
-    ? 'Clay miniature of our Palm Springs home, with palms, terracotta roofs and Kai the tabby cat by the front path.'
-    : 'Clay miniature of the Clocktower in San Francisco, with arched factory windows, courtyards and a copper-colored tower roof.';
+    ? 'Clay miniature of our Palm Springs home, with layered desert mountains behind it and Kai the tabby cat by the front path.'
+    : 'Clay miniature of the Clocktower in San Francisco, with pale blue bay water, sailboats and a suspension bridge behind it.';
   const fallback = <div className="home-viewer__fallback"><img src={posterUrl} alt={description} /><p className="text-caption">The 3D view is unavailable. Here’s the rendered miniature.</p></div>;
   return <figure className="home-viewer" aria-labelledby={`${kind}-title`}>
     <div className="home-viewer__stage">

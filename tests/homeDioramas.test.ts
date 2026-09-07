@@ -22,7 +22,7 @@ describe('web-ready clay homes', () => {
         .reduce((sum: number, primitive: { indices: number }) => sum + json.accessors[primitive.indices].count / 3, 0);
       expect(triangles).toBeGreaterThan(10_000);
       expect(triangles).toBeLessThan(100_000);
-      for (const name of ['Ground', 'House', 'Roof', 'Landscape', 'Props']) {
+      for (const name of ['Ground', 'House', 'Roof', 'Landscape', 'Props', 'Scenery']) {
         expect(json.nodes.some((node: { name: string }) => node.name === name)).toBe(true);
       }
     });
