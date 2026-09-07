@@ -119,6 +119,11 @@ Two constraints are easy to regress:
 - **The canvas needs an explicit CSS height.** React Three Fiber's wrapper sizes
   itself with `height: 100%`, which cannot resolve against a `min-height`-only
   parent and silently collapses the canvas to a sliver.
+- **Grid ancestors of the canvas need `min-width: 0`,** and the canvas needs
+  `max-width: 100%`. A rendered canvas carries an intrinsic pixel width, so a
+  grid item holding one refuses to shrink below its last size. The page then
+  overflows instead of re-fitting when the viewport narrows — a bug that only
+  appears on resize or device rotation, never on a fresh load at that width.
 - **Do not wrap the model in drei's `<Center>`.** The export already rests on
   `Y = 0` and carries its ground-plan position; re-centering displaces it out of
   the framed view.

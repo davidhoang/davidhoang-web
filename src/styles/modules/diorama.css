@@ -29,7 +29,11 @@
   line-height: var(--body-line-height);
 }
 
+/* min-width: 0 and the canvas max-width let this grid item shrink. Without them
+   the canvas keeps its previous intrinsic width and pins the track open when the
+   viewport narrows, so the scene overflows instead of re-fitting. */
 .diorama-stage {
+  min-width: 0;
   overflow: clip;
   padding: var(--spacing-sm);
   background: var(--color-card-bg);
@@ -39,6 +43,7 @@
    which cannot resolve against a min-height-only parent and collapses the canvas. */
 .diorama-canvas {
   position: relative;
+  min-width: 0;
   height: clamp(24rem, 68vh, 46rem);
   overflow: clip;
   border-radius: var(--radius-lg);
@@ -48,6 +53,7 @@
 
 .diorama-canvas canvas {
   display: block;
+  max-width: 100%;
 }
 
 .diorama-canvas__hint {
@@ -121,8 +127,10 @@
     padding: var(--spacing-xs);
   }
 
+  /* A squarer canvas on phones: at portrait aspects the fit is width-driven,
+     so extra height only adds empty background above and below the diorama. */
   .diorama-canvas {
-    height: clamp(20rem, 58vh, 30rem);
+    height: clamp(18rem, 52vh, 24rem);
   }
 
   .diorama-canvas__hint {
