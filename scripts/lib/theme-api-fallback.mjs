@@ -38,8 +38,8 @@ const API_MESSAGE_PATTERNS = [
   /api[_ ]?key/i,
   /rate limit/i,
   /overloaded/i,
-  /timed?\s*out/i,
-  /timeout/i,
+  // Generic timeouts can come from browser rendering, not Claude. API timeout
+  // errors are recognized by their SDK name, HTTP status, or network code below.
   /network/i,
   /fetch failed/i,
   /socket hang up/i,

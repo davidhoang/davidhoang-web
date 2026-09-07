@@ -49,7 +49,8 @@ import {
 import { scheduleThemeStructure } from './lib/theme-scheduler.mjs';
 import { renderThemeSet } from './lib/theme-renderer.mjs';
 import { rankThemeCandidates, recentThemeId } from './lib/theme-ranking.mjs';
-import { validateGeneratedTheme } from './lib/theme-validation.mjs';
+import { CARD_SHADOW_OPTIONS } from './lib/theme-validation.mjs';
+import { requestThemeCandidate } from './lib/theme-candidate.mjs';
 import {
   assessDiversity,
   formatRecentThemesPromptSection,
@@ -235,7 +236,7 @@ The site nav is fixed across all themes. Do NOT include a \`navigation\` field i
 ## CARD TREATMENTS - VARY THE FEEL!
 Cards can be: project cards, content blocks, any boxed element
 - cardStyle: "flat" (no shadow, border only) | "elevated" (shadow) | "outlined" (strong border) | "filled" (solid bg) — cards must always be opaque, never transparent
-- cardShadow: "none" | "0 2px 8px rgba(0,0,0,0.08)" | "0 8px 32px rgba(0,0,0,0.12)" | "0 24px 48px rgba(0,0,0,0.2)"
+- cards.shadow: ${CARD_SHADOW_OPTIONS.map((shadow) => JSON.stringify(shadow)).join(' | ')} — choose exactly one of these values; do not invent other shadows
 - cardBorderWidth: "0px" | "1px" | "2px" | "3px"
 - cardPadding: "1rem" to "2rem"
 
@@ -415,7 +416,7 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
   },
   "cards": {
     "style": "flat|elevated|outlined|filled",
-    "shadow": "CSS shadow or none",
+    "shadow": ${JSON.stringify(CARD_SHADOW_OPTIONS.join('|'))},
     "borderWidth": "0px-3px",
     "padding": "1rem-2rem"
   },
@@ -689,13 +690,6 @@ function normalizeThemeData(themeData, headingFonts, bodyFonts, context, recipe,
   return themeData;
 }
 
-function parseThemeResponse(responseText) {
-  const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/) ||
-                    responseText.match(/(\{[\s\S]*\})/);
-  const jsonStr = jsonMatch ? jsonMatch[1] : responseText;
-  return JSON.parse(jsonStr);
-}
-
 async function generateTheme(options = {}) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
@@ -797,11 +791,9 @@ async function generateTheme(options = {}) {
           client,
           fullPrompt,
           imagePrefixBlocks,
-          headingFonts,
-          bodyFonts,
-          context,
-          recipe: schedule.recipe,
-          schedule,
+          normalizeTheme: (theme) => normalizeThemeData(
+            theme, headingFonts, bodyFonts, context, schedule.recipe, schedule,
+          ),
         });
         const assessment = assessDiversity(themeData, recentThemes);
         return { id, theme: themeData, assessment };
@@ -915,44 +907,6 @@ async function generateTheme(options = {}) {
 
   console.log(`\nSelected "${ranking.winner.theme.name}".`);
   return ranking.winner.theme;
-}
-
-async function requestThemeCandidate({
-  client,
-  fullPrompt,
-  imagePrefixBlocks,
-  headingFonts,
-  bodyFonts,
-  context,
-  recipe,
-  schedule,
-}) {
-  let prompt = fullPrompt;
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    const contentBlocks = [
-      ...imagePrefixBlocks,
-      { type: 'text', text: prompt },
-    ];
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: contentBlocks }],
-    });
-    const responseText = message.content[0].text.trim();
-
-    try {
-      const parsed = parseThemeResponse(responseText);
-      const validated = validateGeneratedTheme(parsed);
-      return normalizeThemeData(validated, headingFonts, bodyFonts, context, recipe, schedule);
-    } catch (parseError) {
-      if (attempt === 2) {
-        throw new Error(`Theme candidate was not valid JSON after retry: ${parseError.message}`);
-      }
-      prompt = `${fullPrompt}\n\n## PARSE RETRY\nReturn ONLY one complete raw JSON object. No markdown fences or commentary.`;
-    }
-  }
-
-  throw new Error('Theme candidate generation failed unexpectedly.');
 }
 
 function updateThemeHistory(newTheme) {

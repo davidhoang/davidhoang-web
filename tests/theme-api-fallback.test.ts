@@ -111,6 +111,20 @@ describe('isClaudeApiUnavailableError', () => {
     expect(isClaudeApiUnavailableError(new Error('Unrecognized key "background"'))).toBe(false);
   });
 
+  it('does not treat browser rendering timeouts as Claude outages', () => {
+    const message = 'page.waitForSelector: Timeout 30000ms exceeded.';
+    const error = Object.assign(new Error(message), { name: 'TimeoutError' });
+    expect(isClaudeApiUnavailableError(error)).toBe(false);
+    expect(isClaudeApiUnavailableError(message)).toBe(false);
+    expect(isClaudeApiUnavailableError(new Error('Hero rendering timed out.'))).toBe(false);
+    expect(resolveLastGoodFallback({
+      error,
+      today: '2026-09-07',
+      existingToday: null,
+      lastGood: sampleTheme('2026-09-05'),
+    }).action).toBe('none');
+  });
+
   it('treats aggregated candidate API failures as unavailable', () => {
     expect(
       allErrorsAreClaudeApiUnavailable([
