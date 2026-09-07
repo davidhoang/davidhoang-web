@@ -1,6 +1,6 @@
 # Two homes on /now
 
-`/now` shows Palm Springs (with Kai) and San Francisco's Clocktower as automatically interactive clay miniatures. Desktop uses two columns, mobile stacks the homes. Drag orbits; Shift/right-drag pans; wheel zooms. Touch supports one-finger orbit and two-finger pan/zoom. Focused canvases accept arrow-key pan and + / − zoom. Each scene has a detail view and Reset.
+`/now` shows Palm Springs (with Kai) and San Francisco's Clocktower as automatically interactive clay miniatures. Desktop uses a wide two-column layout, mobile stacks the homes. Only the city names appear below the models. Drag orbits; Shift/right-drag pans; wheel zooms. Touch supports one-finger orbit and two-finger pan/zoom. Focused canvases accept arrow-key pan and + / − zoom. Each scene has a refresh icon at its top-right corner to restore the initial view. Gesture directions remain available to screen readers.
 
 ## Source and exports
 
