@@ -17,7 +17,7 @@ export default function GrecoDiorama() {
       >
         <DioramaScene />
       </Canvas>
-      <p className="diorama-canvas__hint">Drag to orbit · scroll to zoom</p>
+      <p className="diorama-canvas__hint">Drag to orbit</p>
     </div>
   );
 }

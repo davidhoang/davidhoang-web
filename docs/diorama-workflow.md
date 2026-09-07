@@ -128,9 +128,16 @@ Two constraints are easy to regress:
   `Y = 0` and carries its ground-plan position; re-centering displaces it out of
   the framed view.
 
-`ResponsiveFraming` fits the diorama per axis on mount and resize. A single
-bounding-sphere fit is dominated by the base's width and pushes the camera far
-enough back to shrink the scene.
+`ResponsiveFraming` refits the camera on mount and on resize by projecting a
+ring-sampled silhouette of the scene. Two cheaper approaches both fail here: a
+bounding sphere centred on the orbit target crops the near rim of the base,
+which sits far from that centre, and a bounding box puts its corners in empty
+air outside the round base and pushes the camera needlessly back. Update
+`SCENE_PROFILE` whenever the diorama's footprint or height changes.
+
+Wheel zoom is deliberately disabled and the canvas uses `touch-action: pan-y`.
+An embedded canvas that captures the wheel or all touch gestures traps the
+reader's page scroll, and scroll-driven zoom silently breaks the fitted framing.
 
 ## Optional typed component
 

@@ -48,7 +48,9 @@
   overflow: clip;
   border-radius: var(--radius-lg);
   background: var(--color-sidebar-bg);
-  touch-action: none;
+  /* pan-y lets a vertical swipe scroll the page; horizontal drags still orbit.
+     touch-action: none would trap scrolling for anyone who swipes on the scene. */
+  touch-action: pan-y;
 }
 
 .diorama-canvas canvas {

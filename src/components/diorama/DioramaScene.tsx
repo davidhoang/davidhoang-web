@@ -16,18 +16,56 @@ import { palette } from './palette';
 const MODEL_URL = '/models/house.glb';
 
 /**
- * Framing is fitted per axis. A single bounding sphere would be dominated by the
- * base's width and push the camera far enough back to shrink the whole diorama.
+ * Silhouette of the diorama as stacked rings: the full-width round base, then a
+ * taper to the tops of the palms and ridges. A box would put its corners in
+ * empty air well outside the circular base and push the camera needlessly back.
  */
-const FRAME_HALF_WIDTH = 12;
-const FRAME_HALF_HEIGHT = 6.6;
+const SCENE_PROFILE = [
+  { radius: 11.2, y: -1.2 },
+  { radius: 11.2, y: 0.6 },
+  { radius: 9.6, y: 4.5 },
+  { radius: 8.6, y: 7.6 },
+];
+const PROFILE_SAMPLES = 24;
 const FRAME_TARGET = new Vector3(0, 1.3, 0);
 const FRAME_DIRECTION = new Vector3(0.6, 0.44, 0.78).normalize();
+const WORLD_UP = new Vector3(0, 1, 0);
+
+/**
+ * Smallest camera distance along FRAME_DIRECTION that keeps the whole silhouette
+ * inside the frustum. Fitting a bounding sphere centred on the orbit target
+ * instead crops the near rim of the base, which sits far from that centre.
+ */
+function fitDistance(aspect: number, fov: number) {
+  const tanVertical = Math.tan((fov * Math.PI) / 360);
+  const tanHorizontal = tanVertical * aspect;
+
+  const right = new Vector3().crossVectors(WORLD_UP, FRAME_DIRECTION).normalize();
+  const up = new Vector3().crossVectors(FRAME_DIRECTION, right).normalize();
+  const point = new Vector3();
+
+  let distance = 0;
+  for (const ring of SCENE_PROFILE) {
+    for (let i = 0; i < PROFILE_SAMPLES; i += 1) {
+      const angle = (i / PROFILE_SAMPLES) * Math.PI * 2;
+      point
+        .set(Math.cos(angle) * ring.radius, ring.y, Math.sin(angle) * ring.radius)
+        .sub(FRAME_TARGET);
+
+      const depth = point.dot(FRAME_DIRECTION);
+      distance = Math.max(
+        distance,
+        depth + Math.abs(point.dot(right)) / tanHorizontal,
+        depth + Math.abs(point.dot(up)) / tanVertical,
+      );
+    }
+  }
+
+  return distance;
+}
 
 type OrbitLike = {
   target: Vector3;
-  minDistance: number;
-  maxDistance: number;
   update: () => void;
 };
 
@@ -49,21 +87,12 @@ function ResponsiveFraming() {
     const aspect = width / height;
     camera.aspect = aspect;
 
-    const verticalFov = (camera.fov * Math.PI) / 180;
-    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * aspect);
-    const distance =
-      Math.max(
-        FRAME_HALF_WIDTH / Math.sin(horizontalFov / 2),
-        FRAME_HALF_HEIGHT / Math.sin(verticalFov / 2),
-      ) * 1.06;
-
+    const distance = fitDistance(aspect, camera.fov) * 1.03;
     camera.position.copy(FRAME_DIRECTION).multiplyScalar(distance).add(FRAME_TARGET);
     camera.updateProjectionMatrix();
 
     if (controls) {
       controls.target.copy(FRAME_TARGET);
-      controls.minDistance = distance * 0.45;
-      controls.maxDistance = distance * 1.6;
       controls.update();
     }
 
@@ -501,9 +530,12 @@ export default function DioramaScene() {
         />
       </Suspense>
 
+      {/* Zoom stays off so the wheel keeps scrolling the page instead of being
+          captured by the canvas, which also keeps the fitted framing intact. */}
       <OrbitControls
         makeDefault
         enablePan={false}
+        enableZoom={false}
         minPolarAngle={Math.PI / 6}
         maxPolarAngle={Math.PI / 2.3}
         target={[FRAME_TARGET.x, FRAME_TARGET.y, FRAME_TARGET.z]}
