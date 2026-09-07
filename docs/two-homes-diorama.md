@@ -23,6 +23,8 @@ Copy the generated assets into this repository:
 
 ## Loading and budget
 
+The production Content Security Policy in `vercel.json` must allow `'wasm-unsafe-eval'` in `script-src` for the bundled Meshopt WebAssembly decoder. This permission does not enable JavaScript `eval`. Astro's local server does not apply the Vercel response headers, so verify actual 3D interaction on a deployed preview as well as locally. A regression check in `tests/homeDioramas.test.ts` protects this requirement. See [MDN's WebAssembly CSP guidance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/script-src#unsafe_webassembly_execution).
+
 Astro hydrates the homes 300 px before they enter the viewport, then automatically imports the 3D renderer. It has its own `homes-3d` chunk; no other page imports this island. The existing core JS budget remains 260 KiB gzip. The optional 3D renderer has a 280 KiB gzip / 1050 KiB raw ceiling. Each model is under 1 MB and 100,000 triangles. The Meshopt decoder ships inside the bundle; there is no decoder CDN dependency.
 
 The canvas renders on demand, caps pixel density at 1.5, and uses static contact shadows. Reduced-motion users receive undamped controls. A failed model or WebGL initialization falls back to the poster. Posters include the site's `loaded` class from server render so its lazy-image observer does not introduce a hydration mismatch.

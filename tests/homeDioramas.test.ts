@@ -11,6 +11,15 @@ function readGlb(name: string) {
 }
 
 describe('web-ready clay homes', () => {
+  it('permits the Meshopt WebAssembly decoder without enabling JavaScript eval', () => {
+    const config = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+    const globalHeaders = config.headers.find((rule: { source: string }) => rule.source === '/(.*)').headers;
+    const policy = globalHeaders.find((header: { key: string }) => header.key.toLowerCase() === 'content-security-policy').value;
+    const scriptSources = policy.split(';').map((directive: string) => directive.trim().split(/\s+/))
+      .find((directive: string[]) => directive[0] === 'script-src');
+    expect(scriptSources).toContain("'wasm-unsafe-eval'");
+    expect(scriptSources).not.toContain("'unsafe-eval'");
+  });
   for (const name of ['greco-court', 'clocktower']) {
     it(`${name} stays self-contained, compressed and within the geometry budget`, () => {
       const { bytes, json } = readGlb(name);
