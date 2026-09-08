@@ -1,366 +1,110 @@
 {
-  "cachedAt": "2026-09-07T06:29:40.946Z",
-  "sourceDate": "2026-09-07",
+  "cachedAt": "2026-09-08T06:23:52.461Z",
+  "sourceDate": "2026-09-08",
   "theme": {
-    "name": "Amber Emulsion",
-    "description": "A dawn gallery bathed in harvest warmth — rich leather tones and forest shadows frame vivid imagery like specimens behind archival glass.",
+    "name": "Neon Compendium",
+    "description": "A rain-slick information rail where deep indigo structure meets hot-pink neon precision — the quiet discipline of a Tokyo transit directory viewed through wet glass at dawn.",
     "colors": {
-      "colorScheme": "analogous",
-      "contrastMode": "standard",
+      "colorScheme": "complementary",
+      "contrastMode": "high",
       "light": {
-        "--color-text": "#2C1A0E",
-        "--color-bg": "#FDF0DC",
-        "--color-link": "#8B2500",
-        "--color-link-hover": "#B84000",
-        "--color-border": "#D4A96A",
-        "--color-muted": "#836846",
-        "--color-sidebar-bg": "#F7E4C4",
-        "--color-nav-bg": "#FDF0DC",
-        "--color-nav-text": "#2C1A0E",
-        "--color-card-bg": "#F5E2C0"
+        "--color-text": "#1A1830",
+        "--color-bg": "#EEF0F8",
+        "--color-link": "#C4007A",
+        "--color-link-hover": "#8F0059",
+        "--color-border": "#B0B4D0",
+        "--color-muted": "#666983",
+        "--color-sidebar-bg": "#E4E6F2",
+        "--color-nav-bg": "#EEF0F8",
+        "--color-nav-text": "#1A1830",
+        "--color-card-bg": "#F4F5FB"
       },
       "dark": {
-        "--color-text": "#F0DDB8",
-        "--color-bg": "#1C1410",
-        "--color-link": "#E8943A",
-        "--color-link-hover": "#F5B05A",
-        "--color-border": "#4A3018",
-        "--color-muted": "#9C7F5D",
-        "--color-sidebar-bg": "#221810",
-        "--color-nav-bg": "#1C1410",
-        "--color-nav-text": "#F0DDB8",
-        "--color-card-bg": "#261C12"
+        "--color-text": "#DDE0F5",
+        "--color-bg": "#0F0E20",
+        "--color-link": "#FF3FA4",
+        "--color-link-hover": "#FF85C8",
+        "--color-border": "#2E2C4E",
+        "--color-muted": "#7A78A0",
+        "--color-sidebar-bg": "#130F28",
+        "--color-nav-bg": "#0F0E20",
+        "--color-nav-text": "#DDE0F5",
+        "--color-card-bg": "#171530"
       }
     },
     "fonts": {
       "heading": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "body": {
-        "name": "Karla",
-        "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "name": "IBM Plex Mono",
+        "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+        "category": "monospace",
+        "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
       }
     },
     "typography": {
       "headingWeight": "700",
       "bodyWeight": "400",
-      "bodyLineHeight": "1.7",
+      "bodyLineHeight": "1.6",
       "letterSpacing": "0.01em",
       "headingLetterSpacing": "-0.02em",
       "headingTransform": "none",
-      "scaleRatio": "1.618",
+      "scaleRatio": "1.2",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "elevated",
-      "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-      "borderWidth": "1px",
-      "padding": "1.5rem"
+      "style": "outlined",
+      "shadow": "none",
+      "borderWidth": "2px",
+      "padding": "1.25rem"
     },
     "layout": {
-      "borderRadius": "20px",
-      "containerMaxWidth": "1160px",
-      "sectionSpacing": "5rem",
-      "contentPadding": "1.75rem",
-      "gridStyle": "asymmetric"
+      "borderRadius": "2px",
+      "containerMaxWidth": "1100px",
+      "sectionSpacing": "2.5rem",
+      "contentPadding": "1.5rem",
+      "gridStyle": "sidebar"
     },
     "hero": {
-      "layout": "cinematic"
+      "layout": "rolodex"
     },
     "links": {
-      "style": "color-only"
+      "style": "bracket"
     },
     "background": {
-      "texture": "gradient"
+      "texture": "grid"
     },
     "images": {
-      "style": "vivid",
-      "hover": "lift",
-      "opacity": "1",
-      "borderRadius": "16px"
+      "style": "grayscale",
+      "hover": "colorize",
+      "opacity": "0.9",
+      "borderRadius": "0px"
     },
     "footer": {
-      "style": "gradient"
+      "style": "retro"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#FDF0DC",
-        "#D4A96A"
+        "#0F0E20",
+        "#C4007A"
       ]
     },
     "font": {
-      "name": "Newsreader",
-      "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-      "category": "serif",
-      "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
+      "name": "Space Grotesk",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "category": "sans-serif",
+      "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     },
     "artDirection": {
-      "recipe": "gallery",
-      "name": "Immersive Gallery",
-      "dominantPrimitive": "image"
+      "recipe": "index",
+      "name": "System Index",
+      "dominantPrimitive": "grid"
     },
-    "date": "2026-09-07",
-    "showcase": {
-      "root": "card",
-      "elements": {
-        "card": {
-          "type": "ThemeCard",
-          "props": {
-            "title": "Amber Emulsion",
-            "subtitle": "September 7, 2026"
-          },
-          "children": [
-            "manifesto",
-            "div1",
-            "s1",
-            "div2",
-            "s2",
-            "div3",
-            "s3",
-            "apply"
-          ]
-        },
-        "manifesto": {
-          "type": "ThemeManifesto",
-          "props": {
-            "text": "Dawn breaks through archival glass — harvest leather and forest shadow hold vivid specimens in amber suspension.",
-            "emphasis": "bold"
-          },
-          "children": []
-        },
-        "div1": {
-          "type": "Divider",
-          "props": {
-            "style": "dashed"
-          },
-          "children": []
-        },
-        "s1": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "md",
-            "align": "center"
-          },
-          "children": [
-            "hero",
-            "shader"
-          ]
-        },
-        "hero": {
-          "type": "HeroLayoutPreview",
-          "props": {
-            "layout": "cinematic",
-            "label": "Cinematic Hero"
-          },
-          "children": []
-        },
-        "shader": {
-          "type": "ShaderPreview",
-          "props": {
-            "type": "none",
-            "colors": [
-              "#FDF0DC",
-              "#D4A96A",
-              "#F5E2C0"
-            ]
-          },
-          "children": []
-        },
-        "div2": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "s2": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "sm",
-            "align": "stretch"
-          },
-          "children": [
-            "ht",
-            "palette",
-            "badges"
-          ]
-        },
-        "ht": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Specimens Behind Archival Glass",
-            "variant": "heading",
-            "weight": "700"
-          },
-          "children": []
-        },
-        "palette": {
-          "type": "ColorPalette",
-          "props": {
-            "colors": [
-              {
-                "hex": "#FDF0DC",
-                "label": "Dawn"
-              },
-              {
-                "hex": "#F5E2C0",
-                "label": "Card"
-              },
-              {
-                "hex": "#D4A96A",
-                "label": "Border"
-              },
-              {
-                "hex": "#836846",
-                "label": "Muted"
-              },
-              {
-                "hex": "#8B2500",
-                "label": "Link"
-              },
-              {
-                "hex": "#2C1A0E",
-                "label": "Text"
-              }
-            ]
-          },
-          "children": []
-        },
-        "badges": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "sm",
-            "align": "start"
-          },
-          "children": [
-            "b1",
-            "b2",
-            "b3",
-            "b4"
-          ]
-        },
-        "b1": {
-          "type": "Badge",
-          "props": {
-            "text": "serif",
-            "variant": "filled"
-          },
-          "children": []
-        },
-        "b2": {
-          "type": "Badge",
-          "props": {
-            "text": "elevated",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "b3": {
-          "type": "Badge",
-          "props": {
-            "text": "asymmetric grid",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "b4": {
-          "type": "Badge",
-          "props": {
-            "text": "analogous",
-            "variant": "filled"
-          },
-          "children": []
-        },
-        "div3": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "s3": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "md",
-            "align": "stretch"
-          },
-          "children": [
-            "meta",
-            "tokens"
-          ]
-        },
-        "meta": {
-          "type": "ThemeMeta",
-          "props": {
-            "items": [
-              {
-                "label": "Hero",
-                "value": "Cinematic"
-              },
-              {
-                "label": "Grid",
-                "value": "Asymmetric"
-              },
-              {
-                "label": "Link",
-                "value": "Color-only"
-              },
-              {
-                "label": "Radius",
-                "value": "20px"
-              },
-              {
-                "label": "Texture",
-                "value": "Gradient"
-              }
-            ]
-          },
-          "children": []
-        },
-        "tokens": {
-          "type": "TokenGrid",
-          "props": {
-            "tokens": [
-              {
-                "name": "--color-bg",
-                "value": "#FDF0DC"
-              },
-              {
-                "name": "--color-link",
-                "value": "#8B2500"
-              },
-              {
-                "name": "--color-border",
-                "value": "#D4A96A"
-              },
-              {
-                "name": "--color-card-bg",
-                "value": "#F5E2C0"
-              }
-            ]
-          },
-          "children": []
-        },
-        "apply": {
-          "type": "ThemeActionButton",
-          "props": {
-            "label": "Apply Amber Emulsion",
-            "action": "apply-theme",
-            "date": "2026-09-07"
-          },
-          "children": []
-        }
-      }
-    }
+    "date": "2026-09-08"
   }
 }

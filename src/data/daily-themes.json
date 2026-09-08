@@ -1,6 +1,112 @@
 {
   "themes": [
     {
+      "name": "Neon Compendium",
+      "description": "A rain-slick information rail where deep indigo structure meets hot-pink neon precision — the quiet discipline of a Tokyo transit directory viewed through wet glass at dawn.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1830",
+          "--color-bg": "#EEF0F8",
+          "--color-link": "#C4007A",
+          "--color-link-hover": "#8F0059",
+          "--color-border": "#B0B4D0",
+          "--color-muted": "#666983",
+          "--color-sidebar-bg": "#E4E6F2",
+          "--color-nav-bg": "#EEF0F8",
+          "--color-nav-text": "#1A1830",
+          "--color-card-bg": "#F4F5FB"
+        },
+        "dark": {
+          "--color-text": "#DDE0F5",
+          "--color-bg": "#0F0E20",
+          "--color-link": "#FF3FA4",
+          "--color-link-hover": "#FF85C8",
+          "--color-border": "#2E2C4E",
+          "--color-muted": "#7A78A0",
+          "--color-sidebar-bg": "#130F28",
+          "--color-nav-bg": "#0F0E20",
+          "--color-nav-text": "#DDE0F5",
+          "--color-card-bg": "#171530"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "2.5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#0F0E20",
+          "#C4007A"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-09-08"
+    },
+    {
       "name": "Amber Emulsion",
       "description": "A dawn gallery bathed in harvest warmth — rich leather tones and forest shadows frame vivid imagery like specimens behind archival glass.",
       "colors": {
@@ -2187,392 +2293,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Graphite Matins",
-      "description": "Raw concrete stillness meets a single blade of morning light — structural type, pencil-gray surfaces, and one warm gold accent carry the weight.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2E2A26",
-          "--color-bg": "#EAE6E1",
-          "--color-link": "#7B612B",
-          "--color-link-hover": "#8C6A28",
-          "--color-border": "#C8C2BA",
-          "--color-muted": "#68625C",
-          "--color-sidebar-bg": "#E2DDD7",
-          "--color-nav-bg": "#EAE6E1",
-          "--color-nav-text": "#2E2A26",
-          "--color-card-bg": "#E6E1DB"
-        },
-        "dark": {
-          "--color-text": "#DDD9D3",
-          "--color-bg": "#1C1A17",
-          "--color-link": "#C9A455",
-          "--color-link-hover": "#E0C07A",
-          "--color-border": "#3A3630",
-          "--color-muted": "#8B8680",
-          "--color-sidebar-bg": "#211F1B",
-          "--color-nav-bg": "#1C1A17",
-          "--color-nav-text": "#DDD9D3",
-          "--color-card-bg": "#232018"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EAE6E1",
-          "#C8C2BA"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-08-29",
-      "showcase": {
-        "root": "root",
-        "elements": {
-          "root": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Graphite Matins",
-              "subtitle": "Aug 29, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "s2",
-              "div2",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Concrete holds its breath. One gold thread catches the first light. Everything else is pencil and patience.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "col1",
-              "col2"
-            ]
-          },
-          "col1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "hed",
-              "badgerow",
-              "hero"
-            ]
-          },
-          "hed": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Still Before Motion",
-              "variant": "heading",
-              "weight": "light"
-            },
-            "children": []
-          },
-          "badgerow": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Hero: stacked-fan"
-            },
-            "children": []
-          },
-          "col2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "shader"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Link",
-                  "value": "Animated underline"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#EAE6E1",
-                "#C8C2BA",
-                "#7B612B"
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "tok"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EAE6E1",
-                  "label": "Bg"
-                },
-                {
-                  "hex": "#E6E1DB",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#C8C2BA",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#68625C",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#2E2A26",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#7B612B",
-                  "label": "Gold"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "Heading",
-                  "value": "Cormorant Garamond"
-                },
-                {
-                  "name": "Body",
-                  "value": "IBM Plex Sans"
-                },
-                {
-                  "name": "Radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "Image",
-                  "value": "muted / hover colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "cap",
-              "lay"
-            ]
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw structure. Quiet warmth.",
-              "variant": "caption",
-              "weight": "regular"
-            },
-            "children": []
-          },
-          "lay": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Graphite Matins",
-              "action": "apply-theme",
-              "date": "2026-08-29"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-07"
+  "currentDate": "2026-09-08"
 }
