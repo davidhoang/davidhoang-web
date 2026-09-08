@@ -15,10 +15,18 @@ export interface CareerNode {
   pathTaken?: boolean;
   connections?: string[];
   image?: string;
+  imageAlt?: string;
+  presentation?: 'photo' | 'note' | 'quote' | 'moment';
+  kicker?: string;
+  tags?: string[];
+  featured?: boolean;
+  sourceLabel?: string;
   link?: string;
   iframe?: string;
   x?: number;
   y?: number;
+  width?: number;
+  height?: number;
   sequence?: number;
   workedWith?: WorkedWithPerson[];
 }
@@ -33,15 +41,21 @@ export interface PositionedNode extends CareerNode {
 
 export interface CareerOdysseyData {
   nodes: CareerNode[];
+  connections?: Connection[];
+  startingNodeId?: string;
 }
 
 export interface Connection {
   sourceId: string;
   targetId: string;
   pathTaken: boolean;
+  label?: string;
 }
 
-/** All nodes are moments — single dimension */
+/** Board coordinates and dimensions are in canvas pixels; x/y are centers. */
 export const NODE_DIMENSIONS: Record<string, { width: number; height: number }> = {
-  moment: { width: 200, height: 72 },
+  photo: { width: 480, height: 354 },
+  note: { width: 270, height: 170 },
+  quote: { width: 280, height: 190 },
+  moment: { width: 270, height: 170 },
 };

@@ -2,22 +2,17 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import CareerOdysseyWrapper from '../components/CareerOdysseyWrapper.tsx';
 import careerData from '../data/career-odyssey.json';
+import type { CareerOdysseyData } from '../components/career-odyssey/types';
 import '../styles/modules/career-odyssey.css';
 
-const pageDescription = "An interactive canvas exploring my 20-year career journey from art school to leading design teams at Atlassian, Replit, Webflow, and One Medical.";
-const ogImage = "/images/img-dh.webp";
+const pageDescription = "A canvas of moments, people, and ideas that connect along the way. Explore David Hoang's Career Odyssey.";
+const ogImage = "/images/odyssey/img-san-francisco-2015.webp";
 ---
 
-<MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true}>
-  {/* @ts-ignore - JSON import types don't match exactly */}
-  <CareerOdysseyWrapper client:idle careerData={careerData} />
+<MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true} disableContentMoodFilter={true} containerClass="career-odyssey-page">
+  <CareerOdysseyWrapper client:load careerData={careerData as CareerOdysseyData} />
+  <noscript>
+    <style is:inline>.career-odyssey-page > astro-island { display: none; } .co-noscript { padding-top: var(--content-top-padding); }</style>
+    <div class="co-loading co-noscript"><h1>Career Odyssey</h1><p>Explore the stories behind these moments.</p>{careerData.nodes.map(node => <article><h2>{node.date} {node.label}</h2>{node.image && <img src={node.image} alt={node.imageAlt || node.label} width="1600" height="900" />}<p>{node.description}</p>{node.link && <a href={node.link}>Read the story</a>}</article>)}</div>
+  </noscript>
 </MainLayout>
-
-<style>
-  #main-content.container {
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-</style>

@@ -1,83 +1,178 @@
 {
+  "startingNodeId": "san-francisco-2015",
   "nodes": [
     {
-      "id": "exacttarget",
-      "label": "ExactTarget",
+      "id": "san-francisco-2015",
+      "label": "Moved to San Francisco",
+      "description": "A new chapter in San Francisco.",
       "type": "moment",
-      "date": "2009",
-      "dateRange": "2009-2011",
-      "connections": ["xhatch"],
-      "pathTaken": true
-    },
-    {
-      "id": "xhatch",
-      "label": "Xhatch",
-      "description": "Started my own company, learning firsthand what it means to build products, work with clients, and run a business. This experience shaped my understanding of entrepreneurship and the challenges of building something from scratch.",
-      "type": "moment",
-      "date": "2011",
-      "dateRange": "2011-2015",
-      "pathTaken": true
-    },
-    {
-      "id": "black-pixel",
-      "label": "Black Pixel",
-      "description": "Joined as a designer, helping build the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet.",
-      "type": "moment",
+      "presentation": "photo",
+      "kicker": "A change of scenery",
       "date": "2015",
-      "dateRange": "2015-2019",
-      "connections": ["xhatch"],
-      "pathTaken": true,
-      "workedWith": [
-        {
-          "name": "Matilda Dackevall",
-          "image": "/images/people/img-matilda-dackevall.webp",
-          "url": "https://matilda.dackevall.com/"
-        }
-      ]
+      "image": "/images/odyssey/img-san-francisco-2015.webp",
+      "imageAlt": "A person on a San Francisco beach, with the Golden Gate Bridge across the water.",
+      "sourceLabel": "Personal archive",
+      "tags": [
+        "Place",
+        "Beginnings"
+      ],
+      "featured": true,
+      "x": 700,
+      "y": 400,
+      "width": 480,
+      "height": 354
     },
     {
-      "id": "one-medical",
-      "label": "One Medical",
-      "description": "Led product design during One Medical's critical transition to virtual care and eventual IPO. Designed experiences that transformed how primary care is delivered, making healthcare more accessible and human-centered.",
+      "id": "painting-to-interfaces",
+      "label": "From painting to interfaces",
+      "description": "A BFA in Drawing and Painting, an MFA I never pursued, and a new medium: the iPhone.",
       "type": "moment",
-      "date": "2019-09",
-      "dateRange": "2015-2019",
-      "connections": ["black-pixel"],
-      "pathTaken": true
+      "presentation": "note",
+      "kicker": "A change of medium",
+      "link": "/about",
+      "sourceLabel": "About me",
+      "tags": [
+        "Craft",
+        "Beginnings"
+      ],
+      "x": 220,
+      "y": 120
     },
     {
-      "id": "webflow",
-      "label": "Webflow",
-      "description": "Joined as the first Head of Design, building the design foundation from the ground up. Helped scale both the design team and the company's vision for a more expressive, accessible internet.",
+      "id": "seattle-craft",
+      "label": "Deep in the craft",
+      "description": "Living in Capitol Hill, Seattle, designing mobile apps at Black Pixel.",
       "type": "moment",
-      "date": "2019-10",
-      "dateRange": "2019-2023",
-      "connections": ["one-medical"],
-      "pathTaken": true,
-      "image": "/images/odyssey/img-webflow.webp"
+      "presentation": "note",
+      "kicker": "Seattle",
+      "date": "2015",
+      "link": "/writing/career-reboot",
+      "sourceLabel": "Career reboot",
+      "tags": [
+        "Craft",
+        "Place"
+      ],
+      "x": 190,
+      "y": 430
     },
     {
-      "id": "replit",
-      "label": "Replit",
-      "description": "Served as VP of Marketing and Design, leading the rebrand that repositioned Replit from a hobby app to a professional AI-native software development platform.",
+      "id": "proof-of-concept",
+      "label": "Started Proof of Concept",
+      "description": "A place to write about design, leadership, and building.",
       "type": "moment",
+      "presentation": "note",
+      "kicker": "Thinking out loud",
+      "date": "2019",
+      "link": "/subscribe",
+      "sourceLabel": "Proof of Concept",
+      "tags": [
+        "Writing",
+        "Beginnings"
+      ],
+      "x": 1135,
+      "y": 135
+    },
+    {
+      "id": "scaling-design",
+      "label": "Talking about growing teams",
+      "description": "Shared “The Universal Challenges of Every Scaling Design Team” at Config.",
+      "type": "moment",
+      "presentation": "moment",
+      "kicker": "Config",
+      "date": "2021",
+      "link": "https://www.youtube.com/watch?v=piGC-iFwmrk&t=45s",
+      "sourceLabel": "Watch the talk",
+      "tags": [
+        "Leadership",
+        "Sharing"
+      ],
+      "x": 1215,
+      "y": 470
+    },
+    {
+      "id": "career-reboot",
+      "label": "A career reboot",
+      "description": "A week in San Diego and Palm Springs: writing, building, and reconnecting with the craft.",
+      "type": "moment",
+      "presentation": "note",
+      "kicker": "Creative spring break",
+      "date": "2025-04",
+      "dateRange": "April 2025",
+      "link": "/writing/career-reboot",
+      "sourceLabel": "Read the reflection",
+      "tags": [
+        "Craft",
+        "Reinvention"
+      ],
+      "x": 890,
+      "y": 780
+    },
+    {
+      "id": "purpose-product-people",
+      "label": "Purpose, Product, and People.",
+      "description": "The three priorities I named when reflecting on what comes next.",
+      "type": "moment",
+      "presentation": "quote",
+      "kicker": "What am I optimizing for?",
       "date": "2023",
-      "dateRange": "2023-2024",
-      "connections": ["webflow"],
+      "link": "/writing/choosing-a-company",
+      "sourceLabel": "Choosing a company",
+      "tags": [
+        "Leadership",
+        "Reinvention"
+      ],
+      "x": 355,
+      "y": 765
+    }
+  ],
+  "connections": [
+    {
+      "sourceId": "painting-to-interfaces",
+      "targetId": "seattle-craft",
       "pathTaken": true,
-      "image": "/images/odyssey/img-replit.webp"
+      "label": "Craft"
     },
     {
-      "id": "atlassian",
-      "label": "Atlassian",
-      "description": "Currently serving as VP and Head of Design, Rovo & AI and Ecosystem, helping shape the future of work through generative AI and systems design. Leading design for Rovo, Atlassian's AI-powered knowledge assistant.",
-      "type": "moment",
-      "date": "2024",
-      "dateRange": "2024-Present",
-      "active": true,
-      "connections": ["replit"],
+      "sourceId": "seattle-craft",
+      "targetId": "san-francisco-2015",
       "pathTaken": true,
-      "image": "/images/odyssey/img-rovo.webp"
+      "label": "A new city"
+    },
+    {
+      "sourceId": "san-francisco-2015",
+      "targetId": "proof-of-concept",
+      "pathTaken": true,
+      "label": "Finding a voice"
+    },
+    {
+      "sourceId": "proof-of-concept",
+      "targetId": "scaling-design",
+      "pathTaken": true,
+      "label": "Sharing what I learn"
+    },
+    {
+      "sourceId": "scaling-design",
+      "targetId": "career-reboot",
+      "pathTaken": true,
+      "label": "Keep making"
+    },
+    {
+      "sourceId": "career-reboot",
+      "targetId": "purpose-product-people",
+      "pathTaken": true,
+      "label": "Reinvention"
+    },
+    {
+      "sourceId": "purpose-product-people",
+      "targetId": "san-francisco-2015",
+      "pathTaken": true,
+      "label": "New chapters"
+    },
+    {
+      "sourceId": "seattle-craft",
+      "targetId": "career-reboot",
+      "pathTaken": true,
+      "label": "Back to the craft"
     }
   ]
 }

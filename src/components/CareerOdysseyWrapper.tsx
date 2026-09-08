@@ -1,77 +1,27 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
+import type { CareerOdysseyData } from './career-odyssey/types';
 
-// Lazy load the CareerCanvas component
 const CareerCanvas = lazy(() => import('./career-odyssey/CareerCanvas'));
 
-interface CareerOdysseyWrapperProps {
-  careerData: any;
+function CareerOdysseyLoading() {
+  return <div className="co-loading" aria-busy="true" aria-label="Loading Career Odyssey">
+    <img src="/images/odyssey/img-san-francisco-2015.webp" alt="Looking toward the Golden Gate Bridge from the beach in San Francisco." width="1600" height="900" fetchPriority="high" />
+    <h1>Career Odyssey</h1><p>Opening the canvas…</p>
+  </div>;
 }
 
-const CareerOdysseyLoading = () => (
-  <div style={{
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '60vh',
-    padding: 'var(--spacing-xl)',
-    textAlign: 'center',
-    color: 'var(--color-text, #333)'
-  }} aria-busy="true" aria-label="Loading Career Odyssey">
-    <div style={{
-      width: '48px',
-      height: '48px',
-      border: '3px solid var(--color-border, #e0e0e0)',
-      borderTopColor: 'var(--color-text, #333)',
-      borderRadius: '50%',
-      animation: 'spin 1s linear infinite'
-    }} />
-    <p style={{ marginTop: '1rem', opacity: 0.7 }}>Loading Career Odyssey...</p>
-    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-  </div>
-);
+function CareerOdysseyFallback() {
+  return <div className="co-loading">
+    <h1>Career Odyssey</h1>
+    <img src="/images/odyssey/img-san-francisco-2015.webp" alt="Looking toward the Golden Gate Bridge from the beach in San Francisco." width="1600" height="900" />
+    <h2>2015 · Moved to San Francisco</h2>
+    <p>The canvas couldn’t open. You can try again or explore the stories in my writing.</p>
+    <button type="button" className="btn btn-secondary" onClick={() => window.location.reload()}>Try again</button>
+    <a href="/writing">Explore my writing</a>
+  </div>;
+}
 
-const CareerOdysseyFallback = () => (
-  <div style={{
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '60vh',
-    padding: 'var(--spacing-xl)',
-    textAlign: 'center',
-    color: 'var(--color-text, #333)'
-  }}>
-    <h2 style={{ marginBottom: '1rem' }}>Unable to load Career Odyssey</h2>
-    <p style={{ marginBottom: '1.5rem', opacity: 0.8 }}>
-      The interactive canvas failed to load. This may be due to browser compatibility issues.
-    </p>
-    <button
-      onClick={() => window.location.reload()}
-      style={{
-        padding: 'calc(var(--spacing-sm) + var(--spacing-xs)) var(--spacing-lg)',
-        cursor: 'pointer',
-        border: '1px solid currentColor',
-        background: 'transparent',
-        color: 'inherit',
-        borderRadius: '4px',
-        fontSize: '1rem'
-      }}
-    >
-      Refresh page
-    </button>
-  </div>
-);
-
-export const CareerOdysseyWrapper: React.FC<CareerOdysseyWrapperProps> = ({ careerData }) => {
-  return (
-    <ErrorBoundary fallback={<CareerOdysseyFallback />}>
-      <Suspense fallback={<CareerOdysseyLoading />}>
-        <CareerCanvas careerData={careerData} />
-      </Suspense>
-    </ErrorBoundary>
-  );
-};
-
-export default CareerOdysseyWrapper;
+export default function CareerOdysseyWrapper({ careerData }: { careerData: CareerOdysseyData }) {
+  return <ErrorBoundary fallback={<CareerOdysseyFallback />}><Suspense fallback={<CareerOdysseyLoading />}><CareerCanvas careerData={careerData} /></Suspense></ErrorBoundary>;
+}

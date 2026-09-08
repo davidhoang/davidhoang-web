@@ -1,147 +1,66 @@
-import React, { useEffect } from 'react';
-import type { PositionedNode } from './types';
-import { PersonAvatar } from '../PersonAvatar';
-import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { useEffect, useRef } from 'react';
+import type { PositionedNode, Connection } from './types';
 
 interface NodeDetailModalProps {
-  node: PositionedNode | null;
+  node: PositionedNode;
   allNodes: Map<string, PositionedNode>;
+  connections: Connection[];
   onClose: () => void;
   onNavigate: (node: PositionedNode) => void;
-  isMobile: boolean;
 }
 
-export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
-  node,
-  allNodes,
-  onClose,
-  onNavigate,
-  isMobile,
-}) => {
-  const { containerRef, handleKeyDown } = useFocusTrap(!!node);
+export function NodeDetailModal({ node, allNodes, connections, onClose, onNavigate }: NodeDetailModalProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const previousNodeId = useRef(node.id);
 
   useEffect(() => {
-    if (!node) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const previous = document.activeElement as HTMLElement | null;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      if (previous?.isConnected) previous.focus({ preventScroll: true });
     };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [node, onClose]);
-
+  }, []);
   useEffect(() => {
-    if (node && containerRef.current) {
-      const panel = containerRef.current.querySelector('.node-panel');
-      if (panel) panel.scrollTop = 0;
-    }
-  }, [node?.id]);
+    panelRef.current?.scrollTo({ top: 0 });
+    if (previousNodeId.current !== node.id) headingRef.current?.focus({ preventScroll: true });
+    previousNodeId.current = node.id;
+  }, [node.id]);
 
-  if (!node) return null;
+  const related = connections.flatMap(connection => {
+    const id = connection.sourceId === node.id ? connection.targetId : connection.targetId === node.id ? connection.sourceId : null;
+    const moment = id ? allNodes.get(id) : null;
+    return moment ? [{ moment, label: connection.label }] : [];
+  });
 
-  return (
-    <div
-      ref={containerRef}
-      className={`node-panel-overlay ${isMobile ? 'node-panel-mobile' : 'node-panel-desktop'} node-panel-overlay--open`}
-      role="dialog"
-      aria-modal="true"
-      aria-label={node.label}
-      onKeyDown={handleKeyDown}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="node-panel">
-        <button
-          className="node-card-close"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          ×
-        </button>
-
-        {node.image && (
-          <div
-            className="node-card-image"
-            style={{ backgroundImage: `url(${node.image})` }}
-          />
-        )}
-
-        <div className="node-card-content">
-          <h2 className="node-card-title">{node.label}</h2>
-
-          {(node.date || node.dateRange) && (
-            <div className="node-card-date">
-              {node.dateRange || node.date}
-            </div>
-          )}
-
-          {node.description && (
-            <p className="node-card-description">{node.description}</p>
-          )}
-
-          {node.iframe && (
-            <div className="node-card-embed">
-              <iframe
-                className="node-card-embed-content"
-                src={node.iframe}
-                title={node.label}
-                allowFullScreen
-              />
-            </div>
-          )}
-
-          {node.link && (
-            <a
-              href={node.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="node-card-link"
-            >
-              Learn more →
-            </a>
-          )}
-
-          {node.workedWith && node.workedWith.length > 0 && (
-            <div className="node-card-worked-with">
-              <div className="node-card-worked-with-title">Worked with</div>
-              <div className="node-card-worked-with-list">
-                {node.workedWith.map((person) => (
-                  <div key={person.name} className="node-card-worked-with-person">
-                    <PersonAvatar person={person} size={28} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {node.connections && node.connections.length > 0 && (
-            <div className="node-card-connections">
-              <div className="node-card-connections-inline">
-                <span className="node-card-connections-label">Connected to:</span>
-                <span className="node-card-connections-items">
-                  {node.connections.map((connId, index) => {
-                    const connectedNode = allNodes.get(connId);
-                    if (!connectedNode) return null;
-                    return (
-                      <span key={connId}>
-                        {index > 0 && (
-                          <span className="node-card-connections-separator">, </span>
-                        )}
-                        <button
-                          className="node-card-connection-link"
-                          onClick={() => onNavigate(connectedNode)}
-                        >
-                          {connectedNode.label}
-                        </button>
-                      </span>
-                    );
-                  })}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
+  return <dialog
+    ref={dialogRef}
+    className="co-dialog"
+    aria-labelledby="co-detail-title"
+    onCancel={(event) => { event.preventDefault(); onClose(); }}
+    onClick={(event) => {
+      if (event.target !== event.currentTarget) return;
+      const bounds = event.currentTarget.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) onClose();
+    }}
+  >
+    <div className="co-detail" ref={panelRef}>
+      <div className="co-detail__top"><span>{node.dateRange || node.date || node.kicker || 'A reflection'}</span><button type="button" className="btn btn-ghost co-detail__close" onClick={onClose} aria-label="Close moment">×</button></div>
+      {node.image && <img className="co-detail__image" src={node.image} alt={node.imageAlt || node.label} width="1600" height="900" />}
+      <div className="co-detail__body">
+        <p className="co-detail__kicker">{node.kicker || 'A moment along the way'}</p>
+        <h2 id="co-detail-title" ref={headingRef} tabIndex={-1}>{node.label}</h2>
+        {node.description && <p className="co-detail__description">{node.description}</p>}
+        {node.link && <a className="co-detail__source" href={node.link} {...(node.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{node.sourceLabel || 'Read the story'} <span aria-hidden="true">↗</span></a>}
+        {related.length > 0 && <section className="co-detail__connections" aria-label="Connected moments">
+          <h3>Follow a connection</h3>
+          {related.map(({ moment, label }) => <button type="button" key={moment.id} className="co-detail__connection" onClick={() => onNavigate(moment)}><span><small>{label || 'Connected moment'}</small>{moment.label}</span><span aria-hidden="true">↗</span></button>)}
+        </section>}
       </div>
     </div>
-  );
-};
+  </dialog>;
+}

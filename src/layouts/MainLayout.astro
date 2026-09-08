@@ -678,13 +678,13 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
     </div>
 
     <script>
-      /** Mood filter + overflow-x:hidden break position:sticky; bypass on pages with sticky Contents. */
+      /** Mood filters change the containing block for sticky contents and fixed canvases. */
       function syncBlogPostMoodFilterBypass() {
         document.body.classList.toggle(
           'layout-no-content-filter',
           Boolean(
             document.querySelector(
-              'article.writing-post, .contents-nav',
+              'article.writing-post, .contents-nav, .career-odyssey-page',
             ),
           ),
         );
