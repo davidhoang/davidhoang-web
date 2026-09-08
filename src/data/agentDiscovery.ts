@@ -168,7 +168,7 @@ export function buildAgentDiscoveryContract(
       {
         id: 'subscribe',
         label: 'Subscribe',
-        description: 'Subscribe to the Proof of Concept newsletter.',
+        description: 'Subscribe to Proof of Concept, the Design GM newsletter.',
         url: absoluteUrl('/subscribe', origin),
         kind: 'form',
       },

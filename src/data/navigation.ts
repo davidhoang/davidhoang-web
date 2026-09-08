@@ -26,7 +26,7 @@ export const commandPalettePages = [
   { title: 'About', description: 'About David Hoang', path: '/about', type: 'page' },
   { title: 'Writing', description: 'Essays and articles', path: '/writing', type: 'page' },
   { title: 'Featured', description: 'Featured work and press', path: '/featured', type: 'page' },
-  { title: 'Subscribe', description: 'Subscribe to updates', path: '/subscribe', type: 'page' },
+  { title: 'Subscribe', description: 'Proof of Concept — the Design GM newsletter', path: '/subscribe', type: 'page' },
   { title: 'Now', description: 'What David is doing now', path: '/now', type: 'page' },
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
@@ -126,7 +126,7 @@ export const footerSections = [
       { href: '/writing', label: 'Writing', ariaLabel: 'Writing', external: false },
       { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
       { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
-      { href: '/subscribe', label: 'Subscribe', ariaLabel: 'Subscribe to updates', external: false },
+      { href: '/subscribe', label: 'Subscribe', ariaLabel: 'Subscribe to Proof of Concept', external: false },
       { href: '/rss.xml', label: 'RSS', ariaLabel: 'Writing RSS feed', external: false },
       {
         href: 'https://www.proofofconcept.pub',

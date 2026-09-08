@@ -2,6 +2,7 @@
  * Schema.org JSON-LD builders for davidhoang.com.
  * Keep entities linked via stable @ids; only emit facts supported by page/content data.
  */
+import { proofOfConcept } from '../data/proofOfConcept';
 
 export const CANONICAL_SITE = 'https://www.davidhoang.com';
 
@@ -9,6 +10,7 @@ export const PERSON_ID = `${CANONICAL_SITE}/#person`;
 export const WEBSITE_ID = `${CANONICAL_SITE}/#website`;
 export const BLOG_ID = `${CANONICAL_SITE}/writing#blog`;
 export const NOTES_ID = `${CANONICAL_SITE}/notes#garden`;
+export const PUBLICATION_ID = `${proofOfConcept.url}/#publication`;
 
 export const SITE_NAME = 'David Hoang';
 export const SITE_ALTERNATE_NAME = 'davidhoang.com';
@@ -125,6 +127,40 @@ export function buildNotesGardenJsonLd(): JsonLd {
   };
 }
 
+/** The external publication is distinct from the local /writing archive. */
+export function buildPublicationJsonLd(): JsonLd {
+  return {
+    '@type': 'Periodical',
+    '@id': PUBLICATION_ID,
+    name: proofOfConcept.name,
+    url: proofOfConcept.url,
+    description: proofOfConcept.description,
+    inLanguage: SITE_LANGUAGE,
+    author: idRef(PERSON_ID),
+    publisher: idRef(PERSON_ID),
+    about: proofOfConcept.topics.map((name) => ({ '@type': 'Thing', name })),
+    mainEntityOfPage: webPageRef(absoluteUrl(proofOfConcept.subscribePath)),
+  };
+}
+
+/** The subscription page explains the publication within David's personal site. */
+export function buildSubscribePageJsonLd(): JsonLd {
+  const canonicalUrl = absoluteUrl(proofOfConcept.subscribePath);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+    url: canonicalUrl,
+    name: proofOfConcept.title,
+    description: proofOfConcept.description,
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(WEBSITE_ID),
+    mainEntity: idRef(PUBLICATION_ID),
+    about: idRef(PUBLICATION_ID),
+    author: idRef(PERSON_ID),
+  };
+}
+
 /** Site-wide @graph: Person + WebSite (+ Blog + Notes collection for stable linking). */
 export function buildSiteGraphJsonLd(options?: { description?: string }): JsonLd {
   return {
@@ -134,6 +170,7 @@ export function buildSiteGraphJsonLd(options?: { description?: string }): JsonLd
       buildWebSiteJsonLd(options?.description ?? SITE_DESCRIPTION),
       buildBlogJsonLd(),
       buildNotesGardenJsonLd(),
+      buildPublicationJsonLd(),
     ],
   };
 }
