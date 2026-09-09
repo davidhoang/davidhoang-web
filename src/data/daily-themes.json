@@ -1,6 +1,362 @@
 {
   "themes": [
     {
+      "name": "Graphite Solstice",
+      "description": "Swiss grid precision meets sacred geometry — raw concrete surfaces fractured by a single shaft of golden morning light.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2A27",
+          "--color-bg": "#F0EDE8",
+          "--color-link": "#855907",
+          "--color-link-hover": "#9A6408",
+          "--color-border": "#B8B3AA",
+          "--color-muted": "#6E6962",
+          "--color-sidebar-bg": "#E8E4DE",
+          "--color-nav-bg": "#F0EDE8",
+          "--color-nav-text": "#2C2A27",
+          "--color-card-bg": "#E8E4DE"
+        },
+        "dark": {
+          "--color-text": "#EDE9E3",
+          "--color-bg": "#1C1A17",
+          "--color-link": "#D4940F",
+          "--color-link-hover": "#F0B82A",
+          "--color-border": "#3A3730",
+          "--color-muted": "#87837C",
+          "--color-sidebar-bg": "#242118",
+          "--color-nav-bg": "#1C1A17",
+          "--color-nav-text": "#EDE9E3",
+          "--color-card-bg": "#26231E"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bricolage Grotesque",
+          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+          "category": "display",
+          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Bitter",
+          "url": "https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bitter', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.92",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#C8860A",
+          "#F0EDE8"
+        ]
+      },
+      "font": {
+        "name": "Bricolage Grotesque",
+        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+        "category": "display",
+        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-09-09",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Graphite Solstice",
+              "subtitle": "2026 · 09 · 09"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Concrete remembers the sun. A single gold fracture splits Swiss order — precision holding its breath against morning light.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s1a",
+              "s1b"
+            ]
+          },
+          "s1a": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "br1",
+              "br2",
+              "br3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Shaft of Gold",
+              "variant": "heading",
+              "weight": "800"
+            },
+            "children": []
+          },
+          "br1": {
+            "type": "Badge",
+            "props": {
+              "text": "display grotesque",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "br2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "br3": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s1b": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "layout"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "layout": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "tc"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C2A27",
+                  "label": "Graphite"
+                },
+                {
+                  "hex": "#F0EDE8",
+                  "label": "Limestone"
+                },
+                {
+                  "hex": "#855907",
+                  "label": "Solstice"
+                },
+                {
+                  "hex": "#B8B3AA",
+                  "label": "Ash"
+                },
+                {
+                  "hex": "#E8E4DE",
+                  "label": "Concrete"
+                },
+                {
+                  "hex": "#6E6962",
+                  "label": "Muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tc": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "heading",
+                  "value": "Bricolage Grotesque"
+                },
+                {
+                  "name": "body",
+                  "value": "Bitter (serif)"
+                },
+                {
+                  "name": "radius",
+                  "value": "8px"
+                },
+                {
+                  "name": "texture",
+                  "value": "dot-grid"
+                },
+                {
+                  "name": "scheme",
+                  "value": "split-complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "hero",
+                  "value": "scattered"
+                },
+                {
+                  "label": "grid",
+                  "value": "standard"
+                },
+                {
+                  "label": "shader",
+                  "value": "none"
+                },
+                {
+                  "label": "links",
+                  "value": "highlight"
+                },
+                {
+                  "label": "images",
+                  "value": "duotone / hover glow"
+                },
+                {
+                  "label": "footer",
+                  "value": "boxed"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Graphite Solstice",
+              "action": "apply-theme",
+              "date": "2026-09-09"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Neon Compendium",
       "description": "A rain-slick information rail where deep indigo structure meets hot-pink neon precision — the quiet discipline of a Tokyo transit directory viewed through wet glass at dawn.",
       "colors": {
@@ -1957,343 +2313,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Asphalt Blossom",
-      "description": "The quietude of a Tokyo dawn — rain-slick charcoal dissolving into soft rose light, where grid precision meets atmospheric stillness.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2A2330",
-          "--color-bg": "#F4EEF0",
-          "--color-link": "#B13261",
-          "--color-link-hover": "#8C1A42",
-          "--color-border": "#D9C8D0",
-          "--color-muted": "#75666D",
-          "--color-sidebar-bg": "#EDE5E8",
-          "--color-nav-bg": "#F4EEF0",
-          "--color-nav-text": "#2A2330",
-          "--color-card-bg": "#EDE4E8"
-        },
-        "dark": {
-          "--color-text": "#EDE5E8",
-          "--color-bg": "#1A1120",
-          "--color-link": "#E8638C",
-          "--color-link-hover": "#F295B0",
-          "--color-border": "#3A2838",
-          "--color-muted": "#9A8898",
-          "--color-sidebar-bg": "#211629",
-          "--color-nav-bg": "#1A1120",
-          "--color-nav-text": "#EDE5E8",
-          "--color-card-bg": "#231528"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Instrument Sans",
-          "url": "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "20px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "zoom",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#C4386B",
-          "#F4EEF0"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-09-01",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Asphalt Blossom",
-              "subtitle": "2026 · Sep 01"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "s2",
-              "div2",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Tokyo at first light — charcoal dissolving into rose. Grid precision, atmospheric stillness. A city that holds its breath.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "heading",
-              "badge-row"
-            ]
-          },
-          "heading": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rain-Slick & Luminous",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "filled card",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "analogous",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "meta"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Radius",
-                  "value": "20px"
-                },
-                {
-                  "label": "Images",
-                  "value": "Vivid / Hover Zoom"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "palette",
-              "tokens"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2A2330",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#F4EEF0",
-                  "label": "BG"
-                },
-                {
-                  "hex": "#B13261",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#D9C8D0",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#EDE4E8",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#75666D",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#B13261"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#F4EEF0"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#2A2330"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "20px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Asphalt Blossom",
-              "action": "apply-theme",
-              "date": "2026-09-01"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-08"
+  "currentDate": "2026-09-09"
 }
