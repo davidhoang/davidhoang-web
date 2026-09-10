@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useMemo } from 'react';
-import { useThree } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import {
   ContactShadows,
   Html,
@@ -487,7 +487,7 @@ function Hardscape() {
   );
 }
 
-export default function DioramaScene() {
+function Scene() {
   const invalidate = useThree((state) => state.invalidate);
 
   return (
@@ -543,6 +543,25 @@ export default function DioramaScene() {
       />
       <ResponsiveFraming />
     </>
+  );
+}
+
+/**
+ * Owns the Canvas so the island facade stays free of three/@react-three imports.
+ * Those live in the optional `homes-3d` chunk, which only dynamic importers may
+ * reach — see `MANUAL_CHUNKS` in astro.config.mjs and `npm run budget`.
+ */
+export default function DioramaScene() {
+  return (
+    <Canvas
+      camera={{ position: [13, 8.5, 15.5], fov: 32, near: 0.1, far: 120 }}
+      dpr={[1, 1.5]}
+      frameloop="demand"
+      shadows="percentage"
+      gl={{ antialias: true, powerPreference: 'high-performance' }}
+    >
+      <Scene />
+    </Canvas>
   );
 }
 

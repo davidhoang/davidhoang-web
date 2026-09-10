@@ -72,11 +72,20 @@
   pointer-events: none;
 }
 
+/* Holds the loading and failure states while the renderer chunk is fetched. */
+.diorama-canvas__placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
 .diorama-loader {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-sm);
   width: max-content;
+  margin: 0;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-full);
   background: var(--color-card-bg);
