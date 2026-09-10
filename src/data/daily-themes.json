@@ -1,6 +1,335 @@
 {
   "themes": [
     {
+      "name": "Shaft & Shadow",
+      "description": "Tadao Ando's concrete chapel distilled into type — a single blade of golden light cutting through heavy graphite structure, restraint as its own ornament.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1A17",
+          "--color-bg": "#EDE9E3",
+          "--color-link": "#815E08",
+          "--color-link-hover": "#8B6508",
+          "--color-border": "#2E2C28",
+          "--color-muted": "#6B6560",
+          "--color-sidebar-bg": "#E4DFD8",
+          "--color-nav-bg": "#EDE9E3",
+          "--color-nav-text": "#1C1A17",
+          "--color-card-bg": "#E8E3DC"
+        },
+        "dark": {
+          "--color-text": "#EDE9E3",
+          "--color-bg": "#1A1714",
+          "--color-link": "#D4A017",
+          "--color-link-hover": "#F0C040",
+          "--color-border": "#EDE9E3",
+          "--color-muted": "#8A8480",
+          "--color-sidebar-bg": "#211F1B",
+          "--color-nav-bg": "#1A1714",
+          "--color-nav-text": "#EDE9E3",
+          "--color-card-bg": "#201E1A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Anton",
+          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.04em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE9E3",
+          "#B8860B"
+        ]
+      },
+      "font": {
+        "name": "Anton",
+        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-10",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Shaft & Shadow",
+              "subtitle": "2026 · 09 · 10"
+            },
+            "children": [
+              "manifesto",
+              "d1",
+              "s1",
+              "s2",
+              "d2",
+              "s3",
+              "s4",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "One blade of gold. The rest is concrete. Restraint is the only ornament worth keeping.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "br"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "SHAFT & SHADOW",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "flat card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "d2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "meta",
+              "hero"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                }
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1A17",
+                  "label": "Graphite"
+                },
+                {
+                  "hex": "#EDE9E3",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#815E08",
+                  "label": "Gold Shaft"
+                },
+                {
+                  "hex": "#E8E3DC",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#6B6560",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#2E2C28",
+                  "label": "Border"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#815E08"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "Anton"
+                },
+                {
+                  "name": "--font-body",
+                  "value": "Literata"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#EDE9E3"
+                }
+              ]
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Shaft & Shadow",
+              "action": "apply-theme",
+              "date": "2026-09-10"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Graphite Solstice",
       "description": "Swiss grid precision meets sacred geometry — raw concrete surfaces fractured by a single shaft of golden morning light.",
       "colors": {
@@ -1977,343 +2306,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Botanical Telegraph",
-      "description": "Art Nouveau's sinuous botanicals meet a dawn information index — jewel-toned tendrils climbing a misty grid, structured yet alive.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C3A2E",
-          "--color-bg": "#EDF5F0",
-          "--color-link": "#3D7A5C",
-          "--color-link-hover": "#1F5C3E",
-          "--color-border": "#B5CFB8",
-          "--color-muted": "#556F5B",
-          "--color-sidebar-bg": "#E2EEE5",
-          "--color-nav-bg": "#EDF5F0",
-          "--color-nav-text": "#2C3A2E",
-          "--color-card-bg": "#F3F8F4"
-        },
-        "dark": {
-          "--color-text": "#D4E8D8",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#6BBFA0",
-          "--color-link-hover": "#9ED8BE",
-          "--color-border": "#2A4A3E",
-          "--color-muted": "#698E7B",
-          "--color-sidebar-bg": "#0A1A1D",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#D4E8D8",
-          "--color-card-bg": "#112629"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Spectral",
-          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "DM Sans",
-          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EDF5F0",
-          "#B5CFB8"
-        ]
-      },
-      "font": {
-        "name": "Spectral",
-        "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-09-02",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Botanical Telegraph",
-              "subtitle": "2026 · Sept 02"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s-row1",
-              "div1",
-              "s-row2",
-              "div2",
-              "s-bot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Jewel-toned tendrils climb a misty grid — Art Nouveau's living line meets the dawn information index. Structured. Breathing.",
-              "emphasis": "quiet"
-            }
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#2C3A2E",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#EDF5F0",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#3D7A5C",
-                  "label": "Tendril"
-                },
-                {
-                  "hex": "#B5CFB8",
-                  "label": "Frond"
-                },
-                {
-                  "hex": "#556F5B",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#F3F8F4",
-                  "label": "Card"
-                }
-              ]
-            }
-          },
-          "s-row1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero-prev",
-              "type-head"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            }
-          },
-          "type-head": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "The Tendril Index",
-              "variant": "heading",
-              "weight": "600"
-            }
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Morning dispatch, grid-ruled, vine-lit.",
-              "variant": "body"
-            }
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-row2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "layout-prev"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None / Grid Texture"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Radius",
-                  "value": "4px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                }
-              ]
-            }
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            }
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            }
-          },
-          "s-bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "spacer-btn",
-              "apply-btn"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Spectral serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "analogous",
-              "variant": "outlined"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "filled"
-            }
-          },
-          "spacer-btn": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "none",
-              "align": "stretch"
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Theme",
-              "action": "apply-theme",
-              "date": "2026-09-02"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-09"
+  "currentDate": "2026-09-10"
 }
