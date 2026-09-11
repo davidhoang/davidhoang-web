@@ -1,6 +1,363 @@
 {
   "themes": [
     {
+      "name": "Indigo Matins",
+      "description": "An Art Nouveau journal at dawn — botanical stillness rendered in muted jewel tones, where morning mist softens organic curves into legible grace.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2C2438",
+          "--color-bg": "#EDE8F2",
+          "--color-link": "#7B4FA6",
+          "--color-link-hover": "#5C3480",
+          "--color-border": "#C8BEDD",
+          "--color-muted": "#685F78",
+          "--color-sidebar-bg": "#E4DDF0",
+          "--color-nav-bg": "#EDE8F2",
+          "--color-nav-text": "#2C2438",
+          "--color-card-bg": "#F4F0F9"
+        },
+        "dark": {
+          "--color-text": "#E8E0F2",
+          "--color-bg": "#1A1528",
+          "--color-link": "#B48FD4",
+          "--color-link-hover": "#D4AEFF",
+          "--color-border": "#3A3050",
+          "--color-muted": "#877DA1",
+          "--color-sidebar-bg": "#1F1A32",
+          "--color-nav-bg": "#1A1528",
+          "--color-nav-text": "#E8E0F2",
+          "--color-card-bg": "#221D35"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.85",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "6px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "6px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDE8F2",
+          "#C8BEDD"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-11",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Indigo Matins",
+              "subtitle": "September 11, 2026"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "palette",
+              "s2",
+              "div1",
+              "s3",
+              "div2",
+              "s4",
+              "action"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Dawn holds its breath. Botanical forms curl at the margins of waking — muted jewels pressed between the pages of a journal no one else has opened yet.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDE8F2",
+                  "label": "Mist"
+                },
+                {
+                  "hex": "#C8BEDD",
+                  "label": "Lavender Fog"
+                },
+                {
+                  "hex": "#7B4FA6",
+                  "label": "Wisteria"
+                },
+                {
+                  "hex": "#5C3480",
+                  "label": "Dusk Violet"
+                },
+                {
+                  "hex": "#685F78",
+                  "label": "Lichen"
+                },
+                {
+                  "hex": "#2C2438",
+                  "label": "Nocturne"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "heading",
+              "s2b"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "At the edge of morning",
+              "variant": "heading",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "s2b": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "low contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "meta"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Stacked Fan"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Stacked Fan"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None / Grain texture"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated underline"
+                },
+                {
+                  "label": "Cards",
+                  "value": "Flat, 6px radius"
+                },
+                {
+                  "label": "Images",
+                  "value": "Muted / hover colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "caption",
+              "tokens"
+            ]
+          },
+          "caption": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cormorant Garamond leads. Crimson Text follows like a whispered annotation in the margin.",
+              "variant": "caption",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#EDE8F2"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#7B4FA6"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#685F78"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#C8BEDD"
+                }
+              ]
+            },
+            "children": []
+          },
+          "action": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Indigo Matins",
+              "action": "apply-theme",
+              "date": "2026-09-11"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Shaft & Shadow",
       "description": "Tadao Ando's concrete chapel distilled into type — a single blade of golden light cutting through heavy graphite structure, restraint as its own ornament.",
       "colors": {
@@ -1920,393 +2277,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Terrazzo Matins",
-      "description": "Memphis geometry meets Ando's dawn light — bold geometric type fractures a pale concrete ground while soft gold accents bloom like early morning shafts through raw aggregate.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2A2320",
-          "--color-bg": "#F5EFE8",
-          "--color-link": "#AA4F08",
-          "--color-link-hover": "#A84D08",
-          "--color-border": "#C8B89E",
-          "--color-muted": "#75685E",
-          "--color-sidebar-bg": "#EDE5DB",
-          "--color-nav-bg": "#F5EFE8",
-          "--color-nav-text": "#2A2320",
-          "--color-card-bg": "#FBF7F2"
-        },
-        "dark": {
-          "--color-text": "#EDE5DB",
-          "--color-bg": "#1C1410",
-          "--color-link": "#F09040",
-          "--color-link-hover": "#F7B86A",
-          "--color-border": "#3D2E24",
-          "--color-muted": "#8E8076",
-          "--color-sidebar-bg": "#241A14",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#EDE5DB",
-          "--color-card-bg": "#231915"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Unbounded",
-          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "display",
-          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "zoom",
-        "opacity": "0.92",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EFE8",
-          "#D4630A"
-        ]
-      },
-      "font": {
-        "name": "Unbounded",
-        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "display",
-        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-09-03",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Terrazzo Matins",
-              "subtitle": "2026 · 09 · 03"
-            },
-            "children": [
-              "manifesto",
-              "d1",
-              "s1",
-              "s2",
-              "d2",
-              "s3",
-              "meta",
-              "d3",
-              "s4",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Concrete remembers the night. Gold remembers the sun. Terrazzo holds both — fractured, patient, luminous at dawn.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "badge-row"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Raw Light",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display · serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "split-complementary",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "shader-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Hero"
-            },
-            "children": []
-          },
-          "shader-prev": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#F5EFE8",
-                "#D4630A",
-                "#C8B89E"
-              ]
-            },
-            "children": []
-          },
-          "d2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "palette",
-              "cap"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE8",
-                  "label": "Ground"
-                },
-                {
-                  "hex": "#2A2320",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#AA4F08",
-                  "label": "Ember"
-                },
-                {
-                  "hex": "#C8B89E",
-                  "label": "Aggregate"
-                },
-                {
-                  "hex": "#75685E",
-                  "label": "Dusk"
-                },
-                {
-                  "hex": "#FBF7F2",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Memphis geometry fractures a pale concrete ground.",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Scattered"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dots"
-                },
-                {
-                  "label": "Link",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Image",
-                  "value": "Duotone · Hover Zoom"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                },
-                {
-                  "label": "Radius",
-                  "value": "8px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "d3": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "tok",
-              "btn"
-            ]
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#F5EFE8"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#AA4F08"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#C8B89E"
-                },
-                {
-                  "name": "--font-heading",
-                  "value": "Unbounded"
-                },
-                {
-                  "name": "--font-body",
-                  "value": "Literata"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Terrazzo Matins",
-              "action": "apply-theme",
-              "date": "2026-09-03"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-10"
+  "currentDate": "2026-09-11"
 }
