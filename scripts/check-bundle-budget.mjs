@@ -78,11 +78,16 @@ const optionalJsGzipBytes = jsAssets.filter(asset => optionalBudget(asset.file))
 const failures = [];
 
 // A static vendor → 3D import defeats the island's lazy boundary even when its
-// file-size allowance passes. Only the dynamically imported HomeScene facade
-// may statically reference the optional renderer.
-const static3dImport = /\b(?:import|export)\s*(?:[^;'"()]*?from\s*)?["'][^"']*(?:homes-3d|HomeScene)\.[^"']+["']/;
+// file-size allowance passes. Only the dynamically imported scene facades may
+// statically reference the optional renderer; every island must reach them
+// through import(), so no page chunk pulls the renderer into its entry graph.
+const sceneFacades = ['HomeScene', 'DioramaScene'];
+const static3dImport = new RegExp(
+  `\\b(?:import|export)\\s*(?:[^;'"()]*?from\\s*)?["'][^"']*(?:homes-3d|${sceneFacades.join('|')})\\.[^"']+["']`,
+);
+const isSceneFacade = (file) => sceneFacades.some((name) => basename(file).startsWith(`${name}.`));
 for (const asset of jsAssets) {
-  if (optionalBudget(asset.file) || basename(asset.file).startsWith('HomeScene.')) continue;
+  if (optionalBudget(asset.file) || isSceneFacade(asset.file)) continue;
   if (static3dImport.test(readFileSync(asset.file, 'utf8'))) {
     failures.push(`${relative('.', asset.file)} statically imports the optional 3D renderer`);
   }
