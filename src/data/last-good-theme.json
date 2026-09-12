@@ -1,237 +1,136 @@
 {
-  "cachedAt": "2026-09-11T06:23:13.890Z",
-  "sourceDate": "2026-09-11",
+  "cachedAt": "2026-09-12T06:21:07.378Z",
+  "sourceDate": "2026-09-12",
   "theme": {
-    "name": "Indigo Matins",
-    "description": "An Art Nouveau journal at dawn — botanical stillness rendered in muted jewel tones, where morning mist softens organic curves into legible grace.",
+    "name": "Sakura Static",
+    "description": "Dawn breaking over wet Tokyo streets — soft blossom pink meets electric amber, images glowing like neon through morning mist.",
     "colors": {
       "colorScheme": "analogous",
-      "contrastMode": "low",
+      "contrastMode": "standard",
       "light": {
-        "--color-text": "#2C2438",
-        "--color-bg": "#EDE8F2",
-        "--color-link": "#7B4FA6",
-        "--color-link-hover": "#5C3480",
-        "--color-border": "#C8BEDD",
-        "--color-muted": "#685F78",
-        "--color-sidebar-bg": "#E4DDF0",
-        "--color-nav-bg": "#EDE8F2",
-        "--color-nav-text": "#2C2438",
-        "--color-card-bg": "#F4F0F9"
+        "--color-text": "#2A1F2D",
+        "--color-bg": "#FDF0F5",
+        "--color-link": "#C90065",
+        "--color-link-hover": "#FF3399",
+        "--color-border": "#E8C4D8",
+        "--color-muted": "#7C6272",
+        "--color-sidebar-bg": "#F7E4EE",
+        "--color-nav-bg": "#FDF0F5",
+        "--color-nav-text": "#2A1F2D",
+        "--color-card-bg": "#FAE8F2"
       },
       "dark": {
-        "--color-text": "#E8E0F2",
-        "--color-bg": "#1A1528",
-        "--color-link": "#B48FD4",
-        "--color-link-hover": "#D4AEFF",
-        "--color-border": "#3A3050",
-        "--color-muted": "#877DA1",
-        "--color-sidebar-bg": "#1F1A32",
-        "--color-nav-bg": "#1A1528",
-        "--color-nav-text": "#E8E0F2",
-        "--color-card-bg": "#221D35"
+        "--color-text": "#F5DDE8",
+        "--color-bg": "#1A0D14",
+        "--color-link": "#FF6EB0",
+        "--color-link-hover": "#FFB3D4",
+        "--color-border": "#4A2438",
+        "--color-muted": "#A07086",
+        "--color-sidebar-bg": "#221018",
+        "--color-nav-bg": "#1A0D14",
+        "--color-nav-text": "#F5DDE8",
+        "--color-card-bg": "#231018"
       }
     },
     "fonts": {
       "heading": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
         "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
       },
       "body": {
-        "name": "Crimson Text",
-        "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        "name": "DM Sans",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       }
     },
     "typography": {
-      "headingWeight": "600",
+      "headingWeight": "700",
       "bodyWeight": "400",
-      "bodyLineHeight": "1.85",
+      "bodyLineHeight": "1.7",
       "letterSpacing": "0.01em",
-      "headingLetterSpacing": "0.03em",
+      "headingLetterSpacing": "-0.03em",
       "headingTransform": "none",
-      "scaleRatio": "1.414",
+      "scaleRatio": "1.618",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "flat",
-      "shadow": "none",
-      "borderWidth": "1px",
+      "style": "filled",
+      "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+      "borderWidth": "0px",
       "padding": "1.5rem"
     },
     "layout": {
-      "borderRadius": "6px",
-      "containerMaxWidth": "1140px",
-      "sectionSpacing": "4rem",
-      "contentPadding": "1.75rem",
-      "gridStyle": "magazine"
+      "borderRadius": "20px",
+      "containerMaxWidth": "1200px",
+      "sectionSpacing": "5rem",
+      "contentPadding": "1.5rem",
+      "gridStyle": "asymmetric"
     },
     "hero": {
-      "layout": "stacked-fan"
+      "layout": "cinematic"
     },
     "links": {
-      "style": "animated-underline"
+      "style": "color-only"
     },
     "background": {
-      "texture": "grain"
+      "texture": "none"
     },
     "images": {
-      "style": "muted",
-      "hover": "colorize",
-      "opacity": "0.9",
-      "borderRadius": "6px"
+      "style": "vivid",
+      "hover": "glow",
+      "opacity": "1",
+      "borderRadius": "16px"
     },
     "footer": {
-      "style": "editorial"
+      "style": "boxed"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#EDE8F2",
-        "#C8BEDD"
+        "#FDF0F5",
+        "#FAE8F2"
       ]
     },
     "font": {
-      "name": "Cormorant Garamond",
-      "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+      "name": "Fraunces",
+      "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
       "category": "serif",
-      "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
     },
     "artDirection": {
-      "recipe": "journal",
-      "name": "Editorial Journal",
-      "dominantPrimitive": "type"
+      "recipe": "gallery",
+      "name": "Immersive Gallery",
+      "dominantPrimitive": "image"
     },
-    "date": "2026-09-11",
+    "date": "2026-09-12",
     "showcase": {
       "root": "card",
       "elements": {
         "card": {
           "type": "ThemeCard",
           "props": {
-            "title": "Indigo Matins",
-            "subtitle": "September 11, 2026"
-          },
-          "children": [
-            "s1"
-          ]
-        },
-        "s1": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "md",
-            "align": "stretch"
+            "title": "Sakura Static",
+            "subtitle": "2026-09-12 · Daily UI Theme"
           },
           "children": [
             "manifesto",
-            "palette",
-            "s2",
             "div1",
-            "s3",
+            "s1",
             "div2",
-            "s4",
-            "action"
+            "s2",
+            "div3",
+            "s3",
+            "apply"
           ]
         },
         "manifesto": {
           "type": "ThemeManifesto",
           "props": {
-            "text": "Dawn holds its breath. Botanical forms curl at the margins of waking — muted jewels pressed between the pages of a journal no one else has opened yet.",
-            "emphasis": "quiet"
-          },
-          "children": []
-        },
-        "palette": {
-          "type": "ColorPalette",
-          "props": {
-            "colors": [
-              {
-                "hex": "#EDE8F2",
-                "label": "Mist"
-              },
-              {
-                "hex": "#C8BEDD",
-                "label": "Lavender Fog"
-              },
-              {
-                "hex": "#7B4FA6",
-                "label": "Wisteria"
-              },
-              {
-                "hex": "#5C3480",
-                "label": "Dusk Violet"
-              },
-              {
-                "hex": "#685F78",
-                "label": "Lichen"
-              },
-              {
-                "hex": "#2C2438",
-                "label": "Nocturne"
-              }
-            ]
-          },
-          "children": []
-        },
-        "s2": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "sm",
-            "align": "center"
-          },
-          "children": [
-            "heading",
-            "s2b"
-          ]
-        },
-        "heading": {
-          "type": "TypeSample",
-          "props": {
-            "text": "At the edge of morning",
-            "variant": "heading",
-            "weight": "400"
-          },
-          "children": []
-        },
-        "s2b": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "sm",
-            "align": "end"
-          },
-          "children": [
-            "b1",
-            "b2",
-            "b3"
-          ]
-        },
-        "b1": {
-          "type": "Badge",
-          "props": {
-            "text": "serif",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "b2": {
-          "type": "Badge",
-          "props": {
-            "text": "editorial",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "b3": {
-          "type": "Badge",
-          "props": {
-            "text": "low contrast",
-            "variant": "filled"
+            "text": "Dawn cracks over rain-slicked Tokyo asphalt. Blossom pink bleeds into electric amber — soft, charged, alive. This is neon through mist.",
+            "emphasis": "bold"
           },
           "children": []
         },
@@ -242,54 +141,44 @@
           },
           "children": []
         },
-        "s3": {
+        "s1": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
             "gap": "md",
-            "align": "start"
+            "align": "center"
           },
           "children": [
+            "ht",
             "hero",
-            "meta"
+            "shader"
           ]
+        },
+        "ht": {
+          "type": "TypeSample",
+          "props": {
+            "text": "Sakura Static",
+            "variant": "heading",
+            "weight": "700"
+          },
+          "children": []
         },
         "hero": {
           "type": "HeroLayoutPreview",
           "props": {
-            "layout": "stacked-fan",
-            "label": "Stacked Fan"
+            "layout": "cinematic",
+            "label": "Cinematic Hero"
           },
           "children": []
         },
-        "meta": {
-          "type": "ThemeMeta",
+        "shader": {
+          "type": "ShaderPreview",
           "props": {
-            "items": [
-              {
-                "label": "Grid",
-                "value": "Magazine"
-              },
-              {
-                "label": "Hero",
-                "value": "Stacked Fan"
-              },
-              {
-                "label": "Shader",
-                "value": "None / Grain texture"
-              },
-              {
-                "label": "Links",
-                "value": "Animated underline"
-              },
-              {
-                "label": "Cards",
-                "value": "Flat, 6px radius"
-              },
-              {
-                "label": "Images",
-                "value": "Muted / hover colorize"
-              }
+            "type": "none",
+            "colors": [
+              "#FDF0F5",
+              "#FAE8F2",
+              "#E8C4D8"
             ]
           },
           "children": []
@@ -301,7 +190,7 @@
           },
           "children": []
         },
-        "s4": {
+        "s2": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
@@ -309,49 +198,139 @@
             "align": "center"
           },
           "children": [
-            "caption",
-            "tokens"
+            "palette",
+            "grid"
           ]
         },
-        "caption": {
-          "type": "TypeSample",
+        "palette": {
+          "type": "ColorPalette",
           "props": {
-            "text": "Cormorant Garamond leads. Crimson Text follows like a whispered annotation in the margin.",
-            "variant": "caption",
-            "weight": "400"
-          },
-          "children": []
-        },
-        "tokens": {
-          "type": "TokenGrid",
-          "props": {
-            "tokens": [
+            "colors": [
               {
-                "name": "--color-bg",
-                "value": "#EDE8F2"
+                "hex": "#FDF0F5",
+                "label": "Bg"
               },
               {
-                "name": "--color-link",
-                "value": "#7B4FA6"
+                "hex": "#FAE8F2",
+                "label": "Card"
               },
               {
-                "name": "--color-muted",
-                "value": "#685F78"
+                "hex": "#E8C4D8",
+                "label": "Border"
               },
               {
-                "name": "--color-border",
-                "value": "#C8BEDD"
+                "hex": "#C90065",
+                "label": "Link"
+              },
+              {
+                "hex": "#FF3399",
+                "label": "Hover"
+              },
+              {
+                "hex": "#2A1F2D",
+                "label": "Text"
               }
             ]
           },
           "children": []
         },
-        "action": {
+        "grid": {
+          "type": "LayoutPreview",
+          "props": {
+            "style": "asymmetric"
+          },
+          "children": []
+        },
+        "div3": {
+          "type": "Divider",
+          "props": {
+            "style": "solid"
+          },
+          "children": []
+        },
+        "s3": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "sm",
+            "align": "center"
+          },
+          "children": [
+            "meta",
+            "badges"
+          ]
+        },
+        "meta": {
+          "type": "ThemeMeta",
+          "props": {
+            "items": [
+              {
+                "label": "Heading",
+                "value": "Fraunces (serif)"
+              },
+              {
+                "label": "Body",
+                "value": "DM Sans"
+              },
+              {
+                "label": "Scheme",
+                "value": "Analogous"
+              },
+              {
+                "label": "Image",
+                "value": "Vivid / Hover Glow"
+              },
+              {
+                "label": "Radius",
+                "value": "20px"
+              }
+            ]
+          },
+          "children": []
+        },
+        "badges": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "start"
+          },
+          "children": [
+            "b1",
+            "b2",
+            "b3"
+          ]
+        },
+        "b1": {
+          "type": "Badge",
+          "props": {
+            "text": "serif heading",
+            "variant": "filled"
+          },
+          "children": []
+        },
+        "b2": {
+          "type": "Badge",
+          "props": {
+            "text": "filled card",
+            "variant": "filled"
+          },
+          "children": []
+        },
+        "b3": {
+          "type": "Badge",
+          "props": {
+            "text": "editorial mood",
+            "variant": "outlined"
+          },
+          "children": []
+        },
+        "apply": {
           "type": "ThemeActionButton",
           "props": {
-            "label": "Apply Indigo Matins",
+            "label": "Apply Sakura Static",
             "action": "apply-theme",
-            "date": "2026-09-11"
+            "date": "2026-09-12"
           },
           "children": []
         }
