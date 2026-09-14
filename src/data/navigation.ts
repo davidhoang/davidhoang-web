@@ -66,6 +66,12 @@ export const commandPalettePages = [
     path: '/prototypes',
     type: 'page',
   },
+  {
+    title: 'Greco Court Clay Diorama',
+    description: 'Interactive soft-clay desert house experiment.',
+    path: '/experiments/greco-diorama',
+    type: 'page',
+  },
 ] as const;
 
 /**

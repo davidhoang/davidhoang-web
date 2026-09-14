@@ -13,8 +13,10 @@ import { isIndexedSitemapPage } from './src/data/searchIndexConfig.ts';
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
   ['react-vendor', ['node_modules/react/', 'node_modules/react-dom/', 'node_modules/scheduler/']],
-  // Only the /now homes island imports this optional renderer.
-  ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx']],
+  // Reached only through dynamic imports, from the /now homes island and the
+  // /experiments/greco-diorama island. Scene modules belong here too: left in a
+  // page chunk they would statically link this bundle and defeat the boundary.
+  ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx', 'src/components/diorama/DioramaScene.tsx']],
   ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
