@@ -39,9 +39,11 @@
 /* Touch devices: disable hover-triggered motion on non-nav elements. iOS Safari
    applies :hover briefly after a tap (sticky hover). iPad always matches
    (hover: none) even with Magic Keyboard — never strip .site-nav transform or
-   the pill loses translateX(-50%) centering and slides right on link hover. */
+   the pill loses translateX(-50%) centering and slides right on link hover.
+   Hero transforms also position the deck and preserve keyboard focus motion;
+   its pointer hover is already gated by usePointerHoverMotionEnabled. */
 @media (hover: none) {
-  :where(*:not(.site-nav):not(.site-nav *)):hover {
+  :where(*:not(.site-nav):not(.site-nav *):not(.card-stack-hero):not(.card-stack-hero *)):hover {
     transform: none !important;
   }
 }

@@ -28,6 +28,8 @@ export interface HeroDialValues {
     };
     hover: {
       liftY: number;
+      slideX: number;
+      neighborShift: number;
       scale: number;
       tapScale: number;
     };
@@ -152,7 +154,9 @@ export const heroDialDefaults: HeroDialValues = {
       marginTop: 20,
     },
     hover: {
-      liftY: 8,
+      liftY: 36,
+      slideX: 12,
+      neighborShift: 88,
       scale: 1.02,
       tapScale: 0.99,
     },
@@ -161,8 +165,8 @@ export const heroDialDefaults: HeroDialValues = {
       staggerDelay: 0.08,
       stiffness: 80,
       damping: 16,
-      settleStiffness: 200,
-      settleDamping: 28,
+      settleStiffness: 190,
+      settleDamping: 24,
     },
     expand: {
       stiffness: 155,

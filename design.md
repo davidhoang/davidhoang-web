@@ -134,7 +134,7 @@ The nav is a fixed floating-pill defined in `src/components/Navigation.astro`. T
 | 1025–1440px | `min(700px, calc(100vw - 56px))` | `0 42px` |
 | ≥1441px | `min(600px, calc(100vw - 40px))` | `0 40px` |
 
-Desktop horizontal padding lives on `.site-nav`, never on `.nav-container` or a global `.container` (see `.cursor/rules/site-nav-css.mdc`). `--nav-height` is fixed at `48px` on desktop (≥769px) and `56px` on mobile (≤768px; the bar itself is `calc(56px + env(safe-area-inset-top))`). `--nav-offset-top` is `24px` on desktop and `0px` on mobile, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero dot-grid `top` calc) can rely on it.
+Desktop horizontal padding lives on `.site-nav`, never on `.nav-container` or a global `.container` (see `.cursor/rules/site-nav-css.mdc`). `--nav-height` is fixed at `48px` on desktop (≥769px) and `56px` on mobile (≤768px; the bar itself is `calc(56px + env(safe-area-inset-top))`). `--nav-offset-top` is `24px` on desktop and `0px` on mobile, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero texture `top` calc) can rely on it.
 
 ### Spacing scale
 
@@ -195,7 +195,7 @@ Implementations: `layout.css` (hero flush), `nav.css` + `shared-components.css` 
 
 ### Background patterns
 
-**One geometric pattern at a time.** The home page hero owns its dot-grid background (`.card-stack-section::before` in `src/pages/index.astro`); when a theme also picks `background.texture: "dots"` or `"grid"`, both render and produce a muddy double-pattern. The CSS rule at the bottom of `theme-variations.css` suppresses the page-wide texture on any page that contains a `.card-stack-section` (currently just home). Other pages can still use any texture freely.
+**Keep the home hero texture quiet.** The home page hero uses fine, static grey digital noise at low opacity (`.card-stack-section::before` in `src/styles/pages/home.css`), which blends with light and dark theme surfaces. Do not reintroduce a dot grid. The CSS rule in `theme-variations.css` suppresses page-wide `background.texture: "dots"` and `"grid"` on any page that contains a `.card-stack-section` (currently just home), so daily themes cannot layer geometric patterns over the hero. Other pages can still use any texture freely.
 
 `grain` and `gradient` textures don't conflict — they're allowed everywhere.
 
@@ -208,6 +208,8 @@ Vertical offset, full-width breakout, and section margin are not theme-variable 
 **Card entrance animation:** hero cards never reveal via `opacity: 0 → 1`. A fade-in renders the cards transparent during the transition, which violates the [card opacity rule](#card-opacity). All hero layouts use motion-only entries — cards start stacked at the layout's origin (or near it) at `scale ~0.94` and fully opaque, then animate to their final position with spring physics and a per-card stagger. This reads as "dealing the cards" rather than "fading them in."
 
 The pattern: `initial.opacity = 1`, `animate.opacity = isOtherSelected ? dim : 1` (the `isOtherSelected` dim is a runtime click-state, not an entry effect). Implemented across `StackedFanLayout`, `EditorialLayout`, `ScatteredLayout`, `RolodexLayout`, and `CinematicLayout` in `src/components/hero/layouts/`.
+
+**Stacked-fan hover:** keep each card's stacking order fixed. The focused card slides upward and outward, straightens slightly, and adjacent cards move aside with diminishing movement farther through the fan. Spring targets retarget from current position and velocity; never promote a card's `z-index` on hover or demote it on a timer. Keyboard focus uses the same treatment. Touch and reduced-motion modes keep their existing stationary focus behavior. Motion tuning lives in `heroDialDefaults.ts` and `heroDialConfig.ts`.
 
 ### Mobile layout safety
 
@@ -321,7 +323,7 @@ The `forced-colors` block (Windows High Contrast) intentionally uses system `Hig
 
 Hover affordances (lift, shadow growth, color shift) are **desktop-only**. iOS Safari applies `:hover` briefly after a tap and the styles persist until the user taps elsewhere — so on touch devices, lift animations get "stuck" and read as a broken selected state.
 
-A global rule in `src/styles/modules/accessibility-responsive.css` strips `transform` inside `:hover` at `@media (hover: none)`. This is the safety net for **CSS** `:hover`.
+A global rule in `src/styles/modules/accessibility-responsive.css` strips `transform` inside `:hover` at `@media (hover: none)`. This is the safety net for **CSS** `:hover`. The site nav and `.card-stack-hero` subtree are exempt: their transforms provide positioning, and hero pointer motion is separately gated in JavaScript. Stripping hero transforms would collapse the deck and cancel keyboard focus movement on hybrid devices.
 
 **JS hover is a separate footgun:** iPadOS often matches `(hover: none)` even with Magic Keyboard, but still delivers `mouseenter` / `mouseleave`. Any Framer Motion / React hover lift or media swap must also gate on `shouldEnablePointerHoverMotion()` / `data-hover-motion` (see [Motion continuity](#motion-continuity) rule 6). Do not assume “trackpad attached ⇒ CSS hover media matches.”
 

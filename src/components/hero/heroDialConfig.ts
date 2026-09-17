@@ -37,7 +37,9 @@ export const heroDialConfig: DialConfig = {
       marginTop: [20, 0, 80],
     },
     hover: {
-      liftY: [8, 0, 32],
+      liftY: [36, 0, 64, 1],
+      slideX: [12, 0, 32, 1],
+      neighborShift: [88, 0, 120, 1],
       scale: [1.02, 1, 1.12],
       tapScale: [0.99, 0.9, 1],
     },
@@ -47,8 +49,8 @@ export const heroDialConfig: DialConfig = {
       staggerDelay: [0.08, 0, 0.2],
       stiffness: [80, 20, 300],
       damping: [16, 5, 50],
-      settleStiffness: [200, 50, 500],
-      settleDamping: [28, 5, 50],
+      settleStiffness: [190, 50, 500],
+      settleDamping: [24, 5, 50],
     },
     expand: {
       _collapsed: true,
@@ -155,7 +157,7 @@ export interface HeroDialParams {
   stackedFan: {
     fan: { spread: number; yOffset: number; rotation: number };
     wrapper: { width: number; height: number; marginTop: number };
-    hover: { liftY: number; scale: number; tapScale: number };
+    hover: HeroDialValues['stackedFan']['hover'];
     entrance: {
       initialScale: number;
       staggerDelay: number;

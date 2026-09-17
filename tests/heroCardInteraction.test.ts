@@ -181,4 +181,16 @@ describe('heroCardInteractionTransition', () => {
       })
     ).toEqual(HERO_INTERACTION_SPRING);
   });
+
+  it('uses the fan weight for focus and return, but preserves immediate press feedback', () => {
+    const interactionSpring = { stiffness: 190, damping: 24, mass: 1.1 };
+    for (const phase of ['focused', 'rest'] as const) {
+      expect(heroCardInteractionTransition({
+        hasAnimatedIn: true, phase, index: 0, isLoaded: true, entrance, interactionSpring,
+      })).toEqual({ type: 'spring', ...interactionSpring });
+    }
+    expect(heroCardInteractionTransition({
+      hasAnimatedIn: true, phase: 'pressed', index: 0, isLoaded: true, entrance, interactionSpring,
+    })).toEqual(HERO_PRESS_SPRING);
+  });
 });
