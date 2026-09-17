@@ -17,6 +17,7 @@ import {
 import { useHeroDial } from '../HeroDialProvider';
 import { cardDimensionStyle, useHeroCardTilt, useScaledFanPosition } from '../heroDialUtils';
 import { usePointerHoverMotionEnabled } from '../usePointerHoverMotion';
+import { fanCardMotion } from '../fanCardMotion';
 
 const cardPositions = [
   { x: -400, y: 28, rotation: -9 },
@@ -61,6 +62,7 @@ interface FanCardProps {
   cardCount: number;
   isGlass: boolean;
   hoveredCard: string | null;
+  focusedIndex: number | null;
   isLoaded: boolean;
   hasAnimatedIn: boolean;
   isMobileStack: boolean;
@@ -69,6 +71,7 @@ interface FanCardProps {
   onCardClick: LayoutProps['onCardClick'];
   onCardHover: LayoutProps['onCardHover'];
   onActivate: (index: number) => void;
+  onCardFocus: (index: number | null) => void;
 }
 
 function FanCard({
@@ -78,6 +81,7 @@ function FanCard({
   cardCount,
   isGlass,
   hoveredCard,
+  focusedIndex,
   isLoaded,
   hasAnimatedIn,
   isMobileStack,
@@ -86,6 +90,7 @@ function FanCard({
   onCardClick,
   onCardHover,
   onActivate,
+  onCardFocus,
 }: FanCardProps) {
   const dial = useHeroDial();
   const fan = dial.stackedFan;
@@ -122,21 +127,26 @@ function FanCard({
     return cardDimensionStyle(dial);
   }, [isMobileStack, mobileDims, dial]);
 
+  const fanPose = fanCardMotion({
+    index,
+    focusedIndex: hoverDisabled || !hasAnimatedIn ? null : focusedIndex,
+    position: scaledPosition,
+    hover: fan.hover,
+  });
   const restPose = {
-    x: isLoaded ? layoutPosition.x : 0,
-    y: isLoaded ? layoutPosition.y : 0,
-    rotate: isLoaded ? layoutPosition.rotation : 0,
+    x: isLoaded ? (isMobileStack ? layoutPosition.x : fanPose.x) : 0,
+    y: isLoaded ? (isMobileStack ? layoutPosition.y : fanPose.y) : 0,
+    rotate: isLoaded ? (isMobileStack ? layoutPosition.rotation : fanPose.rotate) : 0,
     scale: isLoaded ? stackScale : fan.entrance.initialScale,
     opacity: 1,
   };
 
   const animatePose = applyHeroCardPhaseMotion(phase, restPose, {
     // Omit focus lift when hover is disabled so press-on-touch only scales from rest.
-    focused: hoverDisabled
+    focused: hoverDisabled || !hasAnimatedIn
       ? undefined
       : {
-          y: scaledPosition.y - fan.hover.liftY,
-          scale: fan.hover.scale,
+          ...fanPose,
         },
     pressed: {
       scale: isMobileStack ? stackScale * 0.99 : fan.hover.tapScale,
@@ -146,15 +156,11 @@ function FanCard({
     },
   });
 
-  // Stable fan order; hover only boosts stacking. Demote after the leave spring so
-  // the stack doesn’t pop when z-index flips mid-motion.
+  // Keep physical stack order throughout hover and return. Space opens through
+  // neighboring transforms, so no discrete z-index change can reveal an edge.
   const baseZ = isMobileStack
     ? mobileStackZIndex(mobileStack.offset, cardCount, false)
     : cardCount - index;
-  const elevatedZ = isMobileStack
-    ? mobileStackZIndex(mobileStack.offset, cardCount, true)
-    : cardCount + 2;
-  const stackZ = isFocused ? elevatedZ : baseZ;
 
   const interactionTransition = heroCardInteractionTransition({
     hasAnimatedIn,
@@ -165,6 +171,11 @@ function FanCard({
       stiffness: fan.entrance.stiffness,
       damping: fan.entrance.damping,
       staggerDelay: fan.entrance.staggerDelay,
+    },
+    interactionSpring: isMobileStack ? undefined : {
+      stiffness: fan.entrance.settleStiffness,
+      damping: fan.entrance.settleDamping,
+      mass: 1.1,
     },
   });
 
@@ -189,20 +200,24 @@ function FanCard({
         opacity: 1,
         zIndex: baseZ,
       }}
-      animate={{
-        ...animatePose,
-        zIndex: stackZ,
-      }}
+      animate={{ ...animatePose, zIndex: baseZ }}
       transition={{
         ...interactionTransition,
-        zIndex: {
-          type: 'tween',
-          duration: 0,
-          delay: isFocused ? 0 : 0.28,
-        },
+        // Only mobile deck navigation changes this value; desktop hover never does.
+        zIndex: { type: 'tween', duration: 0 },
       }}
       onMouseMove={tilt.onMouseMove}
       {...pointerHandlers}
+      onFocus={(event) => {
+        // Mouse/touch clicks should not pin the fan open after the pointer leaves.
+        if (hoverDisabled || !event.currentTarget.matches(':focus-visible')) return;
+        pointerHandlers.onFocus();
+        onCardFocus(index);
+      }}
+      onBlur={(event) => {
+        pointerHandlers.onBlur(event);
+        onCardFocus(null);
+      }}
       onKeyDown={(e) => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         e.preventDefault();
@@ -248,6 +263,16 @@ export default function StackedFanLayout({
   const [isMobileStack, setIsMobileStack] = useState(false);
   const [mobileDims, setMobileDims] = useState<MobileHeroCardDimensions | null>(null);
   const [activeIndex, setActiveIndex] = useState(() => Math.floor(cards.length / 2));
+  const [keyboardFocusedIndex, setKeyboardFocusedIndex] = useState<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const pointerHoverMotion = usePointerHoverMotionEnabled();
+  const focusedCard = keyboardFocusedIndex === null ? hoveredCard : cards[keyboardFocusedIndex]?.id;
+  const pointerFocusedIndex = pointerHoverMotion
+    ? cards.findIndex((card) => card.id === focusedCard)
+    : -1;
+  const focusedIndex = prefersReducedMotion || isMobileStack
+    ? null
+    : keyboardFocusedIndex ?? (pointerFocusedIndex >= 0 ? pointerFocusedIndex : null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const syncMobileStack = useCallback(() => {
@@ -328,7 +353,8 @@ export default function StackedFanLayout({
           position={cardPositions[index]}
           cardCount={cards.length}
           isGlass={isGlass}
-          hoveredCard={hoveredCard}
+          hoveredCard={focusedCard ?? null}
+          focusedIndex={focusedIndex}
           isLoaded={isLoaded}
           hasAnimatedIn={hasAnimatedIn}
           isMobileStack={isMobileStack}
@@ -337,6 +363,7 @@ export default function StackedFanLayout({
           onCardClick={onCardClick}
           onCardHover={onCardHover}
           onActivate={setActiveIndex}
+          onCardFocus={setKeyboardFocusedIndex}
         />
       ))}
     </div>

@@ -40,7 +40,7 @@
 
 [data-viewport-tier='tablet'] .card-stack-section {
   margin-top: 32px;
-  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 32px);
+  --hero-background-offset: calc(var(--content-top-padding, 6rem) + 32px);
 }
 
 [data-viewport-tier='tablet'] .philosophy-grid {
@@ -59,7 +59,7 @@
 
   .card-stack-section {
     margin-top: 36px;
-    --hero-grid-y: calc(var(--content-top-padding, 6rem) + 36px);
+    --hero-background-offset: calc(var(--content-top-padding, 6rem) + 36px);
   }
 
   .card-stack-hero .hero-title {
@@ -84,7 +84,7 @@
 
 [data-viewport-tier='tablet-wide'] .card-stack-section {
   margin-top: 36px;
-  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 36px);
+  --hero-background-offset: calc(var(--content-top-padding, 6rem) + 36px);
 }
 
 /* Touch-primary tablet: strip sticky-hover transforms (belt-and-suspenders) */

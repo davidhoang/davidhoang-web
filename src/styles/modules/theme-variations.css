@@ -523,18 +523,18 @@ html[data-e-ink="true"] {
    ============================================ */
 
 /* Underline (default) */
-[data-link-style="underline"] a:not(.nav-link):not(.footer-link):not(.speaking-entry__link) {
+[data-link-style="underline"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):not(.speaking-entry__link) {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 /* Highlight - background highlight on hover */
-[data-link-style="highlight"] a:not(.nav-link):not(.footer-link) {
+[data-link-style="highlight"] a:not(.nav-link):not(.footer-link):not(.link-highlighter) {
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
 
-[data-link-style="highlight"] a:not(.nav-link):not(.footer-link):hover {
+[data-link-style="highlight"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):hover {
   background-color: var(--color-link);
   color: var(--color-bg);
   padding: 0.1em 0.2em;
@@ -543,12 +543,12 @@ html[data-e-ink="true"] {
 }
 
 /* Animated underline - grows on hover */
-[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link) {
+[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link):not(.link-highlighter) {
   text-decoration: none;
   position: relative;
 }
 
-[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link)::after {
+[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link):not(.link-highlighter)::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -559,44 +559,44 @@ html[data-e-ink="true"] {
   transition: width 0.3s ease;
 }
 
-[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link):hover::after {
+[data-link-style="animated-underline"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):hover::after {
   width: 100%;
 }
 
 /* Color only - no underline */
-[data-link-style="color-only"] a:not(.nav-link):not(.footer-link) {
+[data-link-style="color-only"] a:not(.nav-link):not(.footer-link):not(.link-highlighter) {
   text-decoration: none;
   transition: opacity 0.3s var(--ease-inertia);
 }
 
-[data-link-style="color-only"] a:not(.nav-link):not(.footer-link):hover {
+[data-link-style="color-only"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):hover {
   opacity: 0.8;
 }
 
 /* Bracket - decorative brackets on hover */
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link) {
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter) {
   text-decoration: none;
   position: relative;
 }
 
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::before,
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::after {
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter)::before,
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter)::after {
   opacity: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::before {
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter)::before {
   content: '[';
   transform: translateX(5px);
 }
 
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link)::after {
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter)::after {
   content: ']';
   transform: translateX(-5px);
 }
 
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):hover::before,
-[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):hover::after {
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):hover::before,
+[data-link-style="bracket"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):hover::after {
   opacity: 1;
   transform: translateX(0);
 }
@@ -644,9 +644,9 @@ html[data-e-ink="true"] {
   background: radial-gradient(ellipse at top, var(--color-sidebar-bg) 0%, transparent 70%);
 }
 
-/* Home page already has the hero dot-grid (.card-stack-section::before in
-   index.astro). Suppress page-wide geometric textures there to keep a single
-   pattern source — see "Background patterns" in design.md. */
+/* Home owns a subtle hero noise texture (.card-stack-section::before in
+   pages/home.css). Keep page-wide dots and grids from adding visual clutter
+   there — see "Background patterns" in design.md. */
 html:has(.card-stack-section):is([data-bg-texture="dots"], [data-bg-texture="grid"])::before {
   display: none;
 }
