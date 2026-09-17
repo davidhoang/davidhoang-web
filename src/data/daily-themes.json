@@ -1,6 +1,332 @@
 {
   "themes": [
     {
+      "name": "Concrete & Aureole",
+      "description": "Tadao Ando's blade of light through raw concrete — restrained mass meeting transcendent warmth, images emerging from deep shadow like devotional objects.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C2820",
+          "--color-bg": "#F2EDE6",
+          "--color-link": "#836008",
+          "--color-link-hover": "#8B6508",
+          "--color-border": "#D4C9B8",
+          "--color-muted": "#6E6760",
+          "--color-sidebar-bg": "#EDE8E0",
+          "--color-nav-bg": "#F2EDE6",
+          "--color-nav-text": "#2C2820",
+          "--color-card-bg": "#EAE4DC"
+        },
+        "dark": {
+          "--color-text": "#E8E0D4",
+          "--color-bg": "#1C1710",
+          "--color-link": "#D4A017",
+          "--color-link-hover": "#F0C040",
+          "--color-border": "#3A342A",
+          "--color-muted": "#878077",
+          "--color-sidebar-bg": "#221D16",
+          "--color-nav-bg": "#1C1710",
+          "--color-nav-text": "#E8E0D4",
+          "--color-card-bg": "#241F18"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F2EDE6",
+          "#D4A017"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-09-17",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Concrete & Aureole",
+              "subtitle": "September 17, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "s1",
+              "div3",
+              "s2",
+              "div4",
+              "s3",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A blade of gold through raw concrete. The image as devotional object — held in shadow until it must be seen.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C2820",
+                  "label": "Void"
+                },
+                {
+                  "hex": "#F2EDE6",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#836008",
+                  "label": "Aureole"
+                },
+                {
+                  "hex": "#D4C9B8",
+                  "label": "Formwork"
+                },
+                {
+                  "hex": "#6E6760",
+                  "label": "Ash"
+                },
+                {
+                  "hex": "#EAE4DC",
+                  "label": "Pour"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "ht",
+              "hero",
+              "shader"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Light from Above",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#F2EDE6",
+                "#D4A017"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Serif Heading",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Elevated Cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Asymmetric Grid",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "High Contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div4": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Fraunces"
+                },
+                {
+                  "label": "Body",
+                  "value": "Inter"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Radius",
+                  "value": "16px"
+                },
+                {
+                  "label": "Image",
+                  "value": "Vivid / Hover Glow"
+                }
+              ]
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Concrete & Aureole",
+              "action": "apply-theme",
+              "date": "2026-09-17"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Amber Signal",
       "description": "A dawn editorial journal where warm amber ink meets deep indigo shadow — the quiet glow of a Tokyo vending machine on a rain-soaked side street, rendered in measured print hierarchy.",
       "colors": {
@@ -2089,336 +2415,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Shaft & Shadow",
-      "description": "Tadao Ando's concrete chapel distilled into type — a single blade of golden light cutting through heavy graphite structure, restraint as its own ornament.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1A17",
-          "--color-bg": "#EDE9E3",
-          "--color-link": "#815E08",
-          "--color-link-hover": "#8B6508",
-          "--color-border": "#2E2C28",
-          "--color-muted": "#6B6560",
-          "--color-sidebar-bg": "#E4DFD8",
-          "--color-nav-bg": "#EDE9E3",
-          "--color-nav-text": "#1C1A17",
-          "--color-card-bg": "#E8E3DC"
-        },
-        "dark": {
-          "--color-text": "#EDE9E3",
-          "--color-bg": "#1A1714",
-          "--color-link": "#D4A017",
-          "--color-link-hover": "#F0C040",
-          "--color-border": "#EDE9E3",
-          "--color-muted": "#8A8480",
-          "--color-sidebar-bg": "#211F1B",
-          "--color-nav-bg": "#1A1714",
-          "--color-nav-text": "#EDE9E3",
-          "--color-card-bg": "#201E1A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Anton",
-          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.04em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "2",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EDE9E3",
-          "#B8860B"
-        ]
-      },
-      "font": {
-        "name": "Anton",
-        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-09-10",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Shaft & Shadow",
-              "subtitle": "2026 · 09 · 10"
-            },
-            "children": [
-              "manifesto",
-              "d1",
-              "s1",
-              "s2",
-              "d2",
-              "s3",
-              "s4",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "One blade of gold. The rest is concrete. Restraint is the only ornament worth keeping.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "d1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "br"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SHAFT & SHADOW",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "d2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "meta",
-              "hero"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Editorial"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Radius",
-                  "value": "0px"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial Hero"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1A17",
-                  "label": "Graphite"
-                },
-                {
-                  "hex": "#EDE9E3",
-                  "label": "Linen"
-                },
-                {
-                  "hex": "#815E08",
-                  "label": "Gold Shaft"
-                },
-                {
-                  "hex": "#E8E3DC",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#6B6560",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#2E2C28",
-                  "label": "Border"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#815E08"
-                },
-                {
-                  "name": "--font-heading",
-                  "value": "Anton"
-                },
-                {
-                  "name": "--font-body",
-                  "value": "Literata"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "0px"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#EDE9E3"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Shaft & Shadow",
-              "action": "apply-theme",
-              "date": "2026-09-10"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-16"
+  "currentDate": "2026-09-17"
 }
