@@ -5,19 +5,18 @@ import { useGLTF } from '@react-three/drei/core/Gltf';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { Mesh, OrthographicCamera, Vector3 } from 'three';
 import type { OrbitControls as ControlsImpl } from 'three-stdlib';
-import type { HomeKind, HomeView } from './HomeViewer';
+import { homeFraming, type HomeKind, type HomeView } from './homeViews';
 
-type Props = { kind: HomeKind; modelUrl: string; view: HomeView; revision: number; onReady: () => void; label: string; descriptionId: string };
-type Framing = { position: [number, number, number]; target: [number, number, number]; width: number; height: number };
-const framing: Record<HomeKind, Record<HomeView, Framing>> = {
-  desert: {
-    home: { position: [22.2, 28, 32.8], target: [-2.8, 3, -4.2], width: 35, height: 30 },
-    detail: { position: [0.25, 1.85, 9.8], target: [-1.9, 0.78, 6.35], width: 2.8, height: 2.8 },
-  },
-  clocktower: {
-    home: { position: [29.2, 32, 43.8], target: [-2.8, 7, -4.2], width: 43, height: 37 },
-    detail: { position: [1.5, 18.5, 11], target: [-8.25, 15.8, -2.65], width: 11, height: 12 },
-  },
+type Props = {
+  kind: HomeKind;
+  modelUrl: string;
+  view: HomeView;
+  revision: number;
+  active: boolean;
+  onReady: () => void;
+  onToggleView: () => void;
+  label: string;
+  descriptionId: string;
 };
 // These colors belong to the miniature's studio, independent of the page theme.
 const studio = { ambient: 'floralwhite', sky: 'oldlace', ground: 'darkkhaki', sun: 'papayawhip', fill: 'aliceblue', shadow: 'darkslategray' };
@@ -45,7 +44,7 @@ function CameraRig({ kind, view, revision }: Pick<Props, 'kind' | 'view' | 'revi
   }, []);
   useEffect(() => {
     if (!(camera instanceof OrthographicCamera)) return;
-    const config = framing[kind][view];
+    const config = homeFraming[kind][view];
     camera.position.set(...config.position);
     camera.zoom = Math.min(size.width / config.width, size.height / config.height);
     const target = new Vector3(...config.target);
@@ -68,8 +67,9 @@ function CameraRig({ kind, view, revision }: Pick<Props, 'kind' | 'view' | 'revi
   return <OrbitControls ref={controls} makeDefault enablePan screenSpacePanning enableDamping={!reducedMotion} dampingFactor={0.09} minPolarAngle={0.1} maxPolarAngle={Math.PI / 2.05} minZoom={2} maxZoom={800} />;
 }
 
-export default function HomeScene({ kind, modelUrl, view, revision, onReady, label, descriptionId }: Props) {
-  return <Canvas orthographic shadows frameloop="demand" dpr={[1, 1.5]} camera={{ position: framing[kind].home.position, zoom: 12, near: 0.1, far: 220 }} gl={{ antialias: true, alpha: true }}
+export default function HomeScene({ kind, modelUrl, view, revision, active, onReady, onToggleView, label, descriptionId }: Props) {
+  return <Canvas orthographic shadows frameloop={active ? 'demand' : 'never'} dpr={[1, 1.5]} camera={{ position: homeFraming[kind].home.position, zoom: 12, near: 0.1, far: 220 }} gl={{ antialias: true, alpha: true }}
+    onDoubleClick={onToggleView}
     onCreated={({ gl }) => { gl.domElement.tabIndex = 0; gl.domElement.setAttribute('aria-label', label); gl.domElement.setAttribute('aria-describedby', descriptionId); }}>
     <ambientLight intensity={1.2} color={studio.ambient} />
     <hemisphereLight args={[studio.sky, studio.ground, 1.7]} />

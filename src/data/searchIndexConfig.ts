@@ -25,6 +25,7 @@ export type SearchIndexCollection = (typeof SEARCH_INDEX_COLLECTIONS)[number];
  * Keep this list explicit so a new page cannot be omitted by accident
  * without a test failure (see tests/searchIndexConfig.test.ts).
  * Unlisted pages (e.g. /projects) belong here so they stay off ⌘K and the sitemap.
+ * `/experiments/*` is the placeholder Greco scaffold; the finished homes live on `/now`.
  */
 export const SEARCH_INDEX_EXCLUDE_PATHS = [
   '/labs',
@@ -41,6 +42,7 @@ export const SEARCH_INDEX_EXCLUDE_PATH_PREFIXES = [
   '/api/',
   '/rss',
   '/.well-known/',
+  '/experiments',
 ] as const;
 
 const EXACT_EXCLUDES = new Set<string>(SEARCH_INDEX_EXCLUDE_PATHS);
