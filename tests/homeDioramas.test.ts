@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { homeFraming } from '../src/components/homes/homeFraming';
+import { homeInstructions, homePeekLabel } from '../src/components/homes/homeCopy';
+import { commandPalettePages } from '../src/data/navigation';
+import { isExcludedFromSearchIndex } from '../src/data/searchIndexConfig';
 
 function readGlb(name: string) {
   const bytes = readFileSync(new URL(`../public/models/homes/${name}.glb`, import.meta.url));
@@ -36,6 +40,22 @@ describe('web-ready clay homes', () => {
       }
     });
   }
+  it('keeps a close-up framing for Kai and the clock tower', () => {
+    expect(homeFraming.desert.detail.width).toBeLessThan(homeFraming.desert.home.width);
+    expect(homeFraming.clocktower.detail.width).toBeLessThan(homeFraming.clocktower.home.width);
+    expect(homePeekLabel('desert', 'home', 'Palm Springs')).toMatch(/Kai/);
+    expect(homePeekLabel('clocktower', 'detail', 'San Francisco')).toMatch(/full San Francisco view/);
+    expect(homeInstructions()).toMatch(/Look closer/);
+  });
+  it('does not preload the experiment model, which shares the /now renderer chunk', () => {
+    const scene = readFileSync(new URL('../src/components/diorama/DioramaScene.tsx', import.meta.url), 'utf8');
+    expect(scene).not.toMatch(/useGLTF\.preload/);
+  });
+  it('keeps the placeholder Greco experiment unlisted next to the finished /now homes', () => {
+    const palettePaths: string[] = commandPalettePages.map((page) => page.path);
+    expect(palettePaths).not.toContain('/experiments/greco-diorama');
+    expect(isExcludedFromSearchIndex('/experiments/greco-diorama')).toBe(true);
+  });
   it('retains Kai as a separate mesh with his vertex-painted tabby coat', () => {
     const { json } = readGlb('greco-court');
     const kai = json.nodes.find((node: { name: string }) => node.name === 'Kai');

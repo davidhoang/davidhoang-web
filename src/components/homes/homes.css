@@ -8,10 +8,17 @@
   position: relative;
   aspect-ratio: 1.15;
   isolation: isolate;
+  overflow: hidden;
   background-color: var(--color-sidebar-bg);
   border-radius: var(--radius-lg);
 }
-.home-viewer__stage canvas { cursor: grab; touch-action: none; }
+.home-viewer__stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
 .home-viewer__stage canvas:active { cursor: grabbing; }
 .home-viewer__stage canvas:focus-visible {
   outline: var(--focus-ring);
@@ -27,21 +34,27 @@
 .home-viewer__poster { position: absolute; inset: 0; pointer-events: none; }
 .home-viewer__fallback { height: 100%; }
 .home-viewer__fallback p { margin: 0; color: var(--color-muted); }
-.home-viewer__refresh {
+.home-viewer__controls {
   position: absolute;
   top: var(--spacing-sm);
   right: var(--spacing-sm);
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.home-viewer__control {
   width: 44px;
   height: 44px;
   padding: var(--spacing-sm);
   color: var(--color-muted);
 }
-.home-viewer__refresh:hover { color: var(--color-text); }
-.home-viewer__refresh:focus-visible {
+.home-viewer__control:hover { color: var(--color-text); }
+.home-viewer__control:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
+.home-viewer__control[aria-pressed="true"] { color: var(--color-text); }
 .home-viewer__caption { padding-top: var(--spacing-sm); text-align: center; }
 .home-viewer__caption h3 { margin: 0; font-size: inherit; }
 @media (max-width: 768px) {

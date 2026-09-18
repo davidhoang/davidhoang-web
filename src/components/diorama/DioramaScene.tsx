@@ -564,5 +564,3 @@ export default function DioramaScene() {
     </Canvas>
   );
 }
-
-useGLTF.preload(MODEL_URL);

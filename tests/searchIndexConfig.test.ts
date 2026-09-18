@@ -59,6 +59,7 @@ describe('search index policy (PC-40)', () => {
   it('excludes utility, deprecated, feed, and machine endpoints', () => {
     expect(isExcludedFromSearchIndex('/labs')).toBe(true);
     expect(isExcludedFromSearchIndex('/projects')).toBe(true);
+    expect(isExcludedFromSearchIndex('/experiments/greco-diorama')).toBe(true);
     expect(isExcludedFromSearchIndex('/404')).toBe(true);
     expect(isExcludedFromSearchIndex('/default-layout')).toBe(true);
     expect(isExcludedFromSearchIndex('/api/og')).toBe(true);
