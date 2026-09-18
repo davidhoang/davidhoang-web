@@ -1,24 +1,7 @@
-export type HomeKind = 'desert' | 'clocktower';
-export type HomeView = 'home' | 'detail';
+import type { HomeKind, HomeView } from './types';
 
-export type Framing = {
-  position: [number, number, number];
-  target: [number, number, number];
-  width: number;
-  height: number;
-};
-
-export const homeFraming: Record<HomeKind, Record<HomeView, Framing>> = {
-  desert: {
-    home: { position: [22.2, 28, 32.8], target: [-2.8, 3, -4.2], width: 35, height: 30 },
-    detail: { position: [0.25, 1.85, 9.8], target: [-1.9, 0.78, 6.35], width: 2.8, height: 2.8 },
-  },
-  clocktower: {
-    home: { position: [29.2, 32, 43.8], target: [-2.8, 7, -4.2], width: 43, height: 37 },
-    detail: { position: [1.5, 18.5, 11], target: [-8.25, 15.8, -2.65], width: 11, height: 12 },
-  },
-};
-
+// Viewer-only, for the same chunking reason as homeFraming: this side of the
+// lazy boundary must stay out of the `homes-3d` chunk.
 export function homeDescription(kind: HomeKind): string {
   return kind === 'desert'
     ? 'Clay miniature of our Palm Springs home, with layered desert mountains behind it and Kai the tabby cat by the front path.'

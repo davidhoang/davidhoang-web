@@ -5,7 +5,8 @@ import { useGLTF } from '@react-three/drei/core/Gltf';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { Mesh, OrthographicCamera, Vector3 } from 'three';
 import type { OrbitControls as ControlsImpl } from 'three-stdlib';
-import { homeFraming, type HomeKind, type HomeView } from './homeViews';
+import { homeFraming } from './homeFraming';
+import type { HomeKind, HomeView } from './types';
 
 type Props = {
   kind: HomeKind;

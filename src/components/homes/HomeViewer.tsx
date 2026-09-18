@@ -1,9 +1,9 @@
 import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { homeDescription, homeInstructions, homePeekLabel, type HomeKind, type HomeView } from './homeViews';
+import { homeDescription, homeInstructions, homePeekLabel } from './homeCopy';
+import type { HomeKind, HomeView } from './types';
 import './homes.css';
 
 const HomeScene = lazy(() => import('./HomeScene'));
-export type { HomeKind, HomeView };
 type Props = { kind: HomeKind; modelUrl: string; posterUrl: string; name: string };
 class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
   state = { failed: false };
