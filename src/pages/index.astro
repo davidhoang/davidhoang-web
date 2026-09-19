@@ -5,6 +5,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
+import { buildHomeHeroCards } from '../utils/jevHomeHero';
 import '../styles/pages/home.css';
 import '../styles/modules/card-stack-hero.css';
 import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
@@ -36,6 +37,7 @@ async function optimizePortfolioImage(src: ImageMetadata) {
 // instead of double download). Card thumbnails render as CSS background-image,
 // so a single right-sized variant is what we want; no srcset needed.
 const dhWebOptimized = await getImage({ src: dhWebLightAsset, width: 480, format: 'webp' });
+const homeHeroPlan = await buildHomeHeroCards();
 
 // Page metadata
 const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -91,10 +93,15 @@ const portfolioItems = [
   <link slot="head" rel="preload" as="image" href={dhWebOptimized.src} type="image/webp" fetchpriority="high" />
   <link slot="head" rel="preload" as="image" href="/images/davidhoang-web-config-still.webp" type="image/webp" />
   <!-- Card Stack Hero -->
-  <section class="card-stack-section" aria-label="Current activities and projects">
+  <section
+    class="card-stack-section"
+    aria-label="Current activities and projects"
+    data-hero-decision-source={homeHeroPlan.source}
+  >
     <CardStackHeroLazy
       client:idle
       aboutThumbnailSrc={dhWebOptimized.src}
+      cards={homeHeroPlan.cards}
       lcpImageSrc="/images/davidhoang-web-config-still.webp"
     />
   </section>

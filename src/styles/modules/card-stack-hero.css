@@ -484,6 +484,47 @@
   margin-top: 8px;
 }
 
+.card-editorial-label {
+  margin: 0 0 var(--spacing-xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow-size);
+  font-weight: 600;
+  letter-spacing: var(--text-eyebrow-tracking);
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.82;
+}
+
+.card-editorial-summary {
+  display: -webkit-box;
+  margin: var(--spacing-sm) 0 0;
+  overflow: hidden;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: currentColor;
+  opacity: 0.86;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.card-presentation--feature .card-editorial-label {
+  max-width: 24ch;
+  text-transform: none;
+  letter-spacing: var(--letter-spacing-caption);
+}
+
+.card-presentation--brief {
+  justify-content: flex-end;
+}
+
+.card-presentation--brief .card-editorial-label {
+  align-self: flex-start;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: var(--card-border-width) solid currentColor;
+  border-radius: var(--radius-full);
+}
+
 /* Shader header cards: title overlaps dither/mesh — scrim + shadow for legibility */
 .card-has-shader .card-content {
   padding-top: 28px;
@@ -555,6 +596,14 @@
   flex: 1;
   min-height: 0;
   position: relative;
+}
+
+.card-hero-body--spotlight .card-hero-image-wrap {
+  height: 34%;
+}
+
+.card-hero-body--brief .card-hero-image-wrap {
+  height: 50%;
 }
 
 .card-selected.card-has-hero-layout,

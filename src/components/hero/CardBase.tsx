@@ -32,6 +32,35 @@ function videoMimeType(src: string): string | undefined {
   return undefined;
 }
 
+function CardCopy({ card }: { card: Card }) {
+  switch (card.variant) {
+    case 'spotlight':
+      return (
+        <>
+          <p className="card-editorial-label">{card.eyebrow}</p>
+          <h3 className="card-title">{card.title}</h3>
+          {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
+          <p className="card-editorial-summary">{card.summary}</p>
+        </>
+      );
+    case 'feature':
+      return (
+        <>
+          <p className="card-editorial-label">{card.kicker}</p>
+          <h3 className="card-title">{card.title}</h3>
+          {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
+        </>
+      );
+    case 'brief':
+      return (
+        <>
+          <p className="card-editorial-label">{card.label}</p>
+          <h3 className="card-title">{card.title}</h3>
+        </>
+      );
+  }
+}
+
 function CardHeroMedia({
   card,
   isHeroMediaActive,
@@ -154,14 +183,13 @@ export function CardBaseContent({
 }: CardBaseProps) {
   if (cardHasHeroLayout(card)) {
     return (
-      <div className="card-hero-body">
+      <div className={`card-hero-body card-hero-body--${card.variant}`}>
         {isGlass && (
           <div className="card-glass-overlay" style={{ backgroundColor: card.color }} />
         )}
         <CardHeroMedia card={card} isHeroMediaActive={isHeroMediaActive} />
-        <div className="card-unified-panel">
-          <h3 className="card-title">{card.title}</h3>
-          {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
+        <div className={`card-unified-panel card-presentation--${card.variant}`}>
+          <CardCopy card={card} />
           <AnimatePresence>
             {isSelected && (
               <motion.div
@@ -214,9 +242,8 @@ export function CardBaseContent({
         </div>
       )}
 
-      <div className="card-content">
-        <h3 className="card-title">{card.title}</h3>
-        {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
+      <div className={`card-content card-presentation--${card.variant}`}>
+        <CardCopy card={card} />
       </div>
 
       <AnimatePresence>
