@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { MOBILE_STACK_OFFSETS } from './hero/mobileHeroStack';
+import type { Card } from './hero/types';
 
 // Lazy load the CardStackHero component (735 lines, uses framer-motion)
 const CardStackHero = lazy(() => import('./CardStackHero'));
@@ -59,17 +60,19 @@ const CardStackHeroSkeleton = ({ lcpImageSrc }: { lcpImageSrc?: string }) => (
 
 interface CardStackHeroLazyProps {
   aboutThumbnailSrc?: string;
+  cards?: Card[];
   /** Preloaded config still — painted in the Suspense fallback for LCP. */
   lcpImageSrc?: string;
 }
 
 export default function CardStackHeroLazy({
   aboutThumbnailSrc,
+  cards,
   lcpImageSrc = LCP_STILL_SRC,
 }: CardStackHeroLazyProps = {}) {
   return (
     <Suspense fallback={<CardStackHeroSkeleton lcpImageSrc={lcpImageSrc} />}>
-      <CardStackHero aboutThumbnailSrc={aboutThumbnailSrc} />
+      <CardStackHero aboutThumbnailSrc={aboutThumbnailSrc} cards={cards} />
     </Suspense>
   );
 }

@@ -1,5 +1,8 @@
-export interface Card {
-  id: string;
+export type HeroCardId = 'atlassian' | 'poc' | 'config' | 'diveclub' | 'hatch' | 'about';
+export type HeroCardVariant = 'spotlight' | 'feature' | 'brief';
+
+interface CardBase {
+  id: HeroCardId;
   title: string;
   subtitle?: string;
   description: string;
@@ -15,6 +18,70 @@ export interface Card {
   heroImageStill?: string;
   /** Optional looping video (webm/mp4); uses heroImage as poster. Plays on hover + expanded view. */
   heroVideo?: string;
+}
+
+export interface SpotlightCard extends CardBase {
+  variant: 'spotlight';
+  eyebrow: string;
+  summary: string;
+}
+
+export interface FeatureCard extends CardBase {
+  variant: 'feature';
+  kicker: string;
+}
+
+export interface BriefCard extends CardBase {
+  variant: 'brief';
+  label: string;
+}
+
+export type Card = SpotlightCard | FeatureCard | BriefCard;
+
+export interface HeroCardSource extends CardBase {
+  editorial: {
+    eyebrow: string;
+    spotlightSummary: string;
+    personalContext: string;
+    featureKicker: string;
+    briefLabel: string;
+  };
+}
+
+export type HeroCardPresentation =
+  | { variant: 'spotlight'; usePersonalContext: boolean }
+  | { variant: 'feature' }
+  | { variant: 'brief' };
+
+export function presentHeroCard(
+  source: HeroCardSource,
+  presentation: HeroCardPresentation,
+): Card {
+  const { editorial, ...base } = source;
+
+  switch (presentation.variant) {
+    case 'spotlight':
+      return {
+        ...base,
+        variant: 'spotlight',
+        eyebrow: editorial.eyebrow,
+        summary: presentation.usePersonalContext
+          ? editorial.personalContext
+          : editorial.spotlightSummary,
+      };
+    case 'feature':
+      return {
+        ...base,
+        variant: 'feature',
+        kicker: editorial.featureKicker,
+      };
+    case 'brief':
+      return {
+        ...base,
+        variant: 'brief',
+        label: editorial.briefLabel,
+      };
+  }
 }
 
 /** True when the card uses a generative shader in the header (title can overlap busy art). */
@@ -39,7 +106,7 @@ export interface LayoutProps {
   onCardHover: (cardId: string | null) => void;
 }
 
-export const cards: Card[] = [
+export const heroCardSources: readonly HeroCardSource[] = [
   {
     id: 'atlassian',
     title: 'Atlassian',
@@ -50,6 +117,13 @@ export const cards: Card[] = [
     link: 'https://www.atlassian.com/software/rovo',
     linkText: 'Learn about Rovo',
     heroImage: '/images/hero/placeholder.svg',
+    editorial: {
+      eyebrow: 'Current work',
+      spotlightSummary: 'Designing AI tools that connect people, knowledge, and work.',
+      personalContext: 'What I am learning while leading design for Rovo, AI, and Ecosystem.',
+      featureKicker: 'Building connected AI tools at enterprise scale.',
+      briefLabel: 'Work',
+    },
   },
   {
     id: 'poc',
@@ -59,7 +133,14 @@ export const cards: Card[] = [
     color: '#E85D04',
     pattern: 'lines',
     link: 'https://www.proofofconcept.pub',
-    linkText: 'Subscribe'
+    linkText: 'Subscribe',
+    editorial: {
+      eyebrow: 'Weekly dispatch',
+      spotlightSummary: 'Notes on design, technology, and experiments worth sharing.',
+      personalContext: 'The questions and observations shaping my work each week.',
+      featureKicker: 'A weekly newsletter for curious builders.',
+      briefLabel: 'Newsletter',
+    },
   },
   {
     id: 'config',
@@ -74,6 +155,13 @@ export const cards: Card[] = [
     /** Static first frame — video only while hovered / expanded (see CardHeroMedia). */
     heroImageStill: '/images/davidhoang-web-config-still.webp',
     heroVideo: '/images/davidhoang-web-config.mp4',
+    editorial: {
+      eyebrow: 'Featured talk',
+      spotlightSummary: 'A practical look at scaling design teams without losing their culture.',
+      personalContext: 'What years of growing design organizations taught me about scale.',
+      featureKicker: 'A Figma Config talk on design teams and culture.',
+      briefLabel: 'Talk',
+    },
   },
   {
     id: 'diveclub',
@@ -87,6 +175,13 @@ export const cards: Card[] = [
     heroImage: '/images/davidhoang-web-ridd-still.webp',
     heroImageStill: '/images/davidhoang-web-ridd-still.webp',
     heroVideo: '/images/davidhoang-web-ridd.mp4',
+    editorial: {
+      eyebrow: 'In conversation',
+      spotlightSummary: 'A candid discussion about leadership, creative tools, and career choices.',
+      personalContext: 'The principles and detours behind my path through design leadership.',
+      featureKicker: 'A conversation about making, leading, and learning.',
+      briefLabel: 'Podcast',
+    },
   },
   {
     id: 'hatch',
@@ -101,6 +196,13 @@ export const cards: Card[] = [
     heroImage: '/images/davidhoang-web-hatch-still.webp',
     heroImageStill: '/images/davidhoang-web-hatch-still.webp',
     heroVideo: '/images/davidhoang-web-hatch.mp4',
+    editorial: {
+      eyebrow: 'Keynote',
+      spotlightSummary: 'How constraints and openness shape the creative work we choose to ship.',
+      personalContext: 'My framework for deciding what belongs in the blank after “Design &”.',
+      featureKicker: 'A keynote about creativity, constraints, and possibility.',
+      briefLabel: 'Conference',
+    },
   },
   {
     id: 'about',
@@ -111,9 +213,30 @@ export const cards: Card[] = [
     pattern: 'none',
     link: '/about',
     linkText: 'Learn more',
-    thumbnail: '/images/img-dh-web-light.webp'
+    thumbnail: '/images/img-dh-web-light.webp',
+    editorial: {
+      eyebrow: 'About David',
+      spotlightSummary: 'Designer, investor, and builder focused on tools for the internet.',
+      personalContext: 'The people, products, and ideas that continue to shape my practice.',
+      featureKicker: 'A career spent designing tools and growing teams.',
+      briefLabel: 'Profile',
+    },
   },
 ];
+
+const FALLBACK_SPOTLIGHT: HeroCardId = 'config';
+const FALLBACK_FEATURES = new Set<HeroCardId>(['atlassian', 'hatch']);
+
+/** Stable no-network presentation used for local development and failed evaluations. */
+export const cards: Card[] = heroCardSources.map((source) => {
+  if (source.id === FALLBACK_SPOTLIGHT) {
+    return presentHeroCard(source, { variant: 'spotlight', usePersonalContext: false });
+  }
+  if (FALLBACK_FEATURES.has(source.id)) {
+    return presentHeroCard(source, { variant: 'feature' });
+  }
+  return presentHeroCard(source, { variant: 'brief' });
+});
 
 export const rotatingRoles = [
   { label: 'Investor', link: '/investing' },

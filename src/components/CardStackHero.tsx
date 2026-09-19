@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, lazy, Suspense } from 'react';
 import { MotionConfig, useReducedMotion } from 'framer-motion';
 import { useSharedInView } from '../hooks/useSharedInView';
-import { cards, resolveLayout } from './hero/types';
+import { cards as fallbackCards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { createStableCardHoverSetter } from './hero/cardHover';
 import { isMobileHeroViewport, readHeroViewportTier } from './hero/heroViewport';
@@ -32,6 +32,7 @@ const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
 
 interface CardStackHeroProps {
   aboutThumbnailSrc?: string;
+  cards?: Card[];
 }
 
 function openCardLink(link?: string) {
@@ -44,7 +45,10 @@ function openCardLink(link?: string) {
   window.location.href = link;
 }
 
-export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps = {}) {
+export default function CardStackHero({
+  aboutThumbnailSrc,
+  cards: initialCards = fallbackCards,
+}: CardStackHeroProps = {}) {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
@@ -79,10 +83,10 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
       setIsLoaded(true);
       window.setTimeout(
         () => setHasAnimatedIn(true),
-        100 + cards.length * 80 + 500
+        100 + initialCards.length * 80 + 500
       );
     });
-  }, []);
+  }, [initialCards.length]);
 
   // Apply viewport tier + layout before paint so mobile scale/height are correct
   // when cards become visible (avoids desktop-sized flash on phones).
@@ -115,13 +119,13 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
   }, []);
 
   const displayCards: Card[] = useMemo(() => {
-    const themed = deriveHeroCardPalette(cards.length);
-    return cards.map((c, i) => {
+    const themed = deriveHeroCardPalette(initialCards.length);
+    return initialCards.map((c, i) => {
       const color = themed?.[i] ?? c.color;
       const thumbnail = c.id === 'about' && aboutThumbnailSrc ? aboutThumbnailSrc : c.thumbnail;
       return { ...c, color, thumbnail };
     });
-  }, [cardPaletteRev, aboutThumbnailSrc]);
+  }, [cardPaletteRev, aboutThumbnailSrc, initialCards]);
 
   // Observe data-card-style and data-hero-layout on <html>.
   // On mobile (≤768px), force stacked-fan regardless of theme — editorial,
@@ -171,12 +175,15 @@ export default function CardStackHero({ aboutThumbnailSrc }: CardStackHeroProps 
     if (!isInView || !isLayoutReady) return;
 
     const timer = setTimeout(() => setIsLoaded(true), 100);
-    const completeTimer = setTimeout(() => setHasAnimatedIn(true), 100 + cards.length * 80 + 500);
+    const completeTimer = setTimeout(
+      () => setHasAnimatedIn(true),
+      100 + initialCards.length * 80 + 500,
+    );
     return () => {
       clearTimeout(timer);
       clearTimeout(completeTimer);
     };
-  }, [isInView, isLayoutReady]);
+  }, [isInView, isLayoutReady, initialCards.length]);
 
   const handleCardClick = (_cardId: string, link?: string) => {
     stableHoverRef.current.cancelPendingClear();
