@@ -97,7 +97,8 @@ The website features an AI-powered theme generation system that creates a unique
 4. Every model response passes a strict schema: exact theme keys, allowlisted enums, canonical hex colors, bounded CSS values, and capped strings/arrays
 5. Playwright renders every candidate (and only cache-miss recent themes) at 390px, 1440px, and 1920px
 6. Ranking prefers viewport-safe candidates with higher layout + palette distance from recent themes, and penalizes warm-cream / lavender AI attractors
-7. The winning theme is saved to `src/data/daily-themes.json` (7-day history); edge signatures land in `src/data/theme-render-signatures.json` for the next run
+7. Optional: if `TYPESAFE_API_KEY` is set, [Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev) scores taste, recipe commitment, and generic-AI-slop in one System One call and reweights the safe set. Jev cannot generate theme JSON and cannot override contrast or viewport failures.
+8. The winning theme is saved to `src/data/daily-themes.json` (7-day history); edge signatures land in `src/data/theme-render-signatures.json` for the next run
 
 Navigation dimensions and page scaffolding remain framework-controlled across every theme.
 
@@ -105,6 +106,7 @@ Navigation dimensions and page scaffolding remain framework-controlled across ev
 
 ```bash
 # Requires ANTHROPIC_API_KEY in .env or environment
+# Optional TYPESAFE_API_KEY enables the Jev taste judge
 npm run generate-theme
 
 # One-time install for full local render-and-rank support
@@ -133,6 +135,7 @@ node scripts/generate-daily-theme.mjs --recipe "gallery"
 # Change candidate count or skip browser rendering for a quick local fallback
 node scripts/generate-daily-theme.mjs --candidates 5
 node scripts/generate-daily-theme.mjs --skip-render
+node scripts/generate-daily-theme.mjs --skip-jev
 ```
 
 ### Customizing Theme Generation
