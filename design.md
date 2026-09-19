@@ -354,7 +354,7 @@ The rules a daily theme must satisfy. Out-of-range values are clamped post-gener
 
 ### Generation pipeline
 
-Themes are generated through framework-owned art-direction recipes rather than independent random choices. The scheduler rotates recipes, hero templates, and grid templates with deterministic cooldowns. Each run generates three styling candidates inside the scheduled structure, rejects any response outside the strict theme schema, renders the valid candidates against the real home page at 390px, 1440px, and 1920px, and ranks them using viewport safety, visual distance from recent themes, and categorical diversity.
+Themes are generated through framework-owned art-direction recipes rather than independent random choices. The scheduler rotates recipes, hero templates, and grid templates with deterministic cooldowns. Each run generates three styling candidates inside the scheduled structure, rejects any response outside the strict theme schema, renders the valid candidates against the real home page at 390px, 1440px, and 1920px, and ranks them using viewport safety, visual distance from recent themes, and categorical diversity. When `TYPESAFE_API_KEY` is set, Jev (TypeSafe System One) reweights taste among already-safe candidates — it cannot author theme JSON, and it cannot override contrast or viewport failures (`scripts/lib/theme-jev.mjs`).
 
 - Recipe constraints may narrow the global bounds below, but may never expand them.
 - The renderer rejects horizontal content overflow, non-fixed nav, transparent cards, mobile multi-column grids, and hero-template mismatches.
