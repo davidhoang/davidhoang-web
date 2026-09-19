@@ -1,6 +1,359 @@
 {
   "themes": [
     {
+      "name": "Velvet Incunabula",
+      "description": "Dark Academia meets pre-dawn stillness — aged parchment and forest ink, scholarly serif authority, cards like vellum manuscript pages lit by a single candle.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1A14",
+          "--color-bg": "#F5EFE0",
+          "--color-link": "#7B2D3E",
+          "--color-link-hover": "#A63D52",
+          "--color-border": "#C8BA9A",
+          "--color-muted": "#746B5B",
+          "--color-sidebar-bg": "#EDE4CE",
+          "--color-nav-bg": "#F5EFE0",
+          "--color-nav-text": "#1C1A14",
+          "--color-card-bg": "#FBF7EE"
+        },
+        "dark": {
+          "--color-text": "#EDE4CE",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#C78162",
+          "--color-link-hover": "#E09A78",
+          "--color-border": "#2E4A4F",
+          "--color-muted": "#7A9A9E",
+          "--color-sidebar-bg": "#112428",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#EDE4CE",
+          "--color-card-bg": "#132A2E"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "borderWidth": "2px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.9",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EFE0",
+          "#C8BA9A"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-09-19",
+      "showcase": {
+        "root": "root",
+        "elements": {
+          "root": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Velvet Incunabula",
+              "subtitle": "2026-09-19 · Dark Academia · Pre-Dawn Stillness"
+            },
+            "children": [
+              "s-main"
+            ]
+          },
+          "s-main": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "badge-row",
+              "palette",
+              "s-mid",
+              "div1",
+              "s-bottom",
+              "apply-btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Candlelit vellum. Forest ink. The hour before the monastery stirs — every card a manuscript page, every word an act of scholarly devotion.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "duotone imagery",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EFE0",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#1C1A14",
+                  "label": "Forest Ink"
+                },
+                {
+                  "hex": "#7B2D3E",
+                  "label": "Crimson Link"
+                },
+                {
+                  "hex": "#C8BA9A",
+                  "label": "Vellum Edge"
+                },
+                {
+                  "hex": "#746B5B",
+                  "label": "Ash Muted"
+                },
+                {
+                  "hex": "#FBF7EE",
+                  "label": "Card Face"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s-mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "s-left",
+              "s-right"
+            ]
+          },
+          "s-left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "heading-sample",
+              "body-sample",
+              "caption-sample"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cormorant Garamond",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Source Serif 4 — a candlelit desk, a marginalia-filled folio.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "caption-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Split-complementary · dots texture · retro footer",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "s-right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "layout-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s-bottom": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None — parchment speaks for itself"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Border Radius",
+                  "value": "8px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dot Grid"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Velvet Incunabula",
+              "action": "apply-theme",
+              "date": "2026-09-19"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Graphite Meridian",
       "description": "Tadao Ando's concrete chapel at dawn — a blade of warm light cuts through heavy shadow, structure and silence in equal measure.",
       "colors": {
@@ -2101,343 +2454,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Sakura Static",
-      "description": "Dawn breaking over wet Tokyo streets — soft blossom pink meets electric amber, images glowing like neon through morning mist.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2A1F2D",
-          "--color-bg": "#FDF0F5",
-          "--color-link": "#C90065",
-          "--color-link-hover": "#FF3399",
-          "--color-border": "#E8C4D8",
-          "--color-muted": "#7C6272",
-          "--color-sidebar-bg": "#F7E4EE",
-          "--color-nav-bg": "#FDF0F5",
-          "--color-nav-text": "#2A1F2D",
-          "--color-card-bg": "#FAE8F2"
-        },
-        "dark": {
-          "--color-text": "#F5DDE8",
-          "--color-bg": "#1A0D14",
-          "--color-link": "#FF6EB0",
-          "--color-link-hover": "#FFB3D4",
-          "--color-border": "#4A2438",
-          "--color-muted": "#A07086",
-          "--color-sidebar-bg": "#221018",
-          "--color-nav-bg": "#1A0D14",
-          "--color-nav-text": "#F5DDE8",
-          "--color-card-bg": "#231018"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "DM Sans",
-          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "20px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FDF0F5",
-          "#FAE8F2"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-09-12",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Sakura Static",
-              "subtitle": "2026-09-12 · Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Dawn cracks over rain-slicked Tokyo asphalt. Blossom pink bleeds into electric amber — soft, charged, alive. This is neon through mist.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "ht",
-              "hero",
-              "shader"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sakura Static",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#FDF0F5",
-                "#FAE8F2",
-                "#E8C4D8"
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "palette",
-              "grid"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF0F5",
-                  "label": "Bg"
-                },
-                {
-                  "hex": "#FAE8F2",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#E8C4D8",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#C90065",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#FF3399",
-                  "label": "Hover"
-                },
-                {
-                  "hex": "#2A1F2D",
-                  "label": "Text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "grid": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "meta",
-              "badges"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Heading",
-                  "value": "Fraunces (serif)"
-                },
-                {
-                  "label": "Body",
-                  "value": "DM Sans"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Image",
-                  "value": "Vivid / Hover Glow"
-                },
-                {
-                  "label": "Radius",
-                  "value": "20px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif heading",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "filled card",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial mood",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Sakura Static",
-              "action": "apply-theme",
-              "date": "2026-09-12"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-18"
+  "currentDate": "2026-09-19"
 }
