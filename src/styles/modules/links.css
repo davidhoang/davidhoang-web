@@ -92,8 +92,10 @@ a:focus-visible {
   }
 }
 
-/* Highlighter link — marker stripe behind text, darkens on hover */
+/* A translucent chisel-tip stroke behind the glyphs; ink deepens on hover. */
 a.link-highlighter {
+  --highlighter-opacity: 0.58;
+  --highlighter-hover-opacity: 0.72;
   color: inherit;
   text-decoration: none;
   border-bottom: none;
@@ -103,20 +105,31 @@ a.link-highlighter {
   display: inline-block;
   vertical-align: baseline;
   line-height: 1;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  background-image: linear-gradient(
-    color-mix(in srgb, var(--color-link) 30%, transparent),
-    color-mix(in srgb, var(--color-link) 30%, transparent)
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 0.45em;
-  background-position: left bottom 0.06em;
-  transition: background-image var(--duration-fast) var(--ease-inertia);
+  background: none;
 }
 
 a.link-highlighter::before {
-  display: none;
+  content: '';
+  display: block;
+  inset: auto -0.06em 0.035em;
+  height: 0.72em;
+  border-radius: 0;
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--color-highlighter) 75%, transparent),
+    var(--color-highlighter) 8%,
+    color-mix(in srgb, var(--color-highlighter) 85%, transparent) 48%,
+    var(--color-highlighter) 92%,
+    color-mix(in srgb, var(--color-highlighter) 70%, transparent)
+  );
+  clip-path: polygon(
+    1% 9%, 12% 5%, 30% 8%, 49% 3%, 70% 6%, 89% 2%, 99% 7%,
+    100% 88%, 88% 95%, 68% 91%, 47% 97%, 27% 93%, 10% 98%, 0 91%
+  );
+  filter: none;
+  opacity: var(--highlighter-opacity);
+  transform: rotate(-0.7deg) skewX(-5deg);
+  transition: opacity var(--duration-fast) var(--ease-inertia);
 }
 
 a.link-highlighter::after {
@@ -127,15 +140,22 @@ a.link-highlighter::after {
   a.link-highlighter:hover {
     color: inherit;
     border-bottom-color: transparent;
-    background-image: linear-gradient(
-      color-mix(in srgb, var(--color-link) 52%, transparent),
-      color-mix(in srgb, var(--color-link) 52%, transparent)
-    );
   }
 
   a.link-highlighter:hover::before {
-    display: none;
+    opacity: var(--highlighter-hover-opacity);
   }
+}
+
+[data-theme="dark"] a.link-highlighter {
+  --highlighter-opacity: 0.18;
+  --highlighter-hover-opacity: 0.26;
+}
+
+[data-e-ink="true"] a.link-highlighter {
+  --color-highlighter: var(--color-text);
+  --highlighter-opacity: 0.12;
+  --highlighter-hover-opacity: 0.18;
 }
 
 a.link-highlighter:focus-visible {

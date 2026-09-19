@@ -89,7 +89,7 @@
   align-items: center;
   text-align: center;
   margin-bottom: 0.25rem;
-  padding-top: var(--hero-grid-y-align, 0px);
+  padding-top: var(--hero-baseline-offset, 0px);
 }
 
 .card-stack-hero--stacked-fan .card-stack-hero__intro {
@@ -114,8 +114,8 @@
   text-align: center;
   color: var(--color-text);
   font-family: var(--font-primary);
-  --dot-grid-line: calc(round(up, 1.05em / var(--dot-grid-size, 14px)) * var(--dot-grid-size, 14px));
-  line-height: var(--dot-grid-line);
+  --hero-line-height: calc(round(up, 1.05em / var(--hero-baseline-size, 14px)) * var(--hero-baseline-size, 14px));
+  line-height: var(--hero-line-height);
   letter-spacing: -0.03em;
   width: 100%;
   max-width: 1200px;
@@ -247,6 +247,10 @@
 }
 
 /* Desktop hover-capable pointers only — hybrid/touch devices skip to avoid sticky/thrash flash. */
+.card-stack-hero--stacked-fan .hero-card {
+  transition: box-shadow var(--duration-slow) var(--ease-inertia);
+}
+
 @media (hover: hover) {
   html:not([data-hybrid-pointer='true']) .hero-card:hover {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);

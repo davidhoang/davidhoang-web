@@ -9,34 +9,30 @@
   /* Below .design-philosophy so card bottoms tuck under that full-bleed surface */
   z-index: 0;
   overflow: visible;
-  /* Shared dot-grid unit — hero typography snaps to this rhythm */
-  --dot-grid-size: clamp(14px, 1.15vw, 24px);
-  --hero-grid-y: calc(var(--content-top-padding, 6rem) + 40px);
-  --hero-grid-y-align: mod(
-    calc(var(--dot-grid-size) - mod(var(--hero-grid-y), var(--dot-grid-size))),
-    var(--dot-grid-size)
+  /* Preserve the hero's baseline rhythm independently of its texture. */
+  --hero-baseline-size: clamp(14px, 1.15vw, 24px);
+  --hero-background-offset: calc(var(--content-top-padding, 6rem) + 40px);
+  --hero-baseline-offset: mod(
+    calc(var(--hero-baseline-size) - mod(var(--hero-background-offset), var(--hero-baseline-size))),
+    var(--hero-baseline-size)
   );
   /* How far fan cards drop into the next section — enough to hide bottoms, not bury them */
   --hero-cards-tuck: clamp(1.75rem, 4vw, 2.75rem);
 }
 
-/* Dot-grid notebook background — Leuchtturm-style lattice */
+/* Fine, static grey noise: a quiet surface that blends with light and dark themes. */
 .card-stack-section::before {
   content: '';
   position: absolute;
-  top: calc(-1 * var(--hero-grid-y));
+  top: calc(-1 * var(--hero-background-offset));
   left: 0;
   right: 0;
   bottom: 0;
   pointer-events: none;
   z-index: -1;
-  background-image: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--color-text) 15%, transparent) 1px,
-    transparent 1.4px
-  );
-  background-size: var(--dot-grid-size) var(--dot-grid-size);
-  background-position: 0 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.12;
 }
 
 .card-stack-section .hero-title__line {
@@ -318,7 +314,7 @@
 
   .card-stack-section {
     margin-top: 50px;
-    --hero-grid-y: calc(var(--content-top-padding, 6rem) + 50px);
+    --hero-background-offset: calc(var(--content-top-padding, 6rem) + 50px);
     --hero-cards-tuck: clamp(1.25rem, 5vw, 2rem);
   }
 

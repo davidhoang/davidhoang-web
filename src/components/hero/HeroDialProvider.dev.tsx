@@ -16,11 +16,11 @@ function finiteOr<T extends number>(value: T | undefined | null, fallback: T): T
 
 export function HeroDialProviderInner({ children, onReplayEntrance }: HeroDialProviderInnerProps) {
   // Dev-only panel (also gated by HeroDialProvider + DialRoot productionEnabled).
-  // v2 persist key: older localStorage could store spread: 0 and collapse the fan.
+  // A new panel id also resets HMR's in-memory tuning; older presets stay saved.
   const params = useDialKit('Home cards', heroDialConfig, {
-    id: 'home-cards',
+    id: 'home-cards-physical',
     persist: {
-      key: 'davidhoang-hero-cards-v2',
+      key: 'davidhoang-hero-cards-physical-v1',
       storage: 'localStorage',
       presets: true,
     },
@@ -66,6 +66,8 @@ export function HeroDialProviderInner({ children, onReplayEntrance }: HeroDialPr
         },
         hover: {
           liftY: finiteOr(params.stackedFan?.hover?.liftY, defaults.stackedFan.hover.liftY),
+          slideX: finiteOr(params.stackedFan?.hover?.slideX, defaults.stackedFan.hover.slideX),
+          neighborShift: finiteOr(params.stackedFan?.hover?.neighborShift, defaults.stackedFan.hover.neighborShift),
           scale: finiteOr(params.stackedFan?.hover?.scale, defaults.stackedFan.hover.scale),
           tapScale: finiteOr(params.stackedFan?.hover?.tapScale, defaults.stackedFan.hover.tapScale),
         },

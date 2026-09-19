@@ -88,6 +88,8 @@ export function heroCardInteractionTransition(options: {
     damping: number;
     staggerDelay: number;
   };
+  /** Layout-specific physical weight; entrance and press keep their own springs. */
+  interactionSpring?: { stiffness: number; damping: number; mass: number };
 }): Transition {
   const { hasAnimatedIn, phase, index, isLoaded, entrance } = options;
 
@@ -104,7 +106,9 @@ export function heroCardInteractionTransition(options: {
     return HERO_PRESS_SPRING;
   }
 
-  return HERO_INTERACTION_SPRING;
+  return options.interactionSpring
+    ? { type: 'spring', ...options.interactionSpring }
+    : HERO_INTERACTION_SPRING;
 }
 
 interface UseHeroCardInteractionOptions {
