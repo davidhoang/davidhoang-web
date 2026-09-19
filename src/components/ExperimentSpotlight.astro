@@ -1,0 +1,93 @@
+---
+import { experiments, featuredExperimentIndex } from '../data/experiments';
+import ExperimentFeature from './ExperimentFeature.astro';
+
+const initialIndex = featuredExperimentIndex();
+---
+
+<section class="experiment-spotlight" aria-labelledby="experiments-heading">
+  <div class="experiment-spotlight__header">
+    <h2 id="experiments-heading" class="home-section-heading text-heading">Experiments</h2>
+    <a href="/experiments">All experiments <span aria-hidden="true">→</span></a>
+  </div>
+  <experiment-spotlight>
+    <div id="experiment-panels">
+      {experiments.map((experiment, index) => (
+        <div data-experiment-panel data-title={experiment.title} hidden={index !== initialIndex}>
+          <ExperimentFeature experiment={experiment} />
+        </div>
+      ))}
+    </div>
+    <div class="experiment-spotlight__controls" data-experiment-controls hidden>
+      <span class="experiment-spotlight__count" data-experiment-count>{initialIndex + 1} / {experiments.length}</span>
+      <button type="button" class="btn btn-ghost" aria-controls="experiment-panels" data-next-experiment>Next experiment <span aria-hidden="true">→</span></button>
+    </div>
+    <p class="sr-only" role="status" aria-atomic="true" data-experiment-status></p>
+  </experiment-spotlight>
+</section>
+
+<script>
+  import { featuredExperimentIndex } from '../data/experiments';
+
+  class ExperimentSpotlight extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      this.dataset.ready = 'true';
+      const panels = [...this.querySelectorAll<HTMLElement>('[data-experiment-panel]')];
+      const count = this.querySelector('[data-experiment-count]');
+      const status = this.querySelector('[data-experiment-status]');
+      const controls = this.querySelector<HTMLElement>('[data-experiment-controls]');
+      let index = featuredExperimentIndex();
+
+      const show = (announce = false) => {
+        panels.forEach((panel, i) => { panel.hidden = i !== index; });
+        if (count) count.textContent = `${index + 1} / ${panels.length}`;
+        if (announce && status) status.textContent = `${panels[index].dataset.title}. Experiment ${index + 1} of ${panels.length}.`;
+      };
+
+      show();
+      if (controls) controls.hidden = false;
+      this.querySelector('[data-next-experiment]')?.addEventListener('click', () => {
+        index = (index + 1) % panels.length;
+        show(true);
+      });
+    }
+  }
+
+  if (!customElements.get('experiment-spotlight')) {
+    customElements.define('experiment-spotlight', ExperimentSpotlight);
+  }
+</script>
+
+<style>
+  .experiment-spotlight {
+    margin-block: var(--section-spacing);
+    padding: var(--spacing-lg) var(--content-padding);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+  .experiment-spotlight__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+  }
+  .experiment-spotlight__header h2 { margin: 0; }
+  experiment-spotlight { display: block; }
+  [hidden] { display: none !important; }
+  .experiment-spotlight__controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+  .experiment-spotlight__count {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: var(--body-size);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

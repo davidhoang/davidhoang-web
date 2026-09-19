@@ -1,18 +1,17 @@
 ---
 import dailyThemes from '../data/daily-themes.json';
+import { experiments } from '../data/experiments';
 
 const themes = dailyThemes.themes || [];
 const currentDate = dailyThemes.currentDate;
-const hasThemes = themes.length > 0;
 ---
 
-{hasThemes && (
   <div class="daily-theme-toggle">
     <!-- Calendar before FAB in DOM so the button paints on top (closed panel was stealing hits). -->
-    <div id="theme-calendar" class="theme-calendar" role="dialog" aria-label="Theme calendar">
+    <div id="theme-calendar" class="theme-calendar" role="dialog" aria-labelledby="experiments-panel-title" aria-hidden="true" inert>
       <div class="calendar-header">
-        <span class="calendar-title">Daily themes</span>
-        <button type="button" id="close-calendar" class="close-btn" aria-label="Close calendar">
+        <span class="calendar-title" id="experiments-panel-title">Experiments</span>
+        <button type="button" id="close-calendar" class="close-btn" aria-label="Close experiments">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -20,6 +19,14 @@ const hasThemes = themes.length > 0;
         </button>
       </div>
 
+      <p class="experiments-panel-intro">A little room for curiosity.</p>
+      <details class="experiment-theme-details">
+        <summary class="experiment-panel-entry">
+          <span class="experiment-panel-icon" aria-hidden="true">Aa</span>
+          <span class="experiment-panel-copy"><span class="experiment-panel-title">Daily Themes</span><span class="experiment-panel-note">Try a different look for this site.</span></span>
+          <span class="experiment-panel-chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="experiment-theme-controls">
       <div class="appearance-row">
         <span class="appearance-label">Appearance</span>
         <div class="appearance-toggle" id="appearance-toggle" role="radiogroup" aria-label="Color scheme">
@@ -94,26 +101,34 @@ const hasThemes = themes.length > 0;
           </button>
         </div>
       </div>
+      <a class="experiment-theme-explore" href="/daily-themes">Explore all themes <span aria-hidden="true">→</span></a>
+        </div>
+      </details>
+      {experiments.slice(1).map((experiment, index) => (
+        <a class="experiment-panel-entry link-plain" href={experiment.href}>
+          <span class="experiment-panel-icon" aria-hidden="true">{index === 0 ? '↝' : '△'}</span>
+          <span class="experiment-panel-copy"><span class="experiment-panel-title">{experiment.title}</span><span class="experiment-panel-note">{experiment.medium}</span></span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+      <a class="experiments-panel-all" href="/experiments">Behind the experiments <span aria-hidden="true">→</span></a>
     </div>
     <button
       type="button"
       id="daily-theme-toggle"
       data-daily-theme-trigger
-      aria-label="Toggle daily AI theme"
-      aria-pressed="false"
-      title="Toggle Daily AI Theme"
+      aria-label="Explore experiments"
+      aria-controls="theme-calendar"
+      aria-expanded="false"
+      aria-haspopup="dialog"
+      title="Explore experiments and daily themes"
     >
-      <svg class="palette-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"></circle>
-        <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"></circle>
-        <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"></circle>
-        <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"></circle>
-        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"></path>
+      <svg class="experiment-fold-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+        <path d="M1 27 27 1M8 27 27 8" />
       </svg>
-      <span class="toggle-label">Daily</span>
+      <span class="toggle-label">Experiments</span>
     </button>
   </div>
-)}
 
 
 <script is:inline define:vars={{ themes, currentDate }}>
@@ -200,6 +215,18 @@ const hasThemes = themes.length > 0;
     });
   }
 
+  function setExperimentsOpen(open, restoreFocus = false) {
+    const panel = document.getElementById('theme-calendar');
+    const trigger = document.getElementById('daily-theme-toggle');
+    if (!panel || !trigger) return;
+    panel.classList.toggle('open', open);
+    panel.inert = !open;
+    panel.setAttribute('aria-hidden', String(!open));
+    trigger.setAttribute('aria-expanded', String(open));
+    if (open) panel.querySelector('#close-calendar')?.focus({ preventScroll: true });
+    else if (restoreFocus) trigger.focus({ preventScroll: true });
+  }
+
   /**
    * pointerdown + capture: runs before click handlers (e.g. command palette) and before the
    * closed calendar can participate in hit-testing quirks. Toggle uses pointerdown so we still
@@ -219,17 +246,36 @@ const hasThemes = themes.length > 0;
         if (!cal) return;
 
         if (e.target.closest('[data-daily-theme-trigger]')) {
+          e.preventDefault();
           e.stopPropagation();
-          cal.classList.toggle('open');
+          setExperimentsOpen(!cal.classList.contains('open'), true);
           return;
         }
 
         if (!cal.classList.contains('open')) return;
         if (cal.contains(e.target)) return;
-        cal.classList.remove('open');
+        setExperimentsOpen(false);
       },
       true
     );
+
+    // Enter/Space and assistive technology activate buttons with a keyboard click.
+    document.addEventListener('click', (e) => {
+      if (!(e.target instanceof Element)) return;
+      const cal = document.getElementById('theme-calendar');
+      if (e.detail === 0 && e.target.closest('[data-daily-theme-trigger]')) {
+        setExperimentsOpen(!cal?.classList.contains('open'), true);
+      } else if (e.target.closest('#theme-calendar a')) {
+        setExperimentsOpen(false);
+      }
+    });
+
+    // This is a non-modal disclosure: tabbing back into the page dismisses it.
+    document.addEventListener('focusin', (e) => {
+      const panel = document.getElementById('theme-calendar');
+      if (!panel?.classList.contains('open') || !(e.target instanceof Element)) return;
+      if (!panel.contains(e.target) && !e.target.closest('[data-daily-theme-trigger]')) setExperimentsOpen(false);
+    });
   }
 
   function bindDailyThemeEscapeOnce() {
@@ -239,11 +285,9 @@ const hasThemes = themes.length > 0;
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       const cal = document.getElementById('theme-calendar');
-      const tb = document.getElementById('daily-theme-toggle');
       if (!cal || !cal.classList.contains('open')) return;
       e.preventDefault();
-      cal.classList.remove('open');
-      tb?.focus();
+      setExperimentsOpen(false, true);
     });
   }
 
@@ -267,12 +311,12 @@ const hasThemes = themes.length > 0;
     const selectedDate = localStorage.getItem('daily-theme-date') || currentDate;
 
     if (isEInkMode) {
-      toggleBtn.setAttribute('aria-pressed', 'false');
+      toggleBtn.setAttribute('data-daily-enabled', 'false');
       if (eInkBtn) eInkBtn.classList.add('active');
       document.documentElement.setAttribute('data-e-ink', 'true');
       document.documentElement.setAttribute('data-shader', 'none');
     } else if (isDailyMode) {
-      toggleBtn.setAttribute('aria-pressed', 'true');
+      toggleBtn.setAttribute('data-daily-enabled', 'true');
       // Skip re-applying if SSR already baked in the correct theme (avoids CLS from redundant style recalc)
       const ssrDate = document.documentElement.getAttribute('data-daily-theme');
       if (ssrDate !== selectedDate) {
@@ -296,7 +340,7 @@ const hasThemes = themes.length > 0;
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        calendar.classList.remove('open');
+        setExperimentsOpen(false, true);
       });
     }
 
@@ -307,7 +351,7 @@ const hasThemes = themes.length > 0;
         localStorage.setItem('daily-theme-mode', 'false');
         localStorage.setItem('e-ink-mode', 'false');
         document.documentElement.setAttribute('data-e-ink', 'false');
-        toggleBtn.setAttribute('aria-pressed', 'false');
+        toggleBtn.setAttribute('data-daily-enabled', 'false');
         removeDailyTheme();
         syncThemeQueryParam(null);
         clearCalendarSelections(calendar);
@@ -323,7 +367,7 @@ const hasThemes = themes.length > 0;
         localStorage.setItem('daily-theme-mode', 'false');
         document.documentElement.setAttribute('data-e-ink', 'true');
         document.documentElement.setAttribute('data-shader', 'none');
-        toggleBtn.setAttribute('aria-pressed', 'false');
+        toggleBtn.setAttribute('data-daily-enabled', 'false');
         removeDailyTheme();
         syncThemeQueryParam(null);
         clearCalendarSelections(calendar);
@@ -410,7 +454,7 @@ const hasThemes = themes.length > 0;
         localStorage.setItem('daily-theme-date', date);
         localStorage.setItem('e-ink-mode', 'false');
         document.documentElement.setAttribute('data-e-ink', 'false');
-        toggleBtn.setAttribute('aria-pressed', 'true');
+        toggleBtn.setAttribute('data-daily-enabled', 'true');
 
         applyDailyTheme(date);
         syncThemeQueryParam(date);
@@ -593,7 +637,7 @@ const hasThemes = themes.length > 0;
         const calendar = document.getElementById('theme-calendar');
         const defaultBtn = document.getElementById('default-theme-btn');
         const eInkBtn = document.getElementById('e-ink-theme-btn');
-        if (toggleBtn) toggleBtn.setAttribute('aria-pressed', 'false');
+        if (toggleBtn) toggleBtn.setAttribute('data-daily-enabled', 'false');
         if (eInkBtn) eInkBtn.classList.remove('active');
         if (calendar) {
           clearCalendarSelections(calendar);

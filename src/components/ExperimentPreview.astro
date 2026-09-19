@@ -1,0 +1,87 @@
+---
+import { getImage } from 'astro:assets';
+import type { Experiment } from '../data/experiments';
+import sanFrancisco from '../assets/images/odyssey/img-san-francisco-2015.webp';
+import studiedArt from '../assets/images/odyssey/img-studied-art.webp';
+
+interface Props { kind: Experiment['id'] }
+const { kind } = Astro.props;
+const photos = kind === 'career-odyssey'
+  ? await Promise.all([sanFrancisco, studiedArt].map(src => getImage({ src, width: 400, format: 'webp' })))
+  : [];
+---
+
+<div class="experiment-preview">
+  <svg viewBox="0 0 600 400" aria-hidden="true" focusable="false">
+    {kind === 'daily-themes' && <>
+      <g transform="translate(90 68) rotate(-8 130 140)">
+        <rect class="preview-sheet" width="250" height="270" rx="8" />
+        <text x="24" y="42" class="preview-label">FORM / 01</text>
+        <text x="24" y="180" class="preview-serif">Aa</text>
+        <path class="preview-rule" d="M24 222H226 M24 238H164" />
+      </g>
+      <g transform="translate(273 62) rotate(8 125 140)">
+        <rect class="preview-sheet" width="250" height="270" rx="8" />
+        <text x="24" y="42" class="preview-label">FORM / 02</text>
+        <text x="24" y="180" class="preview-sans">Aa</text>
+        <rect class="preview-ink" x="24" y="218" width="56" height="28" rx="2" />
+        <rect class="preview-accent" x="96" y="218" width="56" height="28" rx="2" />
+        <rect class="preview-muted" x="168" y="218" width="56" height="28" rx="2" />
+      </g>
+    </>}
+    {kind === 'career-odyssey' && <>
+      <path class="preview-connection" d="M176 137C288 137 254 279 359 279 M176 137C264 137 285 94 383 94 M359 279C473 279 478 185 423 135" />
+      <g transform="translate(57 54) rotate(-5 100 80)">
+        <rect class="preview-sheet" width="206" height="173" rx="5" />
+        <image href={photos[1].src} x="9" y="9" width="188" height="116" preserveAspectRatio="xMidYMid slice" />
+        <text x="15" y="154" class="preview-note">Studying art</text>
+      </g>
+      <g transform="translate(323 51) rotate(5 95 45)">
+        <rect class="preview-sheet" width="194" height="85" rx="5" />
+        <text x="18" y="34" class="preview-label">FOLLOW THE THREAD</text>
+        <text x="18" y="61" class="preview-note">People. Places. Ideas.</text>
+      </g>
+      <g transform="translate(271 198) rotate(4 110 80)">
+        <rect class="preview-sheet" width="235" height="173" rx="5" />
+        <image href={photos[0].src} x="9" y="9" width="217" height="116" preserveAspectRatio="xMidYMid slice" />
+        <text x="15" y="154" class="preview-note">A new chapter in SF</text>
+      </g>
+    </>}
+    {kind === 'tectonic-cross-section' && <>
+      <text x="40" y="55" class="preview-label">PRESSURE → POSSIBILITY</text>
+      <path class="preview-layer" d="M40 244L230 244L315 131L350 184L393 107L468 227L560 227V337H40Z" />
+      <path class="preview-mountain" d="M40 224L213 224L262 198L315 111L351 164L393 87L468 207L560 207V244L450 244L394 160L349 215L314 163L247 263L40 263Z" />
+      <path class="preview-sheet" d="M40 277L237 277L417 337H365L220 305H40Z" />
+      <path class="preview-contour" d="M248 241L315 144L350 194L393 123L466 231 M277 251L315 190L350 236L393 174L438 244" />
+      <path class="preview-arrow" d="M79 184H166L153 174M166 184L153 194 M519 170H451L464 160M451 170L464 180" />
+      <text x="40" y="370" class="preview-label">A CROSS-SECTION OF CHANGE</text>
+    </>}
+  </svg>
+</div>
+
+<style>
+  .experiment-preview {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--color-sidebar-bg);
+    color: var(--color-text);
+  }
+  svg { display: block; width: 100%; height: 100%; }
+  text { fill: var(--color-text); }
+  .preview-sheet { fill: var(--color-card-bg); stroke: var(--color-border); stroke-width: 1.5; }
+  .preview-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; }
+  .preview-note { font-family: var(--font-body); font-size: 15px; }
+  .preview-serif { font-family: Georgia, serif; font-size: 136px; }
+  .preview-sans { font-family: var(--font-heading); font-size: 132px; font-weight: 600; }
+  .preview-rule { stroke: var(--color-muted); stroke-width: 3; }
+  .preview-ink { fill: var(--color-text); }
+  .preview-accent { fill: var(--color-link); }
+  .preview-muted { fill: var(--color-muted); }
+  .preview-connection { fill: none; stroke: var(--color-link); stroke-width: 2; }
+  .preview-layer { fill: var(--color-border); }
+  .preview-mountain { fill: var(--color-link); }
+  .preview-contour { fill: none; stroke: var(--color-bg); stroke-width: 1.5; }
+  .preview-arrow { fill: none; stroke: var(--color-text); stroke-width: 2; }
+</style>

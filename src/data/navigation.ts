@@ -10,6 +10,7 @@ export const navItems = [
 
 /** Pages shown in the mobile full-screen menu below primary nav links */
 export const mobileSecondaryNavItems = [
+  { path: '/experiments', label: 'Experiments' },
   { path: '/now', label: 'Now' },
   { path: '/notes', label: 'Notes' },
   { path: '/works', label: 'Works' },
@@ -28,6 +29,7 @@ export const commandPalettePages = [
   { title: 'About', description: proofOfConcept.authorDescription, path: '/about', type: 'page' },
   { title: 'Writing', description: 'Essays and articles', path: '/writing', type: 'page' },
   { title: 'Featured', description: 'Featured work and press', path: '/featured', type: 'page' },
+  { title: 'Experiments', description: 'Daily Themes, Career Odyssey, and interactive essay companions — questions explored through making.', path: '/experiments', type: 'page' },
   {
     title: `Subscribe to ${proofOfConcept.name}`,
     description: proofOfConcept.description,
@@ -110,6 +112,7 @@ export const footerSections = [
     links: [
       { href: '/about', label: 'About', ariaLabel: 'About David Hoang', external: false },
       { href: '/featured', label: 'Featured', ariaLabel: 'Featured work and press', external: false },
+      { href: '/experiments', label: 'Experiments', ariaLabel: 'Explore design experiments', external: false },
       { href: '/works', label: 'Works', ariaLabel: 'Selected work', external: false },
       { href: '/cv', label: 'CV', ariaLabel: 'Curriculum vitae', external: false },
       { href: '/thesis', label: 'Thesis', ariaLabel: 'Thesis hub: convictions with further reading', external: false },

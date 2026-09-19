@@ -1,0 +1,66 @@
+---
+import type { Experiment } from '../data/experiments';
+import ExperimentPreview from './ExperimentPreview.astro';
+
+interface Props {
+  experiment: Experiment;
+  headingLevel?: 'h2' | 'h3';
+}
+const { experiment, headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<article class="experiment-feature" aria-labelledby={`experiment-${experiment.id}`}>
+  <ExperimentPreview kind={experiment.id} />
+  <div class="experiment-feature__body">
+    <p class="text-eyebrow experiment-feature__medium">{experiment.medium}</p>
+    <Heading id={`experiment-${experiment.id}`} class="experiment-feature__title">{experiment.title}</Heading>
+    <p class="experiment-feature__question">{experiment.question}</p>
+    <div class="experiment-feature__takeaway">
+      <p class="text-eyebrow">The takeaway</p>
+      <p>{experiment.takeaway}</p>
+    </div>
+    <a class="experiment-feature__link" href={experiment.href}>{experiment.action} <span aria-hidden="true">↗</span></a>
+  </div>
+</article>
+
+<style>
+  .experiment-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(var(--spacing-lg), 4vw, var(--spacing-3xl));
+    min-width: 0;
+  }
+  .experiment-feature__body { min-width: 0; }
+  .experiment-feature__medium { margin: 0 0 var(--spacing-sm); color: var(--color-muted); }
+  .experiment-feature__title {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--h3-size);
+    line-height: var(--h3-line-height);
+    overflow-wrap: anywhere;
+  }
+  .experiment-feature__question {
+    margin: 0;
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+  }
+  .experiment-feature__takeaway {
+    margin: var(--spacing-lg) 0;
+    padding-left: var(--spacing-md);
+    border-left: 2px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: var(--body-size);
+  }
+  .experiment-feature__takeaway p { margin: 0; }
+  .experiment-feature__takeaway .text-eyebrow { margin-bottom: var(--spacing-xs); }
+  .experiment-feature__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding-block: var(--spacing-sm);
+    font-weight: var(--heading-weight);
+  }
+  @media (max-width: 768px) {
+    .experiment-feature { grid-template-columns: 1fr; }
+  }
+</style>

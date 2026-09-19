@@ -5,6 +5,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
+import ExperimentSpotlight from '../components/ExperimentSpotlight.astro';
 import '../styles/pages/home.css';
 import '../styles/modules/card-stack-hero.css';
 import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
@@ -103,6 +104,8 @@ const portfolioItems = [
     <h2 id="philosophy-heading" class="home-section-heading text-heading">Design philosophy</h2>
     <AnimatedPhilosophyGrid items={philosophyItems} client:visible />
   </section>
+
+  <ExperimentSpotlight />
 
   <!-- Portfolio Section -->
   <section class="portfolio-section" aria-labelledby="highlights-heading">

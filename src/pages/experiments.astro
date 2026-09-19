@@ -1,0 +1,25 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ExperimentFeature from '../components/ExperimentFeature.astro';
+import { experiments } from '../data/experiments';
+
+const description = 'Small experiments in generative design, interactive storytelling, and ideas you can explore. The questions behind them and what they reveal.';
+---
+
+<MainLayout title="Experiments | David Hoang" description={description}>
+  <PageHeader title="Experiments" variant="text-only" subtitle="Ideas are easier to understand when you can play with them." />
+  <div class="content-page content-page--compact-top experiments-index">
+    <p class="content-page__intro">A few questions turned into things you can explore. Each experiment is a way to learn by making — about design, storytelling, or how we work.</p>
+    {experiments.map(experiment => (
+      <section class="content-page__section" aria-label={experiment.title}>
+        <ExperimentFeature experiment={experiment} headingLevel="h2" />
+      </section>
+    ))}
+  </div>
+</MainLayout>
+
+<style>
+  .experiments-index { padding-inline: var(--content-padding); }
+  .experiments-index > .content-page__intro { max-width: 60ch; }
+</style>
