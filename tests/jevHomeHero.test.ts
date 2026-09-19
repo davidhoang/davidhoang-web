@@ -20,7 +20,7 @@ const balancedAnswers: HomeHeroJevAnswers = {
     },
   },
   detailLevel: {
-    score: 2,
+    score: 1.7,
     probabilities: { '0': 0.05, '1': 0.2, '2': 0.75 },
   },
   showPersonalContext: {
