@@ -115,7 +115,7 @@ describe('applyJevTasteRanking', () => {
       },
     });
     expect(result.winner.id).toBe('candidate-1');
-    expect(result.ranked.find((c) => c.id === 'candidate-2')?.jev.generic).toBeCloseTo(0.92);
+    expect(result.ranked.find((c) => c.id === 'candidate-2')?.jev?.generic).toBeCloseTo(0.92);
   });
 });
 
@@ -136,7 +136,7 @@ describe('judgeThemeCandidates', () => {
   });
 
   it('posts System One questions and returns a reweighted ranking', async () => {
-    const fetchImpl = vi.fn(async () => ({
+    const fetchImpl = vi.fn(async (_url: string, _init: { body: string }) => ({
       ok: true,
       text: async () => JSON.stringify({
         model: 'jev-1.13.0',

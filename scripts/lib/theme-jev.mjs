@@ -12,6 +12,57 @@
 export const TYPESAFE_SYSTEMONE_URL = 'https://api.typesafe.ai/v1/systemone';
 export const JEV_MODEL_DEFAULT = 'jev-latest';
 
+/**
+ * @typedef {Object} JevQuestion
+ * @property {'noul' | 'choice' | 'score'} type
+ * @property {string} instructions
+ * @property {Record<string, string> | string[]} criteria
+ */
+
+/**
+ * @typedef {Object} JevVerdict
+ * @property {number} quality
+ * @property {number} generic
+ * @property {number} recipeFit
+ * @property {boolean} picked
+ * @property {number} pickConfidence
+ * @property {number} bonus
+ */
+
+/**
+ * A candidate as produced by rankThemeCandidates, plus any extra ranking fields.
+ * @typedef {{
+ *   id: string,
+ *   score: number,
+ *   issues: string[],
+ *   theme: any,
+ *   jev?: JevVerdict,
+ * } & Record<string, any>} RankedThemeCandidate
+ */
+
+/**
+ * @typedef {{ winner: RankedThemeCandidate, ranked: RankedThemeCandidate[] } & Record<string, any>} ThemeRanking
+ */
+
+/**
+ * @typedef {Object} JevJudgeOutcome
+ * @property {boolean} used
+ * @property {string} reason
+ * @property {string} [model]
+ * @property {string | null} [pick]
+ * @property {number} [pickConfidence]
+ * @property {any} [usage]
+ * @property {string} [error]
+ */
+
+/**
+ * Only the subset of fetch this module relies on, so tests can pass a stub.
+ * @typedef {(
+ *   url: string,
+ *   init: { method: string, headers: Record<string, string>, body: string },
+ * ) => Promise<{ ok: boolean, status?: number, text: () => Promise<string> }>} JevFetch
+ */
+
 export const QUALITY_SCORE_CRITERIA = [
   'Generic AI default: cream or lavender attractor palette, interchangeable name, no clear concept.',
   'Competent but forgettable: valid craft with little identity or recipe commitment.',
@@ -27,7 +78,17 @@ export const RECIPE_FIT_CRITERIA = [
 ];
 
 /**
- * @param {NodeJS.ProcessEnv} [env]
+ * @typedef {Object} JevConfig
+ * @property {boolean} enabled
+ * @property {string} reason
+ * @property {string} [apiKey]
+ * @property {string} [endpoint]
+ * @property {string} [model]
+ */
+
+/**
+ * @param {Record<string, string | undefined>} [env]
+ * @returns {JevConfig}
  */
 export function resolveJevConfig(env = process.env) {
   if (env.DAILY_THEME_SKIP_JEV === '1') {
@@ -177,9 +238,14 @@ export function buildThemeJudgeState({ ranked, recipe, inspiration, recentThemes
   };
 }
 
+/**
+ * @param {RankedThemeCandidate[]} ranked
+ * @param {any} [recipe]
+ * @returns {Record<string, JevQuestion>}
+ */
 export function buildThemeJudgeQuestions(ranked, recipe) {
   const recipeLabel = recipe?.name || recipe?.id || 'the scheduled recipe';
-  /** @type {Record<string, object>} */
+  /** @type {Record<string, JevQuestion>} */
   const questions = {};
 
   if (ranked.length >= 2) {
@@ -232,8 +298,9 @@ export function buildThemeJudgeQuestions(ranked, recipe) {
 }
 
 /**
- * @param {object} ranking
- * @param {{ answers?: object, model?: string }} evaluation
+ * @param {ThemeRanking} ranking
+ * @param {{ answers?: Record<string, any>, model?: string }} evaluation
+ * @returns {ThemeRanking & { jev: { model: string | null, pick: string | null, pickConfidence: number } }}
  */
 export function applyJevTasteRanking(ranking, evaluation) {
   const answers = evaluation.answers || {};
@@ -290,9 +357,10 @@ export function applyJevTasteRanking(ranking, evaluation) {
  *   endpoint: string,
  *   model: string,
  *   state: unknown,
- *   questions: Record<string, object>,
- *   fetchImpl?: typeof fetch,
+ *   questions: Record<string, JevQuestion>,
+ *   fetchImpl?: JevFetch,
  * }} options
+ * @returns {Promise<Record<string, any>>}
  */
 export async function evaluateSystemOne({
   apiKey,
@@ -331,14 +399,15 @@ export async function evaluateSystemOne({
 
 /**
  * @param {{
- *   ranking: { winner: object, ranked: object[] },
- *   recipe?: object,
- *   inspiration?: object | string,
- *   recentThemes?: object[],
+ *   ranking: ThemeRanking,
+ *   recipe?: any,
+ *   inspiration?: any,
+ *   recentThemes?: any[],
  *   skipJev?: boolean,
- *   env?: NodeJS.ProcessEnv,
- *   fetchImpl?: typeof fetch,
+ *   env?: Record<string, string | undefined>,
+ *   fetchImpl?: JevFetch,
  * }} options
+ * @returns {Promise<{ ranking: ThemeRanking, jev: JevJudgeOutcome }>}
  */
 export async function judgeThemeCandidates({
   ranking,
