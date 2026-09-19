@@ -1,0 +1,367 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+const pageDescription =
+  'A TypeSafe Jev experiment for routing ideas across Writing, Notes, and Projects.';
+---
+
+<MainLayout
+  title="Jev Editorial Router"
+  description={pageDescription}
+  robots="noindex, nofollow"
+>
+  <article class="content-page jev-page container-narrow">
+    <header class="jev-header">
+      <p class="text-eyebrow">System One experiment</p>
+      <h1>Where should this idea live?</h1>
+      <p class="content-page__lede">
+        Jev reads an idea as state, then returns typed probabilities instead of
+        prose. This experiment routes it to Writing, Notes, or Projects, scores
+        publishing readiness, and checks for a clear claim.
+      </p>
+    </header>
+
+    <form class="card card-filled jev-form" id="jev-form">
+      <div class="jev-field">
+        <label for="idea-title">Working title <span>(optional)</span></label>
+        <input
+          class="input"
+          id="idea-title"
+          name="title"
+          type="text"
+          maxlength="120"
+          autocomplete="off"
+          placeholder="Interfaces that decide when not to interrupt"
+        />
+      </div>
+
+      <div class="jev-field">
+        <label for="idea-excerpt">Idea or draft excerpt</label>
+        <textarea
+          class="input textarea"
+          id="idea-excerpt"
+          name="excerpt"
+          minlength="20"
+          maxlength="5000"
+          required
+          placeholder="Describe the idea, argument, or thing you built…"
+        ></textarea>
+        <p class="jev-field__hint">20–5,000 characters. The text is sent to Jev for this evaluation.</p>
+      </div>
+
+      <div class="jev-actions">
+        <button class="btn btn-primary" type="submit">Evaluate with Jev</button>
+        <button class="btn btn-ghost" id="load-example" type="button">Load an example</button>
+      </div>
+    </form>
+
+    <p class="jev-status" id="jev-status" role="status" aria-live="polite"></p>
+
+    <section
+      class="card card-elevated jev-result"
+      id="jev-result"
+      aria-labelledby="jev-result-heading"
+      hidden
+    >
+      <div class="jev-result__heading">
+        <div>
+          <p class="text-eyebrow">Typed decision</p>
+          <h2 id="jev-result-heading">Editorial route</h2>
+        </div>
+        <span class="badge badge-muted" id="jev-route-mode"></span>
+      </div>
+
+      <p class="jev-destination" id="jev-destination"></p>
+      <ul class="jev-probabilities" id="jev-probabilities" aria-label="Route probabilities"></ul>
+
+      <div class="jev-metrics">
+        <div class="jev-metric">
+          <span class="jev-metric__label">Readiness</span>
+          <strong id="jev-readiness"></strong>
+          <span class="text-muted" id="jev-readiness-score"></span>
+        </div>
+        <div class="jev-metric">
+          <span class="jev-metric__label">Clear claim</span>
+          <strong id="jev-clear-claim"></strong>
+          <span class="text-muted">probability of true</span>
+        </div>
+      </div>
+
+      <p class="jev-meta text-caption" id="jev-meta"></p>
+    </section>
+
+    <aside class="jev-note">
+      <h2>What this demonstrates</h2>
+      <p>
+        All three decisions happen in one request. The surrounding code owns the
+        routing threshold: results at or above 70% can route automatically, while
+        ambiguous ideas stay in human review.
+      </p>
+    </aside>
+  </article>
+</MainLayout>
+
+<script>
+  interface TriageResult {
+    route: {
+      destination: string;
+      probabilities: Record<string, number>;
+      shouldAutoRoute: boolean;
+    };
+    readiness: { score: number; label: string };
+    hasClearClaim: { probability: number };
+    model: string;
+    latencyMs: number;
+    authMode: string;
+  }
+
+  const form = document.querySelector<HTMLFormElement>('#jev-form');
+  const title = document.querySelector<HTMLInputElement>('#idea-title');
+  const excerpt = document.querySelector<HTMLTextAreaElement>('#idea-excerpt');
+  const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const exampleButton = document.querySelector<HTMLButtonElement>('#load-example');
+  const status = document.querySelector<HTMLElement>('#jev-status');
+  const resultPanel = document.querySelector<HTMLElement>('#jev-result');
+
+  exampleButton?.addEventListener('click', () => {
+    if (!title || !excerpt) return;
+    title.value = 'Interfaces should know when to stay quiet';
+    excerpt.value =
+      'Most AI interfaces optimize for producing an answer. I want to explore a different design principle: confidence should shape whether the interface speaks, asks for context, or stays out of the way. I have the core argument and a few examples, but I have not yet tested the framework against real products.';
+    excerpt.focus();
+  });
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity() || !submit || !status || !resultPanel) return;
+
+    submit.disabled = true;
+    submit.textContent = 'Evaluating…';
+    status.textContent = 'Jev is comparing the idea with the site’s editorial paths.';
+    resultPanel.hidden = true;
+
+    try {
+      const response = await fetch('/api/jev-editorial-triage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: title?.value,
+          excerpt: excerpt?.value,
+        }),
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        throw new Error(payload.error || 'The evaluation failed.');
+      }
+
+      renderResult(payload as TriageResult);
+      status.textContent = 'Evaluation complete.';
+      resultPanel.hidden = false;
+      resultPanel.focus({ preventScroll: true });
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } catch (error) {
+      status.textContent =
+        error instanceof Error ? error.message : 'The evaluation failed.';
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Evaluate with Jev';
+    }
+  });
+
+  function renderResult(result: TriageResult) {
+    const destination = document.querySelector<HTMLElement>('#jev-destination');
+    const routeMode = document.querySelector<HTMLElement>('#jev-route-mode');
+    const probabilities = document.querySelector<HTMLUListElement>('#jev-probabilities');
+    const readiness = document.querySelector<HTMLElement>('#jev-readiness');
+    const readinessScore = document.querySelector<HTMLElement>('#jev-readiness-score');
+    const clearClaim = document.querySelector<HTMLElement>('#jev-clear-claim');
+    const meta = document.querySelector<HTMLElement>('#jev-meta');
+
+    if (
+      !destination ||
+      !routeMode ||
+      !probabilities ||
+      !readiness ||
+      !readinessScore ||
+      !clearClaim ||
+      !meta
+    ) return;
+
+    destination.textContent = capitalize(result.route.destination);
+    routeMode.textContent = result.route.shouldAutoRoute
+      ? 'Confident route'
+      : 'Human review';
+
+    probabilities.replaceChildren(
+      ...Object.entries(result.route.probabilities)
+        .sort(([, a], [, b]) => b - a)
+        .map(([name, probability]) => {
+          const item = document.createElement('li');
+          const label = document.createElement('span');
+          const meter = document.createElement('meter');
+          const value = document.createElement('span');
+
+          label.textContent = capitalize(name);
+          meter.min = 0;
+          meter.max = 1;
+          meter.value = probability;
+          meter.setAttribute('aria-label', `${capitalize(name)} probability`);
+          value.textContent = formatProbability(probability);
+          item.append(label, meter, value);
+          return item;
+        }),
+    );
+
+    readiness.textContent = result.readiness.label;
+    readinessScore.textContent = `${result.readiness.score.toFixed(2)} on a 0–3 scale`;
+    clearClaim.textContent = formatProbability(result.hasClearClaim.probability);
+    meta.textContent = `${result.model} · ${result.latencyMs} ms · ${result.authMode}`;
+  }
+
+  function capitalize(value: string) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  function formatProbability(value: number) {
+    return `${Math.round(value * 100)}%`;
+  }
+</script>
+
+<style>
+  .jev-page {
+    display: grid;
+    gap: var(--spacing-xl);
+  }
+
+  .jev-header h1,
+  .jev-header p {
+    margin-top: 0;
+  }
+
+  .jev-form {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+
+  .jev-field {
+    display: grid;
+    gap: var(--spacing-sm);
+  }
+
+  .jev-field label,
+  .jev-metric__label {
+    font-weight: 650;
+  }
+
+  .jev-field label span,
+  .jev-field__hint {
+    color: var(--color-muted);
+    font-weight: var(--body-weight);
+  }
+
+  .jev-field__hint,
+  .jev-status,
+  .jev-meta {
+    margin: 0;
+  }
+
+  .jev-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .jev-status:empty {
+    display: none;
+  }
+
+  .jev-result {
+    display: grid;
+    gap: var(--spacing-lg);
+    outline: none;
+  }
+
+  .jev-result[hidden] {
+    display: none;
+  }
+
+  .jev-result__heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+  }
+
+  .jev-result__heading h2,
+  .jev-result__heading p,
+  .jev-destination {
+    margin: 0;
+  }
+
+  .jev-destination {
+    font-family: var(--font-heading);
+    font-size: var(--h3-size);
+    font-weight: var(--heading-weight);
+    color: var(--color-link);
+  }
+
+  .jev-probabilities {
+    display: grid;
+    gap: var(--spacing-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .jev-probabilities :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .jev-probabilities :global(meter) {
+    width: 100%;
+    accent-color: var(--color-link);
+  }
+
+  .jev-probabilities :global(li > span:last-child) {
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .jev-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .jev-metric {
+    display: grid;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    border: var(--card-border-width) solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .jev-note {
+    border-top: var(--card-border-width) solid var(--color-border);
+    padding-top: var(--spacing-xl);
+  }
+
+  .jev-note h2 {
+    margin-top: 0;
+  }
+
+  @media (max-width: 520px) {
+    .jev-result__heading {
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .jev-metrics {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -198,6 +198,14 @@ Generated themes are stored in `src/data/daily-themes.json`:
 
 Privacy-conscious measurement for agent/answer-engine experience uses [Vercel Web Analytics](https://vercel.com/docs/analytics) (plus existing Speed Insights). Custom events cover AI referral classification, command-palette search outcomes, and newsletter submit attempts — never query text, emails, or page content. AI crawler traffic must be measured in Vercel Firewall/Observability, not the browser. See [docs/agent-experience-measurement.md](docs/agent-experience-measurement.md).
 
+## Jev editorial routing
+
+The unlisted [`/experiments/jev-editorial-router`](http://localhost:4321/experiments/jev-editorial-router)
+experiment uses TypeSafe Jev to route ideas across Writing, Notes, and Projects
+with typed choice, score, and boolean probabilities. It prefers Vercel AI Gateway
+with OIDC and supports a direct TypeSafe key for local development. See
+[docs/jev-editorial-router.md](docs/jev-editorial-router.md) for setup and testing.
+
 ## Learn More
 
 - [Astro Documentation](https://docs.astro.build)
