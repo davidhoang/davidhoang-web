@@ -4,7 +4,7 @@
  *
  * Linked from footer, mobile secondary nav, and ⌘K — not the short top nav.
  */
-export type WorkKind = 'role' | 'talk' | 'event' | 'portfolio';
+export type WorkKind = 'role' | 'talk' | 'event';
 
 /** How the entry renders on /works */
 export type WorkPresentation = 'card' | 'line';
@@ -36,7 +36,6 @@ const WORK_KIND_LABELS: Record<WorkKind, string> = {
   role: 'Role',
   talk: 'Talk',
   event: 'Event',
-  portfolio: 'Portfolio',
 };
 
 export function workKindLabel(kind: WorkKind): string {
@@ -50,6 +49,15 @@ export function workKindLabel(kind: WorkKind): string {
  */
 export const works: WorkEntry[] = [
   // —— 2026 ——
+  {
+    id: 'tapestry',
+    title: 'Tapestry',
+    summary: 'High-touch design recruiting for the intelligence era.',
+    kind: 'event',
+    when: '2026',
+    href: 'https://tapestry.design',
+    external: true,
+  },
   {
     id: 'hatch-ateliers-2026',
     title: 'Hatch Leadership Ateliers, Amsterdam',
@@ -173,21 +181,5 @@ export const works: WorkEntry[] = [
       'Led product design through the shift to virtual care and the company’s IPO.',
     kind: 'role',
     when: '2015–2018',
-  },
-
-  // —— Portfolio placeholders (lines until case studies ship) ——
-  {
-    id: 'inspirato',
-    title: 'Inspirato',
-    summary: 'Product design with Black Pixel.',
-    kind: 'portfolio',
-    when: '2015',
-  },
-  {
-    id: 'twitter-camera',
-    title: 'Twitter Camera',
-    summary: 'Selected product work on Twitter’s camera experience.',
-    kind: 'portfolio',
-    when: '—',
   },
 ];
