@@ -405,8 +405,14 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     font-weight: 650;
     color: var(--color-text);
     text-decoration: none;
+    border-bottom: none;
     overflow-wrap: anywhere;
     transition: color var(--duration-normal) var(--ease-standard);
+  }
+
+  /* Panel links follow the sidebar convention: color-only affordance, no rule under the row. */
+  .works-projects__link::after {
+    display: none;
   }
 
   @media (hover: hover) {
