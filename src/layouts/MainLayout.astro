@@ -678,13 +678,15 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
     </div>
 
     <script>
-      /** Mood filter + overflow-x:hidden break position:sticky; bypass on pages with sticky Contents. */
+      /** Mood filter + overflow-x:hidden break position:sticky; bypass on pages with sticky Contents
+          or any element marked [data-sticky-sidebar]. Body persists across view transitions, so the
+          bypass is re-derived from page content rather than the layout prop alone. */
       function syncBlogPostMoodFilterBypass() {
         document.body.classList.toggle(
           'layout-no-content-filter',
           Boolean(
             document.querySelector(
-              'article.writing-post, .contents-nav',
+              'article.writing-post, .contents-nav, [data-sticky-sidebar]',
             ),
           ),
         );

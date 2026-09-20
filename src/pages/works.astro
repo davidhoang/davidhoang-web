@@ -2,116 +2,166 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { works, workKindLabel, workPresentation } from '../data/works';
+import { projects } from '../data/projects';
 
 const pageDescription =
-  'Selected work — career chapters as cards, talks and one-off events as a vertical list.';
+  'Selected work — career chapters as cards, talks and one-off events as a vertical list, side projects in the sidebar.';
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
-<MainLayout title="Works | David Hoang" description={pageDescription} ogImage={ogImage}>
+<MainLayout
+  title="Works | David Hoang"
+  description={pageDescription}
+  ogImage={ogImage}
+  disableContentMoodFilter
+>
   <PageHeader
     title="Works"
     image="/images/highlights/img-highlights-proof-of-concept.webp"
     alt="Works"
   />
-  <div class="content-page works-index container-narrow">
+  <div class="content-page works-index container">
     <p class="content-page__lede works-index__lede">
       Career chapters live in cards. Talks, launches, and other one-offs stay as text lines — like
-      Hatch’s Design &amp; (Blank).
+      Hatch’s Design &amp; (Blank). Software I am building in public sits in the sidebar.
     </p>
 
-    <ol class="works-stream" aria-label="Works">
-      {
-        works.map((entry) => {
-          const presentation = workPresentation(entry);
-          const kindLabel = workKindLabel(entry.kind);
-          const isLive = Boolean(entry.href);
+    <div class="layout-sidebar works-index__layout">
+      <ol class="works-stream" aria-label="Works">
+        {
+          works.map((entry) => {
+            const presentation = workPresentation(entry);
+            const kindLabel = workKindLabel(entry.kind);
+            const isLive = Boolean(entry.href);
 
-          if (presentation === 'card') {
-            const cardAria = `${entry.title}${entry.role ? `, ${entry.role}` : ''} (${kindLabel})`;
-            const cardInner = (
-              <>
-                <div class="works-card__top">
-                  <span class="works-card__when">{entry.when}</span>
-                  <span class="works-card__kind">{kindLabel}</span>
-                </div>
-                <h2 class="works-card__title">{entry.title}</h2>
-                {entry.role && <p class="works-card__role">{entry.role}</p>}
-                {entry.summary && <p class="works-card__summary">{entry.summary}</p>}
-                {entry.highlights && entry.highlights.length > 0 && (
-                  <ul class="works-card__highlights">
-                    {entry.highlights.map((item) => (
-                      <li>{item}</li>
-                    ))}
-                  </ul>
-                )}
-              </>
-            );
+            if (presentation === 'card') {
+              const cardAria = `${entry.title}${entry.role ? `, ${entry.role}` : ''} (${kindLabel})`;
+              const cardInner = (
+                <>
+                  <div class="works-card__top">
+                    <span class="works-card__when">{entry.when}</span>
+                    <span class="works-card__kind">{kindLabel}</span>
+                  </div>
+                  <h2 class="works-card__title">{entry.title}</h2>
+                  {entry.role && <p class="works-card__role">{entry.role}</p>}
+                  {entry.summary && <p class="works-card__summary">{entry.summary}</p>}
+                  {entry.highlights && entry.highlights.length > 0 && (
+                    <ul class="works-card__highlights">
+                      {entry.highlights.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              );
+
+              return (
+                <li class="works-stream__item works-stream__item--card">
+                  {isLive && entry.href ? (
+                    <a
+                      class="card card-filled works-card works-card--linked"
+                      href={entry.href}
+                      target={entry.external ? '_blank' : undefined}
+                      rel={entry.external ? 'noopener noreferrer' : undefined}
+                      aria-label={cardAria}
+                    >
+                      {cardInner}
+                    </a>
+                  ) : (
+                    <div class="card card-filled works-card" aria-label={cardAria}>
+                      {cardInner}
+                    </div>
+                  )}
+                </li>
+              );
+            }
+
+            const ariaLabel = entry.external
+              ? `${entry.title} (${kindLabel}, opens in new tab)`
+              : `${entry.title} (${kindLabel})`;
 
             return (
-              <li class="works-stream__item works-stream__item--card">
+              <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
                 {isLive && entry.href ? (
                   <a
-                    class="card card-filled works-card works-card--linked"
+                    class="works-line"
                     href={entry.href}
                     target={entry.external ? '_blank' : undefined}
                     rel={entry.external ? 'noopener noreferrer' : undefined}
-                    aria-label={cardAria}
+                    aria-label={ariaLabel}
                   >
-                    {cardInner}
+                    <span class="works-line__when">{entry.when}</span>
+                    <span class="works-line__body">
+                      <span class="works-line__title">
+                        {entry.title}
+                        {entry.external && (
+                          <span class="works-line__external" aria-hidden="true">↗</span>
+                        )}
+                      </span>
+                      {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                    </span>
                   </a>
                 ) : (
-                  <div class="card card-filled works-card" aria-label={cardAria}>
-                    {cardInner}
+                  <div class="works-line works-line--static" aria-label={ariaLabel}>
+                    <span class="works-line__when">{entry.when}</span>
+                    <span class="works-line__body">
+                      <span class="works-line__title">{entry.title}</span>
+                      {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                    </span>
                   </div>
                 )}
               </li>
             );
-          }
+          })
+        }
+      </ol>
 
-          const ariaLabel = entry.external
-            ? `${entry.title} (${kindLabel}, opens in new tab)`
-            : `${entry.title} (${kindLabel})`;
-
-          return (
-            <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
-              {isLive && entry.href ? (
-                <a
-                  class="works-line"
-                  href={entry.href}
-                  target={entry.external ? '_blank' : undefined}
-                  rel={entry.external ? 'noopener noreferrer' : undefined}
-                  aria-label={ariaLabel}
-                >
-                  <span class="works-line__when">{entry.when}</span>
-                  <span class="works-line__body">
-                    <span class="works-line__title">
-                      {entry.title}
-                      {entry.external && (
-                        <span class="works-line__external" aria-hidden="true">↗</span>
-                      )}
-                    </span>
-                    {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
-                  </span>
-                </a>
-              ) : (
-                <div class="works-line works-line--static" aria-label={ariaLabel}>
-                  <span class="works-line__when">{entry.when}</span>
-                  <span class="works-line__body">
-                    <span class="works-line__title">{entry.title}</span>
-                    {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
-                  </span>
-                </div>
-              )}
-            </li>
-          );
-        })
-      }
-    </ol>
+      <aside class="works-projects" aria-label="Projects" data-sticky-sidebar>
+        <div class="works-projects__panel">
+          <h2 class="works-projects__heading">Projects</h2>
+          <p class="works-projects__note">Software I am building in public — live and unfinished on purpose.</p>
+          <ul class="works-projects__list" role="list">
+            {
+              projects.map((project) => (
+                <li class="works-projects__item">
+                  <a
+                    class="works-projects__link"
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.title} (opens in new tab)`}
+                  >
+                    {project.title}
+                    <span class="works-projects__external" aria-hidden="true">↗</span>
+                  </a>
+                  <span class="works-projects__built">Built with {project.builtWith}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
   </div>
 </MainLayout>
 
 <style>
+  /* Sidebar needs a predictable column, so the page sets its own width
+     instead of inheriting the theme-tuned container max-width. */
+  .works-index.container {
+    max-width: min(68rem, 100%);
+  }
+
+  .works-index__lede {
+    max-width: 42rem;
+  }
+
+  @media (min-width: 769px) {
+    .works-index__layout {
+      grid-template-columns: minmax(0, 1fr) minmax(13rem, 17rem);
+    }
+  }
+
   .works-stream {
     list-style: none;
     margin: 0;
@@ -298,6 +348,101 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     .works-line {
       grid-template-columns: 1fr;
       gap: var(--spacing-xs);
+    }
+  }
+
+  /* —— Projects sidebar —— */
+  .works-projects {
+    align-self: stretch;
+    min-width: 0;
+  }
+
+  .works-projects__panel {
+    position: sticky;
+    top: calc(var(--nav-offset-top, 24px) + var(--nav-height, 48px) + var(--spacing-lg));
+    padding: var(--spacing-lg);
+    background-color: var(--color-sidebar-bg);
+    border: var(--border-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .works-projects__heading {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .works-projects__note {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--text-caption-size, 0.8125rem);
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  .works-projects__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .works-projects__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  .works-projects__link {
+    display: block;
+    font-size: var(--text-caption-size, 0.8125rem);
+    line-height: 1.35;
+    font-weight: 650;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: none;
+    overflow-wrap: anywhere;
+    transition: color var(--duration-normal) var(--ease-standard);
+  }
+
+  /* Panel links follow the sidebar convention: color-only affordance, no rule under the row. */
+  .works-projects__link::after {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .works-projects__link:hover {
+      color: var(--color-link);
+    }
+  }
+
+  .works-projects__link:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .works-projects__external {
+    margin-left: var(--spacing-xs);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .works-projects__built {
+    font-size: var(--text-caption-size, 0.8125rem);
+    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-caption);
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 768px) {
+    .works-projects__panel {
+      position: static;
+      padding: var(--spacing-md);
     }
   }
 </style>

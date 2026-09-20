@@ -1,5 +1,6 @@
 /**
  * Works index — career role cards + one-off event lines (talks, launches, milestones).
+ * Build-in-public software lives in `projects.ts` and renders in the /works sidebar.
  * Case studies (PC-21) should land at paths like /works/{slug}.
  *
  * Linked from footer, mobile secondary nav, and ⌘K — not the short top nav.
@@ -49,15 +50,6 @@ export function workKindLabel(kind: WorkKind): string {
  */
 export const works: WorkEntry[] = [
   // —— 2026 ——
-  {
-    id: 'tapestry',
-    title: 'Tapestry',
-    summary: 'High-touch design recruiting for the intelligence era.',
-    kind: 'event',
-    when: '2026',
-    href: 'https://tapestry.design',
-    external: true,
-  },
   {
     id: 'hatch-ateliers-2026',
     title: 'Hatch Leadership Ateliers, Amsterdam',
