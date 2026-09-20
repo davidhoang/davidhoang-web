@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   assessDiversity,
+  collectRecentNameTokens,
   computeSimilarity,
   extractFingerprint,
   formatRecentThemesPromptSection,
@@ -101,5 +102,16 @@ describe('prompt helpers', () => {
     expect(section).toContain('editorial');
     expect(section).toContain('DIVERSITY REQUIREMENTS');
     expect(section).toContain('Clash Display');
+    expect(section).toContain('Do not use these words in the new theme name');
+    expect(section).toContain('Graphite');
+    expect(section).toContain('Blade');
+  });
+
+  it('collects recent name tokens plus chronic overused words', () => {
+    const tokens = collectRecentNameTokens([
+      { name: 'Velvet Incunabula' },
+      { name: 'Petal Voltage' },
+    ]);
+    expect(tokens).toEqual(expect.arrayContaining(['Velvet', 'Incunabula', 'Petal', 'Voltage', 'Graphite']));
   });
 });

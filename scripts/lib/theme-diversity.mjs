@@ -39,6 +39,40 @@ export const DEFAULT_SIMILARITY_THRESHOLD = 0.55;
 /** Minimum weighted dimensions that must differ from yesterday's theme */
 export const MIN_CHANGES_FROM_YESTERDAY = 3;
 
+/** Names this generator has clustered around — keep them out of new titles. */
+export const CHRONIC_THEME_NAME_WORDS = [
+  'Graphite',
+  'Voltage',
+  'Matins',
+  'Concrete',
+  'Amber',
+  'Signal',
+  'Indigo',
+  'Shaft',
+  'Neon',
+  'Tokyo',
+];
+
+const NAME_STOP_WORDS = new Set(['and', 'the', 'of', 'a', 'an', 'with']);
+
+/**
+ * Distinct name tokens from recent themes, plus chronic overused words.
+ * @param {object[]} themes
+ * @returns {string[]}
+ */
+export function collectRecentNameTokens(themes) {
+  const tokens = new Set(CHRONIC_THEME_NAME_WORDS);
+  for (const theme of themes || []) {
+    for (const part of String(theme?.name || '').split(/[^A-Za-z0-9]+/)) {
+      const token = part.trim();
+      if (token.length < 4) continue;
+      if (NAME_STOP_WORDS.has(token.toLowerCase())) continue;
+      tokens.add(token);
+    }
+  }
+  return [...tokens];
+}
+
 /**
  * @param {string | { name?: string } | undefined} font
  * @returns {string | undefined}
@@ -268,5 +302,8 @@ export function formatRecentThemesPromptSection(recentThemes) {
     '',
     'Also avoid reusing or echoing these theme names:',
     ...recentThemes.map((t) => `- "${t.name}"`),
+    '',
+    'Do not use these words in the new theme name:',
+    ...collectRecentNameTokens(recentThemes).map((token) => `- ${token}`),
   ].join('\n');
 }

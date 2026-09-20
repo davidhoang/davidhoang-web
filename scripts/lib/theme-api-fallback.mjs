@@ -184,7 +184,7 @@ export function saveLastGoodTheme(rootDir, theme) {
   const path = lastGoodThemePath(rootDir);
   mkdirSync(dirname(path), { recursive: true });
 
-  const { _contextImage, _contextMarkdown, _fallback, ...themeToSave } = theme;
+  const { _contextImage, _contextMarkdown, _fallback, _inspirationName, _timePeriod, ...themeToSave } = theme;
   const payload = {
     cachedAt: new Date().toISOString(),
     sourceDate: themeToSave.date || null,
