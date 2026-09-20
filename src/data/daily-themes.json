@@ -1,6 +1,409 @@
 {
   "themes": [
     {
+      "name": "Slab & Canopy",
+      "description": "A Niemeyer terrace translated into graphic poster language — deep shade, sculptural type, and the slow heat of a Brazilian afternoon rendered in flat material planes.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A2A1E",
+          "--color-bg": "#E8F0E9",
+          "--color-link": "#A74516",
+          "--color-link-hover": "#9C3D10",
+          "--color-border": "#1A2A1E",
+          "--color-muted": "#5A7060",
+          "--color-sidebar-bg": "#D8E8DA",
+          "--color-nav-bg": "#E8F0E9",
+          "--color-nav-text": "#1A2A1E",
+          "--color-card-bg": "#DCE9DE"
+        },
+        "dark": {
+          "--color-text": "#E2EDE4",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#E8895A",
+          "--color-link-hover": "#F0A878",
+          "--color-border": "#3A6B45",
+          "--color-muted": "#7AAB82",
+          "--color-sidebar-bg": "#111D20",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#E2EDE4",
+          "--color-card-bg": "#131F22"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Archivo Black",
+          "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
+          "category": "sans-serif",
+          "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Lora",
+          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Lora', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "3px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1180px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#1A2A1E",
+          "#C4511A"
+        ]
+      },
+      "font": {
+        "name": "Archivo Black",
+        "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
+        "category": "sans-serif",
+        "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-20",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Slab & Canopy",
+              "subtitle": "2026-09-20 — Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Niemeyer poured concrete into shadow. We pour ink into structure. The canopy holds the heat still — flat planes, brutal brackets, and a terrace that refuses to apologize for its geometry.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "hed",
+              "br"
+            ]
+          },
+          "hed": {
+            "type": "TypeSample",
+            "props": {
+              "text": "SLOW HEAT, HARD EDGE",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif heading",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "flat card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "col1",
+              "col2"
+            ]
+          },
+          "col1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "shader",
+              "body"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A2A1E",
+                  "label": "Shade"
+                },
+                {
+                  "hex": "#E8F0E9",
+                  "label": "Canopy"
+                },
+                {
+                  "hex": "#A74516",
+                  "label": "Terracotta"
+                },
+                {
+                  "hex": "#5A7060",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#DCE9DE",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#C4511A",
+                  "label": "Heat"
+                }
+              ]
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#1A2A1E",
+                "#C4511A"
+              ]
+            },
+            "children": []
+          },
+          "body": {
+            "type": "TypeSample",
+            "props": {
+              "text": "The afternoon slows. The slab casts its geometry onto the ground — a sundial that measures heat, not hours.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "col2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "meta"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Link",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Image",
+                  "value": "Duotone"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Brutalist"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tok",
+              "lay"
+            ]
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#A74516"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#1A2A1E"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#E8F0E9"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#5A7060"
+                }
+              ]
+            },
+            "children": []
+          },
+          "lay": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "split"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Slab & Canopy",
+              "action": "apply-theme",
+              "date": "2026-09-20"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Incunabula",
       "description": "Dark Academia meets pre-dawn stillness — aged parchment and forest ink, scholarly serif authority, cards like vellum manuscript pages lit by a single candle.",
       "colors": {
@@ -2123,338 +2526,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Petal Voltage",
-      "description": "Dawn's soft warmth collides with electric urban intensity — blush morning mist shot through with neon magenta, like cherry blossoms lit by a vending machine glow.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0A2E",
-          "--color-bg": "#FDF0F5",
-          "--color-link": "#CB0067",
-          "--color-link-hover": "#FF2D9B",
-          "--color-border": "#E8B4CF",
-          "--color-muted": "#935B7A",
-          "--color-sidebar-bg": "#F7E0EC",
-          "--color-nav-bg": "#FDF0F5",
-          "--color-nav-text": "#1A0A2E",
-          "--color-card-bg": "#FAE4F0"
-        },
-        "dark": {
-          "--color-text": "#FFE8F4",
-          "--color-bg": "#1A0A1E",
-          "--color-link": "#FF2D9B",
-          "--color-link-hover": "#FF6DBF",
-          "--color-border": "#6B1A4A",
-          "--color-muted": "#B46896",
-          "--color-sidebar-bg": "#220D27",
-          "--color-nav-bg": "#1A0A1E",
-          "--color-nav-text": "#FFE8F4",
-          "--color-card-bg": "#240E2A"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FDF0F5",
-          "#D6006C"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-09-13",
-      "showcase": {
-        "root": "root",
-        "elements": {
-          "root": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Petal Voltage",
-              "subtitle": "2026-09-13 · Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Cherry blossoms under neon. A vending machine at 5am. The city never softened — it just learned to blush.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "pal",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF0F5",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#FAE4F0",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#E8B4CF",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#CB0067",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#FF2D9B",
-                  "label": "Hover"
-                },
-                {
-                  "hex": "#1A0A2E",
-                  "label": "Ink"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "head",
-              "brow"
-            ]
-          },
-          "head": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Petal Voltage",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "brow": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif · Syne",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "meta",
-              "sdr",
-              "cta"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dot Grid"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                },
-                {
-                  "label": "Palette",
-                  "value": "Complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "sdr": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#FDF0F5",
-                "#D6006C"
-              ]
-            },
-            "children": []
-          },
-          "cta": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Petal Voltage",
-              "action": "apply-theme",
-              "date": "2026-09-13"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-19"
+  "currentDate": "2026-09-20"
 }
