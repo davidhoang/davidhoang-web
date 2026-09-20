@@ -248,6 +248,16 @@ const hasThemes = themes.length > 0;
     });
   }
 
+  /** The FAB is transition:persist, so an open panel would otherwise survive navigation. */
+  function bindDailyThemeNavigationCloseOnce() {
+    if (globalThis.__dhDailyThemeNavigationClose) return;
+    globalThis.__dhDailyThemeNavigationClose = true;
+
+    document.addEventListener('astro:before-swap', () => {
+      document.getElementById('theme-calendar')?.classList.remove('open');
+    });
+  }
+
   function initDailyTheme() {
     applyDefaultLayoutFromUrl();
     applyThemeFromUrl();
@@ -674,6 +684,7 @@ const hasThemes = themes.length > 0;
 
   bindDailyThemePointerDelegationOnce();
   bindDailyThemeEscapeOnce();
+  bindDailyThemeNavigationCloseOnce();
 
   function scheduleInitDailyTheme() {
     const run = () => initDailyTheme();
