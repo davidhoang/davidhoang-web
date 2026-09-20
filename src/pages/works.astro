@@ -9,7 +9,12 @@ const pageDescription =
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
-<MainLayout title="Works | David Hoang" description={pageDescription} ogImage={ogImage}>
+<MainLayout
+  title="Works | David Hoang"
+  description={pageDescription}
+  ogImage={ogImage}
+  disableContentMoodFilter
+>
   <PageHeader
     title="Works"
     image="/images/highlights/img-highlights-proof-of-concept.webp"
@@ -111,7 +116,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
         }
       </ol>
 
-      <aside class="works-projects" aria-label="Projects">
+      <aside class="works-projects" aria-label="Projects" data-sticky-sidebar>
         <div class="works-projects__panel">
           <h2 class="works-projects__heading">Projects</h2>
           <p class="works-projects__note">Software I am building in public — live and unfinished on purpose.</p>
@@ -141,8 +146,20 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 </MainLayout>
 
 <style>
+  /* Sidebar needs a predictable column, so the page sets its own width
+     instead of inheriting the theme-tuned container max-width. */
+  .works-index.container {
+    max-width: min(68rem, 100%);
+  }
+
   .works-index__lede {
     max-width: 42rem;
+  }
+
+  @media (min-width: 769px) {
+    .works-index__layout {
+      grid-template-columns: minmax(0, 1fr) minmax(13rem, 17rem);
+    }
   }
 
   .works-stream {
@@ -382,11 +399,8 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-projects__link {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--spacing-xs);
-    font-size: var(--text-caption-size, 0.9rem);
+    display: block;
+    font-size: var(--text-caption-size, 0.8125rem);
     line-height: 1.35;
     font-weight: 650;
     color: var(--color-text);
@@ -407,9 +421,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   }
 
   .works-projects__external {
+    margin-left: var(--spacing-xs);
     font-size: 0.8rem;
     color: var(--color-muted);
-    line-height: 1;
   }
 
   .works-projects__built {
