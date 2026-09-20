@@ -163,7 +163,8 @@ Before submitting, picture each of these:
 - **320px**: smallest phone — does padding leave room for body text? does heading fit on 1–2 lines?
 - **768px**: tablet — does multi-column collapse cleanly?
 - **1440px**: standard laptop — does it look finished, not stretched?
-- **1920px+**: large display — does `containerMaxWidth` cap dead space at the edges?
+- **1920px+**: large display — the framework widens the column (`--container-display-max`); `containerMaxWidth` sets relative personality, not a 1000px island.
+- **2560px**: 5K / ultrawide — same boost, still not full-bleed prose.
 
 ## Experimental Layout Patterns
 

@@ -1,0 +1,535 @@
+---
+import { Image } from 'astro:assets';
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TextureCardShader from '../../components/TextureCardShader';
+import { works, workProjects, workKindLabel, workPresentation, workProjectPath } from '../../data/works';
+import { resolveAssetImage } from '../../utils/assetImages';
+
+const pageDescription =
+  'Selected work — career chapters as cards, talks and events as a list, and a gallery of side projects.';
+const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
+
+const projects = workProjects.map((project) => ({
+  ...project,
+  imageAsset: resolveAssetImage(project.image),
+}));
+---
+
+<MainLayout
+  title="Work | David Hoang"
+  description={pageDescription}
+  ogImage={ogImage}
+  containerClass="container container-wide"
+>
+  <PageHeader
+    title="Work"
+    image="/images/highlights/img-highlights-proof-of-concept.webp"
+    alt="Work"
+    shader="dither"
+  />
+  <div class="content-page works-index">
+    <p class="content-page__lede works-index__lede">
+      Career chapters live in cards. Talks, launches, and other one-offs stay as text lines — like
+      Hatch’s Design &amp; (Blank). Side projects sit alongside.
+    </p>
+
+    <div class="works-layout">
+      <ol class="works-stream" aria-label="Work">
+        {
+          works.map((entry) => {
+            const presentation = workPresentation(entry);
+            const kindLabel = workKindLabel(entry.kind);
+            const isLive = Boolean(entry.href);
+
+            if (presentation === 'card') {
+              const cardAria = `${entry.title}${entry.role ? `, ${entry.role}` : ''}, ${entry.when}`;
+              const hasBrandShader = Boolean(entry.shader);
+              const cardInner = (
+                <>
+                  <div class="works-card__shader">
+                    <TextureCardShader
+                      client:load
+                      variant="surface"
+                      palette={entry.shader}
+                      speed={entry.shaderSpeed}
+                      editable
+                      controlId={entry.id}
+                    />
+                  </div>
+                  <div class="works-card__body">
+                    <span class="works-card__when">{entry.when}</span>
+                    <h2 class="works-card__title">{entry.title}</h2>
+                    {entry.role && <p class="works-card__role">{entry.role}</p>}
+                    {entry.summary && <p class="works-card__summary">{entry.summary}</p>}
+                  </div>
+                </>
+              );
+
+              return (
+                <li class="works-stream__item works-stream__item--card">
+                  {isLive && entry.href ? (
+                    <a
+                      class:list={['card', 'card-filled', 'works-card', 'works-card--linked', { 'works-card--shader-brand': hasBrandShader }]}
+                      href={entry.href}
+                      target={entry.external ? '_blank' : undefined}
+                      rel={entry.external ? 'noopener noreferrer' : undefined}
+                      aria-label={cardAria}
+                    >
+                      {cardInner}
+                    </a>
+                  ) : (
+                    <div
+                      class:list={['card', 'card-filled', 'works-card', { 'works-card--shader-brand': hasBrandShader }]}
+                      aria-label={cardAria}
+                    >
+                      {cardInner}
+                    </div>
+                  )}
+                </li>
+              );
+            }
+
+            const ariaLabel = entry.external
+              ? `${entry.title} (${kindLabel}, opens in new tab)`
+              : `${entry.title} (${kindLabel})`;
+
+            return (
+              <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
+                {isLive && entry.href ? (
+                  <a
+                    class="works-line"
+                    href={entry.href}
+                    target={entry.external ? '_blank' : undefined}
+                    rel={entry.external ? 'noopener noreferrer' : undefined}
+                    aria-label={ariaLabel}
+                  >
+                    <span class="works-line__when">{entry.when}</span>
+                    <span class="works-line__body">
+                      <span class="works-line__title">
+                        {entry.title}
+                        {entry.external && (
+                          <span class="works-line__external" aria-hidden="true">↗</span>
+                        )}
+                      </span>
+                      {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                    </span>
+                  </a>
+                ) : (
+                  <div class="works-line works-line--static" aria-label={ariaLabel}>
+                    <span class="works-line__when">{entry.when}</span>
+                    <span class="works-line__body">
+                      <span class="works-line__title">{entry.title}</span>
+                      {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                    </span>
+                  </div>
+                )}
+              </li>
+            );
+          })
+        }
+      </ol>
+
+      <aside class="works-projects" aria-labelledby="works-projects-heading">
+        <h2 id="works-projects-heading" class="content-page__section-title works-projects__title">
+          Side projects
+        </h2>
+        <ul class="works-projects__gallery">
+          {
+            projects.map((project) => {
+              const titleId = `works-project-${project.slug}`;
+              return (
+                <li class="works-projects__item">
+                  <a
+                    class="works-project works-project--linked"
+                    href={workProjectPath(project)}
+                    aria-labelledby={titleId}
+                  >
+                    {project.imageAsset && (
+                      <div class="img-frame works-project__frame">
+                        <Image
+                          src={project.imageAsset}
+                          alt={project.imageAlt ?? project.title}
+                          class="img-thumbnail works-project__image"
+                          widths={[320, 480, 720]}
+                          sizes="(max-width: 768px) 50vw, (min-width: 2560px) 26rem, (min-width: 1920px) 22rem, 20rem"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    )}
+                    <div class="works-project__meta">
+                      <h3 class="works-project__name" id={titleId}>{project.title}</h3>
+                      <p class="works-project__summary">{project.summary}</p>
+                    </div>
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </aside>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .content-page__lede.works-index__lede {
+    max-width: none;
+  }
+
+  .works-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 0.85fr);
+    gap: var(--spacing-2xl);
+    align-items: start;
+  }
+
+  .works-stream {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    min-width: 0;
+  }
+
+  /* —— Career cards —— */
+  .works-stream__item--card {
+    margin: var(--spacing-sm) 0;
+  }
+
+  .works-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--color-sidebar-bg);
+    padding-block: calc(var(--card-padding) + var(--spacing-md) + var(--spacing-xs));
+  }
+
+  .works-card--linked {
+    cursor: pointer;
+  }
+
+  .works-card::before,
+  .works-card::after {
+    display: none;
+    content: none;
+  }
+
+  .works-card__shader {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: inherit;
+    opacity: 0.12;
+    transition: opacity var(--duration-slower) var(--ease-inertia);
+  }
+
+  .works-card--shader-brand .works-card__shader {
+    opacity: 0.3;
+  }
+
+  .works-card__body {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (hover: hover) {
+    .works-card--linked:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .works-card--linked:hover .works-card__shader {
+      opacity: 0.22;
+    }
+
+    .works-card--shader-brand.works-card--linked:hover .works-card__shader {
+      opacity: 0.4;
+    }
+  }
+
+  .works-card--linked:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .works-card--linked:focus-visible .works-card__shader {
+    opacity: 0.22;
+  }
+
+  .works-card--shader-brand.works-card--linked:focus-visible .works-card__shader {
+    opacity: 0.4;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .works-card__shader {
+      transition: none;
+    }
+  }
+
+  :global([data-e-ink="true"]) .works-card__shader {
+    display: none;
+  }
+
+  .works-card__when {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--text-caption-size, 0.8125rem);
+    line-height: 1.35;
+    letter-spacing: var(--letter-spacing-caption);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .works-card__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: var(--heading-weight);
+    line-height: 1.15;
+    letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
+    color: var(--color-text);
+  }
+
+  .works-card__role {
+    margin: var(--spacing-xs) 0 0;
+    font-size: var(--body-size);
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .works-card__summary {
+    margin: var(--spacing-md) 0 0;
+    font-size: var(--body-size);
+    line-height: 1.55;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+  }
+
+  /* —— One-off event lines —— */
+  .works-stream__item--line {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  }
+
+  .works-stream__item--line:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .works-line {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-xs) var(--spacing-sm);
+    align-items: center;
+    padding: calc(var(--spacing-sm) + var(--spacing-xs)) 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .works-stream__item--linked .works-line {
+    margin-inline: calc(-1 * var(--spacing-sm));
+    padding-inline: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-inertia);
+  }
+
+  @media (hover: hover) {
+    .works-stream__item--linked .works-line:hover {
+      background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
+      transform: translateX(2px);
+    }
+
+    .works-stream__item--linked .works-line:hover .works-line__title {
+      color: var(--color-link);
+    }
+  }
+
+  .works-line:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .works-line__when {
+    font-size: var(--body-size);
+    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-body);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .works-line__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  .works-line__title {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--body-size);
+    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
+  }
+
+  .works-line__external {
+    font-size: 0.8em;
+    color: var(--color-muted);
+    line-height: 1;
+  }
+
+  .works-line__summary {
+    font-size: var(--text-caption-size, 0.9rem);
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  /* —— Projects gallery —— */
+  .works-projects {
+    min-width: 0;
+    position: sticky;
+    top: var(--content-top-padding);
+  }
+
+  .works-projects__title {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .works-projects__gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .works-project {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .works-project::before,
+  .works-project::after {
+    display: none;
+    content: none;
+  }
+
+  .works-project__frame {
+    border-radius: var(--radius-md);
+  }
+
+  .works-project__image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .works-project__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  .works-project__name {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--body-size);
+    font-weight: var(--heading-weight);
+    line-height: 1.25;
+    letter-spacing: var(--letter-spacing-heading-md);
+    color: var(--color-text);
+  }
+
+  .works-project__summary {
+    margin: 0;
+    font-size: var(--text-caption-size, 0.875rem);
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  @media (hover: hover) {
+    .works-project--linked:hover .works-project__name {
+      color: var(--color-link);
+    }
+
+    .works-project--linked:hover .works-project__frame {
+      box-shadow: var(--shadow-hover);
+    }
+  }
+
+  .works-project--linked:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+  }
+
+  @media (min-width: 1920px) {
+    .works-layout {
+      grid-template-columns: minmax(0, 2fr) minmax(18rem, 22rem);
+      gap: var(--spacing-3xl);
+    }
+  }
+
+  @media (min-width: 2560px) {
+    .works-layout {
+      grid-template-columns: minmax(0, 2fr) minmax(20rem, 24rem);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .works-layout {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+    }
+
+    .works-projects {
+      position: static;
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--color-border);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .works-projects__gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--spacing-lg);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .works-line {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xs);
+    }
+
+    .works-projects__gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .works-card--linked,
+    .works-card--linked:hover,
+    .works-stream__item--linked .works-line,
+    .works-stream__item--linked .works-line:hover {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

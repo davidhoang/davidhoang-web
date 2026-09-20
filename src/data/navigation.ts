@@ -10,7 +10,7 @@ export const navItems = [
 export const mobileSecondaryNavItems = [
   { path: '/now', label: 'Now' },
   { path: '/notes', label: 'Notes' },
-  { path: '/works', label: 'Works' },
+  { path: '/work', label: 'Work' },
   { path: '/cv', label: 'CV' },
   { path: '/career-odyssey', label: 'Career Odyssey' },
   { path: '/thesis', label: 'Thesis' },
@@ -35,10 +35,10 @@ export const commandPalettePages = [
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
   { title: 'Design Guide', description: 'Theme-responsive design system primitives', path: '/design-guide', type: 'page' },
   {
-    title: 'Works',
+    title: 'Work',
     description:
-      'Selected work — career chapters as cards, talks and one-off events as a vertical list.',
-    path: '/works',
+      'Selected work — career chapters, talks and events, and a gallery of side projects.',
+    path: '/work',
     type: 'page',
   },
   {
@@ -71,7 +71,7 @@ export const commandPalettePages = [
 /**
  * Static pages included in /search-index.json for agents and ⌘K.
  * Superset of commandPalettePages — covers intentional sitemap-visible
- * destinations that are easy to omit from nav/palette alone (e.g. /works).
+ * destinations that are easy to omit from nav/palette alone (e.g. /work).
  * Utility/deprecated routes are listed in searchIndexConfig.ts (not here).
  */
 export const discoverableStaticPages = [
@@ -103,7 +103,7 @@ export const footerSections = [
     links: [
       { href: '/about', label: 'About', ariaLabel: 'About David Hoang', external: false },
       { href: '/featured', label: 'Featured', ariaLabel: 'Featured work and press', external: false },
-      { href: '/works', label: 'Works', ariaLabel: 'Selected work', external: false },
+      { href: '/work', label: 'Work', ariaLabel: 'Selected work', external: false },
       { href: '/cv', label: 'CV', ariaLabel: 'Curriculum vitae', external: false },
       { href: '/thesis', label: 'Thesis', ariaLabel: 'Thesis hub: convictions with further reading', external: false },
       { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },

@@ -80,12 +80,12 @@
   padding-left: max(
     var(--container-padding),
     env(safe-area-inset-left, 0px),
-    calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
+    calc((100vw - min(100vw, var(--container-display-max, var(--container-max-width, 1200px)))) / 2 + var(--container-padding))
   );
   padding-right: max(
     var(--container-padding),
     env(safe-area-inset-right, 0px),
-    calc((100vw - min(100vw, var(--container-max-width, 1200px))) / 2 + var(--container-padding))
+    calc((100vw - min(100vw, var(--container-display-max, var(--container-max-width, 1200px)))) / 2 + var(--container-padding))
   );
   background: var(--color-bg);
 }

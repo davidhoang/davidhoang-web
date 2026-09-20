@@ -1,14 +1,16 @@
 /**
- * Works index — career role cards + one-off event lines (talks, launches, milestones).
- * Add portfolio case studies later at paths like /works/slug.
- *
- * Published at /works (indexable + sitemap) but not linked from top nav, footer, or ⌘K yet.
- * Add to navigation.ts when ready to promote in site IA.
+ * Work index — career role cards, talk/event lines, and a side-project gallery.
+ * Case studies can later live at paths like /work/slug.
  */
-export type WorkKind = 'role' | 'talk' | 'event' | 'portfolio';
+export type WorkKind = 'role' | 'talk' | 'event';
 
-/** How the entry renders on /works */
+/** How the stream entry renders on /work */
 export type WorkPresentation = 'card' | 'line';
+
+export type WorkShaderPalette = {
+  light: { front: string; back: string };
+  dark: { front: string; back: string };
+};
 
 export type WorkEntry = {
   id: string;
@@ -23,11 +25,37 @@ export type WorkEntry = {
   summary?: string;
   /** Role / company subtitle on cards, e.g. "VP of Design, Rovo & AI and Ecosystem" */
   role?: string;
-  /** Optional highlight bullets on career cards */
-  highlights?: string[];
+  /** Paper dither palette for this career card (light / dark). */
+  shader?: WorkShaderPalette;
+  /** Paper dither animation speed for this card. Lower is slower. */
+  shaderSpeed?: number;
   href?: string;
   external?: boolean;
 };
+
+/** Side projects shown in the /work gallery and at /work/[slug]. */
+export type WorkProject = {
+  slug: string;
+  title: string;
+  /** Short line on the gallery tile */
+  summary: string;
+  /** One-paragraph stub on the detail page */
+  description: string;
+  /** `/images/...` path resolved via astro:assets */
+  image?: string;
+  imageAlt?: string;
+  /** Public product URL shown on the detail page only */
+  externalUrl?: string;
+  externalLabel?: string;
+};
+
+export function workProjectPath(project: WorkProject): string {
+  return `/work/${project.slug}`;
+}
+
+export function getWorkProject(slug: string): WorkProject | undefined {
+  return workProjects.find((project) => project.slug === slug);
+}
 
 export function workPresentation(entry: WorkEntry): WorkPresentation {
   return entry.kind === 'role' ? 'card' : 'line';
@@ -37,7 +65,6 @@ const WORK_KIND_LABELS: Record<WorkKind, string> = {
   role: 'Role',
   talk: 'Talk',
   event: 'Event',
-  portfolio: 'Portfolio',
 };
 
 export function workKindLabel(kind: WorkKind): string {
@@ -68,29 +95,12 @@ export const works: WorkEntry[] = [
     summary:
       'Leading design for Rovo, AI, and the Atlassian ecosystem — building AI teammates into the tools teams already live in.',
     kind: 'role',
-    when: '2024–',
-    highlights: [
-      'AI-native product experiences across Jira and the Teamwork Graph',
-      'Design leadership for Agent Experience and ecosystem surfaces',
-    ],
-  },
-
-  // —— 2025 talks ——
-  {
-    id: 'nycxdesign-2025',
-    title: 'NYCxDESIGN: The future of software design',
-    kind: 'talk',
-    when: '2025',
-    href: 'https://nycxdesign.org/nycxdesign-talk-with-will-hall-designing-intelligence/',
-    external: true,
-  },
-  {
-    id: 'config-2025-maturing-teams',
-    title: 'Config 2025: Maturing your teams & your leadership',
-    kind: 'talk',
-    when: '2025',
-    href: 'https://www.youtube.com/watch?v=xkriqGkodQA',
-    external: true,
+    when: '2024-Present',
+    shaderSpeed: 0.019,
+    shader: {
+      light: { front: '#0052CC', back: '#E9F2FF' },
+      dark: { front: '#2684FF', back: '#091E42' },
+    },
   },
 
   // —— 2024 one-offs ——
@@ -120,11 +130,11 @@ export const works: WorkEntry[] = [
       'Joined as an advisor, then led marketing and design through rebrand, AI-native product moments, and Developer Day.',
     kind: 'role',
     when: '2022–2024',
-    highlights: [
-      'New brand and replit.com',
-      'Replit Core membership and Replit Teams',
-      'Research, AI innovation, and Developer Day',
-    ],
+    shaderSpeed: 0.044,
+    shader: {
+      light: { front: '#FF3C00', back: '#FAF6F1' },
+      dark: { front: '#FF764D', back: '#181818' },
+    },
   },
 
   {
@@ -145,15 +155,11 @@ export const works: WorkEntry[] = [
       'First Head of Design — building the design function as Webflow scaled its vision for a more expressive, accessible internet.',
     kind: 'role',
     when: '2018–2022',
-  },
-
-  {
-    id: 'config-2021-scaling-design',
-    title: 'Config 2021: The Universal Challenges of Every Scaling Design Team',
-    kind: 'talk',
-    when: '2021',
-    href: 'https://www.youtube.com/watch?v=piGC-iFwmrk&t=45s',
-    external: true,
+    shaderSpeed: 0.028,
+    shader: {
+      light: { front: '#146EF5', back: '#E8F1FE' },
+      dark: { front: '#146EF5', back: '#080808' },
+    },
   },
 
   {
@@ -174,21 +180,91 @@ export const works: WorkEntry[] = [
       'Led product design through the shift to virtual care and the company’s IPO.',
     kind: 'role',
     when: '2015–2018',
+    shaderSpeed: 0.061,
+    shader: {
+      light: { front: '#005450', back: '#E7F4F3' },
+      dark: { front: '#3AA8A1', back: '#042624' },
+    },
   },
 
-  // —— Portfolio placeholders (lines until case studies ship) ——
+  // —— Career: Black Pixel ——
   {
-    id: 'inspirato',
-    title: 'Inspirato',
-    summary: 'Product design with Black Pixel.',
-    kind: 'portfolio',
-    when: '2015',
+    id: 'black-pixel',
+    title: 'Black Pixel',
+    role: 'Director of Design, Mobile',
+    summary:
+      'Led a remote design team for Android and iOS client work, pitching ESPN, Inspirato, The New York Times, and Twitter.',
+    kind: 'role',
+    when: '2014–2015',
+    shaderSpeed: 0.023,
+    shader: {
+      light: { front: '#111111', back: '#F3F3F3' },
+      dark: { front: '#E8E8E8', back: '#0D0D0D' },
+    },
+  },
+
+  // —— Career: HTC ——
+  {
+    id: 'htc',
+    title: 'HTC',
+    role: 'Lead Designer, Global Digital Creative',
+    summary:
+      'Led design for brand and marketing — UX, research, and creative direction.',
+    kind: 'role',
+    when: '2014–2015',
+    shaderSpeed: 0.052,
+    shader: {
+      light: { front: '#8CC751', back: '#F3F9E9' },
+      dark: { front: '#A5CF4C', back: '#15240A' },
+    },
+  },
+
+  // —— Career: ExactTarget ——
+  {
+    id: 'exacttarget',
+    title: 'ExactTarget',
+    role: 'Design Consultant, Global Accounts',
+    summary:
+      'Designed and built email campaigns for ExactTarget’s largest accounts — Anthem, Expedia, Hotels.com, Microsoft, and Nike.',
+    kind: 'role',
+    when: '2009–2011',
+    shaderSpeed: 0.034,
+    shader: {
+      light: { front: '#EC9438', back: '#FDF4E9' },
+      dark: { front: '#F0B15C', back: '#2A1608' },
+    },
+  },
+];
+
+/** Small gallery of side projects. Newest first. */
+export const workProjects: WorkProject[] = [
+  {
+    slug: 'proof-of-concept',
+    title: 'Proof of Concept',
+    summary: 'Weekly newsletter and member library on design, technology, and building things.',
+    description:
+      'Proof of Concept connects design, technology, and the work of making things. Members get the weekly newsletter and a practical library built to help ideas travel further.',
+    image: '/images/highlights/img-highlights-proof-of-concept.webp',
+    imageAlt: 'Proof of Concept newsletter branding and layout',
+    externalUrl: 'https://members.proofofconcept.pub',
+    externalLabel: 'members.proofofconcept.pub',
   },
   {
-    id: 'twitter-camera',
-    title: 'Twitter Camera',
-    summary: 'Selected product work on Twitter’s camera experience.',
-    kind: 'portfolio',
-    when: '—',
+    slug: 'tapestry',
+    title: 'Tapestry',
+    summary: 'High-touch design recruiting for the intelligence era.',
+    description:
+      'A personal CRM of designers — directory, shareable lists, and AI recommendations — built to help make better introductions, not replace them.',
+    image: '/images/works/works-tapestry.webp',
+    imageAlt: 'Tapestry recruiting directory and match interface',
+    externalUrl: 'https://tapestry.design',
+    externalLabel: 'tapestry.design',
+  },
+  {
+    slug: 'dhos',
+    title: 'dhOS',
+    summary: 'A personal operating system for productivity, knowledge, and daily briefs.',
+    description:
+      'A personal operating system for productivity, knowledge management, and daily executive briefs. It brings Obsidian, Google Calendar/Gmail, and Airtable into a unified dashboard. The project is still private.',
   },
 ];

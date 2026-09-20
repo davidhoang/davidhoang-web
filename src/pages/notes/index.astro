@@ -145,7 +145,7 @@ const notesPlaceholderSketch =
 
 <style>
   .notes-intro {
-    max-width: var(--container-max-width, 72rem);
+    max-width: var(--container-display-max, var(--container-max-width, 72rem));
     margin: 0 auto calc(var(--spacing-xl) + var(--spacing-sm));
     padding: 0 var(--content-padding, 1.25rem);
   }
@@ -189,7 +189,7 @@ const notesPlaceholderSketch =
   }
 
   .notes-toolbar {
-    max-width: var(--container-max-width, 72rem);
+    max-width: var(--container-display-max, var(--container-max-width, 72rem));
     margin: 0 auto var(--spacing-xl);
     padding: 0 var(--content-padding, 1.25rem);
     display: flex;
@@ -274,7 +274,7 @@ const notesPlaceholderSketch =
   }
 
   .notes-grid {
-    max-width: var(--container-max-width, 72rem);
+    max-width: var(--container-display-max, var(--container-max-width, 72rem));
     margin: 0 auto;
     padding: 0 var(--content-padding, 1.25rem) 3rem;
     display: grid;

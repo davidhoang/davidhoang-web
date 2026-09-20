@@ -16,7 +16,12 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
 ---
 
-<MainLayout title="Featured" description={pageDescription} ogImage={ogImage}>
+<MainLayout
+  title="Featured"
+  description={pageDescription}
+  ogImage={ogImage}
+  containerClass="container container-wide"
+>
   <PageHeader
     title="Featured"
     image="/images/header-images/img-highlights-featured.webp"

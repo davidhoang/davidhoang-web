@@ -427,7 +427,7 @@ Form input elements.
 
 ## Content pages
 
-Secondary pages (Advising, Investing, Now, Works, etc.) share a content rhythm via classes in `src/styles/modules/layout.css`:
+Secondary pages (Advising, Investing, Now, Work, etc.) share a content rhythm via classes in `src/styles/modules/layout.css`:
 
 | Class | Role |
 |-------|------|
@@ -488,13 +488,13 @@ Layout containers for content width control.
 ### Usage
 
 ```html
-<!-- Default container (max 1200px) -->
+<!-- Default container (theme 640–1200px; framework widens at 1920 / 2560) -->
 <div class="container">...</div>
 
-<!-- Narrow (720px, good for reading) -->
+<!-- Narrow (720px → 820 / 880 on large displays; good for reading) -->
 <div class="container container-narrow">...</div>
 
-<!-- Wide (1400px) -->
+<!-- Wide (1400px → 1680 / 1920; two-column pages like Work) -->
 <div class="container container-wide">...</div>
 
 <!-- Full width -->
@@ -503,7 +503,8 @@ Layout containers for content width control.
 
 ### Theme Response
 
-- Max width can be overridden by `--container-max-width`
+- Theme `--container-max-width` is the laptop column (640–1200px)
+- Rendered width is `--container-display-max` (boosted at 1920px and 2560px)
 - Padding uses `--container-padding`
 
 ---

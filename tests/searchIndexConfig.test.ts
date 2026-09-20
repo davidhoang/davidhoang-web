@@ -88,8 +88,13 @@ describe('search index policy (PC-40)', () => {
           continue;
         }
         const collection = collectionFromDynamicAstro(rel);
+        const isContentCollection =
+          collection && (SEARCH_INDEX_COLLECTIONS as readonly string[]).includes(collection);
+        const isIndexedSection =
+          collection &&
+          [...indexed].some((path) => path === `/${collection}` || path.startsWith(`/${collection}/`));
         expect(
-          collection && (SEARCH_INDEX_COLLECTIONS as readonly string[]).includes(collection),
+          isContentCollection || isIndexedSection,
           `${rel} is a dynamic page outside SEARCH_INDEX_COLLECTIONS`,
         ).toBeTruthy();
         continue;

@@ -55,7 +55,7 @@
 
 .site-footer .container {
   width: 100%;
-  max-width: var(--container-max-width, 1200px);
+  max-width: var(--container-display-max, var(--container-max-width, 1200px));
   margin-inline: auto;
   padding: 0 var(--container-padding);
 }
@@ -296,7 +296,7 @@
 
 @media (min-width: 1920px) {
   .site-footer .container {
-    max-width: 1920px;
+    max-width: var(--container-wide-width, 1680px);
   }
 
   .footer-copyright {

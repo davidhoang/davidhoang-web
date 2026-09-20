@@ -584,7 +584,7 @@ img {
 
 .container {
   width: 100%;
-  max-width: var(--container-max-width, 1200px);
+  max-width: var(--container-display-max, var(--container-max-width, 1200px));
   margin-inline: auto;
   /* Include safe area insets for notched devices in landscape */
   padding-left: max(var(--container-padding), env(safe-area-inset-left, 0));

@@ -8,6 +8,7 @@
  * Usage:
  *   <PageHeader title="About" image="/images/header-images/img-about.jpg" />
  *   <PageHeader title="Notes" variant="text-only" subtitle="Welcome to my digital garden" />
+ *   <PageHeader title="Work" image="..." shader="dither" />
  */
 
 import { Image } from 'astro:assets';
@@ -22,6 +23,8 @@ interface Props {
   subtitle?: string;
   class?: string;
   priority?: boolean;
+  /** Paper image dither on this hero only — other pages stay theme-driven. */
+  shader?: 'dither';
 }
 
 const {
@@ -31,38 +34,47 @@ const {
   variant = 'image',
   subtitle,
   class: className = '',
-  priority = false
+  priority = false,
+  shader,
 } = Astro.props;
 
 const isImageVariant = variant === 'image' && image;
 const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 ---
 
-<header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
+<header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant, 'page-header--dither': isImageVariant && shader === 'dither' }, className]}>
   {isImageVariant ? (
     <div class="page-header__hero hero-media">
-      {optimizedImage ? (
-        <Image
-          src={optimizedImage}
-          alt={alt}
-          class="page-header__image"
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          widths={[600, 1200, 1800]}
-          sizes="100vw"
-        />
-      ) : (
-        <img
-          src={image}
-          alt={alt}
-          class="page-header__image"
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          width="1800"
-          height="1200"
-        />
-      )}
-      <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
+      <div class="page-header__media">
+        {optimizedImage ? (
+          <Image
+            src={optimizedImage}
+            alt={alt}
+            class="page-header__image"
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            widths={[600, 1200, 1800]}
+            sizes="100vw"
+          />
+        ) : (
+          <img
+            src={image}
+            alt={alt}
+            class="page-header__image"
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            width="1800"
+            height="1200"
+          />
+        )}
+        {
+          shader === 'dither' ? (
+            <HeroImageShader client:load src={image} alt={alt} priority={priority} shader={shader} />
+          ) : (
+            <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
+          )
+        }
+      </div>
       <h1 class="page-header__title">{title}</h1>
     </div>
   ) : (
@@ -218,6 +230,14 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     justify-content: center;
   }
 
+  /* Image + optional Paper shader; parallax moves this wrap together */
+  .page-header__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transform-origin: center center;
+  }
+
   /* Static hero image - renders immediately via SSR, no JS needed */
   .page-header__image {
     position: absolute;
@@ -228,11 +248,6 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     object-position: center;
   }
 
-  /* Shader/image container - parallax transform applied via JS */
-  .page-header--image .page-header__hero > :global(*:first-child) {
-    transform-origin: center center;
-  }
-
   /* Gradient overlay — extends shared .hero-media dim layer */
   .page-header--image .page-header__hero::before {
     background: linear-gradient(
@@ -241,6 +256,15 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
       color-mix(in srgb, var(--color-text) 40%, transparent) 100%
     );
     pointer-events: none;
+  }
+
+  /* Let the SSR photo show through so dither reads as texture, not a full posterize. */
+  .page-header--dither :global(.hero-image-shader--dither) {
+    opacity: 0.55;
+  }
+
+  :global([data-e-ink="true"]) .hero-image-shader--dither {
+    display: none;
   }
 
   .page-header--image .page-header__title {
@@ -289,7 +313,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     }
 
     /* Disable parallax on mobile */
-    .page-header--image .page-header__hero > :global(*:first-child) {
+    .page-header__media {
       transform: none !important;
     }
   }

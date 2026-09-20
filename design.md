@@ -341,8 +341,26 @@ A global rule in `src/styles/modules/accessibility-responsive.css` strips `trans
 | `tablet` | 768px | **Mobile/desktop boundary** — mobile safety overrides apply at this breakpoint and below |
 | `desktopSmall` | 1024px | Tablet landscape / small laptop |
 | `desktop` | 1440px | Standard laptop — design center |
-| `wide` | 1920px | Large display |
-| `ultrawide` | 2560px | Design ceiling |
+| `wide` | 1920px | Large display — framework container boost |
+| `ultrawide` | 2560px | 5K / design ceiling — second container boost |
+
+### Large display
+
+`layout.containerMaxWidth` is theme-owned and stays in **640–1200px**. That value is the column at laptop sizes. It must **not** be the rendered width on 1920px and 5K displays — those viewports would otherwise sit in a ~1000px island with unused margins.
+
+Framework-owned `--container-display-max` (in `variables.css`) is the rendered `.container` width:
+
+| Viewport | Boost | Display cap | `.container-wide` |
+|---|---|---|---|
+| <1920px | none | theme `--container-max-width` | 1400px |
+| ≥1920px (`wide`) | +280px | 1480px | 1680px |
+| ≥2560px (`ultrawide`) | +520px | 1680px | 1920px |
+
+Narrow themes stay relatively narrower (`640 + boost`); wide themes hit the cap. Two-column pages (Work, Featured) use `.container-wide`. Reading pages keep `.container-narrow` (720 → 820 → 880). Prose measure is unchanged.
+
+`--container-display-max` is `100%` at ≤768px (same as the mobile container override). Themes must not emit 1920px containers.
+
+Implemented: `variables.css` media queries; `.container` in `design-system.css`; home gutters and notes grids follow the display token. `data-viewport-tier` is `wide` / `ultrawide` at those widths.
 
 ---
 
@@ -450,6 +468,7 @@ Before finalizing a theme, mentally render at each of these widths:
 - **320px** — smallest phone. Does padding leave room for body text? Do headings fit on 1–2 lines?
 - **768px** — tablet. Does multi-column collapse cleanly?
 - **1440px** — standard laptop. Does the design look finished, not stretched?
-- **1920px+** — large display. Does `containerMaxWidth` cap the dead space at the edges?
+- **1920px+** — large display. Framework `--container-display-max` uses extra width; `containerMaxWidth` still sets relative personality (narrow vs wide), not a 1000px island.
+- **2560px** — 5K / ultrawide. Same boost, still not full-bleed prose.
 
 A theme that fails any of these checks at the prompt stage will likely fail in production. Mobile-specific failures are caught by the [Mobile layout safety](#mobile-layout-safety) overrides, but desktop and tablet rendering is the theme's responsibility.

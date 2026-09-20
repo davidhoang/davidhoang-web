@@ -19,7 +19,7 @@ describe('normalizePath / absoluteUrl', () => {
   });
 
   it('builds canonical absolute URLs', () => {
-    expect(absoluteUrl('/works')).toBe(`${SEARCH_INDEX_SITE}/works`);
+    expect(absoluteUrl('/work')).toBe(`${SEARCH_INDEX_SITE}/work`);
     expect(absoluteUrl('/')).toBe(`${SEARCH_INDEX_SITE}/`);
   });
 });
@@ -46,7 +46,7 @@ describe('discoverableStaticPages', () => {
       expect(paths.has(page.path)).toBe(true);
     }
     expect(paths.has('/')).toBe(true);
-    expect(paths.has('/works')).toBe(true);
+    expect(paths.has('/work')).toBe(true);
     expect(paths.has('/design-resources')).toBe(true);
     expect(paths.has('/thesis')).toBe(true);
     expect(paths.has('/cv')).toBe(true);
@@ -66,7 +66,7 @@ describe('buildSearchIndex', () => {
   const items = buildSearchIndex({
     pages: [
       { title: 'Home', description: 'Home page', path: '/' },
-      { title: 'Works', description: 'Selected work', path: '/works' },
+      { title: 'Work', description: 'Selected work', path: '/work' },
       { title: 'About', description: 'About David', path: '/about/' },
     ],
     writing: [

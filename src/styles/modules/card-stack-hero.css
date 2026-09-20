@@ -22,7 +22,7 @@
 .card-stack-container {
   position: relative;
   width: 100%;
-  max-width: min(100%, var(--container-max-width, 72rem));
+  max-width: min(100%, var(--container-display-max, var(--container-max-width, 72rem)));
   margin-inline: auto;
   height: 450px;
   display: flex;
@@ -1262,7 +1262,7 @@
 
 .card-stack-hero-skeleton__inner {
   width: 100%;
-  max-width: min(100%, var(--container-max-width, 72rem));
+  max-width: min(100%, var(--container-display-max, var(--container-max-width, 72rem)));
   margin-inline: auto;
   flex: 1;
   min-height: 0;

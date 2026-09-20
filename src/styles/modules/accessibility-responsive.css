@@ -73,6 +73,7 @@
     --nav-height: 56px;
     --nav-offset-top: 0px;
     --content-top-padding: calc(56px + env(safe-area-inset-top, 0px) + 1.5rem);
+    --container-display-max: 100%;
   }
 
   /* Container - tighter padding on mobile */
@@ -199,5 +200,5 @@
   }
 }
 
-/* Extra-large breakpoint - 1920px
-   Container stays at default max-width; headings use clamp() so they scale fluidly. */
+/* Extra-large breakpoints — 1920px (wide) and 2560px (ultrawide / 5K).
+   Container tokens live in variables.css (§ Large display). Headings use clamp(). */

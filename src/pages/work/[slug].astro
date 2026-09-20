@@ -1,0 +1,65 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { workProjects, getWorkProject } from '../../data/works';
+
+export function getStaticPaths() {
+  return workProjects.map((project) => ({
+    params: { slug: project.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const project = slug ? getWorkProject(slug) : undefined;
+
+if (!project) {
+  throw new Error(`Unknown work project: ${slug}`);
+}
+
+const pageDescription = project.summary;
+const ogImage = project.image ?? '/images/highlights/img-highlights-proof-of-concept.webp';
+const hasHeroImage = Boolean(project.image);
+---
+
+<MainLayout title={`${project.title} | Work | David Hoang`} description={pageDescription} ogImage={ogImage}>
+  {
+    hasHeroImage ? (
+      <PageHeader title={project.title} image={project.image} alt={project.imageAlt ?? project.title} />
+    ) : (
+      <PageHeader title={project.title} variant="text-only" subtitle="Side project" />
+    )
+  }
+  <div class:list={['content-page', 'works-project-page', 'container-narrow', { 'content-page--compact-top': hasHeroImage }]}>
+    <p class="content-page__lede">
+      <a href="/work#works-projects-heading">Work</a>
+      <span aria-hidden="true"> / </span>
+      <span>{project.title}</span>
+    </p>
+
+    <section class="content-page__intro">
+      <p>{project.description}</p>
+    </section>
+
+    {
+      project.externalUrl && (
+        <p class="works-project-page__visit">
+          <a
+            class="btn btn-primary"
+            href={project.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit {project.externalLabel ?? project.title}
+            <span aria-hidden="true"> ↗</span>
+          </a>
+        </p>
+      )
+    }
+  </div>
+</MainLayout>
+
+<style>
+  .works-project-page__visit {
+    margin: 0;
+  }
+</style>

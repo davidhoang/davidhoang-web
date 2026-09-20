@@ -113,6 +113,10 @@ export default defineConfig({
   adapter: vercel(),
   site: 'https://www.davidhoang.com',
   trailingSlash: 'never',
+  redirects: {
+    '/works': '/work',
+    '/works/[slug]': '/work/[slug]',
+  },
   devToolbar: {
     enabled: false,
   },

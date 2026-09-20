@@ -5,7 +5,9 @@
   "cleanUrls": true,
   "redirects": [
     { "source": "/fund", "destination": "/investing", "statusCode": 301 },
-    { "source": "/poc-ventures.md", "destination": "/investing", "statusCode": 301 }
+    { "source": "/poc-ventures.md", "destination": "/investing", "statusCode": 301 },
+    { "source": "/works", "destination": "/work", "statusCode": 301 },
+    { "source": "/works/:slug", "destination": "/work/:slug", "statusCode": 301 }
   ],
   "headers": [
     {

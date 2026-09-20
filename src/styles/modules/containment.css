@@ -59,6 +59,11 @@
   contain-intrinsic-size: auto 4.5rem;
 }
 
+.works-projects__item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .philosophy-item,
   .portfolio-content,
@@ -66,6 +71,7 @@
   .writing-feed__item,
   .note-card,
   .works-stream__item,
+  .works-projects__item,
   .related-content__card,
   .editorial-media-card {
     content-visibility: visible;
@@ -87,6 +93,7 @@
   .writing-feed__item,
   .note-card,
   .works-stream__item,
+  .works-projects__item,
   .related-content__card,
   .editorial-media-card {
     contain: none;

@@ -216,7 +216,8 @@ html[data-e-ink="true"][data-theme="dark"] {
 }
 
 /* E-Ink: WebGL hero card shaders add visual noise with no value here — hide. */
-[data-e-ink="true"] .card-stack-hero .hero-card-shader-mount canvas {
+[data-e-ink="true"] .card-stack-hero .hero-card-shader-mount canvas,
+[data-e-ink="true"] .hero-image-shader--dither {
   display: none !important;
 }
 

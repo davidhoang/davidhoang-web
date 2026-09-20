@@ -21,10 +21,17 @@
   --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2rem); /* Space below nav */
   --container-padding: clamp(1rem, 3vw, 2rem);
 
-  /* Container widths — use these tokens instead of hardcoded max-width values */
+  /* Container widths — use these tokens instead of hardcoded max-width values.
+     --container-max-width is theme-owned (640–1200px). --container-display-max
+     is the rendered column: same as the theme until 1920px, then a framework
+     boost so 4K/5K screens are not a 1000px island (design.md § Large display). */
   --container-max-width: 1000px;
-  --container-narrow-width: 720px;
-  --container-wide-width: 1400px;
+  --container-display-max: var(--container-max-width);
+  --container-narrow-base: 720px;
+  --container-narrow-width: var(--container-narrow-base);
+  --container-wide-base: 1400px;
+  --container-wide-width: var(--container-wide-base);
+  --container-large-boost: 0px;
 
   /* Prose / article column widths. Used by writing/note layouts. */
   --prose-width: 56rem;
@@ -38,11 +45,13 @@
      the canonical list; PRs adding new breakpoints should pick one of these.
 
      Viewport tiers (data-viewport-tier on <html>, set in MainLayout.astro):
-       compact  ≤480px   smallest phones
-       mobile   481–768px mobile safety overrides apply (design.md)
-       tablet       769–1024px  tablet-enhancements.css (iPad portrait, etc.)
-       tablet-wide  1025–1366px iPad Pro landscape
-       desktop      ≥1367px
+       compact    ≤480px        smallest phones
+       mobile     481–768px     mobile safety overrides apply (design.md)
+       tablet     769–1024px    tablet-enhancements.css (iPad portrait, etc.)
+       tablet-wide 1025–1366px  iPad Pro landscape
+       desktop    1367–1919px   standard laptop / design center
+       wide       1920–2559px   large display (framework container boost)
+       ultrawide  ≥2560px       5K / design ceiling
 
      Nav resize boundary is 520px (design.md mobileSmall) — see nav.css. */
   --breakpoint-mobile: 480px;
@@ -51,6 +60,7 @@
   --breakpoint-desktop-large: 1280px;
   --breakpoint-desktop-xl: 1536px;
   --breakpoint-desktop-2xl: 1920px;
+  --breakpoint-ultrawide: 2560px;
 
   /* Animation easing — use these tokens, never hardcode cubic-bezier() */
   --ease-inertia: cubic-bezier(0.25, 0.46, 0.45, 0.94);    /* Smooth ease-out — default */
@@ -213,6 +223,27 @@
   --shadow-scrolling: 0 4px 12px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.08);
   --inner-border: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
   --inner-border-button: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Large display — framework-owned width boost (design.md § Large display).
+   Themes still write --container-max-width (640–1200). These steps add room
+   so 1920/5K viewports are not a theme-capped island. */
+@media (min-width: 1920px) {
+  :root {
+    --container-large-boost: 280px;
+    --container-display-max: min(1480px, calc(var(--container-max-width) + var(--container-large-boost)));
+    --container-wide-width: min(1680px, calc(var(--container-wide-base) + var(--container-large-boost)));
+    --container-narrow-width: min(820px, calc(var(--container-narrow-base) + 100px));
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --container-large-boost: 520px;
+    --container-display-max: min(1680px, calc(var(--container-max-width) + var(--container-large-boost)));
+    --container-wide-width: min(1920px, calc(var(--container-wide-base) + var(--container-large-boost)));
+    --container-narrow-width: min(880px, calc(var(--container-narrow-base) + 160px));
+  }
 }
 
 /* Dark mode colors */
