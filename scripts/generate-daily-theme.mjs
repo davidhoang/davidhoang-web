@@ -15,6 +15,9 @@
  *
  * Environment:
  *   ANTHROPIC_API_KEY - Required for Claude API access (falls back to last-good if missing/unreachable)
+ *   TYPESAFE_API_KEY  - Optional. When set, Jev (TypeSafe System One) reweights taste
+ *                       among viewport/contrast-safe candidates. Generation still uses Claude.
+ *   DAILY_THEME_SKIP_JEV=1 - Skip the Jev judge even when a key is present
  *
  * Options:
  *   --inspiration "Name"   Pick a design inspiration from the bank
@@ -23,6 +26,7 @@
  *   --candidates 3          Number of candidates to generate in parallel, then render and rank (1-5)
  *   --time-period dawn      Force time-of-day: dawn|morning|afternoon|evening|night|lateNight
  *   --skip-render           Rank from theme data only (local fallback)
+ *   --skip-jev              Skip the optional Jev taste judge
  *   --list                 List available inspirations
  *   --list-recipes         List available art-direction recipes
  *   --list-context         List context files in scripts/context/
@@ -50,6 +54,7 @@ import {
 import { scheduleThemeStructure } from './lib/theme-scheduler.mjs';
 import { renderThemeSet } from './lib/theme-renderer.mjs';
 import { rankThemeCandidates, recentThemeId } from './lib/theme-ranking.mjs';
+import { judgeThemeCandidates } from './lib/theme-jev.mjs';
 import { CARD_SHADOW_OPTIONS } from './lib/theme-validation.mjs';
 import { requestThemeCandidate } from './lib/theme-candidate.mjs';
 import {
@@ -884,15 +889,42 @@ async function generateTheme(options = {}) {
     }
   }
 
-  const ranking = rankThemeCandidates(candidates, recentThemes, renderReport);
+  let ranking = rankThemeCandidates(candidates, recentThemes, renderReport);
+  const judged = await judgeThemeCandidates({
+    ranking,
+    recipe: schedule.recipe,
+    inspiration: inspiration.inspirationName,
+    recentThemes,
+    skipJev: Boolean(options.skipJev),
+  });
+  ranking = judged.ranking;
+
+  if (judged.jev.used) {
+    console.log(
+      `\nJev taste judge (${judged.jev.model}): pick ${judged.jev.pick || 'n/a'}` +
+      (typeof judged.jev.pickConfidence === 'number'
+        ? ` (${(judged.jev.pickConfidence * 100).toFixed(0)}% confidence)`
+        : ''),
+    );
+  } else if (judged.jev.reason === 'error') {
+    console.warn(`Jev taste judge unavailable; keeping heuristic ranking: ${judged.jev.error}`);
+  } else if (judged.jev.reason === 'missing-key') {
+    console.log('\nJev taste judge skipped (set TYPESAFE_API_KEY to enable).');
+  } else if (judged.jev.reason === 'skip-flag' || judged.jev.reason === 'skip-env') {
+    console.log('\nJev taste judge skipped.');
+  }
+
   console.log('\nCandidate ranking:');
   for (const [index, candidate] of ranking.ranked.entries()) {
+    const jevBit = candidate.jev
+      ? `, jev q${candidate.jev.quality.toFixed(1)}/g${candidate.jev.generic.toFixed(2)}/r${candidate.jev.recipeFit.toFixed(1)}`
+      : '';
     console.log(
       `  ${index + 1}. "${candidate.theme.name}" — score ${candidate.score.toFixed(1)}, ` +
       `visual ${(candidate.visualDistance * 100).toFixed(1)}%, ` +
       `color ${(candidate.colorDistance * 100).toFixed(1)}%, ` +
       `attractor ${(candidate.attractorPenalty * 100).toFixed(0)}%, ` +
-      `similarity ${(candidate.assessment.score * 100).toFixed(0)}%, ` +
+      `similarity ${(candidate.assessment.score * 100).toFixed(0)}%${jevBit}, ` +
       `${candidate.issues.length ? candidate.issues.join(', ') : 'safe at all viewports'}`,
     );
   }
@@ -1122,6 +1154,7 @@ function parseArgs() {
   }
 
   options.skipRender = args.includes('--skip-render');
+  options.skipJev = args.includes('--skip-jev');
 
   return options;
 }
