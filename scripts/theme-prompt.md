@@ -18,6 +18,12 @@ Generic terms that appear too often:
 - Minimal, Clean, Simple, Modern, Fresh
 - Light, Dark, Bright, Soft, Warm, Cool
 
+Words this generator has worn out — do not use them in the theme name:
+- Graphite, Voltage, Matins, Concrete, Amber, Signal, Indigo, Shaft
+- Neon, Tokyo, Chapel, Blade, Emulsion, Compendium
+
+Do not echo the personal context note's title or its most obvious nouns. Translate the feeling into a different vocabulary.
+
 ### Preferred Naming Patterns
 Use evocative, specific, memorable names:
 
@@ -45,6 +51,8 @@ Use evocative, specific, memorable names:
 - Use the full range of layout options—don't settle into comfortable patterns
 
 ### Contrast is Key
+The scheduled time-of-day is an art-direction cue, not a literal clock. Match its energy, but do not default to chapel-at-sunrise language — especially if the period is afternoon, evening, or night.
+
 If yesterday was:
 - Warm → go cool today
 - Serif → go geometric sans

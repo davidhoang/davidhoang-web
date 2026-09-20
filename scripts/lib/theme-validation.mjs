@@ -2,6 +2,24 @@ import { z } from 'zod';
 
 const HEX_COLOR = /^#[0-9a-fA-F]{6}$/;
 
+// Keep the generation prompt and validation allowlist in sync.
+export const CARD_SHADOW_OPTIONS = [
+  'none',
+  '0 2px 8px rgba(0,0,0,0.08)',
+  '0 8px 32px rgba(0,0,0,0.12)',
+  '0 24px 48px rgba(0,0,0,0.2)',
+];
+
+const cardShadowSchema = z.string()
+  .trim()
+  // CSS whitespace is insignificant here; still require an allowed shadow.
+  .transform((value) => value
+    .replace(/\s+/g, ' ')
+    .replace(/\s*,\s*/g, ',')
+    .replace(/\(\s+/g, '(')
+    .replace(/\s+\)/g, ')'))
+  .pipe(z.enum(CARD_SHADOW_OPTIONS));
+
 const boundedNumberString = (min, max) => z
   .union([z.string(), z.number()])
   .transform((value) => String(value).trim())
@@ -57,12 +75,7 @@ const themeOutputSchema = z.object({
   }).strict(),
   cards: z.object({
     style: z.enum(['flat', 'elevated', 'outlined', 'filled']),
-    shadow: z.enum([
-      'none',
-      '0 2px 8px rgba(0,0,0,0.08)',
-      '0 8px 32px rgba(0,0,0,0.12)',
-      '0 24px 48px rgba(0,0,0,0.2)',
-    ]),
+    shadow: cardShadowSchema,
     borderWidth: boundedLength('px', 0, 3),
     padding: boundedLength('rem', 1, 2),
   }).strict(),

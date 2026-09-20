@@ -13,6 +13,7 @@
 import { readFileSync, readdirSync } from 'fs';
 import { join, extname, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { pickAvoidingRecent } from './inspiration.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,14 +28,6 @@ const MEDIA_TYPES = {
   '.png': 'image/png',
   '.webp': 'image/webp',
 };
-
-/**
- * Pick a random element from an array
- */
-function pickRandom(arr) {
-  if (arr.length === 0) return null;
-  return arr[Math.floor(Math.random() * arr.length)];
-}
 
 /**
  * Scan the context directory and categorize files
@@ -104,20 +97,22 @@ function loadMarkdownText(filename) {
 /**
  * Load context from the scripts/context/ folder.
  *
+ * @param {{ excludeMarkdown?: string[], excludeImages?: string[] }} [options]
  * Returns:
  *   {
  *     image: { contentBlock, filename } | null,
  *     markdown: { text, filename } | null,
  *   }
  */
-export function loadContext() {
+export function loadContext(options = {}) {
   const { images, markdowns } = scanContextDir();
+  const excludeMarkdown = options.excludeMarkdown || [];
+  const excludeImages = options.excludeImages || [];
 
   let image = null;
   let markdown = null;
 
-  // Pick a random image
-  const imageFile = pickRandom(images);
+  const imageFile = pickAvoidingRecent(images, excludeImages);
   if (imageFile) {
     const contentBlock = loadImageContentBlock(imageFile);
     if (contentBlock) {
@@ -125,8 +120,7 @@ export function loadContext() {
     }
   }
 
-  // Pick a random markdown
-  const mdFile = pickRandom(markdowns);
+  const mdFile = pickAvoidingRecent(markdowns, excludeMarkdown);
   if (mdFile) {
     const text = loadMarkdownText(mdFile);
     if (text) {

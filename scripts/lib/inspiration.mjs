@@ -42,7 +42,15 @@ export const INSPIRATION_BANK = [
   { name: "Ocean Depths", prompt: "Navy blue, sea foam, pearl white, coral accents, maritime elegance" },
   { name: "Mountain Dawn", prompt: "Soft lavender, misty gray, snow white, alpine freshness, crisp morning air" },
   { name: "Urban Dusk", prompt: "Concrete gray, neon accents, deep purple sky, city lights, metropolitan edge" },
-  { name: "Autumn Library", prompt: "Burgundy, mustard, forest green, aged leather, scholarly warmth, harvest tones" }
+  { name: "Autumn Library", prompt: "Burgundy, mustard, forest green, aged leather, scholarly warmth, harvest tones" },
+
+  // Places & materials
+  { name: "Tropical Modernism", prompt: "Rosewood and lime, deep shade under wide eaves, terrazzo floors, slow ceiling fans, Brazilian and California case-study warmth" },
+  { name: "Constructivist Poster", prompt: "Diagonal bars, pure red-black-cream, block type, revolutionary graphic energy, photomontage edges" },
+  { name: "Quiet Luxury", prompt: "Stone, cashmere, bone, one precise metal accent, unbranded restraint, tactile surfaces over decoration" },
+  { name: "Iberian Ceramic", prompt: "Cobalts and oxblood on white tin glaze, hand-painted geometry, sunbaked courtyards, tiled shadow" },
+  { name: "Psychedelic Screenprint", prompt: "Split-fountain inks, vibrating complementary hues, oversized letterforms, 1960s poster shop heat" },
+  { name: "Desert Modern", prompt: "Palm Springs steel, cactus green, swimming-pool turquoise, white glare, long afternoon shadows" }
 ];
 
 // Time-of-day modifiers
@@ -85,6 +93,8 @@ export const TIME_MODIFIERS = {
   }
 };
 
+export const TIME_PERIOD_ORDER = ['dawn', 'morning', 'afternoon', 'evening', 'night', 'lateNight'];
+
 /**
  * Get time-of-day period based on hour
  */
@@ -98,10 +108,45 @@ export function getTimePeriod(hour = new Date().getHours()) {
 }
 
 /**
- * Get a random inspiration from the bank
+ * Rotate time-of-day by UTC calendar date so scheduled 6am UTC jobs
+ * are not locked to "dawn" every day.
+ * @param {Date} [date]
  */
-export function getRandomInspiration(count = 1) {
-  const shuffled = [...INSPIRATION_BANK].sort(() => Math.random() - 0.5);
+export function getRotatingTimePeriod(date = new Date()) {
+  const year = date.getUTCFullYear();
+  const start = Date.UTC(year, 0, 1);
+  const today = Date.UTC(year, date.getUTCMonth(), date.getUTCDate());
+  const dayOfYear = Math.floor((today - start) / 86400000);
+  return TIME_PERIOD_ORDER[dayOfYear % TIME_PERIOD_ORDER.length];
+}
+
+/**
+ * Pick an item, skipping recently used keys when other options exist.
+ * @template T
+ * @param {T[]} items
+ * @param {string[]} [exclude]
+ * @param {(item: T) => string} [getKey]
+ * @param {() => number} [random]
+ * @returns {T | null}
+ */
+export function pickAvoidingRecent(items, exclude = [], getKey = (item) => String(item), random = Math.random) {
+  if (!Array.isArray(items) || items.length === 0) return null;
+  const banned = new Set(exclude.filter(Boolean).map((value) => String(value)));
+  const fresh = items.filter((item) => !banned.has(getKey(item)));
+  const pool = fresh.length > 0 ? fresh : items;
+  return pool[Math.floor(random() * pool.length)];
+}
+
+/**
+ * Get a random inspiration from the bank
+ * @param {number} [count]
+ * @param {string[]} [excludeNames]
+ */
+export function getRandomInspiration(count = 1, excludeNames = []) {
+  const banned = new Set(excludeNames.map((name) => name.toLowerCase()));
+  const fresh = INSPIRATION_BANK.filter((item) => !banned.has(item.name.toLowerCase()));
+  const pool = fresh.length > 0 ? fresh : INSPIRATION_BANK;
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
 
@@ -127,7 +172,9 @@ export function generateInspirationPrompt(options = {}) {
     userPrompt = null,
     inspirationName = null,
     hour = new Date().getHours(),
-    includeTimeModifier = true
+    includeTimeModifier = true,
+    timePeriod: timePeriodOverride = null,
+    excludeNames = [],
   } = options;
 
   // Get base inspiration
@@ -135,13 +182,14 @@ export function generateInspirationPrompt(options = {}) {
   if (inspirationName) {
     inspiration = INSPIRATION_BANK.find(i =>
       i.name.toLowerCase() === inspirationName.toLowerCase()
-    ) || getRandomInspiration(1)[0];
+    ) || getRandomInspiration(1, excludeNames)[0];
   } else {
-    inspiration = getRandomInspiration(1)[0];
+    inspiration = getRandomInspiration(1, excludeNames)[0];
   }
 
-  // Get time modifier
-  const timePeriod = getTimePeriod(hour);
+  const timePeriod = TIME_MODIFIERS[timePeriodOverride]
+    ? timePeriodOverride
+    : getTimePeriod(hour);
   const timeModifier = TIME_MODIFIERS[timePeriod];
 
   // Build the prompt

@@ -21,6 +21,7 @@
  *   --recipe "id"          Force an art-direction recipe
  *   --prompt "text"        Additional creative direction
  *   --candidates 3          Number of candidates to generate in parallel, then render and rank (1-5)
+ *   --time-period dawn      Force time-of-day: dawn|morning|afternoon|evening|night|lateNight
  *   --skip-render           Rank from theme data only (local fallback)
  *   --list                 List available inspirations
  *   --list-recipes         List available art-direction recipes
@@ -31,7 +32,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
-import { generateInspirationPrompt, listInspirations } from './lib/inspiration.mjs';
+import { generateInspirationPrompt, getRotatingTimePeriod, listInspirations, TIME_PERIOD_ORDER } from './lib/inspiration.mjs';
 import { loadContext, listContextFiles } from './lib/context-loader.mjs';
 import { generateShowcaseSpec } from './lib/showcase-generator.mjs';
 import {
@@ -49,7 +50,8 @@ import {
 import { scheduleThemeStructure } from './lib/theme-scheduler.mjs';
 import { renderThemeSet } from './lib/theme-renderer.mjs';
 import { rankThemeCandidates, recentThemeId } from './lib/theme-ranking.mjs';
-import { validateGeneratedTheme } from './lib/theme-validation.mjs';
+import { CARD_SHADOW_OPTIONS } from './lib/theme-validation.mjs';
+import { requestThemeCandidate } from './lib/theme-candidate.mjs';
 import {
   assessDiversity,
   formatRecentThemesPromptSection,
@@ -71,7 +73,7 @@ import {
   resolveLastGoodFallback,
 } from './lib/theme-api-fallback.mjs';
 
-const DEFAULT_THEME_CANDIDATE_COUNT = 3;
+const DEFAULT_THEME_CANDIDATE_COUNT = process.env.GITHUB_ACTIONS ? 5 : 3;
 const CANDIDATE_LENSES = [
   'Typography-led: maximize hierarchy and font contrast while keeping surfaces restrained.',
   'Material-led: make card treatment, borders, radius, image crop, and density carry the concept.',
@@ -140,6 +142,18 @@ function loadRecentThemes(excludeDate = null) {
   try {
     const themesData = JSON.parse(readFileSync(themesPath, 'utf-8'));
     return themesData.themes.filter((t) => !excludeDate || t.date !== excludeDate);
+  } catch {
+    return [];
+  }
+}
+
+function loadRecentSuccessfulBuilds(limit = 7) {
+  const logPath = join(rootDir, 'src', 'data', 'build-log.json');
+  try {
+    const logData = JSON.parse(readFileSync(logPath, 'utf-8'));
+    return (logData.builds || [])
+      .filter((build) => build.status && build.status !== 'error')
+      .slice(0, limit);
   } catch {
     return [];
   }
@@ -235,7 +249,7 @@ The site nav is fixed across all themes. Do NOT include a \`navigation\` field i
 ## CARD TREATMENTS - VARY THE FEEL!
 Cards can be: project cards, content blocks, any boxed element
 - cardStyle: "flat" (no shadow, border only) | "elevated" (shadow) | "outlined" (strong border) | "filled" (solid bg) — cards must always be opaque, never transparent
-- cardShadow: "none" | "0 2px 8px rgba(0,0,0,0.08)" | "0 8px 32px rgba(0,0,0,0.12)" | "0 24px 48px rgba(0,0,0,0.2)"
+- cards.shadow: ${CARD_SHADOW_OPTIONS.map((shadow) => JSON.stringify(shadow)).join(' | ')} — choose exactly one of these values; do not invent other shadows
 - cardBorderWidth: "0px" | "1px" | "2px" | "3px"
 - cardPadding: "1rem" to "2rem"
 
@@ -415,7 +429,7 @@ Generate a JSON object with this EXACT structure (no markdown, just raw JSON):
   },
   "cards": {
     "style": "flat|elevated|outlined|filled",
-    "shadow": "CSS shadow or none",
+    "shadow": ${JSON.stringify(CARD_SHADOW_OPTIONS.join('|'))},
     "borderWidth": "0px-3px",
     "padding": "1rem-2rem"
   },
@@ -689,13 +703,6 @@ function normalizeThemeData(themeData, headingFonts, bodyFonts, context, recipe,
   return themeData;
 }
 
-function parseThemeResponse(responseText) {
-  const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/) ||
-                    responseText.match(/(\{[\s\S]*\})/);
-  const jsonStr = jsonMatch ? jsonMatch[1] : responseText;
-  return JSON.parse(jsonStr);
-}
-
 async function generateTheme(options = {}) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
@@ -715,20 +722,9 @@ async function generateTheme(options = {}) {
 
   console.log(`Loaded ${headingFonts.length} heading fonts and ${bodyFonts.length} body fonts`);
 
-  // Generate inspiration from design feeds + time-of-day
-  const { inspirationName, userPrompt } = options;
-  const inspiration = generateInspirationPrompt({
-    inspirationName,
-    userPrompt,
-    hour: new Date().getHours(),
-    includeTimeModifier: true
-  });
-
-  // Load creative direction from markdown file
-  const creativeDirection = loadThemePromptFile();
-
   const today = new Date().toISOString().split('T')[0];
   const recentThemes = loadRecentThemes(options.replaceDate || today);
+  const recentBuilds = loadRecentSuccessfulBuilds();
   const recentThemesSection = formatRecentThemesPromptSection(recentThemes);
   const schedule = scheduleThemeStructure(recentThemes, {
     recipeName: options.recipeName,
@@ -736,8 +732,20 @@ async function generateTheme(options = {}) {
   });
   const recipeSection = formatThemeRecipePrompt(schedule.recipe, schedule);
 
-  // Load personal context from scripts/context/ folder
-  const context = loadContext();
+  const { inspirationName, userPrompt } = options;
+  const inspiration = generateInspirationPrompt({
+    inspirationName,
+    userPrompt,
+    timePeriod: options.timePeriod || getRotatingTimePeriod(new Date(`${today}T12:00:00Z`)),
+    includeTimeModifier: true,
+    excludeNames: inspirationName ? [] : recentBuilds.map((build) => build.inspiration).filter(Boolean),
+  });
+
+  const creativeDirection = loadThemePromptFile();
+  const context = loadContext({
+    excludeMarkdown: recentBuilds.map((build) => build.contextMarkdown).filter(Boolean),
+    excludeImages: recentBuilds.map((build) => build.contextImage).filter(Boolean),
+  });
 
   console.log('Generating daily theme with Claude...');
   console.log(`Inspiration: ${inspiration.inspirationName}`);
@@ -761,7 +769,7 @@ async function generateTheme(options = {}) {
 
   const themePrompt = buildThemePrompt(headingFonts, bodyFonts);
   const markdownContext = context.markdown
-    ? `\n\n## PERSONAL CONTEXT\nUse this as additional mood/inspiration — blend it naturally with the design inspiration above.\n\n${context.markdown.text}`
+    ? `\n\n## PERSONAL CONTEXT\nUse this as additional mood and material — blend it with the design inspiration and time-of-day above. Do not name the theme after this note's title or its most obvious nouns. Translate the feeling into a different vocabulary.\n\n${context.markdown.text}`
     : '';
 
   const basePrompt = `${creativeDirection}\n\n${recipeSection}\n\n${inspiration.fullPrompt}\n\n${themePrompt}`;
@@ -797,11 +805,9 @@ async function generateTheme(options = {}) {
           client,
           fullPrompt,
           imagePrefixBlocks,
-          headingFonts,
-          bodyFonts,
-          context,
-          recipe: schedule.recipe,
-          schedule,
+          normalizeTheme: (theme) => normalizeThemeData(
+            theme, headingFonts, bodyFonts, context, schedule.recipe, schedule,
+          ),
         });
         const assessment = assessDiversity(themeData, recentThemes);
         return { id, theme: themeData, assessment };
@@ -914,52 +920,16 @@ async function generateTheme(options = {}) {
   }
 
   console.log(`\nSelected "${ranking.winner.theme.name}".`);
+  ranking.winner.theme._inspirationName = inspiration.inspirationName;
+  ranking.winner.theme._timePeriod = inspiration.timePeriod;
   return ranking.winner.theme;
-}
-
-async function requestThemeCandidate({
-  client,
-  fullPrompt,
-  imagePrefixBlocks,
-  headingFonts,
-  bodyFonts,
-  context,
-  recipe,
-  schedule,
-}) {
-  let prompt = fullPrompt;
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    const contentBlocks = [
-      ...imagePrefixBlocks,
-      { type: 'text', text: prompt },
-    ];
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: contentBlocks }],
-    });
-    const responseText = message.content[0].text.trim();
-
-    try {
-      const parsed = parseThemeResponse(responseText);
-      const validated = validateGeneratedTheme(parsed);
-      return normalizeThemeData(validated, headingFonts, bodyFonts, context, recipe, schedule);
-    } catch (parseError) {
-      if (attempt === 2) {
-        throw new Error(`Theme candidate was not valid JSON after retry: ${parseError.message}`);
-      }
-      prompt = `${fullPrompt}\n\n## PARSE RETRY\nReturn ONLY one complete raw JSON object. No markdown fences or commentary.`;
-    }
-  }
-
-  throw new Error('Theme candidate generation failed unexpectedly.');
 }
 
 function updateThemeHistory(newTheme) {
   const themesPath = join(rootDir, 'src', 'data', 'daily-themes.json');
 
   // Strip internal tracking fields before saving
-  const { _contextImage, _contextMarkdown, _fallback, ...themeToSave } = newTheme;
+  const { _contextImage, _contextMarkdown, _fallback, _inspirationName, _timePeriod, ...themeToSave } = newTheme;
 
   let themesData;
   try {
@@ -1022,6 +992,8 @@ function updateBuildLog(theme, status = 'success', extras = {}) {
     recipe: theme.artDirection?.recipe,
     contextImage: theme._contextImage || null,
     contextMarkdown: theme._contextMarkdown || null,
+    inspiration: theme._inspirationName || null,
+    timePeriod: theme._timePeriod || null,
     ...extras,
   });
 
@@ -1138,6 +1110,15 @@ function parseArgs() {
       throw new Error('--candidates must be an integer from 1 to 5');
     }
     options.candidateCount = count;
+  }
+
+  const timePeriodIdx = args.indexOf('--time-period');
+  if (timePeriodIdx !== -1 && args[timePeriodIdx + 1]) {
+    const timePeriod = args[timePeriodIdx + 1];
+    if (!TIME_PERIOD_ORDER.includes(timePeriod)) {
+      throw new Error(`--time-period must be one of: ${TIME_PERIOD_ORDER.join(', ')}`);
+    }
+    options.timePeriod = timePeriod;
   }
 
   options.skipRender = args.includes('--skip-render');

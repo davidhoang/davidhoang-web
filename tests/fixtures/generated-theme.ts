@@ -1,0 +1,53 @@
+const palette = {
+  '--color-text': '#111111',
+  '--color-bg': '#f5f5f5',
+  '--color-link': '#0055aa',
+  '--color-link-hover': '#003377',
+  '--color-border': '#cccccc',
+  '--color-muted': '#666666',
+  '--color-sidebar-bg': '#eeeeee',
+  '--color-nav-bg': '#f5f5f5',
+  '--color-nav-text': '#111111',
+  '--color-card-bg': '#fafafa',
+};
+
+export const validGeneratedTheme: any = {
+  name: 'Schema Test',
+  description: 'A bounded theme fixture.',
+  colors: {
+    colorScheme: 'complementary',
+    contrastMode: 'standard',
+    light: palette,
+    dark: { ...palette, '--color-bg': '#111111', '--color-text': '#f5f5f5' },
+  },
+  fonts: { heading: 'Inter', body: 'Source Serif 4' },
+  typography: {
+    headingWeight: '700',
+    bodyWeight: '400',
+    bodyLineHeight: '1.6',
+    letterSpacing: '0em',
+    headingLetterSpacing: '-0.02em',
+    headingTransform: 'none',
+    scaleRatio: '1.414',
+    fontVariationSettings: 'normal',
+  },
+  cards: {
+    style: 'elevated',
+    shadow: '0 2px 8px rgba(0,0,0,0.08)',
+    borderWidth: '1px',
+    padding: '1.5rem',
+  },
+  layout: {
+    borderRadius: '8px',
+    containerMaxWidth: '1100px',
+    sectionSpacing: '4rem',
+    contentPadding: '1.5rem',
+    gridStyle: 'magazine',
+  },
+  hero: { layout: 'editorial' },
+  links: { style: 'underline' },
+  background: { texture: 'none' },
+  images: { style: 'muted', hover: 'colorize', opacity: '0.9', borderRadius: '8px' },
+  footer: { style: 'editorial' },
+  shader: { type: 'none', colors: [] },
+};

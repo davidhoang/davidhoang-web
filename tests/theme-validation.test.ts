@@ -1,59 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { validateGeneratedTheme } from '../scripts/lib/theme-validation.mjs';
+import { CARD_SHADOW_OPTIONS, validateGeneratedTheme } from '../scripts/lib/theme-validation.mjs';
 
-const palette = {
-  '--color-text': '#111111',
-  '--color-bg': '#f5f5f5',
-  '--color-link': '#0055aa',
-  '--color-link-hover': '#003377',
-  '--color-border': '#cccccc',
-  '--color-muted': '#666666',
-  '--color-sidebar-bg': '#eeeeee',
-  '--color-nav-bg': '#f5f5f5',
-  '--color-nav-text': '#111111',
-  '--color-card-bg': '#fafafa',
-};
-
-const validTheme: any = {
-  name: 'Schema Test',
-  description: 'A bounded theme fixture.',
-  colors: {
-    colorScheme: 'complementary',
-    contrastMode: 'standard',
-    light: palette,
-    dark: { ...palette, '--color-bg': '#111111', '--color-text': '#f5f5f5' },
-  },
-  fonts: { heading: 'Inter', body: 'Source Serif 4' },
-  typography: {
-    headingWeight: '700',
-    bodyWeight: '400',
-    bodyLineHeight: '1.6',
-    letterSpacing: '0em',
-    headingLetterSpacing: '-0.02em',
-    headingTransform: 'none',
-    scaleRatio: '1.414',
-    fontVariationSettings: 'normal',
-  },
-  cards: {
-    style: 'elevated',
-    shadow: '0 2px 8px rgba(0,0,0,0.08)',
-    borderWidth: '1px',
-    padding: '1.5rem',
-  },
-  layout: {
-    borderRadius: '8px',
-    containerMaxWidth: '1100px',
-    sectionSpacing: '4rem',
-    contentPadding: '1.5rem',
-    gridStyle: 'magazine',
-  },
-  hero: { layout: 'editorial' },
-  links: { style: 'underline' },
-  background: { texture: 'none' },
-  images: { style: 'muted', hover: 'colorize', opacity: '0.9', borderRadius: '8px' },
-  footer: { style: 'editorial' },
-  shader: { type: 'none', colors: [] },
-};
+import { validGeneratedTheme as validTheme } from './fixtures/generated-theme';
 
 describe('validateGeneratedTheme', () => {
   it('accepts a complete bounded theme', () => {
@@ -61,6 +9,35 @@ describe('validateGeneratedTheme', () => {
       name: 'Schema Test',
       layout: { gridStyle: 'magazine' },
     });
+  });
+
+  it.each(CARD_SHADOW_OPTIONS)('accepts the allowed card shadow %s', (shadow) => {
+    const theme = structuredClone(validTheme);
+    theme.cards.shadow = shadow;
+    expect(validateGeneratedTheme(theme).cards.shadow).toBe(shadow);
+  });
+
+  it.each([
+    ' 0  2px 8px rgba(0, 0, 0, 0.08) ',
+    '0\t2px\n8px rgba( 0 , 0 , 0 , 0.08 )',
+  ])('canonicalizes harmless CSS spacing in %s', (shadow) => {
+    const theme = structuredClone(validTheme);
+    theme.cards.shadow = shadow;
+    expect(validateGeneratedTheme(theme).cards.shadow).toBe('0 2px 8px rgba(0,0,0,0.08)');
+    expect(theme.cards.shadow).toBe(shadow);
+  });
+
+  it.each([
+    '0 8px 32px rgba(26,16,53,0.18)',
+    '0 2px 8px rgba(0,0,0,0.08); color: red',
+    'var(--custom-shadow)',
+    'n one',
+    null,
+    0,
+  ])('rejects unsupported card shadows: %s', (shadow) => {
+    const theme = structuredClone(validTheme);
+    theme.cards.shadow = shadow;
+    expect(() => validateGeneratedTheme(theme)).toThrow('cards.shadow');
   });
 
   it('rejects unknown CSS properties from model output', () => {

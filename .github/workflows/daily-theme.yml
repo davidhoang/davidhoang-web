@@ -35,10 +35,19 @@ jobs:
       # On Claude API outages the generator reuses src/data/last-good-theme.json
       # (or the latest daily-themes entry) so this job can still verify + deploy.
       - name: Generate daily theme
+        id: generate
+        continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DAILY_THEME_REQUIRE_RENDER: '1'
-        run: npm run generate-theme
+        run: npm run generate-theme -- --candidates 5
+
+      - name: Retry daily theme
+        if: steps.generate.outcome == 'failure'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DAILY_THEME_REQUIRE_RENDER: '1'
+        run: npm run generate-theme -- --candidates 5
 
       - name: Verify build
         run: npm run build
