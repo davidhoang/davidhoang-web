@@ -250,6 +250,10 @@ Navigation is split between the **top nav** (primary pages) and the **footer** (
 - Rendered in `src/components/Navigation.astro`
 - Keep this list short — do **not** add Notes or Advising here
 
+### Experiments (`src/pages/experiments/index.astro`, `src/data/experiments.ts`)
+- `/experiments` is the single listed entry point for daily themes, the Jev router, WebGL scenes, and prototypes
+- Add a new experiment to `src/data/experiments.ts` — do **not** add its own footer/nav link
+
 ### Footer only (`src/components/Footer.astro`)
 - **Notes** and **Advising** live in the footer, not the top nav
 - Practice column: About, Advising, Career Odyssey, etc.

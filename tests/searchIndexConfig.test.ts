@@ -60,6 +60,7 @@ describe('search index policy (PC-40)', () => {
     expect(isExcludedFromSearchIndex('/labs')).toBe(true);
     expect(isExcludedFromSearchIndex('/projects')).toBe(true);
     expect(isExcludedFromSearchIndex('/experiments/greco-diorama')).toBe(true);
+    expect(isExcludedFromSearchIndex('/experiments/jev-editorial-router')).toBe(true);
     expect(isExcludedFromSearchIndex('/404')).toBe(true);
     expect(isExcludedFromSearchIndex('/default-layout')).toBe(true);
     expect(isExcludedFromSearchIndex('/api/og')).toBe(true);
@@ -69,6 +70,12 @@ describe('search index policy (PC-40)', () => {
     expect(isExcludedFromSearchIndex('/llms.txt')).toBe(true);
     expect(isExcludedFromSearchIndex('/.well-known/agent.json')).toBe(true);
     expect(isExcludedFromSearchIndex('/design.md')).toBe(true);
+  });
+
+  it('indexes the experiments hub while its children stay unlisted', () => {
+    expect(isExcludedFromSearchIndex('/experiments')).toBe(false);
+    expect(isIndexedSitemapPage('https://www.davidhoang.com/experiments')).toBe(true);
+    expect(isIndexedSitemapPage('https://www.davidhoang.com/experiments/greco-diorama')).toBe(false);
   });
 
   it('aligns sitemap filtering with the same exclude contract', () => {
