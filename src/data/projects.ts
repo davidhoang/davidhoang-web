@@ -21,7 +21,7 @@ export const projects: BuildInPublicProject[] = [
     builtWith: 'Replit',
     summary:
       'High-touch design recruiting for the intelligence era — a personal talent CRM with AI matching, curated lists, and an MCP server so recommendations stay a conversation, not a spreadsheet.',
-    href: 'https://tapestry-dh-design.replit.app',
+    href: 'https://tapestry.design',
     hrefLabel: 'Open Tapestry',
     links: [
       { label: 'GitHub', href: 'https://github.com/davidhoang/tapestry' },
