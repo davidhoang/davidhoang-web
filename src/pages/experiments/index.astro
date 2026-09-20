@@ -1,0 +1,90 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { retiredExperiments, runningExperiments } from '../../data/experiments';
+
+const pageDescription =
+  'Live experiments on davidhoang.com — the daily theme generator, typed model output, WebGL scenes, and editorial prototypes.';
+const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
+---
+
+<MainLayout title="Experiments | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <PageHeader
+    title="Experiments"
+    image="/images/highlights/img-highlights-proof-of-concept.webp"
+    alt="Experiments"
+  />
+  <div class="content-page experiments-page container-narrow">
+    <section class="content-page__intro">
+      <p class="text-eyebrow">Built in the open</p>
+      <p>
+        Everything here runs on this site rather than in a demo sandbox, so it can change or break
+        without warning. Each one started as a question I wanted a working answer to — what a site
+        looks like when it redesigns itself every morning, what a model returns when you ask for
+        types instead of prose, what a house feels like as clay.
+      </p>
+    </section>
+
+    <section class="content-page__section" aria-labelledby="running-heading">
+      <h2 id="running-heading">Running now</h2>
+      <ul class="content-page__list content-page__list--linked experiments-list">
+        {
+          runningExperiments.map((experiment) => (
+            <li>
+              <a href={experiment.href}>{experiment.title}</a>
+              <span class="experiments-list__kind">{experiment.kind}</span>
+              <span class="content-page__list-note">{experiment.summary}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="content-page__section" aria-labelledby="retired-heading">
+      <h2 id="retired-heading">Retired</h2>
+      <ul class="content-page__list content-page__list--linked">
+        {
+          retiredExperiments.map((experiment) => (
+            <li>
+              <a href={experiment.href}>{experiment.title}</a>
+              <span class="content-page__list-note">{experiment.summary}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="experiments-page__aside">
+        Longer write-ups of the thinking behind these live on <a
+          href="https://www.proofofconcept.pub"
+          target="_blank"
+          rel="noopener noreferrer">Proof of Concept<span aria-hidden="true"> ↗</span></a>.
+      </p>
+    </section>
+  </div>
+</MainLayout>
+
+<style>
+  .experiments-list > li {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .experiments-list__kind {
+    margin-left: var(--spacing-sm);
+    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-weight: 600;
+    letter-spacing: var(--text-eyebrow-tracking, 0.12em);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  .experiments-page__aside {
+    margin: var(--spacing-xl) 0 0;
+    font-size: var(--text-caption-size, 0.875rem);
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  .experiments-page__aside a {
+    color: var(--color-link);
+  }
+</style>

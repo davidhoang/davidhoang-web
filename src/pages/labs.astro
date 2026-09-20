@@ -3,7 +3,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 
 const pageDescription =
-  'Labs experiments are paused. This page is kept for existing links.';
+  'Labs is retired. Current experiments live on the experiments page.';
 const ogImage = '/images/img-dh.webp';
 ---
 
@@ -11,10 +11,10 @@ const ogImage = '/images/img-dh.webp';
   <PageHeader title="Labs" image="/images/highlights/img-highlights-proof-of-concept.webp" alt="Labs" />
   <div class="container labs-deprecation">
     <p class="labs-deprecation__lead">
-      The Labs experiments on this page are <strong>deprecated for now</strong>. Interactive demos and generative previews have been turned off while the section is on hold.
+      The Labs demos are <strong>retired</strong>. Everything still running moved to <a href="/experiments">Experiments</a> — the daily theme generator, typed model output, WebGL scenes, and editorial prototypes.
     </p>
     <p class="labs-deprecation__muted">
-      You can still browse the rest of the site from <a href="/">the homepage</a> or see ongoing experiments at
+      This page stays up for existing links. You can also browse from <a href="/">the homepage</a> or read the longer write-ups at
       <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener">Proof of Concept</a>.
     </p>
   </div>
@@ -40,6 +40,7 @@ const ogImage = '/images/img-dh.webp';
     margin: 0;
   }
 
+  .labs-deprecation__lead a,
   .labs-deprecation__muted a {
     color: var(--color-link);
   }

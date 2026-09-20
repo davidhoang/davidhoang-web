@@ -21,11 +21,17 @@ export const SEARCH_INDEX_COLLECTIONS = ['writing', 'notes'] as const;
 export type SearchIndexCollection = (typeof SEARCH_INDEX_COLLECTIONS)[number];
 
 /**
+ * Exact HTML paths that are indexed even though a prefix rule excludes them.
+ * `/experiments` is the listed hub; its children stay unlisted so an
+ * experiment can change or break without churning ⌘K and the sitemap.
+ */
+export const SEARCH_INDEX_INCLUDE_PATHS = ['/experiments'] as const;
+
+/**
  * Exact HTML paths that exist as routes but must not appear in the index.
  * Keep this list explicit so a new page cannot be omitted by accident
  * without a test failure (see tests/searchIndexConfig.test.ts).
  * Unlisted pages (e.g. /projects) belong here so they stay off ⌘K and the sitemap.
- * `/experiments/*` is the placeholder Greco scaffold; the finished homes live on `/now`.
  */
 export const SEARCH_INDEX_EXCLUDE_PATHS = [
   '/labs',
@@ -46,6 +52,7 @@ export const SEARCH_INDEX_EXCLUDE_PATH_PREFIXES = [
 ] as const;
 
 const EXACT_EXCLUDES = new Set<string>(SEARCH_INDEX_EXCLUDE_PATHS);
+const EXACT_INCLUDES = new Set<string>(SEARCH_INDEX_INCLUDE_PATHS);
 
 export function searchIndexPathname(input: string): string {
   return normalizePath(input);
@@ -54,6 +61,7 @@ export function searchIndexPathname(input: string): string {
 export function isExcludedFromSearchIndex(input: string): boolean {
   const path = searchIndexPathname(input);
   if (EXACT_EXCLUDES.has(path)) return true;
+  if (EXACT_INCLUDES.has(path)) return false;
   if (path === '/search-index.json' || path === '/llms.txt') return true;
   if (path === '/design.md' || path === '/design-guide.md') return true;
   return SEARCH_INDEX_EXCLUDE_PATH_PREFIXES.some((prefix) => {

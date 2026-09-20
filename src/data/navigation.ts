@@ -17,8 +17,7 @@ export const mobileSecondaryNavItems = [
   { path: '/investing', label: 'Investing' },
   { path: '/advising', label: 'Advising' },
   { path: '/design-resources', label: 'Design Resources' },
-  { path: '/prototypes', label: 'Prototypes' },
-  { path: '/daily-themes', label: 'Daily Themes' },
+  { path: '/experiments', label: 'Experiments' },
   { path: '/design-guide', label: 'Design Guide' },
 ] as const;
 
@@ -66,6 +65,12 @@ export const commandPalettePages = [
     path: '/prototypes',
     type: 'page',
   },
+  {
+    title: 'Experiments',
+    description: 'Daily themes, typed model output, WebGL scenes, and editorial prototypes.',
+    path: '/experiments',
+    type: 'page',
+  },
 ] as const;
 
 /**
@@ -108,7 +113,7 @@ export const footerSections = [
       { href: '/thesis', label: 'Thesis', ariaLabel: 'Thesis hub: convictions with further reading', external: false },
       { href: '/advising', label: 'Advising', ariaLabel: 'Advising for design leaders', external: false },
       { href: '/career-odyssey', label: 'Career Odyssey', ariaLabel: 'Career Odyssey', external: false },
-      { href: '/prototypes', label: 'Prototypes', ariaLabel: 'Interactive prototypes', external: false },
+      { href: '/experiments', label: 'Experiments', ariaLabel: 'Experiments running on this site', external: false },
       {
         href: 'https://curius.app/david-hoang',
         label: 'Curius',
@@ -117,7 +122,6 @@ export const footerSections = [
       },
       { href: '/design-resources', label: 'Design Resources', ariaLabel: 'Design resources and tools', external: false },
       { href: '/design-guide', label: 'Design Guide', ariaLabel: 'Design system guide', external: false },
-      { href: '/daily-themes', label: 'Daily Themes', ariaLabel: 'Daily themes explorer', external: false },
     ],
   },
   {

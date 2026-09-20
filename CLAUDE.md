@@ -36,7 +36,8 @@ Site: https://www.davidhoang.com
 - **Top nav** (`src/data/navigation.ts` → `navItems`, rendered in `Navigation.astro`): About, Writing, Featured, Subscribe — keep this list short
 - **Footer only** (`src/components/Footer.astro`): Notes and Advising are footer links, not top nav; use footer for secondary pages (Career Odyssey, Now, RSS, etc.)
 - **Command palette** (`commandPalettePages` + build-time writing/notes index): all discoverable pages including Notes and Advising
-- **Unlisted pages** (`SEARCH_INDEX_EXCLUDE_PATHS` and prefixes): `/labs`, `/projects`, `/experiments/*` — live at their URLs but omitted from ⌘K, sitemap, and `llms.txt`
+- **Experiments hub** (`/experiments`, data in `src/data/experiments.ts`): the one listed entry point for daily themes, the Jev router, WebGL scenes, and prototypes. Footer/mobile menu link the hub, not each experiment
+- **Unlisted pages** (`SEARCH_INDEX_EXCLUDE_PATHS` and prefixes): `/labs`, `/projects`, `/experiments/*` children — live at their URLs but omitted from ⌘K, sitemap, and `llms.txt`. `/experiments` itself is allow-listed in `SEARCH_INDEX_INCLUDE_PATHS`
 
 ## Architecture notes
 - RSS: `/rss.xml` is **writing only** (full content, same scope as `/rss/writing.xml`). Notes: `/rss/notes.xml`. Per-tag feeds `/rss/tag/{tag}.xml` are **writing** posts with that tag only (not notes).
