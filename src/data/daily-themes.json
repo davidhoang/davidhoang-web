@@ -1,6 +1,361 @@
 {
   "themes": [
     {
+      "name": "Last Set, Ivory",
+      "description": "A late-night editorial journal drawn from the amber haze of a closing jazz set — tarnished brass type, oxblood shadows, and ivory breath between columns.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#1C1208",
+          "--color-bg": "#F5EFE0",
+          "--color-link": "#8B2635",
+          "--color-link-hover": "#5C1A24",
+          "--color-border": "#C9B89A",
+          "--color-muted": "#776954",
+          "--color-sidebar-bg": "#EDE5D0",
+          "--color-nav-bg": "#F5EFE0",
+          "--color-nav-text": "#1C1208",
+          "--color-card-bg": "#EDE5D0"
+        },
+        "dark": {
+          "--color-text": "#E8DCC8",
+          "--color-bg": "#110D07",
+          "--color-link": "#B8924A",
+          "--color-link-hover": "#D4A85C",
+          "--color-border": "#2E2318",
+          "--color-muted": "#897D6A",
+          "--color-sidebar-bg": "#1A1209",
+          "--color-nav-bg": "#110D07",
+          "--color-nav-text": "#E8DCC8",
+          "--color-card-bg": "#1A1209"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Newsreader",
+          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.85",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.88",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#110D07",
+          "#B8924A"
+        ]
+      },
+      "font": {
+        "name": "Newsreader",
+        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-21",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Last Set, Ivory",
+              "subtitle": "2026 · 09 · 21"
+            },
+            "children": [
+              "s-outer"
+            ]
+          },
+          "s-outer": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s-top",
+              "palette",
+              "div2",
+              "s-bottom",
+              "action"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "The last tune fades. Brass still warm. Ivory keys cooling under a single bulb. This is the journal of that exact room.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s-top": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "s-left",
+              "s-right"
+            ]
+          },
+          "s-left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Last Set, Ivory",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Newsreader · serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "magazine grid",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "flat card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s-right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "stacked-fan hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#110D07",
+                "#B8924A"
+              ]
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EFE0",
+                  "label": "ivory bg"
+                },
+                {
+                  "hex": "#EDE5D0",
+                  "label": "card"
+                },
+                {
+                  "hex": "#1C1208",
+                  "label": "ink"
+                },
+                {
+                  "hex": "#8B2635",
+                  "label": "oxblood"
+                },
+                {
+                  "hex": "#C9B89A",
+                  "label": "border"
+                },
+                {
+                  "hex": "#776954",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s-bottom": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "scheme",
+                  "value": "split-complementary"
+                },
+                {
+                  "label": "link",
+                  "value": "animated-underline"
+                },
+                {
+                  "label": "texture",
+                  "value": "grain"
+                },
+                {
+                  "label": "image",
+                  "value": "grayscale / hover colorize"
+                },
+                {
+                  "label": "footer",
+                  "value": "editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "body",
+                  "value": "IBM Plex Sans"
+                },
+                {
+                  "name": "link-hover",
+                  "value": "#5C1A24"
+                },
+                {
+                  "name": "sidebar-bg",
+                  "value": "#EDE5D0"
+                }
+              ]
+            },
+            "children": []
+          },
+          "action": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Last Set, Ivory",
+              "action": "apply-theme",
+              "date": "2026-09-21"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Slab & Canopy",
       "description": "A Niemeyer terrace translated into graphic poster language — deep shade, sculptural type, and the slow heat of a Brazilian afternoon rendered in flat material planes.",
       "colors": {
@@ -2204,329 +2559,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Chalk & Voltage",
-      "description": "Tadao Ando's concrete spirituality meets dawn energy — raw graphite surfaces split open by a blade of golden light, where brutalist structure gives way to delicate awakening.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2C2416",
-          "--color-bg": "#F5F0E8",
-          "--color-link": "#8F5608",
-          "--color-link-hover": "#9A5A05",
-          "--color-border": "#C8B89A",
-          "--color-muted": "#756856",
-          "--color-sidebar-bg": "#EDE6D8",
-          "--color-nav-bg": "#F5F0E8",
-          "--color-nav-text": "#2C2416",
-          "--color-card-bg": "#EDE6D8"
-        },
-        "dark": {
-          "--color-text": "#F0E8D8",
-          "--color-bg": "#1C1710",
-          "--color-link": "#E8A030",
-          "--color-link-hover": "#FFB84D",
-          "--color-border": "#3A3020",
-          "--color-muted": "#8E8473",
-          "--color-sidebar-bg": "#241E14",
-          "--color-nav-bg": "#1C1710",
-          "--color-nav-text": "#F0E8D8",
-          "--color-card-bg": "#241E14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "none",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "0.95",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5F0E8",
-          "#C8790A"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-09-14",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Chalk & Voltage",
-              "subtitle": "2026-09-14 — Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "palette",
-              "div2",
-              "s2",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Concrete that breathes. A blade of gold splitting the grey — brutalism waking at dawn, voltage in the dust.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "head",
-              "shader"
-            ]
-          },
-          "head": {
-            "type": "TypeSample",
-            "props": {
-              "text": "CHALK & VOLTAGE",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#F5F0E8",
-                "#C8790A",
-                "#2C2416"
-              ]
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F0E8",
-                  "label": "Chalk"
-                },
-                {
-                  "hex": "#2C2416",
-                  "label": "Graphite"
-                },
-                {
-                  "hex": "#C8790A",
-                  "label": "Voltage"
-                },
-                {
-                  "hex": "#EDE6D8",
-                  "label": "Concrete"
-                },
-                {
-                  "hex": "#756856",
-                  "label": "Ash"
-                },
-                {
-                  "hex": "#C8B89A",
-                  "label": "Grain"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "hero",
-              "meta"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Hero"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Heading",
-                  "value": "Bebas Neue"
-                },
-                {
-                  "label": "Body",
-                  "value": "Source Serif 4"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "High"
-                },
-                {
-                  "label": "Links",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Brutalist",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Dots Texture",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "Vivid Images",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Chalk & Voltage",
-              "action": "apply-theme",
-              "date": "2026-09-14"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-20"
+  "currentDate": "2026-09-21"
 }
