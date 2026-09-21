@@ -250,35 +250,37 @@ export default function TextureCardShader({
           popover="auto"
           className="shader-play__panel"
           role="dialog"
-          aria-label="Paper dithering controls"
+          aria-label="Shader controls"
           onPointerDown={(event) => event.stopPropagation()}
         >
           <div className="shader-play__head">
-            <a
-              className="shader-play__brand"
-              href="https://shaders.paper.design/dithering"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Paper Shaders (opens in new tab)"
-            >
+            <p className="shader-play__title">
               <svg className="shader-play__mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39 39" fill="currentColor" aria-hidden="true">
                 <path d="M39 24H24V6H6V24H24V39H0V6H6V0H39V24Z" />
               </svg>
-              <span className="shader-play__brand-name">Paper Shaders</span>
+              Shaders
+            </p>
+            <a
+              className="shader-play__open"
+              href="https://paper.design"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Paper (opens in new tab)"
+            >
+              Open Paper
             </a>
-            <p className="shader-play__kicker">dithering</p>
           </div>
           <form onSubmit={(event) => event.preventDefault()}>
             <fieldset className="shader-play__fields">
-              <legend className="shader-play__legend">Dithering</legend>
+              <legend className="shader-play__legend">Shaders</legend>
               <label className="shader-play__row">
-                <span className="shader-play__label">colorFront</span>
+                <span className="shader-play__label">Color Front</span>
                 <span className="shader-play__control">
                   <input
                     className="shader-play__swatch"
                     type="color"
                     value={toHex6(colors.front)}
-                    aria-label="colorFront"
+                    aria-label="Color Front"
                     onChange={(event) => {
                       markDirty();
                       setColors((current) => ({ ...current, front: event.target.value }));
@@ -288,13 +290,13 @@ export default function TextureCardShader({
                 </span>
               </label>
               <label className="shader-play__row">
-                <span className="shader-play__label">colorBack</span>
+                <span className="shader-play__label">Color Back</span>
                 <span className="shader-play__control">
                   <input
                     className="shader-play__swatch"
                     type="color"
                     value={toHex6(colors.back)}
-                    aria-label="colorBack"
+                    aria-label="Color Back"
                     onChange={(event) => {
                       markDirty();
                       setColors((current) => ({ ...current, back: event.target.value }));
@@ -304,7 +306,7 @@ export default function TextureCardShader({
                 </span>
               </label>
               <label className="shader-play__row">
-                <span className="shader-play__label">shape</span>
+                <span className="shader-play__label">Shape</span>
                 <select
                   className="shader-play__select"
                   value={shape}
@@ -315,13 +317,13 @@ export default function TextureCardShader({
                 >
                   {DITHER_SHAPES.map((option) => (
                     <option key={option} value={option}>
-                      {option}
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
                     </option>
                   ))}
                 </select>
               </label>
               <label className="shader-play__row">
-                <span className="shader-play__label">type</span>
+                <span className="shader-play__label">Type</span>
                 <select
                   className="shader-play__select"
                   value={type}
@@ -332,13 +334,13 @@ export default function TextureCardShader({
                 >
                   {DITHER_TYPES.map((option) => (
                     <option key={option} value={option}>
-                      {option}
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
                     </option>
                   ))}
                 </select>
               </label>
               <label className="shader-play__row">
-                <span className="shader-play__label">size</span>
+                <span className="shader-play__label">Size</span>
                 <span className="shader-play__control">
                   <input
                     className="shader-play__range"
@@ -356,7 +358,7 @@ export default function TextureCardShader({
                 </span>
               </label>
               <label className="shader-play__row">
-                <span className="shader-play__label">scale</span>
+                <span className="shader-play__label">Scale</span>
                 <span className="shader-play__control">
                   <input
                     className="shader-play__range"
@@ -374,7 +376,7 @@ export default function TextureCardShader({
                 </span>
               </label>
               <label className="shader-play__row">
-                <span className="shader-play__label">speed</span>
+                <span className="shader-play__label">Speed</span>
                 <span className="shader-play__control">
                   <input
                     className="shader-play__range"
@@ -394,16 +396,6 @@ export default function TextureCardShader({
               </label>
             </fieldset>
           </form>
-          <p className="shader-play__credit">
-            <a
-              href="https://paper.design"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="open Paper (opens in new tab)"
-            >
-              open Paper
-            </a>
-          </p>
         </div>
       </>,
       cardHost

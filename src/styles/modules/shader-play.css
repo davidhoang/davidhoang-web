@@ -76,7 +76,7 @@
   max-width: calc(100vw - 2rem);
   max-height: min(28rem, calc(100dvh - 2rem));
   overflow: auto;
-  padding: 0 0 var(--spacing-xs);
+  padding: var(--spacing-md);
   color: var(--paper-ink);
   background: var(--paper-surface);
   border: 0;
@@ -98,30 +98,20 @@
 
 .shader-play__head {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xs);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin: 0 0 var(--spacing-sm);
+  padding: 0 0 var(--spacing-sm);
   border-bottom: 1px solid var(--paper-line);
 }
 
-.shader-play__brand {
+.shader-play__title {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
+  margin: 0;
   color: var(--paper-ink);
-  text-decoration: none;
-}
-
-.shader-play__brand:hover {
-  color: var(--paper-accent);
-}
-
-.shader-play__brand:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.shader-play__brand-name {
   font-family: var(--font-body);
   font-size: var(--text-caption-size, 0.8125rem);
   font-weight: var(--heading-weight);
@@ -129,11 +119,24 @@
   line-height: 1.2;
 }
 
-.shader-play__kicker {
-  margin: 0;
-  color: var(--paper-muted);
+.shader-play__open {
+  flex: 0 0 auto;
+  color: var(--paper-accent);
+  font-family: var(--font-body);
   font-size: var(--text-eyebrow-size);
-  letter-spacing: var(--letter-spacing-caption);
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .shader-play__open:hover {
+    color: var(--paper-ink);
+  }
+}
+
+.shader-play__open:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .shader-play__fields {
@@ -141,7 +144,7 @@
   flex-direction: column;
   gap: 0;
   margin: 0;
-  padding: var(--spacing-xs) 0;
+  padding: 0;
   border: 0;
   min-inline-size: 0;
 }
@@ -160,11 +163,11 @@
 
 .shader-play__row {
   display: grid;
-  grid-template-columns: 6.25rem minmax(0, 1fr);
+  grid-template-columns: 6.75rem minmax(0, 1fr);
   align-items: center;
   gap: var(--spacing-sm);
   min-height: 1.75rem;
-  padding: 0 var(--spacing-sm);
+  padding: 0;
 }
 
 .shader-play__label {
@@ -310,30 +313,6 @@
 .shader-play__range:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.shader-play__credit {
-  margin: 0;
-  padding: var(--spacing-xs) var(--spacing-sm) 0;
-  border-top: 1px solid var(--paper-line);
-  font-size: var(--text-eyebrow-size);
-  line-height: 1.4;
-}
-
-.shader-play__credit a {
-  color: var(--paper-accent);
-  text-decoration: none;
-}
-
-@media (hover: hover) {
-  .shader-play__credit a:hover {
-    color: var(--paper-ink);
-  }
-}
-
-.shader-play__credit a:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
 }
 
 @media (prefers-reduced-motion: reduce) {
