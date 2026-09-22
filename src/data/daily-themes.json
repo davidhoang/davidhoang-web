@@ -1,6 +1,404 @@
 {
   "themes": [
     {
+      "name": "Birch & Tin",
+      "description": "Helsinki harbour at first light — fogged linen, ice blue, and a single red warehouse bleeding through the mist, rendered in tall cold type against generous air.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#1C2B2E",
+          "--color-bg": "#EEF2F0",
+          "--color-link": "#C0291A",
+          "--color-link-hover": "#961F13",
+          "--color-border": "#C8D4D1",
+          "--color-muted": "#5B6D73",
+          "--color-sidebar-bg": "#E6ECEB",
+          "--color-nav-bg": "#EEF2F0",
+          "--color-nav-text": "#1C2B2E",
+          "--color-card-bg": "#E9EFED"
+        },
+        "dark": {
+          "--color-text": "#DDE7E4",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#E16558",
+          "--color-link-hover": "#F26055",
+          "--color-border": "#213338",
+          "--color-muted": "#6C8D95",
+          "--color-sidebar-bg": "#111E21",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#DDE7E4",
+          "--color-card-bg": "#132428"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cabinet Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+          "category": "display",
+          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEF2F0",
+          "#C0291A",
+          "#6B8087"
+        ]
+      },
+      "font": {
+        "name": "Cabinet Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+        "category": "display",
+        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-09-22",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Birch & Tin",
+              "subtitle": "September 22, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid",
+              "div3",
+              "meta-row",
+              "div4",
+              "tokens",
+              "div5",
+              "foot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Helsinki harbour at first light. Fogged linen, ice blue, a single red warehouse bleeding through the mist. Cold type against generous air.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EEF2F0",
+                  "label": "Fogged Linen"
+                },
+                {
+                  "hex": "#C8D4D1",
+                  "label": "Ice Border"
+                },
+                {
+                  "hex": "#6B8087",
+                  "label": "Harbour Haze"
+                },
+                {
+                  "hex": "#1C2B2E",
+                  "label": "Dark Kelp"
+                },
+                {
+                  "hex": "#C0291A",
+                  "label": "Red Warehouse"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "h2",
+              "badges"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Birch & Tin",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "h2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cold mornings, tall type, generous air.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "analogous",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "cinematic",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "hero",
+              "grid"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Hero"
+            },
+            "children": []
+          },
+          "grid": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta-row": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Cabinet Grotesk"
+                },
+                {
+                  "label": "Body",
+                  "value": "Literata"
+                },
+                {
+                  "label": "Cards",
+                  "value": "Filled / 16px radius"
+                },
+                {
+                  "label": "Links",
+                  "value": "Color-only"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Gradient"
+                },
+                {
+                  "label": "Images",
+                  "value": "Vivid / Hover lift"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div4": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#EEF2F0"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#1C2B2E"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#C0291A"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#5B6D73"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#E9EFED"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div5": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "foot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "caption",
+              "apply"
+            ]
+          },
+          "caption": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Daily theme — 22 Sep 2026",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Birch & Tin",
+              "action": "apply-theme",
+              "date": "2026-09-22"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Last Set, Ivory",
       "description": "A late-night editorial journal drawn from the amber haze of a closing jazz set — tarnished brass type, oxblood shadows, and ivory breath between columns.",
       "colors": {
@@ -2215,351 +2613,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Iris & Gilt",
-      "description": "Art Nouveau poster elegance at dawn — organic botanical letterforms bloom against a misty lavender ground, gilded accents catching the first light.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1018",
-          "--color-bg": "#F4ECF7",
-          "--color-link": "#836008",
-          "--color-link-hover": "#8B6508",
-          "--color-border": "#1C1018",
-          "--color-muted": "#7A6580",
-          "--color-sidebar-bg": "#EDE4F0",
-          "--color-nav-bg": "#F4ECF7",
-          "--color-nav-text": "#1C1018",
-          "--color-card-bg": "#EDE4F0"
-        },
-        "dark": {
-          "--color-text": "#F0E8F4",
-          "--color-bg": "#1B1B3A",
-          "--color-link": "#D4A017",
-          "--color-link-hover": "#F0C040",
-          "--color-border": "#F0E8F4",
-          "--color-muted": "#9B8AAA",
-          "--color-sidebar-bg": "#22223F",
-          "--color-nav-bg": "#1B1B3A",
-          "--color-nav-text": "#F0E8F4",
-          "--color-card-bg": "#22223F"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Mono",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
-          "category": "monospace",
-          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "split"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F4ECF7",
-          "#B8860B"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-09-15",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Iris & Gilt",
-              "subtitle": "September 15, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Where botanical letterforms bloom at the gilded hour — lavender mist, bracketed links, and the weight of serif petals catching first light.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "br"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Iris & Gilt",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F4ECF7",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#EDE4F0",
-                  "label": "Petal"
-                },
-                {
-                  "hex": "#7A6580",
-                  "label": "Iris"
-                },
-                {
-                  "hex": "#836008",
-                  "label": "Gilt"
-                },
-                {
-                  "hex": "#B8860B",
-                  "label": "Gold"
-                },
-                {
-                  "hex": "#1C1018",
-                  "label": "Ink"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial Hero"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "meta",
-              "tok"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Radius",
-                  "value": "0px — sharp"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-complementary"
-                },
-                {
-                  "label": "Texture",
-                  "value": "None / Duotone img"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#F4ECF7"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#836008"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#7A6580"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#EDE4F0"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#1C1018"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Iris & Gilt",
-              "action": "apply-theme",
-              "date": "2026-09-15"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-21"
+  "currentDate": "2026-09-22"
 }
