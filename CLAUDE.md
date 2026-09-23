@@ -5,9 +5,10 @@ Personal website for David Hoang. Built with Astro, deployed on Vercel.
 Site: https://www.davidhoang.com
 
 ## Tech stack
-- **Framework**: Astro (static output with Vercel adapter for API routes)
-- **UI**: Astro components + React (for interactive components like CareerOdyssey, CardStackHero)
+- **Framework**: Astro 7 (static output with Vercel adapter for API routes)
+- **UI**: Astro components + React 19 (CareerOdyssey, CardStackHero, Framer Motion where needed)
 - **Styling**: CSS modules and global CSS with design tokens (CSS custom properties)
+- **Graphics**: Three.js / React Three Fiber; Paper Design Shaders for WebGL backgrounds
 - **Fonts**: Self-hosted (ABCDiatypeVariable, Inter, Cormorant Garamond, Space Grotesk) with font-preload system
 - **Deployment**: Vercel (static + serverless functions)
 
@@ -21,10 +22,17 @@ Site: https://www.davidhoang.com
 - `src/assets/images/` — Image source of truth (blog, hero, odyssey, etc.); mirrored to `public/images/` at build/dev time
 
 ## Commands
-- `npm run dev` — Start dev server
+- `npm run dev` — Dev server at http://localhost:4321
 - `npm run build` — Production build (Astro build + asset copy)
 - `npm run preview` — Preview production build locally
-- `npm run generate-theme` — Generate daily theme
+- `npm run check` — Astro type check
+- `npm test` — Unit tests (includes design compliance + evals)
+- `npm run analyze` — Build and write `dist/bundle-stats.html`
+- `npm run budget` — Check built JS against bundle budgets (run after `npm run build`; CI runs both)
+- `npm run test:ui` — Playwright UI regression (dev server or `UI_TEST_URL` must be running; `npx playwright install chromium` if needed)
+- `npm run generate-theme` — Generate daily theme (`ANTHROPIC_API_KEY`; optional `TYPESAFE_API_KEY` for Jev)
+- `npm run audit:design:check` — Core design lint (CI)
+- `npm run audit:ui:changed -- --check --strict` — Core + strict on changed UI files (cloud agents before push)
 
 ## Content conventions
 - Writing posts use `draft: true` to hide from production

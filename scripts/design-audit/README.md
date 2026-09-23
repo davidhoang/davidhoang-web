@@ -48,7 +48,7 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 |---------|--------|--------|
 | `hero-motion-continuity` | design.md § Motion continuity | No `animPlayKey` / remount keys in `CardBase.tsx`; stable hover clear wiring; layouts gate with `usePointerHoverMotionEnabled`; `data-hover-motion` in MainLayout |
 
-Legacy files with known debt are listed in `shared.mjs` → `STRICT_GRANDFATHER`. Note: `hero-motion-continuity` is **not** grandfathered — it always audits the hero contract files.
+Legacy files with known debt are listed in `shared.mjs` → `STRICT_GRANDFATHER` (currently only `variables.css`, the token source). Note: `hero-motion-continuity` is **not** grandfathered — it always audits the hero contract files.
 
 ## Adding a rule
 
