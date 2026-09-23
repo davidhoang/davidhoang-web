@@ -62,7 +62,22 @@ npm run build
 npm run preview
 
 # Type checking
-npm run astro check
+npm run check
+
+# Unit tests
+npm test
+
+# Bundle analysis (after build)
+npm run analyze
+npm run budget
+
+# UI regression (dev server or preview must be running)
+npm run test:ui
+# UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
+
+# Design lint (CI + cloud agents on changed UI)
+npm run audit:design:check
+npm run audit:ui:changed -- --check --strict
 ```
 
 ## Project Structure
