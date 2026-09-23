@@ -61,15 +61,21 @@
 /* Transitions - Use specific property transitions instead of .transition class when possible */
 .transition {
   transition:
-    color 0.4s var(--ease-inertia),
-    background-color 0.4s var(--ease-inertia),
-    border-color 0.4s var(--ease-inertia),
-    transform 0.4s var(--ease-inertia),
-    opacity 0.4s var(--ease-inertia),
-    box-shadow 0.4s var(--ease-inertia);
+    color var(--duration-slower) var(--ease-inertia),
+    background-color var(--duration-slower) var(--ease-inertia),
+    border-color var(--duration-slower) var(--ease-inertia),
+    transform var(--duration-slower) var(--ease-inertia),
+    opacity var(--duration-slower) var(--ease-inertia),
+    box-shadow var(--duration-slower) var(--ease-inertia);
 }
-.transition-colors { transition: color 0.4s var(--ease-inertia), background-color 0.4s var(--ease-inertia); }
-.transition-transform { transition: transform 0.4s var(--ease-inertia); }
+.transition-colors {
+  transition:
+    color var(--duration-slower) var(--ease-inertia),
+    background-color var(--duration-slower) var(--ease-inertia);
+}
+.transition-transform {
+  transition: transform var(--duration-slower) var(--ease-inertia);
+}
 
 /* GPU Acceleration Utilities
    Use these on elements that animate frequently for smoother performance */
