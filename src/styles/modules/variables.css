@@ -164,6 +164,60 @@
   --hero-height-mobile: 50vh;
   --hero-overlay: rgba(0, 0, 0, 0.3);
 
+  /* Hero card stack — shadows, scrims, CTAs (consumed by card-stack-hero.css) */
+  --hero-card-shadow-rest:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.28);
+  --hero-card-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.15);
+  --hero-card-shadow-selected: 0 30px 70px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.15);
+  --hero-card-shadow-fullscreen:
+    0 28px 80px rgba(0, 0, 0, 0.28),
+    0 12px 36px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.26);
+  --hero-card-shadow-cinematic: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --hero-card-focus-outline: var(--focus-ring-width) solid rgba(255, 255, 255, 0.5);
+  --hero-card-glass-surface: rgba(255, 255, 255, 0.05);
+  --hero-card-glass-border: rgba(255, 255, 255, 0.12);
+  --hero-card-image-scrim: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+  --hero-card-image-scrim-solid: rgba(0, 0, 0, 0.85);
+  --hero-card-shader-scrim: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.62) 36%,
+    rgba(0, 0, 0, 0.28) 65%,
+    transparent 100%
+  );
+  --hero-card-shader-scrim-selected: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.68) 32%,
+    rgba(0, 0, 0, 0.32) 58%,
+    transparent 100%
+  );
+  --hero-card-shader-expanded-bg: rgba(0, 0, 0, 0.22);
+  --hero-card-shader-link-bg: rgba(0, 0, 0, 0.4);
+  --hero-card-shader-link-border: rgba(255, 255, 255, 0.5);
+  --hero-card-shader-link-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --hero-card-shader-link-bg-hover: rgba(0, 0, 0, 0.55);
+  --hero-card-panel-bg: rgba(0, 18, 51, 0.55);
+  --hero-card-panel-border: rgba(255, 255, 255, 0.14);
+  --hero-card-cta-text: #0c1929;
+  --hero-card-cta-text-hover: #061018;
+  --hero-card-cta-bg: rgba(255, 255, 255, 0.96);
+  --hero-card-cta-bg-hover: #ffffff;
+  --hero-card-cta-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  --hero-card-cta-shadow-hover: 0 4px 18px rgba(0, 0, 0, 0.24);
+  --hero-card-link-bg: rgba(255, 255, 255, 0.15);
+  --hero-card-link-bg-hover: rgba(255, 255, 255, 0.25);
+  --hero-card-dim-overlay: rgba(0, 0, 0, 0.35);
+  --hero-card-dim-overlay-mobile: rgba(0, 0, 0, 0.4);
+
   /* Eyebrow / meta typography */
   --text-eyebrow-size: 0.6875rem;
   --text-eyebrow-tracking: 0.14em;

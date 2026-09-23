@@ -127,6 +127,8 @@ function fixSpacingLine(line) {
 
 function fixMotionLine(line) {
   if (!/transition\s*:/.test(line) && !/transition=/.test(line)) return line;
+  /* Framer Motion / JS objects use `ease:` property names — not CSS transition values */
+  if (/transition=\{\{/.test(line) || /\bease\s*:\s*[\["']/.test(line)) return line;
   if (/var\(--duration-/.test(line) && /var\(--ease-/.test(line)) return line;
 
   let next = line;
