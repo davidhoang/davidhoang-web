@@ -4,20 +4,20 @@ Personal portfolio website with AI-powered daily theme generation.
 
 ## Tech Stack
 
-- **Framework:** [Astro](https://astro.build/) v5 with hybrid rendering
+- **Framework:** [Astro](https://astro.build/) v7 with static output and Vercel serverless routes
 - **UI Components:** React 19 with [Framer Motion](https://www.framer.com/motion/) for animations
 - **Styling:** CSS with CSS custom properties for theming
-- **Graphics:** [Konva](https://konvajs.org/) / React-Konva for canvas, [Paper Design Shaders](https://www.npmjs.com/package/@paper-design/shaders-react) for WebGL backgrounds
-- **Typography:** [Geist](https://vercel.com/font) font family + Google Fonts
+- **Graphics:** [Three.js](https://threejs.org/) / React Three Fiber for interactive 3D, plus [Paper Design Shaders](https://www.npmjs.com/package/@paper-design/shaders-react) for WebGL backgrounds
+- **Typography:** Self-hosted ABC Diatype, Inter, Cormorant Garamond, Space Grotesk, and theme-selected fonts
 - **AI Integration:** [Anthropic Claude API](https://docs.anthropic.com/) for theme generation
-- **Deployment:** Vercel / Cloudflare
+- **Deployment:** Vercel
 - **Language:** TypeScript
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 22.12+
 - npm
 
 ### Installation
@@ -193,6 +193,7 @@ Generated themes are stored in `src/data/daily-themes.json`:
 │   ├── theme-prompt.md
 │   └── data/fonts.json
 ├── .github/workflows/   # GitHub Actions
+│   ├── ci.yml
 │   └── daily-theme.yml
 └── public/              # Static public files
 ```

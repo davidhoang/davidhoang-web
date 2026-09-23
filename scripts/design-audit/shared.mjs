@@ -30,7 +30,6 @@ export const STRICT_GRANDFATHER = new Set([
   'src/components/hero/CardBase.tsx',
   'src/components/hero/HeroTitle.tsx',
   'src/components/hero/MobileHeroSheet.tsx',
-  'src/styles/modules/utilities.css',
   'src/styles/modules/card-stack-hero.css',
   'src/styles/modules/accessibility-responsive.css',
 ]);
