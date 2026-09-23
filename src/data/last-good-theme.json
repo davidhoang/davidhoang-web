@@ -1,139 +1,135 @@
 {
-  "cachedAt": "2026-09-22T06:24:35.128Z",
-  "sourceDate": "2026-09-22",
+  "cachedAt": "2026-09-23T06:25:31.836Z",
+  "sourceDate": "2026-09-23",
   "theme": {
-    "name": "Birch & Tin",
-    "description": "Helsinki harbour at first light — fogged linen, ice blue, and a single red warehouse bleeding through the mist, rendered in tall cold type against generous air.",
+    "name": "Linen & Register",
+    "description": "A Scandinavian morning filtered through the precision of a typographer's lightbox — warm birch-white ground, disciplined sidebar rails, and a single copper accent that reads like a ruled red line in a field ledger.",
     "colors": {
-      "colorScheme": "analogous",
-      "contrastMode": "standard",
+      "colorScheme": "complementary",
+      "contrastMode": "high",
       "light": {
-        "--color-text": "#1C2B2E",
-        "--color-bg": "#EEF2F0",
-        "--color-link": "#C0291A",
-        "--color-link-hover": "#961F13",
-        "--color-border": "#C8D4D1",
-        "--color-muted": "#5B6D73",
-        "--color-sidebar-bg": "#E6ECEB",
-        "--color-nav-bg": "#EEF2F0",
-        "--color-nav-text": "#1C2B2E",
-        "--color-card-bg": "#E9EFED"
+        "--color-text": "#1C1410",
+        "--color-bg": "#F7F2EB",
+        "--color-link": "#B5451B",
+        "--color-link-hover": "#8C3312",
+        "--color-border": "#C8BFB0",
+        "--color-muted": "#74695D",
+        "--color-sidebar-bg": "#EDE6DC",
+        "--color-nav-bg": "#F7F2EB",
+        "--color-nav-text": "#1C1410",
+        "--color-card-bg": "#F2EDE4"
       },
       "dark": {
-        "--color-text": "#DDE7E4",
-        "--color-bg": "#0D1F22",
-        "--color-link": "#E16558",
-        "--color-link-hover": "#F26055",
-        "--color-border": "#213338",
-        "--color-muted": "#6C8D95",
-        "--color-sidebar-bg": "#111E21",
-        "--color-nav-bg": "#0D1F22",
-        "--color-nav-text": "#DDE7E4",
-        "--color-card-bg": "#132428"
+        "--color-text": "#EDE6DC",
+        "--color-bg": "#1C1410",
+        "--color-link": "#D4663A",
+        "--color-link-hover": "#E8845A",
+        "--color-border": "#3A2E24",
+        "--color-muted": "#8C7D6F",
+        "--color-sidebar-bg": "#231A12",
+        "--color-nav-bg": "#1C1410",
+        "--color-nav-text": "#EDE6DC",
+        "--color-card-bg": "#261D14"
       }
     },
     "fonts": {
       "heading": {
-        "name": "Cabinet Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
-        "category": "display",
-        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "body": {
-        "name": "Literata",
-        "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-        "category": "serif",
-        "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        "name": "IBM Plex Sans",
+        "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       }
     },
     "typography": {
       "headingWeight": "700",
       "bodyWeight": "400",
-      "bodyLineHeight": "1.8",
+      "bodyLineHeight": "1.6",
       "letterSpacing": "0.01em",
-      "headingLetterSpacing": "-0.03em",
-      "headingTransform": "none",
-      "scaleRatio": "1.618",
+      "headingLetterSpacing": "0.04em",
+      "headingTransform": "uppercase",
+      "scaleRatio": "1.2",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "filled",
-      "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-      "borderWidth": "0px",
-      "padding": "2rem"
+      "style": "outlined",
+      "shadow": "none",
+      "borderWidth": "1px",
+      "padding": "1.25rem"
     },
     "layout": {
-      "borderRadius": "16px",
-      "containerMaxWidth": "1200px",
-      "sectionSpacing": "6rem",
-      "contentPadding": "2rem",
-      "gridStyle": "asymmetric"
+      "borderRadius": "2px",
+      "containerMaxWidth": "1080px",
+      "sectionSpacing": "3rem",
+      "contentPadding": "1.5rem",
+      "gridStyle": "sidebar"
     },
     "hero": {
-      "layout": "cinematic"
+      "layout": "rolodex"
     },
     "links": {
-      "style": "color-only"
+      "style": "bracket"
     },
     "background": {
-      "texture": "none"
+      "texture": "grid"
     },
     "images": {
-      "style": "vivid",
-      "hover": "lift",
-      "opacity": "1",
-      "borderRadius": "16px"
+      "style": "muted",
+      "hover": "none",
+      "opacity": "0.92",
+      "borderRadius": "2px"
     },
     "footer": {
-      "style": "gradient"
+      "style": "retro"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#EEF2F0",
-        "#C0291A",
-        "#6B8087"
+        "#F7F2EB",
+        "#B5451B"
       ]
     },
     "font": {
-      "name": "Cabinet Grotesk",
-      "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
-      "category": "display",
-      "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+      "name": "Syne",
+      "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+      "category": "sans-serif",
+      "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     },
     "artDirection": {
-      "recipe": "gallery",
-      "name": "Immersive Gallery",
-      "dominantPrimitive": "image"
+      "recipe": "index",
+      "name": "System Index",
+      "dominantPrimitive": "grid"
     },
-    "date": "2026-09-22",
+    "date": "2026-09-23",
     "showcase": {
       "root": "card",
       "elements": {
         "card": {
           "type": "ThemeCard",
           "props": {
-            "title": "Birch & Tin",
-            "subtitle": "September 22, 2026"
+            "title": "Linen & Register",
+            "subtitle": "2026-09-23 — Daily UI Theme"
           },
           "children": [
             "manifesto",
             "div1",
-            "palette",
+            "s1",
             "div2",
-            "mid",
+            "s2",
             "div3",
-            "meta-row",
-            "div4",
-            "tokens",
-            "div5",
-            "foot"
+            "s3",
+            "apply"
           ]
         },
         "manifesto": {
           "type": "ThemeManifesto",
           "props": {
-            "text": "Helsinki harbour at first light. Fogged linen, ice blue, a single red warehouse bleeding through the mist. Cold type against generous air.",
+            "text": "A typographer's morning: birch-white ground, sidebar rails ruled like ledger lines, and one copper accent that signs every page like a red ink stamp.",
             "emphasis": "quiet"
           },
           "children": []
@@ -145,87 +141,31 @@
           },
           "children": []
         },
-        "palette": {
-          "type": "ColorPalette",
-          "props": {
-            "colors": [
-              {
-                "hex": "#EEF2F0",
-                "label": "Fogged Linen"
-              },
-              {
-                "hex": "#C8D4D1",
-                "label": "Ice Border"
-              },
-              {
-                "hex": "#6B8087",
-                "label": "Harbour Haze"
-              },
-              {
-                "hex": "#1C2B2E",
-                "label": "Dark Kelp"
-              },
-              {
-                "hex": "#C0291A",
-                "label": "Red Warehouse"
-              }
-            ]
-          },
-          "children": []
-        },
-        "div2": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "mid": {
+        "s1": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
             "gap": "md",
-            "align": "stretch"
+            "align": "center"
           },
           "children": [
-            "left-col",
-            "right-col"
-          ]
-        },
-        "left-col": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "sm",
-            "align": "start"
-          },
-          "children": [
-            "h1",
-            "h2",
+            "hs",
             "badges"
           ]
         },
-        "h1": {
+        "hs": {
           "type": "TypeSample",
           "props": {
-            "text": "Birch & Tin",
+            "text": "Syne & IBM Plex",
             "variant": "heading",
             "weight": "700"
-          },
-          "children": []
-        },
-        "h2": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Cold mornings, tall type, generous air.",
-            "variant": "body"
           },
           "children": []
         },
         "badges": {
           "type": "Stack",
           "props": {
-            "direction": "horizontal",
+            "direction": "vertical",
             "gap": "sm",
             "align": "start"
           },
@@ -238,7 +178,7 @@
         "b1": {
           "type": "Badge",
           "props": {
-            "text": "display",
+            "text": "sans-serif",
             "variant": "outlined"
           },
           "children": []
@@ -246,20 +186,107 @@
         "b2": {
           "type": "Badge",
           "props": {
-            "text": "analogous",
-            "variant": "filled"
+            "text": "outlined cards",
+            "variant": "outlined"
           },
           "children": []
         },
         "b3": {
           "type": "Badge",
           "props": {
-            "text": "cinematic",
-            "variant": "outlined"
+            "text": "high contrast",
+            "variant": "filled"
           },
           "children": []
         },
-        "right-col": {
+        "div2": {
+          "type": "Divider",
+          "props": {
+            "style": "solid"
+          },
+          "children": []
+        },
+        "s2": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "lg",
+            "align": "stretch"
+          },
+          "children": [
+            "palette-col",
+            "preview-col"
+          ]
+        },
+        "palette-col": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "start"
+          },
+          "children": [
+            "pal",
+            "tok"
+          ]
+        },
+        "pal": {
+          "type": "ColorPalette",
+          "props": {
+            "colors": [
+              {
+                "hex": "#F7F2EB",
+                "label": "Ground"
+              },
+              {
+                "hex": "#EDE6DC",
+                "label": "Sidebar"
+              },
+              {
+                "hex": "#C8BFB0",
+                "label": "Border"
+              },
+              {
+                "hex": "#B5451B",
+                "label": "Copper"
+              },
+              {
+                "hex": "#74695D",
+                "label": "Muted"
+              },
+              {
+                "hex": "#1C1410",
+                "label": "Ink"
+              }
+            ]
+          },
+          "children": []
+        },
+        "tok": {
+          "type": "TokenGrid",
+          "props": {
+            "tokens": [
+              {
+                "name": "radius",
+                "value": "2px"
+              },
+              {
+                "name": "link",
+                "value": "[bracket]"
+              },
+              {
+                "name": "texture",
+                "value": "grid"
+              },
+              {
+                "name": "scheme",
+                "value": "complementary"
+              }
+            ]
+          },
+          "children": []
+        },
+        "preview-col": {
           "type": "Stack",
           "props": {
             "direction": "vertical",
@@ -274,125 +301,59 @@
         "hero": {
           "type": "HeroLayoutPreview",
           "props": {
-            "layout": "cinematic",
-            "label": "Hero"
+            "layout": "rolodex",
+            "label": "Hero: Rolodex"
           },
           "children": []
         },
         "grid": {
           "type": "LayoutPreview",
           "props": {
-            "style": "asymmetric"
+            "style": "sidebar"
           },
           "children": []
         },
         "div3": {
           "type": "Divider",
           "props": {
-            "style": "solid"
+            "style": "dotted"
           },
           "children": []
         },
-        "meta-row": {
+        "s3": {
           "type": "ThemeMeta",
           "props": {
             "items": [
               {
-                "label": "Heading",
-                "value": "Cabinet Grotesk"
-              },
-              {
-                "label": "Body",
-                "value": "Literata"
-              },
-              {
-                "label": "Cards",
-                "value": "Filled / 16px radius"
-              },
-              {
-                "label": "Links",
-                "value": "Color-only"
+                "label": "Grid",
+                "value": "Sidebar rails"
               },
               {
                 "label": "Footer",
-                "value": "Gradient"
+                "value": "Retro"
               },
               {
-                "label": "Images",
-                "value": "Vivid / Hover lift"
+                "label": "Image",
+                "value": "Muted / no hover"
+              },
+              {
+                "label": "Shader",
+                "value": "None"
+              },
+              {
+                "label": "Contrast",
+                "value": "High"
               }
             ]
-          },
-          "children": []
-        },
-        "div4": {
-          "type": "Divider",
-          "props": {
-            "style": "dashed"
-          },
-          "children": []
-        },
-        "tokens": {
-          "type": "TokenGrid",
-          "props": {
-            "tokens": [
-              {
-                "name": "--color-bg",
-                "value": "#EEF2F0"
-              },
-              {
-                "name": "--color-text",
-                "value": "#1C2B2E"
-              },
-              {
-                "name": "--color-link",
-                "value": "#C0291A"
-              },
-              {
-                "name": "--color-muted",
-                "value": "#5B6D73"
-              },
-              {
-                "name": "--color-card-bg",
-                "value": "#E9EFED"
-              }
-            ]
-          },
-          "children": []
-        },
-        "div5": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "foot": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "md",
-            "align": "center"
-          },
-          "children": [
-            "caption",
-            "apply"
-          ]
-        },
-        "caption": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Daily theme — 22 Sep 2026",
-            "variant": "caption"
           },
           "children": []
         },
         "apply": {
           "type": "ThemeActionButton",
           "props": {
-            "label": "Apply Birch & Tin",
+            "label": "Apply Linen & Register",
             "action": "apply-theme",
-            "date": "2026-09-22"
+            "date": "2026-09-23"
           },
           "children": []
         }
