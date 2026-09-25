@@ -1,6 +1,316 @@
 {
   "themes": [
     {
+      "name": "Fountain & Bone",
+      "description": "A split-screen poster where terracotta geometry meets mineral coolness — zellige precision rendered in high-contrast evening warmth.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1008",
+          "--color-bg": "#FAF3E8",
+          "--color-link": "#B33A1A",
+          "--color-link-hover": "#7A1E0A",
+          "--color-border": "#C4A882",
+          "--color-muted": "#85694E",
+          "--color-sidebar-bg": "#F2E8D6",
+          "--color-nav-bg": "#FAF3E8",
+          "--color-nav-text": "#1C1008",
+          "--color-card-bg": "#F5EBD8"
+        },
+        "dark": {
+          "--color-text": "#F0E6D3",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#E86A3A",
+          "--color-link-hover": "#FF9060",
+          "--color-border": "#4A2E1A",
+          "--color-muted": "#96775A",
+          "--color-sidebar-bg": "#221408",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#F0E6D3",
+          "--color-card-bg": "#221408"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FAF3E8",
+          "#B33A1A"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-25",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fountain & Bone",
+              "subtitle": "2026-09-25 · Split-Complementary · High Contrast"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "s1",
+              "s2",
+              "div2",
+              "meta",
+              "div3",
+              "btm"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Terracotta cuts across mineral cool. Zellige precision, evening heat — a poster that knows exactly where it stands.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1008",
+                  "label": "Char"
+                },
+                {
+                  "hex": "#FAF3E8",
+                  "label": "Bone"
+                },
+                {
+                  "hex": "#B33A1A",
+                  "label": "Fountain"
+                },
+                {
+                  "hex": "#C4A882",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#85694E",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#F5EBD8",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "FOUNTAIN & BONE",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Bebas Neue",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "0px radius",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#FAF3E8",
+                "#B33A1A",
+                "#1C1008"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Body Font",
+                  "value": "Crimson Text (serif)"
+                },
+                {
+                  "label": "Image Style",
+                  "value": "Duotone / Hover Colorize"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Split"
+                }
+              ]
+            },
+            "children": []
+          },
+          "btm": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Fountain & Bone",
+              "action": "apply-theme",
+              "date": "2026-09-25"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Chrome Frequency",
       "description": "A Y2K fever dream rendered as a noir cinema poster — acid aqua scanlines cutting through midnight dark, glossy filled cards floating like holographic CD inserts, scattered with the confidence of an afternoon that knows exactly what it is.",
       "colors": {
@@ -2202,386 +2512,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Graphite Meridian",
-      "description": "Tadao Ando's concrete chapel at dawn — a blade of warm light cuts through heavy shadow, structure and silence in equal measure.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2A2520",
-          "--color-bg": "#F0EDE8",
-          "--color-link": "#8A5A1A",
-          "--color-link-hover": "#9A6218",
-          "--color-border": "#B8B0A6",
-          "--color-muted": "#746A63",
-          "--color-sidebar-bg": "#E6E1DA",
-          "--color-nav-bg": "#E6E1DA",
-          "--color-nav-text": "#2A2520",
-          "--color-card-bg": "#EAE6E0"
-        },
-        "dark": {
-          "--color-text": "#EDE8E2",
-          "--color-bg": "#1C1814",
-          "--color-link": "#D4952E",
-          "--color-link-hover": "#F0B84A",
-          "--color-border": "#3A342C",
-          "--color-muted": "#8E857F",
-          "--color-sidebar-bg": "#221E19",
-          "--color-nav-bg": "#221E19",
-          "--color-nav-text": "#EDE8E2",
-          "--color-card-bg": "#24201B"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F0EDE8",
-          "#C17F24"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-09-18",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Graphite Meridian",
-              "subtitle": "2026 · 09 · 18"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Concrete breathes here. A blade of warm amber splits the grey before the world wakes — Ando's chapel distilled into type and grid.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "s1r"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            }
-          },
-          "s1r": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "br",
-              "meta"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "GRAPHITE MERIDIAN",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Radius",
-                  "value": "0px — pure edge"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Images",
-                  "value": "Grayscale / hover colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "shader",
-              "tokens"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F0EDE8",
-                  "label": "Bg"
-                },
-                {
-                  "hex": "#EAE6E0",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#2A2520",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#8A5A1A",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#B8B0A6",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#746A63",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#F0EDE8",
-                "#C17F24"
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--font-heading",
-                  "value": "Bebas Neue"
-                },
-                {
-                  "name": "--font-body",
-                  "value": "Literata"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#8A5A1A"
-                },
-                {
-                  "name": "--radius",
-                  "value": "0px"
-                },
-                {
-                  "name": "--color-scheme",
-                  "value": "complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "cap",
-              "btn"
-            ]
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Structure and silence in equal measure.",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Theme",
-              "action": "apply-theme",
-              "date": "2026-09-18"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-24"
+  "currentDate": "2026-09-25"
 }
