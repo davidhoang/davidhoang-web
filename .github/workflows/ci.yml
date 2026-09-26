@@ -48,3 +48,22 @@ jobs:
 
       - name: Bundle budget
         run: npm run budget
+
+  design-strict-report:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Strict design compliance (report only)
+        run: npm run audit:design:strict
