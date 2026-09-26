@@ -78,13 +78,13 @@
     rotate(var(--nav-tilt));
   /* Smooth transitions — transform excluded; sentient nav updates --nav-float-* every frame */
   transition:
-    min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    background 0.35s ease,
-    backdrop-filter 0.45s ease,
-    -webkit-backdrop-filter 0.45s ease;
+    min-width var(--duration-slower) var(--ease-standard),
+    max-width var(--duration-slower) var(--ease-standard),
+    box-shadow var(--duration-slower) var(--ease-standard),
+    border-color var(--duration-slower) var(--ease-standard),
+    background var(--duration-normal) var(--ease-standard),
+    backdrop-filter var(--duration-slower) var(--ease-standard),
+    -webkit-backdrop-filter var(--duration-slower) var(--ease-standard);
 }
 
 /* Reactive glow — follows pointer (ellipse center from --nav-glow-*) */
