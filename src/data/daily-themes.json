@@ -1,6 +1,347 @@
 {
   "themes": [
     {
+      "name": "Pressed & Still",
+      "description": "A night-reading journal where deep umber paper and precisely weighted Garamond type hold a single warm accent like candlelight on a closed page.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2C2016",
+          "--color-bg": "#F5EFE6",
+          "--color-link": "#984E2B",
+          "--color-link-hover": "#7A3B1E",
+          "--color-border": "#D9CDBE",
+          "--color-muted": "#77695A",
+          "--color-sidebar-bg": "#EDE5D8",
+          "--color-nav-bg": "#F5EFE6",
+          "--color-nav-text": "#2C2016",
+          "--color-card-bg": "#EDE5D8"
+        },
+        "dark": {
+          "--color-text": "#E8DDD0",
+          "--color-bg": "#1C1410",
+          "--color-link": "#C8895A",
+          "--color-link-hover": "#E0A870",
+          "--color-border": "#3A2E24",
+          "--color-muted": "#8E8071",
+          "--color-sidebar-bg": "#231A14",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#E8DDD0",
+          "--color-card-bg": "#231A14"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "EB Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EFE6",
+          "#C8895A"
+        ]
+      },
+      "font": {
+        "name": "EB Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-09-26",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Pressed & Still",
+              "subtitle": "September 26, 2026"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "palette",
+              "s2",
+              "div1",
+              "meta",
+              "div2",
+              "s3",
+              "tokens",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A single flame held against umber dark. Garamond was made for patience — for the reader who underlines in pencil and returns.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EFE6",
+                  "label": "Paper"
+                },
+                {
+                  "hex": "#EDE5D8",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#D9CDBE",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#984E2B",
+                  "label": "Ember"
+                },
+                {
+                  "hex": "#77695A",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#2C2016",
+                  "label": "Ink"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "The page holds still.",
+              "variant": "heading",
+              "weight": "regular"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "low contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Stacked Fan"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None — grain texture"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated Underline"
+                },
+                {
+                  "label": "Palette",
+                  "value": "Analogous warm"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Stacked Fan hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#F5EFE6",
+                "#C8895A"
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EFE6"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#984E2B"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "EB Garamond"
+                },
+                {
+                  "name": "--font-body",
+                  "value": "Literata"
+                }
+              ]
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Pressed & Still",
+              "action": "apply-theme",
+              "date": "2026-09-26"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Fountain & Bone",
       "description": "A split-screen poster where terracotta geometry meets mineral coolness — zellige precision rendered in high-contrast evening warmth.",
       "colors": {
@@ -2159,360 +2500,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Incunabula",
-      "description": "Dark Academia meets pre-dawn stillness — aged parchment and forest ink, scholarly serif authority, cards like vellum manuscript pages lit by a single candle.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1A14",
-          "--color-bg": "#F5EFE0",
-          "--color-link": "#7B2D3E",
-          "--color-link-hover": "#A63D52",
-          "--color-border": "#C8BA9A",
-          "--color-muted": "#746B5B",
-          "--color-sidebar-bg": "#EDE4CE",
-          "--color-nav-bg": "#F5EFE0",
-          "--color-nav-text": "#1C1A14",
-          "--color-card-bg": "#FBF7EE"
-        },
-        "dark": {
-          "--color-text": "#EDE4CE",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#C78162",
-          "--color-link-hover": "#E09A78",
-          "--color-border": "#2E4A4F",
-          "--color-muted": "#7A9A9E",
-          "--color-sidebar-bg": "#112428",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#EDE4CE",
-          "--color-card-bg": "#132A2E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-        "borderWidth": "2px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.9",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EFE0",
-          "#C8BA9A"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-09-19",
-      "showcase": {
-        "root": "root",
-        "elements": {
-          "root": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Incunabula",
-              "subtitle": "2026-09-19 · Dark Academia · Pre-Dawn Stillness"
-            },
-            "children": [
-              "s-main"
-            ]
-          },
-          "s-main": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "badge-row",
-              "palette",
-              "s-mid",
-              "div1",
-              "s-bottom",
-              "apply-btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Candlelit vellum. Forest ink. The hour before the monastery stirs — every card a manuscript page, every word an act of scholarly devotion.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "duotone imagery",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE0",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#1C1A14",
-                  "label": "Forest Ink"
-                },
-                {
-                  "hex": "#7B2D3E",
-                  "label": "Crimson Link"
-                },
-                {
-                  "hex": "#C8BA9A",
-                  "label": "Vellum Edge"
-                },
-                {
-                  "hex": "#746B5B",
-                  "label": "Ash Muted"
-                },
-                {
-                  "hex": "#FBF7EE",
-                  "label": "Card Face"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "s-left",
-              "s-right"
-            ]
-          },
-          "s-left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "heading-sample",
-              "body-sample",
-              "caption-sample"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Cormorant Garamond",
-              "variant": "heading",
-              "weight": "600"
-            },
-            "children": []
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Source Serif 4 — a candlelit desk, a marginalia-filled folio.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "caption-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Split-complementary · dots texture · retro footer",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "s-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Hero"
-            },
-            "children": []
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s-bottom": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Scattered"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None — parchment speaks for itself"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Border Radius",
-                  "value": "8px"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dot Grid"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Velvet Incunabula",
-              "action": "apply-theme",
-              "date": "2026-09-19"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-25"
+  "currentDate": "2026-09-26"
 }

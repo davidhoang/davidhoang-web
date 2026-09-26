@@ -50,6 +50,19 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 
 Legacy files with known debt are listed in `shared.mjs` → `STRICT_GRANDFATHER` (currently only `variables.css`, the token source). Note: `hero-motion-continuity` is **not** grandfathered — it always audits the hero contract files.
 
+### SKIP_FILES (excluded from all audit rules)
+
+See `shared.mjs` for the live list. Typical reasons:
+
+| File | Reason |
+|------|--------|
+| `theme-variations.css` | Theme recipe surface — strict debt reduced incrementally |
+| `print.css` | Print color literals for reliable paper output |
+| `MainLayout.astro` | Inline critical CSS (FOUC tokens); prefer shrinking over widening skips |
+| `daily-themes.astro`, `SubstackSignup.astro`, `design-system.css` | Remove from skip list as soon as strict-clean |
+
+Do not add new `SKIP_FILES` entries without a row here.
+
 ## Adding a rule
 
 1. Log the gap in `.agents/skills/product-design/references/coverage-gaps.md`

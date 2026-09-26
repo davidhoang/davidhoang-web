@@ -62,3 +62,22 @@ jobs:
           curl -sf http://127.0.0.1:4322/ || { kill "$dev_pid" 2>/dev/null || true; exit 1; }
           UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
           kill "$dev_pid" 2>/dev/null || true
+
+  design-strict-report:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Strict design compliance (report only)
+        run: npm run audit:design:strict
