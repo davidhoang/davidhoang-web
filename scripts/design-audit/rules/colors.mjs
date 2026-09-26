@@ -2,6 +2,7 @@ import { extractStyleBlocks } from '../shared.mjs';
 
 const HEX_COLOR = /#[0-9a-fA-F]{3,8}\b/;
 const RGB_LITERAL = /\b(?:rgb|rgba|hsl|hsla)\(\s*(?!var\()/;
+const CUSTOM_PROP_DEF = /^\s*--[\w-]+\s*:/;
 
 /** @param {ReturnType<import('../shared.mjs').createContext>} ctx */
 export function auditAstroColors(ctx, file, content) {
@@ -12,6 +13,14 @@ export function auditAstroColors(ctx, file, content) {
     for (let i = 0; i < blockLines.length; i++) {
       const line = blockLines[i];
       if (line.trim().startsWith('/*') || line.trim().startsWith('*')) continue;
+
+      if (
+        HEX_COLOR.test(line) &&
+        !line.includes('var(--') &&
+        CUSTOM_PROP_DEF.test(line)
+      ) {
+        continue;
+      }
 
       if (HEX_COLOR.test(line) && !line.includes('var(--')) {
         ctx.addViolation(
