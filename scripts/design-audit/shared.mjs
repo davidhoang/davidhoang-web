@@ -12,7 +12,6 @@ export const SKIP_DIRS = new Set(['node_modules', 'dist', '.astro', 'prototypes'
 
 /** Files with intentional exceptions documented in design.md or legacy debt */
 export const SKIP_FILES = new Set([
-  'src/styles/modules/design-system.css',
   'src/styles/modules/theme-variations.css',
   'src/styles/modules/print.css',
   'src/layouts/MainLayout.astro',
