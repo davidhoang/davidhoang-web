@@ -49,6 +49,20 @@ jobs:
       - name: Bundle budget
         run: npm run budget
 
+      - name: UI interaction regression
+        run: |
+          npm run dev -- --host 127.0.0.1 --port 4322 &
+          dev_pid=$!
+          for _ in $(seq 1 90); do
+            if curl -sf http://127.0.0.1:4322/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:4322/ || { kill "$dev_pid" 2>/dev/null || true; exit 1; }
+          UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
+          kill "$dev_pid" 2>/dev/null || true
+
   design-strict-report:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
