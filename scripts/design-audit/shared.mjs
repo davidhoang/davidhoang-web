@@ -14,7 +14,6 @@ export const SKIP_DIRS = new Set(['node_modules', 'dist', '.astro', 'prototypes'
 export const SKIP_FILES = new Set([
   'src/styles/modules/theme-variations.css',
   'src/styles/modules/print.css',
-  'src/layouts/MainLayout.astro',
   'src/components/SubstackSignup.astro',
 ]);
 
