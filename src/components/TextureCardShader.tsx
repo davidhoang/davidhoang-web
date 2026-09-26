@@ -34,9 +34,9 @@ interface TextureCardShaderProps {
 const SURFACE_MAX_PIXELS = 640 * 400;
 const SURFACE_SPEED = 0.044;
 const OVERLAY_SPEED = 0.85;
-const SURFACE_SIZE = 9;
+const SURFACE_SIZE = 2.4;
 const OVERLAY_SIZE = 2;
-const SURFACE_SCALE = 1.7;
+const SURFACE_SCALE = 1;
 const OVERLAY_SCALE = 0.6;
 
 const DITHER_SHAPES = ['simplex', 'warp', 'dots', 'wave', 'ripple', 'swirl', 'sphere'] as const;

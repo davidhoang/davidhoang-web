@@ -98,8 +98,8 @@ export const works: WorkEntry[] = [
     when: '2024-Present',
     shaderSpeed: 0.019,
     shader: {
-      light: { front: '#0052CC', back: '#E9F2FF' },
-      dark: { front: '#2684FF', back: '#091E42' },
+      light: { front: '#0052CC', back: '#F7FAFF' },
+      dark: { front: '#4C8DDB', back: '#0D2137' },
     },
   },
 
@@ -132,8 +132,8 @@ export const works: WorkEntry[] = [
     when: '2022–2024',
     shaderSpeed: 0.044,
     shader: {
-      light: { front: '#FF3C00', back: '#FAF6F1' },
-      dark: { front: '#FF764D', back: '#181818' },
+      light: { front: '#E23600', back: '#FFF7F3' },
+      dark: { front: '#E07A55', back: '#1C1410' },
     },
   },
 
@@ -157,8 +157,8 @@ export const works: WorkEntry[] = [
     when: '2018–2022',
     shaderSpeed: 0.028,
     shader: {
-      light: { front: '#146EF5', back: '#E8F1FE' },
-      dark: { front: '#146EF5', back: '#080808' },
+      light: { front: '#0B5CDB', back: '#F6F9FF' },
+      dark: { front: '#4A8AE8', back: '#0A1628' },
     },
   },
 
@@ -182,8 +182,8 @@ export const works: WorkEntry[] = [
     when: '2015–2018',
     shaderSpeed: 0.061,
     shader: {
-      light: { front: '#005450', back: '#E7F4F3' },
-      dark: { front: '#3AA8A1', back: '#042624' },
+      light: { front: '#004742', back: '#F4FAF9' },
+      dark: { front: '#4A9A94', back: '#0A1F1D' },
     },
   },
 
@@ -198,8 +198,8 @@ export const works: WorkEntry[] = [
     when: '2014–2015',
     shaderSpeed: 0.023,
     shader: {
-      light: { front: '#111111', back: '#F3F3F3' },
-      dark: { front: '#E8E8E8', back: '#0D0D0D' },
+      light: { front: '#1A1A1A', back: '#FAFAFA' },
+      dark: { front: '#C8C8C8', back: '#161616' },
     },
   },
 
@@ -214,8 +214,8 @@ export const works: WorkEntry[] = [
     when: '2014–2015',
     shaderSpeed: 0.052,
     shader: {
-      light: { front: '#8CC751', back: '#F3F9E9' },
-      dark: { front: '#A5CF4C', back: '#15240A' },
+      light: { front: '#5F9A28', back: '#F6FAEF' },
+      dark: { front: '#8FBF55', back: '#142010' },
     },
   },
 
@@ -230,8 +230,8 @@ export const works: WorkEntry[] = [
     when: '2009–2011',
     shaderSpeed: 0.034,
     shader: {
-      light: { front: '#EC9438', back: '#FDF4E9' },
-      dark: { front: '#F0B15C', back: '#2A1608' },
+      light: { front: '#C86A1A', back: '#FFF8F0' },
+      dark: { front: '#D4A05A', back: '#24180C' },
     },
   },
 ];

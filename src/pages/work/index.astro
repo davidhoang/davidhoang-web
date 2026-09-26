@@ -209,6 +209,9 @@ const projects = workProjects.map((project) => ({
     color: inherit;
     background: var(--color-sidebar-bg);
     padding-block: calc(var(--card-padding) + var(--spacing-md) + var(--spacing-xs));
+    padding-inline: var(--card-padding);
+    border: none;
+    border-radius: 0;
   }
 
   .works-card--linked {
@@ -228,12 +231,16 @@ const projects = workProjects.map((project) => ({
     pointer-events: none;
     overflow: hidden;
     border-radius: inherit;
-    opacity: 0.12;
+    opacity: 0.14;
     transition: opacity var(--duration-slower) var(--ease-inertia);
   }
 
   .works-card--shader-brand .works-card__shader {
-    opacity: 0.3;
+    opacity: 0.28;
+  }
+
+  :global([data-theme='dark']) .works-card--shader-brand .works-card__shader {
+    opacity: 0.18;
   }
 
   .works-card__body {
@@ -243,16 +250,22 @@ const projects = workProjects.map((project) => ({
 
   @media (hover: hover) {
     .works-card--linked:hover {
+      border: none;
+      border-radius: 0;
       transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
     }
 
     .works-card--linked:hover .works-card__shader {
-      opacity: 0.22;
+      opacity: 0.2;
     }
 
     .works-card--shader-brand.works-card--linked:hover .works-card__shader {
-      opacity: 0.4;
+      opacity: 0.34;
+    }
+
+    :global([data-theme='dark']) .works-card--shader-brand.works-card--linked:hover .works-card__shader {
+      opacity: 0.24;
     }
   }
 
@@ -262,11 +275,15 @@ const projects = workProjects.map((project) => ({
   }
 
   .works-card--linked:focus-visible .works-card__shader {
-    opacity: 0.22;
+    opacity: 0.2;
   }
 
   .works-card--shader-brand.works-card--linked:focus-visible .works-card__shader {
-    opacity: 0.4;
+    opacity: 0.34;
+  }
+
+  :global([data-theme='dark']) .works-card--shader-brand.works-card--linked:focus-visible .works-card__shader {
+    opacity: 0.24;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -275,7 +292,7 @@ const projects = workProjects.map((project) => ({
     }
   }
 
-  :global([data-e-ink="true"]) .works-card__shader {
+  :global([data-e-ink='true']) .works-card__shader {
     display: none;
   }
 
