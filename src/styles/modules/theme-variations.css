@@ -531,15 +531,18 @@ html[data-e-ink="true"] {
 /* Highlight - background highlight on hover */
 [data-link-style="highlight"] a:not(.nav-link):not(.footer-link):not(.link-highlighter) {
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  border-radius: var(--radius-sm);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
 }
 
 [data-link-style="highlight"] a:not(.nav-link):not(.footer-link):not(.link-highlighter):hover {
   background-color: var(--color-link);
   color: var(--color-bg);
-  padding: 0.1em 0.2em;
-  margin: -0.1em -0.2em;
-  border-radius: 2px;
 }
 
 /* Animated underline - grows on hover */
