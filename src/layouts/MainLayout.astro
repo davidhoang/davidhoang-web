@@ -346,10 +346,12 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
       [data-e-ink="true"] {
         --color-text: #000000;
         --color-bg: #f5f5f0;
+        --critical-e-ink-nav-bg: #e8e8e3;
       }
       [data-e-ink="true"][data-theme="dark"] {
         --color-text: #e0e0e0;
         --color-bg: #121212;
+        --critical-e-ink-nav-bg: #1a1a1a;
       }
       
       /* Font loading optimization states */
@@ -393,10 +395,10 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
         margin-top: 0;
       }
       [data-e-ink="true"] body {
-        background-color: #f5f5f0;
+        background-color: var(--color-bg);
       }
       [data-e-ink="true"][data-theme="dark"] body {
-        background-color: #121212;
+        background-color: var(--color-bg);
       }
       /* Main site nav only — other pages use <nav> for TOCs, filters, etc. */
       nav.glass-border.site-nav {
@@ -422,10 +424,10 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
         }
       }
       [data-e-ink="true"] nav.glass-border {
-        background: #e8e8e3 !important;
+        background: var(--critical-e-ink-nav-bg) !important;
       }
       [data-e-ink="true"][data-theme="dark"] nav.glass-border {
-        background: #1a1a1a !important;
+        background: var(--critical-e-ink-nav-bg) !important;
       }
       /* Page transition — opacity-only root crossfade (no translateY reposition) */
       ::view-transition-old(root) {
@@ -468,7 +470,7 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
         left: -9999px;
         background: var(--color-text);
         color: var(--color-bg);
-        padding: 8px;
+        padding: var(--spacing-xs);
         text-decoration: none;
         border-radius: var(--radius-sm);
         z-index: 10000;
