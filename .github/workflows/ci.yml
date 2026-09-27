@@ -53,15 +53,23 @@ jobs:
         run: |
           npm run dev -- --host 127.0.0.1 --port 4322 &
           dev_pid=$!
-          for _ in $(seq 1 90); do
-            if curl -sf http://127.0.0.1:4322/ > /dev/null; then
+          ready=0
+          for _ in $(seq 1 120); do
+            if curl -sf http://127.0.0.1:4322/ -o /dev/null && curl -sf http://127.0.0.1:4322/notes -o /dev/null; then
+              ready=1
               break
             fi
             sleep 1
           done
-          curl -sf http://127.0.0.1:4322/ || { kill "$dev_pid" 2>/dev/null || true; exit 1; }
+          if [ "$ready" -ne 1 ]; then
+            kill "$dev_pid" 2>/dev/null || true
+            echo "Dev server did not become ready on :4322"
+            exit 1
+          fi
           UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
+          test_status=$?
           kill "$dev_pid" 2>/dev/null || true
+          exit "$test_status"
 
   design-strict-report:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
