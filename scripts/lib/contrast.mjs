@@ -23,6 +23,37 @@ export const CONTRAST_PAIRS = [
   ['--color-nav-text', '--color-nav-bg', 4.5, 'nav text on nav background'],
 ];
 
+/** Hero marker highlight (large display text over .link-highlighter) — 3:1 UI/large-text gate */
+export const MARKER_CONTRAST_PAIRS = [
+  ['--color-text', '--color-highlighter', 3, 'display text on hero marker highlight'],
+];
+
+const DEFAULT_MARKER = '#F4E76E';
+
+/**
+ * Ensure --color-highlighter meets contrast for display text (hero role links).
+ * @param {Record<string, string>} colors
+ */
+export function ensureMarkerHighlight(colors) {
+  const text = colors['--color-text'];
+  if (!text) return;
+  if (!Object.prototype.hasOwnProperty.call(colors, '--color-highlighter')) return;
+
+  const seed = colors['--color-highlighter'] || DEFAULT_MARKER;
+  const ratio = contrastRatio(text, seed);
+  colors['--color-highlighter'] =
+    ratio >= 3 ? seed.toUpperCase() : adjustColorForContrast(seed, text, 3);
+}
+
+/** Seed hero marker from link accent when themes omit the token (generation pipeline). */
+export function seedMarkerHighlight(colors) {
+  if (!colors['--color-text']) return;
+  if (!colors['--color-highlighter']) {
+    colors['--color-highlighter'] = colors['--color-link'] || DEFAULT_MARKER;
+  }
+  ensureMarkerHighlight(colors);
+}
+
 /**
  * Parse a hex color string to RGB values
  */
@@ -149,7 +180,7 @@ function auditMode(colors, modeName) {
   const failures = [];
   if (!colors) return failures;
 
-  for (const [fgVar, bgVar, minRatio, label] of CONTRAST_PAIRS) {
+  for (const [fgVar, bgVar, minRatio, label] of [...CONTRAST_PAIRS, ...MARKER_CONTRAST_PAIRS]) {
     const fg = colors[fgVar];
     const bgColor = colors[bgVar];
     if (!fg || !bgColor) continue;
@@ -200,6 +231,25 @@ function validateMode(colors, modeName) {
         target: minRatio,
       });
       fixed[fgVar] = newFg;
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(fixed, '--color-highlighter')) {
+    const text = fixed['--color-text'];
+    const markerPrior = fixed['--color-highlighter'] || DEFAULT_MARKER;
+    const markerRatioPrior = text ? contrastRatio(text, markerPrior) : 99;
+    ensureMarkerHighlight(fixed);
+    const markerNext = fixed['--color-highlighter'];
+    if (text && markerNext && markerRatioPrior < 3 && markerPrior !== markerNext) {
+      fixes.push({
+        mode: modeName,
+        pair: 'display text on hero marker highlight',
+        original: markerPrior,
+        fixed: markerNext,
+        originalRatio: markerRatioPrior.toFixed(2),
+        fixedRatio: contrastRatio(text, markerNext).toFixed(2),
+        target: 3,
+      });
     }
   }
 

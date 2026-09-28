@@ -43,6 +43,7 @@ import {
   auditThemeContrast,
   enforceThemeContrast,
   formatContrastFailures,
+  seedMarkerHighlight,
   validateThemeContrast,
 } from './lib/contrast.mjs';
 import { enforceHeadingHeavierThanBody } from './lib/typography-weights.mjs';
@@ -609,6 +610,11 @@ function normalizeThemeData(themeData, headingFonts, bodyFonts, context, recipe,
   const validContrastModes = ['standard', 'high', 'low'];
   if (!validContrastModes.includes(themeData.colors.contrastMode)) {
     themeData.colors.contrastMode = 'standard';
+  }
+
+  for (const mode of ['light', 'dark']) {
+    const colors = themeData.colors?.[mode];
+    if (colors) seedMarkerHighlight(colors);
   }
 
   const contrastFixes = validateThemeContrast(themeData);
