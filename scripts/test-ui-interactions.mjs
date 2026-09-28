@@ -18,16 +18,17 @@ const check = (message) => console.log(`PASS ${message}`);
 try {
   await page.goto(`${base}/notes`);
   await page.locator('#notes-grid[data-initialized=true]').waitFor();
-  const totalNotes = await visible('.note-card');
+  const noteCard = '#notes-grid .index-card[data-filter-item]';
+  const totalNotes = await visible(noteCard);
   await page.getByRole('searchbox', { name: 'Search notes' }).fill('zzzz-no-match');
-  assert.equal(await visible('.note-card'), 0);
+  assert.equal(await visible(noteCard), 0);
   assert.equal(await page.locator('#notes-results-count').textContent(), '0 notes');
   await page.getByRole('button', { name: 'Clear filters', exact: true }).click();
-  assert.equal(await visible('.note-card'), totalNotes);
+  assert.equal(await visible(noteCard), totalNotes);
   assert.ok(await focused('#notes-search'));
   await page.locator('#topic-chips [data-tag=ai]').click();
   assert.equal(await page.locator('#topic-chips [aria-pressed=true]').count(), 1);
-  assert.ok(await visible('.note-card') < totalNotes);
+  assert.ok(await visible(noteCard) < totalNotes);
   await page.getByRole('searchbox', { name: 'Search notes' }).fill('interface');
   await page.getByRole('button', { name: 'Clear search', exact: true }).click();
   assert.ok(await focused('#notes-search'));
@@ -55,13 +56,14 @@ try {
   assert.equal(await page.getByRole('tab', { name: 'List', exact: true }).getAttribute('aria-selected'), 'true');
   assert.equal(await visible('[data-view-panel]'), 1);
   const featuredTags = (await page.locator('.writing-spotlight__link').getAttribute('data-tags')).split(',');
-  const nonFeaturedChip = await page.locator('.writing-chip').evaluateAll(
+  const writingChip = '.writing-filter-chips .filter-pill';
+  const nonFeaturedChip = await page.locator(writingChip).evaluateAll(
     (els, tags) => els.find(el => el.dataset.tag !== 'all' && !tags.includes(el.dataset.tag))?.dataset.tag,
     featuredTags,
   );
   assert.ok(nonFeaturedChip);
   await page.locator('.writing-toolbar').getByRole('button', { name: nonFeaturedChip, exact: true }).click();
-  assert.equal(await page.locator('.writing-chip[aria-pressed=true]').count(), 1);
+  assert.equal(await page.locator(`${writingChip}[aria-pressed=true]`).count(), 1);
   assert.ok(await visible('.writing-feed__item') > 0);
   assert.equal(await visible('.writing-feed__item[hidden]'), 0);
   await page.getByRole('tab', { name: 'List', exact: true }).focus();
@@ -74,7 +76,7 @@ try {
   assert.equal(await visible('.writing-toolbar'), 1);
   check('Writing tabs, arrow/Home/End keys, semantic panels, filtering, and hidden spotlight');
 
-  await page.locator('.writing-chip[data-tag=all]').click();
+  await page.locator(`${writingChip}[data-tag=all]`).click();
   await page.locator('.writing-spotlight__link').click();
   await page.waitForURL(/\/writing\/.+/);
   await page.waitForFunction(() => document.querySelector('.desktop-nav a[href="/writing"]')?.getAttribute('aria-current') === 'location');
@@ -157,7 +159,7 @@ try {
   touchPage.on('pageerror', (error) => errors.push(error.message));
   await touchPage.goto(`${base}/notes`);
   await touchPage.locator('#notes-grid[data-initialized=true]').waitFor();
-  const targets = await touchPage.locator('.chip').evaluateAll(els =>
+  const targets = await touchPage.locator('#notes-grid').locator('.filter-pill').evaluateAll(els =>
     els.map(el => el.getBoundingClientRect().height));
   assert.ok(targets.every(height => height >= 44));
   await touchPage.locator('#menuButton').tap();
