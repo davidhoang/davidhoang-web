@@ -4,6 +4,7 @@ import {
   validateThemeContrast,
   auditThemeContrast,
   enforceThemeContrast,
+  ensureMarkerHighlight,
   CONTRAST_PAIRS,
 } from '../scripts/lib/contrast.mjs';
 
@@ -175,5 +176,18 @@ describe('auditThemeContrast / enforceThemeContrast', () => {
     for (const [, , target] of CONTRAST_PAIRS) {
       expect(target).toBeGreaterThanOrEqual(4.5);
     }
+  });
+});
+
+describe('ensureMarkerHighlight', () => {
+  it('darkens a pale marker until display text meets 3:1', () => {
+    const colors: Record<string, string> = {
+      '--color-text': '#333333',
+      '--color-highlighter': '#FFFACD',
+    };
+    ensureMarkerHighlight(colors);
+    expect(contrastRatio(colors['--color-text'], colors['--color-highlighter'])).toBeGreaterThanOrEqual(
+      3,
+    );
   });
 });
