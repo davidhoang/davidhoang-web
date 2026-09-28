@@ -715,13 +715,32 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   .mobile-menu__secondary {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--spacing-xs) - 0.125rem);
+    gap: var(--spacing-lg);
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
   }
 
-  .mobile-menu__secondary a {
+  .mobile-menu__group-title {
+    margin: 0 0 var(--spacing-sm);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .mobile-menu__group-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-xs) - 0.125rem);
+  }
+
+  .mobile-menu__secondary a,
+  .mobile-menu__group-links a {
     display: block;
     padding: var(--spacing-sm) 0;
     font-size: clamp(1.25rem, 5.5vw, 1.5rem);
@@ -744,15 +763,9 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     transform: translateY(0);
   }
 
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(1) a { transition-delay: 0.12s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(2) a { transition-delay: 0.14s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(3) a { transition-delay: 0.16s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(4) a { transition-delay: 0.18s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(5) a { transition-delay: 0.2s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(6) a { transition-delay: 0.22s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(7) a { transition-delay: 0.24s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(8) a { transition-delay: 0.26s; }
-  .mobile-menu.is-open .mobile-menu__secondary li:nth-child(9) a { transition-delay: 0.28s; }
+  .mobile-menu.is-open .mobile-menu__group:nth-child(1) a { transition-delay: 0.12s; }
+  .mobile-menu.is-open .mobile-menu__group:nth-child(2) a { transition-delay: 0.16s; }
+  .mobile-menu.is-open .mobile-menu__group:nth-child(3) a { transition-delay: 0.2s; }
 
   .mobile-menu__secondary a:is([aria-current="page"], [aria-current="location"]) {
     color: var(--color-link);
