@@ -1,6 +1,367 @@
 {
   "themes": [
     {
+      "name": "Slab & Canopy",
+      "description": "A Niemeyer terrace translated into precise information architecture — generous proportions, deep structural shadow, and a palette pulled from lime plaster, rosewood, and pool-lit interior grey.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2A3028",
+          "--color-bg": "#EDF2ED",
+          "--color-link": "#AD5126",
+          "--color-link-hover": "#943F18",
+          "--color-border": "#B8C8B4",
+          "--color-muted": "#627260",
+          "--color-sidebar-bg": "#E2EBE1",
+          "--color-nav-bg": "#EDF2ED",
+          "--color-nav-text": "#2A3028",
+          "--color-card-bg": "#F4F7F3"
+        },
+        "dark": {
+          "--color-text": "#DDE8DC",
+          "--color-bg": "#111A10",
+          "--color-link": "#E07A45",
+          "--color-link-hover": "#F59860",
+          "--color-border": "#2E4230",
+          "--color-muted": "#748A71",
+          "--color-sidebar-bg": "#0D1610",
+          "--color-nav-bg": "#111A10",
+          "--color-nav-text": "#DDE8DC",
+          "--color-card-bg": "#172116"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Karla",
+          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1080px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDF2ED"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-09-28",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Slab & Canopy",
+              "subtitle": "September 28, 2026"
+            },
+            "children": [
+              "s1",
+              "div1",
+              "s2",
+              "div2",
+              "s3",
+              "div3",
+              "s4"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif / sans",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "complementary",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "ht",
+              "mf"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Generous Proportions, Deep Shadow",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "mf": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A Niemeyer terrace doesn't ask permission to occupy space. Neither does this UI. Lime plaster meets rosewood — information architecture as civic gesture.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "col",
+              "s3r"
+            ]
+          },
+          "col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "tok"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDF2ED",
+                  "label": "Lime Plaster"
+                },
+                {
+                  "hex": "#2A3028",
+                  "label": "Canopy"
+                },
+                {
+                  "hex": "#AD5126",
+                  "label": "Rosewood"
+                },
+                {
+                  "hex": "#B8C8B4",
+                  "label": "Border Reed"
+                },
+                {
+                  "hex": "#627260",
+                  "label": "Pool Mist"
+                },
+                {
+                  "hex": "#F4F7F3",
+                  "label": "Card White"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "link",
+                  "value": "[bracket]"
+                },
+                {
+                  "name": "texture",
+                  "value": "none"
+                },
+                {
+                  "name": "image",
+                  "value": "muted+hover"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3r": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hp",
+              "lp",
+              "shd"
+            ]
+          },
+          "hp": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Hero: Rolodex"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "shd": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EDF2ED",
+                "#B8C8B4"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "btn"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Fraunces + Karla — structural serif anchored by utilitarian sans",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Slab & Canopy",
+              "action": "apply-theme",
+              "date": "2026-09-28"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Wet Geometry",
       "description": "Rain-slicked streets at the edge of sleep — deep charcoal surfaces, magenta luminescence, and cinematic type that cuts through atmospheric haze.",
       "colors": {
@@ -2087,362 +2448,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Last Set, Ivory",
-      "description": "A late-night editorial journal drawn from the amber haze of a closing jazz set — tarnished brass type, oxblood shadows, and ivory breath between columns.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#1C1208",
-          "--color-bg": "#F5EFE0",
-          "--color-link": "#8B2635",
-          "--color-link-hover": "#5C1A24",
-          "--color-border": "#C9B89A",
-          "--color-muted": "#776954",
-          "--color-sidebar-bg": "#EDE5D0",
-          "--color-nav-bg": "#F5EFE0",
-          "--color-nav-text": "#1C1208",
-          "--color-card-bg": "#EDE5D0"
-        },
-        "dark": {
-          "--color-text": "#E8DCC8",
-          "--color-bg": "#110D07",
-          "--color-link": "#B8924A",
-          "--color-link-hover": "#D4A85C",
-          "--color-border": "#2E2318",
-          "--color-muted": "#897D6A",
-          "--color-sidebar-bg": "#1A1209",
-          "--color-nav-bg": "#110D07",
-          "--color-nav-text": "#E8DCC8",
-          "--color-card-bg": "#1A1209"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.88",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#110D07",
-          "#B8924A"
-        ]
-      },
-      "font": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-09-21",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Last Set, Ivory",
-              "subtitle": "2026 · 09 · 21"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s-top",
-              "palette",
-              "div2",
-              "s-bottom",
-              "action"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "The last tune fades. Brass still warm. Ivory keys cooling under a single bulb. This is the journal of that exact room.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s-top": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "s-left",
-              "s-right"
-            ]
-          },
-          "s-left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Last Set, Ivory",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Newsreader · serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "magazine grid",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "stacked-fan hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#110D07",
-                "#B8924A"
-              ]
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE0",
-                  "label": "ivory bg"
-                },
-                {
-                  "hex": "#EDE5D0",
-                  "label": "card"
-                },
-                {
-                  "hex": "#1C1208",
-                  "label": "ink"
-                },
-                {
-                  "hex": "#8B2635",
-                  "label": "oxblood"
-                },
-                {
-                  "hex": "#C9B89A",
-                  "label": "border"
-                },
-                {
-                  "hex": "#776954",
-                  "label": "muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s-bottom": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "scheme",
-                  "value": "split-complementary"
-                },
-                {
-                  "label": "link",
-                  "value": "animated-underline"
-                },
-                {
-                  "label": "texture",
-                  "value": "grain"
-                },
-                {
-                  "label": "image",
-                  "value": "grayscale / hover colorize"
-                },
-                {
-                  "label": "footer",
-                  "value": "editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "body",
-                  "value": "IBM Plex Sans"
-                },
-                {
-                  "name": "link-hover",
-                  "value": "#5C1A24"
-                },
-                {
-                  "name": "sidebar-bg",
-                  "value": "#EDE5D0"
-                }
-              ]
-            },
-            "children": []
-          },
-          "action": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Last Set, Ivory",
-              "action": "apply-theme",
-              "date": "2026-09-21"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-09-27"
+  "currentDate": "2026-09-28"
 }
