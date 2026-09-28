@@ -3,9 +3,10 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import PageHeader from '../../components/PageHeader.astro';
 import SearchInput from '../../components/SearchInput.astro';
+import ContentIndexCard from '../../components/ContentIndexCard.astro';
 import { NOTE_STAGE_VALUES, resolveNoteStage } from '../../content/noteStages';
 import { noteStageInfo } from '../../utils/noteStageInfo';
-import { formatRelative } from '../../utils/formatDate';
+import '../../styles/modules/content-index.css';
 
 const allNotes = await getCollection('notes');
 const notes = (import.meta.env.PROD
@@ -38,8 +39,8 @@ const notesPlaceholderSketch =
   <section class="notes-intro" aria-labelledby="notes-intro-heading">
     <h2 id="notes-intro-heading" class="sr-only">About this garden</h2>
     <p class="notes-intro__lede">
-      A living collection of ideas—unlike linear blog posts, these pages grow, split, and merge as I learn.
-      Filter by topic or stage, or search across everything.{' '}
+      Working notes from my digital garden — shorter, evolving ideas than the essays on{' '}
+      <a href="/writing">Writing</a>. Filter by topic or growth stage, or search across everything.{' '}
       <a href="/rss/notes.xml" class="notes-intro__rss">RSS feed</a>
     </p>
     <div class="stage-legend">
@@ -55,10 +56,10 @@ const notesPlaceholderSketch =
   <div class="notes-toolbar">
     <nav class="filter-panel" aria-label="Filter by topic">
       <h3 class="filter-panel__title">Topics</h3>
-      <div class="filter-chips filter-chips--topics" id="topic-chips">
-        <button type="button" class="chip chip--topic active" data-tag="all" aria-pressed="true">All topics</button>
+      <div class="filter-pills filter-pills--scroll" id="topic-chips">
+        <button type="button" class="filter-pill active" data-tag="all" aria-pressed="true">All topics</button>
         {allTags.map((tag) => (
-          <button type="button" class="chip chip--topic" data-tag={tag} aria-pressed="false">
+          <button type="button" class="filter-pill" data-tag={tag} aria-pressed="false">
             {tag}
           </button>
         ))}
@@ -67,11 +68,11 @@ const notesPlaceholderSketch =
 
     <nav class="filter-panel" aria-label="Filter by note stage">
       <h3 class="filter-panel__title">Stage</h3>
-      <div class="filter-chips filter-chips--stages" id="stage-chips">
-        <button type="button" class="chip chip--stage active" data-stage="all" aria-pressed="true">All stages</button>
+      <div class="filter-pills" id="stage-chips">
+        <button type="button" class="filter-pill active" data-stage="all" aria-pressed="true">All stages</button>
         {NOTE_STAGE_VALUES.map((s) => (
-          <button type="button" class="chip chip--stage" data-stage={s} aria-pressed="false">
-            <span class="chip__glyph">{noteStageInfo[s].icon}</span>
+          <button type="button" class="filter-pill" data-stage={s} aria-pressed="false">
+            <span class="filter-pill__glyph" aria-hidden="true">{noteStageInfo[s].icon}</span>
             {noteStageInfo[s].label}
           </button>
         ))}
@@ -86,7 +87,7 @@ const notesPlaceholderSketch =
     </div>
   </div>
 
-  <div class="notes-grid" id="notes-grid">
+  <div class="notes-grid index-card-grid" id="notes-grid">
     {notes.length === 0 ? (
       <p class="empty-state">No notes yet. Check back soon!</p>
     ) : (
@@ -94,51 +95,30 @@ const notesPlaceholderSketch =
         const stageKey = resolveNoteStage(note.data.stage);
         const stage = noteStageInfo[stageKey];
         const tags = note.data.tags || [];
-        const cover = note.data.coverImage;
+        const cover = note.data.coverImage || notesPlaceholderSketch;
         const isSpotlight = index === 0;
         const sortDate = note.data.updatedDate || note.data.pubDate;
+        const primaryTag = tags[0];
 
         return (
-          <a
+          <ContentIndexCard
             href={`/notes/${note.id}`}
-            class:list={['note-card', { 'note-card--spotlight': isSpotlight, 'note-card--cover': !!cover }]}
-            data-tags={tags.join(',')}
-            data-stage={stageKey}
-            data-title={note.data.title.toLowerCase()}
-            data-description={(note.data.description || '').toLowerCase()}
-          >
-            {cover ? (
-              <div class="note-card__media img-frame">
-                <img src={cover} alt={`Cover image for ${note.data.title}`} loading={isSpotlight ? 'eager' : 'lazy'} decoding="async" />
-              </div>
-            ) : (
-              <div class="note-card__media note-card__media--placeholder img-frame">
-                <img
-                  src={notesPlaceholderSketch}
-                  alt=""
-                  loading={isSpotlight ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
-              </div>
-            )}
-            <div class="note-card__body">
-              <div class="note-card__meta">
-                <span class="note-card__stage" title={stage.description}>
-                  {stage.icon} {stage.label}
-                </span>
-                <time datetime={sortDate.toISOString()}>{formatRelative(sortDate)}</time>
-              </div>
-              <h2 class="note-card__title">{note.data.title}</h2>
-              {note.data.description && <p class="note-card__description">{note.data.description}</p>}
-              {tags.length > 0 && (
-                <div class="note-card__tags">
-                  {tags.map((tag) => (
-                    <span class="note-card__tag">{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </a>
+            title={note.data.title}
+            description={note.data.description}
+            date={sortDate}
+            imageSrc={cover}
+            imageAlt={note.data.coverImage ? `Cover image for ${note.data.title}` : ''}
+            primaryTag={primaryTag}
+            tags={tags}
+            spotlight={isSpotlight}
+            heading={isSpotlight ? 'h2' : 'h3'}
+            loading={isSpotlight ? 'eager' : 'lazy'}
+            stage={`${stage.icon} ${stage.label}`}
+            stageTitle={stage.description}
+            stageKey={stageKey}
+            filterTags={tags.join(',')}
+            filterItem
+          />
         );
       })
     )}
@@ -165,11 +145,14 @@ const notesPlaceholderSketch =
     max-width: 48rem;
   }
 
-  .notes-intro__rss {
-    white-space: nowrap;
+  .notes-intro__lede a {
     color: var(--color-text);
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+
+  .notes-intro__rss {
+    white-space: nowrap;
   }
 
   .stage-legend {
@@ -203,76 +186,13 @@ const notesPlaceholderSketch =
     gap: var(--spacing-lg);
   }
 
-  .filter-panel {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  .filter-panel__title {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-muted);
-    margin: 0;
-    flex-shrink: 0;
-  }
-
-  .filter-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    align-content: flex-start;
-  }
-
-  .chip {
-    background: var(--color-sidebar-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: calc(var(--spacing-xs) + 0.15rem) calc(var(--spacing-md) - calc(var(--spacing-xs) - 0.1rem));
-    font-size: 0.8125rem;
-    cursor: pointer;
-    white-space: nowrap;
-    color: var(--color-text);
-    touch-action: manipulation;
-    transition:
-      color var(--duration-normal) var(--ease-inertia),
-      background-color var(--duration-normal) var(--ease-inertia),
-      border-color var(--duration-normal) var(--ease-inertia);
-  }
-
-  /* iOS HIG / WCAG 2.5.5: minimum 44×44 tap target on touch. */
-  @media (pointer: coarse) {
-    .chip {
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-    }
-  }
-
-  .chip:hover {
-    border-color: var(--color-link);
-  }
-
-  .chip.active {
-    background: var(--color-link);
-    color: var(--color-bg);
-    border-color: var(--color-link);
-  }
-
-  .chip--stage {
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--spacing-xs) + 0.1rem);
-  }
-
-  .chip__glyph {
+  .filter-pill__glyph {
     font-size: 0.875rem;
     opacity: 0.85;
+    margin-right: calc(var(--spacing-xs) + 0.1rem);
   }
 
-  .chip--stage.active .chip__glyph {
+  .filter-pill.active .filter-pill__glyph {
     opacity: 1;
   }
 
@@ -303,149 +223,6 @@ const notesPlaceholderSketch =
     max-width: var(--container-max-width, 72rem);
     margin: 0 auto;
     padding: 0 var(--content-padding) var(--spacing-2xl);
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: calc(var(--spacing-md) + var(--spacing-xs));
-  }
-
-  .note-card {
-    grid-column: span 4;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    min-height: 100%;
-    background-color: var(--color-sidebar-bg) !important;
-    background-image: none !important;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden;
-    transition:
-      transform var(--duration-slow) var(--ease-inertia),
-      box-shadow var(--duration-slow) var(--ease-inertia),
-      border-color var(--duration-slow) var(--ease-inertia);
-  }
-
-  .note-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--card-shadow);
-    border-color: var(--color-link);
-  }
-
-  .note-card--spotlight {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    align-items: stretch;
-    min-height: 220px;
-  }
-
-  .note-card--spotlight .note-card__media,
-  .note-card--spotlight .note-card__media--placeholder {
-    flex: 0 0 42%;
-    max-width: 420px;
-    min-height: 220px;
-  }
-
-  .note-card--spotlight .note-card__body {
-    flex: 1;
-    justify-content: center;
-    padding: calc(var(--spacing-lg) + var(--spacing-sm));
-  }
-
-  .note-card--spotlight .note-card__title {
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-    line-height: 1.1;
-    letter-spacing: var(--letter-spacing-heading-lg, -0.02em);
-  }
-
-  .note-card__media {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    background: var(--color-bg);
-  }
-
-  .note-card--spotlight .note-card__media {
-    aspect-ratio: auto;
-  }
-
-  .note-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .note-card__media--placeholder {
-    background: var(--color-bg);
-  }
-
-  .note-card__body {
-    display: flex;
-    flex-direction: column;
-    padding: calc(var(--spacing-md) + var(--spacing-xs)) calc(var(--spacing-md) + var(--spacing-sm)) calc(var(--spacing-md) + var(--spacing-xs));
-    flex: 1;
-    min-width: 0;
-  }
-
-  .note-card__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: calc(var(--spacing-sm) + var(--spacing-xs));
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .note-card__meta time {
-    flex-shrink: 0;
-  }
-
-  .note-card__stage {
-    cursor: help;
-  }
-
-  .note-card__title {
-    font-size: 1.1875rem;
-    font-weight: 600;
-    margin: 0 0 var(--spacing-sm);
-    line-height: 1.25;
-    letter-spacing: var(--letter-spacing-heading-md, -0.01em);
-    text-wrap: balance;
-  }
-
-  .note-card__description {
-    font-size: 0.9375rem;
-    color: var(--color-muted);
-    line-height: 1.6;
-    margin: 0;
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .note-card__tags {
-    display: flex;
-    gap: calc(var(--spacing-xs) + calc(var(--spacing-xs) - 0.125rem));
-    flex-wrap: wrap;
-    margin-top: var(--spacing-md);
-  }
-
-  .note-card__tag {
-    font-size: 0.6875rem;
-    padding: calc(var(--spacing-xs) - 0.1rem) var(--spacing-sm);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm, 4px);
-    color: var(--color-muted);
   }
 
   .empty-state {
@@ -470,47 +247,7 @@ const notesPlaceholderSketch =
     margin-bottom: var(--spacing-md);
   }
 
-  @media (max-width: 1024px) {
-    .note-card {
-      grid-column: span 6;
-    }
-
-    .note-card--spotlight {
-      flex-direction: column;
-    }
-
-    .note-card--spotlight .note-card__media,
-    .note-card--spotlight .note-card__media--placeholder {
-      flex: none;
-      max-width: none;
-      width: 100%;
-      min-height: 200px;
-      aspect-ratio: 16 / 9;
-    }
-
-    .note-card--spotlight .note-card__body {
-      padding: calc(var(--spacing-md) + var(--spacing-xs));
-    }
-  }
-
   @media (max-width: 768px) {
-    .note-card {
-      grid-column: 1 / -1;
-    }
-
-    .filter-chips--topics {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: var(--spacing-xs);
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-    }
-
-    .filter-chips--topics .chip {
-      flex-shrink: 0;
-    }
-
     .notes-intro__lede {
       font-size: 1.0625rem;
       line-height: 1.6;
@@ -523,9 +260,9 @@ const notesPlaceholderSketch =
     const grid = document.getElementById('notes-grid');
     if (!grid || grid.dataset.initialized === 'true') return;
     grid.dataset.initialized = 'true';
-    const tagBtns = document.querySelectorAll('#topic-chips .chip--topic');
-    const stageBtns = document.querySelectorAll('#stage-chips .chip--stage');
-    const noteCards = document.querySelectorAll('.note-card');
+    const tagBtns = document.querySelectorAll('#topic-chips .filter-pill[data-tag]');
+    const stageBtns = document.querySelectorAll('#stage-chips .filter-pill[data-stage]');
+    const noteCards = document.querySelectorAll('.index-card[data-filter-item]');
     const searchInput = document.getElementById('notes-search') as HTMLInputElement;
     const noResults = document.getElementById('notes-no-results');
     const resultCount = document.getElementById('notes-results-count');
