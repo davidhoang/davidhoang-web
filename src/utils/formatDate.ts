@@ -20,3 +20,17 @@ export function formatRelative(date: Date, now = Date.now()): string {
     year: date.getFullYear() !== new Date(now).getFullYear() ? 'numeric' : undefined,
   });
 }
+
+const LIST_DATE_RECENT_MS = 14 * 86400000;
+
+/**
+ * Shared list/card dates: relative freshness within 14 days, otherwise long form.
+ * Notes keep relative feel for recent updates; Writing uses the same rule for parity.
+ */
+export function formatListDate(date: Date, now = Date.now()): string {
+  const diff = now - date.getTime();
+  if (diff >= 0 && diff < LIST_DATE_RECENT_MS) {
+    return formatRelative(date, now);
+  }
+  return formatLongDate(date);
+}

@@ -1,0 +1,97 @@
+---
+import { formatListDate } from '../utils/formatDate';
+
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  date: Date;
+  /** Override formatted date label */
+  dateLabel?: string;
+  imageSrc: string;
+  imageAlt?: string;
+  primaryTag?: string;
+  tags?: string[];
+  spotlight?: boolean;
+  heading?: 'h2' | 'h3';
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  transitionName?: string;
+  titleTransitionName?: string;
+  /** Extra classes on the root anchor (e.g. link-plain) */
+  linkClass?: string;
+  /** Comma-separated tags for client-side filters */
+  filterTags?: string;
+  filterItem?: boolean;
+  stage?: string;
+  stageTitle?: string;
+  stageKey?: string;
+}
+
+const {
+  href,
+  title,
+  description,
+  date,
+  dateLabel,
+  imageSrc,
+  imageAlt = '',
+  primaryTag,
+  tags = [],
+  spotlight = false,
+  heading = 'h3',
+  class: className,
+  loading = 'lazy',
+  transitionName,
+  titleTransitionName,
+  linkClass = '',
+  filterTags,
+  filterItem = false,
+  stage,
+  stageTitle,
+  stageKey,
+} = Astro.props;
+
+const Tag = heading;
+const datetime = date.toISOString();
+const label = dateLabel ?? formatListDate(date);
+const extraTags = primaryTag ? tags.filter((t) => t !== primaryTag) : tags;
+---
+
+<a
+  href={href}
+  class:list={['index-card', linkClass, className, { 'index-card--spotlight': spotlight }]}
+  transition:name={transitionName}
+  data-tags={filterTags}
+  data-filter-item={filterItem ? true : undefined}
+  data-stage={stageKey ?? stage}
+  data-title={filterItem ? title.toLowerCase() : undefined}
+  data-description={filterItem && description ? description.toLowerCase() : undefined}
+>
+  <div class="index-card__media img-frame">
+    <img src={imageSrc} alt={imageAlt} loading={loading} decoding="async" />
+  </div>
+  <div class="index-card__body">
+    <div class="index-card__meta">
+      <slot name="meta-prefix" />
+      {stage && (
+        <span class="index-card__stage" title={stageTitle}>
+          {stage}
+        </span>
+      )}
+      {primaryTag && <span class="index-card__tag">{primaryTag}</span>}
+      <time datetime={datetime}>{label}</time>
+    </div>
+    <Tag class="index-card__title" transition:name={titleTransitionName}>
+      {title}
+    </Tag>
+    {description && <p class="index-card__deck">{description}</p>}
+    {extraTags.length > 0 && (
+      <div class="index-card__tags" aria-label="Topics">
+        {extraTags.map((tag) => (
+          <span class="index-card__tag">{tag}</span>
+        ))}
+      </div>
+    )}
+  </div>
+</a>

@@ -3,7 +3,8 @@ import WritingLayout from '../../layouts/WritingLayout.astro';
 import { getCollection } from 'astro:content';
 import WritingGraph from '../../components/WritingGraph.astro';
 import { buildGraph } from '../../utils/writingGraph';
-import { formatLongDate } from '../../utils/formatDate';
+import ContentIndexCard from '../../components/ContentIndexCard.astro';
+import { formatListDate } from '../../utils/formatDate';
 import { getWritingPostThumbnail, getWritingPostHero } from '../../utils/writingPostImage';
 import '../../styles/pages/writing-editorial.css';
 
@@ -48,7 +49,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   <header class="writing-masthead">
     <h1 class="writing-masthead__title">Writing</h1>
     <p class="writing-masthead__deck">
-      Essays on design, engineering, AI, and building products.
+      Long-form essays on design, engineering, AI, and building products — published articles, not quick garden notes.
     </p>
     <div class="writing-masthead__actions">
       <a href="/rss.xml" class="writing-masthead__rss">RSS feed</a>
@@ -96,10 +97,10 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
   {allTags.length > 0 && (
     <div class="writing-toolbar" data-filterable>
       <p class="writing-toolbar__label" id="writing-tag-label">Topics</p>
-      <div class="writing-filter-chips" role="group" aria-labelledby="writing-tag-label">
-        <button type="button" class="writing-chip is-active" data-tag="all" aria-pressed="true">All</button>
+      <div class="writing-filter-chips filter-pills" role="group" aria-labelledby="writing-tag-label">
+        <button type="button" class="filter-pill filter-pill--rounded is-active" data-tag="all" aria-pressed="true">All</button>
         {allTags.map((tag) => (
-          <button type="button" class="writing-chip" data-tag={tag} aria-pressed="false">
+          <button type="button" class="filter-pill filter-pill--rounded" data-tag={tag} aria-pressed="false">
             {tag}
           </button>
         ))}
@@ -139,7 +140,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
             )}
             <p class="writing-spotlight__meta">
               <time datetime={featured.post.data.pubDate.toISOString()}>
-                {formatLongDate(featured.post.data.pubDate)}
+                {formatListDate(featured.post.data.pubDate)}
               </time>
             </p>
           </div>
@@ -148,40 +149,21 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     )}
 
     {feedPosts.length > 0 && (
-      <section class="writing-grid" aria-label="All essays">
+      <section class="writing-grid index-card-grid" aria-label="All essays">
         {feedPosts.map(({ post, thumbnail, primaryTag }) => (
-          <a
+          <ContentIndexCard
             href={`/writing/${post.id}`}
-            class="writing-card link-plain"
-            transition:name={`post-${post.id}`}
-            data-tags={(post.data.tags || []).join(',')}
-            data-filter-item
-          >
-            <div class="writing-card__media">
-              <img
-                src={thumbnail}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                width="800"
-                height="500"
-              />
-            </div>
-            <div class="writing-card__body">
-              <div class="writing-card__meta">
-                {primaryTag && <span class="writing-card__tag">{primaryTag}</span>}
-                <time datetime={post.data.pubDate.toISOString()}>
-                  {formatLongDate(post.data.pubDate)}
-                </time>
-              </div>
-              <h3 class="writing-card__title" transition:name={`title-${post.id}`}>
-                {post.data.title}
-              </h3>
-              {post.data.description && (
-                <p class="writing-card__deck">{post.data.description}</p>
-              )}
-            </div>
-          </a>
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.pubDate}
+            imageSrc={thumbnail}
+            primaryTag={primaryTag}
+            linkClass="link-plain"
+            transitionName={`post-${post.id}`}
+            titleTransitionName={`title-${post.id}`}
+            filterTags={(post.data.tags || []).join(',')}
+            filterItem
+          />
         ))}
       </section>
     )}
@@ -218,7 +200,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                 )}
                 <p class="writing-feed__meta">
                   <time datetime={post.data.pubDate.toISOString()}>
-                    {formatLongDate(post.data.pubDate)}
+                    {formatListDate(post.data.pubDate)}
                   </time>
                 </p>
               </div>
@@ -244,7 +226,7 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     if (!toolbar || toolbar.dataset.initialized === 'true') return;
     toolbar.dataset.initialized = 'true';
     const noResults = document.getElementById('writing-no-results');
-    const tagChips = Array.from(document.querySelectorAll<HTMLButtonElement>('.writing-chip'));
+    const tagChips = Array.from(document.querySelectorAll<HTMLButtonElement>('.writing-filter-chips .filter-pill'));
     const filterItems = Array.from(document.querySelectorAll<HTMLElement>('[data-filter-item]'));
 
     if (!filterItems.length) return;
