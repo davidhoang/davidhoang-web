@@ -15,6 +15,28 @@ const visible = async (selector) => page.locator(`${selector}:visible`).count();
 const focused = (selector) => page.locator(selector).evaluate(el => el === document.activeElement);
 const check = (message) => console.log(`PASS ${message}`);
 
+/** CardStackHero loads via client:idle; on CI it may hydrate late after a long test run. */
+async function waitForHomeHeroLayoutReady(page) {
+  await page.locator('.card-stack-section').scrollIntoViewIfNeeded();
+  await page.evaluate(() => {
+    return new Promise((resolve) => {
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(() => resolve(), { timeout: 10_000 });
+      } else {
+        setTimeout(resolve, 50);
+      }
+    });
+  });
+  const ready = page.locator('.card-stack-hero--layout-ready');
+  try {
+    await ready.waitFor({ state: 'visible', timeout: 45_000 });
+  } catch {
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.locator('.card-stack-section').scrollIntoViewIfNeeded();
+    await ready.waitFor({ state: 'visible', timeout: 45_000 });
+  }
+}
+
 try {
   await page.goto(`${base}/notes`);
   await page.locator('#notes-grid[data-initialized=true]').waitFor();
@@ -127,7 +149,7 @@ try {
       assert.equal(response.status(), 200, `${route} HTTP status`);
       await page.locator('main').waitFor();
       // Measure the hydrated hero, not its Suspense placeholder.
-      if (route === '/') await page.locator('.card-stack-hero--layout-ready').waitFor();
+      if (route === '/') await waitForHomeHeroLayoutReady(page);
       const metrics = await page.evaluate(() => {
         const nav = document.querySelector('.site-nav');
         const hero = document.querySelector('.page-header--image');
