@@ -275,8 +275,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   position: relative;
   z-index: 1;
   transition:
-    gap 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+    gap var(--duration-slower) var(--ease-standard),
+    transform var(--duration-slower) var(--ease-emphasized);
   transform-origin: center center;
 }
 
@@ -400,8 +400,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
 .rss-link {
   opacity: 0.5;
   transition:
-    opacity 0.25s ease,
-    transform 0.28s cubic-bezier(0.33, 1, 0.68, 1) !important;
+    opacity var(--duration-slow) var(--ease-inertia),
+    transform var(--duration-slower) var(--ease-emphasized) !important;
   display: flex !important;
   align-items: center;
   padding: var(--spacing-xs);
@@ -643,8 +643,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     opacity: 0;
     pointer-events: none;
     transition:
-      opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-      visibility 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity var(--duration-slower) var(--ease-standard),
+      visibility var(--duration-slower) var(--ease-standard);
   }
 
   .mobile-menu.is-open {
@@ -691,9 +691,9 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     opacity: 0;
     transform: translateY(12px);
     transition:
-      color 0.2s ease,
-      opacity 0.35s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+      color var(--duration-normal) var(--ease-standard),
+      opacity var(--duration-slower) var(--ease-emphasized),
+      transform var(--duration-slower) var(--ease-emphasized);
   }
 
   .mobile-menu.is-open .mobile-menu__links a {
@@ -753,9 +753,9 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     opacity: 0;
     transform: translateY(8px);
     transition:
-      color 0.2s ease,
-      opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      color var(--duration-normal) var(--ease-standard),
+      opacity var(--duration-slower) var(--ease-emphasized),
+      transform var(--duration-slower) var(--ease-emphasized);
   }
 
   .mobile-menu.is-open .mobile-menu__secondary a {
