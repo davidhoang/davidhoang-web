@@ -63,6 +63,15 @@
   Horizontal padding recreates main.container’s centered content column
   (outer centering gutter + container padding).
 */
+.home-section-lede {
+  max-width: 42ch;
+  margin: 0 0 var(--spacing-xl);
+  font-size: clamp(1.0625rem, 1.6vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--color-muted);
+  letter-spacing: var(--letter-spacing-body, 0.005em);
+}
+
 .design-philosophy {
   position: relative;
   z-index: 2;
@@ -72,7 +81,7 @@
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   border-top: 1px solid var(--color-border);
-  padding-top: var(--spacing-lg);
+  padding-top: clamp(var(--spacing-2xl), 5vw, var(--section-spacing, var(--spacing-3xl)));
   padding-left: max(
     var(--container-padding),
     env(safe-area-inset-left, 0px),

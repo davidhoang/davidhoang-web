@@ -6,29 +6,54 @@ export const navItems = [
   { path: '/subscribe', label: 'Subscribe' },
 ] as const;
 
-/** Pages shown in the mobile full-screen menu below primary nav links */
-export const mobileSecondaryNavItems = [
-  { path: '/now', label: 'Now' },
-  { path: '/notes', label: 'Notes' },
-  { path: '/works', label: 'Works' },
-  { path: '/cv', label: 'CV' },
-  { path: '/career-odyssey', label: 'Career Odyssey' },
-  { path: '/thesis', label: 'Thesis' },
-  { path: '/investing', label: 'Investing' },
-  { path: '/advising', label: 'Advising' },
-  { path: '/design-resources', label: 'Design Resources' },
-  { path: '/experiments', label: 'Experiments' },
-  { path: '/design-guide', label: 'Design Guide' },
+/** Grouped mobile menu sections (flat list derived below for tests and legacy imports). */
+export const mobileSecondaryNavGroups = [
+  {
+    title: 'Content',
+    items: [
+      { path: '/now', label: 'Now' },
+      { path: '/notes', label: 'Notes' },
+      { path: '/works', label: 'Works' },
+    ],
+  },
+  {
+    title: 'Practice',
+    items: [
+      { path: '/career-odyssey', label: 'Career Odyssey' },
+      { path: '/advising', label: 'Advising' },
+      { path: '/investing', label: 'Investing' },
+      { path: '/thesis', label: 'Thesis' },
+      { path: '/cv', label: 'CV' },
+    ],
+  },
+  {
+    title: 'Lab & reference',
+    items: [
+      { path: '/experiments', label: 'Experiments' },
+      { path: '/design-resources', label: 'Design Resources' },
+      { path: '/design-guide', label: 'Design Guide' },
+    ],
+  },
 ] as const;
+
+/** Pages shown in the mobile full-screen menu below primary nav links */
+export const mobileSecondaryNavItems = mobileSecondaryNavGroups.flatMap((group) =>
+  group.items.map((item) => item),
+);
 
 export const commandPalettePages = [
   { title: 'About', description: 'About David Hoang', path: '/about', type: 'page' },
-  { title: 'Writing', description: 'Essays and articles', path: '/writing', type: 'page' },
+  { title: 'Writing', description: 'Long-form essays and articles', path: '/writing', type: 'page' },
   { title: 'Featured', description: 'Featured work and press', path: '/featured', type: 'page' },
   { title: 'Subscribe', description: 'Subscribe to updates', path: '/subscribe', type: 'page' },
   { title: 'Now', description: 'What David is doing now', path: '/now', type: 'page' },
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
-  { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
+  {
+    title: 'Notes',
+    description: 'Digital garden — evolving notes, not full essays',
+    path: '/notes',
+    type: 'page',
+  },
   { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
   { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
