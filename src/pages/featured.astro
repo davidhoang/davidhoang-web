@@ -22,8 +22,16 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     image="/images/header-images/img-highlights-featured.webp"
     alt="Featured speaking and media"
   />
+  <nav class="featured-jump" aria-label="Featured sections">
+    <a class="featured-jump__link is-active" href="#featured-speaking" data-featured-section="speaking">
+      Speaking
+    </a>
+    <a class="featured-jump__link" href="#featured-media" data-featured-section="media">
+      Media &amp; publications
+    </a>
+  </nav>
   <div class="featured-editorial">
-    <div class="featured-editorial__speaking">
+    <div class="featured-editorial__speaking" id="featured-speaking">
       <h2 class="featured-editorial__section-title">Speaking</h2>
       <div class="speaking-chronicle">
         <div class="speaking-inquiry" role="region" aria-label="Speaking inquiries">
@@ -65,7 +73,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
       </div>
     </div>
 
-    <aside class="featured-editorial__media" aria-label="Media and publications">
+    <aside class="featured-editorial__media" id="featured-media" aria-label="Media and publications">
       <h2 class="featured-editorial__section-title featured-editorial__section-title--media">Media &amp; publications</h2>
       <p class="featured-editorial__lede featured-editorial__lede--compact">
         Essays and appearances — titles and descriptions are pulled from each page when the build runs.
@@ -78,7 +86,112 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   </div>
 </MainLayout>
 
+<script>
+  function initFeaturedJumpNav() {
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.featured-jump__link'));
+    const speaking = document.getElementById('featured-speaking');
+    const media = document.getElementById('featured-media');
+    if (!links.length || !speaking || !media) return;
+
+    const sections = [
+      { id: 'speaking', el: speaking },
+      { id: 'media', el: media },
+    ];
+
+    function setActive(id: string) {
+      links.forEach((link) => {
+        const on = link.dataset.featuredSection === id;
+        link.classList.toggle('is-active', on);
+        if (on) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (!visible.length) return;
+        const match = sections.find((s) => s.el === visible[0].target);
+        if (match) setActive(match.id);
+      },
+      { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.25, 0.5] },
+    );
+
+    sections.forEach(({ el }) => observer.observe(el));
+
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const id = link.dataset.featuredSection;
+        const target = sections.find((s) => s.id === id)?.el;
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setActive(id || 'speaking');
+        history.replaceState(null, '', `#featured-${id}`);
+      });
+    });
+  }
+
+  initFeaturedJumpNav();
+  document.addEventListener('astro:page-load', initFeaturedJumpNav);
+</script>
+
 <style>
+  .featured-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-lg) 0 var(--spacing-xl);
+    padding: 0 var(--content-padding);
+    max-width: var(--container-max-width, 72rem);
+    margin-inline: auto;
+  }
+
+  .featured-jump__link {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: calc(var(--spacing-xs) + 0.1rem) calc(var(--spacing-md) + var(--spacing-xs));
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    background: var(--color-sidebar-bg);
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      color var(--duration-normal) var(--ease-standard),
+      background-color var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
+  }
+
+  @media (hover: hover) {
+    .featured-jump__link:hover {
+      border-color: var(--color-link);
+      color: var(--color-text);
+    }
+  }
+
+  .featured-jump__link.is-active,
+  .featured-jump__link[aria-current='true'] {
+    background: var(--color-link);
+    border-color: var(--color-link);
+    color: var(--color-bg);
+  }
+
+  .featured-jump__link:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .featured-editorial__speaking,
+  .featured-editorial__media {
+    scroll-margin-top: calc(var(--nav-height) + var(--nav-offset-top) + var(--spacing-lg));
+  }
+
   .featured-editorial {
     display: grid;
     grid-template-columns: minmax(0, 1.55fr) minmax(20rem, 1.12fr);
