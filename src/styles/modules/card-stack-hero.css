@@ -1193,6 +1193,61 @@
   margin-top: clamp(0.25rem, 1.5vw, 0.75rem);
 }
 
+/* Mobile stack — rebalance media vs copy inside the fixed 3:4 fan card */
+.cards-wrapper--mobile-stack .hero-card.card-has-hero-layout .card-hero-image-wrap {
+  height: 48%;
+  min-height: 92px;
+}
+
+.cards-wrapper--mobile-stack .hero-card.card-has-hero-layout .card-hero-body--spotlight .card-hero-image-wrap {
+  height: 38%;
+}
+
+.cards-wrapper--mobile-stack .hero-card.card-has-hero-layout .card-hero-body--brief .card-hero-image-wrap {
+  height: 46%;
+}
+
+.cards-wrapper--mobile-stack .hero-card.card-has-hero-layout .card-unified-panel {
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+}
+
+.cards-wrapper--mobile-stack .card-presentation--feature .card-editorial-label {
+  max-width: none;
+  margin-bottom: calc(var(--spacing-xs) * 0.75);
+  line-height: 1.35;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.cards-wrapper--mobile-stack .card-editorial-summary {
+  -webkit-line-clamp: 2;
+  font-size: 0.75rem;
+  line-height: 1.32;
+  margin-top: var(--spacing-xs);
+}
+
+.cards-wrapper--mobile-stack .card-title {
+  font-size: clamp(1.0625rem, 4.25vw, 1.2rem);
+  line-height: 1.18;
+}
+
+.cards-wrapper--mobile-stack .card-subtitle {
+  font-size: 0.8125rem;
+  margin-top: var(--spacing-xs);
+  line-height: 1.3;
+}
+
+.cards-wrapper--mobile-stack .hero-card:not(.card-has-hero-layout) .card-pattern,
+.cards-wrapper--mobile-stack .hero-card:not(.card-has-hero-layout) .card-thumbnail-area {
+  height: 50%;
+}
+
+.cards-wrapper--mobile-stack .hero-card:not(.card-has-hero-layout) .card-content {
+  padding: var(--spacing-md);
+}
+
 @media (max-width: 768px) {
   .card-stack-hero {
     min-height: 360px;
