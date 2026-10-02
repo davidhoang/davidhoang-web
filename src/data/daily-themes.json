@@ -1,6 +1,390 @@
 {
   "themes": [
     {
+      "name": "Chrome Oasis",
+      "description": "Palm Springs architecture glimpsed through a CRT monitor at midnight — swimming-pool turquoise against deep desert navy, rendered in high-gloss detail with generous breathing room between each image.",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#0D1F3C",
+          "--color-bg": "#E8F6F3",
+          "--color-link": "#00766C",
+          "--color-link-hover": "#FF3DAA",
+          "--color-border": "#B2DDD8",
+          "--color-muted": "#4D7571",
+          "--color-sidebar-bg": "#D4EFEB",
+          "--color-nav-bg": "#E8F6F3",
+          "--color-nav-text": "#0D1F3C",
+          "--color-card-bg": "#D4EFEB"
+        },
+        "dark": {
+          "--color-text": "#E0F4F1",
+          "--color-bg": "#0A1628",
+          "--color-link": "#00E5D4",
+          "--color-link-hover": "#FF3DAA",
+          "--color-border": "#1A3A4A",
+          "--color-muted": "#4A8A90",
+          "--color-sidebar-bg": "#0D1F38",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#E0F4F1",
+          "--color-card-bg": "#0F2640"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Manrope",
+          "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "20px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#00E5D4",
+          "#0A1628"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-10-02",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Chrome Oasis",
+              "subtitle": "2026-10-02 · Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid-row",
+              "div3",
+              "meta",
+              "div4",
+              "bot-row"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A CRT blinks on at midnight. Palm Springs concrete glows turquoise in the cathode light. High-gloss stillness. Desert air, pool-cold.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#0D1F3C",
+                  "label": "Deep Navy"
+                },
+                {
+                  "hex": "#E8F6F3",
+                  "label": "Pool Mist"
+                },
+                {
+                  "hex": "#00766C",
+                  "label": "Oasis"
+                },
+                {
+                  "hex": "#FF3DAA",
+                  "label": "Neon Hover"
+                },
+                {
+                  "hex": "#D4EFEB",
+                  "label": "Card Glass"
+                },
+                {
+                  "hex": "#B2DDD8",
+                  "label": "Border Teal"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "mid-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "h2",
+              "badge-row"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Chrome Oasis",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "h2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Swimming-pool turquoise. Midnight architecture. High gloss, wide breath.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "filled cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "triadic",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "hero-prev",
+              "layout-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "Color-only"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "High"
+                },
+                {
+                  "label": "Radius",
+                  "value": "20px"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Gradient"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div4": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "bot-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tokens",
+              "apply-btn"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link-hover",
+                  "value": "#FF3DAA"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#00766C"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#0D1F3C"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#D4EFEB"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Chrome Oasis",
+              "action": "apply-theme",
+              "date": "2026-10-02"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Azulejo Evening",
       "description": "Cobalt geometry meets warm tin-glazed parchment — a Portuguese tile wall catching the last golden hour, rendered as a measured editorial journal.",
       "colors": {
@@ -2088,317 +2472,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Fountain & Bone",
-      "description": "A split-screen poster where terracotta geometry meets mineral coolness — zellige precision rendered in high-contrast evening warmth.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1008",
-          "--color-bg": "#FAF3E8",
-          "--color-link": "#B33A1A",
-          "--color-link-hover": "#7A1E0A",
-          "--color-border": "#C4A882",
-          "--color-muted": "#85694E",
-          "--color-sidebar-bg": "#F2E8D6",
-          "--color-nav-bg": "#FAF3E8",
-          "--color-nav-text": "#1C1008",
-          "--color-card-bg": "#F5EBD8"
-        },
-        "dark": {
-          "--color-text": "#F0E6D3",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#E86A3A",
-          "--color-link-hover": "#FF9060",
-          "--color-border": "#4A2E1A",
-          "--color-muted": "#96775A",
-          "--color-sidebar-bg": "#221408",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F0E6D3",
-          "--color-card-bg": "#221408"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "2",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "split"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FAF3E8",
-          "#B33A1A"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-09-25",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Fountain & Bone",
-              "subtitle": "2026-09-25 · Split-Complementary · High Contrast"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "s1",
-              "s2",
-              "div2",
-              "meta",
-              "div3",
-              "btm"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Terracotta cuts across mineral cool. Zellige precision, evening heat — a poster that knows exactly where it stands.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1008",
-                  "label": "Char"
-                },
-                {
-                  "hex": "#FAF3E8",
-                  "label": "Bone"
-                },
-                {
-                  "hex": "#B33A1A",
-                  "label": "Fountain"
-                },
-                {
-                  "hex": "#C4A882",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#85694E",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#F5EBD8",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "FOUNTAIN & BONE",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Bebas Neue",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "0px radius",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#FAF3E8",
-                "#B33A1A",
-                "#1C1008"
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Body Font",
-                  "value": "Crimson Text (serif)"
-                },
-                {
-                  "label": "Image Style",
-                  "value": "Duotone / Hover Colorize"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Split"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btm": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Fountain & Bone",
-              "action": "apply-theme",
-              "date": "2026-09-25"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-01"
+  "currentDate": "2026-10-02"
 }
