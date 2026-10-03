@@ -68,6 +68,7 @@ export const works: WorkEntry[] = [
       'Leading design for Rovo, AI, and the Atlassian ecosystem — building AI teammates into the tools teams already live in.',
     kind: 'role',
     when: '2024–',
+    href: '/works/atlassian-ai-ecosystem',
     highlights: [
       'AI-native product experiences across Jira and the Teamwork Graph',
       'Design leadership for Agent Experience and ecosystem surfaces',
@@ -119,6 +120,7 @@ export const works: WorkEntry[] = [
       'Joined as an advisor, then led marketing and design through rebrand, AI-native product moments, and Developer Day.',
     kind: 'role',
     when: '2022–2024',
+    href: '/works/replit-marketing-design',
     highlights: [
       'New brand and replit.com',
       'Replit Core membership and Replit Teams',
@@ -144,6 +146,7 @@ export const works: WorkEntry[] = [
       'First Head of Design — building the design function as Webflow scaled its vision for a more expressive, accessible internet.',
     kind: 'role',
     when: '2018–2022',
+    href: '/works/webflow-head-of-design',
   },
 
   {
@@ -173,5 +176,6 @@ export const works: WorkEntry[] = [
       'Led product design through the shift to virtual care and the company’s IPO.',
     kind: 'role',
     when: '2015–2018',
+    href: '/works/one-medical',
   },
 ];

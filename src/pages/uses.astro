@@ -1,0 +1,166 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const pageDescription =
+  'Tools, hardware, and services David Hoang uses for design leadership, writing, and building davidhoang.com.';
+const ogImage = '/images/header-images/img-header-writing.webp';
+
+type UsesItem = {
+  name: string;
+  note: string;
+  href?: string;
+};
+
+type UsesSection = {
+  title: string;
+  intro?: string;
+  items: UsesItem[];
+};
+
+const sections: UsesSection[] = [
+  {
+    title: 'Hardware',
+    intro: 'A setup optimized for long writing sessions, video calls, and occasional 3D work — not a gear review site.',
+    items: [
+      { name: 'MacBook Pro (Apple Silicon)', note: 'Primary machine for design, code, and calls.' },
+      { name: 'Studio Display (or equivalent)', note: 'Single large canvas for layout review and long documents.' },
+      { name: 'Mechanical keyboard + trackpad', note: 'Low-profile switches; trackpad for gestures when I am not on the road.' },
+    ],
+  },
+  {
+    title: 'Design & prototyping',
+    items: [
+      {
+        name: 'Paper',
+        href: 'https://paper.design',
+        note: 'Connected canvas for design, agents, and code-native handoff.',
+      },
+      {
+        name: 'Figma',
+        href: 'https://figma.com',
+        note: 'Still the default for flows, systems, and async critique.',
+      },
+      {
+        name: 'Excalidraw',
+        href: 'https://excalidraw.com',
+        note: 'Whiteboards and architecture sketches in the open.',
+      },
+    ],
+  },
+  {
+    title: 'Development',
+    items: [
+      {
+        name: 'Cursor',
+        href: 'https://cursor.com',
+        note: 'Day-to-day editor for this site and experiments.',
+      },
+      {
+        name: 'Claude Code',
+        href: 'https://www.anthropic.com/claude-code',
+        note: 'Agentic runs in the terminal with explicit permissions.',
+      },
+      {
+        name: 'Astro',
+        href: 'https://astro.build',
+        note: 'Static-first framework for davidhoang.com.',
+      },
+      {
+        name: 'Replit',
+        href: 'https://replit.com',
+        note: 'Full cloud environments when I want to spike without local setup.',
+      },
+    ],
+  },
+  {
+    title: 'Writing & thinking',
+    items: [
+      {
+        name: 'Obsidian',
+        href: 'https://obsidian.md',
+        note: 'Notes and drafts before they graduate to the digital garden.',
+      },
+      {
+        name: 'Proof of Concept',
+        href: 'https://www.proofofconcept.pub',
+        note: 'Newsletter for longer essays on design and AI.',
+      },
+    ],
+  },
+  {
+    title: 'Services',
+    items: [
+      {
+        name: 'Vercel',
+        href: 'https://vercel.com',
+        note: 'Hosting, previews, and analytics for this site.',
+      },
+      {
+        name: 'Anthropic',
+        href: 'https://www.anthropic.com',
+        note: 'Daily theme generation and editorial tooling.',
+      },
+    ],
+  },
+];
+---
+
+<MainLayout title="Uses | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <PageHeader
+    title="Uses"
+    variant="text-only"
+    subtitle="What I reach for to design, write, and ship."
+  />
+  <div class="content-page content-page--compact-top uses-page container-narrow">
+    <section class="content-page__intro">
+      <p>
+        Inspired by the <a href="https://uses.tech" target="_blank" rel="noopener noreferrer">uses.tech</a>{' '}
+        convention — a living list, not an affiliate page. For curated recommendations with more context, see{' '}
+        <a href="/design-resources">Design Resources</a>.
+      </p>
+    </section>
+
+    {
+      sections.map((section) => (
+        <section class="content-page__section uses-page__section">
+          <h2>{section.title}</h2>
+          {section.intro && <p class="uses-page__intro">{section.intro}</p>}
+          <ul class="content-page__list uses-page__list" role="list">
+            {section.items.map((item) => (
+              <li>
+                {item.href ? (
+                  <a href={item.href} target="_blank" rel="noopener noreferrer">
+                    {item.name}
+                  </a>
+                ) : (
+                  <span class="uses-page__plain">{item.name}</span>
+                )}
+                {' — '}
+                {item.note}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</MainLayout>
+
+<style>
+  .uses-page__intro {
+    margin: calc(-1 * var(--spacing-xs)) 0 var(--spacing-md);
+    font-size: var(--body-size);
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .uses-page__list li {
+    line-height: 1.6;
+  }
+
+  .uses-page__plain {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+</style>
