@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { discoverableStaticPages } from '../data/navigation';
+import { workCaseStudies } from '../data/workCaseStudies';
 import {
   SEARCH_INDEX_INCLUDE_DRAFTS,
   isExcludedFromSearchIndex,
@@ -27,13 +28,20 @@ export const GET: APIRoute = async () => {
 
   const items = buildSearchIndex({
     site: SEARCH_INDEX_SITE,
-    pages: discoverableStaticPages
-      .filter((page) => !isExcludedFromSearchIndex(page.path))
-      .map((page) => ({
-        title: page.title,
-        description: page.description,
-        path: page.path,
+    pages: [
+      ...discoverableStaticPages
+        .filter((page) => !isExcludedFromSearchIndex(page.path))
+        .map((page) => ({
+          title: page.title,
+          description: page.description,
+          path: page.path,
+        })),
+      ...workCaseStudies.map((study) => ({
+        title: `${study.title} — Works`,
+        description: study.description,
+        path: `/works/${study.slug}`,
       })),
+    ],
     writing: writingPosts.map((post) => ({
       id: post.id,
       title: post.data.title,
