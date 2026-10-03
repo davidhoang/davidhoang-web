@@ -1,6 +1,353 @@
 {
   "themes": [
     {
+      "name": "Fountain & Rule",
+      "description": "A late-night riad courtyard rendered as a technical index — cobalt geometry meeting bone-white silence, dense annotation beside generous shadow.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1410",
+          "--color-bg": "#F5F0E8",
+          "--color-link": "#1B4F8A",
+          "--color-link-hover": "#8B2010",
+          "--color-border": "#1B4F8A",
+          "--color-muted": "#74695B",
+          "--color-sidebar-bg": "#EDE7D9",
+          "--color-nav-bg": "#F5F0E8",
+          "--color-nav-text": "#1C1410",
+          "--color-card-bg": "#EDE7D9"
+        },
+        "dark": {
+          "--color-text": "#EDE7D9",
+          "--color-bg": "#0D1A2A",
+          "--color-link": "#6BA3D6",
+          "--color-link-hover": "#C9553A",
+          "--color-border": "#2A4A6B",
+          "--color-muted": "#7A8FA0",
+          "--color-sidebar-bg": "#0A1520",
+          "--color-nav-bg": "#0D1A2A",
+          "--color-nav-text": "#EDE7D9",
+          "--color-card-bg": "#0A1520"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#1B4F8A",
+          "#F5F0E8"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-10-03",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fountain & Rule",
+              "subtitle": "2026 · 10 · 03"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A riad at midnight, indexed. Cobalt geometry cuts through bone-white silence — shadow is the margin, annotation is the ornament.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "s1a",
+              "s1b"
+            ]
+          },
+          "s1a": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "br1",
+              "br2",
+              "br3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Fountain & Rule",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "br1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif / serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "br2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "br3": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s1b": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "lay"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex hero"
+            },
+            "children": []
+          },
+          "lay": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "meta"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1410",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#1B4F8A",
+                  "label": "Cobalt"
+                },
+                {
+                  "hex": "#F5F0E8",
+                  "label": "Bone"
+                },
+                {
+                  "hex": "#EDE7D9",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#8B2010",
+                  "label": "Ember"
+                },
+                {
+                  "hex": "#74695B",
+                  "label": "Dust"
+                }
+              ]
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px — sharp"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "btn"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Dense annotation beside generous shadow.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Theme",
+              "action": "apply-theme",
+              "date": "2026-10-03"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Chrome Oasis",
       "description": "Palm Springs architecture glimpsed through a CRT monitor at midnight — swimming-pool turquoise against deep desert navy, rendered in high-gloss detail with generous breathing room between each image.",
       "colors": {
@@ -2131,348 +2478,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Pressed & Still",
-      "description": "A night-reading journal where deep umber paper and precisely weighted Garamond type hold a single warm accent like candlelight on a closed page.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C2016",
-          "--color-bg": "#F5EFE6",
-          "--color-link": "#984E2B",
-          "--color-link-hover": "#7A3B1E",
-          "--color-border": "#D9CDBE",
-          "--color-muted": "#77695A",
-          "--color-sidebar-bg": "#EDE5D8",
-          "--color-nav-bg": "#F5EFE6",
-          "--color-nav-text": "#2C2016",
-          "--color-card-bg": "#EDE5D8"
-        },
-        "dark": {
-          "--color-text": "#E8DDD0",
-          "--color-bg": "#1C1410",
-          "--color-link": "#C8895A",
-          "--color-link-hover": "#E0A870",
-          "--color-border": "#3A2E24",
-          "--color-muted": "#8E8071",
-          "--color-sidebar-bg": "#231A14",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#E8DDD0",
-          "--color-card-bg": "#231A14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "EB Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EFE6",
-          "#C8895A"
-        ]
-      },
-      "font": {
-        "name": "EB Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'EB Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-09-26",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Pressed & Still",
-              "subtitle": "September 26, 2026"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s2",
-              "div1",
-              "meta",
-              "div2",
-              "s3",
-              "tokens",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A single flame held against umber dark. Garamond was made for patience — for the reader who underlines in pencil and returns.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE6",
-                  "label": "Paper"
-                },
-                {
-                  "hex": "#EDE5D8",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#D9CDBE",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#984E2B",
-                  "label": "Ember"
-                },
-                {
-                  "hex": "#77695A",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#2C2016",
-                  "label": "Ink"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "The page holds still.",
-              "variant": "heading",
-              "weight": "regular"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated card",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None — grain texture"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Palette",
-                  "value": "Analogous warm"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#F5EFE6",
-                "#C8895A"
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#F5EFE6"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#984E2B"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--font-heading",
-                  "value": "EB Garamond"
-                },
-                {
-                  "name": "--font-body",
-                  "value": "Literata"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Pressed & Still",
-              "action": "apply-theme",
-              "date": "2026-09-26"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-02"
+  "currentDate": "2026-10-03"
 }
