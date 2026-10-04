@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useReducedMotionPreference as useReducedMotion } from '../../../hooks/useReducedMotionPreference';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
 import { CardBaseContent } from '../CardBase';
 import {
@@ -28,7 +29,7 @@ const cardPositions = [
   { x: 400, y: 28, rotation: 9 },
 ];
 
-const SWIPE_THRESHOLD_PX = 48;
+import { resolveDeckAxis, deckSwipeDirection, type GestureAxis } from '../mobileDeckGesture';
 
 function cardClassName(card: LayoutProps['cards'][number], isGlass: boolean) {
   return [
@@ -192,7 +193,7 @@ function FanCard({
         rotateY: tilt.rotateY,
         transformPerspective: 900,
       }}
-      initial={{
+      initial={prefersReducedMotion ? false : {
         x: 0,
         y: 0,
         rotate: 0,
@@ -202,7 +203,7 @@ function FanCard({
       }}
       animate={{ ...animatePose, zIndex: baseZ }}
       transition={{
-        ...interactionTransition,
+        ...(prefersReducedMotion ? { duration: 0 } : interactionTransition),
         // Only mobile deck navigation changes this value; desktop hover never does.
         zIndex: { type: 'tween', duration: 0 },
       }}
@@ -273,7 +274,9 @@ export default function StackedFanLayout({
   const focusedIndex = prefersReducedMotion || isMobileStack
     ? null
     : keyboardFocusedIndex ?? (pointerFocusedIndex >= 0 ? pointerFocusedIndex : null);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number; axis: GestureAxis } | null>(null);
+
+  const suppressClickUntil = useRef(0);
 
   const syncMobileStack = useCallback(() => {
     const mobile = isMobileHeroViewport();
@@ -318,32 +321,55 @@ export default function StackedFanLayout({
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!isMobileStack) return;
+      if (!isMobileStack || e.touches.length !== 1) {
+        touchStartRef.current = null;
+        return;
+      }
+      suppressClickUntil.current = 0;
       const touch = e.touches[0];
-      touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+      touchStartRef.current = { x: touch.clientX, y: touch.clientY, axis: null };
     },
     [isMobileStack]
   );
 
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!isMobileStack || !touchStartRef.current) return;
-      const touch = e.changedTouches[0];
-      const dx = touch.clientX - touchStartRef.current.x;
-      const dy = touch.clientY - touchStartRef.current.y;
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    if (!start) return;
+    if (e.touches.length !== 1) {
       touchStartRef.current = null;
-      if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
-      cycleActive(dx < 0 ? 1 : -1);
-    },
-    [isMobileStack, cycleActive]
-  );
+      return;
+    }
+    const touch = e.touches[0];
+    start.axis = resolveDeckAxis(start.axis, touch.clientX - start.x, touch.clientY - start.y);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!isMobileStack || !start || !e.changedTouches.length) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const axis = resolveDeckAxis(start.axis, dx, touch.clientY - start.y);
+    // Suppress the synthetic click even for an incomplete horizontal drag.
+    if (axis === 'x') suppressClickUntil.current = performance.now() + 500;
+    const direction = deckSwipeDirection(axis, dx);
+    if (direction) cycleActive(direction);
+  };
 
   return (
     <div
       className={`cards-wrapper${isMobileStack ? ' cards-wrapper--mobile-stack' : ''}`}
       style={wrapperStyle}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onTouchCancel={() => { touchStartRef.current = null; }}
+      onClickCapture={(event) => {
+        if (event.detail > 0 && performance.now() < suppressClickUntil.current) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
     >
       {cards.map((card, index) => (
         <FanCard

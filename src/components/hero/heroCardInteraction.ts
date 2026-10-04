@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type FocusEvent, type MouseEvent, type PointerEvent } from 'react';
 import type { Transition } from 'framer-motion';
 import { handleCardHoverLeave } from './cardHover';
+import { motionPresets } from '../../utils/motion';
 
 /**
  * Visual phases for home hero cards. All transform/opacity motion is driven from
@@ -17,20 +18,10 @@ export type HeroCardPhase =
   | 'dimmed';
 
 /** Soft, well-damped spring for rest ↔ focus ↔ dim ↔ selected. Minimal overshoot. */
-export const HERO_INTERACTION_SPRING = {
-  type: 'spring' as const,
-  stiffness: 340,
-  damping: 34,
-  mass: 0.9,
-};
+export const HERO_INTERACTION_SPRING = motionPresets.interaction;
 
-/** Snappier spring for press-in so click feedback feels immediate without bouncing. */
-export const HERO_PRESS_SPRING = {
-  type: 'spring' as const,
-  stiffness: 500,
-  damping: 38,
-  mass: 0.75,
-};
+/** Immediate press feedback, shared with other interactive surfaces. */
+export const HERO_PRESS_SPRING = motionPresets.press;
 
 export function resolveHeroCardPhase(options: {
   isLoaded: boolean;

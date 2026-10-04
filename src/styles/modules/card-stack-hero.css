@@ -1441,3 +1441,8 @@
     margin-top: calc(var(--mobile-hero-card-width) * 4 / 3 / -2);
   }
 }
+
+/* Let the browser own vertical scrolling while the mobile deck reads sideways swipes. */
+.cards-wrapper--mobile-stack {
+  touch-action: pan-y pinch-zoom;
+}

@@ -1,8 +1,9 @@
-import { motion, useReducedMotion, MotionConfig } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 import { type ReactNode } from 'react';
+import { useReducedMotionPreference as useReducedMotion } from '../hooks/useReducedMotionPreference';
 import { useSharedInView } from '../hooks/useSharedInView';
 
-const EASE_STANDARD = [0.25, 0.1, 0.25, 1] as const;
+import { motionPresets, revealStagger } from '../utils/motion';
 
 interface PhilosophyItem {
   content: string;
@@ -26,19 +27,18 @@ interface PortfolioItem {
 }
 
 export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
-  const { ref, isInView } = useSharedInView({ once: true, margin: '-80px' });
+  const { ref, isInView } = useSharedInView({ once: true, margin: '-24px' });
   const prefersReducedMotion = useReducedMotion();
 
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
     : {
-        hidden: { opacity: 0, y: 16 },
+        hidden: { opacity: 0, y: 12 },
         visible: {
           opacity: 1,
           y: 0,
           transition: {
-            duration: 0.55,
-            ease: EASE_STANDARD,
+            ...motionPresets.reveal,
           },
         },
       };
@@ -55,7 +55,7 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
       variants={{
         hidden: {},
         visible: {
-          transition: prefersReducedMotion ? undefined : { staggerChildren: 0.12 },
+          transition: prefersReducedMotion ? undefined : { staggerChildren: revealStagger(items.length) },
         },
       }}
     >
@@ -81,14 +81,13 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
     : {
-        hidden: { opacity: 1, y: 30, scale: 0.98 },
+        hidden: { opacity: 1, y: 12 },
         visible: {
           opacity: 1,
           y: 0,
           scale: 1,
           transition: {
-            duration: 0.6,
-            ease: EASE_STANDARD,
+            ...motionPresets.reveal,
           },
         },
       };
@@ -130,7 +129,7 @@ export function AnimatedPortfolioGrid({
 }: {
   items: PortfolioItem[];
 }) {
-  const { ref, isInView } = useSharedInView({ once: true, margin: '-80px' });
+  const { ref, isInView } = useSharedInView({ once: true, margin: '-24px' });
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -145,7 +144,7 @@ export function AnimatedPortfolioGrid({
       variants={{
         hidden: {},
         visible: {
-          transition: prefersReducedMotion ? undefined : { staggerChildren: 0.15 },
+          transition: prefersReducedMotion ? undefined : { staggerChildren: revealStagger(items.length) },
         },
       }}
     >
@@ -166,7 +165,7 @@ export function AnimatedSection({
   className?: string;
   delay?: number;
 }) {
-  const { ref, isInView } = useSharedInView({ once: true, margin: '-50px' });
+  const { ref, isInView } = useSharedInView({ once: true, margin: '-24px' });
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -174,15 +173,14 @@ export function AnimatedSection({
     <motion.div
       ref={ref}
       className={['animated-section', className].filter(Boolean).join(' ')}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+      animate={isInView ? { opacity: 1, y: 0 } : prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
       transition={
         prefersReducedMotion
           ? { duration: 0 }
           : {
-              duration: 0.6,
-              delay,
-              ease: EASE_STANDARD,
+              ...motionPresets.reveal,
+              delay: Math.min(delay, 0.18),
             }
       }
     >

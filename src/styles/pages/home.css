@@ -397,3 +397,13 @@
     gap: var(--spacing-3xl);
   }
 }
+
+/* Reduced-motion visitors can read section content before React hydrates. */
+@media (prefers-reduced-motion: reduce) {
+  .animated-section,
+  .philosophy-item,
+  .portfolio-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

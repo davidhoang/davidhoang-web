@@ -456,6 +456,11 @@ Use duration and easing tokens from `src/styles/modules/variables.css` — never
 | `--ease-emphasized` | Entrance reveals |
 | `--ease-spring` | Slight overshoot |
 
+React motion uses `src/utils/motion.ts`: `motionPresets.reveal` for short section entries,
+`motionPresets.interaction` for settling, and `motionPresets.press` for immediate feedback.
+Keep its duration/easing values aligned with the CSS tokens. `revealStagger(count)` caps
+an entire grid's stagger delay at 180ms. Reduced motion skips travel and stagger.
+
 See `design.md` § Motion tokens and § Motion continuity.
 
 ---
