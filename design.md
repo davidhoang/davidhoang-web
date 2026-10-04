@@ -179,7 +179,7 @@ The only properties allowed to change on hover are:
 - `transform` (auto-stripped on touch via the `(hover: none)` rule — see [Hover states](#hover-states))
 - `opacity`
 
-**Why:** dimensional hover changes cause iOS sticky-hover layout jumps after taps (the recurring nav padding bug), cumulative layout shift on desktop when hover triggers during scroll, and inconsistent feel between mouse, trackpad, and stylus pointers. The expand-on-hover sentient-nav animation in `Navigation.astro` predates this rule and is grandfathered, but the pattern is not extended elsewhere — when that file is refactored, dimensional hover effects move into `transform: scale()` so the layout stays stable.
+**Why:** dimensional hover changes cause iOS sticky-hover layout jumps after taps (the recurring nav padding bug), cumulative layout shift on desktop when hover triggers during scroll, and inconsistent feel between mouse, trackpad, and stylus pointers. The navigation stays stationary: hover changes its surface treatment, and the current-page marker animates with transform/opacity. Decorative shader, particle, and sentient movement are not mounted in the navigation.
 
 ### Hero image padding
 

@@ -7,30 +7,9 @@
 
    ============================================ */
 
-.site-nav .noise-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  opacity: 1.0;
-  pointer-events: none;
-}
-
 /* Must beat .glass-border { position: relative } in shared-components.css */
 .site-nav.glass-border {
   position: fixed;
-}
-
-.site-nav .particle-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  pointer-events: none;
-  z-index: var(--z-particle);
 }
 
 .site-nav {
@@ -42,14 +21,7 @@
   width: max-content;
   height: var(--nav-height);
   z-index: var(--z-nav);
-  /* Pointer-follow spotlight + base fill (sentient vars set from nav-sentient.ts) */
-  background:
-    radial-gradient(
-      130% 200% at var(--nav-glow-x, 50%) var(--nav-glow-y, 50%),
-      color-mix(in srgb, var(--color-link) 16%, transparent) 0%,
-      transparent 55%
-    ),
-    var(--color-nav-bg);
+  background: var(--color-nav-bg);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   /* Below half the bar height so top/bottom stay clear of end-cap clip with backdrop-filter */
@@ -63,46 +35,12 @@
   box-sizing: border-box;
   /* Avoid clipping ⌘K / shadows when backdrop-filter + radius create a mask */
   overflow: visible;
-  /* Sentient .site-nav: CSS custom properties for JS-controlled motion */
-  --nav-float-x: 0px;
-  --nav-float-y: 0px;
-  --nav-tilt: 0deg;
-  --nav-glow-opacity: 0;
-  --nav-glow-color: var(--color-link);
-  --nav-glow-x: 50%;
-  --nav-glow-y: 50%;
-  /* margin-inline centers the pill; float vars add subtle motion without breaking center */
-  transform:
-    translateY(var(--nav-float-y))
-    translateX(var(--nav-float-x))
-    rotate(var(--nav-tilt));
-  /* Smooth transitions — transform excluded; sentient nav updates --nav-float-* every frame */
   transition:
-    min-width var(--duration-slower) var(--ease-standard),
-    max-width var(--duration-slower) var(--ease-standard),
     box-shadow var(--duration-slower) var(--ease-standard),
     border-color var(--duration-slower) var(--ease-standard),
     background var(--duration-normal) var(--ease-standard),
     backdrop-filter var(--duration-slower) var(--ease-standard),
     -webkit-backdrop-filter var(--duration-slower) var(--ease-standard);
-}
-
-/* Reactive glow — follows pointer (ellipse center from --nav-glow-*) */
-.site-nav::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: inherit;
-  background: radial-gradient(
-    ellipse 95% 140% at var(--nav-glow-x, 50%) var(--nav-glow-y, 50%),
-    var(--nav-glow-color) 0%,
-    transparent 68%
-  );
-  opacity: var(--nav-glow-opacity);
-  filter: blur(18px);
-  z-index: -1;
-  transition: opacity var(--duration-slower) var(--ease-standard), filter var(--duration-slower) var(--ease-standard);
-  pointer-events: none;
 }
 
 /* Prevent horizontal overflow on smaller screens (between 520px and 768px) */
@@ -204,17 +142,9 @@
 /* Hover affordances — color, shadow, backdrop only (no padding/gap/top; design.md) */
 @media (hover: hover) and (min-width: 769px) {
   .site-nav:hover {
-    box-shadow:
-      0 0 0 3px var(--color-border),
-      var(--shadow-hover);
-    cursor: pointer;
-    backdrop-filter: blur(10px) saturate(1.12);
-    -webkit-backdrop-filter: blur(10px) saturate(1.12);
+    box-shadow: var(--shadow-hover);
   }
 
-  .site-nav:hover::after {
-    filter: blur(24px);
-  }
 
   .site-nav:hover .rss-link {
     opacity: 0.72;
@@ -275,8 +205,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   position: relative;
   z-index: 1;
   transition:
-    gap 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+    transform var(--duration-slow) var(--ease-inertia-smooth);
   transform-origin: center center;
 }
 
@@ -330,11 +259,11 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   /* Pill highlight — same capsule language as .site-nav (28px on 48px bar) */
   border-radius: 9999px;
   transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.28s cubic-bezier(0.33, 1, 0.68, 1);
+    color var(--duration-normal) var(--ease-standard),
+    background-color var(--duration-normal) var(--ease-standard),
+    box-shadow var(--duration-normal) var(--ease-standard);
   font-size: 1rem;
+  font-weight: 600;
   height: 100%;
   display: flex;
   align-items: center;
@@ -371,8 +300,32 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   content: none;
 }
 
+/* A stable page marker; only its transform changes as the persisted nav updates. */
+.site-nav .nav-links a:not(.rss-link)::after {
+  content: '';
+  display: block;
+  position: absolute;
+  inset-inline: var(--spacing-sm);
+  width: auto;
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0.5);
+  transition:
+    transform var(--duration-normal) var(--ease-emphasized),
+    opacity var(--duration-fast) var(--ease-standard);
+}
+
+.site-nav .nav-links a:is([aria-current="page"], [aria-current="location"])::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
 .site-nav .nav-links a:focus-visible {
-  outline: none;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
   background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-nav-text) 10%, transparent);
 }
@@ -400,8 +353,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
 .rss-link {
   opacity: 0.5;
   transition:
-    opacity 0.25s ease,
-    transform 0.28s cubic-bezier(0.33, 1, 0.68, 1) !important;
+    opacity var(--duration-normal) var(--ease-standard),
+    transform var(--duration-slow) var(--ease-inertia-smooth) !important;
   display: flex !important;
   align-items: center;
   padding: var(--spacing-xs);
@@ -536,8 +489,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
     box-shadow: none;
     transition:
-      border-color 0.2s ease,
-      background 0.2s ease !important;
+      border-color var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard) !important;
   }
 
   .site-nav.mobile-menu-active {
@@ -643,8 +596,8 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     opacity: 0;
     pointer-events: none;
     transition:
-      opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-      visibility 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity var(--duration-slow) var(--ease-standard),
+      visibility var(--duration-slow) var(--ease-standard);
   }
 
   .mobile-menu.is-open {
@@ -691,9 +644,9 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     opacity: 0;
     transform: translateY(12px);
     transition:
-      color 0.2s ease,
-      opacity 0.35s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+      color var(--duration-normal) var(--ease-standard),
+      opacity var(--duration-slow) var(--ease-inertia-smooth),
+      transform var(--duration-slow) var(--ease-inertia-smooth);
   }
 
   .mobile-menu.is-open .mobile-menu__links a {
@@ -734,9 +687,9 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     opacity: 0;
     transform: translateY(8px);
     transition:
-      color 0.2s ease,
-      opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1),
-      transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      color var(--duration-normal) var(--ease-standard),
+      opacity var(--duration-slow) var(--ease-inertia-smooth),
+      transform var(--duration-slow) var(--ease-inertia-smooth);
   }
 
   .mobile-menu.is-open .mobile-menu__secondary a {
@@ -797,5 +750,11 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
 
   .mobile-menu.is-open .mobile-menu__secondary a {
     opacity: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .nav-links a::after {
+    transition: none;
   }
 }

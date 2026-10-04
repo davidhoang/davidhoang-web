@@ -52,6 +52,7 @@
   line-height: 1.08;
   letter-spacing: var(--letter-spacing-display, -0.03em);
   text-wrap: balance;
+  overflow-wrap: anywhere;
   margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs) / 2);
   padding: 0;
   max-width: none;
@@ -63,6 +64,7 @@
   color: var(--color-muted);
   margin: 0 0 calc(var(--spacing-xs) * 1.5);
   max-width: 52ch;
+  text-wrap: pretty;
 }
 
 .writing-post__meta {
@@ -83,6 +85,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--spacing-sm);
+}
+
+.writing-post__meta-info time {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Align share actions with the right sidebar edge */

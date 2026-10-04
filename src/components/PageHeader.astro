@@ -265,10 +265,16 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     color: var(--color-text);
   }
 
+  .page-header__title {
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
   .page-header__subtitle {
     font-size: var(--body-size);
     color: var(--color-muted);
-    max-width: 600px;
+    max-width: 60ch;
+    text-wrap: pretty;
     line-height: 1.6;
     margin: 0;
   }
