@@ -22,7 +22,7 @@ const { id, placeholder = 'Search...', label = 'Search' } = Astro.props;
     autocomplete="off"
     spellcheck="false"
   />
-  <button class="search-clear" aria-label="Clear search" type="button">
+  <button class="search-clear" aria-label="Clear search" type="button" disabled>
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <line x1="18" y1="6" x2="6" y2="18"/>
       <line x1="6" y1="6" x2="18" y2="18"/>
@@ -94,10 +94,38 @@ const { id, placeholder = 'Search...', label = 'Search' } = Astro.props;
     color: var(--color-muted);
     cursor: pointer;
     padding: var(--spacing-xs);
-    display: none;
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-emphasized),
+      visibility var(--duration-fast) var(--ease-standard);
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-sm, 4px);
+  }
+
+  .search-wrapper[data-has-query="true"] .search-clear {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  .search-clear:active {
+    transform: scale(0.94);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .search-clear {
+      transition: none;
+      transform: none;
+    }
+
+    .search-clear:active {
+      transform: none;
+    }
   }
 
   @media (hover: hover) {
@@ -107,3 +135,30 @@ const { id, placeholder = 'Search...', label = 'Search' } = Astro.props;
     }
   }
 </style>
+
+<script>
+  function initSearchInputs() {
+    document.querySelectorAll<HTMLElement>('.search-wrapper').forEach((root) => {
+      const input = root.querySelector<HTMLInputElement>('.search-input');
+      const clear = root.querySelector<HTMLButtonElement>('.search-clear');
+      if (!input || !clear) return;
+      const sync = () => {
+        const hasQuery = input.value.length > 0;
+        root.dataset.hasQuery = String(hasQuery);
+        clear.disabled = !hasQuery;
+      };
+      sync();
+      if (root.dataset.initialized === 'true') return;
+      root.dataset.initialized = 'true';
+      input.addEventListener('input', sync);
+      clear.addEventListener('click', () => {
+        input.value = '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus({ preventScroll: true });
+      });
+    });
+  }
+  initSearchInputs();
+  document.addEventListener('astro:page-load', initSearchInputs);
+  window.addEventListener('pageshow', initSearchInputs);
+</script>

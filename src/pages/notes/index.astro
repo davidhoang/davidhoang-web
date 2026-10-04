@@ -267,7 +267,6 @@ const notesPlaceholderSketch =
     const noResults = document.getElementById('notes-no-results');
     const resultCount = document.getElementById('notes-results-count');
     const resetButton = document.getElementById('notes-reset-filters');
-    const clearBtn = searchInput?.parentElement?.querySelector('.search-clear') as HTMLElement;
 
     let activeTag = 'all';
     let activeStage = 'all';
@@ -287,9 +286,6 @@ const notesPlaceholderSketch =
         btn.setAttribute('aria-pressed', String(active));
       });
 
-      if (clearBtn) {
-        clearBtn.style.display = query ? 'flex' : 'none';
-      }
 
       noteCards.forEach((card) => {
         const cardTags = card.getAttribute('data-tags') || '';
@@ -333,21 +329,11 @@ const notesPlaceholderSketch =
       searchInput.addEventListener('input', applyFilters);
     }
 
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        if (searchInput) {
-          searchInput.value = '';
-          applyFilters();
-          searchInput.focus();
-        }
-      });
-    }
-
     resetButton?.addEventListener('click', () => {
       activeTag = 'all';
       activeStage = 'all';
       searchInput.value = '';
-      applyFilters();
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
       searchInput.focus();
     });
     applyFilters();
