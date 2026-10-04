@@ -6,7 +6,7 @@
   margin-top: 40px;
   background: none;
   position: relative;
-  /* Below .design-philosophy so card bottoms tuck under that full-bleed surface */
+  /* Below .home-content-start so card bottoms tuck under that full-bleed surface */
   z-index: 0;
   overflow: visible;
   /* Preserve the hero's baseline rhythm independently of its texture. */
@@ -52,7 +52,7 @@
 
 .design-philosophy .home-section-heading {
   max-width: none;
-  white-space: nowrap;
+  text-wrap: balance;
 }
 
 /*
@@ -63,7 +63,7 @@
   Horizontal padding recreates main.container’s centered content column
   (outer centering gutter + container padding).
 */
-.design-philosophy {
+.home-content-start {
   position: relative;
   z-index: 2;
   isolation: isolate;
@@ -126,6 +126,7 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.design-philosophy,
 .portfolio-section {
   margin: var(--section-spacing, 4rem) 0;
   border-top: 1px solid var(--color-border);
@@ -318,7 +319,8 @@
     --hero-cards-tuck: clamp(1.25rem, 5vw, 2rem);
   }
 
-  /* .design-philosophy already recreates container gutters via its breakout padding */
+  /* The first content section recreates container gutters via breakout padding. */
+  .design-philosophy,
   .portfolio-section {
     padding-left: var(--container-padding, 1rem);
     padding-right: var(--container-padding, 1rem);
@@ -406,4 +408,26 @@
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* Homepage editorial hierarchy stays fixed across daily themes. */
+.home-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm) var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.home-section-header .home-section-heading {
+  max-width: none;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.home-section-link {
+  flex-shrink: 0;
+  font-size: var(--body-size);
+  color: var(--color-link);
 }

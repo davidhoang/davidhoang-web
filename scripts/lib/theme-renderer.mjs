@@ -299,7 +299,7 @@ async function collectMetrics(page, viewportWidth, expectedHero) {
     const hero = document.querySelector('.card-stack-hero');
     const documentOverflowPx = Math.max(root.scrollWidth, body.scrollWidth) - width;
     const boundedContent = [
-      ...document.querySelectorAll('.design-philosophy, .portfolio-section, .newsletter-section, .site-footer'),
+      ...document.querySelectorAll('.home-writing, .design-philosophy, .portfolio-section, .newsletter-section, .site-footer'),
     ];
     const overflowDetails = boundedContent.map((element) => {
       const rect = element.getBoundingClientRect();

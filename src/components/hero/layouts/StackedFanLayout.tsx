@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useId, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { useReducedMotionPreference as useReducedMotion } from '../../../hooks/useReducedMotionPreference';
 import { type Card, type LayoutProps, cardHasHeroLayout, cardHasShaderSurface } from '../types';
@@ -29,7 +29,7 @@ const cardPositions = [
   { x: 400, y: 28, rotation: 9 },
 ];
 
-import { resolveDeckAxis, deckSwipeDirection, type GestureAxis } from '../mobileDeckGesture';
+import { resolveDeckAxis, deckSwipeDirection, deckIndexForKey, type GestureAxis } from '../mobileDeckGesture';
 
 function cardClassName(card: LayoutProps['cards'][number], isGlass: boolean) {
   return [
@@ -184,7 +184,8 @@ function FanCard({
     <motion.div
       className={cardClassName(card, isGlass)}
       role="link"
-      tabIndex={0}
+      tabIndex={isMobileStack && !isFront ? -1 : 0}
+      aria-hidden={isMobileStack && !isFront ? true : undefined}
       aria-label={card.linkText ? `${card.title} — ${card.linkText}` : card.title}
       style={{
         ...dimensionStyle,
@@ -263,7 +264,7 @@ export default function StackedFanLayout({
   const isGlass = cardStyle === 'glass';
   const [isMobileStack, setIsMobileStack] = useState(false);
   const [mobileDims, setMobileDims] = useState<MobileHeroCardDimensions | null>(null);
-  const [activeIndex, setActiveIndex] = useState(() => Math.floor(cards.length / 2));
+  const [activeIndex, setActiveIndex] = useState(() => Math.max(0, cards.findIndex(card => card.id === 'atlassian')));
   const [keyboardFocusedIndex, setKeyboardFocusedIndex] = useState<number | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const pointerHoverMotion = usePointerHoverMotionEnabled();
@@ -277,6 +278,8 @@ export default function StackedFanLayout({
   const touchStartRef = useRef<{ x: number; y: number; axis: GestureAxis } | null>(null);
 
   const suppressClickUntil = useRef(0);
+  const deckRef = useRef<HTMLDivElement>(null);
+  const deckId = useId();
 
   const syncMobileStack = useCallback(() => {
     const mobile = isMobileHeroViewport();
@@ -357,41 +360,73 @@ export default function StackedFanLayout({
   };
 
   return (
-    <div
-      className={`cards-wrapper${isMobileStack ? ' cards-wrapper--mobile-stack' : ''}`}
-      style={wrapperStyle}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={() => { touchStartRef.current = null; }}
-      onClickCapture={(event) => {
-        if (event.detail > 0 && performance.now() < suppressClickUntil.current) {
+    <>
+      {isMobileStack && cards.length > 1 && (
+        <div className="mobile-deck-controls" role="group" aria-label="Card navigation">
+          <button type="button" aria-label="Previous card" aria-controls={deckId} onClick={() => cycleActive(-1)}>
+            <span aria-hidden="true">←</span> Previous
+          </button>
+          <span className="mobile-deck-position" role="status" aria-live="polite" aria-atomic="true">
+            <span aria-hidden="true">{activeIndex + 1} / {cards.length}</span>
+            <span className="sr-only">{cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}</span>
+          </span>
+          <button type="button" aria-label="Next card" aria-controls={deckId} onClick={() => cycleActive(1)}>
+            Next <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      )}
+      <div
+        ref={deckRef}
+        id={deckId}
+        role={isMobileStack ? 'group' : undefined}
+        aria-roledescription={isMobileStack ? 'carousel' : undefined}
+        aria-label={isMobileStack ? 'Current work and ideas' : undefined}
+        onKeyDown={(event) => {
+          if (!isMobileStack || event.altKey || event.ctrlKey || event.metaKey) return;
+          const next = deckIndexForKey(event.key, activeIndex, cards.length);
+          if (next === null) return;
           event.preventDefault();
-          event.stopPropagation();
-        }
-      }}
-    >
-      {cards.map((card, index) => (
-        <FanCard
-          key={card.id}
-          card={card}
-          index={index}
-          position={cardPositions[index]}
-          cardCount={cards.length}
-          isGlass={isGlass}
-          hoveredCard={focusedCard ?? null}
-          focusedIndex={focusedIndex}
-          isLoaded={isLoaded}
-          hasAnimatedIn={hasAnimatedIn}
-          isMobileStack={isMobileStack}
-          activeIndex={activeIndex}
-          mobileDims={mobileDims}
-          onCardClick={onCardClick}
-          onCardHover={onCardHover}
-          onActivate={setActiveIndex}
-          onCardFocus={setKeyboardFocusedIndex}
-        />
-      ))}
-    </div>
+          setActiveIndex(next);
+          onCardHover(null);
+          requestAnimationFrame(() => {
+            deckRef.current?.querySelector<HTMLElement>('.hero-card[tabindex="0"]')?.focus({ preventScroll: true });
+          });
+        }}
+        className={`cards-wrapper${isMobileStack ? ' cards-wrapper--mobile-stack' : ''}`}
+        style={wrapperStyle}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={() => { touchStartRef.current = null; }}
+        onClickCapture={(event) => {
+          if (event.detail > 0 && performance.now() < suppressClickUntil.current) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }}
+      >
+        {cards.map((card, index) => (
+          <FanCard
+            key={card.id}
+            card={card}
+            index={index}
+            position={cardPositions[index]}
+            cardCount={cards.length}
+            isGlass={isGlass}
+            hoveredCard={focusedCard ?? null}
+            focusedIndex={focusedIndex}
+            isLoaded={isLoaded}
+            hasAnimatedIn={hasAnimatedIn}
+            isMobileStack={isMobileStack}
+            activeIndex={activeIndex}
+            mobileDims={mobileDims}
+            onCardClick={onCardClick}
+            onCardHover={onCardHover}
+            onActivate={setActiveIndex}
+            onCardFocus={setKeyboardFocusedIndex}
+          />
+        ))}
+      </div>
+    </>
   );
 }
