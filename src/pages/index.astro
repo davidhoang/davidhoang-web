@@ -1,7 +1,5 @@
 ---
 import { getImage } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import HomeWriting from '../components/HomeWriting.astro';
 import type { ImageMetadata } from 'astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
@@ -45,11 +43,6 @@ const atlassianHero = await getImage({ src: imgAtlassian, width: 640, format: 'w
 const heroCards = homeHeroPlan.cards.map(card => card.id === 'atlassian'
   ? { ...card, heroImage: atlassianHero.src }
   : card);
-
-const publishedWriting = (await getCollection('writing'))
-  .filter(({ data }) => !data.draft && data.pubDate.getTime() <= Date.now())
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 3);
 
 // Page metadata
 const pageDescription = "David Hoang is a designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian. Previously at Replit, Webflow, and One Medical.";
@@ -118,10 +111,8 @@ const portfolioItems = [
     />
   </section>
 
-  <HomeWriting posts={publishedWriting} />
-
   <!-- Portfolio Section -->
-  <section class="portfolio-section" aria-labelledby="highlights-heading">
+  <section class="portfolio-section home-content-start" aria-labelledby="highlights-heading">
     <div class="home-section-header">
       <h2 id="highlights-heading" class="home-section-heading text-heading">Selected work</h2>
       <a href="/works" class="home-section-link">More work <span aria-hidden="true">↗</span></a>

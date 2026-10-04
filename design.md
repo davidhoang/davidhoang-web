@@ -201,10 +201,10 @@ Implementations: `layout.css` (hero flush), `nav.css` + `shared-components.css` 
 
 ### Homepage hierarchy
 
-The homepage presents current focus and the hero deck, latest published writing, selected work,
-design philosophy, then newsletter signup. Themes may style these sections but never reorder them.
-The first content section (`.home-content-start`) owns the full-bleed opaque surface under the
-hero. Latest writing excludes drafts and future-dated posts and is rendered as static Astro content.
+The homepage presents the headline and hero deck, selected work, design philosophy, then
+newsletter signup. Themes may style these sections but never reorder them. Keep the hero
+intro to the headline alone. The selected work section (`.home-content-start`) owns the
+full-bleed opaque surface under the hero.
 
 ### Hero
 

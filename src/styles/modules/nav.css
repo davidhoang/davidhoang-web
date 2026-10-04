@@ -78,8 +78,7 @@
     rotate(var(--nav-tilt));
   /* Smooth transitions — transform excluded; sentient nav updates --nav-float-* every frame */
   transition:
-    min-width var(--duration-slower) var(--ease-standard),
-    max-width var(--duration-slower) var(--ease-standard),
+    border-radius var(--duration-slower) var(--ease-emphasized),
     box-shadow var(--duration-slower) var(--ease-standard),
     border-color var(--duration-slower) var(--ease-standard),
     background var(--duration-normal) var(--ease-standard),
@@ -136,6 +135,7 @@
     padding: 0 calc(var(--spacing-xl) + var(--spacing-xs));
     font-size: 1.3rem;
     transition:
+      border-radius var(--duration-slower) var(--ease-emphasized),
       box-shadow var(--duration-slower) var(--ease-standard),
       border-color var(--duration-slower) var(--ease-standard),
       background var(--duration-slower) var(--ease-standard);
@@ -601,7 +601,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   }
 
   /* Disable transform/motion transitions on .site-nav children; allow color and opacity */
-  .site-nav *:not(.hamburger-line):not(.hamburger-icon):not(.cmd-palette-input):not(#cmdPaletteInput) {
+  .site-nav *:not(.hamburger-line):not(.hamburger-icon):not(.cmd-palette-input):not(#cmdPaletteInput):not(.cmd-palette-dropdown) {
     transition: color var(--duration-normal) var(--ease-standard), opacity var(--duration-normal) var(--ease-standard) !important;
   }
 }

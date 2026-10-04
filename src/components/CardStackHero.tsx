@@ -199,11 +199,6 @@ export default function CardStackHero({
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
           <HeroTitle hasSelection={false} isVisible={isLoaded} />
-          <p className="hero-focus">Leading design for Rovo, AI, and Ecosystem at Atlassian.</p>
-          <div className="hero-paths" aria-label="Explore my work">
-            <a href="#latest-writing">Latest writing <span aria-hidden="true">↓</span></a>
-            <a href="#highlights-heading">Selected work <span aria-hidden="true">↓</span></a>
-          </div>
         </header>
         <Suspense fallback={null}>
           <LayoutComponent

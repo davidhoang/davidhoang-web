@@ -100,7 +100,14 @@ export function initSentientNav(): (() => void) | undefined {
 
     const lerpSpeed = isHovering ? HOVER_LERP : IDLE_LERP;
 
-    if (isHovering) {
+    if (nav.classList.contains('cmd-palette-active')) {
+      targetX = 0;
+      targetY = 0;
+      targetTilt = 0;
+      targetGlow = 0;
+      glowPosX = lerp(glowPosX, 0.5, GLOW_POS_RETURN);
+      glowPosY = lerp(glowPosY, 0.5, GLOW_POS_RETURN);
+    } else if (isHovering) {
       const nx = navLocalX - 0.5;
       const ny = navLocalY - 0.5;
       targetX = nx * HOVER_MAX_X;
