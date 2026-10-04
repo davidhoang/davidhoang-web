@@ -317,6 +317,8 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
   }
 
   .note-header h1 {
+    text-wrap: balance;
+    overflow-wrap: anywhere;
     margin: 0 0 calc(var(--spacing-sm) + var(--spacing-xs)) 0;
   }
 
@@ -331,6 +333,11 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
     flex-wrap: wrap;
     gap: var(--spacing-xs) var(--spacing-sm);
     align-items: center;
+  }
+
+  .note-meta-row time {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   .note-updated {

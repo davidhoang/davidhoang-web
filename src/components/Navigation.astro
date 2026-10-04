@@ -5,8 +5,6 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav class="site-nav glass-border" aria-label="Main navigation" transition:persist>
-  <canvas id="noiseCanvas" class="noise-canvas" aria-hidden="true"></canvas>
-  <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
   <div class="nav-container">
     <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
     <!-- Desktop Navigation -->
@@ -121,40 +119,18 @@ const currentPath = Astro.url.pathname;
 
 
 <script>
-  import { initShader } from '../scripts/nav-shader';
   import { initMobileMenu } from '../scripts/nav-mobile-menu';
   import { initScrollDetection } from '../scripts/nav-scroll';
-  import { shouldEnableSentientNav, syncHybridPointerAttribute } from '../utils/viewport-capabilities';
+  import { syncHybridPointerAttribute } from '../utils/viewport-capabilities';
 
   let isInitialized = false;
   let cleanupFunctions: Array<() => void> = [];
-  let navFxGeneration = 0;
-
-  /** Desktop-only nav FX — dynamic import so mobile/tablet skip the parse cost. */
-  async function initDesktopNavFx(generation: number, cleanups: Array<() => void>) {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion || window.innerWidth <= 768) return;
-
-    if (shouldEnableSentientNav()) {
-      const { initSentientNav } = await import('../scripts/nav-sentient');
-      if (generation !== navFxGeneration) return;
-      const sentientCleanup = initSentientNav();
-      if (sentientCleanup) cleanups.push(sentientCleanup);
-    }
-
-    const { initParticleTrail } = await import('../scripts/nav-particles');
-    if (generation !== navFxGeneration) return;
-    const particleCleanup = initParticleTrail();
-    if (particleCleanup) cleanups.push(particleCleanup);
-  }
-
   function init() {
     if (isInitialized) return;
     isInitialized = true;
 
     cleanupFunctions.forEach(fn => fn());
     cleanupFunctions = [];
-    const generation = ++navFxGeneration;
 
     // The nav persists across Astro navigation, so its server-rendered state can be stale.
     const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
@@ -165,18 +141,14 @@ const currentPath = Astro.url.pathname;
       else link.removeAttribute('aria-current');
     });
 
-    initShader();
     syncHybridPointerAttribute();
     const mobileMenuCleanup = initMobileMenu();
     if (mobileMenuCleanup) cleanupFunctions.push(mobileMenuCleanup);
     initScrollDetection();
-
-    void initDesktopNavFx(generation, cleanupFunctions);
   }
 
   document.addEventListener('astro:before-swap', () => {
     isInitialized = false;
-    navFxGeneration += 1;
     cleanupFunctions.forEach(fn => fn());
     cleanupFunctions = [];
   });
