@@ -1,3 +1,5 @@
+import { siteBioLead, siteBioPreviously } from '../../data/siteCopy';
+
 export type HeroCardId = 'atlassian' | 'poc' | 'config' | 'diveclub' | 'hatch' | 'about';
 export type HeroCardVariant = 'spotlight' | 'feature' | 'brief';
 
@@ -111,7 +113,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     id: 'atlassian',
     title: 'Atlassian',
     subtitle: 'VP, Head of Design — Rovo & AI and Ecosystem',
-    description: 'Leading design for Rovo & AI and Ecosystem at Atlassian — building AI-powered tools that connect teams, work, and applications across the SaaS ecosystem.',
+    description: 'Design for Rovo, AI, and Ecosystem — connected work across teams and tools.',
     color: '#0052CC',
     pattern: 'waves',
     link: 'https://www.atlassian.com/software/rovo',
@@ -129,7 +131,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     id: 'poc',
     title: 'Proof of Concept',
     subtitle: 'Newsletter',
-    description: 'A weekly newsletter about design, technology, and experimentation. Exploring the intersection of creativity, code, and community.',
+    description: 'Weekly notes on design, technology, and experiments worth sharing.',
     color: '#E85D04',
     pattern: 'lines',
     link: 'https://www.proofofconcept.pub',
@@ -146,7 +148,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     id: 'config',
     title: 'Config 2021',
     subtitle: 'Figma Conference',
-    description: 'Spoke about the universal challenges of scaling design teams and building design culture.',
+    description: 'Scaling design teams without losing culture.',
     color: '#2D6A4F',
     pattern: 'dots',
     link: 'https://youtu.be/piGC-iFwmrk',
@@ -167,7 +169,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     id: 'diveclub',
     title: 'Dive Club',
     subtitle: 'Podcast',
-    description: 'Joined the Dive Club podcast to discuss design leadership, creative tools, and career journeys.',
+    description: 'Leadership, creative tools, and career choices.',
     color: '#1e3a5f',
     pattern: 'waves',
     link: 'https://www.youtube.com/watch?v=6Z88rLjF-lc',
@@ -187,8 +189,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     id: 'hatch',
     title: 'Design & (Blank)',
     subtitle: 'Hatch Conference',
-    description:
-      'Keynote at Hatch Conference on design, creativity, and what we put in the blank—how constraints and openness shape the work we ship.',
+    description: 'Constraints, openness, and what belongs in the blank after “Design &”.',
     color: '#7c3aed',
     pattern: 'grid',
     link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
@@ -208,7 +209,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     id: 'about',
     title: 'About',
     subtitle: 'A bit about myself',
-    description: 'Designer, investor, and builder focused on tools that revolutionize the internet. Previously at Replit, Webflow, and One Medical.',
+    description: `${siteBioLead} ${siteBioPreviously}`,
     color: '#78716c',
     pattern: 'none',
     link: '/about',
@@ -216,7 +217,7 @@ export const heroCardSources: readonly HeroCardSource[] = [
     thumbnail: '/images/img-dh-web-light.webp',
     editorial: {
       eyebrow: 'About David',
-      spotlightSummary: 'Designer, investor, and builder focused on tools for the internet.',
+      spotlightSummary: siteBioLead,
       personalContext: 'The people, products, and ideas that continue to shape my practice.',
       featureKicker: 'A career spent designing tools and growing teams.',
       briefLabel: 'Profile',

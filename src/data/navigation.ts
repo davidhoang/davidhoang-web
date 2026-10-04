@@ -30,13 +30,12 @@ export const commandPalettePages = [
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
   { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
-  { title: 'Advising', description: 'Limited advising for Heads of Design at growth startups', path: '/advising', type: 'page' },
+  { title: 'Advising', description: 'Advising for Heads of Design', path: '/advising', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
   { title: 'Design Guide', description: 'Theme-responsive design system primitives', path: '/design-guide', type: 'page' },
   {
     title: 'Works',
-    description:
-      'Selected work — career chapters as cards, talks and one-off events as a vertical list.',
+    description: 'Career, talks, and side projects',
     path: '/works',
     type: 'page',
   },
@@ -82,8 +81,7 @@ export const commandPalettePages = [
 export const discoverableStaticPages = [
   {
     title: 'Home',
-    description:
-      'David Hoang — designer, investor, and builder. VP of Design, Rovo & AI and Ecosystem at Atlassian.',
+    description: 'Designer, investor, and builder at Atlassian',
     path: '/',
     type: 'page' as const,
   },

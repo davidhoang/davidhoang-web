@@ -3,6 +3,8 @@
  * Keep entities linked via stable @ids; only emit facts supported by page/content data.
  */
 
+import { siteBioLead } from '../data/siteCopy';
+
 export const CANONICAL_SITE = 'https://www.davidhoang.com';
 
 export const PERSON_ID = `${CANONICAL_SITE}/#person`;
@@ -21,8 +23,8 @@ export const PERSON_IMAGE = `${CANONICAL_SITE}/images/img-david-sf.webp`;
 /** Matches About page copy — do not invent titles beyond this. */
 export const PERSON_JOB_TITLE = 'VP and Head of Design, Rovo & AI and Ecosystem';
 export const PERSON_WORKS_FOR = 'Atlassian';
-export const PERSON_DESCRIPTION =
-  "Designer, investor, and builder focused on tools that revolutionize the internet. VP and Head of Design, Rovo & AI and Ecosystem at Atlassian.";
+
+export const PERSON_DESCRIPTION = siteBioLead;
 
 export const PERSON_SAME_AS = [
   'https://twitter.com/davidhoang',
