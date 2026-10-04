@@ -59,6 +59,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  align-content: start;
+  line-height: 1.4;
   justify-content: flex-start;
   gap: var(--spacing-xs) var(--spacing-sm);
   font-size: 0.6875rem;
@@ -178,6 +180,13 @@
 
   .index-card:hover .index-card__title {
     color: var(--color-link);
+  }
+}
+
+/* Reserve two metadata lines so adjacent titles align when a date wraps. */
+@media (min-width: 769px) {
+  .index-card__meta {
+    min-block-size: calc(2.8em + var(--spacing-xs));
   }
 }
 
