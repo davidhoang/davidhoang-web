@@ -4,7 +4,7 @@ import { useSharedInView } from '../hooks/useSharedInView';
 import { cards as fallbackCards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { createStableCardHoverSetter } from './hero/cardHover';
-import { isMobileHeroViewport, readHeroViewportTier } from './hero/heroViewport';
+import { readHeroViewportTier } from './hero/heroViewport';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import { HeroDialProvider } from './hero/HeroDialProvider';
@@ -15,12 +15,6 @@ const EditorialLayout = lazy(() => import('./hero/layouts/EditorialLayout'));
 const ScatteredLayout = lazy(() => import('./hero/layouts/ScatteredLayout'));
 const RolodexLayout = lazy(() => import('./hero/layouts/RolodexLayout'));
 const CinematicLayout = lazy(() => import('./hero/layouts/CinematicLayout'));
-
-function readInitialHeroLayout(): HeroLayout {
-  if (typeof window === 'undefined') return 'stacked-fan';
-  if (isMobileHeroViewport()) return 'stacked-fan';
-  return resolveLayout(document.documentElement.getAttribute('data-hero-layout'));
-}
 
 const layoutComponents: Record<HeroLayout, React.ComponentType<LayoutProps>> = {
   'stacked-fan': StackedFanLayout,
@@ -53,7 +47,8 @@ export default function CardStackHero({
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const [cardStyle, setCardStyle] = useState<string | null>(null);
-  const [heroLayout, setHeroLayout] = useState<HeroLayout>(readInitialHeroLayout);
+  // Match SSR first; the layout effect applies viewport/theme before paint.
+  const [heroLayout, setHeroLayout] = useState<HeroLayout>('stacked-fan');
   const [cardPaletteRev, setCardPaletteRev] = useState(0);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const [entranceKey, setEntranceKey] = useState(0);
@@ -119,7 +114,8 @@ export default function CardStackHero({
   }, []);
 
   const displayCards: Card[] = useMemo(() => {
-    const themed = deriveHeroCardPalette(initialCards.length);
+    // Browser theme tokens are available only after the initial hydration render.
+    const themed = cardPaletteRev > 0 ? deriveHeroCardPalette(initialCards.length) : null;
     return initialCards.map((c, i) => {
       const color = themed?.[i] ?? c.color;
       const thumbnail = c.id === 'about' && aboutThumbnailSrc ? aboutThumbnailSrc : c.thumbnail;
@@ -132,7 +128,7 @@ export default function CardStackHero({
   // scattered, and rolodex assume desktop dimensions and overflow on phones.
   // Also listen for theme-changed (dispatched on document) so layout sync isn't
   // solely dependent on MutationObserver delivery under a busy main thread.
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
 
     const update = () => {
@@ -203,6 +199,11 @@ export default function CardStackHero({
       <div className="card-stack-container">
         <header className="card-stack-hero__intro">
           <HeroTitle hasSelection={false} isVisible={isLoaded} />
+          <p className="hero-focus">Leading design for Rovo, AI, and Ecosystem at Atlassian.</p>
+          <div className="hero-paths" aria-label="Explore my work">
+            <a href="#latest-writing">Latest writing <span aria-hidden="true">↓</span></a>
+            <a href="#highlights-heading">Selected work <span aria-hidden="true">↓</span></a>
+          </div>
         </header>
         <Suspense fallback={null}>
           <LayoutComponent

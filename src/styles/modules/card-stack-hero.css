@@ -51,8 +51,18 @@
   gap: var(--spacing-lg);
 }
 
-.card-stack-hero--scattered .card-stack-container {
-  height: 520px;
+.card-stack-hero--scattered .card-stack-container,
+.card-stack-hero--rolodex .card-stack-container {
+  height: auto;
+}
+
+.card-stack-hero--scattered .cards-wrapper {
+  height: 600px;
+  flex-shrink: 0;
+}
+
+.card-stack-hero--rolodex .cards-wrapper {
+  flex-shrink: 0;
 }
 
 .card-stack-hero--rolodex .card-stack-container {
@@ -355,6 +365,7 @@
 }
 
 .card-hero-fullscreen.card-has-hero-layout .card-unified-panel {
+  color: var(--color-hero-card-text);
   padding: clamp(1rem, 3vw, 1.35rem) clamp(1.1rem, 3.5vw, 1.5rem) clamp(1.1rem, 3vw, 1.35rem);
 }
 
@@ -663,6 +674,7 @@
 }
 
 .card-unified-panel {
+  color: var(--color-hero-card-text);
   flex: 1;
   min-height: 0;
   display: flex;
@@ -1445,4 +1457,108 @@
 /* Let the browser own vertical scrolling while the mobile deck reads sideways swipes. */
 .cards-wrapper--mobile-stack {
   touch-action: pan-y pinch-zoom;
+}
+
+.card-stack-hero__intro .hero-title {
+  margin-bottom: var(--spacing-lg);
+}
+
+.hero-focus {
+  margin: 0;
+  max-width: 48ch;
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
+  color: var(--color-muted);
+  text-wrap: balance;
+}
+
+.hero-paths {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm) var(--spacing-lg);
+  margin: var(--spacing-md) 0 var(--spacing-lg);
+  font-size: var(--body-size);
+}
+
+.hero-paths a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.mobile-deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  width: min(100%, 320px);
+  margin: 0 0 var(--spacing-lg);
+  color: var(--color-text);
+}
+
+.mobile-deck-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.mobile-deck-controls button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mobile-deck-controls button:active {
+  transform: scale(0.96);
+}
+
+.mobile-deck-position {
+  min-width: 4ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+@media (hover: hover) {
+  .mobile-deck-controls button:hover {
+    background-color: var(--color-sidebar-bg);
+  }
+}
+
+@media (max-width: 768px) {
+  .card-stack-hero--stacked-fan .cards-wrapper--mobile-stack {
+    top: 0;
+    margin-bottom: 0;
+  }
+
+  .hero-paths {
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-deck-controls button {
+    transition: none;
+  }
+
+  .mobile-deck-controls button:active {
+    transform: none;
+  }
 }

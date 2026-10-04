@@ -39,11 +39,11 @@ defaultLayout:
     collapseMultiColumnGrids: true
   mobileExperiences:
     allowUniquePresentation: true
-    heroCardSheet: ios-modal
-    dismissGestures:
-      - close-button
-      - swipe-down
-      - swipe-out
+    heroCardNavigation: direct-link
+    deckNavigation:
+      - previous-next-buttons
+      - horizontal-swipe
+      - arrow-home-end-keys
 themeGenerator:
   containerMaxWidth:
     min: 640px
@@ -199,6 +199,13 @@ Implementations: `layout.css` (hero flush), `nav.css` + `shared-components.css` 
 
 `grain` and `gradient` textures don't conflict — they're allowed everywhere.
 
+### Homepage hierarchy
+
+The homepage presents current focus and the hero deck, latest published writing, selected work,
+design philosophy, then newsletter signup. Themes may style these sections but never reorder them.
+The first content section (`.home-content-start`) owns the full-bleed opaque surface under the
+hero. Latest writing excludes drafts and future-dated posts and is rendered as static Astro content.
+
 ### Hero
 
 The hero (`src/components/CardStackHero.tsx`) renders one of five structural templates: `stacked-fan` (default), `editorial`, `scattered`, `rolodex`, `cinematic`. The theme picks the template; the framework controls positioning.
@@ -230,16 +237,16 @@ Mobile (≤768px) is allowed — and encouraged — to **override presentation**
 
 **What mobile may override:**
 
-- **Hero card expand** — on phones, selected hero cards present as an iOS-style bottom sheet (`.card-hero-fullscreen-stage--sheet`) instead of the centered desktop modal. Implemented in `StackedFanLayout.tsx` + `MobileHeroSheet.tsx`.
-- **Dismiss gestures** — swipe down or swipe out (horizontal) to close the sheet, in addition to backdrop tap, Escape, and an explicit close button (`.card-sheet-close`). The close button is required on mobile because swipe-down dismiss conflicts with browser pull-to-refresh. Drag uses `transform` only — no layout dimension changes.
-- **Motion entry** — sheets slide up from the viewport bottom; fan cards keep motion-only deal animation (opacity stays 1).
-- **Touch affordances** — grabber handle, `:active` press feedback, scrollable sheet body with safe-area insets.
+- **Hero card navigation** — cards link directly to their destinations. The previous mobile sheet is no longer mounted.
+- **Deck controls** — show Previous/Next buttons and a live position count above the deck, with at least 44px touch targets. Start with current work when present. Left/Right wrap through cards; Home/End select the first/last. Only the front card participates in the mobile tab order and accessibility tree.
+- **Swipe gestures** — lock horizontal or vertical intent. Horizontal swipes cycle cards without triggering navigation; vertical gestures remain page scrolling. Button focus stays on the control; arrow-key navigation moves focus to the new front card.
+- **Motion entry** — fan cards keep motion-only deal animation (opacity stays 1). Reduced motion changes cards immediately. Controls sit in document flow and do not overlap the deck or the following section.
 
 **What mobile must not override:**
 
 - Nav markup, height, or unscoped `nav {}` / `.container {}` rules (see `.cursor/rules/site-nav-css.mdc`)
 - Theme-driven layout positioning outside scoped mobile components (grids still collapse; hero layout still forced to `stacked-fan`)
-- Card opacity rule — sheets stay opaque
+- Card opacity rule — deck cards stay opaque
 - Hover dimensional changes (use `:active` or drag transforms instead)
 
 **Implementation pattern:** detect mobile via `isMobileHeroViewport()` or `[data-viewport-tier]`; apply mobile-only CSS classes and React branches; keep desktop path unchanged.
