@@ -1,6 +1,399 @@
 {
   "themes": [
     {
+      "name": "Peach Frequency",
+      "description": "A rhythm-led composition where generous breathing room and dense typographic detail alternate like measures in an early-morning song.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2B1F14",
+          "--color-bg": "#FEF0E4",
+          "--color-link": "#B84325",
+          "--color-link-hover": "#A83419",
+          "--color-border": "#E8C9B0",
+          "--color-muted": "#7E6653",
+          "--color-sidebar-bg": "#FAEADE",
+          "--color-nav-bg": "#FEF0E4",
+          "--color-nav-text": "#2B1F14",
+          "--color-card-bg": "#FDE8D8"
+        },
+        "dark": {
+          "--color-text": "#F5E6D8",
+          "--color-bg": "#1C1108",
+          "--color-link": "#FF8C5A",
+          "--color-link-hover": "#FFB088",
+          "--color-border": "#3D2810",
+          "--color-muted": "#967962",
+          "--color-sidebar-bg": "#211408",
+          "--color-nav-bg": "#1C1108",
+          "--color-nav-text": "#F5E6D8",
+          "--color-card-bg": "#271608"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bricolage Grotesque",
+          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+          "category": "display",
+          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Lora",
+          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Lora', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.85",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "gradient"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "glow",
+        "opacity": "1",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FEF0E4",
+          "#FDE8D8"
+        ]
+      },
+      "font": {
+        "name": "Bricolage Grotesque",
+        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+        "category": "display",
+        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-10-04",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Peach Frequency",
+              "subtitle": "October 4, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Breathe in. Type densely. Breathe out. Like bars in an early-morning song, this theme alternates silence and weight until the whole day feels composed.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "ht",
+              "br",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Peach Frequency",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "serif body",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "split-comp",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "ts2",
+              "hero"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FEF0E4",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FDE8D8",
+                  "label": "card"
+                },
+                {
+                  "hex": "#E8C9B0",
+                  "label": "border"
+                },
+                {
+                  "hex": "#7E6653",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#B84325",
+                  "label": "link"
+                },
+                {
+                  "hex": "#2B1F14",
+                  "label": "text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "generous breathing room and dense typographic detail",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered hero"
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tg"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Card style",
+                  "value": "Filled"
+                },
+                {
+                  "label": "Link style",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Gradient"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tg": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--border-radius",
+                  "value": "16px"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#B84325"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#FDE8D8"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#7E6653"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "sh"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Bricolage Grotesque × Lora — early-morning rhythm, vivid image glow, boxed footer.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "sh": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#FEF0E4",
+                "#FDE8D8"
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Peach Frequency",
+              "action": "apply-theme",
+              "date": "2026-10-04"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Fountain & Rule",
       "description": "A late-night riad courtyard rendered as a technical index — cobalt geometry meeting bone-white silence, dense annotation beside generous shadow.",
       "colors": {
@@ -2133,352 +2526,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Wet Geometry",
-      "description": "Rain-slicked streets at the edge of sleep — deep charcoal surfaces, magenta luminescence, and cinematic type that cuts through atmospheric haze.",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1420",
-          "--color-bg": "#F4ECF7",
-          "--color-link": "#C20061",
-          "--color-link-hover": "#FF1493",
-          "--color-border": "#D4A8C7",
-          "--color-muted": "#806078",
-          "--color-sidebar-bg": "#EDE0F2",
-          "--color-nav-bg": "#EDE0F2",
-          "--color-nav-text": "#1C1420",
-          "--color-card-bg": "#EDE0F2"
-        },
-        "dark": {
-          "--color-text": "#F0E6F6",
-          "--color-bg": "#16102A",
-          "--color-link": "#FF2D9B",
-          "--color-link-hover": "#FF6EC7",
-          "--color-border": "#3D2B52",
-          "--color-muted": "#9172AC",
-          "--color-sidebar-bg": "#1E1638",
-          "--color-nav-bg": "#1E1638",
-          "--color-nav-text": "#F0E6F6",
-          "--color-card-bg": "#1E1638"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Oswald",
-          "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
-        "borderWidth": "1px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#16102A",
-          "#FF2D9B",
-          "#3D2B52"
-        ]
-      },
-      "font": {
-        "name": "Oswald",
-        "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-09-27",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Wet Geometry",
-              "subtitle": "2026-09-27 · Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "div2",
-              "mid",
-              "div3",
-              "bot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Rain-slicked streets at the edge of sleep. Magenta cuts through the haze like neon on wet asphalt — cinematic, restless, precise.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1420",
-                  "label": "Depth"
-                },
-                {
-                  "hex": "#F4ECF7",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#C20061",
-                  "label": "Magenta"
-                },
-                {
-                  "hex": "#FF1493",
-                  "label": "Hot Signal"
-                },
-                {
-                  "hex": "#D4A8C7",
-                  "label": "Border Rose"
-                },
-                {
-                  "hex": "#806078",
-                  "label": "Muted Plum"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "left",
-              "right"
-            ]
-          },
-          "left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "badges",
-              "hero"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Cuts Through the Haze",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Oswald",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "High Contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Triadic",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "right": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Card Style",
-                  "value": "Filled · r16px"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "Color Only"
-                },
-                {
-                  "label": "Image Style",
-                  "value": "Vivid / Hover Glow"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Boxed"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "tokens",
-              "apply"
-            ]
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#C20061"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#F4ECF7"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#1C1420"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "16px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Wet Geometry",
-              "action": "apply-theme",
-              "date": "2026-09-27"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-03"
+  "currentDate": "2026-10-04"
 }
