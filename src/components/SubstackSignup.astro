@@ -84,7 +84,7 @@ const showHeader = showTitle || Boolean(description?.trim());
         </button>
       </div>
     </div>
-    <p class="sr-only" role="status" data-signup-status></p>
+    <p class="signup-status" role="status" data-signup-status></p>
   </form>
 </div>
 
@@ -126,6 +126,14 @@ const showHeader = showTitle || Boolean(description?.trim());
     color: var(--color-muted);
     font-size: 1.15rem;
     line-height: 1.5;
+  }
+
+  .signup-status {
+    min-block-size: 1.5em;
+    margin: var(--spacing-sm) 0 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-muted);
   }
 
   .signup-form {
@@ -403,7 +411,12 @@ const showHeader = showTitle || Boolean(description?.trim());
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .subscribe-button.is-loading::after {
+      animation: none;
+    }
+
     .email-input,
+    .email-input-rail::after,
     .subscribe-button,
     .subscribe-button-icon {
       transition: none;
