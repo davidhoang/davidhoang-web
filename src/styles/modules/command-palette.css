@@ -87,7 +87,11 @@
 }
 
 .site-nav.cmd-palette-has-results .cmd-palette-dropdown {
-  display: flex;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
 }
 
 @media (min-width: 769px) {
@@ -117,8 +121,15 @@
 }
 
 .cmd-palette-dropdown {
-  display: none;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    grid-template-rows var(--duration-slower) var(--ease-emphasized),
+    opacity var(--duration-slow) var(--ease-emphasized),
+    visibility 0s var(--duration-slower);
   position: absolute;
   top: 100%;
   left: -1px;
@@ -142,11 +153,17 @@
   overflow: hidden;
 }
 
+.cmd-palette-body {
+  min-height: 0;
+  overflow: hidden;
+}
+
 .cmd-palette-results {
   display: none;
   flex-direction: column;
   gap: var(--spacing-xs);
-  max-height: min(320px, 50vh);
+  /* Keep loading, empty and filtered results inside one stable surface. */
+  height: min(320px, 50vh);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -237,17 +254,6 @@
   opacity: 1;
 }
 
-@keyframes cmd-palette-item-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .cmd-palette-item {
   display: flex;
   align-items: center;
@@ -269,8 +275,6 @@
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 500;
   text-align: left;
-  animation: cmd-palette-item-in var(--duration-slow) var(--ease-inertia-smooth) both;
-  animation-delay: var(--cmd-palette-stagger, 0s);
   transition:
     background var(--duration-normal) var(--ease-standard),
     border-color var(--duration-normal) var(--ease-standard),
@@ -444,7 +448,7 @@
   }
 
   .cmd-palette-results {
-    max-height: min(50vh, 360px);
+    height: min(50vh, 360px);
     padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
   }
 
@@ -461,7 +465,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cmd-palette-item {
-    animation: none;
+  .site-nav .cmd-palette-dropdown {
+    transition: none !important;
   }
 }

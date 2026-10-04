@@ -105,7 +105,6 @@ function createResultItem(item: SearchItem, resultIndex: number, query = '') {
   link.ariaSelected = 'false';
   link.dataset.path = item.path;
   link.dataset.type = item.type;
-  link.style.setProperty('--cmd-palette-stagger', `${resultIndex * 0.02}s`);
 
   const main = document.createElement('span');
   main.className = 'cmd-palette-item__main';
@@ -147,7 +146,6 @@ function createRecentSearchItem(query: string, resultIndex: number) {
   button.role = 'option';
   button.ariaSelected = 'false';
   button.dataset.recentQuery = query;
-  button.style.setProperty('--cmd-palette-stagger', `${resultIndex * 0.02}s`);
 
   const main = document.createElement('span');
   main.className = 'cmd-palette-item__main';
@@ -228,16 +226,38 @@ export function initCommandPalette() {
   const results = document.getElementById('cmdPaletteResults');
   const footer = document.getElementById('cmdPaletteFooter');
   const desktopNav = document.querySelector<HTMLElement>('.desktop-nav');
+  const dropdown = nav?.querySelector<HTMLElement>('.cmd-palette-dropdown');
 
   const liveRegion = document.getElementById('cmdPaletteLive');
 
-  if (!nav || !input || !results || !desktopNav) return;
+  if (!nav || !input || !results || !desktopNav || !dropdown) return;
 
   let activeIndex = -1;
   let triggerElement: HTMLElement | null = null;
   let searchIndex: SearchItem[] = [];
   let indexLoadId = 0;
   let reportedEmptyForOpen = false;
+  let widthAnimation: Animation | null = null;
+
+  // Intrinsic nav width cannot interpolate through the search input swap.
+  // Measure both states and retarget from the current width on interruptions.
+  function changePaletteState(isOpen: boolean) {
+    const fromWidth = nav!.offsetWidth;
+    widthAnimation?.cancel();
+    nav!.classList.toggle('cmd-palette-active', isOpen);
+    dropdown!.inert = !isOpen;
+    if (!isOpen) nav!.classList.remove('cmd-palette-has-results');
+
+    const toWidth = nav!.offsetWidth;
+    if (window.innerWidth <= 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const style = getComputedStyle(nav!);
+    const duration = parseFloat(style.getPropertyValue('--duration-slower')) * 1000;
+    const easing = style.getPropertyValue('--ease-emphasized').trim();
+    widthAnimation = nav!.animate([
+      { minWidth: `${fromWidth}px`, maxWidth: `${fromWidth}px` },
+      { minWidth: `${toWidth}px`, maxWidth: `${toWidth}px` },
+    ], { duration, easing });
+  }
 
   async function ensureSearchIndex() {
     const loadId = ++indexLoadId;
@@ -263,7 +283,7 @@ export function initCommandPalette() {
     if (nav!.classList.contains('cmd-palette-active')) return;
     // Remember what triggered the palette so we can restore focus on close
     triggerElement = document.activeElement as HTMLElement | null;
-    nav!.classList.add('cmd-palette-active');
+    changePaletteState(true);
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
     nav!.querySelector('.cmd-k-hint')?.setAttribute('aria-expanded', 'true');
@@ -289,14 +309,13 @@ export function initCommandPalette() {
 
   function close() {
     indexLoadId++;
-    nav!.classList.remove('cmd-palette-active', 'cmd-palette-has-results');
+    changePaletteState(false);
     input!.value = '';
     input!.setAttribute('aria-expanded', 'false');
     nav!.querySelector('.cmd-k-hint')?.setAttribute('aria-expanded', 'false');
     input!.removeAttribute('aria-activedescendant');
-    results!.innerHTML = '';
-    results!.classList.remove('has-results');
-    footer?.classList.remove('visible');
+    // Keep the rendered surface in place while its grid row collapses.
+    // The next open replaces it; inert immediately removes closed results from focus.
     activeIndex = -1;
     input!.blur();
     triggerElement?.focus({ preventScroll: true });
@@ -563,6 +582,8 @@ export function initCommandPalette() {
 
   // --- Cleanup function for teardown ---
   _cleanup = () => {
+    indexLoadId++;
+    widthAnimation?.cancel();
     nav.removeEventListener('click', handleNavClick);
     desktopNav.removeEventListener('click', handleDesktopNavClick as EventListener);
     input.removeEventListener('input', handleInput);
