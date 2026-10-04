@@ -5,7 +5,7 @@ import PageHeader from '../components/PageHeader.astro';
 const advisingInquiryUrl = 'https://tally.so/r/D4M0lb';
 
 const pageDescription =
-  'A small advisory practice for Heads of Design at growth-stage startups navigating org scale, executive partnership, and design as a strategic function.';
+  'Advising for Heads of Design at growth-stage startups — org scale, executive partnership, and design as strategy.';
 const ogImage = '/images/header-images/img-header-advising.webp';
 ---
 
@@ -19,27 +19,16 @@ const ogImage = '/images/header-images/img-header-advising.webp';
   <div class="content-page content-page--compact-top advising-content container-narrow">
     <section class="content-page__intro">
       <p>
-        I've spent 20 years building and scaling design teams — currently as VP of AI Design at
-        Atlassian, and previously as VP of Marketing and Design at Replit, the first Head of Design
-        at Webflow, and Head of Product Design at One Medical through its IPO. At each company I've
-        grown teams, built operating cadence, and worked directly with founders and executives as
-        the org scaled.
+        I've spent 20 years building design teams — now VP of AI Design at Atlassian, previously VP
+        of Marketing and Design at Replit, first Head of Design at Webflow, and Head of Product
+        Design at One Medical through its IPO.
       </p>
       <p>
-        Design leaders at growth-stage companies often hit the same inflection point: the work is no
-        longer just about better product quality. It becomes org design, executive influence,
-        operating cadence, hiring, and helping the company understand what design is accountable for.
+        At Series A–C, the job shifts from product quality to org design, executive influence,
+        hiring, and clarity on what design owns. I advise a few leaders at a time when that
+        experience maps to their context — stronger taste, operating rhythm, executive trust, and
+        room in company strategy.
       </p>
-      <p>
-        I keep this intentionally small: a few advisory relationships at a time, only where my
-        experience maps closely to the leader's context. The goal is to help you build a design
-        function with stronger taste, operational clarity, executive trust, and a meaningful role in
-        company strategy.
-      </p>
-    </section>
-
-    <section class="advising-capacity" aria-label="Advising capacity">
-      <p>A handful of relationships each year</p>
     </section>
 
     <section class="content-page__section">
@@ -55,22 +44,21 @@ const ogImage = '/images/header-images/img-header-advising.webp';
     <section class="content-page__section">
       <h2>Advisory themes</h2>
       <ul class="content-page__list content-page__list--bullets">
-        <li><strong>Design as a strategic function:</strong> earning trust and influence with founders, product, and engineering</li>
-        <li><strong>Operating rhythm:</strong> critique, reviews, rituals, and decision systems that raise the quality bar</li>
-        <li><strong>Team architecture:</strong> org design, senior hiring, leveling, and developing design leaders</li>
-        <li><strong>Product taste and craft:</strong> building a culture that can recognize and ship better work</li>
-        <li><strong>AI and the design function:</strong> adapting design leadership as software creation changes</li>
+        <li><strong>Strategic design:</strong> trust with founders, product, and engineering</li>
+        <li><strong>Operating rhythm:</strong> critique, reviews, and decision systems</li>
+        <li><strong>Team architecture:</strong> org design, hiring, leveling, and growing leaders</li>
+        <li><strong>Taste and craft:</strong> culture that recognizes and ships better work</li>
+        <li><strong>AI and design:</strong> leadership as software creation changes</li>
       </ul>
     </section>
 
     <section class="content-page__section">
       <h2>How it works</h2>
       <ul class="content-page__list content-page__list--bullets">
-        <li>We start with the leadership challenge you are actively navigating</li>
-        <li>Most engagements are monthly sessions with async support between meetings</li>
-        <li>The work is practical and context-specific, not a fixed curriculum</li>
-        <li>I take on only a handful of advisory relationships each year</li>
-        <li>If I don't think I'm the right person to help, I'll say so directly</li>
+        <li>Start from the leadership challenge you're navigating now</li>
+        <li>Usually monthly sessions with async support between meetings</li>
+        <li>Practical and context-specific — not a fixed curriculum</li>
+        <li>A handful of relationships each year; I'll say no when I'm not the right fit</li>
       </ul>
     </section>
 
@@ -79,15 +67,15 @@ const ogImage = '/images/header-images/img-header-advising.webp';
       <ul class="content-page__list content-page__list--linked">
         <li>
           <a href="/writing/designs-seat-at-the-cap-table-part-i">Design's Seat at the Cap Table</a>
-          <span class="content-page__list-note">on design leadership, advising, and strategic influence</span>
+          <span class="content-page__list-note">design leadership and influence</span>
         </li>
         <li>
           <a href="/writing/design-engineering">Design Engineering</a>
-          <span class="content-page__list-note">on the changing shape of design, software, and technical craft</span>
+          <span class="content-page__list-note">design, software, and technical craft</span>
         </li>
         <li>
           <a href="/writing/email-updates-to-career-advisors">Keeping an advisory close</a>
-          <span class="content-page__list-note">on building durable advisory relationships</span>
+          <span class="content-page__list-note">durable advisory relationships</span>
         </li>
       </ul>
     </section>
@@ -95,32 +83,19 @@ const ogImage = '/images/header-images/img-header-advising.webp';
     <section class="card advising-cta" aria-labelledby="advising-apply-heading">
       <h2 id="advising-apply-heading" class="content-page__section-title">Apply</h2>
       <p class="advising-cta__body text-muted">
-        Share a little about your company, your team, and the leadership challenge you're
-        navigating. I'll review it personally and follow up if I think I can be useful.
+        Share your company, team, and the challenge you're navigating. I read every submission and
+        follow up when there's a clear fit.
       </p>
       <a class="btn btn-primary advising-cta__button" href={advisingInquiryUrl} target="_blank" rel="noopener noreferrer">
         Submit an inquiry
         <span class="advising-cta__arrow" aria-hidden="true">→</span>
       </a>
-      <p class="text-caption advising-cta__note">Opens in a new tab. I read every submission, but only follow up where there is a clear fit.</p>
+      <p class="text-caption advising-cta__note">Opens in a new tab.</p>
     </section>
   </div>
 </MainLayout>
 
 <style>
-  .advising-capacity {
-    margin: calc(-1 * var(--spacing-sm)) 0 var(--spacing-2xl);
-    padding: var(--spacing-md) 0;
-    border-block: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
-  }
-
-  .advising-capacity p {
-    margin: 0;
-    font-size: var(--body-size);
-    font-weight: 600;
-    color: var(--color-text);
-  }
-
   .advising-cta {
     margin-top: var(--spacing-2xl);
     padding: clamp(var(--spacing-lg), 4vw, calc(var(--spacing-xl) + var(--spacing-sm)));
@@ -156,10 +131,6 @@ const ogImage = '/images/header-images/img-header-advising.webp';
   }
 
   @media (max-width: 768px) {
-    .advising-capacity {
-      margin-bottom: var(--spacing-xl);
-    }
-
     .advising-cta__button {
       width: 100%;
     }

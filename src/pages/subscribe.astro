@@ -4,7 +4,7 @@ import SubstackSignup from '../components/SubstackSignup.astro';
 import PageHeader from '../components/PageHeader.astro';
 
 const pageDescription =
-  'Subscribe to Proof of Concept, a digital newsletter publication that explores experimentation and maximizing your creative output. Free issue every Sunday.';
+  'Proof of Concept — weekly newsletter on design, technology, and entrepreneurship. Free every Sunday.';
 const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
 ---
 
@@ -18,14 +18,11 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
     <div class="subscribe-page__stack">
       <header class="subscribe-page__intro">
         <p class="subscribe-page__eyebrow">Proof of Concept</p>
-        <h2 class="subscribe-page__title">A newsletter about experimentation and creative output</h2>
-        <p class="subscribe-page__lead">
-          One free issue every Sunday — design, technology, and entrepreneurship. Thanks for reading.
-        </p>
+        <h2 class="subscribe-page__title">Weekly notes on design, tech, and building</h2>
+        <p class="subscribe-page__lead">Free every Sunday.</p>
       </header>
       <section class="subscribe-page__panel" aria-labelledby="subscribe-form-title">
-        <h3 class="subscribe-page__panel-title" id="subscribe-form-title">Join the list</h3>
-        <p class="subscribe-page__panel-hint">Enter your email below. You can unsubscribe anytime.</p>
+        <h3 class="subscribe-page__panel-title" id="subscribe-form-title">Email</h3>
         <SubstackSignup showTitle={false} description="" compact />
       </section>
     </div>

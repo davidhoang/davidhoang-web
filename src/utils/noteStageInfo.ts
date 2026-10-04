@@ -4,18 +4,17 @@ export const noteStageInfo = {
   thoughts: {
     icon: '○',
     label: 'Thoughts',
-    description: 'Loose captures and early ideas—not yet shaped into a full note.',
+    description: 'Early captures, not yet a full note.',
   },
   sketching: {
     icon: '◐',
     label: 'Sketching',
-    description: 'Taking shape; links and structure still in motion.',
+    description: 'Taking shape; structure still moving.',
   },
   evergreen: {
     icon: '●',
     label: 'Evergreen',
-    description:
-      'Written to evolve, link, and stay useful over time—along the lines of evergreen notes in personal knowledge work.',
+    description: 'Meant to link, evolve, and stay useful.',
   },
 } as const satisfies Record<
   NoteStage,

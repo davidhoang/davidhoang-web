@@ -21,7 +21,7 @@ const notes = (import.meta.env.PROD
 const allTags = [...new Set(notes.flatMap((note) => note.data.tags || []))].sort();
 
 const pageDescription =
-  'Evergreen notes from my digital garden. Ideas I come back to, tend, and grow over time.';
+  'Digital garden notes — shorter, evolving ideas alongside long-form writing.';
 const pageOgImage = '/images/highlights/img-highlights-play.webp';
 
 const notesPlaceholderSketch =
@@ -39,9 +39,8 @@ const notesPlaceholderSketch =
   <section class="notes-intro" aria-labelledby="notes-intro-heading">
     <h2 id="notes-intro-heading" class="sr-only">About this garden</h2>
     <p class="notes-intro__lede">
-      Working notes from my digital garden — shorter, evolving ideas than the essays on{' '}
-      <a href="/writing">Writing</a>. Filter by topic or growth stage, or search across everything.{' '}
-      <a href="/rss/notes.xml" class="notes-intro__rss">RSS feed</a>
+      Shorter notes than <a href="/writing">Writing</a> — filter by topic or stage, or search.{' '}
+      <a href="/rss/notes.xml" class="notes-intro__rss">RSS</a>
     </p>
     <div class="stage-legend">
       {Object.values(noteStageInfo).map((info) => (
