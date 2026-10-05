@@ -1,6 +1,388 @@
 {
   "themes": [
     {
+      "name": "Wet Circuit",
+      "description": "The sharp geometry of urban signage meeting rain-slick stillness — dense technical precision breathing inside generous negative space.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#0F0F1A",
+          "--color-bg": "#EBF5FB",
+          "--color-link": "#C2185B",
+          "--color-link-hover": "#880E4F",
+          "--color-border": "#0F0F1A",
+          "--color-muted": "#4A5568",
+          "--color-sidebar-bg": "#DCF0F7",
+          "--color-nav-bg": "#EBF5FB",
+          "--color-nav-text": "#0F0F1A",
+          "--color-card-bg": "#E0F0F8"
+        },
+        "dark": {
+          "--color-text": "#E8F4F8",
+          "--color-bg": "#0A1628",
+          "--color-link": "#F06292",
+          "--color-link-hover": "#F48FB1",
+          "--color-border": "#E8F4F8",
+          "--color-muted": "#7B9EB8",
+          "--color-sidebar-bg": "#0D1E30",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#E8F4F8",
+          "--color-card-bg": "#0E2035"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EBF5FB",
+          "#C2185B"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-05",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Wet Circuit",
+              "subtitle": "2026 · 10 · 05"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Rain-slick geometry. Technical precision inside generous silence. Every edge is a signal.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "badge-row"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "WET CIRCUIT",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display · bebas neue",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "s2-right"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EBF5FB",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#0F0F1A",
+                  "label": "text"
+                },
+                {
+                  "hex": "#C2185B",
+                  "label": "link"
+                },
+                {
+                  "hex": "#880E4F",
+                  "label": "link-hover"
+                },
+                {
+                  "hex": "#4A5568",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#E0F0F8",
+                  "label": "card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2-right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hero-prev",
+              "shader-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "editorial hero"
+            },
+            "children": []
+          },
+          "shader-prev": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EBF5FB",
+                "#C2185B"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "meta",
+              "s3-right"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "grid",
+                  "value": "split"
+                },
+                {
+                  "label": "links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "texture",
+                  "value": "grid"
+                },
+                {
+                  "label": "images",
+                  "value": "duotone / hover colorize"
+                },
+                {
+                  "label": "scheme",
+                  "value": "split-complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3-right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "tokens",
+              "apply-btn"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "font-heading",
+                  "value": "Bebas Neue"
+                },
+                {
+                  "name": "font-body",
+                  "value": "IBM Plex Sans"
+                },
+                {
+                  "name": "border-radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "color-link",
+                  "value": "#C2185B"
+                },
+                {
+                  "name": "color-bg",
+                  "value": "#EBF5FB"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Wet Circuit",
+              "action": "apply-theme",
+              "date": "2026-10-05"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Peach Frequency",
       "description": "A rhythm-led composition where generous breathing room and dense typographic detail alternate like measures in an early-morning song.",
       "colors": {
@@ -2165,368 +2547,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Slab & Canopy",
-      "description": "A Niemeyer terrace translated into precise information architecture — generous proportions, deep structural shadow, and a palette pulled from lime plaster, rosewood, and pool-lit interior grey.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2A3028",
-          "--color-bg": "#EDF2ED",
-          "--color-link": "#AD5126",
-          "--color-link-hover": "#943F18",
-          "--color-border": "#B8C8B4",
-          "--color-muted": "#627260",
-          "--color-sidebar-bg": "#E2EBE1",
-          "--color-nav-bg": "#EDF2ED",
-          "--color-nav-text": "#2A3028",
-          "--color-card-bg": "#F4F7F3"
-        },
-        "dark": {
-          "--color-text": "#DDE8DC",
-          "--color-bg": "#111A10",
-          "--color-link": "#E07A45",
-          "--color-link-hover": "#F59860",
-          "--color-border": "#2E4230",
-          "--color-muted": "#748A71",
-          "--color-sidebar-bg": "#0D1610",
-          "--color-nav-bg": "#111A10",
-          "--color-nav-text": "#DDE8DC",
-          "--color-card-bg": "#172116"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Karla",
-          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1080px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EDF2ED"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-09-28",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Slab & Canopy",
-              "subtitle": "September 28, 2026"
-            },
-            "children": [
-              "s1",
-              "div1",
-              "s2",
-              "div2",
-              "s3",
-              "div3",
-              "s4"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif / sans",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "complementary",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "ht",
-              "mf"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Generous Proportions, Deep Shadow",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "mf": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A Niemeyer terrace doesn't ask permission to occupy space. Neither does this UI. Lime plaster meets rosewood — information architecture as civic gesture.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "col",
-              "s3r"
-            ]
-          },
-          "col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "tok"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EDF2ED",
-                  "label": "Lime Plaster"
-                },
-                {
-                  "hex": "#2A3028",
-                  "label": "Canopy"
-                },
-                {
-                  "hex": "#AD5126",
-                  "label": "Rosewood"
-                },
-                {
-                  "hex": "#B8C8B4",
-                  "label": "Border Reed"
-                },
-                {
-                  "hex": "#627260",
-                  "label": "Pool Mist"
-                },
-                {
-                  "hex": "#F4F7F3",
-                  "label": "Card White"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "link",
-                  "value": "[bracket]"
-                },
-                {
-                  "name": "texture",
-                  "value": "none"
-                },
-                {
-                  "name": "image",
-                  "value": "muted+hover"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3r": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hp",
-              "lp",
-              "shd"
-            ]
-          },
-          "hp": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Hero: Rolodex"
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "shd": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#EDF2ED",
-                "#B8C8B4"
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "cap",
-              "btn"
-            ]
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Fraunces + Karla — structural serif anchored by utilitarian sans",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Slab & Canopy",
-              "action": "apply-theme",
-              "date": "2026-09-28"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-04"
+  "currentDate": "2026-10-05"
 }
