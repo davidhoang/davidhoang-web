@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import DesignStackGrid from '../components/DesignStackGrid.astro';
+import { layoutInspirationSources } from '../data/layout-inspiration';
 
 const pageDescription = "A curated collection of design tools, references, and resources I use and recommend.";
 const ogImage = "/images/header-images/img-header-writing.webp";
@@ -92,6 +93,19 @@ const resources = [
     </section>
 
     <div class="additional-resources container-narrow">
+      <section class="layout-inspiration-section" aria-labelledby="layout-inspiration-heading">
+        <h2 id="layout-inspiration-heading" class="section-heading">Layout inspiration</h2>
+        <p class="resources-intro">
+          External references for spatial layout and motion — we build our own components, but these are useful interaction benchmarks.
+        </p>
+        {layoutInspirationSources.map((source) => (
+          <a href={source.url} target="_blank" rel="noopener noreferrer" class="resource-item">
+            <span class="resource-name">{source.name}</span>
+            <span class="resource-description">{source.description}</span>
+          </a>
+        ))}
+      </section>
+
       <section aria-labelledby="additional-resources-heading">
         <h2 id="additional-resources-heading" class="section-heading">Additional resources</h2>
         <p class="resources-intro">Books and typography — go-to references I use and recommend.</p>

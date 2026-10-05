@@ -5,6 +5,7 @@ import { unified } from '@astrojs/markdown-remark';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
@@ -141,6 +142,7 @@ export default defineConfig({
   ],
   vite: {
     plugins: [
+      tailwindcss(),
       serveRootMarkdownRoutesPlugin(),
       copyAssetsPlugin(),
       ...(process.env.ANALYZE ? [visualizer({
