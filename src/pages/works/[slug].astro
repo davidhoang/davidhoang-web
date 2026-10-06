@@ -1,0 +1,148 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { workCaseStudies } from '../../data/workCaseStudies';
+
+export function getStaticPaths() {
+  return workCaseStudies.map((study) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }));
+}
+
+const { study } = Astro.props;
+if (!study) {
+  throw new Error('Work case study is undefined');
+}
+
+const pageTitle = `${study.title} | Works | David Hoang`;
+---
+
+<MainLayout
+  title={pageTitle}
+  description={study.description}
+  ogImage={study.heroImage}
+  disableContentMoodFilter
+>
+  <PageHeader title={study.title} image={study.heroImage} alt={study.heroAlt} />
+  <article class="content-page work-case-study container-narrow">
+    <nav class="work-case-study__nav" aria-label="Works">
+      <a class="work-case-study__back" href="/works">← All works</a>
+      <p class="work-case-study__meta">
+        <span class="work-case-study__role">{study.role}</span>
+        <span class="work-case-study__sep" aria-hidden="true">·</span>
+        <span class="work-case-study__when">{study.when}</span>
+        {
+          study.companyUrl && (
+            <>
+              <span class="work-case-study__sep" aria-hidden="true">·</span>
+              <a href={study.companyUrl} target="_blank" rel="noopener noreferrer">
+                {study.title}
+                <span class="work-case-study__external" aria-hidden="true"> ↗</span>
+              </a>
+            </>
+          )
+        }
+      </p>
+    </nav>
+
+    <p class="content-page__lede work-case-study__lede">{study.description}</p>
+
+    {
+      study.sections.map((section) => (
+        <section class="content-page__section work-case-study__section">
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          {section.bullets && section.bullets.length > 0 && (
+            <ul class="content-page__list content-page__list--bullets">
+              {section.bullets.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+  </article>
+</MainLayout>
+
+<style>
+  .work-case-study__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .work-case-study__back {
+    font-size: var(--text-caption-size, 0.8125rem);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-caption);
+    text-decoration: none;
+    color: var(--color-link);
+    border-bottom: none;
+  }
+
+  .work-case-study__back::after {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .work-case-study__back:hover {
+      color: var(--color-text);
+    }
+  }
+
+  .work-case-study__back:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .work-case-study__meta {
+    margin: 0;
+    font-size: var(--text-caption-size, 0.8125rem);
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  .work-case-study__when {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .work-case-study__sep {
+    margin: 0 var(--spacing-xs);
+  }
+
+  .work-case-study__external {
+    font-size: 0.85em;
+  }
+
+  .work-case-study__lede {
+    max-width: 42rem;
+  }
+
+  .work-case-study__section h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--letter-spacing-heading-md, var(--letter-spacing-display));
+    margin: 0 0 var(--spacing-md);
+    color: var(--color-text);
+  }
+
+  .work-case-study__section p {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--body-size);
+    line-height: 1.65;
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
+  }
+
+  .work-case-study__section p:last-of-type {
+    margin-bottom: 0;
+  }
+</style>

@@ -9,6 +9,7 @@
  * Strategy:
  * - Static HTML destinations: `discoverableStaticPages` in navigation.ts
  * - Writing + notes: published collections only (`includeDrafts: false`)
+ * - Works case studies: static pages under `/works/{slug}` (see workCaseStudies.ts)
  * - Utility, deprecated, API, and feed routes: listed below and never indexed
  */
 import { normalizePath } from '../utils/searchIndex';
@@ -16,7 +17,7 @@ import { normalizePath } from '../utils/searchIndex';
 export const SEARCH_INDEX_INCLUDE_DRAFTS = false;
 
 /** Content collections whose published entries are indexed as items. */
-export const SEARCH_INDEX_COLLECTIONS = ['writing', 'notes'] as const;
+export const SEARCH_INDEX_COLLECTIONS = ['writing', 'notes', 'works'] as const;
 
 export type SearchIndexCollection = (typeof SEARCH_INDEX_COLLECTIONS)[number];
 

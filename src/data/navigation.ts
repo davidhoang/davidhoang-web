@@ -70,6 +70,12 @@ export const commandPalettePages = [
     path: '/experiments',
     type: 'page',
   },
+  {
+    title: 'Uses',
+    description: 'Tools, hardware, and services used day to day.',
+    path: '/uses',
+    type: 'page',
+  },
 ] as const;
 
 /**
@@ -120,6 +126,7 @@ export const footerSections = [
       },
       { href: '/design-resources', label: 'Design Resources', ariaLabel: 'Design resources and tools', external: false },
       { href: '/design-guide', label: 'Design Guide', ariaLabel: 'Design system guide', external: false },
+      { href: '/uses', label: 'Uses', ariaLabel: 'Tools and setup', external: false },
     ],
   },
   {
