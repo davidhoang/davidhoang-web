@@ -1,6 +1,351 @@
 {
   "themes": [
     {
+      "name": "Slab & Canopy",
+      "description": "A Brazilian modernist terrace frozen at peak afternoon — generous type carved into warm shade, turquoise water glimpsed through deep green eaves.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C3528",
+          "--color-bg": "#EDF2EC",
+          "--color-link": "#0C7768",
+          "--color-link-hover": "#C4572B",
+          "--color-border": "#B8C4B5",
+          "--color-muted": "#62705E",
+          "--color-sidebar-bg": "#E3EAE2",
+          "--color-nav-bg": "#EDF2EC",
+          "--color-nav-text": "#2C3528",
+          "--color-card-bg": "#E6EDE5"
+        },
+        "dark": {
+          "--color-text": "#DDE8D8",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#3ECFB8",
+          "--color-link-hover": "#E8794A",
+          "--color-border": "#2A4040",
+          "--color-muted": "#6A8A84",
+          "--color-sidebar-bg": "#111F22",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#DDE8D8",
+          "--color-card-bg": "#132428"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Work Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDF2EC",
+          "#0E8C7A"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-06",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Slab & Canopy",
+              "subtitle": "October 6, 2026 — Brazilian Modernist"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "palette",
+              "div2",
+              "s2",
+              "s3",
+              "div3",
+              "action"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A terrace at two in the afternoon. The overhang swallows the sun, but turquoise still seeps through. Type carved wide and generous, the way concrete remembers touch.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "ht",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Slab & Canopy",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDF2EC",
+                  "label": "Canopy Fog"
+                },
+                {
+                  "hex": "#2C3528",
+                  "label": "Deep Shade"
+                },
+                {
+                  "hex": "#0C7768",
+                  "label": "Turquoise"
+                },
+                {
+                  "hex": "#C4572B",
+                  "label": "Terra Hover"
+                },
+                {
+                  "hex": "#62705E",
+                  "label": "Muted Fern"
+                },
+                {
+                  "hex": "#E6EDE5",
+                  "label": "Card Wash"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "meta"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Stacked Fan Hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grain"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated Underline"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Split-Complementary"
+                },
+                {
+                  "label": "Images",
+                  "value": "Muted / Hover Colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tg",
+              "layout"
+            ]
+          },
+          "tg": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#0C7768"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#C4572B"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#EDF2EC"
+                },
+                {
+                  "name": "border-radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "heading-font",
+                  "value": "Cormorant Garamond"
+                }
+              ]
+            },
+            "children": []
+          },
+          "layout": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "action": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Slab & Canopy",
+              "action": "apply-theme",
+              "date": "2026-10-06"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Wet Circuit",
       "description": "The sharp geometry of urban signage meeting rain-slick stillness — dense technical precision breathing inside generous negative space.",
       "colors": {
@@ -2216,338 +2561,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Ivory & Blare",
-      "description": "A morning-bright playground that borrows the energy of a jazz poster—bold condensed type punching through a clean ivory field, with one saturated brass accent that anchors the whole composition.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1208",
-          "--color-bg": "#FDF6E3",
-          "--color-link": "#8F6008",
-          "--color-link-hover": "#9B6400",
-          "--color-border": "#D4B96A",
-          "--color-muted": "#7C6948",
-          "--color-sidebar-bg": "#F7EDD0",
-          "--color-nav-bg": "#FDF6E3",
-          "--color-nav-text": "#1A1208",
-          "--color-card-bg": "#FAF0CC"
-        },
-        "dark": {
-          "--color-text": "#F2E8CC",
-          "--color-bg": "#1C1410",
-          "--color-link": "#E8A030",
-          "--color-link-hover": "#F5C060",
-          "--color-border": "#5A4420",
-          "--color-muted": "#968062",
-          "--color-sidebar-bg": "#241A0E",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F2E8CC",
-          "--color-card-bg": "#261C12"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Anton",
-          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "zoom",
-        "opacity": "1",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FDF6E3",
-          "#C8860A"
-        ]
-      },
-      "font": {
-        "name": "Anton",
-        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-09-29",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Ivory & Blare",
-              "subtitle": "Daily UI · September 29, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Condensed. Punchy. Morning-lit. One brass note loud enough to carry the whole room.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "ht",
-              "badge-row"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "BRASS & IVORY",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display · Anton",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF6E3",
-                  "label": "Ivory"
-                },
-                {
-                  "hex": "#1A1208",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#C8860A",
-                  "label": "Brass"
-                },
-                {
-                  "hex": "#D4B96A",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#FAF0CC",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#7C6948",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Hero"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "meta",
-              "shader"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Links",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dot Grid"
-                },
-                {
-                  "label": "Radius",
-                  "value": "8px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#FDF6E3",
-                "#C8860A"
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Ivory & Blare",
-              "action": "apply-theme",
-              "date": "2026-09-29"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-05"
+  "currentDate": "2026-10-06"
 }
