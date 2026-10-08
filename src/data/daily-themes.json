@@ -1,6 +1,382 @@
 {
   "themes": [
     {
+      "name": "Harbour Ledger",
+      "description": "Helsinki harbour at rest — fogged linen and ice blue, a single red accent cutting through the mist like a warehouse beacon, structured as a precise information rail.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C2226",
+          "--color-bg": "#EEF2F4",
+          "--color-link": "#C8001A",
+          "--color-link-hover": "#960013",
+          "--color-border": "#B8C4CC",
+          "--color-muted": "#5B6B75",
+          "--color-sidebar-bg": "#E4EAED",
+          "--color-nav-bg": "#EEF2F4",
+          "--color-nav-text": "#1C2226",
+          "--color-card-bg": "#E8EEF1"
+        },
+        "dark": {
+          "--color-text": "#DCE8EE",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#EF4D62",
+          "--color-link-hover": "#FF3347",
+          "--color-border": "#2A3D44",
+          "--color-muted": "#768E96",
+          "--color-sidebar-bg": "#0A1A1D",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#DCE8EE",
+          "--color-card-bg": "#111F23"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cabinet Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+          "category": "display",
+          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEF2F4",
+          "#B8C4CC"
+        ]
+      },
+      "font": {
+        "name": "Cabinet Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+        "category": "display",
+        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-10-08",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Harbour Ledger",
+              "subtitle": "2026-10-08 — Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Helsinki harbour at rest. Fog settles over linen and ice. One red beacon cuts the mist — a warehouse signal, a precise rail of information threading through silence.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "ht",
+              "br",
+              "s2a"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Harbour Ledger",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display grotesk",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s2a": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "meta"
+            ]
+          },
+          "pal": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "cp",
+              "body-sample"
+            ]
+          },
+          "cp": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EEF2F4",
+                  "label": "Fogged Linen"
+                },
+                {
+                  "hex": "#B8C4CC",
+                  "label": "Ice Shore"
+                },
+                {
+                  "hex": "#1C2226",
+                  "label": "Harbour Ink"
+                },
+                {
+                  "hex": "#5B6B75",
+                  "label": "Mist Muted"
+                },
+                {
+                  "hex": "#E8EEF1",
+                  "label": "Card Frost"
+                },
+                {
+                  "hex": "#C8001A",
+                  "label": "Beacon Red"
+                }
+              ]
+            },
+            "children": []
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Precise information, quietly delivered — Literata serif at rest.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Radius",
+                  "value": "2px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "lp",
+              "tok",
+              "apply"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#C8001A"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#B8C4CC"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#5B6B75"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "Cabinet Grotesk"
+                },
+                {
+                  "name": "--font-body",
+                  "value": "Literata"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Harbour Ledger",
+              "action": "apply-theme",
+              "date": "2026-10-08"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Downbeat",
       "description": "A late-night jazz hall rendered in tarnished brass and oxblood, where cinematic imagery breathes through deep shadow and warm ivory type.",
       "colors": {
@@ -2203,352 +2579,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Azulejo Evening",
-      "description": "Cobalt geometry meets warm tin-glazed parchment — a Portuguese tile wall catching the last golden hour, rendered as a measured editorial journal.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#1C1408",
-          "--color-bg": "#F7F0E3",
-          "--color-link": "#1B4FBF",
-          "--color-link-hover": "#8B1A2F",
-          "--color-border": "#C8B89A",
-          "--color-muted": "#74695A",
-          "--color-sidebar-bg": "#EFE6D0",
-          "--color-nav-bg": "#F7F0E3",
-          "--color-nav-text": "#1C1408",
-          "--color-card-bg": "#EDE4D2"
-        },
-        "dark": {
-          "--color-text": "#EFE6D2",
-          "--color-bg": "#1A1209",
-          "--color-link": "#6B9EF4",
-          "--color-link-hover": "#D4637A",
-          "--color-border": "#3A2E1E",
-          "--color-muted": "#8A7D6A",
-          "--color-sidebar-bg": "#221810",
-          "--color-nav-bg": "#1A1209",
-          "--color-nav-text": "#EFE6D2",
-          "--color-card-bg": "#241A0F"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Spectral",
-          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1160px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F7F0E3",
-          "#1B4FBF"
-        ]
-      },
-      "font": {
-        "name": "Spectral",
-        "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-01",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Azulejo Evening",
-              "subtitle": "2026 · Oct 01"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "palette",
-              "div2",
-              "s2",
-              "s3",
-              "div3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A tile wall at dusk. Cobalt geometry pressed into warm parchment — the geometry of prayer, the patience of craft, the last raking light before evening.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Azulejo Evening",
-              "variant": "heading",
-              "weight": "600"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F7F0E3",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#1B4FBF",
-                  "label": "Cobalt"
-                },
-                {
-                  "hex": "#8B1A2F",
-                  "label": "Crimson"
-                },
-                {
-                  "hex": "#C8B89A",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#74695A",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#1C1408",
-                  "label": "Ink"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "meta"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                },
-                {
-                  "label": "Images",
-                  "value": "Muted / Hover Colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "lp",
-              "tok"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#F7F0E3"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#1B4FBF"
-                },
-                {
-                  "name": "--color-link-hover",
-                  "value": "#8B1A2F"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--heading-font",
-                  "value": "Spectral"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Azulejo Evening",
-              "action": "apply-theme",
-              "date": "2026-10-01"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-07"
+  "currentDate": "2026-10-08"
 }
