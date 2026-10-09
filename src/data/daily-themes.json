@@ -1,6 +1,401 @@
 {
   "themes": [
     {
+      "name": "Burned & Kept",
+      "description": "Late-night Swiss precision meets overexposed instant film — a grid of chemical-bright cards against a near-black field, every border crisp as a white photo margin.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1208",
+          "--color-bg": "#FDF6E3",
+          "--color-link": "#D4006A",
+          "--color-link-hover": "#FF3D8A",
+          "--color-border": "#1A1208",
+          "--color-muted": "#7C6E55",
+          "--color-sidebar-bg": "#F5ECCC",
+          "--color-nav-bg": "#FDF6E3",
+          "--color-nav-text": "#1A1208",
+          "--color-card-bg": "#FFFDF5"
+        },
+        "dark": {
+          "--color-text": "#F0E8CC",
+          "--color-bg": "#0F0D09",
+          "--color-link": "#FF3D8A",
+          "--color-link-hover": "#FF80B5",
+          "--color-border": "#F0E8CC",
+          "--color-muted": "#897E69",
+          "--color-sidebar-bg": "#181409",
+          "--color-nav-bg": "#0F0D09",
+          "--color-nav-text": "#F0E8CC",
+          "--color-card-bg": "#1C1810"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Archivo Black",
+          "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
+          "category": "sans-serif",
+          "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "DM Sans",
+          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#0F0D09",
+          "#1C1810"
+        ]
+      },
+      "font": {
+        "name": "Archivo Black",
+        "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
+        "category": "sans-serif",
+        "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-10-09",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Burned & Kept",
+              "subtitle": "2026-10-09 · Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Swiss grid. Overexposed film. The border is the margin. The dark field holds everything you saved from the fire.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "br",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Burned & Kept",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "col1",
+              "col2"
+            ]
+          },
+          "col1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "ts2",
+              "hero"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF6E3",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#FFFDF5",
+                  "label": "card"
+                },
+                {
+                  "hex": "#1A1208",
+                  "label": "text"
+                },
+                {
+                  "hex": "#D4006A",
+                  "label": "link"
+                },
+                {
+                  "hex": "#FF3D8A",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#7C6E55",
+                  "label": "muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Every border crisp as a white photo margin.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "scattered hero"
+            },
+            "children": []
+          },
+          "col2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tg"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "standard"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "split-complementary"
+                },
+                {
+                  "label": "Link",
+                  "value": "highlight"
+                },
+                {
+                  "label": "Radius",
+                  "value": "8px"
+                },
+                {
+                  "label": "Footer",
+                  "value": "retro"
+                },
+                {
+                  "label": "Shader",
+                  "value": "none"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tg": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#D4006A"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#1A1208"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF6E3"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#FFFDF5"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "lp",
+              "cap"
+            ]
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Late-night Swiss precision. Chemical-bright cards. Near-black field.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Burned & Kept",
+              "action": "apply-theme",
+              "date": "2026-10-09"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Harbour Ledger",
       "description": "Helsinki harbour at rest — fogged linen and ice blue, a single red accent cutting through the mist like a warehouse beacon, structured as a precise information rail.",
       "colors": {
@@ -2195,391 +2590,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Chrome Oasis",
-      "description": "Palm Springs architecture glimpsed through a CRT monitor at midnight — swimming-pool turquoise against deep desert navy, rendered in high-gloss detail with generous breathing room between each image.",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#0D1F3C",
-          "--color-bg": "#E8F6F3",
-          "--color-link": "#00766C",
-          "--color-link-hover": "#FF3DAA",
-          "--color-border": "#B2DDD8",
-          "--color-muted": "#4D7571",
-          "--color-sidebar-bg": "#D4EFEB",
-          "--color-nav-bg": "#E8F6F3",
-          "--color-nav-text": "#0D1F3C",
-          "--color-card-bg": "#D4EFEB"
-        },
-        "dark": {
-          "--color-text": "#E0F4F1",
-          "--color-bg": "#0A1628",
-          "--color-link": "#00E5D4",
-          "--color-link-hover": "#FF3DAA",
-          "--color-border": "#1A3A4A",
-          "--color-muted": "#4A8A90",
-          "--color-sidebar-bg": "#0D1F38",
-          "--color-nav-bg": "#0A1628",
-          "--color-nav-text": "#E0F4F1",
-          "--color-card-bg": "#0F2640"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Manrope",
-          "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "20px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#00E5D4",
-          "#0A1628"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-10-02",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Chrome Oasis",
-              "subtitle": "2026-10-02 · Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "div2",
-              "mid-row",
-              "div3",
-              "meta",
-              "div4",
-              "bot-row"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A CRT blinks on at midnight. Palm Springs concrete glows turquoise in the cathode light. High-gloss stillness. Desert air, pool-cold.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#0D1F3C",
-                  "label": "Deep Navy"
-                },
-                {
-                  "hex": "#E8F6F3",
-                  "label": "Pool Mist"
-                },
-                {
-                  "hex": "#00766C",
-                  "label": "Oasis"
-                },
-                {
-                  "hex": "#FF3DAA",
-                  "label": "Neon Hover"
-                },
-                {
-                  "hex": "#D4EFEB",
-                  "label": "Card Glass"
-                },
-                {
-                  "hex": "#B2DDD8",
-                  "label": "Border Teal"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "mid-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "left-col",
-              "right-col"
-            ]
-          },
-          "left-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "h2",
-              "badge-row"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Chrome Oasis",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "h2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Swimming-pool turquoise. Midnight architecture. High gloss, wide breath.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "filled cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "triadic",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "right-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "High"
-                },
-                {
-                  "label": "Radius",
-                  "value": "20px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Gradient"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div4": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "bot-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "tokens",
-              "apply-btn"
-            ]
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link-hover",
-                  "value": "#FF3DAA"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#00766C"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#0D1F3C"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#D4EFEB"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Chrome Oasis",
-              "action": "apply-theme",
-              "date": "2026-10-02"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-08"
+  "currentDate": "2026-10-09"
 }
