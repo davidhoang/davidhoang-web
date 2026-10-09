@@ -1,7 +1,14 @@
-.homes-pair {
+:is(.homes-pair, .homes-grid) {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--spacing-xl);
+}
+
+.homes-pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.homes-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .home-viewer { margin: 0; min-width: 0; }
 .home-viewer__stage {
@@ -58,5 +65,8 @@
 .home-viewer__caption { padding-top: var(--spacing-sm); text-align: center; }
 .home-viewer__caption h3 { margin: 0; font-size: inherit; }
 @media (max-width: 768px) {
-  .homes-pair { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+  :is(.homes-pair, .homes-grid) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
 }

@@ -63,7 +63,10 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
         />
       )}
       <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
-      <h1 class="page-header__title">{title}</h1>
+      <div class="page-header__copy">
+        <h1 class="page-header__title">{title}</h1>
+        {subtitle && <p class="page-header__subtitle page-header__subtitle--hero">{subtitle}</p>}
+      </div>
     </div>
   ) : (
     <div class="page-header__text">
@@ -243,12 +246,27 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     pointer-events: none;
   }
 
+  .page-header--image .page-header__copy {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 var(--spacing-lg);
+    max-width: 42rem;
+  }
+
   .page-header--image .page-header__title {
     font-family: var(--font-heading);
     font-size: var(--display-title-size-page);
     font-weight: var(--display-title-weight);
     letter-spacing: var(--display-title-letter-spacing);
     text-shadow: 0 2px 20px color-mix(in srgb, var(--color-text) 40%, transparent);
+    margin: 0;
+  }
+
+  .page-header__subtitle--hero {
+    margin-top: var(--spacing-sm);
+    color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    text-shadow: 0 1px 12px color-mix(in srgb, var(--color-text) 35%, transparent);
   }
 
   /* Text variant - simple header */
