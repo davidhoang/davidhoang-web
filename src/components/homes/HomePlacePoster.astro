@@ -1,0 +1,41 @@
+---
+/**
+ * Static place card matching HomeViewer chrome — for cities without a clay GLB yet.
+ */
+interface Props {
+  name: string;
+  posterUrl: string;
+  description: string;
+  statusNote?: string;
+}
+
+const { name, posterUrl, description, statusNote } = Astro.props;
+const titleId = `${name.toLowerCase().replace(/\s+/g, '-')}-place-title`;
+---
+
+<figure class="home-viewer home-place-poster" aria-labelledby={titleId}>
+  <div class="home-viewer__stage">
+    <img
+      class="home-viewer__poster loaded"
+      src={posterUrl}
+      alt={description}
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <figcaption class="home-viewer__caption">
+    <h3 id={titleId}>{name}</h3>
+    {statusNote ? <p class="text-caption home-place-poster__note">{statusNote}</p> : null}
+  </figcaption>
+</figure>
+
+<style>
+  .home-place-poster .home-viewer__poster {
+    object-fit: cover;
+  }
+
+  .home-place-poster__note {
+    margin: var(--spacing-xs) 0 0;
+    color: var(--color-muted);
+  }
+</style>

@@ -1,94 +1,323 @@
 ---
+import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import SubstackSignup from '../components/SubstackSignup.astro';
 import HomeViewer from '../components/homes/HomeViewer';
+import HomePlacePoster from '../components/homes/HomePlacePoster.astro';
 import imgDavidSydney from '../assets/images/img-david-sydney.webp';
 import imgDavidNow from '../assets/images/img-david-now.webp';
 import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
+import imgDavidSf from '../assets/images/img-david-sf.webp';
 import {
   buildNowPageJsonLd,
   NOW_LAST_UPDATED,
   NOW_LAST_UPDATED_LABEL,
 } from '../utils/structuredData';
+import { nowReading, nowReadingHref, type NowReadingItem } from '../data/nowReading';
+import '../components/homes/homes.css';
 
-// Page metadata
 const pageDescription =
-  'What David is focused on now — Atlassian, Proof of Concept, investing, and travel.';
-const ogImage = "/images/img-david-now.webp";
+  'What David Hoang is focused on now — AI design at Atlassian, Proof of Concept, agent experience, angel investing, and life between Palm Springs, San Francisco, and Sydney.';
 
 const nowJsonLd = buildNowPageJsonLd({
   description: pageDescription,
   dateModified: NOW_LAST_UPDATED,
 });
+
+const writingById = new Map(
+  (await getCollection('writing', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
+);
+const notesById = new Map(
+  (await getCollection('notes', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
+);
+
+function resolveNowReading(item: NowReadingItem) {
+  if (item.kind === 'writing') {
+    const entry = writingById.get(item.id);
+    if (!entry) {
+      throw new Error(`Now page: missing writing entry "${item.id}"`);
+    }
+    return {
+      ...item,
+      title: entry.data.title,
+      href: nowReadingHref(item),
+      external: false as const,
+    };
+  }
+  if (item.kind === 'notes') {
+    const entry = notesById.get(item.id);
+    if (!entry) {
+      throw new Error(`Now page: missing notes entry "${item.id}"`);
+    }
+    return {
+      ...item,
+      title: entry.data.title,
+      href: nowReadingHref(item),
+      external: false as const,
+    };
+  }
+  return {
+    ...item,
+    href: nowReadingHref(item),
+    external: true as const,
+  };
+}
+
+const readingNow = nowReading.map(resolveNowReading);
 ---
 
-<MainLayout title="Now | David Hoang" description={pageDescription} ogImage={ogImage} containerClass="container container-wide">
+<MainLayout
+  title="Now | David Hoang"
+  description={pageDescription}
+  containerClass="container container-wide"
+>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(nowJsonLd)} />
   <PageHeader
     title="Now"
+    subtitle="Work, writing, and where I'm spending time this season."
     image={imgDavidNow.src}
     alt="David Hoang portrait photo, current headshot"
   />
   <div class="content-page now-content">
-    <div class="container-narrow now-reading">
-    <p class="content-page__meta">
-      Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about
-      <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
-    </p>
-    <div class="now-photos">
-      <div class="now-grid">
-        <div class="now-grid-item">
-          <Image src={imgDavidSydney} alt="David Hoang standing in Sydney, Australia with city skyline in the background" loading="lazy" decoding="async" />
+    <div class="container-narrow">
+      <section class="content-page__intro">
+        <p>
+          A short, dated snapshot of priorities — the nownownow.com tradition. Less résumé than
+          <a href="/about">About</a>; more current than <a href="/thesis">Conviction</a>.
+        </p>
+      </section>
+
+      <p class="content-page__meta">
+        Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about
+        <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
+      </p>
+
+      <figure class="now-photos">
+        <figcaption class="text-eyebrow now-photos__label">Places I'm in lately</figcaption>
+        <div class="now-grid">
+          <div class="now-grid-item">
+            <Image
+              src={imgDavidSydney}
+              alt="David Hoang standing in Sydney, Australia with city skyline in the background"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="now-grid-item">
+            <Image
+              src={imgDavidSf}
+              alt="David Hoang in San Francisco"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="now-grid-item">
+            <Image
+              src={imgDavidHawaii}
+              alt="David Hoang in Hawaii, casual outdoor setting"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
-        <div class="now-grid-item">
-          <Image src={imgDavidNow} alt="David Hoang portrait photo, current headshot" loading="lazy" decoding="async" />
-        </div>
-        <div class="now-grid-item">
-          <Image src={imgDavidHawaii} alt="David Hoang in Hawaii, casual outdoor setting" loading="lazy" decoding="async" />
-        </div>
+      </figure>
+    </div>
+
+    <section
+      id="places-i-call-home"
+      class="content-page__section now-homes"
+      aria-label="Places I call home"
+      data-diorama-revision="3"
+    >
+      <div class="container-narrow">
+        <h2 class="now-homes__heading">Places I call home</h2>
+        <p class="now-homes__lede text-muted">
+          Drag to orbit the clay miniatures — or peek at Sydney while that scene is still on the workbench.
+        </p>
       </div>
-    </div>
-    </div>
-    <section class="content-page__section now-homes" aria-label="Places I call home" data-diorama-revision="2">
-      <div class="homes-pair">
-        <HomeViewer client:visible={{ rootMargin: '300px' }} kind="desert" name="Palm Springs" modelUrl="/models/homes/greco-court.glb" posterUrl="/images/homes/greco-court.webp" />
-        <HomeViewer client:visible={{ rootMargin: '300px' }} kind="clocktower" name="San Francisco" modelUrl="/models/homes/clocktower.glb" posterUrl="/images/homes/clocktower.webp" />
+      <div class="homes-grid now-homes__grid">
+        <HomeViewer
+          client:visible={{ rootMargin: '300px' }}
+          kind="desert"
+          name="Palm Springs"
+          modelUrl="/models/homes/greco-court.glb"
+          posterUrl="/images/homes/greco-court.webp"
+        />
+        <HomeViewer
+          client:visible={{ rootMargin: '300px' }}
+          kind="clocktower"
+          name="San Francisco"
+          modelUrl="/models/homes/clocktower.glb"
+          posterUrl="/images/homes/clocktower.webp"
+        />
+        <HomePlacePoster
+          name="Sydney"
+          posterUrl={imgDavidSydney.src}
+          description="Sydney harbour and skyline — placeholder until the clay miniature ships."
+          statusNote="Clay miniature coming soon"
+        />
       </div>
     </section>
-    <section class="content-page__section now-activities container-narrow now-reading">
-      <h2>What I'm currently up to</h2>
-      <ul class="content-page__list content-page__list--bullets" role="list" aria-label="Current activities and projects">
-          <li>Working at Atlassian on AI and Ecosystem</li>
-          <li>Writing <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a></li>
-          <li>Learning Agent Experience</li>
-          <li>Angel investing</li>
-          <li>Living between Palm Springs and San Francisco, and traveling to Sydney</li>
-      </ul>
-    </section>
+
+    <div class="container-narrow now-focus">
+      <section class="content-page__section" aria-labelledby="now-work-heading">
+        <h2 id="now-work-heading">Work</h2>
+        <ul class="content-page__list content-page__list--bullets" role="list">
+          <li>
+            <a href="/about">VP of AI Design at Atlassian</a> — AI and ecosystem experiences
+          </li>
+          <li>
+            <a href="/writing/optimizing-for-agents">Learning agent experience</a> — design for people
+            and AI answer engines
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-page__section" aria-labelledby="now-writing-heading">
+        <h2 id="now-writing-heading">Writing &amp; investing</h2>
+        <ul class="content-page__list content-page__list--bullets" role="list">
+          <li>
+            Publishing weekly on
+            <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a>
+          </li>
+          <li>
+            <a href="/investing">Angel investing</a> in design, AI, and creative tools
+          </li>
+          <li>
+            <a href="/thesis">Conviction</a> — the longer arc behind the newsletter
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-page__section" aria-labelledby="now-life-heading">
+        <h2 id="now-life-heading">Life</h2>
+        <ul class="content-page__list content-page__list--bullets" role="list">
+          <li>
+            Living between <a href="#places-i-call-home">Palm Springs and San Francisco</a>, with trips to
+            Sydney
+          </li>
+          <li>
+            <a href="/advising">Advising</a> a few Heads of Design when the fit is right
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-page__section" aria-labelledby="now-reading-heading">
+        <h2 id="now-reading-heading">Reading now</h2>
+        <p class="now-reading__lede text-muted">Essays and notes I'm actively pointing people to.</p>
+        <ul class="content-page__list content-page__list--linked">
+          {
+            readingNow.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  {...(item.external
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
+                >
+                  {item.title}
+                  {item.external ? <span class="now-reading__ext" aria-hidden="true"> ↗</span> : null}
+                </a>
+                <span class="content-page__list-note">{item.note}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="card now-cta" aria-labelledby="now-stay-heading">
+        <h2 id="now-stay-heading" class="content-page__section-title">Stay in the loop</h2>
+        <p class="now-cta__lede text-muted">
+          The newsletter is the fastest way to follow what changes between Now updates.
+        </p>
+        <SubstackSignup showTitle={false} description="" compact />
+        <h3 class="text-eyebrow now-cta__recent-heading">Recent on the site</h3>
+        <ul class="content-page__list content-page__list--linked">
+          <li>
+            <a href="/writing">Writing archive</a>
+            <span class="content-page__list-note">Longer essays on craft, career, and AI</span>
+          </li>
+          <li>
+            <a href="/featured">Featured talks &amp; media</a>
+            <span class="content-page__list-note">Where the themes show up in public</span>
+          </li>
+        </ul>
+      </section>
+    </div>
   </div>
 </MainLayout>
 
 <style>
   .now-photos {
-    margin-bottom: var(--spacing-2xl);
+    margin: 0 0 var(--spacing-2xl);
+    border: none;
+  }
+
+  .now-photos__label {
+    margin-bottom: var(--spacing-md);
   }
 
   .now-reading {
     margin-inline: auto;
   }
 
-  .now-homes,
-  .now-activities {
-    border-top: none;
-    padding-top: 0;
+  .now-homes {
+    margin-bottom: var(--spacing-2xl);
+    padding-top: var(--spacing-xl);
+  }
+
+  .now-homes__heading {
+    font-family: var(--font-heading);
+    font-size: var(--section-heading-size);
+    font-weight: var(--heading-weight);
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-text);
+    letter-spacing: var(--letter-spacing-heading-md);
+    line-height: 1.2;
+  }
+
+  .now-homes__lede {
+    margin: 0 0 var(--spacing-xl);
+    max-width: 42rem;
+  }
+
+  .now-homes__grid {
+    margin-top: 0;
+  }
+
+  .now-focus .content-page__section:first-of-type {
+    padding-top: var(--spacing-lg);
+  }
+
+  .now-reading__lede {
+    margin: 0 0 var(--spacing-md);
+    max-width: 42rem;
+  }
+
+  .now-reading__ext {
+    font-weight: 400;
+  }
+
+  .now-cta {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+  }
+
+  .now-cta__lede {
+    margin: 0 0 var(--spacing-lg);
+  }
+
+  .now-cta__recent-heading {
+    margin: var(--spacing-xl) 0 var(--spacing-md);
   }
 
   .now-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-lg);
-    margin: var(--spacing-xl) 0 0;
+    margin: 0;
   }
 
   .now-grid-item img {
@@ -105,6 +334,10 @@ const nowJsonLd = buildNowPageJsonLd({
       margin-bottom: var(--spacing-xl);
     }
 
+    .now-homes {
+      padding-top: var(--spacing-lg);
+    }
+
     .now-grid {
       grid-template-columns: 1fr;
       gap: var(--spacing-md);
@@ -112,6 +345,10 @@ const nowJsonLd = buildNowPageJsonLd({
 
     .now-grid-item img {
       aspect-ratio: 16 / 11;
+    }
+
+    .now-cta {
+      padding: var(--spacing-lg);
     }
   }
 </style>
