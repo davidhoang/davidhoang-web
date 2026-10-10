@@ -1,6 +1,390 @@
 {
   "themes": [
     {
+      "name": "Aqua Proof",
+      "description": "A graphic poster distilled from optimistic Y2K terminals — oversized type cuts through a pale morning field like acid aqua scanlines on brushed paper.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#0D0D1A",
+          "--color-bg": "#EBF5FB",
+          "--color-link": "#007669",
+          "--color-link-hover": "#C2006F",
+          "--color-border": "#0D0D1A",
+          "--color-muted": "#4A5568",
+          "--color-sidebar-bg": "#D6EEF8",
+          "--color-nav-bg": "#EBF5FB",
+          "--color-nav-text": "#0D0D1A",
+          "--color-card-bg": "#D6EEF8"
+        },
+        "dark": {
+          "--color-text": "#E8F6FA",
+          "--color-bg": "#0A1628",
+          "--color-link": "#00D4C8",
+          "--color-link-hover": "#FF3399",
+          "--color-border": "#00D4C8",
+          "--color-muted": "#7A9BB5",
+          "--color-sidebar-bg": "#0D1F35",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#E8F6FA",
+          "--color-card-bg": "#0D1F35"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Crimson Text",
+          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EBF5FB",
+          "#00A896"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-10",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Aqua Proof",
+              "subtitle": "2026-10-10"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid",
+              "div3",
+              "meta",
+              "div4",
+              "bot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Acid aqua scanlines cut through brushed paper. Y2K optimism rebooted at dawn — high contrast, zero apology.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EBF5FB",
+                  "label": "Morning Field"
+                },
+                {
+                  "hex": "#D6EEF8",
+                  "label": "Card Wash"
+                },
+                {
+                  "hex": "#00A896",
+                  "label": "Acid Aqua"
+                },
+                {
+                  "hex": "#007669",
+                  "label": "Link Teal"
+                },
+                {
+                  "hex": "#C2006F",
+                  "label": "Hover Shock"
+                },
+                {
+                  "hex": "#0D0D1A",
+                  "label": "Ink Deep"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "h2",
+              "badges"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "AQUA PROOF",
+              "variant": "heading",
+              "weight": "800"
+            },
+            "children": []
+          },
+          "h2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Terminal optimism, typeset in Syne. Body set in Crimson Text.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif heading",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EBF5FB",
+                "#00A896"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Border Radius",
+                  "value": "0px — razor sharp"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Brutalist"
+                },
+                {
+                  "label": "Image",
+                  "value": "Duotone / hover colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div4": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tokens",
+              "cta"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#007669"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#C2006F"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#D6EEF8"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#0D0D1A"
+                }
+              ]
+            },
+            "children": []
+          },
+          "cta": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Aqua Proof",
+              "action": "apply-theme",
+              "date": "2026-10-10"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Burned & Kept",
       "description": "Late-night Swiss precision meets overexposed instant film — a grid of chemical-bright cards against a near-black field, every border crisp as a white photo margin.",
       "colors": {
@@ -2243,354 +2627,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Fountain & Rule",
-      "description": "A late-night riad courtyard rendered as a technical index — cobalt geometry meeting bone-white silence, dense annotation beside generous shadow.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1410",
-          "--color-bg": "#F5F0E8",
-          "--color-link": "#1B4F8A",
-          "--color-link-hover": "#8B2010",
-          "--color-border": "#1B4F8A",
-          "--color-muted": "#74695B",
-          "--color-sidebar-bg": "#EDE7D9",
-          "--color-nav-bg": "#F5F0E8",
-          "--color-nav-text": "#1C1410",
-          "--color-card-bg": "#EDE7D9"
-        },
-        "dark": {
-          "--color-text": "#EDE7D9",
-          "--color-bg": "#0D1A2A",
-          "--color-link": "#6BA3D6",
-          "--color-link-hover": "#C9553A",
-          "--color-border": "#2A4A6B",
-          "--color-muted": "#7A8FA0",
-          "--color-sidebar-bg": "#0A1520",
-          "--color-nav-bg": "#0D1A2A",
-          "--color-nav-text": "#EDE7D9",
-          "--color-card-bg": "#0A1520"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#1B4F8A",
-          "#F5F0E8"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-10-03",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Fountain & Rule",
-              "subtitle": "2026 · 10 · 03"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A riad at midnight, indexed. Cobalt geometry cuts through bone-white silence — shadow is the margin, annotation is the ornament.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "s1a",
-              "s1b"
-            ]
-          },
-          "s1a": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "br1",
-              "br2",
-              "br3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Fountain & Rule",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "br1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif / serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "br2": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "br3": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s1b": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "hero",
-              "lay"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex hero"
-            },
-            "children": []
-          },
-          "lay": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "meta"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1410",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#1B4F8A",
-                  "label": "Cobalt"
-                },
-                {
-                  "hex": "#F5F0E8",
-                  "label": "Bone"
-                },
-                {
-                  "hex": "#EDE7D9",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#8B2010",
-                  "label": "Ember"
-                },
-                {
-                  "hex": "#74695B",
-                  "label": "Dust"
-                }
-              ]
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Radius",
-                  "value": "0px — sharp"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "cap",
-              "btn"
-            ]
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Dense annotation beside generous shadow.",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Theme",
-              "action": "apply-theme",
-              "date": "2026-10-03"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-09"
+  "currentDate": "2026-10-10"
 }
