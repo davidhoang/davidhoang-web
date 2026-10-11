@@ -1,6 +1,375 @@
 {
   "themes": [
     {
+      "name": "Kiln & Morning",
+      "description": "A sun-warmed editorial reading surface built from tin-glaze whites, mineral blue ink, and terracotta — as if the page were fired ceramic, each section a glazed tile in a handmade sequence.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C1F14",
+          "--color-bg": "#FAF5EE",
+          "--color-link": "#2A6B9C",
+          "--color-link-hover": "#B94D2B",
+          "--color-border": "#D9C9B0",
+          "--color-muted": "#7E6E5B",
+          "--color-sidebar-bg": "#F3EBE0",
+          "--color-nav-bg": "#FAF5EE",
+          "--color-nav-text": "#2C1F14",
+          "--color-card-bg": "#F5EDE1"
+        },
+        "dark": {
+          "--color-text": "#EDE4D8",
+          "--color-bg": "#1C1410",
+          "--color-link": "#7BB8D4",
+          "--color-link-hover": "#D9704A",
+          "--color-border": "#3A2E22",
+          "--color-muted": "#8E8071",
+          "--color-sidebar-bg": "#211810",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#EDE4D8",
+          "--color-card-bg": "#261B13"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Newsreader",
+          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FAF5EE",
+          "#D9C9B0"
+        ]
+      },
+      "font": {
+        "name": "Newsreader",
+        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-11",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Kiln & Morning",
+              "subtitle": "October 11, 2026"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "badge-row",
+              "s2",
+              "div1",
+              "palette",
+              "s3",
+              "div2",
+              "meta",
+              "tok",
+              "cta"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "The page as fired ceramic — each section a glazed tile, mineral ink pressed into warm tin-white clay, terracotta smoldering at the edges.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "flat cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "split-complementary",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "heading-sample",
+              "hero-preview"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Glaze & Light",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "hero-preview": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "stacked-fan hero"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FAF5EE",
+                  "label": "tin-white"
+                },
+                {
+                  "hex": "#D9C9B0",
+                  "label": "raw border"
+                },
+                {
+                  "hex": "#F5EDE1",
+                  "label": "card glaze"
+                },
+                {
+                  "hex": "#2A6B9C",
+                  "label": "mineral ink"
+                },
+                {
+                  "hex": "#B94D2B",
+                  "label": "terracotta"
+                },
+                {
+                  "hex": "#2C1F14",
+                  "label": "fired text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "layout-preview",
+              "shader-preview"
+            ]
+          },
+          "layout-preview": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "magazine"
+            },
+            "children": []
+          },
+          "shader-preview": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#FAF5EE",
+                "#D9C9B0"
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Newsreader"
+                },
+                {
+                  "label": "Body",
+                  "value": "Source Serif 4"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated underline"
+                },
+                {
+                  "label": "Images",
+                  "value": "Muted / hover colorize"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#FAF5EE"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#2A6B9C"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#B94D2B"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#7E6E5B"
+                }
+              ]
+            },
+            "children": []
+          },
+          "cta": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Kiln & Morning",
+              "action": "apply-theme",
+              "date": "2026-10-11"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Aqua Proof",
       "description": "A graphic poster distilled from optimistic Y2K terminals — oversized type cuts through a pale morning field like acid aqua scanlines on brushed paper.",
       "colors": {
@@ -2234,400 +2603,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Peach Frequency",
-      "description": "A rhythm-led composition where generous breathing room and dense typographic detail alternate like measures in an early-morning song.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2B1F14",
-          "--color-bg": "#FEF0E4",
-          "--color-link": "#B84325",
-          "--color-link-hover": "#A83419",
-          "--color-border": "#E8C9B0",
-          "--color-muted": "#7E6653",
-          "--color-sidebar-bg": "#FAEADE",
-          "--color-nav-bg": "#FEF0E4",
-          "--color-nav-text": "#2B1F14",
-          "--color-card-bg": "#FDE8D8"
-        },
-        "dark": {
-          "--color-text": "#F5E6D8",
-          "--color-bg": "#1C1108",
-          "--color-link": "#FF8C5A",
-          "--color-link-hover": "#FFB088",
-          "--color-border": "#3D2810",
-          "--color-muted": "#967962",
-          "--color-sidebar-bg": "#211408",
-          "--color-nav-bg": "#1C1108",
-          "--color-nav-text": "#F5E6D8",
-          "--color-card-bg": "#271608"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bricolage Grotesque",
-          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
-          "category": "display",
-          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Lora",
-          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Lora', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "12px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FEF0E4",
-          "#FDE8D8"
-        ]
-      },
-      "font": {
-        "name": "Bricolage Grotesque",
-        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
-        "category": "display",
-        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-10-04",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Peach Frequency",
-              "subtitle": "October 4, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Breathe in. Type densely. Breathe out. Like bars in an early-morning song, this theme alternates silence and weight until the whole day feels composed.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "ht",
-              "br",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Peach Frequency",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "serif body",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "split-comp",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "left",
-              "right"
-            ]
-          },
-          "left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "pal",
-              "ts2",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FEF0E4",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#FDE8D8",
-                  "label": "card"
-                },
-                {
-                  "hex": "#E8C9B0",
-                  "label": "border"
-                },
-                {
-                  "hex": "#7E6653",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#B84325",
-                  "label": "link"
-                },
-                {
-                  "hex": "#2B1F14",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "generous breathing room and dense typographic detail",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered hero"
-            },
-            "children": []
-          },
-          "right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tg"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Scattered"
-                },
-                {
-                  "label": "Card style",
-                  "value": "Filled"
-                },
-                {
-                  "label": "Link style",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Gradient"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tg": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--border-radius",
-                  "value": "16px"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#B84325"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#FDE8D8"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#7E6653"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "cap",
-              "sh"
-            ]
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Bricolage Grotesque × Lora — early-morning rhythm, vivid image glow, boxed footer.",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "sh": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#FEF0E4",
-                "#FDE8D8"
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Peach Frequency",
-              "action": "apply-theme",
-              "date": "2026-10-04"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-10"
+  "currentDate": "2026-10-11"
 }
