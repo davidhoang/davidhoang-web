@@ -1,6 +1,374 @@
 {
   "themes": [
     {
+      "name": "Raw Aperture",
+      "description": "Brutalist weight meets gallery grace — monolithic type sliced by a single saturated wound of color, images breathing inside generous shadow-edged frames.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1712",
+          "--color-bg": "#EDE8E0",
+          "--color-link": "#9F4C15",
+          "--color-link-hover": "#963E08",
+          "--color-border": "#C4BAA8",
+          "--color-muted": "#6E6556",
+          "--color-sidebar-bg": "#E4DDD3",
+          "--color-nav-bg": "#EDE8E0",
+          "--color-nav-text": "#1C1712",
+          "--color-card-bg": "#E8E2D8"
+        },
+        "dark": {
+          "--color-text": "#F0EBE1",
+          "--color-bg": "#1C1610",
+          "--color-link": "#E8882A",
+          "--color-link-hover": "#F5A84A",
+          "--color-border": "#3A3020",
+          "--color-muted": "#8E8170",
+          "--color-sidebar-bg": "#231A12",
+          "--color-nav-bg": "#1C1610",
+          "--color-nav-text": "#F0EBE1",
+          "--color-card-bg": "#251E16"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Unbounded",
+          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Bitter",
+          "url": "https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bitter', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
+        "borderWidth": "0px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "none",
+        "colors": []
+      },
+      "font": {
+        "name": "Unbounded",
+        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-10-12",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Raw Aperture",
+              "subtitle": "2026 · Oct 12"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Monolithic type sliced by a single saturated wound. Images breathe inside shadow-edged frames. This is brutalism with a gallery pass.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "br"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "RAW APERTURE",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display · Unbounded",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "serif · Bitter",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "col1",
+              "col2"
+            ]
+          },
+          "col1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "hero"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1712",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#EDE8E0",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#9F4C15",
+                  "label": "Wound"
+                },
+                {
+                  "hex": "#C4BAA8",
+                  "label": "Stone"
+                },
+                {
+                  "hex": "#6E6556",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E8E2D8",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic hero"
+            },
+            "children": []
+          },
+          "col2": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "High"
+                },
+                {
+                  "label": "Color scheme",
+                  "value": "Analogous"
+                },
+                {
+                  "label": "Radius",
+                  "value": "16px"
+                },
+                {
+                  "label": "Image style",
+                  "value": "Vivid / hover zoom"
+                },
+                {
+                  "label": "Link style",
+                  "value": "Color only"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Gradient"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tok",
+              "lay"
+            ]
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-text",
+                  "value": "#1C1712"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#EDE8E0"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#9F4C15"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#C4BAA8"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "16px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "lay": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Raw Aperture",
+              "action": "apply-theme",
+              "date": "2026-10-12"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Kiln & Morning",
       "description": "A sun-warmed editorial reading surface built from tin-glaze whites, mineral blue ink, and terracotta — as if the page were fired ceramic, each section a glazed tile in a handmade sequence.",
       "colors": {
@@ -2221,389 +2589,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Wet Circuit",
-      "description": "The sharp geometry of urban signage meeting rain-slick stillness — dense technical precision breathing inside generous negative space.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#0F0F1A",
-          "--color-bg": "#EBF5FB",
-          "--color-link": "#C2185B",
-          "--color-link-hover": "#880E4F",
-          "--color-border": "#0F0F1A",
-          "--color-muted": "#4A5568",
-          "--color-sidebar-bg": "#DCF0F7",
-          "--color-nav-bg": "#EBF5FB",
-          "--color-nav-text": "#0F0F1A",
-          "--color-card-bg": "#E0F0F8"
-        },
-        "dark": {
-          "--color-text": "#E8F4F8",
-          "--color-bg": "#0A1628",
-          "--color-link": "#F06292",
-          "--color-link-hover": "#F48FB1",
-          "--color-border": "#E8F4F8",
-          "--color-muted": "#7B9EB8",
-          "--color-sidebar-bg": "#0D1E30",
-          "--color-nav-bg": "#0A1628",
-          "--color-nav-text": "#E8F4F8",
-          "--color-card-bg": "#0E2035"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bebas Neue",
-          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "2",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "split"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EBF5FB",
-          "#C2185B"
-        ]
-      },
-      "font": {
-        "name": "Bebas Neue",
-        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-05",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Wet Circuit",
-              "subtitle": "2026 · 10 · 05"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Rain-slick geometry. Technical precision inside generous silence. Every edge is a signal.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "badge-row"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "WET CIRCUIT",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display · bebas neue",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "s2-right"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EBF5FB",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#0F0F1A",
-                  "label": "text"
-                },
-                {
-                  "hex": "#C2185B",
-                  "label": "link"
-                },
-                {
-                  "hex": "#880E4F",
-                  "label": "link-hover"
-                },
-                {
-                  "hex": "#4A5568",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#E0F0F8",
-                  "label": "card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "hero-prev",
-              "shader-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "editorial hero"
-            },
-            "children": []
-          },
-          "shader-prev": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#EBF5FB",
-                "#C2185B"
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "meta",
-              "s3-right"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "grid",
-                  "value": "split"
-                },
-                {
-                  "label": "links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "radius",
-                  "value": "0px"
-                },
-                {
-                  "label": "texture",
-                  "value": "grid"
-                },
-                {
-                  "label": "images",
-                  "value": "duotone / hover colorize"
-                },
-                {
-                  "label": "scheme",
-                  "value": "split-complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "tokens",
-              "apply-btn"
-            ]
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "font-heading",
-                  "value": "Bebas Neue"
-                },
-                {
-                  "name": "font-body",
-                  "value": "IBM Plex Sans"
-                },
-                {
-                  "name": "border-radius",
-                  "value": "0px"
-                },
-                {
-                  "name": "color-link",
-                  "value": "#C2185B"
-                },
-                {
-                  "name": "color-bg",
-                  "value": "#EBF5FB"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Wet Circuit",
-              "action": "apply-theme",
-              "date": "2026-10-05"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-11"
+  "currentDate": "2026-10-12"
 }
