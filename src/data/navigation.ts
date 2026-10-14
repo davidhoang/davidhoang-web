@@ -10,6 +10,7 @@ export const navItems = [
 export const mobileSecondaryNavItems = [
   { path: '/now', label: 'Now' },
   { path: '/notes', label: 'Notes' },
+  { path: '/blogroll', label: 'Blogroll' },
   { path: '/works', label: 'Works' },
   { path: '/cv', label: 'CV' },
   { path: '/career-odyssey', label: 'Career Odyssey' },
@@ -29,6 +30,12 @@ export const commandPalettePages = [
   { title: 'Now', description: 'What David is doing now', path: '/now', type: 'page' },
   { title: 'Career Odyssey', description: 'Career journey and timeline', path: '/career-odyssey', type: 'page' },
   { title: 'Notes', description: 'Digital garden notes', path: '/notes', type: 'page' },
+  {
+    title: 'Blogroll',
+    description: 'Sites I read, in the spirit of the old WordPress blogroll.',
+    path: '/blogroll',
+    type: 'page',
+  },
   { title: 'Investing', description: 'Angel investments and advisory', path: '/investing', type: 'page' },
   { title: 'Advising', description: 'Advising for Heads of Design', path: '/advising', type: 'page' },
   { title: 'Daily Themes', description: 'AI-generated daily themes explorer', path: '/daily-themes', type: 'page' },
@@ -134,6 +141,7 @@ export const footerSections = [
     links: [
       { href: '/writing', label: 'Writing', ariaLabel: 'Writing', external: false },
       { href: '/notes', label: 'Notes', ariaLabel: 'Digital garden notes', external: false },
+      { href: '/blogroll', label: 'Blogroll', ariaLabel: 'Blogroll of sites I read', external: false },
       { href: '/now', label: 'Now', ariaLabel: 'What David is doing now', external: false },
       { href: '/subscribe', label: 'Subscribe', ariaLabel: 'Subscribe to updates', external: false },
       { href: '/rss.xml', label: 'RSS', ariaLabel: 'Writing RSS feed', external: false },
