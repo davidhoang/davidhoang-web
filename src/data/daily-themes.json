@@ -1,6 +1,335 @@
 {
   "themes": [
     {
+      "name": "Slab Hour",
+      "description": "A Brazilian modernist terrace translated into night: generous sculptural type, deep canopy tones, and one turquoise accent cutting through terracotta warmth.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C2B1A",
+          "--color-bg": "#EDF4EE",
+          "--color-link": "#007A6E",
+          "--color-link-hover": "#005C53",
+          "--color-border": "#B8CDB9",
+          "--color-muted": "#5C7260",
+          "--color-sidebar-bg": "#E4EEE5",
+          "--color-nav-bg": "#EDF4EE",
+          "--color-nav-text": "#1C2B1A",
+          "--color-card-bg": "#E8F1E9"
+        },
+        "dark": {
+          "--color-text": "#E8F0E0",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#2EC4B0",
+          "--color-link-hover": "#5EDDD0",
+          "--color-border": "#1F3A3E",
+          "--color-muted": "#6B9A8A",
+          "--color-sidebar-bg": "#111F22",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#E8F0E0",
+          "--color-card-bg": "#122428"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Karla",
+          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.92",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#0D1F22",
+          "#2EC4B0"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-10-14",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Slab Hour",
+              "subtitle": "October 14, 2026"
+            },
+            "children": [
+              "s1",
+              "div1",
+              "s2",
+              "div2",
+              "s3",
+              "div3",
+              "s4"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "split-complementary",
+              "variant": "outlined"
+            }
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            }
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            }
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "ht"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A modernist terrace at nightfall — sculptural slabs carving light from deep canopy, one turquoise blade splitting the terracotta dark.",
+              "emphasis": "bold"
+            }
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Slab Hour",
+              "variant": "heading",
+              "weight": "900"
+            }
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            }
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "palette",
+              "s3b"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C2B1A",
+                  "label": "Canopy"
+                },
+                {
+                  "hex": "#EDF4EE",
+                  "label": "Terrace"
+                },
+                {
+                  "hex": "#007A6E",
+                  "label": "Turquoise"
+                },
+                {
+                  "hex": "#B8CDB9",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#5C7260",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E8F1E9",
+                  "label": "Card"
+                }
+              ]
+            }
+          },
+          "s3b": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "scattered hero"
+            }
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#0D1F22",
+                "#2EC4B0"
+              ]
+            }
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            }
+          },
+          "s4": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "meta",
+              "act"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Fraunces"
+                },
+                {
+                  "label": "Body",
+                  "value": "Karla"
+                },
+                {
+                  "label": "Grid",
+                  "value": "standard"
+                },
+                {
+                  "label": "Links",
+                  "value": "animated-underline"
+                },
+                {
+                  "label": "Radius",
+                  "value": "12px"
+                },
+                {
+                  "label": "Images",
+                  "value": "duotone / hover glow"
+                }
+              ]
+            }
+          },
+          "act": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Slab Hour",
+              "action": "apply-theme",
+              "date": "2026-10-14"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Wet Geometry",
       "description": "Rain-slick structure meets warm evening glow — dense technical grid breathing through generous rhythm.",
       "colors": {
@@ -2287,360 +2616,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Downbeat",
-      "description": "A late-night jazz hall rendered in tarnished brass and oxblood, where cinematic imagery breathes through deep shadow and warm ivory type.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1208",
-          "--color-bg": "#F5EDD8",
-          "--color-link": "#AC421A",
-          "--color-link-hover": "#8C3214",
-          "--color-border": "#D4B87A",
-          "--color-muted": "#7A6540",
-          "--color-sidebar-bg": "#EDE0C4",
-          "--color-nav-bg": "#F5EDD8",
-          "--color-nav-text": "#1C1208",
-          "--color-card-bg": "#EDE0C4"
-        },
-        "dark": {
-          "--color-text": "#F0E6C8",
-          "--color-bg": "#0F0A04",
-          "--color-link": "#C9933A",
-          "--color-link-hover": "#E3B05A",
-          "--color-border": "#3A2D14",
-          "--color-muted": "#8E7C5D",
-          "--color-sidebar-bg": "#160F05",
-          "--color-nav-bg": "#0F0A04",
-          "--color-nav-text": "#F0E6C8",
-          "--color-card-bg": "#1A1208"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Oswald",
-          "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.92",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#C9933A",
-          "#0F0A04"
-        ]
-      },
-      "font": {
-        "name": "Oswald",
-        "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-10-07",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Downbeat",
-              "subtitle": "October 7, 2026"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s2",
-              "div1",
-              "s3",
-              "tokens",
-              "s4",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "The last set ends at 2am. Brass catches the light. Everything else is shadow.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1208",
-                  "label": "Noir"
-                },
-                {
-                  "hex": "#F5EDD8",
-                  "label": "Ivory"
-                },
-                {
-                  "hex": "#AC421A",
-                  "label": "Oxblood"
-                },
-                {
-                  "hex": "#D4B87A",
-                  "label": "Tarnished"
-                },
-                {
-                  "hex": "#EDE0C4",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#7A6540",
-                  "label": "Muted Brass"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "heading",
-              "hero"
-            ]
-          },
-          "heading": {
-            "type": "TypeSample",
-            "props": {
-              "text": "VELVET DOWNBEAT",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "meta",
-              "s3b"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Images",
-                  "value": "Duotone / Hover Glow"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3b": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Sans Heading · Oswald",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Serif Body",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "High Contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#AC421A"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#D4B87A"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#7A6540"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "16px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "body-sample",
-              "caption-sample"
-            ]
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "A late-night jazz hall in tarnished brass and oxblood.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "caption-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Analogous · Filled Cards · Boxed Footer",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Velvet Downbeat",
-              "action": "apply-theme",
-              "date": "2026-10-07"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-13"
+  "currentDate": "2026-10-14"
 }
