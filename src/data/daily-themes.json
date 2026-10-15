@@ -1,6 +1,418 @@
 {
   "themes": [
     {
+      "name": "Tarnished Register",
+      "description": "A late-night graphic poster conceived as a jazz club bill: near-black field, tarnished brass headline, oxblood cut against ivory—precision at the service of atmosphere.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1209",
+          "--color-bg": "#F5EFE0",
+          "--color-link": "#8B2020",
+          "--color-link-hover": "#6B1818",
+          "--color-border": "#C4A96A",
+          "--color-muted": "#7A6A4A",
+          "--color-sidebar-bg": "#EDE4CF",
+          "--color-nav-bg": "#F5EFE0",
+          "--color-nav-text": "#1A1209",
+          "--color-card-bg": "#EDE4CF"
+        },
+        "dark": {
+          "--color-text": "#F0E8D0",
+          "--color-bg": "#0F0C07",
+          "--color-link": "#C4943A",
+          "--color-link-hover": "#E0B050",
+          "--color-border": "#5A4A28",
+          "--color-muted": "#87795C",
+          "--color-sidebar-bg": "#17130A",
+          "--color-nav-bg": "#0F0C07",
+          "--color-nav-text": "#F0E8D0",
+          "--color-card-bg": "#17130A"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Oswald",
+          "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Spectral",
+          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1150px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#0F0C07",
+          "#C4943A"
+        ]
+      },
+      "font": {
+        "name": "Oswald",
+        "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-15",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Tarnished Register",
+              "subtitle": "October 15, 2026"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A jazz club bill printed past midnight. Brass headline, oxblood cut, ivory ground — the atmosphere is the precision.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "hs",
+              "brow"
+            ]
+          },
+          "hs": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Late Set — After Hours",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "brow": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Oswald / Spectral",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "stretch"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "ts2",
+              "hero"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A1209",
+                  "label": "Near-Black"
+                },
+                {
+                  "hex": "#C4943A",
+                  "label": "Tarnished Brass"
+                },
+                {
+                  "hex": "#8B2020",
+                  "label": "Oxblood"
+                },
+                {
+                  "hex": "#F5EFE0",
+                  "label": "Ivory"
+                },
+                {
+                  "hex": "#C4A96A",
+                  "label": "Border Gold"
+                },
+                {
+                  "hex": "#7A6A4A",
+                  "label": "Muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "ts2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Doors at 9. Cover: two drinks. No requests.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tok",
+              "shader"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Link style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px — hard edges"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid overlay"
+                },
+                {
+                  "label": "Images",
+                  "value": "Duotone / hover colorize"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Split-complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-text",
+                  "value": "#1A1209"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#C4A96A"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#8B2020"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EFE0"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#7A6A4A"
+                }
+              ]
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#0F0C07",
+                "#C4943A"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "cap",
+              "lp"
+            ]
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Footer split. No ornament. Just the bill.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "split"
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Tarnished Register",
+              "action": "apply-theme",
+              "date": "2026-10-15"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Slab Hour",
       "description": "A Brazilian modernist terrace translated into night: generous sculptural type, deep canopy tones, and one turquoise accent cutting through terracotta warmth.",
       "colors": {
@@ -2240,383 +2652,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Harbour Ledger",
-      "description": "Helsinki harbour at rest — fogged linen and ice blue, a single red accent cutting through the mist like a warehouse beacon, structured as a precise information rail.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C2226",
-          "--color-bg": "#EEF2F4",
-          "--color-link": "#C8001A",
-          "--color-link-hover": "#960013",
-          "--color-border": "#B8C4CC",
-          "--color-muted": "#5B6B75",
-          "--color-sidebar-bg": "#E4EAED",
-          "--color-nav-bg": "#EEF2F4",
-          "--color-nav-text": "#1C2226",
-          "--color-card-bg": "#E8EEF1"
-        },
-        "dark": {
-          "--color-text": "#DCE8EE",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#EF4D62",
-          "--color-link-hover": "#FF3347",
-          "--color-border": "#2A3D44",
-          "--color-muted": "#768E96",
-          "--color-sidebar-bg": "#0A1A1D",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#DCE8EE",
-          "--color-card-bg": "#111F23"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cabinet Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
-          "category": "display",
-          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Literata",
-          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
-          "category": "serif",
-          "stack": "'Literata', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "2px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EEF2F4",
-          "#B8C4CC"
-        ]
-      },
-      "font": {
-        "name": "Cabinet Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
-        "category": "display",
-        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-10-08",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Harbour Ledger",
-              "subtitle": "2026-10-08 — Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Helsinki harbour at rest. Fog settles over linen and ice. One red beacon cuts the mist — a warehouse signal, a precise rail of information threading through silence.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "ht",
-              "br",
-              "s2a"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Harbour Ledger",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display grotesk",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s2a": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "meta"
-            ]
-          },
-          "pal": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "cp",
-              "body-sample"
-            ]
-          },
-          "cp": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EEF2F4",
-                  "label": "Fogged Linen"
-                },
-                {
-                  "hex": "#B8C4CC",
-                  "label": "Ice Shore"
-                },
-                {
-                  "hex": "#1C2226",
-                  "label": "Harbour Ink"
-                },
-                {
-                  "hex": "#5B6B75",
-                  "label": "Mist Muted"
-                },
-                {
-                  "hex": "#E8EEF1",
-                  "label": "Card Frost"
-                },
-                {
-                  "hex": "#C8001A",
-                  "label": "Beacon Red"
-                }
-              ]
-            },
-            "children": []
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Precise information, quietly delivered — Literata serif at rest.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Radius",
-                  "value": "2px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "lp",
-              "tok",
-              "apply"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#C8001A"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#B8C4CC"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#5B6B75"
-                },
-                {
-                  "name": "--font-heading",
-                  "value": "Cabinet Grotesk"
-                },
-                {
-                  "name": "--font-body",
-                  "value": "Literata"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Harbour Ledger",
-              "action": "apply-theme",
-              "date": "2026-10-08"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-14"
+  "currentDate": "2026-10-15"
 }
