@@ -1,6 +1,320 @@
 {
   "themes": [
     {
+      "name": "Linen Frequency",
+      "description": "A Helsinki harbour morning rendered in fogged linen and tin-blue, where tall cold type floats above a quiet, paper-weight editorial grid.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#2B2E35",
+          "--color-bg": "#F0EDE6",
+          "--color-link": "#B63629",
+          "--color-link-hover": "#96281B",
+          "--color-border": "#D4CFC6",
+          "--color-muted": "#686A6F",
+          "--color-sidebar-bg": "#E8E4DC",
+          "--color-nav-bg": "#F0EDE6",
+          "--color-nav-text": "#2B2E35",
+          "--color-card-bg": "#EAE6DE"
+        },
+        "dark": {
+          "--color-text": "#DDD9D0",
+          "--color-bg": "#1C1F24",
+          "--color-link": "#E36B60",
+          "--color-link-hover": "#F07A6E",
+          "--color-border": "#2E3138",
+          "--color-muted": "#898B91",
+          "--color-sidebar-bg": "#181B20",
+          "--color-nav-bg": "#1C1F24",
+          "--color-nav-text": "#DDD9D0",
+          "--color-card-bg": "#22252C"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Plus Jakarta Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.85",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "borderWidth": "1px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "6px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "2rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F0EDE6",
+          "#C8D4D8"
+        ]
+      },
+      "font": {
+        "name": "Plus Jakarta Sans",
+        "url": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-16",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Linen Frequency",
+              "subtitle": "October 16, 2026 — Helsinki harbour, fogged and still"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Cold type floats on paper weight. The harbour doesn't announce itself — it simply persists, linen-grey and unhurried, until you notice the tin in the sky.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "pal",
+              "hero"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F0EDE6",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#EAE6DE",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#C8D4D8",
+                  "label": "Tin Blue"
+                },
+                {
+                  "hex": "#D4CFC6",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#B63629",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#2B2E35",
+                  "label": "Text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Stacked Fan hero"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "center"
+            },
+            "children": [
+              "head",
+              "meta"
+            ]
+          },
+          "head": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Harbour Morning",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Stacked Fan"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None — flat linen"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated underline"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "Low / editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4",
+              "apply"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Plus Jakarta Sans",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Literata serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Elevated cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "Grain texture",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Linen Frequency",
+              "action": "apply-theme",
+              "date": "2026-10-16"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Tarnished Register",
       "description": "A late-night graphic poster conceived as a jazz club bill: near-black field, tarnished brass headline, oxblood cut against ivory—precision at the service of atmosphere.",
       "colors": {
@@ -2257,402 +2571,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Burned & Kept",
-      "description": "Late-night Swiss precision meets overexposed instant film — a grid of chemical-bright cards against a near-black field, every border crisp as a white photo margin.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A1208",
-          "--color-bg": "#FDF6E3",
-          "--color-link": "#D4006A",
-          "--color-link-hover": "#FF3D8A",
-          "--color-border": "#1A1208",
-          "--color-muted": "#7C6E55",
-          "--color-sidebar-bg": "#F5ECCC",
-          "--color-nav-bg": "#FDF6E3",
-          "--color-nav-text": "#1A1208",
-          "--color-card-bg": "#FFFDF5"
-        },
-        "dark": {
-          "--color-text": "#F0E8CC",
-          "--color-bg": "#0F0D09",
-          "--color-link": "#FF3D8A",
-          "--color-link-hover": "#FF80B5",
-          "--color-border": "#F0E8CC",
-          "--color-muted": "#897E69",
-          "--color-sidebar-bg": "#181409",
-          "--color-nav-bg": "#0F0D09",
-          "--color-nav-text": "#F0E8CC",
-          "--color-card-bg": "#1C1810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Archivo Black",
-          "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
-          "category": "sans-serif",
-          "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "DM Sans",
-          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "zoom",
-        "opacity": "1",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#0F0D09",
-          "#1C1810"
-        ]
-      },
-      "font": {
-        "name": "Archivo Black",
-        "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
-        "category": "sans-serif",
-        "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-10-09",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Burned & Kept",
-              "subtitle": "2026-10-09 · Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Swiss grid. Overexposed film. The border is the margin. The dark field holds everything you saved from the fire.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "br",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Burned & Kept",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "col1",
-              "col2"
-            ]
-          },
-          "col1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "pal",
-              "ts2",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF6E3",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#FFFDF5",
-                  "label": "card"
-                },
-                {
-                  "hex": "#1A1208",
-                  "label": "text"
-                },
-                {
-                  "hex": "#D4006A",
-                  "label": "link"
-                },
-                {
-                  "hex": "#FF3D8A",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#7C6E55",
-                  "label": "muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "ts2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Every border crisp as a white photo margin.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "scattered hero"
-            },
-            "children": []
-          },
-          "col2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tg"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "standard"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "split-complementary"
-                },
-                {
-                  "label": "Link",
-                  "value": "highlight"
-                },
-                {
-                  "label": "Radius",
-                  "value": "8px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "retro"
-                },
-                {
-                  "label": "Shader",
-                  "value": "none"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tg": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#D4006A"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#1A1208"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#FDF6E3"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#FFFDF5"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "lp",
-              "cap"
-            ]
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "standard"
-            },
-            "children": []
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Late-night Swiss precision. Chemical-bright cards. Near-black field.",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Burned & Kept",
-              "action": "apply-theme",
-              "date": "2026-10-09"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-15"
+  "currentDate": "2026-10-16"
 }
