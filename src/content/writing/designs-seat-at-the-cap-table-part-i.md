@@ -47,4 +47,4 @@ Notes
 - Thanks to Hareem Mannan for brainstorming this article with me
 - A huge thanks to those who encouraged me to get into angel investing (you know who you are)
 
-Read [Part II: The value add design angel investors bring](/blog/designs-seat-at-the-cap-table-part-ii)
+Read [Part II: The value add design angel investors bring](/writing/designs-seat-at-the-cap-table-part-ii)
