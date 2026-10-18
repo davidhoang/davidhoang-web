@@ -24,7 +24,7 @@ export function initParticleTrail(): (() => void) | undefined {
   if (reduceMotion) return;
 
   // Skip on mobile
-  if (window.innerWidth <= 768) {
+  if (window.innerWidth <= 767) {
     canvas.style.display = 'none';
     return;
   }
@@ -204,7 +204,7 @@ export function initParticleTrail(): (() => void) | undefined {
   window.addEventListener('resize', () => {
     resize();
     refreshNavRect();
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 767) {
       canvas.style.display = 'none';
       if (animationFrame) cancelAnimationFrame(animationFrame);
     } else {

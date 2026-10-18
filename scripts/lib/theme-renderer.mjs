@@ -8,7 +8,7 @@ export const THEME_RENDER_VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 1000 },
   { name: 'wide', width: 1920, height: 1080 },
 ];
-export const THEME_MOBILE_BREAKPOINT = 768;
+export const THEME_MOBILE_BREAKPOINT = 767;
 
 const HERO_LAYOUT_WARMUP = ['editorial', 'scattered', 'rolodex', 'cinematic', 'stacked-fan'];
 const HERO_LAYOUT_WAIT_MS = 15_000;

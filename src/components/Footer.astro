@@ -60,7 +60,7 @@ const currentYear = new Date().getFullYear();
   // Markup starts with open so desktop always shows links (no JS dependency /
   // no FOUC). Collapse on mobile for the accordion pattern.
   const footerDetails = document.querySelectorAll('.footer-col__details');
-  const desktopNav = window.matchMedia('(min-width: 769px)');
+  const desktopNav = window.matchMedia('(min-width: 768px)');
 
   const syncFooterDetails = () => {
     footerDetails.forEach((el) => {

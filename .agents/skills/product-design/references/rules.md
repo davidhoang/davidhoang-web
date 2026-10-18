@@ -14,9 +14,9 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 
 **Manual PR smoke test** (any PR touching layout, nav, heroes, themes, or global CSS):
 
-- [ ] `/about` and `/featured` at ≥769px: hero spans full width, no top gap
+- [ ] `/about` and `/featured` at ≥768px: hero spans full width, no top gap
 - [ ] Devtools: `.site-nav` computed `position: fixed`
-- [ ] If diff touches `.container`, `nav`, `--content-top-padding`, or `--nav-offset-top`: verify nav at **390px** and **≥769px** (`.cursor/rules/site-nav-css.mdc`)
+- [ ] If diff touches `.container`, `nav`, `--content-top-padding`, or `--nav-offset-top`: verify nav at **390px**, **767px**, and **768px** (`.cursor/rules/site-nav-css.mdc`)
 
 ## Before shipping UI
 
@@ -27,7 +27,7 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 - [ ] Cards opaque — `flat`, `elevated`, `outlined`, `filled` only; never `glass`
 - [ ] Hover: color, shadow, transform only — no padding/margin/gap/width/height changes
 - [ ] Focus rings use `--focus-ring*` tokens
-- [ ] Mobile (≤768px): hero forced to `stacked-fan`, grids collapse, container full width
+- [ ] Phone (≤767px): hero forced to `stacked-fan`, grids collapse, container full width
 - [ ] Mobile unique experiences: scoped overrides OK for touch-native presentation (see `design.md` § Mobile unique experiences) — do not change nav/container globals
 - [ ] Mobile hero deck: Previous/Next, live count, swipe and arrow/Home/End support; only front card in tab order; cards navigate directly
 - [ ] Nav untouched unless editing files listed in `surfaces-nav.md`

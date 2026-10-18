@@ -249,7 +249,7 @@ export function initCommandPalette() {
     if (!isOpen) nav!.classList.remove('cmd-palette-has-results');
 
     const toWidth = nav!.offsetWidth;
-    if (window.innerWidth <= 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth <= 767 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const style = getComputedStyle(nav!);
     const duration = parseFloat(style.getPropertyValue('--duration-slower')) * 1000;
     const easing = style.getPropertyValue('--ease-emphasized').trim();
@@ -441,7 +441,7 @@ export function initCommandPalette() {
   // Click nav background or ⌘K hint to open (desktop only)
   function handleNavClick(e: MouseEvent) {
     if (nav!.classList.contains('cmd-palette-active')) return;
-    if (window.innerWidth <= 768) return;
+    if (window.innerWidth <= 767) return;
     const target = e.target as HTMLElement;
     // ⌘K hint always opens palette
     if (target.closest('.cmd-k-hint')) {

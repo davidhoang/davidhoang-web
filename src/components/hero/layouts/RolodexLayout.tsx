@@ -266,7 +266,7 @@ export default function RolodexLayout({
               right: -60px;
             }
 
-            @media (max-width: 768px) {
+            @media (max-width: 767px) {
               .rolodex-nav--prev {
                 left: -30px;
               }

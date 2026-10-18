@@ -70,13 +70,13 @@
    Responsive Design
 
    Breakpoint scale:
-     Mobile:       max-width: 768px
+     Mobile:       max-width: 767px
      Small mobile: max-width: 480px
-     Large tablet:  min-width: 769px and max-width: 1024px
+     Large tablet:  min-width: 768px and max-width: 1024px
      Extra-large:   min-width: 1920px
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   /* Mobile nav is full-width at top: 0 with 56px height + safe-area-inset */
   :root {
     --nav-height: 56px;
@@ -182,9 +182,9 @@
 
 }
 
-/* Large tablet (769–1024px) — media-query backup for content offset.
+/* Large tablet (768–1024px) — media-query backup for content offset.
    Primary tokens also live on [data-viewport-tier='tablet'] in tablet-enhancements.css. */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   :root {
     --content-top-padding: calc(var(--nav-height) + var(--nav-offset-top) + 2.25rem);
   }

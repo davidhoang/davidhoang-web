@@ -14,7 +14,7 @@ defaultLayout:
     desktopMid: # 1025–1440px
       maxWidth: min(700px, calc(100vw - 56px))
       padding: 0 42px
-    tabletDesktop: # 769–1024px (and calmer 769–1440 overrides)
+    tabletDesktop: # 768–1024px (and calmer 768–1440 overrides)
       maxWidth: min(620px, calc(100vw - 48px))
       padding: 0 36px
     mobile:
@@ -27,8 +27,9 @@ defaultLayout:
   breakpoints:
     small: 320px
     mobileSmall: 520px
+    phoneMax: 767px
     tablet: 768px
-    desktopSmall: 1024px
+    desktopSmall: 1025px
     desktop: 1440px
     wide: 1920px
     ultrawide: 2560px
@@ -129,12 +130,12 @@ The nav is a fixed floating-pill defined in `src/components/Navigation.astro`. T
 
 | Viewport | Max / width | `.site-nav` padding |
 |---|---|---|
-| ≤768px | `100%` (full bleed bar) | `0` (+ `padding-top: env(safe-area-inset-top)`); `.nav-container` uses `0 1rem` |
-| 769–1024px | `min(620px, calc(100vw - 48px))` | `0 36px` |
+| ≤767px | `100%` (full bleed bar) | `0` (+ `padding-top: env(safe-area-inset-top)`); `.nav-container` uses `0 1rem` |
+| 768–1024px | `min(620px, calc(100vw - 48px))` | `0 36px` |
 | 1025–1440px | `min(700px, calc(100vw - 56px))` | `0 42px` |
 | ≥1441px | `min(600px, calc(100vw - 40px))` | `0 40px` |
 
-Desktop horizontal padding lives on `.site-nav`, never on `.nav-container` or a global `.container` (see `.cursor/rules/site-nav-css.mdc`). `--nav-height` is fixed at `48px` on desktop (≥769px) and `56px` on mobile (≤768px; the bar itself is `calc(56px + env(safe-area-inset-top))`). `--nav-offset-top` is `24px` on desktop and `0px` on mobile, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero texture `top` calc) can rely on it.
+Desktop horizontal padding lives on `.site-nav`, never on `.nav-container` or a global `.container` (see `.cursor/rules/site-nav-css.mdc`). `--nav-height` is fixed at `48px` on tablet/desktop (≥768px) and `56px` on phone (≤767px; the bar itself is `calc(56px + env(safe-area-inset-top))`). `--nav-offset-top` is `24px` on tablet/desktop and `0px` on phone, so `--content-top-padding` resolves to a stable value across themes. Anything that depends on this (sticky sidebars, anchor `scroll-margin-top`, the hero texture `top` calc) can rely on it.
 
 ### Spacing scale
 
@@ -220,11 +221,11 @@ The pattern: `initial.opacity = 1`, `animate.opacity = isOtherSelected ? dim : 1
 
 ### Mobile layout safety
 
-At ≤768px, the framework actively overrides risky theme-driven layout choices. Mobile is the most fragile breakpoint and the most common; layout decisions that work on desktop frequently overflow on phones, so we strip variation rather than try to scale it.
+At ≤767px, the framework actively overrides risky theme-driven layout choices. Mobile is the most fragile breakpoint and the most common; layout decisions that work on desktop frequently overflow on phones, so we strip variation rather than try to scale it.
 
-**Forced overrides at ≤768px:**
+**Forced overrides at ≤767px:**
 
-- **Hero layout** — always renders as `stacked-fan` regardless of `hero.layout` value. `editorial`, `scattered`, `rolodex`, and `cinematic` are desktop-only because they assume horizontal canvas. Implemented in `CardStackHero.tsx` via `matchMedia('(max-width: 768px)')`.
+- **Hero layout** — always renders as `stacked-fan` regardless of `hero.layout` value. `editorial`, `scattered`, `rolodex`, and `cinematic` are desktop-only because they assume horizontal canvas. Implemented in `CardStackHero.tsx` via `matchMedia('(max-width: 767px)')`.
 - **Container width** — `--container-max-width` is overridden to `100%`. Theme-set values (e.g., a narrow 640px container) become irrelevant; the page fills the viewport with safe gutters from `--content-padding`.
 - **Card stack overflow** — `card-stack-section` clips horizontally regardless of `data-hero-layout`. Belt-and-suspenders for any layout that JS hasn't downgraded.
 - **Grid columns** — multi-column grids (`asymmetric`, `split`, `magazine`, `sidebar`) collapse to single column.
@@ -233,7 +234,7 @@ At ≤768px, the framework actively overrides risky theme-driven layout choices.
 
 ### Mobile unique experiences
 
-Mobile (≤768px) is allowed — and encouraged — to **override presentation** for touch-native interactions that would feel wrong on desktop. These overrides are **additive**: they scope to mobile viewport tiers (`data-viewport-tier="mobile"` / `"compact"`) or mobile-only components, and must not change nav, container globals, or theme safety nets above.
+Mobile (≤767px) is allowed — and encouraged — to **override presentation** for touch-native interactions that would feel wrong on desktop. These overrides are **additive**: they scope to mobile viewport tiers (`data-viewport-tier="mobile"` / `"compact"`) or mobile-only components, and must not change nav, container globals, or theme safety nets above.
 
 **What mobile may override:**
 
@@ -347,8 +348,9 @@ A global rule in `src/styles/modules/accessibility-responsive.css` strips `trans
 |---|---|---|
 | `small` | 320px | Smallest phone — design floor |
 | `mobileSmall` | 520px | Compact phones (boundary for nav resize) |
-| `tablet` | 768px | **Mobile/desktop boundary** — mobile safety overrides apply at this breakpoint and below |
-| `desktopSmall` | 1024px | Tablet landscape / small laptop |
+| `phoneMax` | 767px | **Phone layout ceiling** — hamburger nav, mobile hero safety, single-column grids |
+| `tablet` | 768px | **Tablet band starts** — floating pill nav, tablet hero tier, multi-column where allowed |
+| `desktopSmall` | 1025px | **Desktop layout starts** — tablet band ends at 1024px |
 | `desktop` | 1440px | Standard laptop — design center |
 | `wide` | 1920px | Large display |
 | `ultrawide` | 2560px | Design ceiling |
@@ -450,14 +452,14 @@ The generator auto-realigns surface hues that drift more than 30° from `--color
 
 ### Horizontal overflow
 
-Body text and grids **must not overflow the viewport** at any width. Intentional horizontal extension (oversized hero text, edge-to-edge imagery) is allowed as long as it doesn't introduce a horizontal scrollbar. Multi-column grids collapse to single column at ≤768px automatically — themes do not need to specify this.
+Body text and grids **must not overflow the viewport** at any width. Intentional horizontal extension (oversized hero text, edge-to-edge imagery) is allowed as long as it doesn't introduce a horizontal scrollbar. Multi-column grids collapse to single column at ≤767px automatically — themes do not need to specify this.
 
 ### Mental render check
 
 Before finalizing a theme, mentally render at each of these widths:
 
 - **320px** — smallest phone. Does padding leave room for body text? Do headings fit on 1–2 lines?
-- **768px** — tablet. Does multi-column collapse cleanly?
+- **767px / 768px** — phone vs tablet nav and hero tier. Does multi-column collapse cleanly at 767?
 - **1440px** — standard laptop. Does the design look finished, not stretched?
 - **1920px+** — large display. Does `containerMaxWidth` cap the dead space at the edges?
 

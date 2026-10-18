@@ -1,4 +1,4 @@
-/** Mobile stacked-fan: one prominent card with a few peeking behind (≤768px). */
+/** Mobile stacked-fan: one prominent card with a few peeking behind (≤767px). */
 
 export interface MobileStackOffset {
   x: number;
