@@ -103,7 +103,7 @@ export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
 
           {node.workedWith && node.workedWith.length > 0 && (
             <div className="node-card-worked-with">
-              <div className="node-card-worked-with-title">Worked with</div>
+              <h3 className="node-card-worked-with-title">Worked with</h3>
               <div className="node-card-worked-with-list">
                 {node.workedWith.map((person) => (
                   <div key={person.name} className="node-card-worked-with-person">
@@ -117,7 +117,7 @@ export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
           {node.connections && node.connections.length > 0 && (
             <div className="node-card-connections">
               <div className="node-card-connections-inline">
-                <span className="node-card-connections-label">Connected to:</span>
+                <h3 className="node-card-connections-label">Connected to:</h3>
                 <span className="node-card-connections-items">
                   {node.connections.map((connId, index) => {
                     const connectedNode = allNodes.get(connId);
