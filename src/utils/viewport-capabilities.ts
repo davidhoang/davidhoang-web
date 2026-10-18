@@ -1,6 +1,8 @@
-/** Viewport width band for iPad Pro portrait/landscape and similar tablets (769–1440px). */
+import { BREAKPOINT_TABLET_MIN } from './breakpoints';
+
+/** Viewport width band for iPad Pro portrait/landscape and similar tablets (768–1440px). */
 export function isTabletClassViewport(width = typeof window !== 'undefined' ? window.innerWidth : 0): boolean {
-  return width >= 769 && width <= 1440;
+  return width >= BREAKPOINT_TABLET_MIN && width <= 1440;
 }
 
 function hasTouchCapability(): boolean {
@@ -45,7 +47,7 @@ export function shouldEnablePointerHoverMotion(): boolean {
 /** Sentient nav drift — desktop laptops only; disabled on tablet / hybrid devices. */
 export function shouldEnableSentientNav(): boolean {
   if (typeof window === 'undefined') return false;
-  if (window.innerWidth <= 768) return false;
+  if (window.innerWidth <= 767) return false;
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return false;
   if (isHybridPointerDevice()) return false;
   if (isTabletClassViewport()) return false;

@@ -659,14 +659,14 @@ const docsNav: { href: string; label: string; current?: boolean }[] = [
   .grid-magazine > *:first-child { grid-column: 1 / -1; }
   .grid-sidebar { display: grid; grid-template-columns: 280px 1fr; gap: var(--section-spacing, 2rem); }
   .grid-sidebar > *:first-child { position: sticky; top: var(--content-top-padding); align-self: start; }
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .grid-asymmetric, .grid-split, .grid-magazine, .grid-sidebar { grid-template-columns: 1fr; }
     .grid-split > *:nth-child(odd) { padding-right: 0; }
     .grid-split > *:nth-child(even) { padding-left: 0; border-left: none; border-top: 1px solid var(--color-border); padding-top: var(--content-padding, 2rem); }
     .grid-sidebar > *:first-child { position: static; }
     .grid-magazine > *:first-child { grid-column: auto; }
   }
-  @media (min-width: 769px) and (max-width: 1024px) { .grid-magazine { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 768px) and (max-width: 1024px) { .grid-magazine { grid-template-columns: 1fr 1fr; } }
   [data-theme="dark"] .surface-sunken { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); }
 </style>
 <style>
@@ -1025,7 +1025,7 @@ const docsNav: { href: string; label: string; current?: boolean }[] = [
     gap: var(--spacing-sm);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .color-grid,
     .card-grid,
     .surface-grid,

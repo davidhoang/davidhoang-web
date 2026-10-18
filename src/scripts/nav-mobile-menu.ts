@@ -1,4 +1,4 @@
-const MOBILE_BREAKPOINT = 768;
+import { BREAKPOINT_PHONE_MAX } from '../utils/breakpoints';
 
 export function initMobileMenu(): (() => void) | undefined {
   const menuButtonEl = document.getElementById('menuButton');
@@ -17,7 +17,7 @@ export function initMobileMenu(): (() => void) | undefined {
   let inertElements: Array<{ element: HTMLElement; wasInert: boolean }> = [];
 
   function isMobile(): boolean {
-    return window.innerWidth <= MOBILE_BREAKPOINT;
+    return window.innerWidth <= BREAKPOINT_PHONE_MAX;
   }
 
   function open(): void {

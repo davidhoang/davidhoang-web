@@ -5,6 +5,7 @@ import { cards as fallbackCards, resolveLayout } from './hero/types';
 import type { Card, HeroLayout, LayoutProps } from './hero/types';
 import { createStableCardHoverSetter } from './hero/cardHover';
 import { readHeroViewportTier } from './hero/heroViewport';
+import { MQ_PHONE_MAX } from '../utils/breakpoints';
 import { deriveHeroCardPalette } from './hero/themeCardColors';
 import { HeroTitle } from './hero/HeroTitle';
 import { HeroDialProvider } from './hero/HeroDialProvider';
@@ -124,12 +125,12 @@ export default function CardStackHero({
   }, [cardPaletteRev, aboutThumbnailSrc, initialCards]);
 
   // Observe data-card-style and data-hero-layout on <html>.
-  // On mobile (≤768px), force stacked-fan regardless of theme — editorial,
+  // On mobile (≤767px), force stacked-fan regardless of theme — editorial,
   // scattered, and rolodex assume desktop dimensions and overflow on phones.
   // Also listen for theme-changed (dispatched on document) so layout sync isn't
   // solely dependent on MutationObserver delivery under a busy main thread.
   useLayoutEffect(() => {
-    const mql = window.matchMedia('(max-width: 768px)');
+    const mql = window.matchMedia(MQ_PHONE_MAX);
 
     const update = () => {
       const root = document.documentElement;

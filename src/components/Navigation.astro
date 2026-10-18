@@ -135,7 +135,7 @@ const currentPath = Astro.url.pathname;
   /** Desktop-only nav FX — dynamic import so mobile/tablet skip the parse cost. */
   async function initDesktopNavFx(generation: number, cleanups: Array<() => void>) {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion || window.innerWidth <= 768) return;
+    if (reduceMotion || window.innerWidth <= 767) return;
 
     if (shouldEnableSentientNav()) {
       const { initSentientNav } = await import('../scripts/nav-sentient');

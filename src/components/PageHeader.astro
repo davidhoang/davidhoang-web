@@ -90,7 +90,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     if (prefersReducedMotion) return;
 
     // Skip on mobile
-    if (window.innerWidth <= 768) return;
+    if (window.innerWidth <= 767) return;
 
     let currentOffset = 0;
     let targetOffset = 0;
@@ -292,7 +292,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
   }
 
   /* Mobile adjustments */
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .page-header--image .page-header__hero {
       height: var(--hero-height-mobile, 50vh);
       min-height: 250px;
