@@ -81,7 +81,7 @@ export const works: WorkEntry[] = [
     title: 'NYCxDESIGN: The future of software design',
     kind: 'talk',
     when: '2025',
-    href: 'https://nycxdesign.org/nycxdesign-talk-with-will-hall-designing-intelligence/',
+    href: 'https://nycxdesign.org/programming/nycxdesign-talks/designing-intelligence-shaping-the-future-with-ai',
     external: true,
   },
   {
