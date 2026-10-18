@@ -1,15 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import SubstackSignup from '../components/SubstackSignup.astro';
 import HomeViewer from '../components/homes/HomeViewer';
-import HomePlacePoster from '../components/homes/HomePlacePoster.astro';
-import imgDavidSydney from '../assets/images/img-david-sydney.webp';
 import imgDavidNow from '../assets/images/img-david-now.webp';
-import imgDavidHawaii from '../assets/images/img-david-hawaii.webp';
-import imgDavidSf from '../assets/images/img-david-sf.webp';
 import {
   buildNowPageJsonLd,
   NOW_LAST_UPDATED,
@@ -76,53 +70,15 @@ const readingNow = nowReading.map(resolveNowReading);
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(nowJsonLd)} />
   <PageHeader
     title="Now"
-    subtitle="Work, writing, and where I'm spending time this season."
     image={imgDavidNow.src}
-    alt="David Hoang portrait photo, current headshot"
+    alt="David Hoang sitting on a Sydney beach"
   />
   <div class="content-page now-content">
     <div class="container-narrow">
-      <section class="content-page__intro">
-        <p>
-          A short, dated snapshot of priorities — the nownownow.com tradition. Less résumé than
-          <a href="/about">About</a>; more current than <a href="/thesis">Conviction</a>.
-        </p>
-      </section>
-
       <p class="content-page__meta">
         Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about
         <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
       </p>
-
-      <figure class="now-photos">
-        <figcaption class="text-eyebrow now-photos__label">Places I'm in lately</figcaption>
-        <div class="now-grid">
-          <div class="now-grid-item">
-            <Image
-              src={imgDavidSydney}
-              alt="David Hoang standing in Sydney, Australia with city skyline in the background"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div class="now-grid-item">
-            <Image
-              src={imgDavidSf}
-              alt="David Hoang in San Francisco"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div class="now-grid-item">
-            <Image
-              src={imgDavidHawaii}
-              alt="David Hoang in Hawaii, casual outdoor setting"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
-      </figure>
     </div>
 
     <section
@@ -134,10 +90,10 @@ const readingNow = nowReading.map(resolveNowReading);
       <div class="container-narrow">
         <h2 class="now-homes__heading">Places I call home</h2>
         <p class="now-homes__lede text-muted">
-          Drag to orbit the clay miniatures — or peek at Sydney while that scene is still on the workbench.
+          Drag to orbit the clay miniatures.
         </p>
       </div>
-      <div class="homes-grid now-homes__grid">
+      <div class="homes-pair now-homes__grid">
         <HomeViewer
           client:visible={{ rootMargin: '300px' }}
           kind="desert"
@@ -151,12 +107,6 @@ const readingNow = nowReading.map(resolveNowReading);
           name="San Francisco"
           modelUrl="/models/homes/clocktower.glb"
           posterUrl="/images/homes/clocktower.webp"
-        />
-        <HomePlacePoster
-          name="Sydney"
-          posterUrl={imgDavidSydney.src}
-          description="Sydney harbour and skyline — placeholder until the clay miniature ships."
-          statusNote="Clay miniature coming soon"
         />
       </div>
     </section>
@@ -227,13 +177,8 @@ const readingNow = nowReading.map(resolveNowReading);
         </ul>
       </section>
 
-      <section class="card now-cta" aria-labelledby="now-stay-heading">
-        <h2 id="now-stay-heading" class="content-page__section-title">Stay in the loop</h2>
-        <p class="now-cta__lede text-muted">
-          The newsletter is the fastest way to follow what changes between Now updates.
-        </p>
-        <SubstackSignup showTitle={false} description="" compact />
-        <h3 class="text-eyebrow now-cta__recent-heading">Recent on the site</h3>
+      <section class="content-page__section" aria-labelledby="now-recent-heading">
+        <h2 id="now-recent-heading">Recent on the site</h2>
         <ul class="content-page__list content-page__list--linked">
           <li>
             <a href="/writing">Writing archive</a>
@@ -250,15 +195,6 @@ const readingNow = nowReading.map(resolveNowReading);
 </MainLayout>
 
 <style>
-  .now-photos {
-    margin: 0 0 var(--spacing-2xl);
-    border: none;
-  }
-
-  .now-photos__label {
-    margin-bottom: var(--spacing-md);
-  }
-
   .now-reading {
     margin-inline: auto;
   }
@@ -300,55 +236,9 @@ const readingNow = nowReading.map(resolveNowReading);
     font-weight: 400;
   }
 
-  .now-cta {
-    margin-top: var(--spacing-2xl);
-    padding: var(--spacing-xl);
-  }
-
-  .now-cta__lede {
-    margin: 0 0 var(--spacing-lg);
-  }
-
-  .now-cta__recent-heading {
-    margin: var(--spacing-xl) 0 var(--spacing-md);
-  }
-
-  .now-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-    margin: 0;
-  }
-
-  .now-grid-item img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    height: 100%;
-    object-fit: cover;
-    border-radius: var(--radius-md);
-    border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
-  }
-
   @media (max-width: 768px) {
-    .now-photos {
-      margin-bottom: var(--spacing-xl);
-    }
-
     .now-homes {
       padding-top: var(--spacing-lg);
-    }
-
-    .now-grid {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-md);
-    }
-
-    .now-grid-item img {
-      aspect-ratio: 16 / 11;
-    }
-
-    .now-cta {
-      padding: var(--spacing-lg);
     }
   }
 </style>
