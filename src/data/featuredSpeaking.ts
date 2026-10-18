@@ -30,7 +30,7 @@ export const featuredSpeaking: SpeakingYear[] = [
       {
         meta: 'May',
         title: 'NYCxDESIGN: The future of software design',
-        href: 'https://nycxdesign.org/nycxdesign-talk-with-will-hall-designing-intelligence/',
+        href: 'https://nycxdesign.org/programming/nycxdesign-talks/designing-intelligence-shaping-the-future-with-ai',
       },
       {
         meta: 'May',

@@ -6,7 +6,7 @@ import type { FeaturedMediaSource } from '../utils/featuredMedia';
  */
 export const featuredMedia: FeaturedMediaSource[] = [
   {
-    url: 'https://museapp.com/podcast/47-designing-creative-tools/',
+    url: 'https://podcasts.apple.com/us/podcast/47-designing-creative-tools-with-david-hoang/id1504506097?i=1000547084657',
     kicker: 'Podcast',
     fallbackTitle: 'Designing creative tools',
     fallbackDescription:
