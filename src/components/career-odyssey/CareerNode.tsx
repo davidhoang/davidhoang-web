@@ -63,7 +63,7 @@ export const CareerNode: React.FC<CareerNodeProps> = ({
         />
       )}
       <div className="co-node__body">
-        <span className="co-node__label">{node.label}</span>
+        <h3 className="co-node__label">{node.label}</h3>
         {node.dateRange && <span className="co-node__date">{node.dateRange}</span>}
       </div>
       {node.active && <span className="co-node__active-dot" />}
