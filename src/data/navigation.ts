@@ -152,7 +152,7 @@ export const footerSections = [
         external: true,
       },
       {
-        href: 'http://blog.davidhoang.com',
+        href: 'https://blog.davidhoang.com',
         label: 'Personal Blog',
         ariaLabel: "David Hoang's personal blog (opens in new tab)",
         external: true,
