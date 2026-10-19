@@ -2,6 +2,7 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
+import { RSS_TRAILING_SLASH, rssWritingItemPermalinks } from '../utils/rssFeedItems';
 
 const md = new MarkdownIt();
 
@@ -14,10 +15,10 @@ export async function GET(context) {
   ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   const items = posts.map((post) => ({
+    ...rssWritingItemPermalinks(context.site, post.id),
     title: post.data.title,
     pubDate: post.data.pubDate,
     description: post.data.description,
-    link: `/writing/${post.id}/`,
     content: sanitizeHtml(md.render(post.body), {
       allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
     }),
@@ -29,6 +30,7 @@ export async function GET(context) {
     description:
       'Essays and articles on design, technology, and building products. Notes live separately at /rss/notes.xml.',
     site: context.site,
+    trailingSlash: RSS_TRAILING_SLASH,
     items,
     customData: [
       `<language>en-us</language>`,
