@@ -38,7 +38,7 @@ function CardCopy({ card }: { card: Card }) {
       return (
         <>
           <p className="card-editorial-label">{card.eyebrow}</p>
-          <h3 className="card-title">{card.title}</h3>
+          <h2 className="card-title">{card.title}</h2>
           {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
           <p className="card-editorial-summary">{card.summary}</p>
         </>
@@ -47,7 +47,7 @@ function CardCopy({ card }: { card: Card }) {
       return (
         <>
           <p className="card-editorial-label">{card.kicker}</p>
-          <h3 className="card-title">{card.title}</h3>
+          <h2 className="card-title">{card.title}</h2>
           {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
         </>
       );
@@ -55,7 +55,7 @@ function CardCopy({ card }: { card: Card }) {
       return (
         <>
           <p className="card-editorial-label">{card.label}</p>
-          <h3 className="card-title">{card.title}</h3>
+          <h2 className="card-title">{card.title}</h2>
         </>
       );
   }
