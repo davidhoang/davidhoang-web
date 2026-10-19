@@ -385,6 +385,7 @@ export default function ThemesExplorer({ themes }: Props) {
           type="text"
           className="themes-explorer__input"
           placeholder='Ask about themes... e.g. "show me dark moody themes"'
+          aria-label="Ask about themes"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           disabled={aiLoading}
@@ -434,7 +435,11 @@ export default function ThemesExplorer({ themes }: Props) {
         />
         <label className="themes-explorer__sort">
           <span>Sort</span>
-          <select value={sort} onChange={(e) => setSort(e.target.value as ThemeSortKey)}>
+          <select
+            aria-label="Sort themes"
+            value={sort}
+            onChange={(e) => setSort(e.target.value as ThemeSortKey)}
+          >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
             <option value="name">Name A–Z</option>
