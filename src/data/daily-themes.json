@@ -1,6 +1,357 @@
 {
   "themes": [
     {
+      "name": "Fired Earth Aria",
+      "description": "Hand-cut geometry meets late-afternoon courtyard warmth — mineral pigments, ceramic confidence, pattern as presence.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1A0E",
+          "--color-bg": "#FAF3E8",
+          "--color-link": "#AF481D",
+          "--color-link-hover": "#8C3410",
+          "--color-border": "#D9C4A8",
+          "--color-muted": "#7C6756",
+          "--color-sidebar-bg": "#F5EBD8",
+          "--color-nav-bg": "#FAF3E8",
+          "--color-nav-text": "#2C1A0E",
+          "--color-card-bg": "#F2E6D0"
+        },
+        "dark": {
+          "--color-text": "#F0E6D3",
+          "--color-bg": "#1C1410",
+          "--color-link": "#E07A4A",
+          "--color-link-hover": "#F0A070",
+          "--color-border": "#3D2A1A",
+          "--color-muted": "#968070",
+          "--color-sidebar-bg": "#231810",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F0E6D3",
+          "--color-card-bg": "#261C12"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FAF3E8",
+          "#B84C1E",
+          "#3D6B8C"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-10-19",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fired Earth Aria",
+              "subtitle": "Oct 19, 2026 — Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "s1",
+              "s2",
+              "div2",
+              "meta",
+              "div3",
+              "s3",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Hand-cut geometry meets late-afternoon courtyard warmth. Mineral pigments, ceramic confidence — pattern as presence.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FAF3E8",
+                  "label": "Plaster"
+                },
+                {
+                  "hex": "#F2E6D0",
+                  "label": "Raw Clay"
+                },
+                {
+                  "hex": "#D9C4A8",
+                  "label": "Bisque"
+                },
+                {
+                  "hex": "#AF481D",
+                  "label": "Terracotta"
+                },
+                {
+                  "hex": "#8C3410",
+                  "label": "Ember"
+                },
+                {
+                  "hex": "#2C1A0E",
+                  "label": "Soot"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Aria of the Kiln",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "dot-grid",
+              "colors": [
+                "#FAF3E8",
+                "#B84C1E",
+                "#3D6B8C"
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dot-grid"
+                },
+                {
+                  "label": "Link style",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Color scheme",
+                  "value": "Split-complementary"
+                },
+                {
+                  "label": "Image style",
+                  "value": "Vivid / Hover Zoom"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "tok"
+            ]
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#AF481D"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#F2E6D0"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#7C6756"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "8px"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#D9C4A8"
+                }
+              ]
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Fired Earth Aria",
+              "action": "apply-theme",
+              "date": "2026-10-19"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Poolside Firmware",
       "description": "A Palm Springs afternoon rendered as system index — aqua precision, navy structure, and the optimistic hum of a CRT in full daylight.",
       "colors": {
@@ -2177,375 +2528,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Raw Aperture",
-      "description": "Brutalist weight meets gallery grace — monolithic type sliced by a single saturated wound of color, images breathing inside generous shadow-edged frames.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1712",
-          "--color-bg": "#EDE8E0",
-          "--color-link": "#9F4C15",
-          "--color-link-hover": "#963E08",
-          "--color-border": "#C4BAA8",
-          "--color-muted": "#6E6556",
-          "--color-sidebar-bg": "#E4DDD3",
-          "--color-nav-bg": "#EDE8E0",
-          "--color-nav-text": "#1C1712",
-          "--color-card-bg": "#E8E2D8"
-        },
-        "dark": {
-          "--color-text": "#F0EBE1",
-          "--color-bg": "#1C1610",
-          "--color-link": "#E8882A",
-          "--color-link-hover": "#F5A84A",
-          "--color-border": "#3A3020",
-          "--color-muted": "#8E8170",
-          "--color-sidebar-bg": "#231A12",
-          "--color-nav-bg": "#1C1610",
-          "--color-nav-text": "#F0EBE1",
-          "--color-card-bg": "#251E16"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Unbounded",
-          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "display",
-          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Bitter",
-          "url": "https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bitter', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "zoom",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "none",
-        "colors": []
-      },
-      "font": {
-        "name": "Unbounded",
-        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "display",
-        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-10-12",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Raw Aperture",
-              "subtitle": "2026 · Oct 12"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Monolithic type sliced by a single saturated wound. Images breathe inside shadow-edged frames. This is brutalism with a gallery pass.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "br"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "RAW APERTURE",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display · Unbounded",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "serif · Bitter",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "col1",
-              "col2"
-            ]
-          },
-          "col1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "pal",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1712",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#EDE8E0",
-                  "label": "Linen"
-                },
-                {
-                  "hex": "#9F4C15",
-                  "label": "Wound"
-                },
-                {
-                  "hex": "#C4BAA8",
-                  "label": "Stone"
-                },
-                {
-                  "hex": "#6E6556",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#E8E2D8",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic hero"
-            },
-            "children": []
-          },
-          "col2": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "High"
-                },
-                {
-                  "label": "Color scheme",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Radius",
-                  "value": "16px"
-                },
-                {
-                  "label": "Image style",
-                  "value": "Vivid / hover zoom"
-                },
-                {
-                  "label": "Link style",
-                  "value": "Color only"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Gradient"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "tok",
-              "lay"
-            ]
-          },
-          "tok": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-text",
-                  "value": "#1C1712"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#EDE8E0"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#9F4C15"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#C4BAA8"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "16px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "lay": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Raw Aperture",
-              "action": "apply-theme",
-              "date": "2026-10-12"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-18"
+  "currentDate": "2026-10-19"
 }
