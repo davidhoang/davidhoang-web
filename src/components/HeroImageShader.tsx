@@ -7,21 +7,26 @@
  */
 
 import { useEffect, useState } from 'react';
-import * as Shaders from '@paper-design/shaders-react';
+import { loadPaperShaders } from '../utils/lazyPaperShaders';
 
-// Cast: the library types omit `style` but accept it at runtime.
-const Water = Shaders.Water as any;
-const PaperTexture = Shaders.PaperTexture as any;
+type PaperShaders = Awaited<ReturnType<typeof loadPaperShaders>>;
+
 interface HeroImageShaderProps {
   src: string;
   alt: string;
   priority?: boolean; // For preloading critical hero images
 }
 
+function heroNeedsPaperShaders(isDefaultTheme: boolean, currentShader: string) {
+  if (isDefaultTheme) return false;
+  return currentShader === 'waves' || currentShader === 'paper' || currentShader === 'grain';
+}
+
 export default function HeroImageShader({ src, alt, priority = false }: HeroImageShaderProps) {
   const [mounted, setMounted] = useState(false);
   const [isDefaultTheme, setIsDefaultTheme] = useState(true);
   const [currentShader, setCurrentShader] = useState<string>('halftone');
+  const [paperShaders, setPaperShaders] = useState<PaperShaders | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -55,6 +60,22 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
       window.removeEventListener('storage', checkTheme);
     };
   }, []);
+
+  useEffect(() => {
+    if (!mounted || !heroNeedsPaperShaders(isDefaultTheme, currentShader)) {
+      setPaperShaders(null);
+      return;
+    }
+
+    let cancelled = false;
+    loadPaperShaders().then((mod) => {
+      if (!cancelled) setPaperShaders(mod);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted, isDefaultTheme, currentShader]);
 
   const containerStyle: React.CSSProperties = {
     position: 'absolute',
@@ -114,7 +135,15 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
 
   // Daily themes: use theme-specific shader with responsive image fallback
   switch (currentShader) {
-    case 'waves':
+    case 'waves': {
+      if (!paperShaders) {
+        return (
+          <div style={containerStyle}>
+            <HeroImage />
+          </div>
+        );
+      }
+      const Water = paperShaders.Water as any;
       return (
         <div style={containerStyle}>
           <HeroImage />
@@ -129,9 +158,18 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
           />
         </div>
       );
+    }
 
     case 'paper':
-    case 'grain':
+    case 'grain': {
+      if (!paperShaders) {
+        return (
+          <div style={containerStyle}>
+            <HeroImage />
+          </div>
+        );
+      }
+      const PaperTexture = paperShaders.PaperTexture as any;
       return (
         <div style={containerStyle}>
           <HeroImage />
@@ -148,6 +186,7 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
           />
         </div>
       );
+    }
 
     default:
       // Fallback to responsive image with CSS filters applied via global.css

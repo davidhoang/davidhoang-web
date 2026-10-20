@@ -4,35 +4,15 @@
  * Uses Paper Design shaders for dynamic backgrounds.
  * Controlled by daily theme system via data-shader attribute.
  *
- * Shader components are loaded via named imports (tree-shakeable) and the
- * island itself mounts with client:idle so it stays off the LCP path.
+ * Shader library loads via dynamic import when a theme actually uses a shader;
+ * the island mounts with client:idle so it stays off the LCP path.
  */
 
 import { useEffect, useState } from 'react';
-import {
-  GrainGradient as GrainGradientRaw,
-  MeshGradient as MeshGradientRaw,
-  NeuroNoise as NeuroNoiseRaw,
-  Waves as WavesRaw,
-  DotGrid as DotGridRaw,
-  Swirl as SwirlRaw,
-  PerlinNoise as PerlinNoiseRaw,
-  SimplexNoise as SimplexNoiseRaw,
-  PaperTexture as PaperTextureRaw,
-} from '@paper-design/shaders-react';
 import MouseGlow from './MouseGlow';
+import { loadPaperShaders } from '../utils/lazyPaperShaders';
 
-// Cast shader components to permissive types — the library's TS definitions
-// omit `style`, but it's accepted at runtime.
-const GrainGradient = GrainGradientRaw as any;
-const MeshGradient = MeshGradientRaw as any;
-const NeuroNoise = NeuroNoiseRaw as any;
-const Waves = WavesRaw as any;
-const DotGrid = DotGridRaw as any;
-const Swirl = SwirlRaw as any;
-const PerlinNoise = PerlinNoiseRaw as any;
-const SimplexNoise = SimplexNoiseRaw as any;
-const PaperTexture = PaperTextureRaw as any;
+type PaperShaders = Awaited<ReturnType<typeof loadPaperShaders>>;
 
 interface ShaderBackgroundProps {
   shader?: string;
@@ -52,6 +32,7 @@ export default function ShaderBackground({
   const [currentColors, setCurrentColors] = useState(colors);
   const [isEInkMode, setIsEInkMode] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [paperShaders, setPaperShaders] = useState<PaperShaders | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -121,10 +102,51 @@ export default function ShaderBackground({
     };
   }, []);
 
+  const shouldRenderShader =
+    mounted && currentShader !== 'none' && !isEInkMode && !prefersReducedMotion;
+
+  useEffect(() => {
+    if (!shouldRenderShader) {
+      setPaperShaders(null);
+      return;
+    }
+
+    let cancelled = false;
+    loadPaperShaders().then((mod) => {
+      if (!cancelled) setPaperShaders(mod);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [shouldRenderShader, currentShader]);
+
   // Don't render shaders in e-ink mode, reduced motion, or if shader is none
-  if (!mounted || currentShader === 'none' || isEInkMode || prefersReducedMotion) {
+  if (!shouldRenderShader || !paperShaders) {
     return null;
   }
+
+  const {
+    GrainGradient: GrainGradientRaw,
+    MeshGradient: MeshGradientRaw,
+    NeuroNoise: NeuroNoiseRaw,
+    Waves: WavesRaw,
+    DotGrid: DotGridRaw,
+    Swirl: SwirlRaw,
+    PerlinNoise: PerlinNoiseRaw,
+    SimplexNoise: SimplexNoiseRaw,
+    PaperTexture: PaperTextureRaw,
+  } = paperShaders;
+
+  const GrainGradient = GrainGradientRaw as any;
+  const MeshGradient = MeshGradientRaw as any;
+  const NeuroNoise = NeuroNoiseRaw as any;
+  const Waves = WavesRaw as any;
+  const DotGrid = DotGridRaw as any;
+  const Swirl = SwirlRaw as any;
+  const PerlinNoise = PerlinNoiseRaw as any;
+  const SimplexNoise = SimplexNoiseRaw as any;
+  const PaperTexture = PaperTextureRaw as any;
 
   const containerStyle: React.CSSProperties = {
     position: 'fixed',

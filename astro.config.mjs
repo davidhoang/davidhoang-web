@@ -39,7 +39,6 @@ const MANUAL_CHUNKS = [
     [
       'src/components/ShaderBackground.tsx',
       'src/components/HeroImageShader.tsx',
-      'src/components/TextureCardShader.tsx',
     ],
   ],
   ['utils', ['src/utils/', 'src/plugins/']],

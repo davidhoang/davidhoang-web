@@ -4,13 +4,16 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Dithering } from '@paper-design/shaders-react';
+import { loadPaperShaders } from '../utils/lazyPaperShaders';
+
+type PaperShaders = Awaited<ReturnType<typeof loadPaperShaders>>;
 
 export default function TextureCardShader() {
   const [mounted, setMounted] = useState(false);
   const [eInk, setEInk] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [colors, setColors] = useState({ front: '#00b3ff', back: '#000000' });
+  const [paperShaders, setPaperShaders] = useState<PaperShaders | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -44,9 +47,29 @@ export default function TextureCardShader() {
     };
   }, []);
 
-  if (!mounted || eInk) {
+  const shouldRender = mounted && !eInk;
+
+  useEffect(() => {
+    if (!shouldRender) {
+      setPaperShaders(null);
+      return;
+    }
+
+    let cancelled = false;
+    loadPaperShaders().then((mod) => {
+      if (!cancelled) setPaperShaders(mod);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [shouldRender]);
+
+  if (!shouldRender || !paperShaders) {
     return null;
   }
+
+  const Dithering = paperShaders.Dithering as any;
 
   return (
     <Dithering
