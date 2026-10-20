@@ -5,17 +5,17 @@ import { blogroll } from '../data/blogroll';
 
 const pageDescription =
   'A blogroll of sites I read — the old WordPress habit of listing the people whose work I keep coming back to.';
-const ogImage = '/images/header-images/img-header-writing.webp';
+const headerImage = '/images/header-images/img-header-writing.webp';
 
 function siteHost(url: string): string {
   return new URL(url).host.replace(/^www\./, '');
 }
 ---
 
-<MainLayout title="Blogroll | David Hoang" description={pageDescription} ogImage={ogImage}>
+<MainLayout title="Blogroll | David Hoang" description={pageDescription}>
   <PageHeader
     title="Blogroll"
-    image={ogImage}
+    image={headerImage}
     alt="Blogroll"
     priority={true}
   />

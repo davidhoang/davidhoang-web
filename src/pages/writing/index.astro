@@ -6,6 +6,7 @@ import { buildGraph } from '../../utils/writingGraph';
 import ContentIndexCard from '../../components/ContentIndexCard.astro';
 import { formatListDate } from '../../utils/formatDate';
 import { getWritingPostThumbnail, getWritingPostHero } from '../../utils/writingPostImage';
+import { buildOgImageUrl } from '../../utils/ogImage';
 import '../../styles/pages/writing-editorial.css';
 
 const allPosts = await getCollection('writing');
@@ -42,7 +43,11 @@ const feedPosts = postsWithMeta.slice(1);
 
 const pageDescription =
   'Essays on design, engineering, AI, and entrepreneurship.';
-const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
+const ogImage = buildOgImageUrl({
+  title: 'Writing',
+  description: pageDescription,
+  type: 'writing',
+});
 ---
 
 <WritingLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>

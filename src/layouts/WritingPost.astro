@@ -16,6 +16,7 @@ import {
   CANONICAL_SITE,
   toIsoDate,
 } from '../utils/structuredData';
+import { resolveContentOgImage } from '../utils/ogImage';
 import '../styles/pages/writing-post.css';
 
 const { data, relatedContent = [], headings = [], readingTime } = Astro.props;
@@ -39,7 +40,13 @@ const coverImage = data.coverImage;
 const coverAsset = resolveAssetImage(coverImage);
 
 const pageDescription = description || 'An article by David Hoang on design, engineering, AI, and entrepreneurship.';
-const ogImage = data.ogImage || coverImage || `/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(pageDescription)}&type=writing`;
+const ogImage = resolveContentOgImage({
+  title,
+  description: pageDescription,
+  type: 'writing',
+  ogImage: data.ogImage,
+  coverImage,
+});
 
 const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');
 const canonicalUrl = absoluteUrl(pathname);
