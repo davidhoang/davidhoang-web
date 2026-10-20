@@ -3,17 +3,15 @@
  * @see https://shaders.paper.design/dithering
  */
 
-import { useEffect, useState } from 'react';
-import { loadPaperShaders } from '../utils/lazyPaperShaders';
-
-type PaperShaders = Awaited<ReturnType<typeof loadPaperShaders>>;
+import { useEffect, useState, type ComponentType } from 'react';
+import type { TextureCardDitheringLayerProps } from '../shaders/lazy/TextureCardDitheringLayer';
 
 export default function TextureCardShader() {
   const [mounted, setMounted] = useState(false);
   const [eInk, setEInk] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [colors, setColors] = useState({ front: '#00b3ff', back: '#000000' });
-  const [paperShaders, setPaperShaders] = useState<PaperShaders | null>(null);
+  const [Layer, setLayer] = useState<ComponentType<TextureCardDitheringLayerProps> | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -51,13 +49,13 @@ export default function TextureCardShader() {
 
   useEffect(() => {
     if (!shouldRender) {
-      setPaperShaders(null);
+      setLayer(null);
       return;
     }
 
     let cancelled = false;
-    loadPaperShaders().then((mod) => {
-      if (!cancelled) setPaperShaders(mod);
+    import('../shaders/lazy/TextureCardDitheringLayer').then((mod) => {
+      if (!cancelled) setLayer(() => mod.default);
     });
 
     return () => {
@@ -65,23 +63,9 @@ export default function TextureCardShader() {
     };
   }, [shouldRender]);
 
-  if (!shouldRender || !paperShaders) {
+  if (!shouldRender || !Layer) {
     return null;
   }
 
-  const Dithering = paperShaders.Dithering as any;
-
-  return (
-    <Dithering
-      style={{ width: '100%', height: '100%', display: 'block' }}
-      colorBack={colors.back}
-      colorFront={colors.front}
-      shape="sphere"
-      type="4x4"
-      size={2}
-      scale={0.6}
-      speed={reducedMotion ? 0 : 0.85}
-      fit="cover"
-    />
-  );
+  return <Layer colors={colors} reducedMotion={reducedMotion} />;
 }

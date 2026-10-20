@@ -4,15 +4,12 @@
  * Uses Paper Design shaders for dynamic backgrounds.
  * Controlled by daily theme system via data-shader attribute.
  *
- * Shader library loads via dynamic import when a theme actually uses a shader;
+ * Shader layers load via dynamic import when a theme actually uses a shader;
  * the island mounts with client:idle so it stays off the LCP path.
  */
 
-import { useEffect, useState } from 'react';
-import MouseGlow from './MouseGlow';
-import { loadPaperShaders } from '../utils/lazyPaperShaders';
-
-type PaperShaders = Awaited<ReturnType<typeof loadPaperShaders>>;
+import { useEffect, useState, type ComponentType } from 'react';
+import type { ShaderBackgroundLayersProps } from '../shaders/lazy/ShaderBackgroundLayers';
 
 interface ShaderBackgroundProps {
   shader?: string;
@@ -32,7 +29,7 @@ export default function ShaderBackground({
   const [currentColors, setCurrentColors] = useState(colors);
   const [isEInkMode, setIsEInkMode] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [paperShaders, setPaperShaders] = useState<PaperShaders | null>(null);
+  const [Layers, setLayers] = useState<ComponentType<ShaderBackgroundLayersProps> | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -44,9 +41,7 @@ export default function ShaderBackground({
 
     let observer: MutationObserver | null = null;
 
-    // Defer observer setup to idle time to reduce main thread blocking
     const initObserver = () => {
-      // Listen for theme changes
       observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           if (mutation.attributeName === 'data-shader') {
@@ -63,7 +58,6 @@ export default function ShaderBackground({
               }
             }
           }
-          // Watch for e-ink mode changes
           if (mutation.attributeName === 'data-e-ink') {
             const eInkMode = document.documentElement.getAttribute('data-e-ink') === 'true';
             setIsEInkMode(eInkMode);
@@ -74,7 +68,6 @@ export default function ShaderBackground({
       observer.observe(document.documentElement, { attributes: true });
     };
 
-    // Check initial values immediately (sync read is fast)
     const initialShader = document.documentElement.getAttribute('data-shader');
     if (initialShader) setCurrentShader(initialShader);
 
@@ -85,11 +78,9 @@ export default function ShaderBackground({
       } catch (e) {}
     }
 
-    // Check initial e-ink mode
     const initialEInk = document.documentElement.getAttribute('data-e-ink') === 'true';
     setIsEInkMode(initialEInk);
 
-    // Defer MutationObserver setup to idle time
     if ('requestIdleCallback' in window) {
       (window as any).requestIdleCallback(initObserver);
     } else {
@@ -107,13 +98,13 @@ export default function ShaderBackground({
 
   useEffect(() => {
     if (!shouldRenderShader) {
-      setPaperShaders(null);
+      setLayers(null);
       return;
     }
 
     let cancelled = false;
-    loadPaperShaders().then((mod) => {
-      if (!cancelled) setPaperShaders(mod);
+    import('../shaders/lazy/ShaderBackgroundLayers').then((mod) => {
+      if (!cancelled) setLayers(() => mod.default);
     });
 
     return () => {
@@ -121,180 +112,16 @@ export default function ShaderBackground({
     };
   }, [shouldRenderShader, currentShader]);
 
-  // Don't render shaders in e-ink mode, reduced motion, or if shader is none
-  if (!shouldRenderShader || !paperShaders) {
+  if (!shouldRenderShader || !Layers) {
     return null;
   }
 
-  const {
-    GrainGradient: GrainGradientRaw,
-    MeshGradient: MeshGradientRaw,
-    NeuroNoise: NeuroNoiseRaw,
-    Waves: WavesRaw,
-    DotGrid: DotGridRaw,
-    Swirl: SwirlRaw,
-    PerlinNoise: PerlinNoiseRaw,
-    SimplexNoise: SimplexNoiseRaw,
-    PaperTexture: PaperTextureRaw,
-  } = paperShaders;
-
-  const GrainGradient = GrainGradientRaw as any;
-  const MeshGradient = MeshGradientRaw as any;
-  const NeuroNoise = NeuroNoiseRaw as any;
-  const Waves = WavesRaw as any;
-  const DotGrid = DotGridRaw as any;
-  const Swirl = SwirlRaw as any;
-  const PerlinNoise = PerlinNoiseRaw as any;
-  const SimplexNoise = SimplexNoiseRaw as any;
-  const PaperTexture = PaperTextureRaw as any;
-
-  const containerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100dvh',
-    pointerEvents: 'none',
-    zIndex: -1,
-    opacity: opacity,
-  };
-
-  // Cast: the @paper-design shader components accept `style` at runtime
-  // but their TS types omit it. One cast keeps every shader call site clean.
-  const shaderStyle = {
-    width: '100%',
-    height: '100%',
-  } as any;
-
-  // Get the link color for mouse glow (falls back to first shader color)
-  const glowColor = currentColors[0] || '#ffffff';
-
-  switch (currentShader) {
-    case 'grain':
-      return (
-        <div style={containerStyle}>
-          <GrainGradient
-            style={shaderStyle}
-            color1={currentColors[0]}
-            color2={currentColors[1] || currentColors[0]}
-            speed={speed}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'paper':
-      return (
-        <div style={containerStyle}>
-          <PaperTexture
-            style={shaderStyle}
-            color={currentColors[0]}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'mesh-gradient':
-      return (
-        <div style={containerStyle}>
-          <MeshGradient
-            style={shaderStyle}
-            color1={currentColors[0]}
-            color2={currentColors[1]}
-            color3={currentColors[2] || currentColors[0]}
-            color4={currentColors[3] || currentColors[1]}
-            speed={speed}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'neuro':
-      return (
-        <div style={containerStyle}>
-          <NeuroNoise
-            style={shaderStyle}
-            colorFront={currentColors[0]}
-            colorBack={currentColors[1] || 'transparent'}
-            speed={speed}
-            scale={1.5}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'waves':
-      return (
-        <div style={containerStyle}>
-          <Waves
-            style={shaderStyle}
-            color1={currentColors[0]}
-            color2={currentColors[1]}
-            color3={currentColors[2] || currentColors[0]}
-            speed={speed}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'dot-grid':
-      return (
-        <div style={containerStyle}>
-          <DotGrid
-            style={shaderStyle}
-            colorDot={currentColors[0]}
-            colorBack={currentColors[1] || 'transparent'}
-            dotSize={0.015}
-            gridSpacingX={0.03}
-            gridSpacingY={0.03}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'swirl':
-      return (
-        <div style={containerStyle}>
-          <Swirl
-            style={shaderStyle}
-            colorBack={currentColors[0]}
-            colorInner={currentColors[1]}
-            colorOuter={currentColors[2] || currentColors[0]}
-            speed={speed}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'perlin':
-      return (
-        <div style={containerStyle}>
-          <PerlinNoise
-            style={shaderStyle}
-            color1={currentColors[0]}
-            color2={currentColors[1]}
-            speed={speed}
-            scale={2}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    case 'simplex':
-      return (
-        <div style={containerStyle}>
-          <SimplexNoise
-            style={shaderStyle}
-            color1={currentColors[0]}
-            color2={currentColors[1]}
-            speed={speed}
-            scale={2}
-          />
-          <MouseGlow color={glowColor} />
-        </div>
-      );
-
-    default:
-      return null;
-  }
+  return (
+    <Layers
+      currentShader={currentShader}
+      currentColors={currentColors}
+      speed={speed}
+      opacity={opacity}
+    />
+  );
 }
