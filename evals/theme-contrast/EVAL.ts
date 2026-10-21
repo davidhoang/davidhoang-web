@@ -24,6 +24,7 @@ test('contrast pair registry covers body/link/muted/nav on key surfaces', () => 
     'body text on background',
     'link on background',
     'muted text on background',
+    'muted text on card background',
     'text on card background',
     'link on card background',
     'nav text on nav background',

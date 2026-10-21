@@ -794,6 +794,11 @@ const docsNav: { href: string; label: string; current?: boolean }[] = [
     border-radius: var(--radius-sm);
   }
 
+  /* Label chips must contrast with the swatch fill, not a second copy of --color-bg. */
+  .color-swatch .color-label {
+    background: transparent;
+  }
+
   /* Type samples */
   .type-samples {
     display: flex;

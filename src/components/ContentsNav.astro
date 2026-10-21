@@ -252,9 +252,7 @@ const { items, label = 'Contents' } = Astro.props;
     text-align: left;
     overflow-wrap: anywhere;
     word-break: break-word;
-    transition:
-      color var(--duration-slow) var(--ease-standard),
-      opacity var(--duration-slow) var(--ease-standard);
+    transition: color var(--duration-slow) var(--ease-standard);
   }
 
   .contents-nav__link::before,
@@ -262,14 +260,9 @@ const { items, label = 'Contents' } = Astro.props;
     display: none;
   }
 
-  .contents-nav__list:has(.contents-nav__link.active) .contents-nav__link:not(.active) {
-    opacity: 0.72;
-  }
-
   .contents-nav__link:hover {
     background: transparent;
     color: var(--color-text);
-    opacity: 1;
     text-decoration: none;
   }
 
@@ -280,7 +273,6 @@ const { items, label = 'Contents' } = Astro.props;
 
   .contents-nav__link.active {
     color: var(--color-text);
-    opacity: 1;
     background: transparent;
     text-decoration: none;
   }
