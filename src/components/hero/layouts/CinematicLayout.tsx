@@ -194,7 +194,6 @@ function FilmstripCard({
       }}
       tabIndex={0}
       role="button"
-      aria-label={`Show ${card.title}`}
     >
       <CardBaseContent
         card={card}
