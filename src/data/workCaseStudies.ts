@@ -17,6 +17,8 @@ export type WorkCaseStudy = {
   description: string;
   heroImage: string;
   heroAlt: string;
+  /** Optional mobile object-position for wide stage / branding heroes */
+  heroImagePositionMobile?: string;
   companyUrl?: string;
   sections: WorkCaseStudySection[];
 };
@@ -31,6 +33,7 @@ export const workCaseStudies: WorkCaseStudy[] = [
       'Design leadership for Rovo, AI teammates, and ecosystem surfaces across Jira and the Teamwork Graph.',
     heroImage: '/images/odyssey/img-rovo.webp',
     heroAlt: 'Rovo and AI ecosystem design',
+    heroImagePositionMobile: '68% 42%',
     companyUrl: 'https://www.atlassian.com',
     sections: [
       {

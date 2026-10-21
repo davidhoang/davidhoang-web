@@ -24,7 +24,12 @@ const pageTitle = `${study.title} | Works | David Hoang`;
   ogImage={study.heroImage}
   disableContentMoodFilter
 >
-  <PageHeader title={study.title} image={study.heroImage} alt={study.heroAlt} />
+  <PageHeader
+    title={study.title}
+    image={study.heroImage}
+    alt={study.heroAlt}
+    imagePositionMobile={study.heroImagePositionMobile}
+  />
   <article class="content-page work-case-study container-narrow">
     <nav class="work-case-study__nav" aria-label="Works">
       <a class="work-case-study__back" href="/works">← All works</a>

@@ -266,6 +266,15 @@
   /* Daily theme FAB + calendar — above modals, texture layers, and dev overlays */
   --z-daily-theme-ui: 500000;
 
+  /* Fixed daily-theme FAB — reserve space on narrow reading pages (PCD-127) */
+  --daily-theme-fab-size: 48px;
+  --daily-theme-fab-block-reserve: calc(
+    var(--daily-theme-fab-size) + var(--spacing-md) + max(var(--spacing-sm), env(safe-area-inset-bottom, 0px))
+  );
+  --daily-theme-fab-inline-reserve: calc(
+    var(--daily-theme-fab-size) + var(--spacing-md) + env(safe-area-inset-right, 0px)
+  );
+
   /* Shared component styles - Border and Shadow */
   --border-default: 1px solid var(--color-border);
   --border-hover: 1px solid var(--color-border);
