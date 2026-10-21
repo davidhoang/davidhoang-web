@@ -20,6 +20,8 @@ const MANUAL_CHUNKS = [
   ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx', 'src/components/diorama/DioramaScene.tsx']],
   ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
+  // Navigation imports this on every page; keep it out of hero-components or framer-motion loads site-wide.
+  ['viewport-capabilities', ['src/utils/viewport-capabilities.ts', 'src/utils/breakpoints.ts']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
   [
     'hero-components',
