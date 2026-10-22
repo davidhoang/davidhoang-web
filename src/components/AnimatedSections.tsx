@@ -113,11 +113,11 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       </div>
       <div className="portfolio-item-text">
         <p className="text-body">
-          {item.text.split(item.linkText)[0]}
+          {item.text.trimEnd()}
+          {item.text.length > 0 ? ' ' : null}
           <a href={item.link} target="_blank" rel="noopener noreferrer">
             {item.linkText}
           </a>
-          {item.text.split(item.linkText)[1] || ''}
         </p>
       </div>
     </motion.div>
