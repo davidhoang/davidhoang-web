@@ -33,7 +33,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
             const isLive = Boolean(entry.href);
 
             if (presentation === 'card') {
-              const cardAria = `${entry.title}${entry.role ? `, ${entry.role}` : ''} (${kindLabel})`;
               const cardInner = (
                 <>
                   <div class="works-card__top">
@@ -50,6 +49,9 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                       ))}
                     </ul>
                   )}
+                  {isLive && entry.external && (
+                    <span class="sr-only"> (opens in a new tab)</span>
+                  )}
                 </>
               );
 
@@ -61,22 +63,17 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                       href={entry.href}
                       target={entry.external ? '_blank' : undefined}
                       rel={entry.external ? 'noopener noreferrer' : undefined}
-                      aria-label={cardAria}
                     >
                       {cardInner}
                     </a>
                   ) : (
-                    <div class="card card-filled works-card" aria-label={cardAria}>
+                    <div class="card card-filled works-card">
                       {cardInner}
                     </div>
                   )}
                 </li>
               );
             }
-
-            const ariaLabel = entry.external
-              ? `${entry.title} (${kindLabel}, opens in new tab)`
-              : `${entry.title} (${kindLabel})`;
 
             return (
               <li class:list={['works-stream__item', 'works-stream__item--line', { 'works-stream__item--linked': isLive }]}>
@@ -86,7 +83,6 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                     href={entry.href}
                     target={entry.external ? '_blank' : undefined}
                     rel={entry.external ? 'noopener noreferrer' : undefined}
-                    aria-label={ariaLabel}
                   >
                     <span class="works-line__when">{entry.when}</span>
                     <span class="works-line__body">
@@ -97,10 +93,13 @@ const ogImage = '/images/highlights/img-highlights-proof-of-concept.webp';
                         )}
                       </span>
                       {entry.summary && <span class="works-line__summary">{entry.summary}</span>}
+                      {entry.external && (
+                        <span class="sr-only"> (opens in a new tab)</span>
+                      )}
                     </span>
                   </a>
                 ) : (
-                  <div class="works-line works-line--static" aria-label={ariaLabel}>
+                  <div class="works-line works-line--static">
                     <span class="works-line__when">{entry.when}</span>
                     <span class="works-line__body">
                       <span class="works-line__title">{entry.title}</span>

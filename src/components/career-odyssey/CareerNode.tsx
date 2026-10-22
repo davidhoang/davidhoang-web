@@ -48,7 +48,6 @@ export const CareerNode: React.FC<CareerNodeProps> = ({
       }}
       role="button"
       tabIndex={0}
-      aria-label={`${node.label} — ${node.dateRange || node.date || ''}`}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
