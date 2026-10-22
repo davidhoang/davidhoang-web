@@ -18,6 +18,8 @@ interface Props {
   title: string;
   image?: string;
   alt?: string;
+  /** Mobile hero crop anchor (object-position). Desktop stays centered. */
+  imagePositionMobile?: string;
   variant?: 'image' | 'text-only';
   subtitle?: string;
   class?: string;
@@ -28,6 +30,7 @@ const {
   title,
   image,
   alt = title,
+  imagePositionMobile,
   variant = 'image',
   subtitle,
   class: className = '',
@@ -40,7 +43,11 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
-    <div class="page-header__hero hero-media">
+    <div
+      class="page-header__hero hero-media"
+      style={imagePositionMobile ? `--hero-image-position-mobile: ${imagePositionMobile}` : undefined}
+      data-hero-image-position-mobile={imagePositionMobile ? '' : undefined}
+    >
       {optimizedImage ? (
         <Image
           src={optimizedImage}
@@ -229,6 +236,12 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     height: 100%;
     object-fit: cover;
     object-position: center;
+  }
+
+  @media (max-width: 767px) {
+    .page-header__hero[data-hero-image-position-mobile] .page-header__image {
+      object-position: var(--hero-image-position-mobile, center);
+    }
   }
 
   /* Shader/image container - parallax transform applied via JS */

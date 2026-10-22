@@ -252,7 +252,18 @@
 
 @media (max-width: 767px) {
   .content-page {
-    padding-bottom: var(--spacing-2xl);
+    padding-bottom: calc(var(--spacing-2xl) + var(--daily-theme-fab-block-reserve));
+  }
+
+  /* PCD-127: reading pages — inline reserve so body copy does not sit under the fixed theme FAB */
+  main.container:has(.content-page, .about-content, .notes-intro, .notes-grid, .works-index)
+    :is(.content-page, .about-content, .notes-intro, .notes-toolbar, .notes-grid, .work-case-study) {
+    padding-inline-end: var(--daily-theme-fab-inline-reserve);
+  }
+
+  main.container:has(.content-page, .about-content, .notes-intro, .notes-grid, .works-index)
+    + .site-footer {
+    padding-bottom: calc(var(--spacing-lg) + var(--daily-theme-fab-block-reserve));
   }
 
   .content-page__intro > p:not(.text-eyebrow) {
