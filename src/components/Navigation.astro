@@ -1,14 +1,17 @@
 ---
 import { mobileSecondaryNavItems, navItems } from '../data/navigation';
+import { accessibleNameWithVisibleLabel } from '../utils/accessibleName';
 
 const currentPath = Astro.url.pathname;
+const logoAccessibleName = accessibleNameWithVisibleLabel('DH', 'David Hoang homepage');
+const cmdKAccessibleName = accessibleNameWithVisibleLabel('⌘K', 'Search site');
 ---
 
 <nav class="site-nav glass-border" aria-label="Main navigation" transition:persist>
   <canvas id="noiseCanvas" class="noise-canvas" aria-hidden="true"></canvas>
   <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
   <div class="nav-container">
-    <a href="/" class="logo no-transition" aria-label="David Hoang homepage">DH</a>
+    <a href="/" class="logo no-transition" aria-label={logoAccessibleName}>DH</a>
     <!-- Desktop Navigation -->
     <ul class="nav-links desktop-nav" aria-label="Main menu">
       {navItems.map(item => (
@@ -28,7 +31,7 @@ const currentPath = Astro.url.pathname;
         <button
           type="button"
           class="cmd-k-hint"
-          aria-label="Search site"
+          aria-label={cmdKAccessibleName}
           aria-controls="cmdPalette"
           aria-expanded="false"
           aria-keyshortcuts="Meta+K Control+K"

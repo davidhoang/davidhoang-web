@@ -30,6 +30,7 @@
     "check": "npx astro check",
     "test": "vitest run",
     "test:ui": "node scripts/test-ui-interactions.mjs",
+    "audit:a11y:label-in-name": "node scripts/audit-label-in-name.mjs",
     "test:theme-renderer": "node scripts/test-theme-renderer.mjs",
     "test:watch": "vitest"
   },
@@ -67,6 +68,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@astrojs/check": "^0.9.6",
     "@types/markdown-it": "^14.1.2",
     "@types/react": "^19.2.2",

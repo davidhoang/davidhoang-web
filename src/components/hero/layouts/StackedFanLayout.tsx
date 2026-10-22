@@ -186,7 +186,6 @@ function FanCard({
       role="link"
       tabIndex={isMobileStack && !isFront ? -1 : 0}
       aria-hidden={isMobileStack && !isFront ? true : undefined}
-      aria-label={card.linkText ? `${card.title} — ${card.linkText}` : card.title}
       style={{
         ...dimensionStyle,
         backgroundColor: isGlass ? 'transparent' : card.color,

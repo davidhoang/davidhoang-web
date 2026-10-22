@@ -34,7 +34,7 @@ try {
   assert.ok(await focused('#notes-search'));
   check('Notes search, combined filters, counts, clear button, and empty-state recovery');
 
-  await page.getByRole('button', { name: 'Search site', exact: true }).focus();
+  await page.getByRole('button', { name: '⌘K, Search site', exact: true }).focus();
   await page.keyboard.press('Enter');
   await page.locator('#cmdPaletteResults .cmd-palette-item').first().waitFor();
   assert.ok(await focused('#cmdPaletteInput'));
