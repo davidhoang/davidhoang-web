@@ -1,0 +1,152 @@
+---
+import { youtubeNocookieEmbedUrl, youtubePosterUrl } from '../utils/youtube';
+
+interface Props {
+  videoId: string;
+  /** Accessible name for the player (iframe title + play control). */
+  title: string;
+}
+
+const { videoId, title } = Astro.props;
+const playLabel = `Play video: ${title}`;
+const posterUrl = youtubePosterUrl(videoId);
+const embedUrl = youtubeNocookieEmbedUrl(videoId);
+---
+
+<div
+  class="note-youtube youtube-embed"
+  data-youtube-embed
+  data-video-id={videoId}
+  data-embed-title={title}
+  data-embed-url={embedUrl}
+>
+  <img
+    class="youtube-embed__poster"
+    src={posterUrl}
+    alt=""
+    width="480"
+    height="360"
+    loading="lazy"
+    decoding="async"
+  />
+  <button type="button" class="youtube-embed__play" aria-label={playLabel}>
+    <svg
+      class="youtube-embed__play-icon"
+      width="68"
+      height="48"
+      viewBox="0 0 68 48"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M66.52 7.74a8.6 8.6 0 0 0-6.05-6.08C55.79.13 34 0 34 0S12.21.13 7.53 1.66A8.6 8.6 0 0 0 1.48 7.74 89.4 89.4 0 0 0 0 24a89.4 89.4 0 0 0 1.48 16.26 8.6 8.6 0 0 0 6.05 6.08C12.21 47.87 34 48 34 48s21.79-.13 26.47-1.66a8.6 8.6 0 0 0 6.05-6.08A89.4 89.4 0 0 0 68 24a89.4 89.4 0 0 0-1.48-16.26Z"
+        fill="currentColor"
+        opacity="0.85"></path>
+      <path d="M27 34V14l18 10-18 10Z" fill="var(--color-bg, #fff)"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .note-youtube {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md, 8px);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-text) 6%, var(--color-sidebar-bg));
+    border: 1px solid var(--color-border);
+  }
+
+  .note-youtube :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .youtube-embed__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .youtube-embed__play {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+  }
+
+  .youtube-embed__play:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .youtube-embed__play-icon {
+    filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--color-text) 35%, transparent));
+    transition: transform var(--duration-fast, 150ms) var(--ease-out, ease-out);
+  }
+
+  .youtube-embed__play:hover .youtube-embed__play-icon,
+  .youtube-embed__play:focus-visible .youtube-embed__play-icon {
+    transform: scale(1.06);
+  }
+
+  .youtube-embed--loaded .youtube-embed__poster,
+  .youtube-embed--loaded .youtube-embed__play {
+    display: none;
+  }
+</style>
+
+<script>
+  const ALLOW =
+    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+
+  function activateEmbed(root: HTMLElement) {
+    if (root.dataset.youtubeLoaded === 'true') return;
+    const videoId = root.dataset.videoId;
+    const title = root.dataset.embedTitle;
+    if (!videoId || !title) return;
+
+    root.dataset.youtubeLoaded = 'true';
+    root.classList.add('youtube-embed--loaded');
+    root.replaceChildren();
+
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+    iframe.title = `Video — ${title}`;
+    iframe.loading = 'lazy';
+    iframe.allow = ALLOW;
+    iframe.setAttribute('allowfullscreen', '');
+    root.appendChild(iframe);
+  }
+
+  function bindEmbed(root: HTMLElement) {
+    if (root.dataset.youtubeBound === 'true') return;
+    root.dataset.youtubeBound = 'true';
+
+    const play = root.querySelector<HTMLButtonElement>('.youtube-embed__play');
+    if (!play) return;
+
+    play.addEventListener('click', () => activateEmbed(root));
+  }
+
+  function initYoutubeEmbeds(scope: ParentNode = document) {
+    scope.querySelectorAll<HTMLElement>('[data-youtube-embed]').forEach(bindEmbed);
+  }
+
+  initYoutubeEmbeds();
+  document.addEventListener('astro:page-load', () => initYoutubeEmbeds());
+</script>
