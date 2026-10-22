@@ -12,6 +12,8 @@
   --teal-light: #4f7f85;
   --sky: #c8d2bc;
   --gold: #a67a32;
+  /* Legend key labels: swatch stays --gold; text needs 4.5:1 on --paper */
+  --gold-ink: #6d4e1a;
   --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-label: 'Space Grotesk', system-ui, sans-serif;
@@ -227,7 +229,7 @@ h1 {
 }
 
 .legend-item.gold .key {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .scale-bar {
