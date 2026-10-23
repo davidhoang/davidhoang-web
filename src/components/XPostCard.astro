@@ -1,0 +1,34 @@
+---
+import { xPostStatusUrl } from '../utils/xPost';
+
+interface Props {
+  /** Display name, e.g. "60 Minutes". */
+  author: string;
+  /** Handle without @, e.g. "60Minutes". */
+  handle: string;
+  statusId: string;
+  /** Human-readable post date for the link label. */
+  dateLabel: string;
+  /** ISO date for `<time datetime>`. */
+  dateTime: string;
+}
+
+const { author, handle, statusId, dateLabel, dateTime } = Astro.props;
+const postUrl = xPostStatusUrl(handle, statusId);
+const citeLabel = `Post from ${author} on X`;
+---
+
+<aside class="x-post-card" aria-label={citeLabel}>
+  <blockquote class="x-post-card__quote" cite={postUrl}>
+    <slot />
+  </blockquote>
+  <footer class="x-post-card__meta">
+    <cite class="x-post-card__author">
+      <span aria-hidden="true">— </span>
+      {author} (@{handle})
+    </cite>
+    <a class="x-post-card__date" href={postUrl} rel="noopener noreferrer">
+      <time datetime={dateTime}>{dateLabel}</time>
+    </a>
+  </footer>
+</aside>

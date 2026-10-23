@@ -198,13 +198,13 @@
 }
 
 /* Long-form blockquotes — opening quote mark + prose rhythm */
-:is(.prose-content, .note-content) blockquote:not(.twitter-tweet) {
+:is(.prose-content, .note-content) blockquote:not(.twitter-tweet):not(.x-post-card__quote) {
   position: relative;
   margin: calc(var(--spacing-xl) + var(--spacing-sm)) 0;
   padding: calc(var(--spacing-xs) + 0.1rem) 0 calc(var(--spacing-xs) + 0.1rem) 2.25rem;
 }
 
-:is(.prose-content, .note-content) blockquote:not(.twitter-tweet)::before {
+:is(.prose-content, .note-content) blockquote:not(.twitter-tweet):not(.x-post-card__quote)::before {
   content: '\201C';
   position: absolute;
   top: 0;
@@ -217,7 +217,7 @@
   pointer-events: none;
 }
 
-:is(.prose-content, .note-content) blockquote:not(.twitter-tweet) p {
+:is(.prose-content, .note-content) blockquote:not(.twitter-tweet):not(.x-post-card__quote) p {
   font-size: clamp(1.125rem, 0.35vw + 1.05rem, 1.3125rem);
 }
 
@@ -245,4 +245,78 @@
   padding: 0;
   border-radius: 0;
   font-size: inherit;
+}
+
+/* Static X / Twitter quote card (no widgets.js — CSP-safe) */
+:is(.prose-content, .note-content) .x-post-card {
+  margin: calc(var(--spacing-xl) + var(--spacing-sm)) 0;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-sidebar-bg);
+  max-width: 100%;
+}
+
+:is(.prose-content, .note-content) .x-post-card__quote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-family: var(--font-serif);
+}
+
+:is(.prose-content, .note-content) .x-post-card__quote::before {
+  content: none;
+}
+
+:is(.prose-content, .note-content) .x-post-card__quote p {
+  margin: 0 0 var(--spacing-sm);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: clamp(1.0625rem, 0.35vw + 1rem, 1.25rem);
+  line-height: 1.65;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.012em;
+}
+
+:is(.prose-content, .note-content) .x-post-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-xs) var(--spacing-sm);
+  margin: 0;
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, var(--color-border));
+}
+
+:is(.prose-content, .note-content) .x-post-card__author {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+:is(.prose-content, .note-content) .x-post-card__date {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+:is(.prose-content, .note-content) .x-post-card__date:hover {
+  color: var(--color-text);
+}
+
+:is(.prose-content, .note-content) .x-post-card__date:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
 }
