@@ -750,8 +750,13 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
         updateBrowserThemeColor(e.detail.theme);
       }) as EventListener);
 
-      // Lazy loading with fade-in effect
+      // Lazy loading with fade-in effect (skip Astro islands — React islands manage their own img.loaded after hydration)
+      function isLazyImageManagedByIsland(img: HTMLImageElement) {
+        return Boolean(img.closest('astro-island'));
+      }
+
       function observeImage(img: HTMLImageElement) {
+        if (isLazyImageManagedByIsland(img)) return;
         if (img.classList.contains('loaded')) return;
         if (img.complete && img.naturalWidth > 0) {
           img.classList.add('loaded');
