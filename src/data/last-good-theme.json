@@ -1,157 +1,276 @@
 {
-  "cachedAt": "2026-10-22T06:23:13.661Z",
-  "sourceDate": "2026-10-22",
+  "cachedAt": "2026-10-23T06:23:33.270Z",
+  "sourceDate": "2026-10-23",
   "theme": {
-    "name": "Terrace Hour",
-    "description": "A Niemeyer terrace caught at dawn's first warmth — wide eaves, sculptural type, canopy green against terracotta dust, where generous shadows hold the cool interior before the heat arrives.",
+    "name": "Ivory Circuit",
+    "description": "A morning index that channels the disciplined warmth of Scandinavian craft — clean ruled surfaces, tarnished brass accents, and condensed type set against soft ivory, like a well-organized workshop at first light.",
     "colors": {
-      "colorScheme": "analogous",
-      "contrastMode": "standard",
+      "colorScheme": "complementary",
+      "contrastMode": "high",
       "light": {
-        "--color-text": "#2C3B2D",
-        "--color-bg": "#EDF4EE",
-        "--color-link": "#A44D24",
-        "--color-link-hover": "#9B3F17",
-        "--color-border": "#B8CCBA",
-        "--color-muted": "#596E5A",
-        "--color-sidebar-bg": "#E2EEE4",
-        "--color-nav-bg": "#EDF4EE",
-        "--color-nav-text": "#2C3B2D",
-        "--color-card-bg": "#E5EFE7"
+        "--color-text": "#1C1410",
+        "--color-bg": "#F7F2E8",
+        "--color-link": "#8B5E2A",
+        "--color-link-hover": "#5C3A10",
+        "--color-border": "#C4A96A",
+        "--color-muted": "#74654E",
+        "--color-sidebar-bg": "#EDE8DC",
+        "--color-nav-bg": "#F7F2E8",
+        "--color-nav-text": "#1C1410",
+        "--color-card-bg": "#F0EAD8"
       },
       "dark": {
-        "--color-text": "#D8ECD9",
-        "--color-bg": "#0D1F22",
-        "--color-link": "#E07A45",
-        "--color-link-hover": "#F09060",
-        "--color-border": "#2A4030",
-        "--color-muted": "#6B9070",
-        "--color-sidebar-bg": "#111d1f",
-        "--color-nav-bg": "#0D1F22",
-        "--color-nav-text": "#D8ECD9",
-        "--color-card-bg": "#121e20"
+        "--color-text": "#EDE8DC",
+        "--color-bg": "#1C1410",
+        "--color-link": "#C4A96A",
+        "--color-link-hover": "#E2C88A",
+        "--color-border": "#5C3A10",
+        "--color-muted": "#8E806C",
+        "--color-sidebar-bg": "#261A11",
+        "--color-nav-bg": "#1C1410",
+        "--color-nav-text": "#EDE8DC",
+        "--color-card-bg": "#231812"
       }
     },
     "fonts": {
       "heading": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        "name": "Oswald",
+        "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "body": {
-        "name": "DM Sans",
-        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "name": "Source Serif 4",
+        "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
       }
     },
     "typography": {
       "headingWeight": "700",
       "bodyWeight": "400",
-      "bodyLineHeight": "1.75",
+      "bodyLineHeight": "1.65",
       "letterSpacing": "0.01em",
-      "headingLetterSpacing": "-0.03em",
-      "headingTransform": "none",
-      "scaleRatio": "1.618",
+      "headingLetterSpacing": "0.06em",
+      "headingTransform": "uppercase",
+      "scaleRatio": "1.333",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "filled",
-      "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-      "borderWidth": "0px",
-      "padding": "2rem"
+      "style": "outlined",
+      "shadow": "none",
+      "borderWidth": "1px",
+      "padding": "1.25rem"
     },
     "layout": {
-      "borderRadius": "20px",
-      "containerMaxWidth": "1140px",
-      "sectionSpacing": "5rem",
+      "borderRadius": "2px",
+      "containerMaxWidth": "1100px",
+      "sectionSpacing": "3rem",
       "contentPadding": "1.5rem",
-      "gridStyle": "asymmetric"
+      "gridStyle": "sidebar"
     },
     "hero": {
-      "layout": "cinematic"
+      "layout": "rolodex"
     },
     "links": {
-      "style": "color-only"
+      "style": "bracket"
     },
     "background": {
-      "texture": "none"
+      "texture": "grid"
     },
     "images": {
-      "style": "vivid",
-      "hover": "lift",
-      "opacity": "1",
-      "borderRadius": "16px"
+      "style": "muted",
+      "hover": "colorize",
+      "opacity": "0.9",
+      "borderRadius": "2px"
     },
     "footer": {
-      "style": "gradient"
+      "style": "retro"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#EDF4EE",
-        "#C05A2A"
+        "#F7F2E8",
+        "#C4A96A"
       ]
     },
     "font": {
-      "name": "Fraunces",
-      "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-      "category": "serif",
-      "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      "name": "Oswald",
+      "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
+      "category": "sans-serif",
+      "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     },
     "artDirection": {
-      "recipe": "gallery",
-      "name": "Immersive Gallery",
-      "dominantPrimitive": "image"
+      "recipe": "index",
+      "name": "System Index",
+      "dominantPrimitive": "grid"
     },
-    "date": "2026-10-22",
+    "date": "2026-10-23",
     "showcase": {
       "root": "card",
       "elements": {
         "card": {
           "type": "ThemeCard",
           "props": {
-            "title": "Terrace Hour",
-            "subtitle": "October 22, 2026"
+            "title": "Ivory Circuit",
+            "subtitle": "October 23, 2026"
+          },
+          "children": [
+            "s-main"
+          ]
+        },
+        "s-main": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "md",
+            "align": "stretch"
           },
           "children": [
             "manifesto",
-            "div1",
-            "meta-hero-row",
-            "div2",
+            "badge-row",
             "palette",
-            "div3",
-            "type-row",
-            "div4",
-            "bottom-row"
+            "s-mid",
+            "s-bot",
+            "divider-1",
+            "apply-btn"
           ]
         },
         "manifesto": {
           "type": "ThemeManifesto",
           "props": {
-            "text": "Wide eaves. Cool shadow. The moment before the heat arrives — Niemeyer in terracotta and canopy green, held in amber stillness.",
-            "emphasis": "bold"
-          },
-          "children": []
+            "text": "A workshop at first light — ruled ivory surfaces, brass-tarnished edges, and condensed type that means business before the coffee cools.",
+            "emphasis": "quiet"
+          }
         },
-        "div1": {
-          "type": "Divider",
-          "props": {
-            "style": "dashed"
-          },
-          "children": []
-        },
-        "meta-hero-row": {
+        "badge-row": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
-            "gap": "lg",
+            "gap": "sm",
+            "align": "center"
+          },
+          "children": [
+            "b1",
+            "b2",
+            "b3",
+            "b4"
+          ]
+        },
+        "b1": {
+          "type": "Badge",
+          "props": {
+            "text": "condensed sans",
+            "variant": "outlined"
+          }
+        },
+        "b2": {
+          "type": "Badge",
+          "props": {
+            "text": "outlined cards",
+            "variant": "outlined"
+          }
+        },
+        "b3": {
+          "type": "Badge",
+          "props": {
+            "text": "high contrast",
+            "variant": "filled"
+          }
+        },
+        "b4": {
+          "type": "Badge",
+          "props": {
+            "text": "retro footer",
+            "variant": "outlined"
+          }
+        },
+        "palette": {
+          "type": "ColorPalette",
+          "props": {
+            "colors": [
+              {
+                "hex": "#F7F2E8",
+                "label": "Ivory"
+              },
+              {
+                "hex": "#1C1410",
+                "label": "Inkwell"
+              },
+              {
+                "hex": "#C4A96A",
+                "label": "Brass"
+              },
+              {
+                "hex": "#8B5E2A",
+                "label": "Tanbark"
+              },
+              {
+                "hex": "#74654E",
+                "label": "Dusk Oak"
+              },
+              {
+                "hex": "#F0EAD8",
+                "label": "Card Cream"
+              }
+            ]
+          }
+        },
+        "s-mid": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "start"
+          },
+          "children": [
+            "type-h",
+            "s-right"
+          ]
+        },
+        "type-h": {
+          "type": "TypeSample",
+          "props": {
+            "text": "IVORY CIRCUIT",
+            "variant": "heading",
+            "weight": "700"
+          }
+        },
+        "s-right": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "stretch"
+          },
+          "children": [
+            "hero-prev",
+            "layout-prev"
+          ]
+        },
+        "hero-prev": {
+          "type": "HeroLayoutPreview",
+          "props": {
+            "layout": "rolodex",
+            "label": "Rolodex Hero"
+          }
+        },
+        "layout-prev": {
+          "type": "LayoutPreview",
+          "props": {
+            "style": "sidebar"
+          }
+        },
+        "s-bot": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
             "align": "start"
           },
           "children": [
             "meta",
-            "hero-block"
+            "tokens"
           ]
         },
         "meta": {
@@ -160,11 +279,11 @@
             "items": [
               {
                 "label": "Hero",
-                "value": "Cinematic"
+                "value": "Rolodex"
               },
               {
                 "label": "Grid",
-                "value": "Asymmetric"
+                "value": "Sidebar"
               },
               {
                 "label": "Shader",
@@ -172,153 +291,59 @@
               },
               {
                 "label": "Links",
-                "value": "Color only"
+                "value": "[bracket]"
               },
               {
-                "label": "Cards",
-                "value": "Filled · r20px"
+                "label": "Texture",
+                "value": "Grid"
               },
               {
-                "label": "Footer",
-                "value": "Gradient"
+                "label": "Scheme",
+                "value": "Complementary"
               }
             ]
-          },
-          "children": []
+          }
         },
-        "hero-block": {
-          "type": "HeroLayoutPreview",
+        "tokens": {
+          "type": "TokenGrid",
           "props": {
-            "layout": "cinematic",
-            "label": "Cinematic hero"
-          },
-          "children": []
-        },
-        "div2": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "palette": {
-          "type": "ColorPalette",
-          "props": {
-            "colors": [
+            "tokens": [
               {
-                "hex": "#EDF4EE",
-                "label": "Mist BG"
+                "name": "--color-border",
+                "value": "#C4A96A"
               },
               {
-                "hex": "#E5EFE7",
-                "label": "Card Fill"
+                "name": "--color-link",
+                "value": "#8B5E2A"
               },
               {
-                "hex": "#B8CCBA",
-                "label": "Border"
+                "name": "--border-radius",
+                "value": "2px"
               },
               {
-                "hex": "#596E5A",
-                "label": "Muted"
+                "name": "heading-font",
+                "value": "Oswald"
               },
               {
-                "hex": "#2C3B2D",
-                "label": "Text"
-              },
-              {
-                "hex": "#A44D24",
-                "label": "Terracotta"
+                "name": "body-font",
+                "value": "Source Serif 4"
               }
             ]
-          },
-          "children": []
-        },
-        "div3": {
-          "type": "Divider",
-          "props": {
-            "style": "dotted"
-          },
-          "children": []
-        },
-        "type-row": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "sm",
-            "align": "start"
-          },
-          "children": [
-            "t1",
-            "t2"
-          ]
-        },
-        "t1": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Before the Heat Arrives",
-            "variant": "heading",
-            "weight": "700"
-          },
-          "children": []
-        },
-        "t2": {
-          "type": "TypeSample",
-          "props": {
-            "text": "DM Sans carries the body — open, direct, unhurried in the cool interior.",
-            "variant": "body"
-          },
-          "children": []
-        },
-        "div4": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "bottom-row": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "md",
-            "align": "center"
-          },
-          "children": [
-            "b1",
-            "b2",
-            "b3",
-            "apply-btn"
-          ]
-        },
-        "b1": {
-          "type": "Badge",
-          "props": {
-            "text": "Fraunces serif",
-            "variant": "filled"
           }
         },
-        "b2": {
-          "type": "Badge",
+        "divider-1": {
+          "type": "Divider",
           "props": {
-            "text": "Analogous",
-            "variant": "outlined"
-          }
-        },
-        "b3": {
-          "type": "Badge",
-          "props": {
-            "text": "Editorial",
-            "variant": "outlined"
+            "style": "dashed"
           }
         },
         "apply-btn": {
           "type": "ThemeActionButton",
           "props": {
-            "label": "Apply Terrace Hour",
+            "label": "Apply Ivory Circuit",
             "action": "apply-theme",
-            "date": "2026-10-22"
-          },
-          "children": []
+            "date": "2026-10-23"
+          }
         }
       }
     }
