@@ -304,6 +304,32 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     margin: 0;
   }
 
+  /* Phone + tablet: stronger scrim so hero titles stay ≥4.5:1 on bright photos */
+  @media (max-width: 1024px) {
+    .page-header--image .page-header__hero::before {
+      background: var(--page-header-mobile-overlay);
+    }
+
+    .page-header--image .page-header__copy::before {
+      content: '';
+      position: absolute;
+      inset: calc(-1 * var(--spacing-md)) calc(-1 * var(--spacing-lg));
+      z-index: -1;
+      pointer-events: none;
+      border-radius: var(--radius-sm);
+      background: var(--page-header-mobile-copy-scrim);
+    }
+
+    .page-header--image .page-header__title {
+      color: var(--page-header-hero-title-color);
+      text-shadow: var(--page-header-mobile-title-shadow);
+    }
+
+    .page-header--image .page-header__subtitle--hero {
+      text-shadow: var(--page-header-mobile-subtitle-shadow);
+    }
+  }
+
   /* Mobile adjustments */
   @media (max-width: 767px) {
     .page-header--image .page-header__hero {
