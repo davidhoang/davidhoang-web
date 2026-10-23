@@ -9,6 +9,7 @@ import {
 } from '../../content/noteStages';
 import { noteStageInfo } from '../../utils/noteStageInfo';
 import { parseYoutubeVideoId } from '../../utils/youtube';
+import YoutubeEmbed from '../../components/YoutubeEmbed.astro';
 import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
 import { findNoteBacklinks } from '../../utils/noteBacklinks';
 import RelatedContentSection from '../../components/RelatedContentSection.astro';
@@ -181,15 +182,7 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
         ) : null}
         {overviewYoutubeId && (
           <>
-            <div class="note-youtube">
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${overviewYoutubeId}`}
-                title={`Video — ${note.data.title}`}
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              />
-            </div>
+            <YoutubeEmbed videoId={overviewYoutubeId} title={note.data.title} />
             <a
               class="note-youtube-fallback"
               href={`https://www.youtube.com/watch?v=${overviewYoutubeId}`}
@@ -410,24 +403,6 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
 
   .note-overview .note-section__prose + .note-youtube {
     margin-top: 1.25rem;
-  }
-
-  .note-youtube {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: var(--radius-md, 8px);
-    overflow: hidden;
-    background: color-mix(in srgb, var(--color-text) 6%, var(--color-sidebar-bg));
-    border: 1px solid var(--color-border);
-  }
-
-  .note-youtube iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
   }
 
   .note-youtube-fallback {

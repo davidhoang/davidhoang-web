@@ -11,3 +11,19 @@ export function parseYoutubeVideoId(
   if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
   return null;
 }
+
+/** youtube-nocookie embed URL for a parsed video id. */
+export function youtubeNocookieEmbedUrl(
+  videoId: string,
+  options?: { autoplay?: boolean }
+): string {
+  const params = new URLSearchParams();
+  if (options?.autoplay) params.set('autoplay', '1');
+  const query = params.toString();
+  return `https://www.youtube-nocookie.com/embed/${videoId}${query ? `?${query}` : ''}`;
+}
+
+/** Standard YouTube poster thumbnail (hqdefault exists for all public videos). */
+export function youtubePosterUrl(videoId: string): string {
+  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+}
