@@ -11,6 +11,7 @@ describe('Home hero card shader bundle (PCD-143)', () => {
     expect(deferred).toMatch(/shouldLoadHeroCardShaders/);
     expect(deferred).toMatch(/IntersectionObserver/);
     expect(deferred).toMatch(/requestIdleCallback|scheduleIdleWork/);
+    expect(deferred).toMatch(/largest-contentful-paint|afterLcpOrTimeout/);
     expect(deferred).toMatch(/import\('\.\/HeroCardShaderPattern'\)/);
     expect(deferred).not.toMatch(/\blazy\s*\(/);
 

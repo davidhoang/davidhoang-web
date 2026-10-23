@@ -22,6 +22,53 @@ function scheduleIdleWork(work: () => void): () => void {
   return () => globalThis.clearTimeout(id);
 }
 
+/** Wait until LCP is recorded, then an extra quiet period, so shader JS stays off the LCP path. */
+function afterLcpOrTimeout(work: () => void, postLcpDelayMs = 2500, fallbackMs = 6000): () => void {
+  if (typeof window === 'undefined') return () => {};
+  let settled = false;
+  let delayTimer: ReturnType<typeof setTimeout> | undefined;
+  let cancelIdle: (() => void) | undefined;
+
+  const run = () => {
+    if (settled) return;
+    settled = true;
+    cancelIdle = scheduleIdleWork(work);
+  };
+
+  const fallback = globalThis.setTimeout(run, fallbackMs);
+
+  if ('PerformanceObserver' in window) {
+    try {
+      const po = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        if (entries.length === 0) return;
+        po.disconnect();
+        globalThis.clearTimeout(fallback);
+        const last = entries[entries.length - 1] as PerformanceEntry;
+        const waitMs = Math.max(0, postLcpDelayMs - (performance.now() - last.startTime));
+        delayTimer = globalThis.setTimeout(run, waitMs);
+      });
+      po.observe({ type: 'largest-contentful-paint', buffered: true });
+      return () => {
+        settled = true;
+        po.disconnect();
+        globalThis.clearTimeout(fallback);
+        if (delayTimer) globalThis.clearTimeout(delayTimer);
+        cancelIdle?.();
+      };
+    } catch {
+      // Fall through to timeout-only path.
+    }
+  }
+
+  return () => {
+    settled = true;
+    globalThis.clearTimeout(fallback);
+    if (delayTimer) globalThis.clearTimeout(delayTimer);
+    cancelIdle?.();
+  };
+}
+
 /**
  * Defers HeroCardShaderPattern + paper-shaders until the card surface is near
  * the viewport and the main thread is idle. `.card-pattern` keeps `card.color`
@@ -36,14 +83,18 @@ export function HeroCardShaderDeferred({ cardId, pattern, color }: HeroCardShade
 
     let cancelled = false;
     let cancelIdle: (() => void) | undefined;
+    let cancelLcpWait: (() => void) | undefined;
     let observer: IntersectionObserver | undefined;
 
     const tryLoad = () => {
       if (cancelled || !shouldLoadHeroCardShaders()) return;
-      cancelIdle = scheduleIdleWork(() => {
+      cancelLcpWait = afterLcpOrTimeout(() => {
         if (cancelled || !shouldLoadHeroCardShaders()) return;
-        void import('./HeroCardShaderPattern').then((mod) => {
-          if (!cancelled) setPattern(() => mod.HeroCardShaderPattern);
+        cancelIdle = scheduleIdleWork(() => {
+          if (cancelled || !shouldLoadHeroCardShaders()) return;
+          void import('./HeroCardShaderPattern').then((mod) => {
+            if (!cancelled) setPattern(() => mod.HeroCardShaderPattern);
+          });
         });
       });
     };
@@ -86,6 +137,7 @@ export function HeroCardShaderDeferred({ cardId, pattern, color }: HeroCardShade
     return () => {
       cancelled = true;
       observer?.disconnect();
+      cancelLcpWait?.();
       cancelIdle?.();
       motionQuery.removeEventListener('change', onMotionChange);
       themeObs.disconnect();
