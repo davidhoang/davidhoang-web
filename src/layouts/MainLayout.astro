@@ -20,7 +20,7 @@ const SELF_HOSTED_FONTS = new Set([
 
 // Get today's theme fonts for early preloading (reduces FOUT)
 const today = new Date().toISOString().split('T')[0];
-const todayTheme = (themesData as any).themes.find((t: any) => t.date === today) || (themesData as any).themes[0];
+const todayTheme = resolveDailyTheme<any>((themesData as any).themes, today);
 const themeFonts = [todayTheme?.fonts?.heading, todayTheme?.fonts?.body]
   .filter((f: any) => f?.url)
   .filter((f: any, i: number, arr: any[]) => arr.findIndex((x: any) => x.url === f.url) === i);
@@ -35,7 +35,8 @@ import cormorantGaramondCSS from '../styles/fonts/cormorant-garamond.css?raw';
 import interCSS from '../styles/fonts/inter.css?raw';
 import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
 import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
-import { getNestedValue } from '../utils/themePath';
+import { buildThemeApply } from '../utils/dailyThemeApply';
+import { resolveDailyTheme } from '../utils/dailyThemes';
 const FONT_CSS_RAW: Record<string, string> = {
   'Cormorant Garamond': cormorantGaramondCSS,
   'Inter': interCSS,
@@ -51,96 +52,6 @@ for (const name of neededFontFamilies) {
 }
 
 // --- SSR daily theme: bake today's theme into HTML to prevent CLS ---
-function clampMinContentPadding(raw: string | null) {
-  if (!raw) return '1rem';
-  const s = String(raw).trim();
-  const m = s.match(/^([\d.]+)\s*(rem|px|em)?$/i);
-  if (!m) return '1rem';
-  let n = parseFloat(m[1]);
-  const unit = (m[2] || 'rem').toLowerCase();
-  if (isNaN(n) || n <= 0) return '1rem';
-  if (unit === 'px') n = n / 16;
-  return `${Math.max(1, n)}rem`;
-}
-
-const THEME_PROPS: [string, string][] = [
-  ['typography.headingWeight', '--heading-weight'],
-  ['typography.bodyWeight', '--body-weight'],
-  ['typography.bodyLineHeight', '--body-line-height'],
-  ['typography.letterSpacing', '--letter-spacing-body'],
-  ['typography.headingLetterSpacing', '--heading-letter-spacing'],
-  ['typography.headingTransform', '--heading-transform'],
-  ['typography.scaleRatio', '--scale-ratio'],
-  ['cards.borderWidth', '--card-border-width'],
-  ['cards.padding', '--card-padding'],
-  ['layout.containerMaxWidth', '--container-max-width'],
-  ['layout.sectionSpacing', '--section-spacing'],
-  ['layout.contentPadding', '--content-padding'],
-  ['images.opacity', '--image-opacity'],
-  ['images.borderRadius', '--image-border-radius'],
-];
-
-const THEME_ATTRS: [string, string, string][] = [
-  ['cards.style', 'data-card-style', 'elevated'],
-  ['hero.layout', 'data-hero-layout', 'stacked-fan'],
-  ['links.style', 'data-link-style', 'underline'],
-  ['background.texture', 'data-bg-texture', 'none'],
-  ['images.style', 'data-image-style', 'vivid'],
-  ['images.hover', 'data-image-hover', 'zoom'],
-  ['footer.style', 'data-footer-style', 'classic'],
-];
-
-/** Build the styles + attrs needed to apply a theme client-side without re-running heavy logic.
- * Used by both the SSR bake of todayTheme and the pre-paint client script that swaps to the
- * user's selected theme before paint when they've chosen a non-today date in the calendar. */
-function buildThemeApply(theme: any) {
-  const styles: Record<string, string> = {};
-  const lightColors: Record<string, string> = theme?.colors?.light || {};
-  const darkColors: Record<string, string> = theme?.colors?.dark || {};
-
-  for (const [path, prop] of THEME_PROPS) {
-    const val = getNestedValue(theme, path);
-    if (val != null && val !== '') {
-      const strVal = String(val);
-      styles[prop] = prop === '--content-padding' ? clampMinContentPadding(strVal) : strVal;
-    }
-  }
-  if (theme?.fonts?.heading?.stack) styles['--font-heading'] = theme.fonts.heading.stack;
-  if (theme?.fonts?.body?.stack) {
-    styles['--font-body'] = theme.fonts.body.stack;
-    styles['--font-primary'] = theme.fonts.body.stack;
-  }
-  if (theme?.cards?.shadow && theme.cards.shadow !== 'none') {
-    styles['--card-shadow'] = theme.cards.shadow;
-  }
-  if (theme?.layout?.borderRadius) {
-    const br = theme.layout.borderRadius;
-    styles['--radius-sm'] = br === '0px' ? '0px' : `calc(${br} * 0.5)`;
-    styles['--radius-md'] = br;
-    styles['--radius-lg'] = `calc(${br} * 1.5)`;
-    styles['--radius-xl'] = `calc(${br} * 2)`;
-  }
-  if (theme?.typography?.fontVariationSettings && theme.typography.fontVariationSettings !== 'normal') {
-    styles['--font-variation-settings'] = theme.typography.fontVariationSettings;
-  }
-
-  const attrs: Record<string, string> = {};
-  for (const [path, attr, defaultVal] of THEME_ATTRS) {
-    attrs[attr] = String(getNestedValue(theme, path) ?? defaultVal);
-  }
-  attrs['data-daily-theme'] = theme?.date || '';
-  attrs['data-shader'] = theme?.shader?.type || 'none';
-  if (theme?.shader?.colors) attrs['data-shader-colors'] = JSON.stringify(theme.shader.colors);
-  if (theme?.layout?.gridStyle && theme.layout.gridStyle !== 'standard') {
-    attrs['data-grid-style'] = theme.layout.gridStyle;
-  }
-  if (theme?.colors?.contrastMode && theme.colors.contrastMode !== 'standard') {
-    attrs['data-contrast-mode'] = theme.colors.contrastMode;
-  }
-
-  return { styles, lightColors, darkColors, attrs };
-}
-
 // Build CSS custom properties for today's theme (light mode default)
 const ssrThemeStyle: string[] = [];
 const ssrThemeAttrs: Record<string, string> = {};
