@@ -2,11 +2,15 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   isHybridPointerDevice,
   shouldEnablePointerHoverMotion,
+  shouldLoadHeroCardShaders,
 } from '../src/utils/viewport-capabilities';
 
 type MediaQueryMap = Record<string, boolean>;
 
-function mockWindow(options: { maxTouchPoints: number; media: MediaQueryMap }) {
+function mockWindow(
+  options: { maxTouchPoints: number; media: MediaQueryMap },
+  docAttrs: Record<string, string> = {},
+) {
   const matchMedia = vi.fn((query: string) => ({
     matches: Boolean(options.media[query]),
     media: query,
@@ -18,7 +22,12 @@ function mockWindow(options: { maxTouchPoints: number; media: MediaQueryMap }) {
     dispatchEvent: vi.fn(),
   }));
 
+  const documentElement = {
+    getAttribute: (name: string) => docAttrs[name] ?? null,
+  };
+
   vi.stubGlobal('window', { matchMedia });
+  vi.stubGlobal('document', { documentElement });
   vi.stubGlobal('navigator', { maxTouchPoints: options.maxTouchPoints });
   vi.stubGlobal('matchMedia', matchMedia);
 }
@@ -83,5 +92,38 @@ describe('viewport pointer capabilities', () => {
     expect(isHybridPointerDevice()).toBe(true);
     // Primary hover:none still blocks JS lift — CSS strips transform on :hover here.
     expect(shouldEnablePointerHoverMotion()).toBe(false);
+  });
+});
+
+describe('shouldLoadHeroCardShaders', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('allows shaders on a typical desktop session', () => {
+    mockWindow({
+      maxTouchPoints: 0,
+      media: { '(prefers-reduced-motion: reduce)': false },
+    });
+    expect(shouldLoadHeroCardShaders()).toBe(true);
+  });
+
+  it('skips shaders in e-ink mode', () => {
+    mockWindow(
+      {
+        maxTouchPoints: 0,
+        media: { '(prefers-reduced-motion: reduce)': false },
+      },
+      { 'data-e-ink': 'true' },
+    );
+    expect(shouldLoadHeroCardShaders()).toBe(false);
+  });
+
+  it('skips shaders when reduced motion is preferred', () => {
+    mockWindow({
+      maxTouchPoints: 0,
+      media: { '(prefers-reduced-motion: reduce)': true },
+    });
+    expect(shouldLoadHeroCardShaders()).toBe(false);
   });
 });

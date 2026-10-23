@@ -58,3 +58,14 @@ export function syncHybridPointerAttribute(root: HTMLElement = document.document
   root.setAttribute('data-hybrid-pointer', isHybridPointerDevice() ? 'true' : 'false');
   root.setAttribute('data-hover-motion', shouldEnablePointerHoverMotion() ? 'true' : 'false');
 }
+
+/**
+ * Whether hero card WebGL pattern shaders should be downloaded and mounted.
+ * Solid `card.color` on `.card-pattern` is the fallback — no layout shift.
+ */
+export function shouldLoadHeroCardShaders(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (document.documentElement.getAttribute('data-e-ink') === 'true') return false;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  return true;
+}
