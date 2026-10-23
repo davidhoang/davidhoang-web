@@ -440,4 +440,20 @@
   flex-shrink: 0;
   font-size: var(--body-size);
   color: var(--color-link);
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, var(--color-link) 70%, transparent);
+}
+
+.home-section-link::after {
+  display: none !important;
+}
+
+@media (hover: hover) {
+  .home-section-link:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: var(--color-link-hover);
+  }
 }

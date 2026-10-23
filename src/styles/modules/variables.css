@@ -167,6 +167,26 @@
   --hero-height: 75vh;
   --hero-height-mobile: 50vh;
   --hero-overlay: rgba(0, 0, 0, 0.3);
+  /* PageHeader image heroes — phone/tablet title contrast (PCD-127) */
+  --page-header-mobile-overlay: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.48) 0%,
+    rgba(0, 0, 0, 0.66) 100%
+  );
+  --page-header-mobile-copy-scrim: radial-gradient(
+    ellipse 105% 95% at 50% 50%,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.58) 48%,
+    rgba(0, 0, 0, 0.28) 72%,
+    transparent 88%
+  );
+  --page-header-mobile-title-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.85),
+    0 2px 16px rgba(0, 0, 0, 0.55);
+  --page-header-mobile-subtitle-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.75),
+    0 1px 12px rgba(0, 0, 0, 0.45);
+  --page-header-hero-title-color: #ffffff;
 
   /* Hero card stack — shadows, scrims, CTAs (consumed by card-stack-hero.css) */
   --hero-card-shadow-rest:
