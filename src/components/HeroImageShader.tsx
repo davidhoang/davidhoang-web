@@ -6,22 +6,25 @@
  * Supports responsive srcset for optimized loading across devices.
  */
 
-import { useEffect, useState } from 'react';
-import * as Shaders from '@paper-design/shaders-react';
+import { useEffect, useState, type ComponentType } from 'react';
+import type { HeroImageShaderOverlaysProps } from '../shaders/lazy/HeroImageShaderOverlays';
 
-// Cast: the library types omit `style` but accept it at runtime.
-const Water = Shaders.Water as any;
-const PaperTexture = Shaders.PaperTexture as any;
 interface HeroImageShaderProps {
   src: string;
   alt: string;
-  priority?: boolean; // For preloading critical hero images
+  priority?: boolean;
+}
+
+function heroNeedsShaderOverlay(isDefaultTheme: boolean, currentShader: string) {
+  if (isDefaultTheme) return false;
+  return currentShader === 'waves' || currentShader === 'paper' || currentShader === 'grain';
 }
 
 export default function HeroImageShader({ src, alt, priority = false }: HeroImageShaderProps) {
   const [mounted, setMounted] = useState(false);
   const [isDefaultTheme, setIsDefaultTheme] = useState(true);
   const [currentShader, setCurrentShader] = useState<string>('halftone');
+  const [Overlays, setOverlays] = useState<ComponentType<HeroImageShaderOverlaysProps> | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -32,7 +35,6 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
       setIsDefaultTheme(isDefault);
 
       if (!isDefault) {
-        // Get shader type from theme
         const shaderAttr = document.documentElement.getAttribute('data-shader');
         setCurrentShader(shaderAttr || 'none');
       } else {
@@ -56,6 +58,22 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     };
   }, []);
 
+  useEffect(() => {
+    if (!mounted || !heroNeedsShaderOverlay(isDefaultTheme, currentShader)) {
+      setOverlays(null);
+      return;
+    }
+
+    let cancelled = false;
+    import('../shaders/lazy/HeroImageShaderOverlays').then((mod) => {
+      if (!cancelled) setOverlays(() => mod.default);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted, isDefaultTheme, currentShader]);
+
   const containerStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
@@ -64,18 +82,6 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     height: '100%',
   };
 
-  // Cast: @paper-design shader components accept `style` at runtime but
-  // their TS types omit it.
-  const shaderStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 0,
-  } as any;
-
-  // Hero image for shader overlay cases (SSR img already handles base display)
   const HeroImage = ({ className = '' }: { className?: string }) => (
     <img
       src={src}
@@ -103,7 +109,6 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     );
   }
 
-  // Default theme: plain image, no shader
   if (isDefaultTheme) {
     return (
       <div style={containerStyle}>
@@ -112,49 +117,22 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
     );
   }
 
-  // Daily themes: use theme-specific shader with responsive image fallback
-  switch (currentShader) {
-    case 'waves':
+  if (heroNeedsShaderOverlay(isDefaultTheme, currentShader)) {
+    if (!Overlays) {
       return (
         <div style={containerStyle}>
           <HeroImage />
-          <Water
-            style={shaderStyle}
-            image={src}
-            colorInfluence={0.3}
-            ripple={0.15}
-            speed={0.2}
-            scale={1.5}
-            fit="cover"
-          />
         </div>
       );
-
-    case 'paper':
-    case 'grain':
-      return (
-        <div style={containerStyle}>
-          <HeroImage />
-          <PaperTexture
-            style={shaderStyle}
-            image={src}
-            colorFront="#9fadbc"
-            colorBack="#ffffff"
-            contrast={0.3}
-            roughness={0.3}
-            fiber={0.2}
-            scale={1}
-            fit="cover"
-          />
-        </div>
-      );
-
-    default:
-      // Fallback to responsive image with CSS filters applied via global.css
-      return (
-        <div className="hero-image-bg" style={containerStyle}>
-          <HeroImage className="hero-responsive-image" />
-        </div>
-      );
+    }
+    return (
+      <Overlays src={src} alt={alt} priority={priority} currentShader={currentShader} />
+    );
   }
+
+  return (
+    <div className="hero-image-bg" style={containerStyle}>
+      <HeroImage className="hero-responsive-image" />
+    </div>
+  );
 }
