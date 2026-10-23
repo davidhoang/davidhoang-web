@@ -1,10 +1,7 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { type Card, cardHasHeroLayout } from './types';
-
-const HeroCardShaderPattern = lazy(() =>
-  import('./HeroCardShaderPattern').then((m) => ({ default: m.HeroCardShaderPattern }))
-);
+import { HeroCardShaderDeferred } from './HeroCardShaderDeferred';
 
 interface CardBaseProps {
   card: Card;
@@ -236,9 +233,7 @@ export function CardBaseContent({
         </div>
       ) : (
         <div className="card-pattern" style={{ backgroundColor: card.color }}>
-          <Suspense fallback={null}>
-            <HeroCardShaderPattern cardId={card.id} pattern={card.pattern} color={card.color} />
-          </Suspense>
+          <HeroCardShaderDeferred cardId={card.id} pattern={card.pattern} color={card.color} />
         </div>
       )}
 
