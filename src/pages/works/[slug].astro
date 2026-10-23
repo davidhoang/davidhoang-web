@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { workCaseStudies } from '../../data/workCaseStudies';
+import { resolveContentOgImage } from '../../utils/ogImage';
 
 export function getStaticPaths() {
   return workCaseStudies.map((study) => ({
@@ -16,12 +17,18 @@ if (!study) {
 }
 
 const pageTitle = `${study.title} | Works | David Hoang`;
+const ogImage = resolveContentOgImage({
+  title: study.title,
+  description: study.description,
+  type: 'page',
+  coverImage: study.heroImage,
+});
 ---
 
 <MainLayout
   title={pageTitle}
   description={study.description}
-  ogImage={study.heroImage}
+  ogImage={ogImage}
   disableContentMoodFilter
 >
   <PageHeader

@@ -8,6 +8,30 @@
 
 export type OgCardType = 'writing' | 'notes' | 'page';
 
+/** Stock assets reused across unrelated pages — not page-specific for social cards. */
+export const SHARED_GENERIC_OG_IMAGES = new Set([
+  '/images/img-dh-web-light.webp',
+  '/images/img-dh.webp',
+  '/images/highlights/img-highlights-proof-of-concept.webp',
+  '/images/header-images/img-header-writing.webp',
+]);
+
+function normalizeOgAssetPath(value: string): string {
+  if (/^https?:\/\//i.test(value)) {
+    try {
+      return new URL(value).pathname;
+    } catch {
+      return value;
+    }
+  }
+  return value.startsWith('/') ? value : `/${value}`;
+}
+
+export function isSharedGenericOgImage(value: string | undefined | null): boolean {
+  if (!value) return false;
+  return SHARED_GENERIC_OG_IMAGES.has(normalizeOgAssetPath(value));
+}
+
 /** Badge shown in the top-left of the generated card. General pages get none. */
 export function resolveOgBadge(type: string | null | undefined): string {
   if (type === 'notes') return 'Notes';
@@ -38,4 +62,27 @@ export function buildOgImageUrl(input: {
   }
   params.set('type', input.type ?? 'page');
   return `/api/og?${params.toString()}`;
+}
+
+/**
+ * Pick the first bespoke OG/cover candidate, or fall back to a generated card
+ * when only shared stock art is available.
+ */
+export function resolveContentOgImage(input: {
+  title: string;
+  description?: string;
+  type?: OgCardType;
+  ogImage?: string;
+  coverImage?: string;
+}): string {
+  for (const candidate of [input.ogImage, input.coverImage]) {
+    if (candidate && !isSharedGenericOgImage(candidate)) {
+      return candidate;
+    }
+  }
+  return buildOgImageUrl({
+    title: input.title,
+    description: input.description,
+    type: input.type,
+  });
 }

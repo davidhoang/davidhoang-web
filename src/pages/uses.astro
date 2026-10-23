@@ -4,7 +4,6 @@ import PageHeader from '../components/PageHeader.astro';
 
 const pageDescription =
   'Tools, hardware, and services David Hoang uses for design leadership, writing, and building davidhoang.com.';
-const ogImage = '/images/header-images/img-header-writing.webp';
 
 type UsesItem = {
   name: string;
@@ -106,7 +105,7 @@ const sections: UsesSection[] = [
 ];
 ---
 
-<MainLayout title="Uses | David Hoang" description={pageDescription} ogImage={ogImage}>
+<MainLayout title="Uses | David Hoang" description={pageDescription}>
   <PageHeader
     title="Uses"
     variant="text-only"

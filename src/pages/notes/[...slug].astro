@@ -23,6 +23,7 @@ import {
   buildNoteCreativeWorkJsonLd,
   toIsoDate,
 } from '../../utils/structuredData';
+import { resolveContentOgImage } from '../../utils/ogImage';
 
 const overviewMd = new MarkdownIt({ html: false, linkify: true, breaks: true });
 
@@ -84,10 +85,14 @@ const overviewHtml = overviewSource ? renderNoteOverview(overviewSource) : '';
 const readingTime = formatReadingTime(estimateReadingMinutes([overviewSource, note.body]));
 const overviewYoutubeId = parseYoutubeVideoId(note.data.overviewYoutube);
 const coverImage = note.data.coverImage;
-const ogImage =
-  note.data.ogImage ||
-  coverImage ||
-  `/api/og?title=${encodeURIComponent(note.data.title)}&description=${encodeURIComponent(pageDescription)}&type=notes`;
+
+const ogImage = resolveContentOgImage({
+  title: note.data.title,
+  description: pageDescription,
+  type: 'notes',
+  ogImage: note.data.ogImage,
+  coverImage,
+});
 
 // Structured data for notes — CreativeWork (garden notes are not BlogPosting).
 const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '');

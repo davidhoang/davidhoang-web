@@ -7,6 +7,7 @@ import ContentIndexCard from '../../components/ContentIndexCard.astro';
 import { NOTE_STAGE_VALUES, resolveNoteStage } from '../../content/noteStages';
 import { noteStageInfo } from '../../utils/noteStageInfo';
 import '../../styles/modules/content-index.css';
+import { buildOgImageUrl } from '../../utils/ogImage';
 
 const allNotes = await getCollection('notes');
 const notes = (import.meta.env.PROD
@@ -22,7 +23,11 @@ const allTags = [...new Set(notes.flatMap((note) => note.data.tags || []))].sort
 
 const pageDescription =
   'Digital garden notes — shorter, evolving ideas alongside long-form writing.';
-const pageOgImage = '/images/highlights/img-highlights-play.webp';
+const pageOgImage = buildOgImageUrl({
+  title: 'Notes',
+  description: pageDescription,
+  type: 'notes',
+});
 
 const notesPlaceholderSketch =
   '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';

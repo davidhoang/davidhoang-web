@@ -10,7 +10,6 @@ import {
 
 const pageDescription =
   'Convictions on software design, AI-native teams, and human × AI collaboration — with linked essays and notes.';
-const ogImage = '/images/img-dh.webp';
 
 const writingById = new Map(
   (await getCollection('writing', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
@@ -57,7 +56,7 @@ const sections = thesisSections.map((section) => ({
 }));
 ---
 
-<MainLayout title="Thesis | David Hoang" description={pageDescription} ogImage={ogImage}>
+<MainLayout title="Thesis | David Hoang" description={pageDescription}>
   <PageHeader
     title="Conviction"
     image="/images/highlights/img-highlights-proof-of-concept.webp"
