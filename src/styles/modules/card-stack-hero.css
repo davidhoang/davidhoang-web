@@ -1465,3 +1465,61 @@
     margin-bottom: 0;
   }
 }
+
+/* Single-pointer deck navigation (WCAG 2.5.1) — subtle dots, no prev/next chrome */
+.mobile-deck-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  width: min(100%, 320px);
+  margin: var(--spacing-md) auto 0;
+}
+
+.mobile-deck-dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mobile-deck-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-muted);
+  opacity: 0.45;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.mobile-deck-dot.is-active::after {
+  background: var(--color-text);
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.mobile-deck-dot:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (hover: hover) {
+  .mobile-deck-dot:hover::after {
+    opacity: 0.85;
+    background: var(--color-text);
+  }
+}
