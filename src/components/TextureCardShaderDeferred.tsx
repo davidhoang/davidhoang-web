@@ -32,7 +32,7 @@ export default function TextureCardShaderDeferred() {
       }
     };
 
-    const onFocusIn = (event: FocusEvent) => {
+    const onFocusIn = (event: Event) => {
       if (card.contains(event.target as Node)) {
         loadShader();
       }
