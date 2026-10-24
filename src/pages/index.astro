@@ -7,6 +7,7 @@ import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/Ani
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
 import { siteBioMetaThirdPerson } from '../data/siteCopy';
 import { buildHomeHeroCards } from '../utils/jevHomeHero';
+import { HOME_OG_PREVIEW } from '../utils/ogVideo';
 import '../styles/pages/home.css';
 import '../styles/modules/card-stack-hero.css';
 import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
@@ -91,7 +92,14 @@ const portfolioItems = [
 ];
 ---
 
-<MainLayout title="David Hoang — Designer, Investor & Builder" description={pageDescription}>
+<MainLayout
+  title="David Hoang — Designer, Investor & Builder"
+  description={pageDescription}
+  pageType="home"
+  ogImage={HOME_OG_PREVIEW.poster}
+  ogVideo={HOME_OG_PREVIEW.video}
+  ogVideoSize={{ width: HOME_OG_PREVIEW.width, height: HOME_OG_PREVIEW.height }}
+>
   {/* Preload hero card images early — Astro SSR preloads <img> sources inside
       the island, but the "about" thumbnail uses background-image (invisible to
       the preload scanner). Current work is the first card on mobile. */}

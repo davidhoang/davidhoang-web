@@ -11,6 +11,7 @@ import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
 import { buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
+import { resolveOpenGraphVideo } from '../utils/ogVideo';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
@@ -77,8 +78,10 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
-  /** Absolute HTTPS embed URL for Open Graph video previews (e.g. YouTube embed). */
+  /** Path or absolute URL for Open Graph video (MP4 for iMessage, or YouTube embed). */
   ogVideo?: string;
+  /** Pixel dimensions when they differ from the default 16:9 assumptions. */
+  ogVideoSize?: { width: number; height: number };
   hideFooter?: boolean;
   pageType?: 'home' | 'blog' | 'about';
   /** When true, skip mood filter on .content-filter-wrapper so position:sticky works (filter breaks sticky/fixed descendants). */
@@ -94,6 +97,7 @@ const {
   description = "The official website of David Hoang", 
   ogImage,
   ogVideo,
+  ogVideoSize,
   hideFooter = false,
   pageType,
   disableContentMoodFilter = false,
@@ -143,6 +147,10 @@ const siteUrl = (Astro.site ? Astro.site.toString() : 'https://www.davidhoang.co
 const ogImageUrl = resolvedOgImage.startsWith('http') 
   ? resolvedOgImage 
   : `${siteUrl}${resolvedOgImage.startsWith('/') ? resolvedOgImage : `/${resolvedOgImage}`}`;
+
+const ogVideoMeta = ogVideo
+  ? resolveOpenGraphVideo(ogVideo, siteUrl, ogVideoSize)
+  : undefined;
 ---
 
 <!DOCTYPE html>
@@ -192,13 +200,13 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={pageTitle} />
-    {ogVideo && (
+    {ogVideoMeta && (
       <>
-        <meta property="og:video" content={ogVideo} />
-        <meta property="og:video:secure_url" content={ogVideo} />
-        <meta property="og:video:type" content="text/html" />
-        <meta property="og:video:width" content="1280" />
-        <meta property="og:video:height" content="720" />
+        <meta property="og:video" content={ogVideoMeta.url} />
+        <meta property="og:video:secure_url" content={ogVideoMeta.url} />
+        <meta property="og:video:type" content={ogVideoMeta.type} />
+        <meta property="og:video:width" content={String(ogVideoMeta.width)} />
+        <meta property="og:video:height" content={String(ogVideoMeta.height)} />
       </>
     )}
     <meta property="og:site_name" content="davidhoang.com" />
@@ -213,6 +221,12 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={pageTitle} />
+    {ogVideoMeta?.type === 'video/mp4' && (
+      <>
+        <meta name="twitter:player:stream" content={ogVideoMeta.url} />
+        <meta name="twitter:player:stream:content_type" content="video/mp4" />
+      </>
+    )}
 
     <meta name="generator" content={Astro.generator} />
 
