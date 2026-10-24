@@ -42,9 +42,11 @@ defaultLayout:
     allowUniquePresentation: true
     heroCardNavigation: direct-link
     deckNavigation:
-      - previous-next-buttons
       - horizontal-swipe
+      - dot-picker-buttons
       - arrow-home-end-keys
+    deckNavigationForbidden:
+      - previous-next-buttons
 themeGenerator:
   containerMaxWidth:
     min: 640px
@@ -239,9 +241,9 @@ Mobile (≤767px) is allowed — and encouraged — to **override presentation**
 **What mobile may override:**
 
 - **Hero card navigation** — cards link directly to their destinations. The previous mobile sheet is no longer mounted.
-- **Deck controls** — show Previous/Next buttons and a live position count above the deck, with at least 44px touch targets. Start with current work when present. Left/Right wrap through cards; Home/End select the first/last. Only the front card participates in the mobile tab order and accessibility tree.
-- **Swipe gestures** — lock horizontal or vertical intent. Horizontal swipes cycle cards without triggering navigation; vertical gestures remain page scrolling. Button focus stays on the control; arrow-key navigation moves focus to the new front card.
-- **Motion entry** — fan cards keep motion-only deal animation (opacity stays 1). Reduced motion changes cards immediately. Controls sit in document flow and do not overlap the deck or the following section.
+- **Deck navigation (no Previous/Next)** — do **not** mount Previous/Next buttons or a live position count above the deck. Primary touch path is horizontal swipe; WCAG 2.5.1 requires a single-pointer alternative via a **dot picker** below the deck (`mobile-deck-dots` / `mobile-deck-dot` in `StackedFanLayout.tsx`, styled in `card-stack-hero.css`). Each dot is a 44×44px target that selects a card. Start with current work when present (Atlassian card when in the deck). Left/Right wrap through cards; Home/End select the first/last. A polite live region announces the active card title and position. Only the front card participates in the mobile tab order and accessibility tree; dot buttons sit outside the deck group.
+- **Swipe gestures** — lock horizontal or vertical intent. Horizontal swipes cycle cards without triggering navigation; vertical gestures remain page scrolling. Arrow-key navigation moves focus to the new front card after the index changes.
+- **Motion entry** — fan cards keep motion-only deal animation (opacity stays 1). Reduced motion changes cards immediately. Dot picker sits in document flow below the deck and does not overlap the following section.
 
 **What mobile must not override:**
 
