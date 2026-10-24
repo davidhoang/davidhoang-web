@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   parseYoutubeVideoId,
   youtubeNocookieEmbedUrl,
+  youtubeOpenGraphEmbedUrl,
   youtubePosterUrl,
 } from '../src/utils/youtube';
 
@@ -76,5 +77,13 @@ describe('youtubeNocookieEmbedUrl', () => {
 describe('youtubePosterUrl', () => {
   it('uses hqdefault poster art', () => {
     expect(youtubePosterUrl(ID)).toBe(`https://i.ytimg.com/vi/${ID}/hqdefault.jpg`);
+  });
+});
+
+describe('youtubeOpenGraphEmbedUrl', () => {
+  it('uses the standard youtube.com embed URL for og:video', () => {
+    expect(youtubeOpenGraphEmbedUrl(ID)).toBe(
+      `https://www.youtube.com/embed/${ID}`,
+    );
   });
 });

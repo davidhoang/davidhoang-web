@@ -8,7 +8,10 @@ import {
   defaultNoteMetaDescription,
 } from '../../content/noteStages';
 import { noteStageInfo } from '../../utils/noteStageInfo';
-import { parseYoutubeVideoId } from '../../utils/youtube';
+import {
+  parseYoutubeVideoId,
+  youtubeOpenGraphEmbedUrl,
+} from '../../utils/youtube';
 import YoutubeEmbed from '../../components/YoutubeEmbed.astro';
 import { filterPublished, findRelatedContent } from '../../utils/relatedContent';
 import { findNoteBacklinks } from '../../utils/noteBacklinks';
@@ -84,6 +87,9 @@ const overviewSource = (note.data.overview ?? note.data.description ?? '').trim(
 const overviewHtml = overviewSource ? renderNoteOverview(overviewSource) : '';
 const readingTime = formatReadingTime(estimateReadingMinutes([overviewSource, note.body]));
 const overviewYoutubeId = parseYoutubeVideoId(note.data.overviewYoutube);
+const ogVideo = overviewYoutubeId
+  ? youtubeOpenGraphEmbedUrl(overviewYoutubeId)
+  : undefined;
 const coverImage = note.data.coverImage;
 
 const ogImage = resolveContentOgImage({
@@ -117,7 +123,7 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
 });
 ---
 
-<MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage}>
+<MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage} ogVideo={ogVideo}>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
   {markdownUrl && (
     <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href={markdownUrl} />

@@ -27,3 +27,12 @@ export function youtubeNocookieEmbedUrl(
 export function youtubePosterUrl(videoId: string): string {
   return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
 }
+
+/** Default 16:9 dimensions for `og:video:width` / `og:video:height` on YouTube embeds. */
+export const YOUTUBE_OG_VIDEO_WIDTH = 1280;
+export const YOUTUBE_OG_VIDEO_HEIGHT = 720;
+
+/** Canonical youtube.com embed URL for Open Graph (`og:video`). Crawlers expect youtube.com, not nocookie. */
+export function youtubeOpenGraphEmbedUrl(videoId: string): string {
+  return `https://www.youtube.com/embed/${videoId}`;
+}
