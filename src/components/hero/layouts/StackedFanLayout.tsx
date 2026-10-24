@@ -360,6 +360,20 @@ export default function StackedFanLayout({
 
   return (
     <>
+      {isMobileStack && cards.length > 1 && (
+        <div className="mobile-deck-controls" role="group" aria-label="Card navigation">
+          <button type="button" aria-label="Previous card" aria-controls={deckId} onClick={() => cycleActive(-1)}>
+            <span aria-hidden="true">←</span> Previous
+          </button>
+          <span className="mobile-deck-position" role="status" aria-live="polite" aria-atomic="true">
+            <span aria-hidden="true">{activeIndex + 1} / {cards.length}</span>
+            <span className="sr-only">{cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}</span>
+          </span>
+          <button type="button" aria-label="Next card" aria-controls={deckId} onClick={() => cycleActive(1)}>
+            Next <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      )}
       <div
         ref={deckRef}
         id={deckId}
@@ -390,11 +404,6 @@ export default function StackedFanLayout({
           }
         }}
       >
-        {isMobileStack && cards.length > 1 && (
-          <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-            {cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}. Swipe horizontally to change cards.
-          </span>
-        )}
         {cards.map((card, index) => (
           <FanCard
             key={card.id}
