@@ -2,6 +2,7 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
+import { rssEntriesForFeed } from '../utils/rssFeed';
 import { RSS_TRAILING_SLASH, rssWritingItemPermalinks } from '../utils/rssFeedItems';
 
 const md = new MarkdownIt();
@@ -9,10 +10,7 @@ const md = new MarkdownIt();
 export async function GET(context) {
   const allPosts = await getCollection('writing');
 
-  const posts = (import.meta.env.PROD
-    ? allPosts.filter((post) => !post.data.draft)
-    : allPosts
-  ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const posts = rssEntriesForFeed(allPosts, { production: import.meta.env.PROD });
 
   const items = posts.map((post) => ({
     ...rssWritingItemPermalinks(context.site, post.id),
