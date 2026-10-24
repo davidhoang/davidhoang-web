@@ -392,7 +392,7 @@ export default function StackedFanLayout({
       >
         {isMobileStack && cards.length > 1 && (
           <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-            {cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}. Swipe horizontally to change cards.
+            {cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}. Swipe horizontally, use arrow keys, or choose a card below.
           </span>
         )}
         {cards.map((card, index) => (
@@ -417,6 +417,24 @@ export default function StackedFanLayout({
           />
         ))}
       </div>
+      {isMobileStack && cards.length > 1 && (
+        <div className="mobile-deck-dots" role="group" aria-label="Choose a card">
+          {cards.map((card, index) => (
+            <button
+              key={`deck-dot-${card.id}`}
+              type="button"
+              className={`mobile-deck-dot${index === activeIndex ? ' is-active' : ''}`}
+              aria-label={`${card.title}, card ${index + 1} of ${cards.length}`}
+              aria-current={index === activeIndex ? 'true' : undefined}
+              aria-controls={deckId}
+              onClick={() => {
+                setActiveIndex(index);
+                onCardHover(null);
+              }}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }
