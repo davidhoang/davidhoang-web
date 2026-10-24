@@ -27,6 +27,7 @@ const namedChunkGzipCeilingsKiB = {
   CardStackHero: 20,
   ShaderBackground: 15,
   HeroCardShaderPattern: 12,
+  TextureCardShaderDeferred: 3,
   client: 60, // react-dom client runtime
   'react-vendor': 60,
   useMagneticTilt: 45, // framer-motion-heavy shared chunk
