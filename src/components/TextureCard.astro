@@ -4,7 +4,7 @@
  * Compose with `.texture-card__media` (optional top strip), `.texture-card__body`, etc.
  * Optional root class `texture-card--compact-logo` for smaller marks (e.g. design stack grid).
  */
-import TextureCardShader from './TextureCardShader';
+import TextureCardShaderDeferred from './TextureCardShaderDeferred';
 
 export interface Props {
   href?: string;
@@ -26,14 +26,14 @@ const isLink = Boolean(href);
       rel={rel}
     >
       <div class="texture-card__shader-host" aria-hidden="true">
-        <TextureCardShader client:visible />
+        <TextureCardShaderDeferred client:visible />
       </div>
       <slot />
     </a>
   ) : (
     <div class:list={['texture-card', className]}>
       <div class="texture-card__shader-host" aria-hidden="true">
-        <TextureCardShader client:visible />
+        <TextureCardShaderDeferred client:visible />
       </div>
       <slot />
     </div>

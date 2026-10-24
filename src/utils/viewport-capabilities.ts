@@ -69,3 +69,8 @@ export function shouldLoadHeroCardShaders(): boolean {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
   return true;
 }
+
+/** TextureCard dither defers until hover/focus; same capability gate as hero card shaders. */
+export function shouldLoadTextureCardShaders(): boolean {
+  return shouldLoadHeroCardShaders();
+}
