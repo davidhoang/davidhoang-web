@@ -34,18 +34,18 @@ try {
   assert.ok(await focused('#notes-search'));
   check('Notes search, combined filters, counts, clear button, and empty-state recovery');
 
-  await page.getByRole('button', { name: '⌘K, Search site', exact: true }).focus();
-  await page.keyboard.press('Enter');
+  assert.equal(await page.locator('.cmd-k-hint').count(), 0);
+  await page.keyboard.press('Meta+k');
   await page.locator('#cmdPaletteResults .cmd-palette-item').first().waitFor();
   assert.ok(await focused('#cmdPaletteInput'));
+  assert.equal(await page.locator('#cmdPaletteInput').getAttribute('aria-expanded'), 'true');
   await page.locator('#cmdPaletteInput').fill('design');
   assert.ok(await visible('.cmd-palette-item') > 0);
   await page.keyboard.press('ArrowDown');
   assert.ok(await page.locator('#cmdPaletteInput').getAttribute('aria-activedescendant'));
   await page.keyboard.press('Escape');
-  assert.ok(await focused('.cmd-k-hint'));
-  assert.equal(await page.locator('.cmd-k-hint').getAttribute('aria-expanded'), 'false');
-  check('Search keyboard entry, results, navigation, Escape, and focus restoration');
+  assert.equal(await page.locator('#cmdPalette').evaluate((el) => el.closest('.site-nav')?.classList.contains('cmd-palette-active') ?? false), false);
+  check('Search keyboard entry, results, navigation, and Escape');
 
   await page.locator('.desktop-nav a[href="/writing"]').click();
   await page.waitForURL('**/writing');

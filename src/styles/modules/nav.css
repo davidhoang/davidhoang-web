@@ -61,7 +61,7 @@
   font-weight: 600;
   color: var(--color-nav-text, #000);
   box-sizing: border-box;
-  /* Avoid clipping ⌘K / shadows when backdrop-filter + radius create a mask */
+  /* Avoid clipping shadows when backdrop-filter + radius create a mask */
   overflow: visible;
   /* Sentient .site-nav: CSS custom properties for JS-controlled motion */
   --nav-float-x: 0px;
@@ -167,11 +167,6 @@
     padding: calc(var(--spacing-sm) - 0.08rem) calc(var(--spacing-sm) + 0.3rem);
     font-size: 1.05rem;
   }
-
-  .cmd-k-hint {
-    font-size: 0.65rem;
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
 }
 
 /* iPad Pro landscape — roomier pill so links are not cramped */
@@ -218,11 +213,6 @@
 
   .site-nav:hover .rss-link {
     opacity: 0.72;
-  }
-
-  .site-nav:hover .cmd-k-hint {
-    border-color: color-mix(in srgb, var(--color-link) 28%, transparent);
-    background: color-mix(in srgb, var(--color-link) 10%, transparent);
   }
 }
 
@@ -416,56 +406,6 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
 @media (hover: hover) and (min-width: 768px) {
   .site-nav:hover .rss-link:hover {
     transform: translateY(-2px) scale(1.06);
-  }
-}
-
-/* Keyboard-accessible search trigger, sized to fit the fixed nav. */
-.cmd-k-hint {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 36px;
-  min-height: 28px;
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-  color: var(--color-nav-text);
-  background: color-mix(in srgb, var(--color-nav-text) 8%, transparent);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  border: 1px solid color-mix(in srgb, var(--color-nav-text) 20%, transparent);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition:
-    background-color var(--duration-normal) var(--ease-standard),
-    border-color var(--duration-normal) var(--ease-standard);
-  line-height: 1;
-}
-
-.cmd-k-hint kbd {
-  font: inherit;
-  pointer-events: none;
-}
-
-.cmd-k-hint:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.cmd-k-item {
-  flex-shrink: 0;
-}
-
-@media (hover: hover) {
-  .cmd-k-hint:hover {
-    background: color-mix(in srgb, var(--color-nav-text) 12%, transparent);
-    border-color: color-mix(in srgb, var(--color-nav-text) 25%, transparent);
-  }
-
-  @media (min-width: 768px) {
-    .site-nav:hover .cmd-k-hint:hover {
-      /* No translateY — avoids clipping against rounded .site-nav + backdrop-filter mask */
-      box-shadow: 0 4px 14px color-mix(in srgb, var(--color-link) 18%, transparent);
-    }
   }
 }
 

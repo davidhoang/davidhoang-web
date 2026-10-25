@@ -1,15 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import HomeViewer from '../components/homes/HomeViewer';
 import imgDavidNow from '../assets/images/img-david-now.webp';
+import buildingSimcityCover from '../assets/images/books/building-simcity.webp';
 import {
   buildNowPageJsonLd,
   NOW_LAST_UPDATED,
   NOW_LAST_UPDATED_LABEL,
 } from '../utils/structuredData';
-import { nowReading, nowReadingHref, type NowReadingItem } from '../data/nowReading';
 import '../components/homes/homes.css';
 
 const pageDescription =
@@ -20,46 +19,6 @@ const nowJsonLd = buildNowPageJsonLd({
   dateModified: NOW_LAST_UPDATED,
 });
 
-const writingById = new Map(
-  (await getCollection('writing', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
-);
-const notesById = new Map(
-  (await getCollection('notes', ({ data }) => !data.draft)).map((entry) => [entry.id, entry])
-);
-
-function resolveNowReading(item: NowReadingItem) {
-  if (item.kind === 'writing') {
-    const entry = writingById.get(item.id);
-    if (!entry) {
-      throw new Error(`Now page: missing writing entry "${item.id}"`);
-    }
-    return {
-      ...item,
-      title: entry.data.title,
-      href: nowReadingHref(item),
-      external: false as const,
-    };
-  }
-  if (item.kind === 'notes') {
-    const entry = notesById.get(item.id);
-    if (!entry) {
-      throw new Error(`Now page: missing notes entry "${item.id}"`);
-    }
-    return {
-      ...item,
-      title: entry.data.title,
-      href: nowReadingHref(item),
-      external: false as const,
-    };
-  }
-  return {
-    ...item,
-    href: nowReadingHref(item),
-    external: true as const,
-  };
-}
-
-const readingNow = nowReading.map(resolveNowReading);
 ---
 
 <MainLayout
@@ -76,7 +35,7 @@ const readingNow = nowReading.map(resolveNowReading);
   <div class="content-page now-content">
     <div class="container-narrow">
       <p class="content-page__meta">
-        Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about
+        Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about{' '}
         <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
       </p>
     </div>
@@ -89,9 +48,6 @@ const readingNow = nowReading.map(resolveNowReading);
     >
       <div class="container-narrow">
         <h2 class="now-homes__heading">Places I call home</h2>
-        <p class="now-homes__lede text-muted">
-          Drag to orbit the clay miniatures.
-        </p>
       </div>
       <div class="homes-pair now-homes__grid">
         <HomeViewer
@@ -116,7 +72,7 @@ const readingNow = nowReading.map(resolveNowReading);
         <h2 id="now-work-heading">Work</h2>
         <ul class="content-page__list content-page__list--bullets" role="list">
           <li>
-            <a href="/about">VP of AI Design at Atlassian</a> — AI and ecosystem experiences
+            <a href="/about">VP of Design, Atlassian</a> — AI and ecosystem experiences
           </li>
           <li>
             <a href="/writing/optimizing-for-agents">Learning agent experience</a> — design for people
@@ -149,54 +105,139 @@ const readingNow = nowReading.map(resolveNowReading);
             Sydney
           </li>
           <li>
-            <a href="/advising">Advising</a> a few Heads of Design when the fit is right
+            <a href="/advising">Advising</a> a few companies when there is a fit
           </li>
         </ul>
       </section>
 
       <section class="content-page__section" aria-labelledby="now-reading-heading">
-        <h2 id="now-reading-heading">Reading now</h2>
-        <p class="now-reading__lede text-muted">Essays and notes I'm actively pointing people to.</p>
-        <ul class="content-page__list content-page__list--linked">
-          {
-            readingNow.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  {...(item.external
-                    ? { target: '_blank', rel: 'noopener noreferrer' }
-                    : {})}
-                >
-                  {item.title}
-                  {item.external ? <span class="now-reading__ext" aria-hidden="true"> ↗</span> : null}
-                </a>
-                <span class="content-page__list-note">{item.note}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section class="content-page__section" aria-labelledby="now-recent-heading">
-        <h2 id="now-recent-heading">Recent on the site</h2>
-        <ul class="content-page__list content-page__list--linked">
-          <li>
-            <a href="/writing">Writing archive</a>
-            <span class="content-page__list-note">Longer essays on craft, career, and AI</span>
-          </li>
-          <li>
-            <a href="/featured">Featured talks &amp; media</a>
-            <span class="content-page__list-note">Where the themes show up in public</span>
-          </li>
-        </ul>
+        <h2 id="now-reading-heading">Now reading</h2>
+        <div class="now-book">
+          <a
+            class="now-book__cover-link"
+            href="https://mitpressbookstore.mit.edu/book/9780262547482"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              class="now-book__cover"
+              src={buildingSimcityCover.src}
+              width={buildingSimcityCover.width}
+              height={buildingSimcityCover.height}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="sr-only">Building SimCity (opens in a new tab)</span>
+          </a>
+          <div class="now-book__copy">
+            <cite class="now-book__title">Building SimCity</cite>
+            <span class="now-book__subtitle">How to Put the World in a Machine</span>
+            <span class="now-book__author">Chaim Gingold</span>
+            <a
+              class="btn btn-primary now-book__buy"
+              href="https://mitpressbookstore.mit.edu/book/9780262547482"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Buy the book
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
+        </div>
       </section>
     </div>
   </div>
 </MainLayout>
 
 <style>
-  .now-reading {
-    margin-inline: auto;
+  .now-book {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    width: 100%;
+  }
+
+  .now-book__cover-link {
+    display: block;
+    flex: none;
+    border-bottom: none;
+    line-height: 0;
+  }
+
+  .now-book__cover-link::before,
+  .now-book__cover-link::after,
+  .now-book__buy::before,
+  .now-book__buy::after {
+    content: none;
+  }
+
+  .now-book__cover {
+    width: 11rem;
+    height: auto;
+    flex: none;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-scrolling);
+    transition:
+      transform var(--duration-slow) var(--ease-standard),
+      box-shadow var(--duration-slow) var(--ease-standard);
+  }
+
+  .now-book__copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+    min-width: 0;
+  }
+
+  .now-book__title {
+    font-family: var(--font-heading);
+    font-style: normal;
+    font-size: var(--body-size);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--letter-spacing-heading-md);
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  .now-book__subtitle,
+  .now-book__author {
+    color: var(--color-muted);
+    font-size: var(--body-size);
+    line-height: 1.4;
+  }
+
+  .now-book__buy {
+    flex: none;
+    margin-top: var(--spacing-xs);
+  }
+
+  .now-book__buy:hover {
+    color: var(--color-bg);
+  }
+
+  @media (min-width: 641px) {
+    .now-book__copy {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: var(--spacing-xl);
+      row-gap: var(--spacing-xs);
+      align-items: center;
+    }
+
+    .now-book__title,
+    .now-book__subtitle,
+    .now-book__author {
+      grid-column: 1;
+    }
+
+    .now-book__buy {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      margin-top: 0;
+    }
   }
 
   .now-homes {
@@ -208,15 +249,10 @@ const readingNow = nowReading.map(resolveNowReading);
     font-family: var(--font-heading);
     font-size: var(--section-heading-size);
     font-weight: var(--heading-weight);
-    margin: 0 0 var(--spacing-sm);
+    margin: 0 0 var(--spacing-xl);
     color: var(--color-text);
     letter-spacing: var(--letter-spacing-heading-md);
     line-height: 1.2;
-  }
-
-  .now-homes__lede {
-    margin: 0 0 var(--spacing-xl);
-    max-width: 42rem;
   }
 
   .now-homes__grid {
@@ -227,13 +263,21 @@ const readingNow = nowReading.map(resolveNowReading);
     padding-top: var(--spacing-lg);
   }
 
-  .now-reading__lede {
-    margin: 0 0 var(--spacing-md);
-    max-width: 42rem;
+  @media (hover: hover) {
+    .now-book__cover-link:hover .now-book__cover {
+      transform: translateY(-0.25rem);
+      box-shadow: var(--shadow-hover);
+    }
   }
 
-  .now-reading__ext {
-    font-weight: 400;
+  @media (prefers-reduced-motion: reduce) {
+    .now-book__cover {
+      transition: none;
+    }
+
+    .now-book__cover-link:hover .now-book__cover {
+      transform: none;
+    }
   }
 
   @media (max-width: 767px) {
