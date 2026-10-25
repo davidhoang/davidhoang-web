@@ -165,7 +165,10 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
             <time datetime={noteIsoModified}>{formatLongDate(note.data.updatedDate)}</time>
           </span>
         )}
-        <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
+        <span>
+          <span class="sr-only">Estimated reading time: </span>
+          {readingTime}
+        </span>
         <ShareControls
           url={canonicalUrl}
           title={note.data.title}
