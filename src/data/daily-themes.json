@@ -1,6 +1,402 @@
 {
   "themes": [
     {
+      "name": "Lacquer & Rye",
+      "description": "A Japanese graphic poster sensibility at golden hour — lacquered vermilion meets warm rye field, rendered with the stark precision of a woodblock print.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1008",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#B63629",
+          "--color-link-hover": "#922B21",
+          "--color-border": "#1C1008",
+          "--color-muted": "#775F50",
+          "--color-sidebar-bg": "#F5E6D3",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#1C1008",
+          "--color-card-bg": "#F5E6D3"
+        },
+        "dark": {
+          "--color-text": "#F5E6D3",
+          "--color-bg": "#1C0F08",
+          "--color-link": "#E8523A",
+          "--color-link-hover": "#FF7055",
+          "--color-border": "#F5E6D3",
+          "--color-muted": "#9E7A68",
+          "--color-sidebar-bg": "#261408",
+          "--color-nav-bg": "#1C0F08",
+          "--color-nav-text": "#F5E6D3",
+          "--color-card-bg": "#261408"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Work Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#C0392B",
+          "#FDF2E9"
+        ]
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-25",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Lacquer & Rye",
+              "subtitle": "2026-10-25 — Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Vermilion pressed into warm grain. The woodblock's edge, the harvest's glow — a poster that doesn't ask permission.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "badges",
+              "pal"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "金 Lacquer Hour",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif / sans",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#B63629",
+                  "label": "Lacquer"
+                },
+                {
+                  "hex": "#FDF2E9",
+                  "label": "Rice Paper"
+                },
+                {
+                  "hex": "#1C1008",
+                  "label": "Sumi Ink"
+                },
+                {
+                  "hex": "#F5E6D3",
+                  "label": "Rye Field"
+                },
+                {
+                  "hex": "#775F50",
+                  "label": "Worn Wood"
+                },
+                {
+                  "hex": "#922B21",
+                  "label": "Deep Ember"
+                }
+              ]
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "shader-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "shader-prev": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#C0392B",
+                "#FDF2E9"
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "[ Bracket ]"
+                },
+                {
+                  "label": "Image",
+                  "value": "Duotone / Hover Colorize"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px — Zero Mercy"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Split-Complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#B63629"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF2E9"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#1C1008"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#775F50"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "body-sample",
+              "layout-prev"
+            ]
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Stark. Warm. Precise. The grid holds its line.",
+              "variant": "body",
+              "weight": "regular"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "split"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Lacquer & Rye",
+              "action": "apply-theme",
+              "date": "2026-10-25"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Red Buoy",
       "description": "A Helsinki harbour study in controlled tension: fogged linen and tin-blue breathing room punctuated by a single warehouse-red that cuts through the mist like a signal flare.",
       "colors": {
@@ -2078,403 +2474,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Poolside Firmware",
-      "description": "A Palm Springs afternoon rendered as system index — aqua precision, navy structure, and the optimistic hum of a CRT in full daylight.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#0D2137",
-          "--color-bg": "#EBF5FB",
-          "--color-link": "#007297",
-          "--color-link-hover": "#005875",
-          "--color-border": "#9ECFE6",
-          "--color-muted": "#4B7286",
-          "--color-sidebar-bg": "#DCF0F8",
-          "--color-nav-bg": "#EBF5FB",
-          "--color-nav-text": "#0D2137",
-          "--color-card-bg": "#F4FAFE"
-        },
-        "dark": {
-          "--color-text": "#C4EBFA",
-          "--color-bg": "#0A1628",
-          "--color-link": "#00CFEA",
-          "--color-link-hover": "#7AEEFF",
-          "--color-border": "#1C3A52",
-          "--color-muted": "#6B90A6",
-          "--color-sidebar-bg": "#0D1F35",
-          "--color-nav-bg": "#0A1628",
-          "--color-nav-text": "#C4EBFA",
-          "--color-card-bg": "#0F2240"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Space Grotesk",
-          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Manrope",
-          "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.25rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#0A1628",
-          "#00CFEA"
-        ]
-      },
-      "font": {
-        "name": "Space Grotesk",
-        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-10-18",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Poolside Firmware",
-              "subtitle": "2026-10-18 · Daily UI Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Palm Springs, 3pm. A CRT hums in full daylight. The pool reflects the interface. Precision is the aesthetic.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "badge-row"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Aqua Precision",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "left-col",
-              "right-col"
-            ]
-          },
-          "left-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "palette",
-              "shader",
-              "hero"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#0D2137",
-                  "label": "Midnight Navy"
-                },
-                {
-                  "hex": "#EBF5FB",
-                  "label": "Pool Haze"
-                },
-                {
-                  "hex": "#007297",
-                  "label": "CRT Aqua"
-                },
-                {
-                  "hex": "#9ECFE6",
-                  "label": "Tile Edge"
-                },
-                {
-                  "hex": "#DCF0F8",
-                  "label": "Sidebar Mist"
-                },
-                {
-                  "hex": "#4B7286",
-                  "label": "Muted Chlorine"
-                }
-              ]
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#0A1628",
-                "#00CFEA"
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            },
-            "children": []
-          },
-          "right-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "layout",
-              "meta",
-              "caption"
-            ]
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Radius",
-                  "value": "2px"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dot grid"
-                },
-                {
-                  "label": "Images",
-                  "value": "Grayscale → Colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "caption": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Space Grotesk / Manrope — complementary scheme, 2px radius, dots underfoot.",
-              "variant": "caption",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "tokens",
-              "apply"
-            ]
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-text",
-                  "value": "#0D2137"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#007297"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#EBF5FB"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#9ECFE6"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Poolside Firmware",
-              "action": "apply-theme",
-              "date": "2026-10-18"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-24"
+  "currentDate": "2026-10-25"
 }
