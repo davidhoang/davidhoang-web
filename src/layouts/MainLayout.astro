@@ -9,7 +9,7 @@ import Analytics from '@vercel/analytics/astro';
 import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
-import { buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
+import { absoluteUrl, buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
 
@@ -129,9 +129,10 @@ const detectedPageType = pageType || (() => {
 // Normalize: strip trailing slash (except for root "/") for consistent canonical URLs
 const rawPathname = Astro.url.pathname;
 const normalizedPathname = rawPathname === '/' ? '/' : rawPathname.replace(/\/+$/, '');
-const canonicalURL = Astro.site
-  ? new URL(normalizedPathname, Astro.site).href
-  : normalizedPathname;
+const canonicalURL = absoluteUrl(
+  normalizedPathname,
+  Astro.site ? Astro.site.toString() : undefined,
+);
 
 // Resolve the OG image. Pages that don't provide a bespoke image get an
 // on-brand generated card (page title + description) rather than the single
