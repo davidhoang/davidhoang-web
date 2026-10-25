@@ -38,6 +38,7 @@ import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
 import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
 import { buildThemeApply } from '../utils/dailyThemeApply';
 import { resolveDailyTheme } from '../utils/dailyThemes';
+import { themeFontStylesheetUrl } from '../utils/theme-font-stylesheet';
 const FONT_CSS_RAW: Record<string, string> = {
   'Cormorant Garamond': cormorantGaramondCSS,
   'Inter': interCSS,
@@ -247,10 +248,19 @@ const ogVideoMeta = ogVideo
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     )}
 
-    <!-- Preload today's daily theme fonts to reduce FOUT (skip already self-hosted) -->
-    {externalThemeFonts.map((font: any) => (
-      <link rel="stylesheet" href={font.url} />
-    ))}
+    <!-- Theme Google Fonts: load only weights the layout uses (not full catalog ranges). -->
+    {todayTheme?.fonts?.heading && !SELF_HOSTED_FONTS.has(todayTheme.fonts.heading.name) && (
+      <link
+        rel="stylesheet"
+        href={themeFontStylesheetUrl(todayTheme.fonts.heading, 'heading', todayTheme.typography)}
+      />
+    )}
+    {todayTheme?.fonts?.body && !SELF_HOSTED_FONTS.has(todayTheme.fonts.body.name) && (
+      <link
+        rel="stylesheet"
+        href={themeFontStylesheetUrl(todayTheme.fonts.body, 'body', todayTheme.typography)}
+      />
+    )}
 
     <!-- Browser theme color - blends browser UI with site -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
