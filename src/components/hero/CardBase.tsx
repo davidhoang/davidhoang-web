@@ -113,7 +113,7 @@ function CardHeroMedia({
             width={600}
             height={338}
             decoding="async"
-            aria-hidden={isHeroMediaActive}
+            aria-hidden
             data-visible={!isHeroMediaActive}
           />
           {loadActiveMedia && (
@@ -125,7 +125,7 @@ function CardHeroMedia({
               loop
               playsInline
               preload="metadata"
-              aria-hidden={!isHeroMediaActive}
+              aria-hidden
               data-visible={isHeroMediaActive}
             >
               <source src={card.heroVideo} type={videoMimeType(card.heroVideo || '') || 'video/mp4'} />
@@ -141,7 +141,7 @@ function CardHeroMedia({
             width={600}
             height={338}
             decoding="async"
-            aria-hidden={isHeroMediaActive}
+            aria-hidden
             data-visible={!isHeroMediaActive}
           />
           {loadActiveMedia && (
@@ -158,13 +158,21 @@ function CardHeroMedia({
               width={600}
               height={338}
               decoding="async"
-              aria-hidden={!isHeroMediaActive}
+              aria-hidden
               data-visible={isHeroMediaActive}
             />
           )}
         </>
       ) : (
-        <img className="card-hero-image" src={card.heroImage} alt="" width={600} height={338} decoding="async" />
+        <img
+          className="card-hero-image"
+          src={card.heroImage}
+          alt=""
+          width={600}
+          height={338}
+          decoding="async"
+          aria-hidden
+        />
       )}
     </div>
   );

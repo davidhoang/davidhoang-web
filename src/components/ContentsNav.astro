@@ -15,7 +15,7 @@ const { items, label = 'Contents' } = Astro.props;
 
 {
   items.length > 0 && (
-    <aside class="contents-nav" role="navigation" aria-label={label}>
+    <nav class="contents-nav" aria-label={label}>
       <div class="contents-nav__inner">
         <p class="contents-nav__label">{label}</p>
         <ul class="contents-nav__list" role="list">
@@ -33,7 +33,7 @@ const { items, label = 'Contents' } = Astro.props;
           ))}
         </ul>
       </div>
-    </aside>
+    </nav>
   )
 }
 
