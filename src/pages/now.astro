@@ -76,7 +76,7 @@ const readingNow = nowReading.map(resolveNowReading);
   <div class="content-page now-content">
     <div class="container-narrow">
       <p class="content-page__meta">
-        Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about
+        Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about{' '}
         <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
       </p>
     </div>
@@ -89,9 +89,6 @@ const readingNow = nowReading.map(resolveNowReading);
     >
       <div class="container-narrow">
         <h2 class="now-homes__heading">Places I call home</h2>
-        <p class="now-homes__lede text-muted">
-          Drag to orbit the clay miniatures.
-        </p>
       </div>
       <div class="homes-pair now-homes__grid">
         <HomeViewer
@@ -116,7 +113,7 @@ const readingNow = nowReading.map(resolveNowReading);
         <h2 id="now-work-heading">Work</h2>
         <ul class="content-page__list content-page__list--bullets" role="list">
           <li>
-            <a href="/about">VP of AI Design at Atlassian</a> — AI and ecosystem experiences
+            <a href="/about">VP of Design, Atlassian</a> — AI and ecosystem experiences
           </li>
           <li>
             <a href="/writing/optimizing-for-agents">Learning agent experience</a> — design for people
@@ -208,15 +205,10 @@ const readingNow = nowReading.map(resolveNowReading);
     font-family: var(--font-heading);
     font-size: var(--section-heading-size);
     font-weight: var(--heading-weight);
-    margin: 0 0 var(--spacing-sm);
+    margin: 0 0 var(--spacing-xl);
     color: var(--color-text);
     letter-spacing: var(--letter-spacing-heading-md);
     line-height: 1.2;
-  }
-
-  .now-homes__lede {
-    margin: 0 0 var(--spacing-xl);
-    max-width: 42rem;
   }
 
   .now-homes__grid {

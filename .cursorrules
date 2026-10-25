@@ -278,6 +278,7 @@ Navigation is split between the **top nav** (primary pages) and the **footer** (
 ### Command palette (`commandPalettePages` in `src/data/navigation.ts`)
 - Includes all discoverable pages (Notes, Advising, Now, Career Odyssey, etc.)
 - Individual notes and writing posts are indexed at build time in `Navigation.astro`
+- No ⌘K button in the nav. Keep it an easter egg: ⌘K / Ctrl+K, or a click on empty desktop nav space. Documented in `.agents/skills/product-design/references/surfaces-nav.md`
 
 When adding a new page, decide: primary destination → `navItems`; secondary → footer links in `Footer.astro`; always add to `commandPalettePages` if users should find it via ⌘K search.
 

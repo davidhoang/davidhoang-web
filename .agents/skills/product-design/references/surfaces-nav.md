@@ -30,3 +30,15 @@ Cursor rule with full contract: `.cursor/rules/site-nav-css.mdc` (always applied
 ## When editing nav
 
 Read `site-nav-css.mdc` first. Do not refactor global `.container` or unscoped `nav` selectors without checking nav at both breakpoints.
+
+## Command palette (easter egg)
+
+The nav has no search button. Do not add the ⌘K hint back.
+
+Search still opens from `src/scripts/command-palette.ts`:
+
+- **⌘K** or **Ctrl+K** toggles the palette on desktop and mobile.
+- Clicking empty space on the desktop nav pill opens it. Links and the menu button keep their own actions.
+- The 404 page is the only labeled control, via `[data-open-command-palette]`.
+
+Escape closes it. Results come from `/search-index.json` (pages, writing, and notes).

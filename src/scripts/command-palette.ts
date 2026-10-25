@@ -2,8 +2,12 @@
  * Command Palette
  *
  * Transforms the navigation bar into a searchable command palette.
- * Activated by clicking the nav, pressing ⌘K, or Ctrl+K.
+ * There is no nav button for this. It is an easter egg:
+ * - ⌘K or Ctrl+K toggles it
+ * - Clicking empty space on the desktop nav pill opens it
+ * - The 404 page uses `[data-open-command-palette]`
  * Searches across pages, writing posts, and notes.
+ * Documented in `.agents/skills/product-design/references/surfaces-nav.md`.
  */
 
 import { reportAgentEvent } from './agent-experience';
@@ -286,7 +290,6 @@ export function initCommandPalette() {
     changePaletteState(true);
     input!.value = '';
     input!.setAttribute('aria-expanded', 'true');
-    nav!.querySelector('.cmd-k-hint')?.setAttribute('aria-expanded', 'true');
     input!.focus({ preventScroll: true });
     reportedEmptyForOpen = false;
     reportAgentEvent(buildSearchOpenEvent(trigger));
@@ -312,7 +315,6 @@ export function initCommandPalette() {
     changePaletteState(false);
     input!.value = '';
     input!.setAttribute('aria-expanded', 'false');
-    nav!.querySelector('.cmd-k-hint')?.setAttribute('aria-expanded', 'false');
     input!.removeAttribute('aria-activedescendant');
     // Keep the rendered surface in place while its grid row collapses.
     // The next open replaces it; inert immediately removes closed results from focus.
@@ -438,28 +440,17 @@ export function initCommandPalette() {
 
   // --- Event handlers ---
 
-  // Click nav background or ⌘K hint to open (desktop only)
+  // Click empty desktop nav space to open. Links and buttons keep their own actions.
   function handleNavClick(e: MouseEvent) {
     if (nav!.classList.contains('cmd-palette-active')) return;
     if (window.innerWidth <= 768) return;
     const target = e.target as HTMLElement;
-    // ⌘K hint always opens palette
-    if (target.closest('.cmd-k-hint')) {
-      e.preventDefault();
-      void open('click');
-      return;
-    }
     if (target.closest('a') || target.closest('button')) return;
     void open('click');
   }
 
   function handleDesktopNavClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
-    if (target.closest('.cmd-k-hint')) {
-      e.preventDefault();
-      void open('click');
-      return;
-    }
     if (target.closest('a')) return;
     e.preventDefault();
     void open('click');
