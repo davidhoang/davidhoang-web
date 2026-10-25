@@ -29,7 +29,7 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 - [ ] Focus rings use `--focus-ring*` tokens
 - [ ] Phone (≤767px): hero forced to `stacked-fan`, grids collapse, container full width
 - [ ] Mobile unique experiences: scoped overrides OK for touch-native presentation (see `design.md` § Mobile unique experiences) — do not change nav/container globals
-- [ ] Mobile hero deck: Previous/Next, live count, swipe and arrow/Home/End support; only front card in tab order; cards navigate directly
+- [ ] Mobile hero deck: swipe + dot picker (44px targets, no Previous/Next or live count chrome), arrow/Home/End on the deck group, polite live region; only front card in tab order; cards navigate directly
 - [ ] Nav untouched unless editing files listed in `surfaces-nav.md`
 - [ ] Astro for static UI; React only when client interactivity is required
 - [ ] Reuse primitives from `src/styles/global.css` and `src/styles/modules/` first
