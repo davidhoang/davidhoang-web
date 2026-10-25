@@ -132,7 +132,7 @@ These rules prevent broken layouts. They always apply regardless of grid style.
 ### Horizontal Overflow Policy
 - Content MUST NOT overflow the viewport horizontally by accident
 - If a layout creates intentional horizontal extension (e.g., oversized hero text, edge-to-edge imagery), that's fine — but body text and grids must stay contained
-- Multi-column grids collapse to single column on mobile (≤768px) automatically
+- Multi-column grids collapse to single column on phone (≤767px) automatically
 
 ## Responsive Constraints (MUST FOLLOW)
 
@@ -152,7 +152,7 @@ Every theme must render correctly across the full viewport range — 320px phone
 ### Cards
 - `cardPadding` over **2rem** is dramatic on desktop but oppressive on phones — the framework does not auto-shrink it. Stay within **1rem–2rem**.
 - `borderRadius: "9999px"` is for pills/chips/avatars only. Never apply it as the global radius — it turns square cards into ovals at non-1:1 aspect ratios.
-- Card grids drop to single column ≤768px regardless of `gridStyle` — design assuming both states.
+- Card grids drop to single column ≤767px regardless of `gridStyle` — design assuming both states.
 
 ### Spacing
 - `sectionSpacing` over **4rem** at desktop translates to excessive scroll on phones. Use 4–6rem only when the theme genuinely needs that breathing room and content density is low.
@@ -161,7 +161,7 @@ Every theme must render correctly across the full viewport range — 320px phone
 ### Mental render check
 Before submitting, picture each of these:
 - **320px**: smallest phone — does padding leave room for body text? does heading fit on 1–2 lines?
-- **768px**: tablet — does multi-column collapse cleanly?
+- **767px / 768px**: phone vs tablet nav — does multi-column collapse cleanly at 767?
 - **1440px**: standard laptop — does it look finished, not stretched?
 - **1920px+**: large display — does `containerMaxWidth` cap dead space at the edges?
 

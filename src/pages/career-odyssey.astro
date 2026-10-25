@@ -5,10 +5,10 @@ import careerData from '../data/career-odyssey.json';
 import '../styles/modules/career-odyssey.css';
 
 const pageDescription = "An interactive canvas exploring my 20-year career journey from art school to leading design teams at Atlassian, Replit, Webflow, and One Medical.";
-const ogImage = "/images/img-dh.webp";
 ---
 
-<MainLayout title="Career Odyssey" description={pageDescription} ogImage={ogImage} hideFooter={true}>
+<MainLayout title="Career Odyssey" description={pageDescription} hideFooter={true}>
+  <h1 class="sr-only">Career Odyssey</h1>
   {/* @ts-ignore - JSON import types don't match exactly */}
   <CareerOdysseyWrapper client:idle careerData={careerData} />
 </MainLayout>

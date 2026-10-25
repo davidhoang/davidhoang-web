@@ -18,6 +18,8 @@ interface Props {
   title: string;
   image?: string;
   alt?: string;
+  /** Mobile hero crop anchor (object-position). Desktop stays centered. */
+  imagePositionMobile?: string;
   variant?: 'image' | 'text-only';
   subtitle?: string;
   class?: string;
@@ -28,6 +30,7 @@ const {
   title,
   image,
   alt = title,
+  imagePositionMobile,
   variant = 'image',
   subtitle,
   class: className = '',
@@ -40,7 +43,11 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
 
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
   {isImageVariant ? (
-    <div class="page-header__hero hero-media">
+    <div
+      class="page-header__hero hero-media"
+      style={imagePositionMobile ? `--hero-image-position-mobile: ${imagePositionMobile}` : undefined}
+      data-hero-image-position-mobile={imagePositionMobile ? '' : undefined}
+    >
       {optimizedImage ? (
         <Image
           src={optimizedImage}
@@ -90,7 +97,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     if (prefersReducedMotion) return;
 
     // Skip on mobile
-    if (window.innerWidth <= 768) return;
+    if (window.innerWidth <= 767) return;
 
     let currentOffset = 0;
     let targetOffset = 0;
@@ -231,6 +238,12 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     object-position: center;
   }
 
+  @media (max-width: 767px) {
+    .page-header__hero[data-hero-image-position-mobile] .page-header__image {
+      object-position: var(--hero-image-position-mobile, center);
+    }
+  }
+
   /* Shader/image container - parallax transform applied via JS */
   .page-header--image .page-header__hero > :global(*:first-child) {
     transform-origin: center center;
@@ -291,8 +304,34 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     margin: 0;
   }
 
+  /* Phone + tablet: stronger scrim so hero titles stay ≥4.5:1 on bright photos */
+  @media (max-width: 1024px) {
+    .page-header--image .page-header__hero::before {
+      background: var(--page-header-mobile-overlay);
+    }
+
+    .page-header--image .page-header__copy::before {
+      content: '';
+      position: absolute;
+      inset: calc(-1 * var(--spacing-md)) calc(-1 * var(--spacing-lg));
+      z-index: -1;
+      pointer-events: none;
+      border-radius: var(--radius-sm);
+      background: var(--page-header-mobile-copy-scrim);
+    }
+
+    .page-header--image .page-header__title {
+      color: var(--page-header-hero-title-color);
+      text-shadow: var(--page-header-mobile-title-shadow);
+    }
+
+    .page-header--image .page-header__subtitle--hero {
+      text-shadow: var(--page-header-mobile-subtitle-shadow);
+    }
+  }
+
   /* Mobile adjustments */
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .page-header--image .page-header__hero {
       height: var(--hero-height-mobile, 50vh);
       min-height: 250px;

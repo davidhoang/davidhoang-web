@@ -166,6 +166,14 @@
 .portfolio-images {
   width: 100%;
   overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+/* PCD-127: global lazy-load fade starts at opacity:0; portfolio cards SSR before
+   hydration and looked like empty gray slabs inside fixed-aspect frames. */
+.portfolio-section .portfolio-images :is(img, picture img)[loading='lazy'] {
+  opacity: var(--image-opacity, 1);
+  animation: none;
 }
 
 .portfolio-images img {
@@ -304,7 +312,7 @@
   padding-bottom: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .home-section-heading {
     font-size: max(
       var(--h3-size),
@@ -347,6 +355,10 @@
   .portfolio-item-text p {
     font-size: var(--body-size-mobile);
     line-height: var(--body-line-height);
+  }
+
+  .portfolio-images {
+    aspect-ratio: 16 / 6;
   }
 
   .portfolio-images img {
@@ -428,4 +440,20 @@
   flex-shrink: 0;
   font-size: var(--body-size);
   color: var(--color-link);
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, var(--color-link) 70%, transparent);
+}
+
+.home-section-link::after {
+  display: none !important;
+}
+
+@media (hover: hover) {
+  .home-section-link:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: var(--color-link-hover);
+  }
 }

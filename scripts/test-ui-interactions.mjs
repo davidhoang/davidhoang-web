@@ -120,8 +120,8 @@ try {
   assert.equal(await signup.getAttribute('aria-busy'), null);
   check('Newsletter validation, loading feedback, and back/forward-cache recovery without external submission');
 
-  for (const width of [320, 390, 768, 1024, 1440, 1920]) {
-    await page.setViewportSize({ width, height: width < 769 ? 844 : 1000 });
+  for (const width of [320, 390, 767, 768, 1024, 1025, 1440, 1920]) {
+    await page.setViewportSize({ width, height: width < 768 ? 844 : 1000 });
     for (const route of ['/', '/about', '/featured', '/writing', '/notes', '/subscribe']) {
       const response = await page.goto(`${base}${route}`);
       assert.equal(response.status(), 200, `${route} HTTP status`);
@@ -142,7 +142,7 @@ try {
       });
       assert.ok(metrics.scroll <= metrics.width + 1, `${route} overflows at ${width}px`);
       assert.equal(metrics.navPosition, 'fixed');
-      assert.equal(Math.round(metrics.navHeight), width <= 768 ? 56 : 48);
+      assert.equal(Math.round(metrics.navHeight), width <= 767 ? 56 : 48);
       if (metrics.hero) {
         assert.ok(Math.abs(metrics.hero.left) <= 1 && Math.abs(metrics.hero.top) <= 1, `${route} hero alignment at ${width}`);
         assert.ok(metrics.hero.width >= metrics.width, `${route} hero width at ${width}`);

@@ -372,7 +372,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .substack-signup {
       padding: var(--spacing-2xl) 0 var(--spacing-xl);
     }
@@ -433,26 +433,33 @@ const showHeader = showTitle || Boolean(description?.trim());
     if (status) status.textContent = '';
   }
 
-  function initSignups() {
+  function initSignups(options: { forceReset?: boolean } = {}) {
+    const forceReset = options.forceReset ?? false;
     document.querySelectorAll<HTMLFormElement>('form[data-substack-signup]').forEach((form) => {
-      resetSignup(form);
+      const submitting = form.getAttribute('aria-busy') === 'true';
+      // Late astro:page-load / pageshow must not clear in-flight submit feedback.
+      if (forceReset || !submitting) {
+        resetSignup(form);
+      }
       if (form.dataset.initialized === 'true') return;
       form.dataset.initialized = 'true';
       form.addEventListener('submit', () => {
-        // Cross-origin POST navigates away; never include form values in analytics.
-        reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
         form.setAttribute('aria-busy', 'true');
         const status = form.querySelector<HTMLElement>('[data-signup-status]');
         if (status) status.textContent = 'Opening newsletter signup…';
         const button = form.querySelector<HTMLButtonElement>('.subscribe-button');
         button?.classList.add('is-loading');
         if (button) button.disabled = true;
+        // Cross-origin POST navigates away; never include form values in analytics.
+        reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
       });
     });
   }
 
   initSignups();
-  document.addEventListener('astro:page-load', initSignups);
+  document.addEventListener('astro:page-load', () => initSignups());
   // Browser Back can restore the submitted form from the back/forward cache.
-  window.addEventListener('pageshow', initSignups);
+  window.addEventListener('pageshow', (event) => {
+    initSignups({ forceReset: event.persisted });
+  });
 </script>

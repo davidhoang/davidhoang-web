@@ -1,10 +1,7 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { type Card, cardHasHeroLayout } from './types';
-
-const HeroCardShaderPattern = lazy(() =>
-  import('./HeroCardShaderPattern').then((m) => ({ default: m.HeroCardShaderPattern }))
-);
+import { HeroCardShaderDeferred } from './HeroCardShaderDeferred';
 
 interface CardBaseProps {
   card: Card;
@@ -38,7 +35,7 @@ function CardCopy({ card }: { card: Card }) {
       return (
         <>
           <p className="card-editorial-label">{card.eyebrow}</p>
-          <h3 className="card-title">{card.title}</h3>
+          <h2 className="card-title">{card.title}</h2>
           {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
           <p className="card-editorial-summary">{card.summary}</p>
         </>
@@ -47,7 +44,7 @@ function CardCopy({ card }: { card: Card }) {
       return (
         <>
           <p className="card-editorial-label">{card.kicker}</p>
-          <h3 className="card-title">{card.title}</h3>
+          <h2 className="card-title">{card.title}</h2>
           {card.subtitle && <p className="card-subtitle">{card.subtitle}</p>}
         </>
       );
@@ -55,7 +52,7 @@ function CardCopy({ card }: { card: Card }) {
       return (
         <>
           <p className="card-editorial-label">{card.label}</p>
-          <h3 className="card-title">{card.title}</h3>
+          <h2 className="card-title">{card.title}</h2>
         </>
       );
   }
@@ -116,7 +113,7 @@ function CardHeroMedia({
             width={600}
             height={338}
             decoding="async"
-            aria-hidden={isHeroMediaActive}
+            aria-hidden
             data-visible={!isHeroMediaActive}
           />
           {loadActiveMedia && (
@@ -128,7 +125,7 @@ function CardHeroMedia({
               loop
               playsInline
               preload="metadata"
-              aria-hidden={!isHeroMediaActive}
+              aria-hidden
               data-visible={isHeroMediaActive}
             >
               <source src={card.heroVideo} type={videoMimeType(card.heroVideo || '') || 'video/mp4'} />
@@ -144,7 +141,7 @@ function CardHeroMedia({
             width={600}
             height={338}
             decoding="async"
-            aria-hidden={isHeroMediaActive}
+            aria-hidden
             data-visible={!isHeroMediaActive}
           />
           {loadActiveMedia && (
@@ -161,13 +158,21 @@ function CardHeroMedia({
               width={600}
               height={338}
               decoding="async"
-              aria-hidden={!isHeroMediaActive}
+              aria-hidden
               data-visible={isHeroMediaActive}
             />
           )}
         </>
       ) : (
-        <img className="card-hero-image" src={card.heroImage} alt="" width={600} height={338} decoding="async" />
+        <img
+          className="card-hero-image"
+          src={card.heroImage}
+          alt=""
+          width={600}
+          height={338}
+          decoding="async"
+          aria-hidden
+        />
       )}
     </div>
   );
@@ -236,9 +241,7 @@ export function CardBaseContent({
         </div>
       ) : (
         <div className="card-pattern" style={{ backgroundColor: card.color }}>
-          <Suspense fallback={null}>
-            <HeroCardShaderPattern cardId={card.id} pattern={card.pattern} color={card.color} />
-          </Suspense>
+          <HeroCardShaderDeferred cardId={card.id} pattern={card.pattern} color={card.color} />
         </div>
       )}
 

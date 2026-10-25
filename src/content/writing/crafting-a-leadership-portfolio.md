@@ -134,6 +134,6 @@ Part of what people will expect from leadership portfolios is the lessons you le
 - [Jehad Affoneh](https://www.mynameisjehad.com/)
 - [Andy Budd](https://andybudd.com/)
 - [Paola Mariselli](https://www.paolamariselli.com/)
-- [Kurt Varner](https://www.kurtvarner.com/)
+- [Kurt Varner](https://web.archive.org/web/20250225052111/https://www.kurtvarner.com/)
 - [Jeremy Dodd](https://www.jeremyjdodd.com)
 - [Linda Eliasen](https://www.lindaeliasen.com/)

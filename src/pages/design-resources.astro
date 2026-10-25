@@ -5,7 +5,7 @@ import DesignStackGrid from '../components/DesignStackGrid.astro';
 import { layoutInspirationSources } from '../data/layout-inspiration';
 
 const pageDescription = "A curated collection of design tools, references, and resources I use and recommend.";
-const ogImage = "/images/header-images/img-header-writing.webp";
+const headerImage = "/images/header-images/img-header-writing.webp";
 
 /** Stack logos: cursor, replit, obsidian, excalidraw from Simple Icons (CC0); paper, Claude symbol, ghostly in src/assets/images/logos/stack/ (served as /images/logos/stack/). */
 const designStack = [
@@ -76,10 +76,10 @@ const resources = [
 ];
 ---
 
-<MainLayout title="Design Resources | David Hoang" description={pageDescription} ogImage={ogImage}>
+<MainLayout title="Design Resources | David Hoang" description={pageDescription}>
   <PageHeader
     title="Design Resources"
-    image={ogImage}
+    image={headerImage}
     alt="Design tools, references, and resources"
     priority={true}
   />
@@ -239,7 +239,7 @@ const resources = [
     line-height: 1.5;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .additional-resources {
       padding: var(--spacing-md);
     }

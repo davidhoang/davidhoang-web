@@ -153,7 +153,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .card-stack-hero .hero-title {
     font-size: clamp(4.25rem, 6.75vw, 6rem);
   }
@@ -825,7 +825,7 @@
   }
 }
 
-/* === Mobile iOS-style hero sheet (≤768px) — see design.md § Mobile unique experiences === */
+/* === Mobile iOS-style hero sheet (≤767px) — see design.md § Mobile unique experiences === */
 :root {
   --hero-sheet-drag-progress: 0;
 }
@@ -1086,7 +1086,7 @@
   min-height: 380px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .card-stack-hero--cinematic .cards-wrapper {
     flex-direction: column;
     gap: var(--spacing-sm);
@@ -1176,7 +1176,7 @@
   }
 }
 
-/* Tablet tier (769–1024px) — iPad portrait; synced via data-hero-viewport */
+/* Tablet tier (768–1024px) — iPad portrait; synced via data-hero-viewport */
 [data-hero-viewport='tablet'] .card-stack-hero--stacked-fan .cards-wrapper {
   transform: scale(0.88);
 }
@@ -1185,7 +1185,7 @@
   font-size: clamp(3.5rem, 6.5vw, 5rem);
 }
 
-/* Mobile hero stack — one prominent card with peeking deck (≤768px) */
+/* Mobile hero stack — one prominent card with peeking deck (≤767px) */
 [data-hero-viewport='mobile'] .card-stack-hero--stacked-fan .cards-wrapper,
 [data-hero-viewport='compact'] .card-stack-hero--stacked-fan .cards-wrapper,
 .cards-wrapper--mobile-stack {
@@ -1260,7 +1260,7 @@
   padding: var(--spacing-md);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .card-stack-hero {
     min-height: 360px;
     padding-left: 0;
@@ -1430,7 +1430,7 @@
   border-radius: inherit;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .card-stack-hero-skeleton {
     min-height: 360px;
     padding-left: 0;
@@ -1459,73 +1459,67 @@
   touch-action: pan-y pinch-zoom;
 }
 
-.mobile-deck-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-  width: min(100%, 320px);
-  margin: 0 0 var(--spacing-lg);
-  color: var(--color-text);
-}
-
-.mobile-deck-controls button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
-  min-width: 44px;
-  min-height: 44px;
-  padding: var(--spacing-sm);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  background: var(--color-bg);
-  color: var(--color-text);
-  font: inherit;
-  font-size: 0.875rem;
-  cursor: pointer;
-  touch-action: manipulation;
-  transition:
-    background-color var(--duration-fast) var(--ease-standard),
-    transform var(--duration-fast) var(--ease-standard);
-}
-
-.mobile-deck-controls button:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.mobile-deck-controls button:active {
-  transform: scale(0.96);
-}
-
-.mobile-deck-position {
-  min-width: 4ch;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-  font-size: 0.875rem;
-  color: var(--color-muted);
-}
-
-@media (hover: hover) {
-  .mobile-deck-controls button:hover {
-    background-color: var(--color-sidebar-bg);
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .card-stack-hero--stacked-fan .cards-wrapper--mobile-stack {
     top: 0;
     margin-bottom: 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mobile-deck-controls button {
-    transition: none;
-  }
+/* Single-pointer deck navigation (WCAG 2.5.1) — subtle dots, no prev/next chrome */
+.mobile-deck-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  width: min(100%, 320px);
+  margin: var(--spacing-md) auto 0;
+}
 
-  .mobile-deck-controls button:active {
-    transform: none;
+.mobile-deck-dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mobile-deck-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-muted);
+  opacity: 0.45;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.mobile-deck-dot.is-active::after {
+  background: var(--color-text);
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.mobile-deck-dot:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (hover: hover) {
+  .mobile-deck-dot:hover::after {
+    opacity: 0.85;
+    background: var(--color-text);
   }
 }

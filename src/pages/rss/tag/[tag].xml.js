@@ -2,6 +2,8 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
+import { rssEntriesForFeed } from '../../../utils/rssFeed';
+import { RSS_TRAILING_SLASH, rssWritingItemPermalinks } from '../../../utils/rssFeedItems';
 
 const md = new MarkdownIt();
 
@@ -21,17 +23,16 @@ export async function GET(context) {
 
   const allPosts = await getCollection('writing');
 
-  const posts = (import.meta.env.PROD
-    ? allPosts.filter((post) => !post.data.draft)
-    : allPosts
-  ).filter((post) => (post.data.tags || []).includes(tag));
+  const posts = rssEntriesForFeed(allPosts, { production: import.meta.env.PROD }).filter(
+    (post) => (post.data.tags || []).includes(tag),
+  );
 
   const items = posts
     .map((post) => ({
+      ...rssWritingItemPermalinks(context.site, post.id),
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
-      link: `/writing/${post.id}/`,
       content: sanitizeHtml(md.render(post.body), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
       }),
@@ -43,6 +44,7 @@ export async function GET(context) {
     title: `David Hoang — Writing — ${tag}`,
     description: `Writing tagged “${tag}”. For notes, use /rss/notes.xml.`,
     site: context.site,
+    trailingSlash: RSS_TRAILING_SLASH,
     items,
     customData: [
       `<language>en-us</language>`,

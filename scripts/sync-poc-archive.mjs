@@ -3,10 +3,12 @@
  * Fetches Proof of Concept (Substack) archive posts that have a cover image.
  * Writes src/data/proof-of-concept-issues.json for the /subscribe infinite canvas.
  */
-import { writeFileSync } from 'node:fs';
+import { existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ARCHIVE_URL = 'https://www.proofofconcept.pub/api/v1/archive';
+const FALLBACK_WARNING =
+  'PoC archive sync failed; keeping existing src/data/proof-of-concept-issues.json and continuing the build.';
 const OUT_PATH = join(process.cwd(), 'src/data/proof-of-concept-issues.json');
 
 /** @typedef {{ id: number; title: string; slug: string; subtitle: string | null; postDate: string; coverImage: string; url: string }} PocIssue */
@@ -63,5 +65,9 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
+  if (existsSync(OUT_PATH)) {
+    console.warn(`⚠ ${FALLBACK_WARNING}`);
+    process.exit(0);
+  }
   process.exit(1);
 });

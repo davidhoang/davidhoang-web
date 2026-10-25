@@ -253,7 +253,7 @@ export function initCommandPalette() {
     if (!isOpen) nav!.classList.remove('cmd-palette-has-results');
 
     const toWidth = nav!.offsetWidth;
-    if (window.innerWidth <= 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth <= 767 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const style = getComputedStyle(nav!);
     const duration = parseFloat(style.getPropertyValue('--duration-slower')) * 1000;
     const easing = style.getPropertyValue('--ease-emphasized').trim();
@@ -443,7 +443,7 @@ export function initCommandPalette() {
   // Click empty desktop nav space to open. Links and buttons keep their own actions.
   function handleNavClick(e: MouseEvent) {
     if (nav!.classList.contains('cmd-palette-active')) return;
-    if (window.innerWidth <= 768) return;
+    if (window.innerWidth <= 767) return;
     const target = e.target as HTMLElement;
     if (target.closest('a') || target.closest('button')) return;
     void open('click');

@@ -104,8 +104,8 @@
   pointer-events: none;
 }
 
-/* Prevent horizontal overflow on smaller screens (between 520px and 768px) */
-@media (min-width: 521px) and (max-width: 768px) {
+/* Prevent horizontal overflow on smaller screens (between 520px and 767px) */
+@media (min-width: 521px) and (max-width: 767px) {
   .site-nav {
     min-width: unset;
     width: 100%;
@@ -115,7 +115,7 @@
 }
 
 /* Desktop floating .site-nav — fit content; cap at viewport */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .site-nav {
     min-width: unset;
     max-width: min(600px, calc(100vw - 40px));
@@ -123,9 +123,9 @@
 }
 
 /*
- * iPad / tablet-class (769–1440px) — calmer pill, no sentient drift, no hover backdrop.
+ * iPad / tablet-class (768–1440px) — calmer pill, no sentient drift, no hover backdrop.
  */
-@media (min-width: 769px) and (max-width: 1440px) {
+@media (min-width: 768px) and (max-width: 1440px) {
   .site-nav {
     transform: none;
     --nav-float-x: 0px;
@@ -197,7 +197,7 @@
 }
 
 /* Hover affordances — color, shadow, backdrop only (no padding/gap/top; design.md) */
-@media (hover: hover) and (min-width: 769px) {
+@media (hover: hover) and (min-width: 768px) {
   .site-nav:hover {
     box-shadow:
       0 0 0 3px var(--color-border),
@@ -217,7 +217,7 @@
 }
 
 /* Tablet-class viewports: shadow-only hover (no backdrop-filter — Safari iPad bug) */
-@media (hover: hover) and (min-width: 769px) and (max-width: 1440px) {
+@media (hover: hover) and (min-width: 768px) and (max-width: 1440px) {
   .site-nav:hover {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -270,7 +270,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   transform-origin: center center;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .nav-container {
     gap: var(--spacing-md);
   }
@@ -338,7 +338,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .nav-links li {
     height: auto;
   }
@@ -375,7 +375,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
     color: var(--color-nav-text);
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 768px) {
     .site-nav:hover .nav-links a:hover {
       transform: none;
       color: var(--color-nav-text);
@@ -403,7 +403,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   background-color: transparent !important;
 }
 
-@media (hover: hover) and (min-width: 769px) {
+@media (hover: hover) and (min-width: 768px) {
   .site-nav:hover .rss-link:hover {
     transform: translateY(-2px) scale(1.06);
   }
@@ -457,7 +457,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
 /* Mobile menu is now handled by the command palette */
 
 /* Tablet breakpoint - floating pill .site-nav on mobile */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .site-nav {
     top: 0;
     left: 0;
@@ -572,7 +572,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .mobile-menu {
     display: block;
     position: fixed;
@@ -719,7 +719,7 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
   }
 }
 
-@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
   .mobile-menu,
   .mobile-menu__links a,
   .mobile-menu__secondary a,

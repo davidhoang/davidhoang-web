@@ -1,5 +1,6 @@
 ---
 import { footerBrand, footerSections } from '../data/navigation';
+import { accessibleNameWithVisibleLabel } from '../utils/accessibleName';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -9,7 +10,7 @@ const currentYear = new Date().getFullYear();
     <section class="footer-nav" aria-label="Footer navigation">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="footer-logo" aria-label="David Hoang homepage">DH</a>
+          <a href="/" class="footer-logo" aria-label={accessibleNameWithVisibleLabel('DH', 'David Hoang homepage')}>DH</a>
           <p class="footer-tagline">{footerBrand.tagline}</p>
           <a href={footerBrand.emailHref} class="footer-link footer-email-link">Email me</a>
         </div>
@@ -24,7 +25,7 @@ const currentYear = new Date().getFullYear();
                     <a
                       href={link.href}
                       class="footer-link"
-                      aria-label={link.ariaLabel}
+                      aria-label={accessibleNameWithVisibleLabel(link.label, link.ariaLabel)}
                       target={link.external ? '_blank' : undefined}
                       rel={link.external ? 'noopener noreferrer' : undefined}
                     >
@@ -60,7 +61,7 @@ const currentYear = new Date().getFullYear();
   // Markup starts with open so desktop always shows links (no JS dependency /
   // no FOUC). Collapse on mobile for the accordion pattern.
   const footerDetails = document.querySelectorAll('.footer-col__details');
-  const desktopNav = window.matchMedia('(min-width: 769px)');
+  const desktopNav = window.matchMedia('(min-width: 768px)');
 
   const syncFooterDetails = () => {
     footerDetails.forEach((el) => {

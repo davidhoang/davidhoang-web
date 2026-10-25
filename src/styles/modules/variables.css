@@ -42,15 +42,16 @@
 
      Viewport tiers (data-viewport-tier on <html>, set in MainLayout.astro):
        compact  ≤480px   smallest phones
-       mobile   481–768px mobile safety overrides apply (design.md)
-       tablet       769–1024px  tablet-enhancements.css (iPad portrait, etc.)
+       mobile   481–767px mobile safety overrides apply (design.md)
+       tablet       768–1024px  tablet-enhancements.css (iPad portrait, etc.)
        tablet-wide  1025–1366px iPad Pro landscape
        desktop      ≥1367px
 
      Nav resize boundary is 520px (design.md mobileSmall) — see nav.css. */
   --breakpoint-mobile: 480px;
+  --breakpoint-phone-max: 767px;
   --breakpoint-tablet: 768px;
-  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop: 1025px;
   --breakpoint-desktop-large: 1280px;
   --breakpoint-desktop-xl: 1536px;
   --breakpoint-desktop-2xl: 1920px;
@@ -166,6 +167,26 @@
   --hero-height: 75vh;
   --hero-height-mobile: 50vh;
   --hero-overlay: rgba(0, 0, 0, 0.3);
+  /* PageHeader image heroes — phone/tablet title contrast (PCD-127) */
+  --page-header-mobile-overlay: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.48) 0%,
+    rgba(0, 0, 0, 0.66) 100%
+  );
+  --page-header-mobile-copy-scrim: radial-gradient(
+    ellipse 105% 95% at 50% 50%,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.58) 48%,
+    rgba(0, 0, 0, 0.28) 72%,
+    transparent 88%
+  );
+  --page-header-mobile-title-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.85),
+    0 2px 16px rgba(0, 0, 0, 0.55);
+  --page-header-mobile-subtitle-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.75),
+    0 1px 12px rgba(0, 0, 0, 0.45);
+  --page-header-hero-title-color: #ffffff;
 
   /* Hero card stack — shadows, scrims, CTAs (consumed by card-stack-hero.css) */
   --hero-card-shadow-rest:
@@ -264,6 +285,15 @@
   --z-texture: 9999;      /* Background texture overlays (grain, dots, grid) */
   /* Daily theme FAB + calendar — above modals, texture layers, and dev overlays */
   --z-daily-theme-ui: 500000;
+
+  /* Fixed daily-theme FAB — reserve space on narrow reading pages (PCD-127) */
+  --daily-theme-fab-size: 48px;
+  --daily-theme-fab-block-reserve: calc(
+    var(--daily-theme-fab-size) + var(--spacing-md) + max(var(--spacing-sm), env(safe-area-inset-bottom, 0px))
+  );
+  --daily-theme-fab-inline-reserve: calc(
+    var(--daily-theme-fab-size) + var(--spacing-md) + env(safe-area-inset-right, 0px)
+  );
 
   /* Shared component styles - Border and Shadow */
   --border-default: 1px solid var(--color-border);

@@ -7,6 +7,7 @@ import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/Ani
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
 import { siteBioMetaThirdPerson } from '../data/siteCopy';
 import { buildHomeHeroCards } from '../utils/jevHomeHero';
+import { HOME_OG_PREVIEW } from '../utils/ogVideo';
 import '../styles/pages/home.css';
 import '../styles/modules/card-stack-hero.css';
 import dhWebLightAsset from '../assets/images/img-dh-web-light.webp';
@@ -16,7 +17,7 @@ import imgReplit from '../assets/images/highlights/img-highlights-replit.webp';
 import imgPlay from '../assets/images/highlights/img-highlights-play.webp';
 import imgPoc from '../assets/images/highlights/img-highlights-proof-of-concept.webp';
 
-const PORTFOLIO_SIZES = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px';
+const PORTFOLIO_SIZES = '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 600px';
 
 async function optimizePortfolioImage(src: ImageMetadata) {
   const result = await getImage({
@@ -47,7 +48,6 @@ const heroCards = homeHeroPlan.cards.map(card => card.id === 'atlassian'
 
 // Page metadata
 const pageDescription = siteBioMetaThirdPerson;
-const ogImage = "/images/img-dh-web-light.webp";
 
 // Philosophy items data
 const philosophyItems = [
@@ -62,9 +62,9 @@ const philosophyItems = [
 // component just renders the resolved src/srcSet without re-deriving them.
 const portfolioItems = [
   {
-    text: 'Sep 2024 · Hatch Conference',
+    text: 'Sep 2024 ·',
     link: 'https://www.youtube.com/watch?v=4lWYcr53kyI',
-    linkText: 'Design & (Blank) keynote',
+    linkText: 'Hatch Conference: Design & (Blank)',
     image: await optimizePortfolioImage(imgHatch),
     imageAlt: 'David Hoang speaking at Hatch Conference 2024, presenting on stage',
   },
@@ -92,7 +92,14 @@ const portfolioItems = [
 ];
 ---
 
-<MainLayout title="David Hoang — Designer, Investor & Builder" description={pageDescription} ogImage={ogImage}>
+<MainLayout
+  title="David Hoang — Designer, Investor & Builder"
+  description={pageDescription}
+  pageType="home"
+  ogImage={HOME_OG_PREVIEW.poster}
+  ogVideo={HOME_OG_PREVIEW.video}
+  ogVideoSize={{ width: HOME_OG_PREVIEW.width, height: HOME_OG_PREVIEW.height }}
+>
   {/* Preload hero card images early — Astro SSR preloads <img> sources inside
       the island, but the "about" thumbnail uses background-image (invisible to
       the preload scanner). Current work is the first card on mobile. */}

@@ -7,7 +7,7 @@ import {
   mobileSecondaryNavItems,
 } from '../src/data/navigation';
 
-const secondaryPaths = ['/works', '/cv', '/thesis', '/experiments', '/design-resources'];
+const secondaryPaths = ['/works', '/cv', '/thesis', '/experiments', '/design-resources', '/blogroll'];
 
 /** Reachable from the experiments hub instead of their own nav/footer entries. */
 const hubbedPaths = ['/prototypes', '/daily-themes'];

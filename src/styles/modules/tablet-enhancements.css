@@ -1,12 +1,12 @@
 /* ============================================
    Tablet / iPad Pro enhancements — additive opt-in layer
 
-   Targets [data-viewport-tier='tablet'] (769–1024px) set by MainLayout.astro,
+   Targets [data-viewport-tier='tablet'] (768–1024px) set by MainLayout.astro,
    plus iPad Pro landscape via max-width: 1366px media queries.
    Does not override nav globals, .container, or theme safety nets.
    ============================================ */
 
-/* Viewport-tier spacing tokens (tablet 769–1024px) */
+/* Viewport-tier spacing tokens (tablet 768–1024px) */
 [data-viewport-tier='tablet'] {
   --tablet-section-gap: var(--spacing-2xl);
   --tablet-prose-measure: min(42rem, 100%);
@@ -88,7 +88,7 @@
 }
 
 /* Touch-primary tablet: strip sticky-hover transforms (belt-and-suspenders) */
-@media (min-width: 769px) and (max-width: 1366px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1366px) and (pointer: coarse) {
   .site-nav,
   .site-nav * {
     -webkit-tap-highlight-color: transparent;

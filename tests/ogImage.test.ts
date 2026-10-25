@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildOgImageUrl,
+  isSharedGenericOgImage,
+  resolveContentOgImage,
   resolveOgBadge,
   resolveOgTitleFontSize,
 } from '../src/utils/ogImage';
@@ -53,5 +55,39 @@ describe('buildOgImageUrl', () => {
   it('passes writing/notes types through for branded badges', () => {
     expect(buildOgImageUrl({ title: 'Post', type: 'writing' })).toContain('type=writing');
     expect(buildOgImageUrl({ title: 'Note', type: 'notes' })).toContain('type=notes');
+  });
+});
+
+describe('isSharedGenericOgImage', () => {
+  it('flags reused stock paths', () => {
+    expect(isSharedGenericOgImage('/images/img-dh.webp')).toBe(true);
+    expect(isSharedGenericOgImage('https://www.davidhoang.com/images/img-dh.webp')).toBe(true);
+  });
+
+  it('allows bespoke art', () => {
+    expect(isSharedGenericOgImage('/images/img-david-sf.webp')).toBe(false);
+  });
+});
+
+describe('resolveContentOgImage', () => {
+  it('prefers a non-generic cover', () => {
+    expect(
+      resolveContentOgImage({
+        title: 'Essay',
+        coverImage: '/images/blog/2025/cover.webp',
+        type: 'writing',
+      }),
+    ).toBe('/images/blog/2025/cover.webp');
+  });
+
+  it('generates when only stock art is available', () => {
+    const url = resolveContentOgImage({
+      title: 'One Medical',
+      description: 'Case study',
+      coverImage: '/images/highlights/img-highlights-proof-of-concept.webp',
+      type: 'page',
+    });
+    expect(url).toContain('/api/og');
+    expect(url).toContain('title=One+Medical');
   });
 });

@@ -378,10 +378,19 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 
 /* Responsive */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .daily-theme-toggle {
     bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
     right: max(1rem, env(safe-area-inset-right, 1rem));
+  }
+
+  body.mobile-menu-open .daily-theme-toggle {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.92);
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
   }
 
   /* Reserve strip below hero sheet — toggle sits under the card, not on it */
@@ -427,6 +436,10 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 }
 
 @media (max-width: 480px) {
+  :root {
+    --daily-theme-fab-size: 52px;
+  }
+
   .daily-theme-toggle {
     bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem));
     right: max(0.75rem, env(safe-area-inset-right, 0.75rem));

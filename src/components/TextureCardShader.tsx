@@ -3,14 +3,15 @@
  * @see https://shaders.paper.design/dithering
  */
 
-import { useEffect, useState } from 'react';
-import { Dithering } from '@paper-design/shaders-react';
+import { useEffect, useState, type ComponentType } from 'react';
+import type { TextureCardDitheringLayerProps } from '../shaders/lazy/TextureCardDitheringLayer';
 
 export default function TextureCardShader() {
   const [mounted, setMounted] = useState(false);
   const [eInk, setEInk] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [colors, setColors] = useState({ front: '#00b3ff', back: '#000000' });
+  const [Layer, setLayer] = useState<ComponentType<TextureCardDitheringLayerProps> | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -44,21 +45,27 @@ export default function TextureCardShader() {
     };
   }, []);
 
-  if (!mounted || eInk) {
+  const shouldRender = mounted && !eInk;
+
+  useEffect(() => {
+    if (!shouldRender) {
+      setLayer(null);
+      return;
+    }
+
+    let cancelled = false;
+    import('../shaders/lazy/TextureCardDitheringLayer').then((mod) => {
+      if (!cancelled) setLayer(() => mod.default);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [shouldRender]);
+
+  if (!shouldRender || !Layer) {
     return null;
   }
 
-  return (
-    <Dithering
-      style={{ width: '100%', height: '100%', display: 'block' }}
-      colorBack={colors.back}
-      colorFront={colors.front}
-      shape="sphere"
-      type="4x4"
-      size={2}
-      scale={0.6}
-      speed={reducedMotion ? 0 : 0.85}
-      fit="cover"
-    />
-  );
+  return <Layer colors={colors} reducedMotion={reducedMotion} />;
 }

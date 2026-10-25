@@ -1,12 +1,18 @@
+import {
+  BREAKPOINT_COMPACT_MAX,
+  BREAKPOINT_PHONE_MAX,
+  BREAKPOINT_TABLET_MAX,
+} from '../../utils/breakpoints';
+
 export type HeroViewportTier = 'compact' | 'mobile' | 'tablet' | 'desktop';
 
-/** Matches CardStackHero breakpoints (480 / 768 / 1024). */
+/** Matches CardStackHero breakpoints (480 / 767 / 1024). */
 export function readHeroViewportTier(): HeroViewportTier {
   if (typeof window === 'undefined') return 'desktop';
   const w = window.innerWidth;
-  if (w <= 480) return 'compact';
-  if (w <= 768) return 'mobile';
-  if (w <= 1024) return 'tablet';
+  if (w <= BREAKPOINT_COMPACT_MAX) return 'compact';
+  if (w <= BREAKPOINT_PHONE_MAX) return 'mobile';
+  if (w <= BREAKPOINT_TABLET_MAX) return 'tablet';
   return 'desktop';
 }
 

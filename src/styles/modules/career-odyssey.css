@@ -150,6 +150,7 @@
 }
 
 .co-node__label {
+  margin: 0;
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 1.2;
@@ -162,7 +163,7 @@
 
 .co-node__date {
   font-size: 0.6rem;
-  opacity: 0.45;
+  color: var(--color-muted);
   margin-top: auto;
 }
 
@@ -407,6 +408,7 @@
 }
 
 .node-card-worked-with-title {
+  margin-top: 0;
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-muted);
@@ -442,9 +444,12 @@
 }
 
 .node-card-connections-label {
+  margin: 0;
+  font-size: inherit;
   font-weight: 600;
   color: var(--color-muted);
   flex-shrink: 0;
+  display: inline;
 }
 
 .node-card-connections-items {

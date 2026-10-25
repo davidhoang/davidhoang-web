@@ -186,7 +186,6 @@ function FanCard({
       role="link"
       tabIndex={isMobileStack && !isFront ? -1 : 0}
       aria-hidden={isMobileStack && !isFront ? true : undefined}
-      aria-label={card.linkText ? `${card.title} — ${card.linkText}` : card.title}
       style={{
         ...dimensionStyle,
         backgroundColor: isGlass ? 'transparent' : card.color,
@@ -361,20 +360,6 @@ export default function StackedFanLayout({
 
   return (
     <>
-      {isMobileStack && cards.length > 1 && (
-        <div className="mobile-deck-controls" role="group" aria-label="Card navigation">
-          <button type="button" aria-label="Previous card" aria-controls={deckId} onClick={() => cycleActive(-1)}>
-            <span aria-hidden="true">←</span> Previous
-          </button>
-          <span className="mobile-deck-position" role="status" aria-live="polite" aria-atomic="true">
-            <span aria-hidden="true">{activeIndex + 1} / {cards.length}</span>
-            <span className="sr-only">{cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}</span>
-          </span>
-          <button type="button" aria-label="Next card" aria-controls={deckId} onClick={() => cycleActive(1)}>
-            Next <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      )}
       <div
         ref={deckRef}
         id={deckId}
@@ -405,6 +390,11 @@ export default function StackedFanLayout({
           }
         }}
       >
+        {isMobileStack && cards.length > 1 && (
+          <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+            {cards[activeIndex]?.title}, card {activeIndex + 1} of {cards.length}. Swipe horizontally, use arrow keys, or choose a card below.
+          </span>
+        )}
         {cards.map((card, index) => (
           <FanCard
             key={card.id}
@@ -427,6 +417,24 @@ export default function StackedFanLayout({
           />
         ))}
       </div>
+      {isMobileStack && cards.length > 1 && (
+        <div className="mobile-deck-dots" role="group" aria-label="Choose a card">
+          {cards.map((card, index) => (
+            <button
+              key={`deck-dot-${card.id}`}
+              type="button"
+              className={`mobile-deck-dot${index === activeIndex ? ' is-active' : ''}`}
+              aria-label={`${card.title}, card ${index + 1} of ${cards.length}`}
+              aria-current={index === activeIndex ? 'true' : undefined}
+              aria-controls={deckId}
+              onClick={() => {
+                setActiveIndex(index);
+                onCardHover(null);
+              }}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }

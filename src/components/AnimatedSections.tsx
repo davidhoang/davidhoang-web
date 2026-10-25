@@ -1,5 +1,5 @@
 import { motion, MotionConfig } from 'framer-motion';
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import { useReducedMotionPreference as useReducedMotion } from '../hooks/useReducedMotionPreference';
 import { useSharedInView } from '../hooks/useSharedInView';
 
@@ -75,8 +75,32 @@ export function AnimatedPhilosophyGrid({ items }: { items: PhilosophyItem[] }) {
   );
 }
 
+function useLazyImageLoadedClass() {
+  const ref = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const img = ref.current;
+    if (!img) return;
+
+    const markLoaded = () => {
+      img.classList.add('loaded');
+    };
+
+    if (img.complete && img.naturalWidth > 0) {
+      markLoaded();
+      return;
+    }
+
+    img.addEventListener('load', markLoaded, { once: true });
+    img.addEventListener('error', markLoaded, { once: true });
+  }, []);
+
+  return ref;
+}
+
 function PortfolioCard({ item }: { item: PortfolioItem }) {
   const prefersReducedMotion = useReducedMotion();
+  const imageRef = useLazyImageLoadedClass();
 
   const itemVariants = prefersReducedMotion
     ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
@@ -100,6 +124,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
     >
       <div className="portfolio-images img-frame">
         <img
+          ref={imageRef}
           className="img-themed"
           src={item.image.src}
           srcSet={item.image.srcSet}
@@ -113,11 +138,11 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
       </div>
       <div className="portfolio-item-text">
         <p className="text-body">
-          {item.text.split(item.linkText)[0]}
+          {item.text.trimEnd()}
+          {item.text.length > 0 ? ' ' : null}
           <a href={item.link} target="_blank" rel="noopener noreferrer">
             {item.linkText}
           </a>
-          {item.text.split(item.linkText)[1] || ''}
         </p>
       </div>
     </motion.div>

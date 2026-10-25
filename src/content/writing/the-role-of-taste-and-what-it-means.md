@@ -13,7 +13,15 @@ In addition to being home to the best Sardinian restaurant in New York, Brooklyn
 
 A few weeks ago, 60 Minutes posted their 60 Minutes interview, a sit-down with Anderson Cooper and Rick Rubin, a record producer, and co-founder of Def Jam Records. This interview is part of the launch of Rubin’s new book, The Creative Act: A Way of Being. The tweet from the 60 Minutes account sparked many thoughts about Rubin, such as, “What does he actually do then?”
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">“I have no technical ability. And I know nothing about music.”<br><br>Music producer Rick Rubin says he can barely play any instruments, but says artists come to him because of “the confidence I have in my taste and my ability to express what I feel.” <a href="https://t.co/zLrPYRUjvs">https://t.co/zLrPYRUjvs</a> <a href="https://t.co/KRZWLCpSB2">pic.twitter.com/KRZWLCpSB2</a></p>&mdash; 60 Minutes (@60Minutes) <a href="https://twitter.com/60Minutes/status/1614785392456105985?ref_src=twsrc%5Etfw">January 16, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<aside class="x-post-card" aria-label="Post from 60 Minutes on X">
+  <blockquote class="x-post-card__quote" cite="https://x.com/60Minutes/status/1614785392456105985">
+    <p lang="en" dir="ltr">“I have no technical ability. And I know nothing about music.”<br><br>Music producer Rick Rubin says he can barely play any instruments, but says artists come to him because of “the confidence I have in my taste and my ability to express what I feel.” <a class="sr-only" href="https://t.co/zLrPYRUjvs">https://t.co/zLrPYRUjvs</a> <a class="sr-only" href="https://t.co/KRZWLCpSB2">pic.twitter.com/KRZWLCpSB2</a></p>
+  </blockquote>
+  <footer class="x-post-card__meta">
+    <cite class="x-post-card__author"><span aria-hidden="true">— </span>60 Minutes (@60Minutes)</cite>
+    <a class="x-post-card__date" href="https://x.com/60Minutes/status/1614785392456105985" rel="noopener noreferrer"><time datetime="2023-01-16">January 16, 2023</time></a>
+  </footer>
+</aside>
 
 Wait, what on Earth does Rubin actually do then? Is he one of those “I have an app idea” guys (it’s always a guy) who needs the talents of product developers who can actually build the app? Surely someone who hasn’t been a designer cannot have design taste because they haven’t spent hundreds of thousands of dollars to go to the Rhode Island School of Design, right? The answer is, Rubin is kind of like all these things, but he’s damn good at his job, which is having great taste, spotting talent, and popularizing it. Rubin represented artists such as the Beastie Boys, Run-DMC, Public Enemy, LL Cool J, Red Hot Chili Peppers, Rage Against the Machine, and the litany of legends go on.
 

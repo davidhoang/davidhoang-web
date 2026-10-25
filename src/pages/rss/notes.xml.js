@@ -2,25 +2,25 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
+import { rssEntriesForFeed } from '../../utils/rssFeed';
+import { RSS_TRAILING_SLASH, rssNoteItemPermalinks } from '../../utils/rssFeedItems';
 
 const md = new MarkdownIt();
 
 export async function GET(context) {
   const allNotes = await getCollection('notes');
-  const notes = (import.meta.env.PROD
-    ? allNotes.filter((note) => !note.data.draft)
-    : allNotes
-  ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const notes = rssEntriesForFeed(allNotes, { production: import.meta.env.PROD });
 
   return rss({
     title: 'David Hoang — Notes',
     description: 'Digital garden notes on design, AI, and building products.',
     site: context.site,
+    trailingSlash: RSS_TRAILING_SLASH,
     items: notes.map((note) => ({
+      ...rssNoteItemPermalinks(context.site, note.id),
       title: note.data.title,
       pubDate: note.data.pubDate,
       description: note.data.description || `A note on ${note.data.title}`,
-      link: `/notes/${note.id}/`,
       content: sanitizeHtml(md.render(note.body), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
       }),

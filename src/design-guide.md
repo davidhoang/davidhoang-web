@@ -561,7 +561,7 @@ Layout containers for content width control.
 <div class="grid grid-cols-4 gap-md">...</div>
 ```
 
-Note: Grid columns collapse to single column on mobile (< 768px).
+Note: Grid columns collapse to single column on phone (≤767px).
 
 ---
 

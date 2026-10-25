@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { parseYoutubeVideoId } from '../src/utils/youtube';
+import {
+  parseYoutubeVideoId,
+  youtubeNocookieEmbedUrl,
+  youtubeOpenGraphEmbedUrl,
+  youtubePosterUrl,
+} from '../src/utils/youtube';
 
 const ID = 'dQw4w9WgXcQ';
 
@@ -52,5 +57,33 @@ describe('parseYoutubeVideoId', () => {
 
   it('returns null for non-youtube URLs', () => {
     expect(parseYoutubeVideoId('https://example.com/watch?v=abc')).toBeNull();
+  });
+});
+
+describe('youtubeNocookieEmbedUrl', () => {
+  it('builds a nocookie embed URL', () => {
+    expect(youtubeNocookieEmbedUrl(ID)).toBe(
+      `https://www.youtube-nocookie.com/embed/${ID}`,
+    );
+  });
+
+  it('adds autoplay when requested', () => {
+    expect(youtubeNocookieEmbedUrl(ID, { autoplay: true })).toBe(
+      `https://www.youtube-nocookie.com/embed/${ID}?autoplay=1`,
+    );
+  });
+});
+
+describe('youtubePosterUrl', () => {
+  it('uses hqdefault poster art', () => {
+    expect(youtubePosterUrl(ID)).toBe(`https://i.ytimg.com/vi/${ID}/hqdefault.jpg`);
+  });
+});
+
+describe('youtubeOpenGraphEmbedUrl', () => {
+  it('uses the standard youtube.com embed URL for og:video', () => {
+    expect(youtubeOpenGraphEmbedUrl(ID)).toBe(
+      `https://www.youtube.com/embed/${ID}`,
+    );
   });
 });
