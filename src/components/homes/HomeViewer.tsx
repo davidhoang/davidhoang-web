@@ -69,8 +69,8 @@ export default function HomeViewer({ kind, modelUrl, posterUrl, name }: Props) {
           </svg>
         </button>
       </div>}
-      <figcaption className="home-viewer__caption"><h3 id={`${kind}-title`}>{name}</h3></figcaption>
     </div>
     <p id={`${kind}-instructions`} className="sr-only">{homeInstructions()}</p>
+    <figcaption className="home-viewer__caption home-viewer__caption--overlay"><h3 id={`${kind}-title`}>{name}</h3></figcaption>
   </figure>;
 }
