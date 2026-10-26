@@ -39,6 +39,8 @@ export function absoluteUrl(pathOrUrl: string, site: string = CANONICAL_SITE): s
   const base = site.replace(/\/+$/, '');
   const path = pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`;
   const normalized = path.length > 1 ? path.replace(/\/+$/, '') : path;
+  // trailingSlash: 'never' — root canonical matches sitemap (no trailing slash).
+  if (normalized === '/') return base;
   return `${base}${normalized}`;
 }
 
