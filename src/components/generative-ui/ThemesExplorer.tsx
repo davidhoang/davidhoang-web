@@ -476,7 +476,7 @@ export default function ThemesExplorer({ themes }: Props) {
       <h2 id="themes-archive-heading" className="sr-only">
         Theme archive
       </h2>
-      <div className="themes-explorer__grid" aria-labelledby="themes-archive-heading">
+      <div className="themes-explorer__grid" role="region" aria-labelledby="themes-archive-heading">
         {filtered.map((theme) => (
           <div
             key={theme.date}
