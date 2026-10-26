@@ -10,6 +10,16 @@ import {
   type HeroCardId,
 } from '../components/hero/types';
 import { resolveJevConfiguration } from './jevEditorialTriage';
+import {
+  appendHomeHeroDecision,
+  applyRecencyPenalty,
+  fetchHomeHeroHistory,
+  formatHomeHeroBuildContextDate,
+  isoDateOnly,
+  resolveLeadFromProbabilities,
+  writeHomeHeroHistoryFile,
+  type HomeHeroHistoryEntry,
+} from './homeHeroHistory';
 
 const heroQuestions = {
   leadCard: {
@@ -64,18 +74,38 @@ export interface HomeHeroCardPlan {
   cards: Card[];
   source: 'jev' | 'fallback';
   answers?: HomeHeroJevAnswers;
+  leadId?: HeroCardId;
+  leadProbabilities?: Partial<Record<HeroCardId, number>>;
+}
+
+export interface HomeHeroBuildOptions {
+  buildDate?: Date;
+  recentWritingTitles?: string[];
+  history?: HomeHeroHistoryEntry[];
+  skipHistoryWrite?: boolean;
+  projectRoot?: string;
 }
 
 const LEAD_CONFIDENCE_THRESHOLD = 0.55;
 const PERSONAL_CONTEXT_THRESHOLD = 0.6;
 const FALLBACK_LEAD: HeroCardId = 'config';
 
-export function selectHomeHeroCards(answers: HomeHeroJevAnswers): Card[] {
-  const selectedProbability = answers.leadCard.probabilities[answers.leadCard.choice] ?? 0;
+export function selectHomeHeroCards(
+  answers: HomeHeroJevAnswers,
+  options?: { history?: HomeHeroHistoryEntry[]; today?: string },
+): Card[] {
+  const today = options?.today;
+  const adjustedProbabilities =
+    options?.history?.length && today
+      ? applyRecencyPenalty(answers.leadCard.probabilities, options.history, today)
+      : answers.leadCard.probabilities;
+  const rankedChoice = resolveLeadFromProbabilities(
+    adjustedProbabilities,
+    answers.leadCard.choice,
+  );
+  const selectedProbability = adjustedProbabilities[rankedChoice] ?? 0;
   const leadId =
-    selectedProbability >= LEAD_CONFIDENCE_THRESHOLD
-      ? answers.leadCard.choice
-      : FALLBACK_LEAD;
+    selectedProbability >= LEAD_CONFIDENCE_THRESHOLD ? rankedChoice : FALLBACK_LEAD;
   const featureCount = answers.detailLevel.score >= 1.5 ? 2 : 1;
   const usePersonalContext =
     answers.showPersonalContext.probability >= PERSONAL_CONTEXT_THRESHOLD;
@@ -84,8 +114,7 @@ export function selectHomeHeroCards(answers: HomeHeroJevAnswers): Card[] {
     .filter((source) => source.id !== leadId)
     .sort((left, right) => {
       const probabilityDelta =
-        (answers.leadCard.probabilities[right.id] ?? 0) -
-        (answers.leadCard.probabilities[left.id] ?? 0);
+        (adjustedProbabilities[right.id] ?? 0) - (adjustedProbabilities[left.id] ?? 0);
       return probabilityDelta || left.id.localeCompare(right.id);
     })
     .slice(0, featureCount)
@@ -106,15 +135,34 @@ export function selectHomeHeroCards(answers: HomeHeroJevAnswers): Card[] {
   });
 }
 
+export interface HomeHeroEvaluationContext {
+  buildDate: Date;
+  recentWritingTitles: string[];
+  history: HomeHeroHistoryEntry[];
+}
+
 export async function evaluateHomeHeroCards(
   model: EvaluationModel,
+  context: HomeHeroEvaluationContext,
 ): Promise<HomeHeroCardPlan> {
+  const { date, weekday } = formatHomeHeroBuildContextDate(context.buildDate);
+  const today = isoDateOnly(context.buildDate);
+  const recentLeadHistory = context.history.map(({ date: historyDate, lead, source }) => ({
+    date: historyDate,
+    lead,
+    source,
+  }));
+
   const result = await evaluate({
     model,
     state: {
       site: 'davidhoang.com',
       surface: 'home-page hero card stack',
       audience: 'first-time and returning visitors',
+      date,
+      weekday,
+      recentWritingTitles: context.recentWritingTitles,
+      recentLeadHistory,
       candidates: heroCardSources.map(({ id, title, subtitle, description }) => ({
         id,
         title,
@@ -139,25 +187,78 @@ export async function evaluateHomeHeroCards(
     },
   };
 
+  const leadProbabilities = applyRecencyPenalty(
+    answers.leadCard.probabilities,
+    context.history,
+    today,
+  );
+  const leadId = resolveLeadFromProbabilities(leadProbabilities, answers.leadCard.choice);
+
   return {
-    cards: selectHomeHeroCards(answers),
+    cards: selectHomeHeroCards(answers, { history: context.history, today }),
     source: 'jev',
     answers,
+    leadId,
+    leadProbabilities,
   };
 }
 
 export async function buildHomeHeroCards(
   environment: Record<string, string | undefined> = process.env,
+  options: HomeHeroBuildOptions = {},
 ): Promise<HomeHeroCardPlan> {
+  const buildDate = options.buildDate ?? new Date();
+  const today = isoDateOnly(buildDate);
+  const history =
+    options.history ?? (await fetchHomeHeroHistory(environment));
+  const recentWritingTitles = options.recentWritingTitles ?? [];
+
   const configuration = resolveJevConfiguration(environment);
   if (!configuration.model) {
-    return { cards: fallbackCards, source: 'fallback' };
+    const plan: HomeHeroCardPlan = { cards: fallbackCards, source: 'fallback', leadId: FALLBACK_LEAD };
+    persistHomeHeroHistory(plan, history, today, options);
+    return plan;
   }
 
   try {
-    return await evaluateHomeHeroCards(configuration.model);
+    const plan = await evaluateHomeHeroCards(configuration.model, {
+      buildDate,
+      recentWritingTitles,
+      history,
+    });
+    persistHomeHeroHistory(plan, history, today, options);
+    return plan;
   } catch (error) {
     console.warn('Jev home hero evaluation failed; using deterministic cards.', error);
-    return { cards: fallbackCards, source: 'fallback' };
+    const plan: HomeHeroCardPlan = { cards: fallbackCards, source: 'fallback', leadId: FALLBACK_LEAD };
+    persistHomeHeroHistory(plan, history, today, options);
+    return plan;
   }
 }
+
+function persistHomeHeroHistory(
+  plan: HomeHeroCardPlan,
+  history: HomeHeroHistoryEntry[],
+  today: string,
+  options: HomeHeroBuildOptions,
+): void {
+  if (options.skipHistoryWrite) return;
+
+  const lead = plan.leadId ?? FALLBACK_LEAD;
+  const probabilities =
+    plan.leadProbabilities ??
+    plan.answers?.leadCard.probabilities ??
+    {};
+  const entry: HomeHeroHistoryEntry = {
+    date: today,
+    lead,
+    probabilities,
+    source: plan.source,
+  };
+  writeHomeHeroHistoryFile(
+    appendHomeHeroDecision(history, entry),
+    options.projectRoot ?? process.cwd(),
+  );
+}
+
+export { applyRecencyPenalty } from './homeHeroHistory';

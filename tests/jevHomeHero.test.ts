@@ -6,6 +6,10 @@ import {
   selectHomeHeroCards,
   type HomeHeroJevAnswers,
 } from '../src/utils/jevHomeHero';
+import {
+  applyRecencyPenalty,
+  fetchHomeHeroHistory,
+} from '../src/utils/homeHeroHistory';
 
 const balancedAnswers: HomeHeroJevAnswers = {
   leadCard: {
@@ -77,6 +81,54 @@ describe('Jev home hero cards', () => {
     ]);
   });
 
+  it('applyRecencyPenalty flips the lead when yesterday pick had the top score', () => {
+    const today = '2026-10-26';
+    const probabilities = {
+      hatch: 0.55,
+      config: 0.4,
+      atlassian: 0.05,
+    };
+    const history = [
+      {
+        date: '2026-10-25',
+        lead: 'hatch' as const,
+        probabilities: { hatch: 0.7 },
+        source: 'jev' as const,
+      },
+    ];
+
+    const cards = selectHomeHeroCards(
+      {
+        ...balancedAnswers,
+        leadCard: {
+          choice: 'hatch',
+          probabilities,
+        },
+      },
+      { history, today },
+    );
+
+    expect(cards.find((card) => card.variant === 'spotlight')?.id).toBe('config');
+  });
+
+  it('applyRecencyPenalty leaves probabilities unchanged when history is empty', () => {
+    const probabilities = { hatch: 0.6, config: 0.4 };
+    expect(applyRecencyPenalty(probabilities, [], '2026-10-26')).toEqual(probabilities);
+    expect(applyRecencyPenalty(probabilities, undefined, '2026-10-26')).toEqual(probabilities);
+  });
+
+  it('fetchHomeHeroHistory returns empty history on failure or timeout', async () => {
+    await expect(
+      fetchHomeHeroHistory({}, async () => {
+        throw new Error('network down');
+      }),
+    ).resolves.toEqual([]);
+
+    await expect(
+      fetchHomeHeroHistory({}, async () => new Response('', { status: 503 })),
+    ).resolves.toEqual([]);
+  });
+
   it('evaluates the home hero through the typed Jev questions', async () => {
     const model = new Experimental_EvaluationMockModelV4({
       modelId: 'jev-home-test',
@@ -102,10 +154,65 @@ describe('Jev home hero cards', () => {
       }),
     });
 
-    const plan = await evaluateHomeHeroCards(model);
+    const plan = await evaluateHomeHeroCards(model, {
+      buildDate: new Date('2026-10-26T12:00:00.000Z'),
+      recentWritingTitles: [],
+      history: [],
+    });
 
     expect(plan.source).toBe('jev');
     expect(plan.answers).toEqual(balancedAnswers);
     expect(plan.cards.find((card) => card.id === 'hatch')?.variant).toBe('spotlight');
+  });
+
+  it('includes build date and lead history in the Jev evaluation state', async () => {
+    let capturedState: Record<string, unknown> | undefined;
+    const model = new Experimental_EvaluationMockModelV4({
+      modelId: 'jev-home-context-test',
+      doEvaluate: async ({ state }) => {
+        capturedState = state as Record<string, unknown>;
+        return {
+          answers: {
+            leadCard: {
+              type: 'choice',
+              choice: 'hatch',
+              probabilities: balancedAnswers.leadCard.probabilities,
+            },
+            detailLevel: {
+              type: 'score',
+              score: balancedAnswers.detailLevel.score,
+              probabilities: balancedAnswers.detailLevel.probabilities,
+            },
+            showPersonalContext: {
+              type: 'boolean',
+              probability: balancedAnswers.showPersonalContext.probability,
+            },
+          },
+          warnings: [],
+          response: { modelId: 'jev-home-context-test' },
+        };
+      },
+    });
+
+    const buildDate = new Date('2026-10-26T12:00:00.000Z');
+    await evaluateHomeHeroCards(model, {
+      buildDate,
+      recentWritingTitles: ['Latest post', 'Second post', 'Third post'],
+      history: [
+        {
+          date: '2026-10-25',
+          lead: 'config',
+          probabilities: { config: 0.8 },
+          source: 'jev',
+        },
+      ],
+    });
+
+    expect(capturedState).toMatchObject({
+      date: buildDate.toISOString(),
+      weekday: 'Monday',
+      recentWritingTitles: ['Latest post', 'Second post', 'Third post'],
+      recentLeadHistory: [{ date: '2026-10-25', lead: 'config', source: 'jev' }],
+    });
   });
 });
