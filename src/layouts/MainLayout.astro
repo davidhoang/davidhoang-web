@@ -9,7 +9,12 @@ import Analytics from '@vercel/analytics/astro';
 import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
-import { absoluteUrl, buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
+import {
+  absoluteUrl,
+  buildSiteGraphJsonLd,
+  DEFAULT_PAGE_ROBOTS,
+  SITE_DESCRIPTION,
+} from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
 
@@ -102,7 +107,7 @@ const {
   hideFooter = false,
   pageType,
   disableContentMoodFilter = false,
-  robots = 'index, follow',
+  robots = DEFAULT_PAGE_ROBOTS,
   containerClass = 'container',
 } = Astro.props;
 

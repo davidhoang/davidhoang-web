@@ -17,6 +17,9 @@ export const SITE_ALTERNATE_NAME = 'davidhoang.com';
 export const SITE_DESCRIPTION = 'The official website of David Hoang';
 export const SITE_LANGUAGE = 'en-US';
 
+/** Default `<meta name="robots">` for public indexable pages (matches MainLayout). */
+export const DEFAULT_PAGE_ROBOTS = 'index, follow';
+
 /** Stable portrait used on About — safe Person.image. */
 export const PERSON_IMAGE = `${CANONICAL_SITE}/images/img-david-sf.webp`;
 
