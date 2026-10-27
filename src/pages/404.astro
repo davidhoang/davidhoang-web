@@ -2,7 +2,12 @@
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
-<MainLayout title="404 — Page not found" description="The page you're looking for doesn't exist." hideFooter={true}>
+<MainLayout
+  title="404 — Page not found"
+  description="The page you're looking for doesn't exist."
+  hideFooter={true}
+  robots="noindex, follow"
+>
   <div class="not-found">
     <div class="error-code" aria-hidden="true">
       <span class="digit" style="--i:0">4</span>
