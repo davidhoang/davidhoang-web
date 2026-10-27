@@ -69,7 +69,13 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
           height="1200"
         />
       )}
-      <HeroImageShader client:visible src={image} alt={alt} priority={priority} />
+      <HeroImageShader
+        client:idle
+        src={image}
+        alt={alt}
+        priority={priority}
+        withStaticHeroImage
+      />
       <div class="page-header__copy">
         <h1 class="page-header__title">{title}</h1>
         {subtitle && <p class="page-header__subtitle page-header__subtitle--hero">{subtitle}</p>}

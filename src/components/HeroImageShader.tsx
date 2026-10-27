@@ -13,6 +13,8 @@ interface HeroImageShaderProps {
   src: string;
   alt: string;
   priority?: boolean;
+  /** PageHeader already renders an optimized hero image — avoid a duplicate <img>. */
+  withStaticHeroImage?: boolean;
 }
 
 function heroNeedsShaderOverlay(isDefaultTheme: boolean, currentShader: string) {
@@ -20,7 +22,12 @@ function heroNeedsShaderOverlay(isDefaultTheme: boolean, currentShader: string) 
   return currentShader === 'waves' || currentShader === 'paper' || currentShader === 'grain';
 }
 
-export default function HeroImageShader({ src, alt, priority = false }: HeroImageShaderProps) {
+export default function HeroImageShader({
+  src,
+  alt,
+  priority = false,
+  withStaticHeroImage = false,
+}: HeroImageShaderProps) {
   const [mounted, setMounted] = useState(false);
   const [isDefaultTheme, setIsDefaultTheme] = useState(true);
   const [currentShader, setCurrentShader] = useState<string>('halftone');
@@ -100,6 +107,20 @@ export default function HeroImageShader({ src, alt, priority = false }: HeroImag
       }}
     />
   );
+
+  if (withStaticHeroImage) {
+    if (
+      !mounted ||
+      isDefaultTheme ||
+      !heroNeedsShaderOverlay(isDefaultTheme, currentShader) ||
+      !Overlays
+    ) {
+      return null;
+    }
+    return (
+      <Overlays src={src} alt={alt} priority={priority} currentShader={currentShader} />
+    );
+  }
 
   if (!mounted) {
     return (
