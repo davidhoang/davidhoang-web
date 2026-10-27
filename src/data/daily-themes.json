@@ -1,6 +1,373 @@
 {
   "themes": [
     {
+      "name": "Fired Earth, Still Water",
+      "description": "A late-night riad courtyard rendered in mineral blue and terracotta — dense ornamental imagery breathing into deep, generous shadow.",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1008",
+          "--color-bg": "#F5EDE0",
+          "--color-link": "#2B5F8E",
+          "--color-link-hover": "#C04B2D",
+          "--color-border": "#C9B49A",
+          "--color-muted": "#6B5F4F",
+          "--color-sidebar-bg": "#EDE0CE",
+          "--color-nav-bg": "#F5EDE0",
+          "--color-nav-text": "#1C1008",
+          "--color-card-bg": "#EDE0CE"
+        },
+        "dark": {
+          "--color-text": "#EDE5D8",
+          "--color-bg": "#1A0F0A",
+          "--color-link": "#6BAED6",
+          "--color-link-hover": "#E07A55",
+          "--color-border": "#3A2518",
+          "--color-muted": "#948173",
+          "--color-sidebar-bg": "#221409",
+          "--color-nav-bg": "#1A0F0A",
+          "--color-nav-text": "#EDE5D8",
+          "--color-card-bg": "#221409"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.8",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.04em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
+        "borderWidth": "0px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "6rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#2B5F8E",
+          "#C04B2D",
+          "#F5EDE0"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-10-27",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fired Earth, Still Water",
+              "subtitle": "October 27, 2026"
+            },
+            "children": [
+              "s1"
+            ]
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "palette",
+              "s2",
+              "div1",
+              "hero-row",
+              "s3",
+              "meta",
+              "div2",
+              "s4",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A riad at 2 a.m. — mineral water pooled in tile, embers cooling in terracotta. Ornament so dense it becomes shadow. Shadow so deep it becomes ornament.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EDE0",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#C04B2D",
+                  "label": "Terracotta"
+                },
+                {
+                  "hex": "#2B5F8E",
+                  "label": "Mineral Blue"
+                },
+                {
+                  "hex": "#C9B49A",
+                  "label": "Sand"
+                },
+                {
+                  "hex": "#6B5F4F",
+                  "label": "Ash"
+                },
+                {
+                  "hex": "#1C1008",
+                  "label": "Char"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "ts1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "ts1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Courtyard, Midnight",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "triadic",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "hero-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "grid"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "grid": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "tc",
+              "b4"
+            ]
+          },
+          "tc": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Stone remembers heat long after the fire has moved on.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "Color-only"
+                },
+                {
+                  "label": "Radius",
+                  "value": "16px"
+                },
+                {
+                  "label": "Images",
+                  "value": "Vivid / Hover Lift"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s4": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EDE0"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#2B5F8E"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#C04B2D"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#EDE0CE"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#1C1008"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Fired Earth, Still Water",
+              "action": "apply-theme",
+              "date": "2026-10-27"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Midnight Dispatch",
       "description": "A late-night editorial journal rendered in deep navy and acid aqua — the ghost of a glowing CRT distilled into precise print hierarchy.",
       "colors": {
@@ -2123,355 +2490,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Shadow Mass",
-      "description": "Brutalist poster energy rendered in deep umber and raw structural weight — heavy type against intimate dark, a single warm accent cutting through like a found frequency.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1209",
-          "--color-bg": "#EDE5D8",
-          "--color-link": "#944A00",
-          "--color-link-hover": "#8C4400",
-          "--color-border": "#1C1209",
-          "--color-muted": "#6B5C47",
-          "--color-sidebar-bg": "#E4D9C8",
-          "--color-nav-bg": "#EDE5D8",
-          "--color-nav-text": "#1C1209",
-          "--color-card-bg": "#E6DDD0"
-        },
-        "dark": {
-          "--color-text": "#F0E6D3",
-          "--color-bg": "#1C1410",
-          "--color-link": "#D97A20",
-          "--color-link-hover": "#F0A050",
-          "--color-border": "#F0E6D3",
-          "--color-muted": "#968270",
-          "--color-sidebar-bg": "#221A14",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F0E6D3",
-          "--color-card-bg": "#241C16"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Anton",
-          "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-          "category": "display",
-          "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Vollkorn",
-          "url": "https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Vollkorn', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.04em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "3px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#1C1410",
-          "#D97A20"
-        ]
-      },
-      "font": {
-        "name": "Anton",
-        "url": "https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap",
-        "category": "display",
-        "stack": "'Anton', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-20",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Shadow Mass",
-              "subtitle": "2026-10-20 — Brutalist Daily"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Heavy type. Found frequency. No decoration survives this structure.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "heading",
-              "badge-row"
-            ]
-          },
-          "heading": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SHADOW MASS",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display · Anton",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "hero"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1209",
-                  "label": "Char"
-                },
-                {
-                  "hex": "#EDE5D8",
-                  "label": "Bone"
-                },
-                {
-                  "hex": "#944A00",
-                  "label": "Ember"
-                },
-                {
-                  "hex": "#6B5C47",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#E6DDD0",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#D97A20",
-                  "label": "Signal"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial Hero"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Radius",
-                  "value": "0px"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Brutalist"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-text",
-                  "value": "#1C1209"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#EDE5D8"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#944A00"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#6B5C47"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "0px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Shadow Mass",
-              "action": "apply-theme",
-              "date": "2026-10-20"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-26"
+  "currentDate": "2026-10-27"
 }
