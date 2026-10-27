@@ -9,7 +9,7 @@ const hasThemes = themes.length > 0;
 {hasThemes && (
   <div class="daily-theme-toggle">
     <!-- Calendar before FAB in DOM so the button paints on top (closed panel was stealing hits). -->
-    <div id="theme-calendar" class="theme-calendar" role="dialog" aria-label="Theme calendar">
+    <div id="theme-calendar" class="theme-calendar" role="dialog" aria-modal="false" aria-label="Theme calendar">
       <div class="calendar-header">
         <span class="calendar-title">Daily themes</span>
         <a class="calendar-hub-link" href="/experiments">All experiments</a>
@@ -101,6 +101,8 @@ const hasThemes = themes.length > 0;
       id="daily-theme-toggle"
       data-daily-theme-trigger
       aria-label="Toggle daily AI theme"
+      aria-controls="theme-calendar"
+      aria-expanded="false"
       aria-pressed="false"
       title="Toggle Daily AI Theme"
     >
@@ -201,6 +203,40 @@ const hasThemes = themes.length > 0;
     });
   }
 
+  const CALENDAR_FOCUSABLE =
+    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function getCalendarFocusables(cal) {
+    return Array.from(cal.querySelectorAll(CALENDAR_FOCUSABLE)).filter(
+      (el) => el instanceof HTMLElement && el.offsetParent !== null,
+    );
+  }
+
+  /** Sync open state, modal semantics, and keyboard entry focus for the theme calendar dialog. */
+  function setCalendarOpen(open, options = {}) {
+    const restoreFocus = options.restoreFocus === true;
+    const cal = document.getElementById('theme-calendar');
+    const toggleBtn = document.getElementById('daily-theme-toggle');
+    const closeBtn = document.getElementById('close-calendar');
+    if (!cal || !toggleBtn) return;
+
+    cal.classList.toggle('open', open);
+    cal.setAttribute('aria-modal', open ? 'true' : 'false');
+    toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+    if (open) {
+      requestAnimationFrame(() => {
+        const focusTarget =
+          closeBtn instanceof HTMLElement
+            ? closeBtn
+            : getCalendarFocusables(cal).find((el) => el instanceof HTMLElement);
+        focusTarget?.focus({ preventScroll: true });
+      });
+    } else if (restoreFocus) {
+      toggleBtn.focus();
+    }
+  }
+
   /**
    * pointerdown + capture: runs before click handlers (e.g. command palette) and before the
    * closed calendar can participate in hit-testing quirks. Toggle uses pointerdown so we still
@@ -221,13 +257,13 @@ const hasThemes = themes.length > 0;
 
         if (e.target.closest('[data-daily-theme-trigger]')) {
           e.stopPropagation();
-          cal.classList.toggle('open');
+          setCalendarOpen(!cal.classList.contains('open'));
           return;
         }
 
         if (!cal.classList.contains('open')) return;
         if (cal.contains(e.target)) return;
-        cal.classList.remove('open');
+        setCalendarOpen(false, { restoreFocus: true });
       },
       true
     );
@@ -240,11 +276,37 @@ const hasThemes = themes.length > 0;
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       const cal = document.getElementById('theme-calendar');
-      const tb = document.getElementById('daily-theme-toggle');
       if (!cal || !cal.classList.contains('open')) return;
       e.preventDefault();
-      cal.classList.remove('open');
-      tb?.focus();
+      setCalendarOpen(false, { restoreFocus: true });
+    });
+  }
+
+  function bindDailyThemeTabTrapOnce() {
+    if (globalThis.__dhDailyThemeTabTrap) return;
+    globalThis.__dhDailyThemeTabTrap = true;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const cal = document.getElementById('theme-calendar');
+      if (!cal?.classList.contains('open')) return;
+
+      const focusables = getCalendarFocusables(cal);
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+
+      if (e.shiftKey) {
+        if (active === first || !cal.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !cal.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
 
@@ -254,7 +316,7 @@ const hasThemes = themes.length > 0;
     globalThis.__dhDailyThemeNavigationClose = true;
 
     document.addEventListener('astro:before-swap', () => {
-      document.getElementById('theme-calendar')?.classList.remove('open');
+      setCalendarOpen(false);
     });
   }
 
@@ -307,7 +369,7 @@ const hasThemes = themes.length > 0;
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        calendar.classList.remove('open');
+        setCalendarOpen(false, { restoreFocus: true });
       });
     }
 
@@ -764,6 +826,7 @@ const hasThemes = themes.length > 0;
 
   bindDailyThemePointerDelegationOnce();
   bindDailyThemeEscapeOnce();
+  bindDailyThemeTabTrapOnce();
   bindDailyThemeNavigationCloseOnce();
 
   function scheduleInitDailyTheme() {
