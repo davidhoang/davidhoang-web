@@ -8,7 +8,9 @@ import {
 } from '../src/utils/jevHomeHero';
 import {
   applyRecencyPenalty,
+  buildHomeHeroHistoryFetchUrl,
   fetchHomeHeroHistory,
+  HOME_HERO_HISTORY_FETCH_TIMEOUT_MS,
 } from '../src/utils/homeHeroHistory';
 
 const balancedAnswers: HomeHeroJevAnswers = {
@@ -127,6 +129,27 @@ describe('Jev home hero cards', () => {
     await expect(
       fetchHomeHeroHistory({}, async () => new Response('', { status: 503 })),
     ).resolves.toEqual([]);
+  });
+
+  it('fetchHomeHeroHistory bypasses caches when requesting production history', async () => {
+    const expectedUrl = buildHomeHeroHistoryFetchUrl('https://www.davidhoang.com', 1_700_000_000_000);
+    let requestUrl = '';
+    let requestInit: RequestInit | undefined;
+
+    await fetchHomeHeroHistory(
+      {},
+      async (input, init) => {
+        requestUrl = String(input);
+        requestInit = init;
+        return new Response(JSON.stringify({ decisions: [] }), { status: 200 });
+      },
+      HOME_HERO_HISTORY_FETCH_TIMEOUT_MS,
+      1_700_000_000_000,
+    );
+
+    expect(requestUrl).toBe(expectedUrl);
+    expect(requestInit?.cache).toBe('no-store');
+    expect(requestUrl).toContain('build=1700000000000');
   });
 
   it('evaluates the home hero through the typed Jev questions', async () => {

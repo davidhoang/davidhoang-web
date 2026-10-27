@@ -134,6 +134,15 @@ export function parseHomeHeroHistoryPayload(payload: unknown): HomeHeroHistoryEn
   );
 }
 
+export function buildHomeHeroHistoryFetchUrl(
+  origin: string,
+  cacheBust = Date.now(),
+): string {
+  const url = new URL(HOME_HERO_HISTORY_PUBLIC_PATH, `${origin}/`);
+  url.searchParams.set('build', String(cacheBust));
+  return url.toString();
+}
+
 export function resolveHomeHeroHistoryOrigin(
   environment: Record<string, string | undefined> = process.env,
 ): string {
@@ -152,14 +161,16 @@ export async function fetchHomeHeroHistory(
   environment: Record<string, string | undefined> = process.env,
   fetchImpl: typeof fetch = fetch,
   timeoutMs = HOME_HERO_HISTORY_FETCH_TIMEOUT_MS,
+  cacheBust = Date.now(),
 ): Promise<HomeHeroHistoryEntry[]> {
   const origin = resolveHomeHeroHistoryOrigin(environment);
-  const url = `${origin}${HOME_HERO_HISTORY_PUBLIC_PATH}`;
+  const url = buildHomeHeroHistoryFetchUrl(origin, cacheBust);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const response = await fetchImpl(url, {
+      cache: 'no-store',
       signal: controller.signal,
       headers: { accept: 'application/json' },
     });
