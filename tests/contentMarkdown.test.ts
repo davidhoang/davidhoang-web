@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   buildContentMarkdown,
@@ -135,6 +135,21 @@ describe('contentMarkdown', () => {
     expect(vercel).toContain('text/markdown; charset=utf-8');
     expect(vercel).toContain('"source": "/poc-ventures.md"');
     expect(vercel).toContain('"destination": "/investing"');
+  });
+
+  it('prerenders /bio.md from src/content/bio.md for agent-friendly About copy', () => {
+    const endpoint = readFileSync(join(ROOT, 'src/pages/bio.md.ts'), 'utf8');
+    const about = readFileSync(join(ROOT, 'src/pages/about.astro'), 'utf8');
+
+    expect(endpoint).toContain("join(process.cwd(), 'src/content/bio.md')");
+    expect(about).toContain('rel="alternate"');
+    expect(about).toContain('type="text/markdown"');
+    expect(about).toContain('href="/bio.md"');
+
+    const htmlPath = join(ROOT, 'dist/client/bio.md');
+    expect(existsSync(htmlPath)).toBe(true);
+    const body = readFileSync(htmlPath, 'utf8');
+    expect(body).toContain('## Medium');
   });
 
   it('serves repo-root markdown before Astro routeGuard so /design.md is not a 404', () => {

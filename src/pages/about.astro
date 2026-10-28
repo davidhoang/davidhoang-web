@@ -87,6 +87,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 ---
 
 <MainLayout title="About" description={pageDescription} ogImage={ogImage}>
+  <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href="/bio.md" />
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(profilePageJsonLd)} />
   <PageHeader
     title="About"
