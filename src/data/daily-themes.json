@@ -1,6 +1,394 @@
 {
   "themes": [
     {
+      "name": "Pale Sermon",
+      "description": "Art Nouveau's organic grammar etched into a structural index — botanical tracery on raw stone, dawn light filtered through stained membrane.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2C2418",
+          "--color-bg": "#EEE8DC",
+          "--color-link": "#76653B",
+          "--color-link-hover": "#4A7C6A",
+          "--color-border": "#C8BBA0",
+          "--color-muted": "#6C6457",
+          "--color-sidebar-bg": "#E6DDCC",
+          "--color-nav-bg": "#EEE8DC",
+          "--color-nav-text": "#2C2418",
+          "--color-card-bg": "#F2EDE4"
+        },
+        "dark": {
+          "--color-text": "#E8E0D0",
+          "--color-bg": "#1C1810",
+          "--color-link": "#B5A46A",
+          "--color-link-hover": "#7CB8A4",
+          "--color-border": "#3C3428",
+          "--color-muted": "#918A80",
+          "--color-sidebar-bg": "#221E14",
+          "--color-nav-bg": "#1C1810",
+          "--color-nav-text": "#E8E0D0",
+          "--color-card-bg": "#242018"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Karla",
+          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEE8DC",
+          "#C8BBA0"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-10-28",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Pale Sermon",
+              "subtitle": "Oct 28, 2026 — Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Botanical tracery pressed into raw stone. Dawn light held in stained membrane. Organic grammar made structural — a sermon in pale ink.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "hs",
+              "badges"
+            ]
+          },
+          "hs": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Pale Sermon",
+              "variant": "heading",
+              "weight": "300"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif / sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "analogous",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "hero",
+              "shader"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EEE8DC",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#F2EDE4",
+                  "label": "card"
+                },
+                {
+                  "hex": "#C8BBA0",
+                  "label": "border"
+                },
+                {
+                  "hex": "#76653B",
+                  "label": "link"
+                },
+                {
+                  "hex": "#4A7C6A",
+                  "label": "hover"
+                },
+                {
+                  "hex": "#2C2418",
+                  "label": "text"
+                }
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "dot-grid",
+              "colors": [
+                "#EEE8DC",
+                "#C8BBA0"
+              ]
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "meta",
+              "layout",
+              "cap"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Link style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dots"
+                },
+                {
+                  "label": "Images",
+                  "value": "Muted / hover colorize"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Minimal"
+                }
+              ]
+            },
+            "children": []
+          },
+          "layout": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "A structural index of living things — traced in wax, pressed in morning.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#EEE8DC"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#76653B"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#4A7C6A"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "4px"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#6C6457"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Pale Sermon",
+              "action": "apply-theme",
+              "date": "2026-10-28"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Fired Earth, Still Water",
       "description": "A late-night riad courtyard rendered in mineral blue and terracotta — dense ornamental imagery breathing into deep, generous shadow.",
       "colors": {
@@ -2118,379 +2506,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Wet Folio",
-      "description": "A late-night reading room where rain-blurred lamplight falls across aged pages — dense scholarly type breathing inside generous margins, stillness made legible.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C1F14",
-          "--color-bg": "#F5EFE6",
-          "--color-link": "#8B3A62",
-          "--color-link-hover": "#6A2448",
-          "--color-border": "#D9CEBF",
-          "--color-muted": "#716456",
-          "--color-sidebar-bg": "#EDE5D8",
-          "--color-nav-bg": "#F5EFE6",
-          "--color-nav-text": "#2C1F14",
-          "--color-card-bg": "#EDE5D8"
-        },
-        "dark": {
-          "--color-text": "#E8DDD0",
-          "--color-bg": "#1C1410",
-          "--color-link": "#D4789A",
-          "--color-link-hover": "#E89BB8",
-          "--color-border": "#3A2D22",
-          "--color-muted": "#948578",
-          "--color-sidebar-bg": "#251A14",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#E8DDD0",
-          "--color-card-bg": "#251A14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Spectral",
-          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.88",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#1C1410",
-          "#251A14"
-        ]
-      },
-      "font": {
-        "name": "Spectral",
-        "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-21",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Wet Folio",
-              "subtitle": "October 21, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Rain against the window. A lamp. Pages that remember every hand that turned them. Stillness made legible.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "left-col",
-              "right-col"
-            ]
-          },
-          "left-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "heading-sample",
-              "body-sample",
-              "badge-row"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Scholarly Light",
-              "variant": "heading",
-              "weight": "regular"
-            },
-            "children": []
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Dense type breathing inside generous margins, each sentence a room of its own.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "right-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "shader-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan hero"
-            },
-            "children": []
-          },
-          "shader-prev": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#1C1410",
-                "#251A14"
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "palette",
-              "meta"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE6",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#EDE5D8",
-                  "label": "card"
-                },
-                {
-                  "hex": "#2C1F14",
-                  "label": "text"
-                },
-                {
-                  "hex": "#8B3A62",
-                  "label": "link"
-                },
-                {
-                  "hex": "#77695A",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#D9CEBF",
-                  "label": "border"
-                }
-              ]
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated underline"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Elevated · 4px radius"
-                },
-                {
-                  "label": "Palette",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "caption",
-              "apply"
-            ]
-          },
-          "caption": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Spectral · Crimson Text · Oct 21 2026",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Wet Folio",
-              "action": "apply-theme",
-              "date": "2026-10-21"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-27"
+  "currentDate": "2026-10-28"
 }
