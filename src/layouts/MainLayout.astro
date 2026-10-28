@@ -68,12 +68,9 @@ if (todayTheme) {
   Object.assign(ssrThemeAttrs, attrs);
 }
 
-// Map of every theme keyed by date — passed to the pre-paint script so it can swap
-// to the user's calendar selection before first paint (no flash of today's theme).
-const themesApplyMap: Record<string, ReturnType<typeof buildThemeApply>> = {};
-for (const t of (themesData as any).themes || []) {
-  themesApplyMap[t.date] = buildThemeApply(t);
-}
+// Full theme apply map is generated to /theme-apply-map.js (see theme-apply-map-plugin.mjs)
+// so HTML pages don't inline ~12KB+ of JSON. Cache-bust when themes archive changes.
+const themeApplyMapVersion = `${(themesData as any).currentDate || today}-${((themesData as any).themes || []).length}`;
 
 interface Props {
   title: string;
@@ -429,6 +426,9 @@ const ogVideoMeta = ogVideo
       }
     </style>
     
+    <!-- Blocking apply map: must run before the inline pre-paint script below. -->
+    <script is:inline src={`/theme-apply-map.js?v=${themeApplyMapVersion}`}></script>
+
     <!-- Apply theme and e-ink mode before paint to avoid flash.
          SSR bakes today's daily theme (light mode) into <html> style/attrs.
          This script handles: dark mode color swap, e-ink override, daily-off,
@@ -439,8 +439,8 @@ const ogVideoMeta = ogVideo
       ssrDarkColors: todayTheme?.colors?.dark || {},
       ssrThemeStyleKeys: ssrThemeStyle.map((s: string) => s.split(':')[0]),
       ssrDate: todayTheme?.date || today,
-      themesApplyMap,
     }}>
+      var themesApplyMap = (typeof window !== 'undefined' && window.__themesApplyMap) || {};
       // Apply user theme preferences (dark/e-ink/daily-off/calendar pick) to a given <html> root.
       // Used twice: against `document.documentElement` on initial load (pre-paint) and against
       // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).
