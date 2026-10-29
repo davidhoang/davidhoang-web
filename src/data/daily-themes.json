@@ -1,6 +1,353 @@
 {
   "themes": [
     {
+      "name": "Pixel Rain",
+      "description": "Wet-street geometry meets cool technical precision — a morning of sharp edges, triadic snap, and vivid color playing against crisp structure.",
+      "colors": {
+        "colorScheme": "triadic",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#0F1923",
+          "--color-bg": "#EBF5FB",
+          "--color-link": "#D10052",
+          "--color-link-hover": "#B8004A",
+          "--color-border": "#0F1923",
+          "--color-muted": "#4A6070",
+          "--color-sidebar-bg": "#D6EEF8",
+          "--color-nav-bg": "#EBF5FB",
+          "--color-nav-text": "#0F1923",
+          "--color-card-bg": "#D6EEF8"
+        },
+        "dark": {
+          "--color-text": "#E8F4FF",
+          "--color-bg": "#0A1628",
+          "--color-link": "#FF3A7E",
+          "--color-link-hover": "#FF6FA3",
+          "--color-border": "#2A4A6A",
+          "--color-muted": "#6A8EA8",
+          "--color-sidebar-bg": "#0D1F38",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#E8F4FF",
+          "--color-card-bg": "#0D1F38"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cabinet Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+          "category": "display",
+          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Manrope",
+          "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "-0.01em",
+        "headingLetterSpacing": "-0.04em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EBF5FB",
+          "#E8005A",
+          "#0A1628"
+        ]
+      },
+      "font": {
+        "name": "Cabinet Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+        "category": "display",
+        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-10-29",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Pixel Rain",
+              "subtitle": "2026-10-29 · Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "palette",
+              "div2",
+              "s2",
+              "meta",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Wet asphalt at dawn. Triadic voltage cutting through cool fog. Every edge is intentional, every color a deliberate strike.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "h1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Pixel Rain",
+              "variant": "heading",
+              "weight": "800"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "triadic",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EBF5FB",
+                  "label": "bg"
+                },
+                {
+                  "hex": "#D6EEF8",
+                  "label": "card"
+                },
+                {
+                  "hex": "#0F1923",
+                  "label": "text"
+                },
+                {
+                  "hex": "#D10052",
+                  "label": "link"
+                },
+                {
+                  "hex": "#4A6070",
+                  "label": "muted"
+                },
+                {
+                  "hex": "#0A1628",
+                  "label": "deep"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            }
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "dot-grid",
+              "colors": [
+                "#EBF5FB",
+                "#E8005A",
+                "#0A1628"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Cards",
+                  "value": "Outlined · 8px"
+                },
+                {
+                  "label": "Links",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dot grid"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#D10052"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#EBF5FB"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#0F1923"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "8px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Pixel Rain",
+              "action": "apply-theme",
+              "date": "2026-10-29"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Pale Sermon",
       "description": "Art Nouveau's organic grammar etched into a structural index — botanical tracery on raw stone, dawn light filtered through stained membrane.",
       "colors": {
@@ -2184,329 +2531,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Terrace Hour",
-      "description": "A Niemeyer terrace caught at dawn's first warmth — wide eaves, sculptural type, canopy green against terracotta dust, where generous shadows hold the cool interior before the heat arrives.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C3B2D",
-          "--color-bg": "#EDF4EE",
-          "--color-link": "#A44D24",
-          "--color-link-hover": "#9B3F17",
-          "--color-border": "#B8CCBA",
-          "--color-muted": "#596E5A",
-          "--color-sidebar-bg": "#E2EEE4",
-          "--color-nav-bg": "#EDF4EE",
-          "--color-nav-text": "#2C3B2D",
-          "--color-card-bg": "#E5EFE7"
-        },
-        "dark": {
-          "--color-text": "#D8ECD9",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#E07A45",
-          "--color-link-hover": "#F09060",
-          "--color-border": "#2A4030",
-          "--color-muted": "#6B9070",
-          "--color-sidebar-bg": "#111d1f",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#D8ECD9",
-          "--color-card-bg": "#121e20"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "DM Sans",
-          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "20px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "lift",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EDF4EE",
-          "#C05A2A"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-10-22",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Terrace Hour",
-              "subtitle": "October 22, 2026"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "meta-hero-row",
-              "div2",
-              "palette",
-              "div3",
-              "type-row",
-              "div4",
-              "bottom-row"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Wide eaves. Cool shadow. The moment before the heat arrives — Niemeyer in terracotta and canopy green, held in amber stillness.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "meta-hero-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "hero-block"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color only"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Filled · r20px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Gradient"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero-block": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic hero"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EDF4EE",
-                  "label": "Mist BG"
-                },
-                {
-                  "hex": "#E5EFE7",
-                  "label": "Card Fill"
-                },
-                {
-                  "hex": "#B8CCBA",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#596E5A",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#2C3B2D",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#A44D24",
-                  "label": "Terracotta"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "type-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Before the Heat Arrives",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "DM Sans carries the body — open, direct, unhurried in the cool interior.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "div4": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "bottom-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "apply-btn"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Fraunces serif",
-              "variant": "filled"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Analogous",
-              "variant": "outlined"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Editorial",
-              "variant": "outlined"
-            }
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Terrace Hour",
-              "action": "apply-theme",
-              "date": "2026-10-22"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-28"
+  "currentDate": "2026-10-29"
 }
