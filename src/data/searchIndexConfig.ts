@@ -64,7 +64,7 @@ export function isExcludedFromSearchIndex(input: string): boolean {
   if (EXACT_EXCLUDES.has(path)) return true;
   if (EXACT_INCLUDES.has(path)) return false;
   if (path === '/search-index.json' || path === '/llms.txt') return true;
-  if (path === '/design.md' || path === '/design-guide.md') return true;
+  if (path === '/design.md' || path === '/design-guide.md' || path === '/bio.md') return true;
   return SEARCH_INDEX_EXCLUDE_PATH_PREFIXES.some((prefix) => {
     if (prefix.endsWith('/')) {
       return path === prefix.slice(0, -1) || path.startsWith(prefix);

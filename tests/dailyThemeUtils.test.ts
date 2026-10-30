@@ -18,8 +18,9 @@ import {
 
 describe('resolveDailyTheme', () => {
   it('returns the theme for an exact date', () => {
-    const theme = resolveDailyTheme(dailyThemes.themes, '2026-10-23');
-    expect(theme?.date).toBe('2026-10-23');
+    const date = dailyThemes.currentDate;
+    const theme = resolveDailyTheme(dailyThemes.themes, date);
+    expect(theme?.date).toBe(date);
     expect(theme?.name).toBeTruthy();
   });
 

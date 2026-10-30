@@ -70,6 +70,7 @@ describe('search index policy (PC-40)', () => {
     expect(isExcludedFromSearchIndex('/llms.txt')).toBe(true);
     expect(isExcludedFromSearchIndex('/.well-known/agent.json')).toBe(true);
     expect(isExcludedFromSearchIndex('/design.md')).toBe(true);
+    expect(isExcludedFromSearchIndex('/bio.md')).toBe(true);
   });
 
   it('indexes the experiments hub while its children stay unlisted', () => {
