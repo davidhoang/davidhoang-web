@@ -55,6 +55,11 @@ describe('web-ready clay homes', () => {
     const palettePaths: string[] = commandPalettePages.map((page) => page.path);
     expect(palettePaths).not.toContain('/experiments/greco-diorama');
     expect(isExcludedFromSearchIndex('/experiments/greco-diorama')).toBe(true);
+    const pageSource = readFileSync(
+      new URL('../src/pages/experiments/greco-diorama.astro', import.meta.url),
+      'utf8',
+    );
+    expect(pageSource).toMatch(/robots="noindex,\s*follow"/);
   });
   it('retains Kai as a separate mesh with his vertex-painted tabby coat', () => {
     const { json } = readGlb('greco-court');
