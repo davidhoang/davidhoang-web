@@ -39,6 +39,24 @@ export function themeFontWeightsForRole(
   return [...weights].sort((a, b) => a - b);
 }
 
+function parseDiscreteFontWeights(wghtSpec: string): number[] | null {
+  if (wghtSpec.includes('..')) return null;
+  const weights = wghtSpec
+    .split(';')
+    .map((part) => parseInt(part.trim(), 10))
+    .filter((n) => !Number.isNaN(n));
+  return weights.length > 0 ? weights : null;
+}
+
+/** Pick required weights that exist in the catalog; if none match, keep the catalog weights. */
+function discreteWeightsForRequest(requiredWeights: number[], catalogWeights: number[]): number[] {
+  const sortedRequired = [...new Set(requiredWeights)].sort((a, b) => a - b);
+  const available = new Set(catalogWeights);
+  const matched = sortedRequired.filter((w) => available.has(w));
+  if (matched.length > 0) return matched;
+  return [...catalogWeights].sort((a, b) => a - b);
+}
+
 function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): string {
   const colonIndex = familyParam.indexOf(':');
   if (colonIndex === -1) return familyParam;
@@ -66,7 +84,9 @@ function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): strin
     if (wghtValue.includes('..')) {
       valueParts[wghtIndex] = `${min}..${max}`;
     } else {
-      valueParts[wghtIndex] = sorted.join(';');
+      const catalog = parseDiscreteFontWeights(wghtValue);
+      const picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;
+      valueParts[wghtIndex] = picked.join(';');
     }
     return `${name}:${axes}@${valueParts.join(',')}`;
   }
@@ -76,7 +96,9 @@ function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): strin
     return `${name}:wght@${min}..${max}`;
   }
 
-  return `${name}:wght@${sorted.join(';')}`;
+  const catalog = parseDiscreteFontWeights(wghtSpec);
+  const picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;
+  return `${name}:wght@${picked.join(';')}`;
 }
 
 /**
