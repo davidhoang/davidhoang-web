@@ -37,8 +37,7 @@ export default function HeroImageShader({
     setMounted(true);
 
     const checkTheme = () => {
-      const mode = localStorage.getItem('daily-theme-mode');
-      const isDefault = mode !== 'daily';
+      const isDefault = localStorage.getItem('daily-theme-mode') !== 'true';
       setIsDefaultTheme(isDefault);
 
       if (!isDefault) {

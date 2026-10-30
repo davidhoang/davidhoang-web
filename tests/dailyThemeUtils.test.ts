@@ -6,6 +6,7 @@ import {
   buildThemeApply,
   clampMinContentPadding,
 } from '../src/utils/dailyThemeApply';
+import { buildThemeApply as buildThemeApplyMjs } from '../scripts/lib/daily-theme-apply.mjs';
 import { resolveDailyTheme } from '../src/utils/dailyThemes';
 import {
   createClaudeApiUnavailableError,
@@ -55,6 +56,12 @@ describe('buildThemeApply', () => {
     expect(clampMinContentPadding('0.5rem')).toBe('1rem');
     expect(clampMinContentPadding('8px')).toBe('1rem');
     expect(clampMinContentPadding('1.5rem')).toBe('1.5rem');
+  });
+
+  it('matches the build-time JS apply map generator', () => {
+    for (const theme of dailyThemes.themes) {
+      expect(buildThemeApplyMjs(theme)).toEqual(buildThemeApply(theme));
+    }
   });
 });
 

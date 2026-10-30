@@ -119,7 +119,7 @@ const hasThemes = themes.length > 0;
 )}
 
 
-<script is:inline define:vars={{ themes, currentDate }}>
+<script is:inline define:vars={{ currentDate }}>
   // NOTE: This block is inlined into HTML as plain JS — no TypeScript (e.g. `as Foo`) or the whole script fails to parse and nothing runs.
   // Property maps — single source of truth for theme application and removal
   const THEME_PROPS = [
@@ -151,6 +151,34 @@ const hasThemes = themes.length > 0;
 
   function getNestedValue(obj, path) {
     return path.split('.').reduce((o, k) => o && o[k], obj);
+  }
+
+  function getThemeDataByDate(date) {
+    if (!date) return null;
+    const calendar = document.getElementById('theme-calendar');
+    if (!calendar) return null;
+    const btn = calendar.querySelector('.calendar-day[data-date="' + date + '"]');
+    if (!btn) return null;
+    const raw = btn.getAttribute('data-theme-data');
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getFirstThemeDate() {
+    const calendar = document.getElementById('theme-calendar');
+    if (!calendar) return null;
+    const btn = calendar.querySelector('.calendar-day[data-date]:not(.default-day):not(.e-ink-day)');
+    return btn ? btn.getAttribute('data-date') : null;
+  }
+
+  function hasThemeDate(date) {
+    if (!date) return false;
+    const calendar = document.getElementById('theme-calendar');
+    return !!(calendar && calendar.querySelector('.calendar-day[data-date="' + date + '"]'));
   }
 
   /** Daily themes must never set --content-padding below 1rem (flush text when .container side padding is zeroed for shaders). */
@@ -353,8 +381,9 @@ const hasThemes = themes.length > 0;
       }
 
       let selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
-      if (!selectedBtn && themes.length > 0) {
-        selectedBtn = calendar.querySelector(`[data-date="${themes[0].date}"]`);
+      if (!selectedBtn) {
+        const firstDate = getFirstThemeDate();
+        if (firstDate) selectedBtn = calendar.querySelector(`[data-date="${firstDate}"]`);
       }
       if (selectedBtn) selectedBtn.classList.add('selected');
     } else {
@@ -503,8 +532,11 @@ const hasThemes = themes.length > 0;
   }
 
   function applyDailyTheme(date) {
-    let themeData = themes.find(t => t.date === date);
-    if (!themeData && themes.length > 0) themeData = themes[0];
+    let themeData = getThemeDataByDate(date);
+    if (!themeData) {
+      const firstDate = getFirstThemeDate();
+      if (firstDate) themeData = getThemeDataByDate(firstDate);
+    }
     if (!themeData) return;
 
     const root = document.documentElement;
@@ -785,7 +817,7 @@ const hasThemes = themes.length > 0;
       const date = url.searchParams.get('theme');
       if (!date) return;
 
-      if (!themes.some(theme => theme.date === date)) {
+      if (!hasThemeDate(date)) {
         syncThemeQueryParam(null);
         return;
       }
