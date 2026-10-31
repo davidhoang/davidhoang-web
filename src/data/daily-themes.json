@@ -1,6 +1,388 @@
 {
   "themes": [
     {
+      "name": "Velvet Set",
+      "description": "A late-evening editorial theme drawn from the intimacy of a jazz club — oxblood warmth, tarnished brass accents, and a paced typographic rhythm between dense heading stacks and airy body prose.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "standard",
+        "light": {
+          "--color-text": "#2A1F1A",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#B5451B",
+          "--color-link-hover": "#8B2E0F",
+          "--color-border": "#D4B896",
+          "--color-muted": "#7E6756",
+          "--color-sidebar-bg": "#F5E6D3",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2A1F1A",
+          "--color-card-bg": "#F8EBD8"
+        },
+        "dark": {
+          "--color-text": "#EDE0CB",
+          "--color-bg": "#1C1410",
+          "--color-link": "#C9884A",
+          "--color-link-hover": "#DFA85C",
+          "--color-border": "#3D2E22",
+          "--color-muted": "#958275",
+          "--color-sidebar-bg": "#231812",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#EDE0CB",
+          "--color-card-bg": "#261C14"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Spectral",
+          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
+          "category": "serif",
+          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.85",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "6px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "grain"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "6px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#C9884A",
+          "#1C1410"
+        ]
+      },
+      "font": {
+        "name": "Spectral",
+        "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
+        "category": "serif",
+        "stack": "'Spectral', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-10-31",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Velvet Set",
+              "subtitle": "October 31, 2026 — Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "palette",
+              "div2",
+              "s2",
+              "s3",
+              "btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "The room is low-lit. Brass glints off lacquered wood. Type stacks dense and slow, then opens into air — like a phrase held one beat too long, perfectly.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hs",
+              "meta"
+            ]
+          },
+          "hs": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "hero",
+              "br"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Late Evening Editorial",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Stacked Fan Hero"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "elevated cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "magazine",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Spectral"
+                },
+                {
+                  "label": "Body",
+                  "value": "Source Serif 4"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Split-Complementary"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated Underline"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grain"
+                },
+                {
+                  "label": "Radius",
+                  "value": "6px"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Editorial"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "palette",
+              "tg"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "Background"
+                },
+                {
+                  "hex": "#2A1F1A",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#B5451B",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#D4B896",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#C9884A",
+                  "label": "Brass"
+                },
+                {
+                  "hex": "#7E6756",
+                  "label": "Muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tg": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF2E9"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#2A1F1A"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#B5451B"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#F8EBD8"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#7E6756"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "body-sample",
+              "shader"
+            ]
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Warmth is a design decision. So is silence between notes.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "grain",
+              "colors": [
+                "#C9884A",
+                "#1C1410",
+                "#FDF2E9"
+              ]
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Velvet Set",
+              "action": "apply-theme",
+              "date": "2026-10-31"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Slab & Canopy",
       "description": "A Niemeyer terrace frozen at peak afternoon: brutalist typography casts long shadows over a palette of canopy green, burnt terracotta, and cool turquoise pool water.",
       "colors": {
@@ -2242,346 +2624,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Red Buoy",
-      "description": "A Helsinki harbour study in controlled tension: fogged linen and tin-blue breathing room punctuated by a single warehouse-red that cuts through the mist like a signal flare.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C2226",
-          "--color-bg": "#EEF0F0",
-          "--color-link": "#CC2200",
-          "--color-link-hover": "#991800",
-          "--color-border": "#B8BEC4",
-          "--color-muted": "#636E77",
-          "--color-sidebar-bg": "#E4E8EA",
-          "--color-nav-bg": "#EEF0F0",
-          "--color-nav-text": "#1C2226",
-          "--color-card-bg": "#F5F6F6"
-        },
-        "dark": {
-          "--color-text": "#DDE3E7",
-          "--color-bg": "#141A1E",
-          "--color-link": "#E8634F",
-          "--color-link-hover": "#FF5533",
-          "--color-border": "#2E3A42",
-          "--color-muted": "#889299",
-          "--color-sidebar-bg": "#1A2228",
-          "--color-nav-bg": "#141A1E",
-          "--color-nav-text": "#DDE3E7",
-          "--color-card-bg": "#1E272E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Syne",
-          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Lora",
-          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Lora', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.8",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "8px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "glow",
-        "opacity": "0.92",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "marquee"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EEF0F0",
-          "#CC2200"
-        ]
-      },
-      "font": {
-        "name": "Syne",
-        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
-        "category": "sans-serif",
-        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-10-24",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Red Buoy",
-              "subtitle": "2026-10-24 — Helsinki Harbour Study"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "s1",
-              "s2",
-              "div2",
-              "meta",
-              "div3",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A single warehouse-red cuts through the fog. Everything else holds its breath.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EEF0F0",
-                  "label": "Fog Linen"
-                },
-                {
-                  "hex": "#1C2226",
-                  "label": "Harbour Dark"
-                },
-                {
-                  "hex": "#CC2200",
-                  "label": "Signal Red"
-                },
-                {
-                  "hex": "#B8BEC4",
-                  "label": "Tin Blue"
-                },
-                {
-                  "hex": "#636E77",
-                  "label": "Mist"
-                },
-                {
-                  "hex": "#F5F6F6",
-                  "label": "Card Frost"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "h1",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Red Buoy",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Syne",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "split-comp",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#EEF0F0",
-                "#CC2200"
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Scattered"
-                },
-                {
-                  "label": "Links",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Filled / r8px"
-                },
-                {
-                  "label": "Body",
-                  "value": "Lora (serif)"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Marquee"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "swatch-red",
-              "cap1"
-            ]
-          },
-          "swatch-red": {
-            "type": "ColorSwatch",
-            "props": {
-              "color": "#CC2200",
-              "label": "Signal Red"
-            },
-            "children": []
-          },
-          "cap1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "One flare. Enough.",
-              "variant": "caption",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Red Buoy",
-              "action": "apply-theme",
-              "date": "2026-10-24"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-30"
+  "currentDate": "2026-10-31"
 }
