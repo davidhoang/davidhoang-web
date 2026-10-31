@@ -3,11 +3,15 @@ import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ProofOfConceptIssueCanvas from '../components/subscribe/ProofOfConceptIssueCanvas';
-import { getProofOfConceptIssuesArchive } from '../utils/proofOfConceptIssues';
+import {
+  getProofOfConceptIssuesArchive,
+  mapProofOfConceptIssuesForCanvas,
+} from '../utils/proofOfConceptIssues';
 
 const pageDescription =
   'Proof of Concept — weekly newsletter on design, technology, and entrepreneurship. Free every Sunday.';
 const pocArchive = getProofOfConceptIssuesArchive();
+const pocCanvasIssues = mapProofOfConceptIssuesForCanvas(pocArchive);
 ---
 
 <MainLayout title="Subscribe" description={pageDescription}>
@@ -35,7 +39,7 @@ const pocArchive = getProofOfConceptIssuesArchive();
             </p>
           </div>
           <div class="subscribe-poc-canvas__stage">
-            <ProofOfConceptIssueCanvas client:visible archive={pocArchive} />
+            <ProofOfConceptIssueCanvas client:visible issues={pocCanvasIssues} />
           </div>
         </section>
       )}
