@@ -647,9 +647,9 @@ html[data-e-ink="true"] {
   background: radial-gradient(ellipse at top, var(--color-sidebar-bg) 0%, transparent 70%);
 }
 
-/* Home owns a subtle hero noise texture (.card-stack-section::before in
-   pages/home.css). Keep page-wide dots and grids from adding visual clutter
-   there — see "Background patterns" in design.md. */
+/* Home owns its own soft dot grid (.card-stack-section::before in
+   pages/home.css). Hide page-wide dots and grids there so a daily theme
+   does not stack a second pattern on the hero — see design.md. */
 html:has(.card-stack-section):is([data-bg-texture="dots"], [data-bg-texture="grid"])::before {
   display: none;
 }
