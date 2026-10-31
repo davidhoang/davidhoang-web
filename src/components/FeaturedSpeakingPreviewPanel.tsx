@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { getFeaturedSpeakingDetail } from '../data/featuredSpeakingDetails';
 import {
@@ -36,7 +36,7 @@ function clampPreviewPosition(
 export default function FeaturedSpeakingPreviewPanel() {
   const hideTimer = useRef<number | undefined>(undefined);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const [mounted] = useState(() => typeof document !== 'undefined');
   const [position, setPosition] = useState<PreviewPosition | undefined>();
   const previewState = useSyncExternalStore(
     subscribeFeaturedSpeakingPreview,
@@ -45,10 +45,6 @@ export default function FeaturedSpeakingPreviewPanel() {
   );
   const detail = previewState ? getFeaturedSpeakingDetail(previewState.key) : undefined;
   const visible = Boolean(detail && previewState);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useLayoutEffect(() => {
     if (!visible || !previewState || !panelRef.current) {
