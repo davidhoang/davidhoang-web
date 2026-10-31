@@ -131,7 +131,7 @@ const isLink = Boolean(href);
   }
 
   .texture-card :global(.texture-card__title) {
-    font-size: 1.1rem;
+    font-size: var(--body-size);
     font-weight: 700;
     font-family: var(--font-heading, var(--font-primary));
     letter-spacing: -0.02em;
@@ -141,7 +141,7 @@ const isLink = Boolean(href);
   }
 
   .texture-card :global(.texture-card__desc) {
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
     line-height: 1.5;
     color: var(--color-muted);
     margin: 0;
@@ -156,7 +156,7 @@ const isLink = Boolean(href);
     margin-top: auto;
     padding-top: 0.65rem;
     border-top: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
-    font-size: 0.72rem;
+    font-size: var(--text-eyebrow-size);
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.02em;
     color: color-mix(in srgb, var(--color-muted) 92%, var(--color-text) 8%);

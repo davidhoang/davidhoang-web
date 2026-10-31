@@ -107,7 +107,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   .featured-editorial__lede {
     margin: 0 0 calc(var(--spacing-lg) + var(--spacing-sm));
     max-width: 42rem;
-    font-size: 0.95rem;
+    font-size: var(--text-ui-size);
     line-height: 1.55;
     color: var(--color-muted);
     letter-spacing: var(--letter-spacing-body);
@@ -134,7 +134,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
   .speaking-inquiry__label {
     margin: 0 0 calc(var(--spacing-xs) + 0.1rem);
-    font-size: var(--text-eyebrow-size, 0.6875rem);
+    font-size: var(--text-eyebrow-size);
     font-weight: 600;
     letter-spacing: var(--text-eyebrow-tracking, 0.14em);
     text-transform: uppercase;
@@ -143,7 +143,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
   .speaking-inquiry__copy {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: var(--text-ui-size);
     line-height: 1.45;
     letter-spacing: var(--letter-spacing-body);
     color: var(--color-text);
@@ -219,7 +219,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .speaking-chronicle__when {
-    font-size: 0.8125rem;
+    font-size: var(--text-meta-size);
     line-height: 1.35;
     letter-spacing: var(--letter-spacing-caption);
     font-variant-numeric: tabular-nums;
@@ -281,7 +281,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     }
 
     .speaking-chronicle__when {
-      font-size: 0.75rem;
+      font-size: var(--text-xs-size);
       line-height: 1.3;
     }
 
@@ -290,7 +290,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     }
 
     .speaking-chronicle__title {
-      font-size: 1rem;
+      font-size: var(--text-ui-size);
       line-height: 1.5;
     }
 
@@ -329,7 +329,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     }
 
     .speaking-chronicle__year-num {
-      font-size: 1.15rem;
+      font-size: var(--prose-size);
       transform: none;
     }
   }

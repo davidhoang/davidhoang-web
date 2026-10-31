@@ -241,7 +241,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     margin: 0;
     padding: calc(var(--spacing-xs) - 0.05rem) calc(var(--spacing-sm) - calc(var(--spacing-xs) - 0.2rem));
     font-family: inherit;
-    font-size: 0.6875rem;
+    font-size: var(--text-eyebrow-size);
     font-weight: 500;
     letter-spacing: 0.01em;
     line-height: 1.3;
@@ -353,19 +353,19 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 
   .work-company {
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: var(--body-size);
     color: var(--color-text);
     flex-shrink: 0;
   }
 
   .work-role {
-    font-size: 1.05rem;
+    font-size: var(--body-size);
     color: var(--color-muted);
     flex-shrink: 0;
   }
 
   .work-years {
-    font-size: 1.05rem;
+    font-size: var(--body-size);
     color: var(--color-muted);
     margin-left: auto;
     flex-shrink: 0;
@@ -380,7 +380,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 
   .about-advising p {
     margin: 0;
-    font-size: 1.05rem;
+    font-size: var(--body-size);
     line-height: 1.65;
     color: var(--color-muted);
   }
@@ -398,7 +398,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
 
   @media (max-width: 767px) {
     .about-content p {
-      font-size: 1.15rem;
+      font-size: var(--prose-size);
       line-height: 1.75;
     }
 
@@ -407,7 +407,7 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     }
 
     .bio-pipe-segment {
-      font-size: 0.65625rem;
+      font-size: var(--text-eyebrow-size);
       padding: calc(var(--spacing-xs) - 0.1rem) calc(var(--spacing-xs) + 0.15rem);
     }
 
@@ -423,12 +423,12 @@ const defaultIndex = bioSections.findIndex(b => b.title.toLowerCase() === 'mediu
     }
 
     .work-company {
-      font-size: 1rem;
+      font-size: var(--text-ui-size);
     }
 
     .work-role,
     .work-years {
-      font-size: 0.95rem;
+      font-size: var(--text-caption-size);
     }
   }
 

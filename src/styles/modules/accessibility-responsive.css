@@ -116,18 +116,18 @@
   }
 
   h2 {
-    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-size: var(--h2-size-mobile);
     line-height: 1.2;
     letter-spacing: var(--letter-spacing-heading-lg);
   }
 
   h3 {
-    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-size: var(--h3-size-mobile);
     line-height: 1.25;
   }
 
   blockquote {
-    font-size: 1.2rem;
+    font-size: var(--section-heading-size);
     line-height: 1.65;
   }
 
@@ -177,7 +177,7 @@
   }
 
   .timeline-year {
-    font-size: 1rem;
+    font-size: var(--text-ui-size);
   }
 
 }

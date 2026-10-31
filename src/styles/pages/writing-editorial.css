@@ -46,7 +46,7 @@
 
 .writing-masthead__rss {
   flex-shrink: 0;
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   color: var(--color-muted);
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -65,7 +65,7 @@
 }
 
 .writing-toolbar__label {
-  font-size: 0.6875rem;
+  font-size: var(--text-eyebrow-size);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -94,7 +94,7 @@
   border: none;
   background: transparent;
   padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 0.8125rem;
+  font-size: var(--text-meta-size);
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--color-muted);
@@ -185,14 +185,14 @@
 }
 
 .writing-spotlight__meta {
-  font-size: 0.8125rem;
+  font-size: var(--text-meta-size);
   color: var(--color-muted);
   letter-spacing: 0.01em;
 }
 
 .writing-spotlight__tag {
   display: inline-block;
-  font-size: 0.6875rem;
+  font-size: var(--text-eyebrow-size);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -274,14 +274,14 @@
 }
 
 .writing-feed__deck {
-  font-size: 0.9375rem;
+  font-size: var(--text-ui-size);
   line-height: 1.55;
   color: var(--color-muted);
   margin: 0;
 }
 
 .writing-feed__meta {
-  font-size: 0.8125rem;
+  font-size: var(--text-meta-size);
   color: var(--color-muted);
   letter-spacing: 0.01em;
   margin-top: 0.15rem;
@@ -294,7 +294,7 @@
   text-align: center;
   color: var(--color-muted);
   padding: var(--spacing-xl) 0;
-  font-size: 0.9375rem;
+  font-size: var(--text-caption-size);
 }
 
 @media (hover: hover) {
