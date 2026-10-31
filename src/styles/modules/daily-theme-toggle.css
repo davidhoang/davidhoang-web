@@ -345,37 +345,6 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   text-decoration: underline;
 }
 
-/* Sound Toggle — compact icon button */
-
-.sound-toggle-btn {
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  min-height: 44px;
-  padding: var(--spacing-sm);
-  color: var(--color-muted);
-  border-radius: var(--radius-sm);
-  transition: color var(--duration-normal) var(--ease-standard);
-}
-
-.sound-toggle-btn:hover {
-  color: var(--color-text);
-}
-
-.sound-toggle-btn[aria-pressed="true"] {
-  color: var(--color-link);
-}
-
-.sound-toggle-btn[aria-pressed="true"] .sound-wave {
-  opacity: 1;
-}
-
-.sound-wave {
-  opacity: 0.4;
-}
-
 /* Responsive */
 
 @media (max-width: 767px) {
