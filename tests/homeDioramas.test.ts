@@ -23,6 +23,12 @@ describe('web-ready clay homes', () => {
       .find((directive: string[]) => directive[0] === 'script-src');
     expect(scriptSources).toContain("'wasm-unsafe-eval'");
     expect(scriptSources).not.toContain("'unsafe-eval'");
+
+    const connectSources = policy
+      .split(';')
+      .map((directive: string) => directive.trim().split(/\s+/))
+      .find((directive: string[]) => directive[0] === 'connect-src');
+    expect(connectSources).toContain('https://fonts.googleapis.com');
   });
   for (const name of ['greco-court', 'clocktower']) {
     it(`${name} stays self-contained, compressed and within the geometry budget`, () => {
