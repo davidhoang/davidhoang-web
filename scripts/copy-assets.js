@@ -54,3 +54,21 @@ if (existsSync(functionsAssetsDir) && existsSync(staticAssetsDir)) {
   console.log('Skipping asset copy (Vercel output directory not found)');
 }
 
+const homeHeroHistorySrc = join(rootDir, 'public/home-hero-history.json');
+const homeHeroHistoryDestinations = [
+  join(rootDir, '.vercel/output/static/home-hero-history.json'),
+  join(rootDir, 'dist/client/home-hero-history.json'),
+];
+
+if (existsSync(homeHeroHistorySrc)) {
+  for (const destination of homeHeroHistoryDestinations) {
+    const destinationDir = dirname(destination);
+    if (!existsSync(destinationDir)) continue;
+    try {
+      cpSync(homeHeroHistorySrc, destination, { force: true });
+    } catch (error) {
+      console.warn('Could not copy home hero history JSON:', error.message);
+    }
+  }
+}
+

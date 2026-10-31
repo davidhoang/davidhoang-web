@@ -6,6 +6,7 @@ import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
 import { siteBioMetaThirdPerson } from '../data/siteCopy';
+import { getCollection } from 'astro:content';
 import { buildHomeHeroCards } from '../utils/jevHomeHero';
 import { HOME_OG_PREVIEW } from '../utils/ogVideo';
 import '../styles/pages/home.css';
@@ -40,7 +41,15 @@ async function optimizePortfolioImage(src: ImageMetadata) {
 // instead of double download). Card thumbnails render as CSS background-image,
 // so a single right-sized variant is what we want; no srcset needed.
 const dhWebOptimized = await getImage({ src: dhWebLightAsset, width: 480, format: 'webp' });
-const homeHeroPlan = await buildHomeHeroCards();
+const writingPosts = await getCollection('writing');
+const recentWritingTitles = (import.meta.env.PROD
+  ? writingPosts.filter((post) => !post.data.draft)
+  : writingPosts
+)
+  .sort((left, right) => right.data.pubDate.valueOf() - left.data.pubDate.valueOf())
+  .slice(0, 3)
+  .map((post) => post.data.title);
+const homeHeroPlan = await buildHomeHeroCards(undefined, { recentWritingTitles });
 const atlassianHero = await getImage({ src: imgAtlassian, width: 640, format: 'webp' });
 const heroCards = homeHeroPlan.cards.map(card => card.id === 'atlassian'
   ? { ...card, heroImage: atlassianHero.src }
