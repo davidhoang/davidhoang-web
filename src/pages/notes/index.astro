@@ -141,7 +141,7 @@ const notesPlaceholderSketch =
   }
 
   .notes-intro__lede {
-    font-size: 1.1875rem;
+    font-size: var(--prose-size);
     line-height: 1.6;
     letter-spacing: var(--letter-spacing-body, 0.005em);
     color: var(--color-muted);
@@ -169,7 +169,7 @@ const notesPlaceholderSketch =
     display: inline-flex;
     align-items: center;
     gap: calc(var(--spacing-xs) + calc(var(--spacing-xs) - 0.125rem));
-    font-size: 0.8125rem;
+    font-size: var(--text-meta-size);
     color: var(--color-muted);
   }
 
@@ -191,7 +191,7 @@ const notesPlaceholderSketch =
   }
 
   .filter-pill__glyph {
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
     opacity: 0.85;
     margin-right: calc(var(--spacing-xs) + 0.1rem);
   }
@@ -219,7 +219,7 @@ const notesPlaceholderSketch =
 
   .notes-results-count {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
     color: var(--color-muted);
   }
 
@@ -240,7 +240,7 @@ const notesPlaceholderSketch =
     text-align: center;
     color: var(--color-muted);
     padding: var(--spacing-xl) var(--content-padding);
-    font-size: 0.9375rem;
+    font-size: var(--text-caption-size);
   }
 
   .no-results[hidden] {
@@ -253,7 +253,7 @@ const notesPlaceholderSketch =
 
   @media (max-width: 767px) {
     .notes-intro__lede {
-      font-size: 1.0625rem;
+      font-size: var(--body-size);
       line-height: 1.6;
     }
   }

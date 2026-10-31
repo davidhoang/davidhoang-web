@@ -6,7 +6,7 @@
   opacity: 1;
   position: relative;
   padding: var(--section-spacing, 4rem) 0;
-  font-size: 1rem;
+  font-size: var(--text-ui-size);
   font-family: var(--font-body);
   min-height: 100px;
   width: 100%;
@@ -76,7 +76,7 @@
 
 .footer-logo {
   font-family: var(--font-heading);
-  font-size: 1.35rem;
+  font-size: var(--lead-size);
   font-weight: 800;
   line-height: 1;
   color: var(--color-text);
@@ -86,7 +86,7 @@
 .footer-tagline {
   margin: 0;
   max-width: 28ch;
-  font-size: 0.95rem;
+  font-size: var(--text-ui-size);
   line-height: 1.5;
   color: var(--color-muted);
 }
@@ -96,7 +96,7 @@
 .footer-email-link:link {
   display: inline-flex;
   align-items: center;
-  font-size: 0.95rem;
+  font-size: var(--text-ui-size);
   font-weight: 500;
   color: var(--color-link);
   text-decoration: none;
@@ -111,7 +111,7 @@
 .footer-col__heading {
   position: relative;
   list-style: none;
-  font-size: 0.82rem;
+  font-size: var(--text-meta-size);
   font-family: var(--font-heading);
   font-weight: 700;
   margin: 0 0 var(--spacing-md);
@@ -158,7 +158,7 @@
 
 .footer-col li {
   margin-bottom: var(--spacing-xs);
-  font-size: 0.95rem;
+  font-size: var(--text-ui-size);
   font-family: var(--font-body);
   line-height: 1.45;
 }
@@ -229,7 +229,7 @@
 
 .footer-copyright {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--text-caption-size);
   font-family: var(--font-body);
   line-height: 1.55;
   color: var(--color-text);
@@ -252,7 +252,7 @@
 
 .footer-tools-footnote {
   margin: var(--spacing-sm) 0 0;
-  font-size: 0.7rem;
+  font-size: var(--text-eyebrow-size);
   line-height: 1.4;
   color: var(--color-muted);
   font-family: var(--font-body);
@@ -299,12 +299,8 @@
     max-width: 1920px;
   }
 
-  .footer-copyright {
-    font-size: 0.95rem;
-  }
-
   .footer-tools-footnote {
-    font-size: 0.75rem;
+    font-size: var(--text-xs-size);
   }
 }
 
@@ -341,7 +337,7 @@
 
 @media (max-width: 767px) {
   .site-footer {
-    font-size: 1.0625rem;
+    font-size: var(--body-size);
   }
 
   .footer-grid {
@@ -392,31 +388,21 @@
     padding-bottom: var(--spacing-sm);
   }
 
-  .footer-tagline {
-    font-size: 1rem;
-  }
-
   .footer-email-link {
-    font-size: 1rem;
     padding: var(--spacing-xs) 0;
   }
 
   .footer-col__heading {
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
     margin-bottom: 0;
   }
 
   .footer-col li {
-    font-size: 1rem;
     line-height: 1.5;
   }
 
-  .footer-copyright {
-    font-size: 0.9375rem;
-  }
-
   .footer-tools-footnote {
-    font-size: 0.8125rem;
+    font-size: var(--text-meta-size);
   }
 
   .site-footer a,

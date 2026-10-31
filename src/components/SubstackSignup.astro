@@ -124,7 +124,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     width: 100%;
     max-width: none;
     color: var(--color-muted);
-    font-size: 1.15rem;
+    font-size: var(--prose-size);
     line-height: 1.5;
   }
 
@@ -234,7 +234,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     color: var(--color-bg);
     border: none;
     border-radius: 999px;
-    font-size: 1.15rem;
+    font-size: var(--prose-size);
     font-weight: 600;
     font-family: var(--font-primary);
     cursor: pointer;
@@ -345,7 +345,7 @@ const showHeader = showTitle || Boolean(description?.trim());
   }
 
   .substack-signup.compact .signup-description {
-    font-size: 0.95rem;
+    font-size: var(--text-ui-size);
     margin-bottom: var(--spacing-md);
   }
 
@@ -360,7 +360,7 @@ const showHeader = showTitle || Boolean(description?.trim());
 
   .substack-signup.compact .subscribe-button {
     padding: calc(var(--spacing-sm) + var(--spacing-xs)) var(--spacing-lg);
-    font-size: 1rem;
+    font-size: var(--text-ui-size);
     box-shadow: none;
     width: 100%;
   }

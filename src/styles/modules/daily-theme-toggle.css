@@ -33,7 +33,7 @@ button#daily-theme-toggle {
   gap: var(--spacing-sm);
   height: 48px;
   font-family: var(--font-primary);
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   color: var(--color-text);
 }
 
@@ -136,7 +136,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 
 .calendar-title {
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   color: var(--color-text);
 }
 
@@ -147,7 +147,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
   margin-left: auto;
   margin-right: var(--spacing-sm);
   min-height: 44px;
-  font-size: 0.75rem;
+  font-size: var(--text-xs-size);
   font-weight: 500;
   color: var(--color-link);
   text-decoration: none;
@@ -199,7 +199,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 }
 
 .appearance-label {
-  font-size: 0.75rem;
+  font-size: var(--text-xs-size);
   font-weight: 600;
   color: var(--color-muted);
   text-transform: uppercase;
@@ -297,7 +297,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 }
 
 .day-number {
-  font-size: 0.75rem;
+  font-size: var(--text-xs-size);
   font-weight: 600;
   color: var(--color-text);
   line-height: 1;
@@ -327,7 +327,7 @@ button#daily-theme-toggle[aria-pressed="true"] .palette-icon {
 }
 
 .footer-text {
-  font-size: 0.625rem;
+  font-size: var(--text-eyebrow-size);
   color: var(--color-muted);
 }
 
