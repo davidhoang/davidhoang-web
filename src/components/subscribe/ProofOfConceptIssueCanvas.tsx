@@ -1,13 +1,13 @@
-import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import '@/styles/uselayouts-tailwind.css';
 import {
   LiquidGlassInfiniteGrid,
   type GridItem,
 } from '@/components/infinite-grid';
-import type { ProofOfConceptIssuesFile } from '@/utils/proofOfConceptIssues';
+import type { ProofOfConceptCanvasIssue } from '@/utils/proofOfConceptIssues';
 
 type Props = {
-  archive: ProofOfConceptIssuesFile;
+  issues: ProofOfConceptCanvasIssue[];
 };
 
 function subscribeReducedMotion(onStoreChange: () => void) {
@@ -24,7 +24,22 @@ function getReducedMotionServerSnapshot() {
   return false;
 }
 
-export default function ProofOfConceptIssueCanvas({ archive }: Props) {
+function CanvasPlaceholder() {
+  return (
+    <div
+      className="poc-infinite-grid poc-canvas-ssr-placeholder h-full w-full bg-[var(--color-bg)]"
+      aria-hidden="true"
+    />
+  );
+}
+
+export default function ProofOfConceptIssueCanvas({ issues }: Props) {
+  const [gridReady, setGridReady] = useState(false);
+
+  useEffect(() => {
+    setGridReady(true);
+  }, []);
+
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     getReducedMotionSnapshot,
@@ -33,24 +48,29 @@ export default function ProofOfConceptIssueCanvas({ archive }: Props) {
 
   const items = useMemo<GridItem[]>(
     () =>
-      archive.issues.map((issue) => ({
+      issues.map((issue) => ({
         id: issue.id,
         title: issue.title,
         subtitle: issue.subtitle ?? undefined,
         imageUrl: issue.coverImage,
         category: 'proof-of-concept',
       })),
-    [archive.issues],
+    [issues],
   );
 
   const onItemClick = useCallback(
     (item: GridItem) => {
-      const issue = archive.issues.find((entry) => entry.id === item.id);
+      const issue = issues.find((entry) => entry.id === item.id);
       if (!issue) return;
       window.open(issue.url, '_blank', 'noopener,noreferrer');
     },
-    [archive.issues],
+    [issues],
   );
+
+  // Infinite grid repeats every issue 9× for panning; defer until after hydration.
+  if (!gridReady) {
+    return <CanvasPlaceholder />;
+  }
 
   if (items.length === 0) {
     return (
