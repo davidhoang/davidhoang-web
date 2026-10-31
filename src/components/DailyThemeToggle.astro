@@ -661,6 +661,22 @@ const hasThemes = themes.length > 0;
     return Array.from(weights).sort((a, b) => a - b);
   }
 
+  function parseDiscreteFontWeights(wghtSpec) {
+    if (wghtSpec.indexOf('..') !== -1) return null;
+    var weights = wghtSpec.split(';').map(function (part) {
+      return parseInt(part.trim(), 10);
+    }).filter(function (n) { return !Number.isNaN(n); });
+    return weights.length > 0 ? weights : null;
+  }
+
+  function discreteWeightsForRequest(requiredWeights, catalogWeights) {
+    var sortedRequired = Array.from(new Set(requiredWeights)).sort(function (a, b) { return a - b; });
+    var available = new Set(catalogWeights);
+    var matched = sortedRequired.filter(function (w) { return available.has(w); });
+    if (matched.length > 0) return matched;
+    return catalogWeights.slice().sort(function (a, b) { return a - b; });
+  }
+
   function narrowGoogleFontStylesheetUrl(url, requiredWeights) {
     if (!url || url.indexOf('fonts.googleapis.com/css2') === -1) return url;
     if (!requiredWeights || requiredWeights.length === 0) return url;
@@ -693,7 +709,11 @@ const hasThemes = themes.length > 0;
       if (wghtValue.indexOf('..') !== -1) {
         valueParts[wghtIndex] = min + '..' + max;
       } else {
-        valueParts[wghtIndex] = sorted.join(';');
+        var catalogMulti = parseDiscreteFontWeights(wghtValue);
+        var pickedMulti = catalogMulti
+          ? discreteWeightsForRequest(sorted, catalogMulti)
+          : sorted;
+        valueParts[wghtIndex] = pickedMulti.join(';');
       }
       narrowedFamily = name + ':' + axes + '@' + valueParts.join(',');
     } else {
@@ -701,7 +721,9 @@ const hasThemes = themes.length > 0;
       if (wghtSpec.indexOf('..') !== -1) {
         narrowedFamily = name + ':wght@' + min + '..' + max;
       } else {
-        narrowedFamily = name + ':wght@' + sorted.join(';');
+        var catalog = parseDiscreteFontWeights(wghtSpec);
+        var picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;
+        narrowedFamily = name + ':wght@' + picked.join(';');
       }
     }
     parsed.searchParams.set('family', narrowedFamily);
