@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import '@/styles/uselayouts-tailwind.css';
 import {
   LiquidGlassInfiniteGrid,
@@ -24,7 +24,22 @@ function getReducedMotionServerSnapshot() {
   return false;
 }
 
+function CanvasPlaceholder() {
+  return (
+    <div
+      className="poc-infinite-grid poc-canvas-ssr-placeholder h-full w-full bg-[var(--color-bg)]"
+      aria-hidden="true"
+    />
+  );
+}
+
 export default function ProofOfConceptIssueCanvas({ issues }: Props) {
+  const [gridReady, setGridReady] = useState(false);
+
+  useEffect(() => {
+    setGridReady(true);
+  }, []);
+
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     getReducedMotionSnapshot,
@@ -52,14 +67,9 @@ export default function ProofOfConceptIssueCanvas({ issues }: Props) {
     [issues],
   );
 
-  // Infinite grid repeats every issue 9× for panning; skip that SSR payload on /subscribe.
-  if (typeof window === 'undefined') {
-    return (
-      <div
-        className="poc-infinite-grid poc-canvas-ssr-placeholder h-full w-full bg-[var(--color-bg)]"
-        aria-hidden="true"
-      />
-    );
+  // Infinite grid repeats every issue 9× for panning; defer until after hydration.
+  if (!gridReady) {
+    return <CanvasPlaceholder />;
   }
 
   if (items.length === 0) {
