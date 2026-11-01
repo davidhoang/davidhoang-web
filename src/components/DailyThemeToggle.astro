@@ -671,6 +671,11 @@ const hasThemes = themes.length > 0;
     return catalogWeights.slice().sort(function (a, b) { return a - b; });
   }
 
+  function formatWghtAxisValue(min, max) {
+    if (min === max) return String(min);
+    return min + '..' + max;
+  }
+
   function narrowGoogleFontStylesheetUrl(url, requiredWeights) {
     if (!url || url.indexOf('fonts.googleapis.com/css2') === -1) return url;
     if (!requiredWeights || requiredWeights.length === 0) return url;
@@ -701,7 +706,7 @@ const hasThemes = themes.length > 0;
       if (wghtIndex === -1) return url;
       var wghtValue = valueParts[wghtIndex] || '';
       if (wghtValue.indexOf('..') !== -1) {
-        valueParts[wghtIndex] = min + '..' + max;
+        valueParts[wghtIndex] = formatWghtAxisValue(min, max);
       } else {
         var catalogMulti = parseDiscreteFontWeights(wghtValue);
         var pickedMulti = catalogMulti
@@ -713,7 +718,7 @@ const hasThemes = themes.length > 0;
     } else {
       var wghtSpec = axisPart.replace(/^wght@/, '');
       if (wghtSpec.indexOf('..') !== -1) {
-        narrowedFamily = name + ':wght@' + min + '..' + max;
+        narrowedFamily = name + ':wght@' + formatWghtAxisValue(min, max);
       } else {
         var catalog = parseDiscreteFontWeights(wghtSpec);
         var picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;

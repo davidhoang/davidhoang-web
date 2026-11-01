@@ -57,6 +57,12 @@ function discreteWeightsForRequest(requiredWeights: number[], catalogWeights: nu
   return [...catalogWeights].sort((a, b) => a - b);
 }
 
+/** Google Fonts rejects degenerate variable ranges like `wght@700..700`; use a discrete weight instead. */
+function formatWghtAxisValue(min: number, max: number): string {
+  if (min === max) return String(min);
+  return `${min}..${max}`;
+}
+
 function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): string {
   const colonIndex = familyParam.indexOf(':');
   if (colonIndex === -1) return familyParam;
@@ -82,7 +88,7 @@ function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): strin
 
     const wghtValue = valueParts[wghtIndex] ?? '';
     if (wghtValue.includes('..')) {
-      valueParts[wghtIndex] = `${min}..${max}`;
+      valueParts[wghtIndex] = formatWghtAxisValue(min, max);
     } else {
       const catalog = parseDiscreteFontWeights(wghtValue);
       const picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;
@@ -93,7 +99,7 @@ function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): strin
 
   const wghtSpec = axisPart.replace(/^wght@/, '');
   if (wghtSpec.includes('..')) {
-    return `${name}:wght@${min}..${max}`;
+    return `${name}:wght@${formatWghtAxisValue(min, max)}`;
   }
 
   const catalog = parseDiscreteFontWeights(wghtSpec);
