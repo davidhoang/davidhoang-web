@@ -12,6 +12,7 @@ import { pageFade } from '../utils/pageTransitions';
 import { absoluteUrl, buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
+import { openGraphTypeForPageKind, resolveLayoutPageKind } from '../utils/pageMeta';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
@@ -114,14 +115,8 @@ const pageTitle = rawTitle.replace(/\s*[|\-–—]\s*David Hoang\s*$/i, '').trim
 // Append the brand unless the title already references the site name (e.g. home tagline).
 const fullTitle = /david hoang/i.test(pageTitle) ? pageTitle : `${pageTitle} — ${SITE_NAME}`;
 
-// Auto-detect page type from URL if not provided
-const detectedPageType = pageType || (() => {
-  const pathname = Astro.url.pathname;
-  if (pathname === '/' || pathname === '') return 'home';
-  if (pathname.includes('/writing/') || pathname.includes('/notes/')) return 'blog';
-  if (pathname.includes('/about')) return 'about';
-  return 'home';
-})();
+const detectedPageType = resolveLayoutPageKind(Astro.url.pathname, pageType);
+const openGraphType = openGraphTypeForPageKind(detectedPageType);
 
 // Get the canonical URL with fallback
 // Normalize: strip trailing slash (except for root "/") for consistent canonical URLs
@@ -192,7 +187,7 @@ const ogVideoMeta = ogVideo
     <meta name="robots" content={robots} />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content={detectedPageType === 'blog' ? 'article' : 'website'} />
+    <meta property="og:type" content={openGraphType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
