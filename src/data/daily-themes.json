@@ -1,6 +1,312 @@
 {
   "themes": [
     {
+      "name": "Harbour Tin",
+      "description": "Baltic winter light filtered through sea fog — tall cold type, duotone imagery, and a single red warehouse burning through the mist.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C2325",
+          "--color-bg": "#EEF1F2",
+          "--color-link": "#C8201A",
+          "--color-link-hover": "#9A1510",
+          "--color-border": "#B8C2C6",
+          "--color-muted": "#5D6A6F",
+          "--color-sidebar-bg": "#E4E9EB",
+          "--color-nav-bg": "#EEF1F2",
+          "--color-nav-text": "#1C2325",
+          "--color-card-bg": "#E8ECEE"
+        },
+        "dark": {
+          "--color-text": "#E2E8EA",
+          "--color-bg": "#111A1E",
+          "--color-link": "#E2625A",
+          "--color-link-hover": "#F05248",
+          "--color-border": "#2A3840",
+          "--color-muted": "#7A8B92",
+          "--color-sidebar-bg": "#172028",
+          "--color-nav-bg": "#111A1E",
+          "--color-nav-text": "#E2E8EA",
+          "--color-card-bg": "#192228"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Lora",
+          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Lora', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.05em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "16px",
+        "containerMaxWidth": "1180px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "zoom",
+        "opacity": "0.92",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEF1F2",
+          "#B8C2C6"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-11-01",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Harbour Tin",
+              "subtitle": "2026 · Nov 01"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "meta-hero",
+              "div2",
+              "pal",
+              "div3",
+              "type1",
+              "type2",
+              "bottom"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Baltic winter light filtered through sea fog. One red warehouse burns through the grey. Everything else holds its breath.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "meta-hero": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "hero-prev",
+              "meta"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Images",
+                  "value": "Duotone / Hover Zoom"
+                },
+                {
+                  "label": "Links",
+                  "value": "Color-only"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "High"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C2325",
+                  "label": "Depth"
+                },
+                {
+                  "hex": "#EEF1F2",
+                  "label": "Fog"
+                },
+                {
+                  "hex": "#C8201A",
+                  "label": "Warehouse"
+                },
+                {
+                  "hex": "#B8C2C6",
+                  "label": "Harbour"
+                },
+                {
+                  "hex": "#5D6A6F",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E4E9EB",
+                  "label": "Sidebar"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "type1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cold Light on Still Water",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "type2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "The fog does not lift — it simply becomes familiar.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "bottom": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "btn"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Syne / Lora",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Analogous",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Filled Cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Harbour Tin",
+              "action": "apply-theme",
+              "date": "2026-11-01"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Set",
       "description": "A late-evening editorial theme drawn from the intimacy of a jazz club — oxblood warmth, tarnished brass accents, and a paced typographic rhythm between dense heading stacks and airy body prose.",
       "colors": {
@@ -2228,403 +2534,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Lacquer & Rye",
-      "description": "A Japanese graphic poster sensibility at golden hour — lacquered vermilion meets warm rye field, rendered with the stark precision of a woodblock print.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1008",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#B63629",
-          "--color-link-hover": "#922B21",
-          "--color-border": "#1C1008",
-          "--color-muted": "#775F50",
-          "--color-sidebar-bg": "#F5E6D3",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#1C1008",
-          "--color-card-bg": "#F5E6D3"
-        },
-        "dark": {
-          "--color-text": "#F5E6D3",
-          "--color-bg": "#1C0F08",
-          "--color-link": "#E8523A",
-          "--color-link-hover": "#FF7055",
-          "--color-border": "#F5E6D3",
-          "--color-muted": "#9E7A68",
-          "--color-sidebar-bg": "#261408",
-          "--color-nav-bg": "#1C0F08",
-          "--color-nav-text": "#F5E6D3",
-          "--color-card-bg": "#261408"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Work Sans",
-          "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "split"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#C0392B",
-          "#FDF2E9"
-        ]
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-25",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Lacquer & Rye",
-              "subtitle": "2026-10-25 — Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Vermilion pressed into warm grain. The woodblock's edge, the harvest's glow — a poster that doesn't ask permission.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "left-col",
-              "right-col"
-            ]
-          },
-          "left-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "badges",
-              "pal"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "金 Lacquer Hour",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif / sans",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#B63629",
-                  "label": "Lacquer"
-                },
-                {
-                  "hex": "#FDF2E9",
-                  "label": "Rice Paper"
-                },
-                {
-                  "hex": "#1C1008",
-                  "label": "Sumi Ink"
-                },
-                {
-                  "hex": "#F5E6D3",
-                  "label": "Rye Field"
-                },
-                {
-                  "hex": "#775F50",
-                  "label": "Worn Wood"
-                },
-                {
-                  "hex": "#922B21",
-                  "label": "Deep Ember"
-                }
-              ]
-            },
-            "children": []
-          },
-          "right-col": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "shader-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial Hero"
-            },
-            "children": []
-          },
-          "shader-prev": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#C0392B",
-                "#FDF2E9"
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Editorial"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "[ Bracket ]"
-                },
-                {
-                  "label": "Image",
-                  "value": "Duotone / Hover Colorize"
-                },
-                {
-                  "label": "Radius",
-                  "value": "0px — Zero Mercy"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#B63629"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#FDF2E9"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#1C1008"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#775F50"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "body-sample",
-              "layout-prev"
-            ]
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Stark. Warm. Precise. The grid holds its line.",
-              "variant": "body",
-              "weight": "regular"
-            },
-            "children": []
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "split"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Lacquer & Rye",
-              "action": "apply-theme",
-              "date": "2026-10-25"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-10-31"
+  "currentDate": "2026-11-01"
 }
