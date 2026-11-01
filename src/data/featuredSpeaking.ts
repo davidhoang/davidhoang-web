@@ -17,6 +17,12 @@ export const featuredSpeaking: SpeakingYear[] = [
     year: '2026',
     entries: [
       {
+        meta: 'October',
+        title:
+          'Flexxi Studio with Allie Vogel: design leadership, AI, and design at Atlassian',
+        href: 'https://www.youtube.com/watch?v=eKGcVzJV2MQ',
+      },
+      {
         meta: 'May',
         title: 'Hatch Leadership Ateliers, Amsterdam',
         href: 'https://leadershipateliers.com/',
