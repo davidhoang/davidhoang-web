@@ -701,7 +701,7 @@ const hasThemes = themes.length > 0;
       if (wghtIndex === -1) return url;
       var wghtValue = valueParts[wghtIndex] || '';
       if (wghtValue.indexOf('..') !== -1) {
-        valueParts[wghtIndex] = min + '..' + max;
+        valueParts[wghtIndex] = min === max ? String(min) : min + '..' + max;
       } else {
         var catalogMulti = parseDiscreteFontWeights(wghtValue);
         var pickedMulti = catalogMulti
@@ -713,7 +713,8 @@ const hasThemes = themes.length > 0;
     } else {
       var wghtSpec = axisPart.replace(/^wght@/, '');
       if (wghtSpec.indexOf('..') !== -1) {
-        narrowedFamily = name + ':wght@' + min + '..' + max;
+        narrowedFamily =
+          min === max ? name + ':wght@' + min : name + ':wght@' + min + '..' + max;
       } else {
         var catalog = parseDiscreteFontWeights(wghtSpec);
         var picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;

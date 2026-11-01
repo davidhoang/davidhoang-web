@@ -82,7 +82,8 @@ function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): strin
 
     const wghtValue = valueParts[wghtIndex] ?? '';
     if (wghtValue.includes('..')) {
-      valueParts[wghtIndex] = `${min}..${max}`;
+      // Google Fonts rejects degenerate ranges like 700..700 (HTTP 400).
+      valueParts[wghtIndex] = min === max ? String(min) : `${min}..${max}`;
     } else {
       const catalog = parseDiscreteFontWeights(wghtValue);
       const picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;
@@ -93,7 +94,7 @@ function narrowFamilyAxis(familyParam: string, requiredWeights: number[]): strin
 
   const wghtSpec = axisPart.replace(/^wght@/, '');
   if (wghtSpec.includes('..')) {
-    return `${name}:wght@${min}..${max}`;
+    return min === max ? `${name}:wght@${min}` : `${name}:wght@${min}..${max}`;
   }
 
   const catalog = parseDiscreteFontWeights(wghtSpec);
