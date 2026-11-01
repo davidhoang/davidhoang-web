@@ -142,6 +142,24 @@
     margin-left: 0;
   }
 
+  /* Display type in the footer sits in the components layer, so these
+     utilities-layer p/blockquote rules would otherwise shrink it. */
+  .site-footer .footer-quote,
+  .site-footer .footer-quote p {
+    font-size: clamp(1.65rem, 7.2vw, 2.15rem);
+    line-height: 1.08;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  .site-footer .footer-wordmark {
+    font-size: 10.8cqi;
+    line-height: 0.92;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
   /* Headings use fluid typography via clamp() - no static overrides needed */
 
   :is(.hero-box, .hero-title) h1 {

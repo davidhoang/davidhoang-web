@@ -53,8 +53,18 @@
 [data-footer-style="brutalist"] .site-footer .footer-tagline,
 [data-footer-style="brutalist"] .site-footer .footer-copyright,
 [data-footer-style="brutalist"] .site-footer .footer-quote,
+[data-footer-style="brutalist"] .site-footer .footer-quote-attr,
 [data-footer-style="brutalist"] .site-footer .footer-tools-footnote {
   color: var(--color-bg);
+}
+
+[data-footer-style="brutalist"] .site-footer .footer-wordmark {
+  color: color-mix(in srgb, var(--color-bg) 42%, transparent);
+}
+
+[data-footer-style="brutalist"] .site-footer .footer-mast,
+[data-footer-style="brutalist"] .site-footer .footer-meta {
+  border-color: color-mix(in srgb, var(--color-bg) 35%, transparent);
 }
 
 [data-footer-style="brutalist"] .site-footer .footer-col__heading {
@@ -125,12 +135,23 @@
   margin: 0;
 }
 
-[data-footer-style="minimal"] .site-footer .footer-meta {
+[data-footer-style="minimal"] .site-footer .footer-mast {
+  align-items: center;
   text-align: center;
 }
 
-[data-footer-style="minimal"] .site-footer .footer-quote {
-  margin-inline: auto;
+[data-footer-style="minimal"] .site-footer .footer-quote-attr,
+[data-footer-style="minimal"] .site-footer .footer-wordmark {
+  text-align: center;
+}
+
+[data-footer-style="minimal"] .site-footer .footer-meta {
+  justify-content: center;
+  text-align: center;
+}
+
+[data-footer-style="minimal"] .site-footer .footer-col--dense ul {
+  columns: unset;
 }
 
 /* Inverted - sidebar background */
@@ -219,7 +240,10 @@
   font-family: var(--font-mono);
 }
 
-[data-footer-style="retro"] .site-footer .footer-logo {
+[data-footer-style="retro"] .site-footer .footer-logo,
+[data-footer-style="retro"] .site-footer .footer-wordmark,
+[data-footer-style="retro"] .site-footer .footer-quote {
   font-family: var(--font-mono);
+  font-style: normal;
 }
 
