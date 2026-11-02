@@ -197,12 +197,7 @@ export default function ThemesExplorer({ themes }: Props) {
   const [aiSpec, setAiSpec] = useState<Spec | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
-  const [activeDate, setActiveDate] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('daily-theme-date') || null;
-    }
-    return null;
-  });
+  const [activeDate, setActiveDate] = useState<string | null>(null);
   const [compareDates, setCompareDates] = useState<string[]>([]);
   const [highlightDate, setHighlightDate] = useState<string | null>(null);
   const [cardFeedback, setCardFeedback] = useState<Record<string, string>>({});
@@ -281,6 +276,10 @@ export default function ThemesExplorer({ themes }: Props) {
       window.setTimeout(() => setCompareShareCopied(false), 1800);
     }
   }, [compareDates]);
+
+  useEffect(() => {
+    setActiveDate(localStorage.getItem('daily-theme-date') || null);
+  }, []);
 
   useEffect(() => {
     const onApply = (event: Event) => {
