@@ -28,6 +28,18 @@ const SOURCE_SERIF_4_LATIN = SELF_HOSTED_LATIN['Source Serif 4'];
 
 const MAX_PRELOADS = 5;
 
+const HIGH_PRIORITY_FONT_FILES = ['ABCDiatypeVariable.woff2'];
+
+/** fetchpriority for a preloaded woff2 — home/index routes defer to image LCP. */
+export function fontPreloadFetchPriority(
+  pageType: PageType,
+  fontPath: string,
+): 'high' | undefined {
+  if (pageType === 'home') return undefined;
+  const fileName = fontPath.split('/').pop() || '';
+  return HIGH_PRIORITY_FONT_FILES.some((name) => fileName.includes(name)) ? 'high' : undefined;
+}
+
 export function getCriticalFonts(
   pageType: PageType = 'home',
   themeFontNames: string[] = [],
