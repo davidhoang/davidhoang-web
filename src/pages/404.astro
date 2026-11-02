@@ -2,7 +2,12 @@
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
-<MainLayout title="404 — Page not found" description="The page you're looking for doesn't exist." hideFooter={true}>
+<MainLayout
+  title="404 — Page not found"
+  description="The page you're looking for doesn't exist."
+  hideFooter={true}
+  robots="noindex, follow"
+>
   <div class="not-found">
     <div class="error-code" aria-hidden="true">
       <span class="digit" style="--i:0">4</span>
@@ -98,7 +103,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       padding: var(--spacing-sm) calc(var(--spacing-md) + var(--spacing-xs));
       border: 1px solid var(--color-border);
       border-radius: var(--radius-full);
-      font-size: 0.9rem;
+      font-size: var(--text-caption-size);
       transition:
         background-color var(--duration-fast) var(--ease-standard),
         border-color var(--duration-fast) var(--ease-standard),
@@ -189,7 +194,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 
       .suggestions a {
         padding: calc(var(--spacing-xs) + 0.15rem) var(--spacing-md);
-        font-size: 0.85rem;
+        font-size: var(--text-meta-size);
       }
     }
   </style>

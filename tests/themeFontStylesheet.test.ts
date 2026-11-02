@@ -26,6 +26,19 @@ describe('themeFontStylesheet (PCD-143)', () => {
     );
   });
 
+  it('keeps single-weight catalog fonts when requested weights are unavailable', () => {
+    const url =
+      'https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap';
+    expect(
+      familyParam(
+        themeFontStylesheetUrl({ url }, 'heading', {
+          headingWeight: '900',
+          bodyWeight: '400',
+        })!,
+      ),
+    ).toBe('Archivo+Black:wght@400');
+  });
+
   it('narrows Work Sans catalog URLs used by daily themes', () => {
     const url =
       'https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap';
@@ -37,6 +50,20 @@ describe('themeFontStylesheet (PCD-143)', () => {
   it('compresses variable wght ranges to the needed span', () => {
     const url = 'https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap';
     expect(familyParam(narrowGoogleFontStylesheetUrl(url, [700, 800]))).toBe('Syne:wght@700..800');
+  });
+
+  it('uses a discrete weight when variable narrowing collapses to one value (PCD-170)', () => {
+    const url = 'https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap';
+    expect(familyParam(narrowGoogleFontStylesheetUrl(url, [700]))).toBe('Syne:wght@700');
+    expect(
+      familyParam(
+        themeFontStylesheetUrl(
+          { url: 'https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap' },
+          'heading',
+          { headingWeight: '700', bodyWeight: '400' },
+        )!,
+      ),
+    ).toBe('Syne:wght@700');
   });
 
   it('leaves non-Google URLs untouched', () => {

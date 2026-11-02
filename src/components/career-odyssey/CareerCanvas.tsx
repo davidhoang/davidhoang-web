@@ -214,6 +214,7 @@ const CareerCanvas: React.FC<Props> = ({ careerData }) => {
       <div
         ref={containerRef}
         className={`career-odyssey-container${isPanning ? ' is-panning' : ''}`}
+        role="region"
         aria-labelledby="co-milestones-heading"
         onPointerDown={handleCanvasPointerDown}
         onPointerMove={handleCanvasPointerMove}

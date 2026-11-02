@@ -315,14 +315,14 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   }
 
   .note-stage-callout__icon {
-    font-size: 1.25rem;
+    font-size: var(--section-heading-size);
     flex-shrink: 0;
     line-height: 1.4;
     color: var(--color-muted);
   }
 
   .note-stage-callout p {
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
     color: var(--color-text);
     margin: 0;
     line-height: 1.55;
@@ -337,7 +337,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   }
 
   .note-meta-row {
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
     color: var(--color-muted);
     margin-bottom: 1rem;
   }
@@ -376,7 +376,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   }
 
   .note-section__empty {
-    font-size: 0.9375rem;
+    font-size: var(--text-caption-size);
     color: var(--color-muted);
     font-style: italic;
     margin: 0;
@@ -384,7 +384,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   }
 
   .note-section__lede {
-    font-size: 0.9375rem;
+    font-size: var(--text-ui-size);
     color: var(--color-muted);
     margin: 0 0 var(--spacing-md);
     line-height: 1.5;
@@ -392,7 +392,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
 
   .note-backlinks__desc {
     color: var(--color-muted);
-    font-size: 0.875rem;
+    font-size: var(--text-caption-size);
   }
 
   .note-section--overview .note-section__heading {
@@ -487,7 +487,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: var(--text-xs-size);
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--color-bg);
@@ -507,7 +507,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   .note-article .note-content :global(ol > li em) {
     display: inline;
     color: var(--color-muted);
-    font-size: 0.9375rem;
+    font-size: var(--text-caption-size);
     font-weight: 400;
   }
 
@@ -537,7 +537,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   }
 
   .note-article .note-content :global(ol ol > li::before) {
-    font-size: 0.6875rem;
+    font-size: var(--text-eyebrow-size);
     min-width: 1.4rem;
     height: 1.4rem;
     left: 0.65rem;
@@ -603,7 +603,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   }
 
   .note-links__list a {
-    font-size: 0.9375rem;
+    font-size: var(--text-ui-size);
     color: var(--color-link);
     text-decoration: underline;
     text-underline-offset: 0.15em;

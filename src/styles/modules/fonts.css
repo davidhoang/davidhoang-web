@@ -202,7 +202,7 @@ blockquote p {
   margin: 0 0 calc(var(--spacing-md) - 0.15rem);
   color: var(--color-text);
   font-family: inherit;
-  font-size: 1.25rem;
+  font-size: var(--section-heading-size);
   line-height: 1.7;
   font-weight: 400;
   font-style: italic;
@@ -217,7 +217,7 @@ blockquote cite {
   display: block;
   margin-top: 1.25rem;
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: var(--text-meta-size);
   color: var(--color-muted);
   font-style: normal;
   font-weight: 600;
@@ -274,7 +274,7 @@ blockquote cite {
 .pull-quote-attribution {
   display: block;
   margin-top: 1.5rem;
-  font-size: 0.95rem;
+  font-size: var(--text-caption-size);
   color: var(--color-muted);
   font-weight: 400;
   letter-spacing: 0.02em;

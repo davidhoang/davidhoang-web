@@ -9,6 +9,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
+import { themeApplyMapPlugin } from './scripts/lib/theme-apply-map-plugin.mjs';
 import { isIndexedSitemapPage } from './src/data/searchIndexConfig.ts';
 
 const MANUAL_CHUNKS = [
@@ -146,6 +147,7 @@ export default defineConfig({
       tailwindcss(),
       serveRootMarkdownRoutesPlugin(),
       copyAssetsPlugin(),
+      themeApplyMapPlugin(),
       ...(process.env.ANALYZE ? [visualizer({
         filename: 'dist/bundle-stats.html',
         open: process.env.ANALYZE_OPEN === 'true',

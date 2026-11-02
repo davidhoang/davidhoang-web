@@ -9,7 +9,7 @@ const hasThemes = themes.length > 0;
 {hasThemes && (
   <div class="daily-theme-toggle">
     <!-- Calendar before FAB in DOM so the button paints on top (closed panel was stealing hits). -->
-    <div id="theme-calendar" class="theme-calendar" role="dialog" aria-label="Theme calendar">
+    <div id="theme-calendar" class="theme-calendar" role="dialog" aria-modal="false" aria-label="Theme calendar">
       <div class="calendar-header">
         <span class="calendar-title">Daily themes</span>
         <a class="calendar-hub-link" href="/experiments">All experiments</a>
@@ -87,12 +87,6 @@ const hasThemes = themes.length > 0;
       <div class="calendar-footer">
         <div class="calendar-footer-row">
           <span class="footer-text">AI-generated daily <span class="separator">|</span> <a href="https://arnaud.ai/" target="_blank" rel="noopener noreferrer" class="credit-link">arnaud.ai</a> <span class="separator">|</span> <a href="https://github.com/vercel-labs/json-render" target="_blank" rel="noopener noreferrer" class="credit-link">json-render</a></span>
-          <button id="sound-toggle-inline" class="sound-toggle-btn" aria-label="Toggle ambient sound" aria-pressed="false">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-wave"></path>
-            </svg>
-          </button>
         </div>
       </div>
     </div>
@@ -101,6 +95,8 @@ const hasThemes = themes.length > 0;
       id="daily-theme-toggle"
       data-daily-theme-trigger
       aria-label="Toggle daily AI theme"
+      aria-controls="theme-calendar"
+      aria-expanded="false"
       aria-pressed="false"
       title="Toggle Daily AI Theme"
     >
@@ -117,7 +113,7 @@ const hasThemes = themes.length > 0;
 )}
 
 
-<script is:inline define:vars={{ themes, currentDate }}>
+<script is:inline define:vars={{ currentDate }}>
   // NOTE: This block is inlined into HTML as plain JS — no TypeScript (e.g. `as Foo`) or the whole script fails to parse and nothing runs.
   // Property maps — single source of truth for theme application and removal
   const THEME_PROPS = [
@@ -149,6 +145,34 @@ const hasThemes = themes.length > 0;
 
   function getNestedValue(obj, path) {
     return path.split('.').reduce((o, k) => o && o[k], obj);
+  }
+
+  function getThemeDataByDate(date) {
+    if (!date) return null;
+    const calendar = document.getElementById('theme-calendar');
+    if (!calendar) return null;
+    const btn = calendar.querySelector('.calendar-day[data-date="' + date + '"]');
+    if (!btn) return null;
+    const raw = btn.getAttribute('data-theme-data');
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getFirstThemeDate() {
+    const calendar = document.getElementById('theme-calendar');
+    if (!calendar) return null;
+    const btn = calendar.querySelector('.calendar-day[data-date]:not(.default-day):not(.e-ink-day)');
+    return btn ? btn.getAttribute('data-date') : null;
+  }
+
+  function hasThemeDate(date) {
+    if (!date) return false;
+    const calendar = document.getElementById('theme-calendar');
+    return !!(calendar && calendar.querySelector('.calendar-day[data-date="' + date + '"]'));
   }
 
   /** Daily themes must never set --content-padding below 1rem (flush text when .container side padding is zeroed for shaders). */
@@ -201,6 +225,40 @@ const hasThemes = themes.length > 0;
     });
   }
 
+  const CALENDAR_FOCUSABLE =
+    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function getCalendarFocusables(cal) {
+    return Array.from(cal.querySelectorAll(CALENDAR_FOCUSABLE)).filter(
+      (el) => el instanceof HTMLElement && el.offsetParent !== null,
+    );
+  }
+
+  /** Sync open state, modal semantics, and keyboard entry focus for the theme calendar dialog. */
+  function setCalendarOpen(open, options = {}) {
+    const restoreFocus = options.restoreFocus === true;
+    const cal = document.getElementById('theme-calendar');
+    const toggleBtn = document.getElementById('daily-theme-toggle');
+    const closeBtn = document.getElementById('close-calendar');
+    if (!cal || !toggleBtn) return;
+
+    cal.classList.toggle('open', open);
+    cal.setAttribute('aria-modal', open ? 'true' : 'false');
+    toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+    if (open) {
+      requestAnimationFrame(() => {
+        const focusTarget =
+          closeBtn instanceof HTMLElement
+            ? closeBtn
+            : getCalendarFocusables(cal).find((el) => el instanceof HTMLElement);
+        focusTarget?.focus({ preventScroll: true });
+      });
+    } else if (restoreFocus) {
+      toggleBtn.focus();
+    }
+  }
+
   /**
    * pointerdown + capture: runs before click handlers (e.g. command palette) and before the
    * closed calendar can participate in hit-testing quirks. Toggle uses pointerdown so we still
@@ -221,13 +279,13 @@ const hasThemes = themes.length > 0;
 
         if (e.target.closest('[data-daily-theme-trigger]')) {
           e.stopPropagation();
-          cal.classList.toggle('open');
+          setCalendarOpen(!cal.classList.contains('open'));
           return;
         }
 
         if (!cal.classList.contains('open')) return;
         if (cal.contains(e.target)) return;
-        cal.classList.remove('open');
+        setCalendarOpen(false, { restoreFocus: true });
       },
       true
     );
@@ -240,11 +298,37 @@ const hasThemes = themes.length > 0;
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       const cal = document.getElementById('theme-calendar');
-      const tb = document.getElementById('daily-theme-toggle');
       if (!cal || !cal.classList.contains('open')) return;
       e.preventDefault();
-      cal.classList.remove('open');
-      tb?.focus();
+      setCalendarOpen(false, { restoreFocus: true });
+    });
+  }
+
+  function bindDailyThemeTabTrapOnce() {
+    if (globalThis.__dhDailyThemeTabTrap) return;
+    globalThis.__dhDailyThemeTabTrap = true;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const cal = document.getElementById('theme-calendar');
+      if (!cal?.classList.contains('open')) return;
+
+      const focusables = getCalendarFocusables(cal);
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+
+      if (e.shiftKey) {
+        if (active === first || !cal.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !cal.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
 
@@ -254,7 +338,7 @@ const hasThemes = themes.length > 0;
     globalThis.__dhDailyThemeNavigationClose = true;
 
     document.addEventListener('astro:before-swap', () => {
-      document.getElementById('theme-calendar')?.classList.remove('open');
+      setCalendarOpen(false);
     });
   }
 
@@ -291,8 +375,9 @@ const hasThemes = themes.length > 0;
       }
 
       let selectedBtn = calendar.querySelector(`[data-date="${selectedDate}"]`);
-      if (!selectedBtn && themes.length > 0) {
-        selectedBtn = calendar.querySelector(`[data-date="${themes[0].date}"]`);
+      if (!selectedBtn) {
+        const firstDate = getFirstThemeDate();
+        if (firstDate) selectedBtn = calendar.querySelector(`[data-date="${firstDate}"]`);
       }
       if (selectedBtn) selectedBtn.classList.add('selected');
     } else {
@@ -307,7 +392,7 @@ const hasThemes = themes.length > 0;
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        calendar.classList.remove('open');
+        setCalendarOpen(false, { restoreFocus: true });
       });
     }
 
@@ -441,8 +526,11 @@ const hasThemes = themes.length > 0;
   }
 
   function applyDailyTheme(date) {
-    let themeData = themes.find(t => t.date === date);
-    if (!themeData && themes.length > 0) themeData = themes[0];
+    let themeData = getThemeDataByDate(date);
+    if (!themeData) {
+      const firstDate = getFirstThemeDate();
+      if (firstDate) themeData = getThemeDataByDate(firstDate);
+    }
     if (!themeData) return;
 
     const root = document.documentElement;
@@ -567,6 +655,27 @@ const hasThemes = themes.length > 0;
     return Array.from(weights).sort((a, b) => a - b);
   }
 
+  function parseDiscreteFontWeights(wghtSpec) {
+    if (wghtSpec.indexOf('..') !== -1) return null;
+    var weights = wghtSpec.split(';').map(function (part) {
+      return parseInt(part.trim(), 10);
+    }).filter(function (n) { return !Number.isNaN(n); });
+    return weights.length > 0 ? weights : null;
+  }
+
+  function discreteWeightsForRequest(requiredWeights, catalogWeights) {
+    var sortedRequired = Array.from(new Set(requiredWeights)).sort(function (a, b) { return a - b; });
+    var available = new Set(catalogWeights);
+    var matched = sortedRequired.filter(function (w) { return available.has(w); });
+    if (matched.length > 0) return matched;
+    return catalogWeights.slice().sort(function (a, b) { return a - b; });
+  }
+
+  function formatWghtAxisValue(min, max) {
+    if (min === max) return String(min);
+    return min + '..' + max;
+  }
+
   function narrowGoogleFontStylesheetUrl(url, requiredWeights) {
     if (!url || url.indexOf('fonts.googleapis.com/css2') === -1) return url;
     if (!requiredWeights || requiredWeights.length === 0) return url;
@@ -597,17 +706,23 @@ const hasThemes = themes.length > 0;
       if (wghtIndex === -1) return url;
       var wghtValue = valueParts[wghtIndex] || '';
       if (wghtValue.indexOf('..') !== -1) {
-        valueParts[wghtIndex] = min + '..' + max;
+        valueParts[wghtIndex] = formatWghtAxisValue(min, max);
       } else {
-        valueParts[wghtIndex] = sorted.join(';');
+        var catalogMulti = parseDiscreteFontWeights(wghtValue);
+        var pickedMulti = catalogMulti
+          ? discreteWeightsForRequest(sorted, catalogMulti)
+          : sorted;
+        valueParts[wghtIndex] = pickedMulti.join(';');
       }
       narrowedFamily = name + ':' + axes + '@' + valueParts.join(',');
     } else {
       var wghtSpec = axisPart.replace(/^wght@/, '');
       if (wghtSpec.indexOf('..') !== -1) {
-        narrowedFamily = name + ':wght@' + min + '..' + max;
+        narrowedFamily = name + ':wght@' + formatWghtAxisValue(min, max);
       } else {
-        narrowedFamily = name + ':wght@' + sorted.join(';');
+        var catalog = parseDiscreteFontWeights(wghtSpec);
+        var picked = catalog ? discreteWeightsForRequest(sorted, catalog) : sorted;
+        narrowedFamily = name + ':wght@' + picked.join(';');
       }
     }
     parsed.searchParams.set('family', narrowedFamily);
@@ -723,7 +838,7 @@ const hasThemes = themes.length > 0;
       const date = url.searchParams.get('theme');
       if (!date) return;
 
-      if (!themes.some(theme => theme.date === date)) {
+      if (!hasThemeDate(date)) {
         syncThemeQueryParam(null);
         return;
       }
@@ -764,6 +879,7 @@ const hasThemes = themes.length > 0;
 
   bindDailyThemePointerDelegationOnce();
   bindDailyThemeEscapeOnce();
+  bindDailyThemeTabTrapOnce();
   bindDailyThemeNavigationCloseOnce();
 
   function scheduleInitDailyTheme() {
@@ -777,80 +893,6 @@ const hasThemes = themes.length > 0;
 
   scheduleInitDailyTheme();
   document.addEventListener('astro:page-load', scheduleInitDailyTheme);
-</script>
-
-<script>
-  import { ambientSound, AmbientSound } from '../scripts/ambient-sound.js';
-
-  function initSoundToggle() {
-    const toggleBtn = document.getElementById('sound-toggle-inline');
-    if (!toggleBtn) return;
-
-    // Check if already initialized
-    if (toggleBtn.dataset.initialized === 'true') return;
-    toggleBtn.dataset.initialized = 'true';
-
-    // Always start with sound OFF on page load/refresh
-    // (Browser autoplay restrictions prevent auto-starting audio anyway)
-    toggleBtn.setAttribute('aria-pressed', 'false');
-    localStorage.setItem('ambient-sound-enabled', 'false');
-
-    // Get current theme mood
-    const getCurrentMood = () => {
-      const root = document.documentElement;
-      const themeDate = root.getAttribute('data-daily-theme');
-
-      if (!themeDate) return 'calm';
-
-      try {
-        const themeDataEl = document.querySelector(`[data-date="${themeDate}"]`);
-        if (themeDataEl) {
-          const themeData = JSON.parse(themeDataEl.getAttribute('data-theme-data') || '{}');
-          return AmbientSound.getThemeMood(themeData);
-        }
-      } catch (e) {
-        // Fall back to calm
-      }
-
-      return 'calm';
-    };
-
-    // Toggle handler
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isPlaying = toggleBtn.getAttribute('aria-pressed') === 'true';
-
-      if (isPlaying) {
-        ambientSound.stop();
-        toggleBtn.setAttribute('aria-pressed', 'false');
-        localStorage.setItem('ambient-sound-enabled', 'false');
-      } else {
-        const mood = getCurrentMood();
-        ambientSound.play(mood);
-        toggleBtn.setAttribute('aria-pressed', 'true');
-        localStorage.setItem('ambient-sound-enabled', 'true');
-      }
-    });
-
-    // Listen for theme changes to update mood
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'data-daily-theme') {
-          const isPlaying = toggleBtn.getAttribute('aria-pressed') === 'true';
-          if (isPlaying) {
-            const mood = getCurrentMood();
-            ambientSound.changeMood(mood);
-          }
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, { attributes: true });
-  }
-
-  // Initialize
-  initSoundToggle();
-  document.addEventListener('astro:page-load', initSoundToggle);
 </script>
 
 <script>

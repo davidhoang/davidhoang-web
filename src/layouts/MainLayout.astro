@@ -9,9 +9,15 @@ import Analytics from '@vercel/analytics/astro';
 import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
-import { absoluteUrl, buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
+import {
+  absoluteUrl,
+  buildSiteGraphJsonLd,
+  DEFAULT_PAGE_ROBOTS,
+  SITE_DESCRIPTION,
+} from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
+import { openGraphTypeForPageKind, resolveLayoutPageKind } from '../utils/pageMeta';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
@@ -68,12 +74,9 @@ if (todayTheme) {
   Object.assign(ssrThemeAttrs, attrs);
 }
 
-// Map of every theme keyed by date — passed to the pre-paint script so it can swap
-// to the user's calendar selection before first paint (no flash of today's theme).
-const themesApplyMap: Record<string, ReturnType<typeof buildThemeApply>> = {};
-for (const t of (themesData as any).themes || []) {
-  themesApplyMap[t.date] = buildThemeApply(t);
-}
+// Full theme apply map is generated to /theme-apply-map.js (see theme-apply-map-plugin.mjs)
+// so HTML pages don't inline ~12KB+ of JSON. Cache-bust when themes archive changes.
+const themeApplyMapVersion = `${(themesData as any).currentDate || today}-${((themesData as any).themes || []).length}`;
 
 interface Props {
   title: string;
@@ -102,7 +105,7 @@ const {
   hideFooter = false,
   pageType,
   disableContentMoodFilter = false,
-  robots = 'index, follow',
+  robots = DEFAULT_PAGE_ROBOTS,
   containerClass = 'container',
 } = Astro.props;
 
@@ -117,14 +120,8 @@ const pageTitle = rawTitle.replace(/\s*[|\-–—]\s*David Hoang\s*$/i, '').trim
 // Append the brand unless the title already references the site name (e.g. home tagline).
 const fullTitle = /david hoang/i.test(pageTitle) ? pageTitle : `${pageTitle} — ${SITE_NAME}`;
 
-// Auto-detect page type from URL if not provided
-const detectedPageType = pageType || (() => {
-  const pathname = Astro.url.pathname;
-  if (pathname === '/' || pathname === '') return 'home';
-  if (pathname.includes('/writing/') || pathname.includes('/notes/')) return 'blog';
-  if (pathname.includes('/about')) return 'about';
-  return 'home';
-})();
+const detectedPageType = resolveLayoutPageKind(Astro.url.pathname, pageType);
+const openGraphType = openGraphTypeForPageKind(detectedPageType);
 
 // Get the canonical URL with fallback
 // Normalize: strip trailing slash (except for root "/") for consistent canonical URLs
@@ -183,6 +180,7 @@ const ogVideoMeta = ogVideo
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="David Hoang — Writing (RSS)" href="/rss.xml" />
     <link rel="alternate" type="application/rss+xml" title="David Hoang — Notes (RSS)" href="/rss/notes.xml" />
     <link rel="canonical" href={canonicalURL} />
@@ -194,7 +192,7 @@ const ogVideoMeta = ogVideo
     <meta name="robots" content={robots} />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content={detectedPageType === 'blog' ? 'article' : 'website'} />
+    <meta property="og:type" content={openGraphType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -429,6 +427,9 @@ const ogVideoMeta = ogVideo
       }
     </style>
     
+    <!-- Blocking apply map: must run before the inline pre-paint script below. -->
+    <script is:inline src={`/theme-apply-map.js?v=${themeApplyMapVersion}`}></script>
+
     <!-- Apply theme and e-ink mode before paint to avoid flash.
          SSR bakes today's daily theme (light mode) into <html> style/attrs.
          This script handles: dark mode color swap, e-ink override, daily-off,
@@ -439,8 +440,8 @@ const ogVideoMeta = ogVideo
       ssrDarkColors: todayTheme?.colors?.dark || {},
       ssrThemeStyleKeys: ssrThemeStyle.map((s: string) => s.split(':')[0]),
       ssrDate: todayTheme?.date || today,
-      themesApplyMap,
     }}>
+      var themesApplyMap = (typeof window !== 'undefined' && window.__themesApplyMap) || {};
       // Apply user theme preferences (dark/e-ink/daily-off/calendar pick) to a given <html> root.
       // Used twice: against `document.documentElement` on initial load (pre-paint) and against
       // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).

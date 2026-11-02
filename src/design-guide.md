@@ -66,6 +66,17 @@ These CSS custom properties are the foundation of the theme system. Daily themes
 | `--letter-spacing-heading-md` | Medium headings (H3-H6) | `-0.01em` |
 | `--letter-spacing-body` | Body text | `0.005em` |
 | `--letter-spacing-caption` | Captions & small text | `0.01em` |
+| `--text-eyebrow-size` | Eyebrow / overline | `0.6875rem` |
+| `--text-xs-size` | Extra-small UI text | `0.75rem` |
+| `--text-meta-size` | Meta text | `0.8125rem` |
+| `--text-caption-size` | Captions. `.text-caption` and `.text-sm` | `0.875rem` |
+| `--text-ui-size` | UI text. `.text-base` | `1rem` |
+| `--body-size` | Body copy | `1.1rem` |
+| `--prose-size` | Article and note copy. `.text-lg` | `1.125rem` |
+| `--section-heading-size` | Section headings. `.text-xl` | `1.25rem` |
+| `--lead-size` | Lead text | `1.35rem` |
+
+Article headings use `--prose-h2-size`, `--prose-h3-size`, and `--prose-h4-size`. Phone overrides for page headings use `--h2-size-mobile` and `--h3-size-mobile`. UI chrome sizes stay fixed when a daily theme changes `--scale-ratio`.
 
 ### Spacing
 

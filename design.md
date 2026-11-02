@@ -198,7 +198,7 @@ Implementations: `layout.css` (hero flush), `nav.css` + `shared-components.css` 
 
 ### Background patterns
 
-**Keep the home hero texture quiet.** The home page hero uses fine, static grey digital noise at low opacity (`.card-stack-section::before` in `src/styles/pages/home.css`), which blends with light and dark theme surfaces. Do not reintroduce a dot grid. The CSS rule in `theme-variations.css` suppresses page-wide `background.texture: "dots"` and `"grid"` on any page that contains a `.card-stack-section` (currently just home), so daily themes cannot layer geometric patterns over the hero. Other pages can still use any texture freely.
+**Keep the home hero on its soft dot grid.** The home page hero uses a quiet Leuchtturm-style dot lattice (`.card-stack-section::before` in `src/styles/pages/home.css`), tinted with a 15% mix of `--color-text` so it follows light and dark surfaces. Do not replace it with noise or a heavier grid. The CSS rule in `theme-variations.css` suppresses page-wide `background.texture: "dots"` and `"grid"` on any page that contains a `.card-stack-section` (currently just home), so daily themes cannot layer a second geometric pattern over the hero. Other pages can still use any texture freely.
 
 `grain` and `gradient` textures don't conflict — they're allowed everywhere.
 
