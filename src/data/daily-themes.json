@@ -1,6 +1,362 @@
 {
   "themes": [
     {
+      "name": "Azulejo Nocturne",
+      "description": "Cobalt geometry on bone-white tin glaze, drawn inward by late-night quiet — the courtyard after the last lamp goes out.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1014",
+          "--color-bg": "#F4F0EB",
+          "--color-link": "#1B3FA0",
+          "--color-link-hover": "#7B1C2E",
+          "--color-border": "#1B3FA0",
+          "--color-muted": "#6B6059",
+          "--color-sidebar-bg": "#EAE4DC",
+          "--color-nav-bg": "#F4F0EB",
+          "--color-nav-text": "#1A1014",
+          "--color-card-bg": "#EDE8E1"
+        },
+        "dark": {
+          "--color-text": "#E8E2D9",
+          "--color-bg": "#0D1520",
+          "--color-link": "#5B8CDB",
+          "--color-link-hover": "#C45A6A",
+          "--color-border": "#2E4A7A",
+          "--color-muted": "#7A8A9E",
+          "--color-sidebar-bg": "#111C2D",
+          "--color-nav-bg": "#0D1520",
+          "--color-nav-text": "#E8E2D9",
+          "--color-card-bg": "#131E30"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Libre Baskerville",
+          "url": "https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap",
+          "category": "serif",
+          "stack": "'Libre Baskerville', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.04em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#1B3FA0",
+          "#0D1520"
+        ]
+      },
+      "font": {
+        "name": "Libre Baskerville",
+        "url": "https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap",
+        "category": "serif",
+        "stack": "'Libre Baskerville', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-11-02",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Azulejo Nocturne",
+              "subtitle": "2026-11-02 · Daily Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Cobalt geometry pressed into bone-white silence. The courtyard after the last lamp goes out — every tile a small proof that order and dark can share a wall.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hs",
+              "s1b"
+            ]
+          },
+          "hs": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Azulejo Nocturne",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "s1b": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "meta"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px sharp"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid overlay"
+                },
+                {
+                  "label": "Images",
+                  "value": "Grayscale → colorize"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "toks"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F4F0EB",
+                  "label": "Bone White"
+                },
+                {
+                  "hex": "#1B3FA0",
+                  "label": "Cobalt"
+                },
+                {
+                  "hex": "#1A1014",
+                  "label": "Inkwell"
+                },
+                {
+                  "hex": "#7B1C2E",
+                  "label": "Crimson Night"
+                },
+                {
+                  "hex": "#6B6059",
+                  "label": "Ash Muted"
+                },
+                {
+                  "hex": "#EDE8E1",
+                  "label": "Card Glaze"
+                }
+              ]
+            },
+            "children": []
+          },
+          "toks": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#1B3FA0"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#7B1C2E"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#1B3FA0"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "--color-scheme",
+                  "value": "complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Azulejo Nocturne",
+              "action": "apply-theme",
+              "date": "2026-11-02"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Harbour Tin",
       "description": "Baltic winter light filtered through sea fog — tall cold type, duotone imagery, and a single red warehouse burning through the mist.",
       "colors": {
@@ -2186,355 +2542,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Midnight Dispatch",
-      "description": "A late-night editorial journal rendered in deep navy and acid aqua — the ghost of a glowing CRT distilled into precise print hierarchy.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#1A1F3A",
-          "--color-bg": "#EBF5FB",
-          "--color-link": "#007A93",
-          "--color-link-hover": "#007A94",
-          "--color-border": "#B8D8E8",
-          "--color-muted": "#567286",
-          "--color-sidebar-bg": "#DFF0F8",
-          "--color-nav-bg": "#EBF5FB",
-          "--color-nav-text": "#1A1F3A",
-          "--color-card-bg": "#F4FAFD"
-        },
-        "dark": {
-          "--color-text": "#D6EEF8",
-          "--color-bg": "#0A1628",
-          "--color-link": "#00D4E8",
-          "--color-link-hover": "#33DDEF",
-          "--color-border": "#1E3A52",
-          "--color-muted": "#6295AC",
-          "--color-sidebar-bg": "#0D1F35",
-          "--color-nav-bg": "#0A1628",
-          "--color-nav-text": "#D6EEF8",
-          "--color-card-bg": "#0F2240"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1160px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "grayscale",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#0A1628",
-          "#00D4E8"
-        ]
-      },
-      "font": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-26",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Midnight Dispatch",
-              "subtitle": "Oct 26, 2026 — Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "palette",
-              "div2",
-              "s2",
-              "s3",
-              "div3",
-              "s4",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "The CRT hum, press-checked and cold. Acid aqua bleeds through navy like a wire service alert at 2am — every headline a dispatch from the edge of legibility.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif / Newsreader",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A1F3A",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#EBF5FB",
-                  "label": "Broadsheet"
-                },
-                {
-                  "hex": "#007A93",
-                  "label": "Wire"
-                },
-                {
-                  "hex": "#B8D8E8",
-                  "label": "Newsprint"
-                },
-                {
-                  "hex": "#567286",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#DFF0F8",
-                  "label": "Sidebar"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#0A1628",
-                "#00D4E8"
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Late Edition: Signal Found",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rendered in IBM Plex Sans — clean columns, measured tension.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "grid"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                },
-                {
-                  "label": "Images",
-                  "value": "Grayscale / Hover Colorize"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "grid": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Midnight Dispatch",
-              "action": "apply-theme",
-              "date": "2026-10-26"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-01"
+  "currentDate": "2026-11-02"
 }
