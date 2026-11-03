@@ -200,9 +200,5 @@ export default defineConfig({
       include: ['react', 'react-dom'],
       exclude: ['@astrojs/react']
     },
-    // Enable tree shaking
-    esbuild: {
-      treeShaking: true
-    }
   },
 }); 
