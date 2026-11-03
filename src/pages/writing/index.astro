@@ -119,7 +119,6 @@ const ogImage = buildOgImageUrl({
         <a
           href={`/writing/${featured.post.id}`}
           class="writing-spotlight__link link-plain"
-          transition:name={`post-${featured.post.id}`}
           data-tags={(featured.post.data.tags || []).join(',')}
           data-filter-item
         >
@@ -164,7 +163,6 @@ const ogImage = buildOgImageUrl({
             imageSrc={thumbnail}
             primaryTag={primaryTag}
             linkClass="link-plain"
-            transitionName={`post-${post.id}`}
             titleTransitionName={`title-${post.id}`}
             filterTags={(post.data.tags || []).join(',')}
             filterItem
@@ -182,7 +180,6 @@ const ogImage = buildOgImageUrl({
             <a
               href={`/writing/${post.id}`}
               class="writing-feed__item link-plain"
-              transition:name={`post-${post.id}`}
               data-tags={(post.data.tags || []).join(',')}
               data-filter-item
             >
@@ -197,7 +194,7 @@ const ogImage = buildOgImageUrl({
                 />
               </div>
               <div class="writing-feed__content">
-                <h3 class="writing-feed__title" transition:name={`title-${post.id}`}>
+                <h3 class="writing-feed__title">
                   {post.data.title}
                 </h3>
                 {post.data.description && (

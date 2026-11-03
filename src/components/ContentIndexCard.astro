@@ -23,6 +23,8 @@ interface Props {
   /** Comma-separated tags for client-side filters */
   filterTags?: string;
   filterItem?: boolean;
+  /** Lowercase title/description on the card root for client-side search (Notes index) */
+  filterSearchText?: boolean;
   stage?: string;
   stageTitle?: string;
   stageKey?: string;
@@ -47,6 +49,7 @@ const {
   linkClass = '',
   filterTags,
   filterItem = false,
+  filterSearchText = false,
   stage,
   stageTitle,
   stageKey,
@@ -65,8 +68,8 @@ const extraTags = primaryTag ? tags.filter((t) => t !== primaryTag) : tags;
   data-tags={filterTags}
   data-filter-item={filterItem ? true : undefined}
   data-stage={stageKey ?? stage}
-  data-title={filterItem ? title.toLowerCase() : undefined}
-  data-description={filterItem && description ? description.toLowerCase() : undefined}
+  data-title={filterSearchText ? title.toLowerCase() : undefined}
+  data-description={filterSearchText && description ? description.toLowerCase() : undefined}
 >
   <div class="index-card__media img-frame">
     <img src={imageSrc} alt={imageAlt} loading={loading} decoding="async" />
