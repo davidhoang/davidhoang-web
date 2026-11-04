@@ -1,15 +1,18 @@
-import React, { Suspense, lazy } from 'react';
-import { MOBILE_STACK_OFFSETS } from './hero/mobileHeroStack';
+import { useEffect, useState, type ComponentType } from 'react';
+import { afterLcpOrTimeout, scheduleIdleWork } from '../utils/deferUntilAfterLcp';
 import type { Card } from './hero/types';
-
-// Lazy load the CardStackHero component (735 lines, uses framer-motion)
-const CardStackHero = lazy(() => import('./CardStackHero'));
 
 const LCP_STILL_SRC = '/images/davidhoang-web-config-still.webp';
 const LCP_STILL_WIDTH = 600;
 const LCP_STILL_HEIGHT = 338;
 
-const SKELETON_STACK = MOBILE_STACK_OFFSETS.slice(0, 4);
+/** Mirror mobileHeroStack peek poses (first 4 cards) — duplicated to keep this island off hero-components. */
+const SKELETON_STACK = [
+  { x: 0, y: 0, rotation: 0, scale: 1 },
+  { x: 20, y: 12, rotation: 2.5, scale: 0.97 },
+  { x: -14, y: 24, rotation: -2, scale: 0.94 },
+  { x: 10, y: 34, rotation: 1.5, scale: 0.91 },
+] as const;
 
 // Skeleton placeholder that mirrors hero title + card stack footprint (reduces layout jump).
 // Front card includes a real LCP <img> so the preloaded still paints before React hydrates.
@@ -61,7 +64,7 @@ const CardStackHeroSkeleton = ({ lcpImageSrc }: { lcpImageSrc?: string }) => (
 interface CardStackHeroLazyProps {
   aboutThumbnailSrc?: string;
   cards?: Card[];
-  /** Preloaded config still — painted in the Suspense fallback for LCP. */
+  /** Preloaded config still — painted in the skeleton fallback for LCP. */
   lcpImageSrc?: string;
 }
 
@@ -70,9 +73,45 @@ export default function CardStackHeroLazy({
   cards,
   lcpImageSrc = LCP_STILL_SRC,
 }: CardStackHeroLazyProps = {}) {
+  const [CardStackHero, setCardStackHero] = useState<ComponentType<CardStackHeroLazyProps> | null>(
+    null,
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    let cancelLcpWait: (() => void) | undefined;
+    let cancelIdle: (() => void) | undefined;
+
+    cancelLcpWait = afterLcpOrTimeout(
+      () => {
+        if (cancelled) return;
+        cancelIdle = scheduleIdleWork(() => {
+          if (cancelled) return;
+          void import('./CardStackHero').then((mod) => {
+            if (!cancelled) setCardStackHero(() => mod.default);
+          });
+        });
+      },
+      0,
+      6000,
+    );
+
+    return () => {
+      cancelled = true;
+      cancelLcpWait?.();
+      cancelIdle?.();
+    };
+  }, []);
+
+  if (!CardStackHero) {
+    return <CardStackHeroSkeleton lcpImageSrc={lcpImageSrc} />;
+  }
+
   return (
-    <Suspense fallback={<CardStackHeroSkeleton lcpImageSrc={lcpImageSrc} />}>
-      <CardStackHero aboutThumbnailSrc={aboutThumbnailSrc} cards={cards} />
-    </Suspense>
+    <CardStackHero
+      aboutThumbnailSrc={aboutThumbnailSrc}
+      cards={cards}
+      lcpImageSrc={lcpImageSrc}
+    />
   );
 }

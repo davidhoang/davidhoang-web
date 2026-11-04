@@ -20,6 +20,34 @@ describe('Home hero card shader bundle (PCD-143)', () => {
     expect(cardBase).not.toMatch(/HeroCardShaderPattern/);
   });
 
+  it('defers CardStackHero + framer-motion until after LCP and idle', () => {
+    const lazy = readFileSync(join(process.cwd(), 'src/components/CardStackHeroLazy.tsx'), 'utf8');
+    expect(lazy).toMatch(/afterLcpOrTimeout/);
+    expect(lazy).toMatch(/scheduleIdleWork/);
+    expect(lazy).toMatch(/import\('\.\/CardStackHero'\)/);
+    expect(lazy).not.toMatch(/\blazy\s*\(/);
+    expect(lazy).not.toMatch(/\bSuspense\b/);
+
+    const config = readFileSync(join(process.cwd(), 'astro.config.mjs'), 'utf8');
+    const heroChunk = config.match(/'hero-components',\s*\[([\s\S]*?)\],/)?.[1] ?? '';
+    expect(heroChunk).not.toMatch(/CardStackHeroLazy\.tsx/);
+    expect(config).toMatch(/'lcp-defer'/);
+  });
+
+  it('keeps framer-motion out of the CardStackHeroLazy island entry chunk', () => {
+    const astroDir = join(process.cwd(), 'dist/client/_astro');
+    if (!existsSync(astroDir)) return;
+
+    const lazyChunk = readdirSync(astroDir).find(
+      (name) => name.startsWith('CardStackHeroLazy.') && name.endsWith('.js'),
+    );
+    expect(lazyChunk).toBeTruthy();
+
+    const source = readFileSync(join(astroDir, lazyChunk!), 'utf8');
+    expect(source).not.toMatch(/from"\.\/framer-motion/);
+    expect(source).not.toMatch(/from"\.\/hero-components/);
+  });
+
   it('does not modulepreload paper-shaders or HeroCardShaderPattern on the homepage', () => {
     const htmlPath = join(process.cwd(), 'dist/client/index.html');
     if (!existsSync(htmlPath)) return;
