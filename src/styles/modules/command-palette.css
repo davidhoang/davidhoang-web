@@ -304,9 +304,9 @@
 }
 
 .cmd-palette-item.is-highlighted {
-  border-color: transparent;
-  background: color-mix(in srgb, var(--color-nav-text) 5%, transparent);
-  box-shadow: none;
+  border-color: color-mix(in srgb, var(--color-link) 35%, transparent);
+  background: color-mix(in srgb, var(--color-link) 14%, var(--color-nav-bg));
+  box-shadow: inset 0 0 0 var(--focus-ring-width) color-mix(in srgb, var(--color-link) 50%, transparent);
   color: var(--color-nav-text);
 }
 
@@ -317,9 +317,9 @@
 
 @media (hover: hover) {
   .cmd-palette-item.is-highlighted:hover {
-    border-color: transparent;
-    background: color-mix(in srgb, var(--color-nav-text) 7%, transparent);
-    box-shadow: none;
+    border-color: color-mix(in srgb, var(--color-link) 45%, transparent);
+    background: color-mix(in srgb, var(--color-link) 18%, var(--color-nav-bg));
+    box-shadow: inset 0 0 0 var(--focus-ring-width) color-mix(in srgb, var(--color-link) 55%, transparent);
   }
 }
 
