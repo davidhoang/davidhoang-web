@@ -1,6 +1,365 @@
 {
   "themes": [
     {
+      "name": "Fired & Measured",
+      "description": "Swiss grid precision meets hand-glazed ceramic surfaces — mineral blues and terracotta held in tight typographic geometry.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1410",
+          "--color-bg": "#F5F0E8",
+          "--color-link": "#1B4D8E",
+          "--color-link-hover": "#B5451B",
+          "--color-border": "#1C1410",
+          "--color-muted": "#6E6458",
+          "--color-sidebar-bg": "#EDE8DF",
+          "--color-nav-bg": "#F5F0E8",
+          "--color-nav-text": "#1C1410",
+          "--color-card-bg": "#EDE8DF"
+        },
+        "dark": {
+          "--color-text": "#F0EBE1",
+          "--color-bg": "#1C1410",
+          "--color-link": "#6FA3D8",
+          "--color-link-hover": "#D4714A",
+          "--color-border": "#F0EBE1",
+          "--color-muted": "#928579",
+          "--color-sidebar-bg": "#251A13",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F0EBE1",
+          "--color-card-bg": "#251A13"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1150px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.92",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5F0E8",
+          "#1B4D8E"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-11-04",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fired & Measured",
+              "subtitle": "2026-11-04 · Swiss grid meets hand-glazed ceramic"
+            },
+            "children": [
+              "manifesto",
+              "d1",
+              "s1",
+              "s2",
+              "d2",
+              "s3",
+              "action"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Mineral blue. Terracotta burn. Every column ruled by the grid, every surface touched by the kiln.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "heading",
+              "badge-row"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "FIRED & MEASURED",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "end"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display · bebas neue",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "preview-col",
+              "meta"
+            ]
+          },
+          "preview-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hero",
+              "layout"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "layout": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "split"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None · grid texture"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket] style"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px · sharp"
+                },
+                {
+                  "label": "Images",
+                  "value": "Duotone / hover colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "d2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "palette",
+              "tokens"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5F0E8",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#1C1410",
+                  "label": "Kiln Black"
+                },
+                {
+                  "hex": "#1B4D8E",
+                  "label": "Mineral Blue"
+                },
+                {
+                  "hex": "#B5451B",
+                  "label": "Terracotta"
+                },
+                {
+                  "hex": "#6E6458",
+                  "label": "Ash Muted"
+                },
+                {
+                  "hex": "#EDE8DF",
+                  "label": "Glaze Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#1B4D8E"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#B5451B"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "Bebas Neue"
+                },
+                {
+                  "name": "--color-scheme",
+                  "value": "split-complementary"
+                }
+              ]
+            },
+            "children": []
+          },
+          "action": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Fired & Measured",
+              "action": "apply-theme",
+              "date": "2026-11-04"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Aqua Bloom",
       "description": "Y2K optimism translated through dawn's soft breath — acid aqua meets blush, scattered like morning browser windows catching the first light.",
       "colors": {
@@ -2137,395 +2496,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Pale Sermon",
-      "description": "Art Nouveau's organic grammar etched into a structural index — botanical tracery on raw stone, dawn light filtered through stained membrane.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C2418",
-          "--color-bg": "#EEE8DC",
-          "--color-link": "#76653B",
-          "--color-link-hover": "#4A7C6A",
-          "--color-border": "#C8BBA0",
-          "--color-muted": "#6C6457",
-          "--color-sidebar-bg": "#E6DDCC",
-          "--color-nav-bg": "#EEE8DC",
-          "--color-nav-text": "#2C2418",
-          "--color-card-bg": "#F2EDE4"
-        },
-        "dark": {
-          "--color-text": "#E8E0D0",
-          "--color-bg": "#1C1810",
-          "--color-link": "#B5A46A",
-          "--color-link-hover": "#7CB8A4",
-          "--color-border": "#3C3428",
-          "--color-muted": "#918A80",
-          "--color-sidebar-bg": "#221E14",
-          "--color-nav-bg": "#1C1810",
-          "--color-nav-text": "#E8E0D0",
-          "--color-card-bg": "#242018"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Karla",
-          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "dots"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EEE8DC",
-          "#C8BBA0"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-10-28",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Pale Sermon",
-              "subtitle": "Oct 28, 2026 — Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Botanical tracery pressed into raw stone. Dawn light held in stained membrane. Organic grammar made structural — a sermon in pale ink.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "hs",
-              "badges"
-            ]
-          },
-          "hs": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Pale Sermon",
-              "variant": "heading",
-              "weight": "300"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif / sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "analogous",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "left",
-              "right"
-            ]
-          },
-          "left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "pal",
-              "hero",
-              "shader"
-            ]
-          },
-          "pal": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EEE8DC",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#F2EDE4",
-                  "label": "card"
-                },
-                {
-                  "hex": "#C8BBA0",
-                  "label": "border"
-                },
-                {
-                  "hex": "#76653B",
-                  "label": "link"
-                },
-                {
-                  "hex": "#4A7C6A",
-                  "label": "hover"
-                },
-                {
-                  "hex": "#2C2418",
-                  "label": "text"
-                }
-              ]
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "dot-grid",
-              "colors": [
-                "#EEE8DC",
-                "#C8BBA0"
-              ]
-            },
-            "children": []
-          },
-          "right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "meta",
-              "layout",
-              "cap"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Link style",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Dots"
-                },
-                {
-                  "label": "Images",
-                  "value": "Muted / hover colorize"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Minimal"
-                }
-              ]
-            },
-            "children": []
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "cap": {
-            "type": "TypeSample",
-            "props": {
-              "text": "A structural index of living things — traced in wax, pressed in morning.",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#EEE8DC"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#76653B"
-                },
-                {
-                  "name": "--color-link-hover",
-                  "value": "#4A7C6A"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#6C6457"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Pale Sermon",
-              "action": "apply-theme",
-              "date": "2026-10-28"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-03"
+  "currentDate": "2026-11-04"
 }
