@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '../src/pages/api/theme-query';
+import { resolveThemeQueryConfiguration } from '../src/utils/themeQueryAuth';
 
 const encoder = new TextEncoder();
 
@@ -36,11 +37,30 @@ async function queryChunks(chunks: Uint8Array[]) {
 
 beforeEach(() => {
   vi.stubEnv('ANTHROPIC_API_KEY', 'theme-query-test-key');
+  vi.stubEnv('VERCEL', '');
+  vi.stubEnv('VERCEL_OIDC_TOKEN', '');
+  vi.stubEnv('AI_GATEWAY_API_KEY', '');
 });
 
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+});
+
+describe('resolveThemeQueryConfiguration', () => {
+  it('prefers AI Gateway on Vercel even when a direct Anthropic key exists', () => {
+    expect(
+      resolveThemeQueryConfiguration(
+        { VERCEL: '1', ANTHROPIC_API_KEY: 'direct-key' },
+        'direct-key',
+      ).mode,
+    ).toBe('gateway');
+  });
+
+  it('uses direct Anthropic when gateway credentials are absent', () => {
+    expect(resolveThemeQueryConfiguration({}, 'direct-key').mode).toBe('direct');
+    expect(resolveThemeQueryConfiguration({}, undefined).mode).toBe('missing');
+  });
 });
 
 describe('POST /api/theme-query streaming', () => {

@@ -1,6 +1,15 @@
+import { APICallError, streamText } from 'ai';
 import type { APIRoute } from 'astro';
 import dailyThemes from '../../data/daily-themes.json';
 import { createAnthropicTextStream } from '../../utils/anthropicTextStream';
+import { resolveThemeQueryConfiguration } from '../../utils/themeQueryAuth';
+
+const THEME_QUERY_MODEL = 'anthropic/claude-haiku-4-5';
+const STREAM_HEADERS = {
+  'Content-Type': 'text/plain; charset=utf-8',
+  'Cache-Control': 'no-cache',
+  'Transfer-Encoding': 'chunked',
+} as const;
 
 export const prerender = false;
 
@@ -114,11 +123,16 @@ export const POST: APIRoute = async ({ request }) => {
 
     const anthropicApiKey =
       import.meta.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY;
+    const auth = resolveThemeQueryConfiguration(process.env, anthropicApiKey);
 
-    if (!anthropicApiKey) {
+    if (auth.mode === 'missing') {
       return new Response(
-        JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } },
+        JSON.stringify({
+          error:
+            'Theme Ask is not configured. Use Vercel AI Gateway or set ANTHROPIC_API_KEY.',
+          code: 'THEME_QUERY_NOT_CONFIGURED',
+        }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } },
       );
     }
 
@@ -166,12 +180,53 @@ Shader: ${t.shaderType} (${t.shaderColors.join(', ') || 'no shader colors'})`).j
 
 Based on the user's query, compose a json-render spec that presents the relevant themes in an interesting, editorial layout. If the query is general, include all themes. If specific, filter to the most relevant ones. Make it visually compelling and include apply-theme buttons for the strongest recommendations.`;
 
-    // Stream from Anthropic API
+    if (auth.mode === 'gateway') {
+      try {
+        const result = streamText({
+          model: THEME_QUERY_MODEL,
+          instructions: CATALOG_PROMPT,
+          prompt: userPrompt,
+          abortSignal: request.signal,
+        });
+
+        return new Response(result.textStream, {
+          status: 200,
+          headers: STREAM_HEADERS,
+        });
+      } catch (error) {
+        if (APICallError.isInstance(error)) {
+          if (error.statusCode === 401 || error.statusCode === 403) {
+            return new Response(
+              JSON.stringify({
+                error:
+                  'Theme Ask authentication failed. Refresh Vercel OIDC credentials or check AI Gateway access.',
+                code: 'THEME_QUERY_AUTH_FAILED',
+              }),
+              { status: 503, headers: { 'Content-Type': 'application/json' } },
+            );
+          }
+
+          if (error.statusCode === 429) {
+            return new Response(
+              JSON.stringify({
+                error: 'Theme Ask is rate limited. Try again in a moment.',
+                code: 'THEME_QUERY_RATE_LIMITED',
+              }),
+              { status: 429, headers: { 'Content-Type': 'application/json' } },
+            );
+          }
+        }
+
+        throw error;
+      }
+    }
+
+    // Local / fallback: direct Anthropic Messages API (SSE → plain text).
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': anthropicApiKey,
+        'x-api-key': anthropicApiKey!,
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
@@ -181,6 +236,7 @@ Based on the user's query, compose a json-render spec that presents the relevant
         system: CATALOG_PROMPT,
         messages: [{ role: 'user', content: userPrompt }],
       }),
+      signal: request.signal,
     });
 
     if (!response.ok) {
@@ -191,22 +247,22 @@ Based on the user's query, compose a json-render spec that presents the relevant
       );
     }
 
-    // Buffer SSE framing across chunks while preserving streaming and cancellation.
     const stream = response.body!.pipeThrough(createAnthropicTextStream());
 
     return new Response(stream, {
       status: 200,
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'Transfer-Encoding': 'chunked',
-      },
+      headers: STREAM_HEADERS,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      return new Response(null, { status: 499 });
+    }
+
     console.error('theme-query error:', error);
-    return new Response(
-      JSON.stringify({ error: error.message || 'Internal server error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } },
-    );
+    const message = error instanceof Error ? error.message : 'Internal server error';
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 };
