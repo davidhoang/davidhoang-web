@@ -1,3 +1,4 @@
+import './zodClientConfig';
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import type { Spec } from '@json-render/react';
 import ThemeSpecRenderer, { type ThemeData } from './ThemeSpecRenderer';
