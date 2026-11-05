@@ -1,5 +1,6 @@
 ---
 import { formatListDate } from '../utils/formatDate';
+import { writingTitleTransitionName } from '../utils/writingViewTransition';
 
 interface Props {
   href: string;
@@ -16,8 +17,8 @@ interface Props {
   heading?: 'h2' | 'h3';
   class?: string;
   loading?: 'lazy' | 'eager';
-  transitionName?: string;
-  titleTransitionName?: string;
+  /** Morph card title → writing post h1 (Editorial index only; matches WritingPost.astro). */
+  writingTitleViewTransition?: boolean;
   /** Extra classes on the root anchor (e.g. link-plain) */
   linkClass?: string;
   /** Comma-separated tags for client-side filters */
@@ -44,8 +45,7 @@ const {
   heading = 'h3',
   class: className,
   loading = 'lazy',
-  transitionName,
-  titleTransitionName,
+  writingTitleViewTransition = false,
   linkClass = '',
   filterTags,
   filterItem = false,
@@ -59,12 +59,12 @@ const Tag = heading;
 const datetime = date.toISOString();
 const label = dateLabel ?? formatListDate(date);
 const extraTags = primaryTag ? tags.filter((t) => t !== primaryTag) : tags;
+const titleTransitionName = writingTitleViewTransition ? writingTitleTransitionName(href) : undefined;
 ---
 
 <a
   href={href}
   class:list={['index-card', linkClass, className, { 'index-card--spotlight': spotlight }]}
-  transition:name={transitionName}
   data-tags={filterTags}
   data-filter-item={filterItem ? true : undefined}
   data-stage={stageKey ?? stage}
