@@ -67,6 +67,28 @@ const nowJsonLd = buildNowPageJsonLd({
       </div>
     </section>
 
+    <div class="container-narrow">
+      <p class="now-voice" data-now-voice>
+        <span class="sr-only">The miniatures are the houses. The book is the city.</span>
+        <span class="now-voice__lines" aria-hidden="true">
+          <span class="now-voice__line">
+            <span class="now-voice__word" style="--now-voice-step: 0">The</span>
+            <span class="now-voice__word" style="--now-voice-step: 1">miniatures</span>
+            <span class="now-voice__word" style="--now-voice-step: 2">are</span>
+            <span class="now-voice__word" style="--now-voice-step: 3">the</span>
+            <span class="now-voice__word" style="--now-voice-step: 4">houses.</span>
+          </span>
+          <span class="now-voice__line">
+            <span class="now-voice__word" style="--now-voice-step: 0">The</span>
+            <span class="now-voice__word" style="--now-voice-step: 1">book</span>
+            <span class="now-voice__word" style="--now-voice-step: 2">is</span>
+            <span class="now-voice__word" style="--now-voice-step: 3">the</span>
+            <span class="now-voice__word" style="--now-voice-step: 4">city.</span>
+          </span>
+        </span>
+      </p>
+    </div>
+
     <div class="container-narrow now-focus">
       <section class="content-page__section" aria-labelledby="now-work-heading">
         <h2 id="now-work-heading">Work</h2>
@@ -151,6 +173,40 @@ const nowJsonLd = buildNowPageJsonLd({
 </MainLayout>
 
 <style>
+  .now-content {
+    --now-display-size: calc(var(--section-heading-size) * 2);
+  }
+
+  .now-voice {
+    max-width: 42rem;
+    margin: var(--spacing-lg) 0 var(--spacing-2xl);
+    font-family: var(--font-heading);
+    font-size: var(--now-display-size);
+    font-weight: var(--heading-weight);
+    letter-spacing: var(--letter-spacing-heading-md);
+    line-height: 1.15;
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+
+  .now-voice__line {
+    display: block;
+  }
+
+  .now-voice__word + .now-voice__word {
+    margin-left: 0.28em;
+  }
+
+  .now-voice--armed .now-voice__word {
+    color: color-mix(in srgb, var(--color-text) 32%, transparent);
+    transition: color var(--duration-slowest) var(--ease-emphasized);
+    transition-delay: calc(var(--duration-fast) * var(--now-voice-step, 0) * 0.5);
+  }
+
+  .now-voice--armed .now-voice__word.is-lit {
+    color: var(--color-text);
+  }
+
   .now-book {
     display: flex;
     align-items: center;
@@ -195,11 +251,12 @@ const nowJsonLd = buildNowPageJsonLd({
   .now-book__title {
     font-family: var(--font-heading);
     font-style: normal;
-    font-size: var(--body-size);
+    font-size: var(--now-display-size);
     font-weight: var(--heading-weight);
     letter-spacing: var(--letter-spacing-heading-md);
-    line-height: 1.2;
+    line-height: 1.15;
     color: var(--color-text);
+    text-wrap: balance;
   }
 
   .now-book__subtitle,
@@ -212,6 +269,7 @@ const nowJsonLd = buildNowPageJsonLd({
   .now-book__buy {
     flex: none;
     margin-top: var(--spacing-xs);
+    white-space: nowrap;
   }
 
   .now-book__buy:hover {
@@ -271,6 +329,12 @@ const nowJsonLd = buildNowPageJsonLd({
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .now-voice--armed .now-voice__word,
+    .now-voice--armed .now-voice__word.is-lit {
+      color: var(--color-text);
+      transition: none;
+    }
+
     .now-book__cover {
       transition: none;
     }
@@ -284,5 +348,53 @@ const nowJsonLd = buildNowPageJsonLd({
     .now-homes {
       padding-top: var(--spacing-lg);
     }
+
+    .now-book {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .now-book__cover {
+      width: 9rem;
+    }
   }
 </style>
+
+<script>
+  const nowVoiceRoots = new WeakMap<HTMLElement, IntersectionObserver>();
+
+  function initNowVoice() {
+    const root = document.querySelector<HTMLElement>('[data-now-voice]');
+    if (!root || root.dataset.nowVoiceReady === 'true') return;
+    root.dataset.nowVoiceReady = 'true';
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const words = root.querySelectorAll<HTMLElement>('.now-voice__word');
+    if (reduce || !('IntersectionObserver' in window)) return;
+
+    root.classList.add('now-voice--armed');
+    const trigger = window.innerHeight * 0.46;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-lit');
+          observer.unobserve(entry.target);
+        }
+      },
+      { root: null, rootMargin: '-46% 0px -52% 0px', threshold: 0 },
+    );
+    nowVoiceRoots.set(root, observer);
+
+    words.forEach((word) => {
+      if (word.getBoundingClientRect().bottom < trigger) {
+        word.classList.add('is-lit');
+        return;
+      }
+      observer.observe(word);
+    });
+  }
+
+  initNowVoice();
+  document.addEventListener('astro:page-load', initNowVoice);
+</script>
