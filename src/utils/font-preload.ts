@@ -4,11 +4,8 @@
  * Returns the woff2 paths that should be preloaded for a given page. Preloads
  * are limited to the Latin subset of fonts we're confident the first viewport
  * needs — site UI (ABC Diatype) plus today's theme heading/body fonts when
- * they're self-hosted.
- *
- * Themes whose fonts come from Google Fonts (Clash Display, IBM Plex Sans,
- * Unbounded, Bodoni Moda, Crimson Text) are intentionally not preloaded here —
- * their CSS link in MainLayout drives loading.
+ * they're self-hosted (legacy /styles/fonts/*.css or vendored
+ * /fonts/daily-theme/ via `themeLatinPreloadPaths`).
  */
 
 type PageType = 'home' | 'blog' | 'about';
@@ -43,6 +40,7 @@ export function fontPreloadFetchPriority(
 export function getCriticalFonts(
   pageType: PageType = 'home',
   themeFontNames: string[] = [],
+  themeLatinPreloadPaths: string[] = [],
 ): string[] {
   const fonts: string[] = [ABC_DIATYPE];
   if (pageType === 'blog') {
@@ -55,6 +53,10 @@ export function getCriticalFonts(
   for (const name of themeFontNames) {
     const url = SELF_HOSTED_LATIN[name];
     if (url && !fonts.includes(url)) fonts.push(url);
+  }
+
+  for (const path of themeLatinPreloadPaths) {
+    if (path && !fonts.includes(path)) fonts.push(path);
   }
 
   return fonts.slice(0, MAX_PRELOADS);
