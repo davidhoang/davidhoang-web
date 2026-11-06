@@ -442,7 +442,6 @@ const showHeader = showTitle || Boolean(description?.trim());
         resetSignup(form);
       }
       if (form.dataset.initialized === 'true') return;
-      form.dataset.initialized = 'true';
       form.addEventListener('submit', () => {
         form.setAttribute('aria-busy', 'true');
         const status = form.querySelector<HTMLElement>('[data-signup-status]');
@@ -453,6 +452,7 @@ const showHeader = showTitle || Boolean(description?.trim());
         // Cross-origin POST navigates away; never include form values in analytics.
         reportAgentEvent(buildNewsletterSubmitEvent('attempted'));
       });
+      form.dataset.initialized = 'true';
     });
   }
 

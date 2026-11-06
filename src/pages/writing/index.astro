@@ -226,7 +226,6 @@ const ogImage = buildOgImageUrl({
   function initWritingFilters() {
     const toolbar = document.querySelector<HTMLElement>('.writing-toolbar');
     if (!toolbar || toolbar.dataset.initialized === 'true') return;
-    toolbar.dataset.initialized = 'true';
     const noResults = document.getElementById('writing-no-results');
     const tagChips = Array.from(document.querySelectorAll<HTMLButtonElement>('.writing-filter-chips .filter-pill'));
     const filterItems = Array.from(document.querySelectorAll<HTMLElement>('[data-filter-item]'));
@@ -271,12 +270,12 @@ const ogImage = buildOgImageUrl({
       });
     });
     toolbar.addEventListener('writing:view-change', applyFilters);
+    toolbar.dataset.initialized = 'true';
   }
 
   function initWritingViewTabs() {
     const tablist = document.querySelector<HTMLElement>('.writing-view-tabs');
     if (!tablist || tablist.dataset.initialized === 'true') return;
-    tablist.dataset.initialized = 'true';
     const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-tab]'));
     const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
     const filterable = Array.from(document.querySelectorAll<HTMLElement>('[data-filterable]'));
@@ -337,6 +336,7 @@ const ogImage = buildOgImageUrl({
           : viewParam
         : 'editorial';
     setView(initial, false);
+    tablist.dataset.initialized = 'true';
   }
 
   initWritingFilters();

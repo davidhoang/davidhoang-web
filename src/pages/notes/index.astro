@@ -264,7 +264,6 @@ const notesPlaceholderSketch =
   function initNotesFilters() {
     const grid = document.getElementById('notes-grid');
     if (!grid || grid.dataset.initialized === 'true') return;
-    grid.dataset.initialized = 'true';
     const tagBtns = document.querySelectorAll('#topic-chips .filter-pill[data-tag]');
     const stageBtns = document.querySelectorAll('#stage-chips .filter-pill[data-stage]');
     const noteCards = document.querySelectorAll('.index-card[data-filter-item]');
@@ -356,6 +355,7 @@ const notesPlaceholderSketch =
       searchInput.focus();
     });
     applyFilters();
+    grid.dataset.initialized = 'true';
   }
 
   initNotesFilters();
