@@ -23,7 +23,9 @@ import { formatLongDate } from '../../utils/formatDate';
 import { estimateReadingMinutes, formatReadingTime } from '../../utils/readingTime';
 import {
   absoluteUrl,
+  buildBreadcrumbListJsonLd,
   buildNoteCreativeWorkJsonLd,
+  CANONICAL_SITE,
   toIsoDate,
 } from '../../utils/structuredData';
 import { resolveContentOgImage } from '../../utils/ogImage';
@@ -121,10 +123,17 @@ const noteJsonLd = buildNoteCreativeWorkJsonLd({
   imageUrl: noteOgImageUrl,
   tags,
 });
+
+const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
+  { name: 'Home', item: CANONICAL_SITE },
+  { name: 'Notes', item: absoluteUrl('/notes') },
+  { name: note.data.title, item: canonicalUrl },
+]);
 ---
 
 <MainLayout title={note.data.title} description={pageDescription} ogImage={ogImage} ogVideo={ogVideo}>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(noteJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   {markdownUrl && (
     <link slot="head" rel="alternate" type="text/markdown" title="Markdown" href={markdownUrl} />
   )}
