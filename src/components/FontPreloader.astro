@@ -13,12 +13,14 @@ interface Props {
   /** Font family names from today's theme (heading + body) — used to preload
    * self-hosted latin subsets so theme typography paints without FOUT. */
   themeFontNames?: string[];
+  /** Latin woff2 paths for vendored daily-theme Google Fonts (see theme-daily-google-font-latin). */
+  themeLatinPreloadPaths?: string[];
 }
 
-const { pageType = 'home', themeFontNames = [] } = Astro.props;
+const { pageType = 'home', themeFontNames = [], themeLatinPreloadPaths = [] } = Astro.props;
 
 // Get critical fonts for this page type
-const criticalFonts = getCriticalFonts(pageType, themeFontNames);
+const criticalFonts = getCriticalFonts(pageType, themeFontNames, themeLatinPreloadPaths);
 
 ---
 
