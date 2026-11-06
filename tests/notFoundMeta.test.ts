@@ -9,6 +9,13 @@ describe('404 page SEO', () => {
     expect(source).toMatch(/robots="noindex,\s*follow"/);
   });
 
+  it('reveals cmd-hint with transform-only motion so muted text keeps full contrast (PCD-192)', () => {
+    const source = readSource(join(process.cwd(), 'src/pages/404.astro'), 'utf8');
+    expect(source).toMatch(/@keyframes cmdHintReveal/);
+    expect(source).not.toMatch(/\.cmd-hint[\s\S]*?animation:\s*fadeUp/);
+    expect(source).toMatch(/\.cmd-hint[\s\S]*?opacity:\s*1/);
+  });
+
   it('emits noindex in built HTML when dist/ exists', () => {
     const htmlPath = join(process.cwd(), 'dist/client/404.html');
     if (!existsSync(htmlPath)) {
