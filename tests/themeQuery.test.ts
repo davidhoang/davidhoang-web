@@ -1,6 +1,23 @@
+import { GatewayAuthenticationError } from '@ai-sdk/gateway';
+import { APICallError } from 'ai';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '../src/pages/api/theme-query';
-import { resolveThemeQueryConfiguration } from '../src/utils/themeQueryAuth';
+import {
+  resolveThemeQueryConfiguration,
+  themeQueryGatewayErrorResponse,
+} from '../src/utils/themeQueryAuth';
+
+const { streamTextMock } = vi.hoisted(() => ({
+  streamTextMock: vi.fn(),
+}));
+
+vi.mock('ai', async importOriginal => {
+  const actual = await importOriginal<typeof import('ai')>();
+  return {
+    ...actual,
+    streamText: streamTextMock,
+  };
+});
 
 const encoder = new TextEncoder();
 
@@ -45,6 +62,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+  streamTextMock.mockReset();
 });
 
 describe('resolveThemeQueryConfiguration', () => {
@@ -60,6 +78,83 @@ describe('resolveThemeQueryConfiguration', () => {
   it('uses direct Anthropic when gateway credentials are absent', () => {
     expect(resolveThemeQueryConfiguration({}, 'direct-key').mode).toBe('direct');
     expect(resolveThemeQueryConfiguration({}, undefined).mode).toBe('missing');
+  });
+});
+
+describe('themeQueryGatewayErrorResponse', () => {
+  it('maps APICallError 401 to JSON 503', () => {
+    const res = themeQueryGatewayErrorResponse(
+      new APICallError({
+        message: 'unauthorized',
+        url: 'https://example.test',
+        requestBodyValues: {},
+        statusCode: 401,
+      }),
+    );
+    expect(res).not.toBeNull();
+    expect(res!.status).toBe(503);
+  });
+
+  it('maps GatewayAuthenticationError to JSON 503', () => {
+    const res = themeQueryGatewayErrorResponse(
+      new GatewayAuthenticationError({ statusCode: 401 }),
+    );
+    expect(res).not.toBeNull();
+    expect(res!.status).toBe(503);
+  });
+
+  it('returns null for unrelated errors', () => {
+    expect(themeQueryGatewayErrorResponse(new Error('nope'))).toBeNull();
+  });
+});
+
+describe('POST /api/theme-query (AI Gateway)', () => {
+  beforeEach(() => {
+    vi.stubEnv('VERCEL', '1');
+    streamTextMock.mockReturnValue({
+      stream: new ReadableStream({
+        start(controller) {
+          controller.enqueue({
+            type: 'text-delta',
+            id: '0',
+            text: '{"gateway":true}',
+          });
+          controller.close();
+        },
+      }),
+    });
+  });
+
+  it('returns encoded text from toTextStreamResponse (gateway path)', async () => {
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'serif themes' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Content-Type')).toContain('text/plain');
+    expect(await response.text()).toBe('{"gateway":true}');
+  });
+
+  it('returns JSON when streamText throws a gateway auth error', async () => {
+    streamTextMock.mockImplementation(() => {
+      throw new GatewayAuthenticationError({ statusCode: 401 });
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(503);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
   });
 });
 
