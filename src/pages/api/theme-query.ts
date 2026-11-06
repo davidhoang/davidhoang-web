@@ -1,10 +1,14 @@
-import { APICallError, streamText } from 'ai';
+import { createTextStreamResponse, streamText, toTextStream } from 'ai';
 import type { APIRoute } from 'astro';
 import dailyThemes from '../../data/daily-themes.json';
 import { createAnthropicTextStream } from '../../utils/anthropicTextStream';
-import { resolveThemeQueryConfiguration } from '../../utils/themeQueryAuth';
+import {
+  resolveThemeQueryConfiguration,
+  themeQueryGatewayErrorResponse,
+} from '../../utils/themeQueryAuth';
 
 const THEME_QUERY_MODEL = 'anthropic/claude-haiku-4-5';
+/** Direct Anthropic SSE path: byte stream of UTF-8 text (see `createAnthropicTextStream`). */
 const STREAM_HEADERS = {
   'Content-Type': 'text/plain; charset=utf-8',
   'Cache-Control': 'no-cache',
@@ -189,34 +193,19 @@ Based on the user's query, compose a json-render spec that presents the relevant
           abortSignal: request.signal,
         });
 
-        return new Response(result.textStream, {
-          status: 200,
-          headers: STREAM_HEADERS,
+        // `textStream` yields string chunks; the Fetch `Response` body must be
+        // bytes (`Uint8Array`). Pipe through `toTextStream` + `createTextStreamResponse`
+        // (TextEncoderStream). Passing `textStream` directly produced an empty body
+        // on Vercel (HTTP 200, size 0).
+        return createTextStreamResponse({
+          stream: toTextStream({ stream: result.stream }),
+          headers: { 'Cache-Control': 'no-cache' },
         });
       } catch (error) {
-        if (APICallError.isInstance(error)) {
-          if (error.statusCode === 401 || error.statusCode === 403) {
-            return new Response(
-              JSON.stringify({
-                error:
-                  'Theme Ask authentication failed. Refresh Vercel OIDC credentials or check AI Gateway access.',
-                code: 'THEME_QUERY_AUTH_FAILED',
-              }),
-              { status: 503, headers: { 'Content-Type': 'application/json' } },
-            );
-          }
-
-          if (error.statusCode === 429) {
-            return new Response(
-              JSON.stringify({
-                error: 'Theme Ask is rate limited. Try again in a moment.',
-                code: 'THEME_QUERY_RATE_LIMITED',
-              }),
-              { status: 429, headers: { 'Content-Type': 'application/json' } },
-            );
-          }
+        const mapped = themeQueryGatewayErrorResponse(error);
+        if (mapped) {
+          return mapped;
         }
-
         throw error;
       }
     }
@@ -256,6 +245,11 @@ Based on the user's query, compose a json-render spec that presents the relevant
   } catch (error: unknown) {
     if (error instanceof Error && error.name === 'AbortError') {
       return new Response(null, { status: 499 });
+    }
+
+    const gateway = themeQueryGatewayErrorResponse(error);
+    if (gateway) {
+      return gateway;
     }
 
     console.error('theme-query error:', error);
