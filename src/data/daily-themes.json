@@ -1,6 +1,363 @@
 {
   "themes": [
     {
+      "name": "Wet Lacquer",
+      "description": "Rain-slicked surfaces and gallery stillness — a cinematic evening where vivid images float on deep, polished warmth.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1410",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#C2185B",
+          "--color-link-hover": "#880E4F",
+          "--color-border": "#E8C9A8",
+          "--color-muted": "#7F6449",
+          "--color-sidebar-bg": "#F7E6D4",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#1C1410",
+          "--color-card-bg": "#F9EAD8"
+        },
+        "dark": {
+          "--color-text": "#F2E0C8",
+          "--color-bg": "#1C1410",
+          "--color-link": "#F06292",
+          "--color-link-hover": "#F48FB1",
+          "--color-border": "#3D2518",
+          "--color-muted": "#9D816B",
+          "--color-sidebar-bg": "#231710",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F2E0C8",
+          "--color-card-bg": "#261A11"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Instrument Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "20px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#C2185B",
+          "#F06292",
+          "#FDF2E9"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-11-06",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Wet Lacquer",
+              "subtitle": "November 6, 2026"
+            },
+            "children": [
+              "s-outer"
+            ]
+          },
+          "s-outer": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "palette",
+              "s-top",
+              "div1",
+              "s-mid",
+              "div2",
+              "s-bot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Rain-slicked surfaces. Gallery stillness. Vivid images hover on deep polished warmth — a cinematic evening frozen mid-breath.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1410",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#C2185B",
+                  "label": "Lacquer"
+                },
+                {
+                  "hex": "#F06292",
+                  "label": "Blush"
+                },
+                {
+                  "hex": "#FDF2E9",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#E8C9A8",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#7F6449",
+                  "label": "Muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s-top": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "heading-sample",
+              "hero-prev"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Gallery Stillness",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s-mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "s-badges"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Analogous"
+                },
+                {
+                  "label": "Link",
+                  "value": "Color-only"
+                },
+                {
+                  "label": "Cards",
+                  "value": "Elevated · 20px"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "High"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s-badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Fraunces Serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Elevated Cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Vivid · Hover Lift",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "Gradient Footer",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s-bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tokens",
+              "apply-btn"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#C2185B"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF2E9"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#F9EAD8"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "20px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Wet Lacquer",
+              "action": "apply-theme",
+              "date": "2026-11-06"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Gilt & Grain",
       "description": "Art Deco glamour filtered through a print journalist's eye — geometric gold ornament pressed into warm newsprint, editorial hierarchy made ornate.",
       "colors": {
@@ -2081,404 +2438,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Slab & Canopy",
-      "description": "A Niemeyer terrace frozen at peak afternoon: brutalist typography casts long shadows over a palette of canopy green, burnt terracotta, and cool turquoise pool water.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C2B1A",
-          "--color-bg": "#EAF0E6",
-          "--color-link": "#9F4A22",
-          "--color-link-hover": "#2A7A6B",
-          "--color-border": "#1C2B1A",
-          "--color-muted": "#5A6B56",
-          "--color-sidebar-bg": "#D9E5D4",
-          "--color-nav-bg": "#EAF0E6",
-          "--color-nav-text": "#1C2B1A",
-          "--color-card-bg": "#DFE9DA"
-        },
-        "dark": {
-          "--color-text": "#E8F0E4",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#E8885A",
-          "--color-link-hover": "#3DBEA8",
-          "--color-border": "#E8F0E4",
-          "--color-muted": "#7AA58F",
-          "--color-sidebar-bg": "#122028",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#E8F0E4",
-          "--color-card-bg": "#152630"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Archivo Black",
-          "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
-          "category": "sans-serif",
-          "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Bitter",
-          "url": "https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bitter', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EAF0E6",
-          "#C45C2A",
-          "#2A7A6B"
-        ]
-      },
-      "font": {
-        "name": "Archivo Black",
-        "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
-        "category": "sans-serif",
-        "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-30",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Slab & Canopy",
-              "subtitle": "2026-10-30 — Brutalist Terrace Series"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "div2",
-              "s2",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A Niemeyer terrace frozen at peak afternoon. Concrete anchors the type, the canopy breathes above, and the pool waits cold and turquoise at the edge of the frame.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "ht",
-              "badge-row"
-            ]
-          },
-          "ht": {
-            "type": "TypeSample",
-            "props": {
-              "text": "SLAB & CANOPY",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "end"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Archivo Black",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "col-left",
-              "col-right"
-            ]
-          },
-          "col-left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "palette",
-              "body-sample",
-              "caption-sample"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C2B1A",
-                  "label": "Slab"
-                },
-                {
-                  "hex": "#EAF0E6",
-                  "label": "Terrace"
-                },
-                {
-                  "hex": "#9F4A22",
-                  "label": "Terracotta"
-                },
-                {
-                  "hex": "#2A7A6B",
-                  "label": "Pool"
-                },
-                {
-                  "hex": "#5A6B56",
-                  "label": "Canopy"
-                },
-                {
-                  "hex": "#DFE9DA",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Bitter serif grounds the afternoon heat in deliberate, unhurried rhythm.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "caption-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "[ bracket links ] · 0px radius · grid texture · duotone images",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "col-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial hero — split axis"
-            },
-            "children": []
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "split"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Scheme",
-                  "value": "Split-complementary"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Editorial"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Brutalist"
-                },
-                {
-                  "label": "Links",
-                  "value": "[ bracket ]"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#9F4A22"
-                },
-                {
-                  "name": "--color-link-hover",
-                  "value": "#2A7A6B"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#EAF0E6"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "0px"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#5A6B56"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Slab & Canopy",
-              "action": "apply-theme",
-              "date": "2026-10-30"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-05"
+  "currentDate": "2026-11-06"
 }
