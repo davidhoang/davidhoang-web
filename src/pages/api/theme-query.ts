@@ -1,7 +1,8 @@
-import { createTextStreamResponse, streamText, toTextStream } from 'ai';
+import { streamText } from 'ai';
 import type { APIRoute } from 'astro';
 import dailyThemes from '../../data/daily-themes.json';
 import { createAnthropicTextStream } from '../../utils/anthropicTextStream';
+import { createGatewayThemeQueryResponse } from '../../utils/themeQueryGatewayStream';
 import {
   resolveThemeQueryConfiguration,
   themeQueryGatewayErrorResponse,
@@ -186,21 +187,18 @@ Based on the user's query, compose a json-render spec that presents the relevant
 
     if (auth.mode === 'gateway') {
       try {
+        const streamFailure: { error?: unknown } = {};
         const result = streamText({
           model: THEME_QUERY_MODEL,
           instructions: CATALOG_PROMPT,
           prompt: userPrompt,
           abortSignal: request.signal,
+          onError: ({ error }) => {
+            streamFailure.error = error;
+          },
         });
 
-        // `textStream` yields string chunks; the Fetch `Response` body must be
-        // bytes (`Uint8Array`). Pipe through `toTextStream` + `createTextStreamResponse`
-        // (TextEncoderStream). Passing `textStream` directly produced an empty body
-        // on Vercel (HTTP 200, size 0).
-        return createTextStreamResponse({
-          stream: toTextStream({ stream: result.stream }),
-          headers: { 'Cache-Control': 'no-cache' },
-        });
+        return await createGatewayThemeQueryResponse(result, streamFailure);
       } catch (error) {
         const mapped = themeQueryGatewayErrorResponse(error);
         if (mapped) {

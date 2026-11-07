@@ -88,6 +88,17 @@ export function themeQueryGatewayErrorResponse(error: unknown): Response | null 
   return null;
 }
 
+/** Gateway stream finished without text deltas (often follows a swallowed provider error). */
+export function themeQueryEmptyResponse(): Response {
+  return json(
+    {
+      error: 'Theme Ask returned no content. Try a different question.',
+      code: 'THEME_QUERY_EMPTY_RESPONSE',
+    },
+    502,
+  );
+}
+
 /** Prefer Vercel AI Gateway (OIDC on deploy) over a direct Anthropic API key. */
 export function resolveThemeQueryConfiguration(
   environment: ServerEnvironment = process.env,
