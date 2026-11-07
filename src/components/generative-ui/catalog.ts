@@ -1,3 +1,4 @@
+import './zodClientConfig';
 import { defineCatalog } from '@json-render/core';
 import { schema } from '@json-render/react';
 import { z } from 'zod';
