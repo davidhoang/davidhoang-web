@@ -13,6 +13,16 @@
 
    ============================================ */
 
+/* Latin subset — default transfer size; full variable file below for out-of-range glyphs */
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatypeVariable-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2190-2194, U+2197, U+21B5, U+2212, U+2248, U+2260, U+2264, U+2265, U+2318, U+2500, U+25CB, U+25CF, U+25D0, U+2728, U+FEFF, U+FFFD;
+}
+
 @font-face {
   font-family: 'ABC Diatype';
   src: url('/fonts/ABCDiatypeVariable.woff2') format('woff2');

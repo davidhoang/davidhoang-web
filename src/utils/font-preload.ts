@@ -19,13 +19,14 @@ const SELF_HOSTED_LATIN: Record<string, string> = {
   'Source Serif 4': '/fonts/vEFF2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4.woff2',
 };
 
-const ABC_DIATYPE = '/fonts/ABCDiatypeVariable.woff2';
+/** Latin subset — ~50% smaller than full variable file; paired with unicode-range in fonts.css */
+const ABC_DIATYPE_LATIN = '/fonts/ABCDiatypeVariable-latin.woff2';
 const ABC_DIATYPE_MONO = '/fonts/ABCDiatypeMonoVariable.woff2';
 const SOURCE_SERIF_4_LATIN = SELF_HOSTED_LATIN['Source Serif 4'];
 
 const MAX_PRELOADS = 5;
 
-const HIGH_PRIORITY_FONT_FILES = ['ABCDiatypeVariable.woff2'];
+const HIGH_PRIORITY_FONT_FILES = ['ABCDiatypeVariable-latin.woff2'];
 
 /** fetchpriority for a preloaded woff2 — home/index routes defer to image LCP. */
 export function fontPreloadFetchPriority(
@@ -42,7 +43,11 @@ export function getCriticalFonts(
   themeFontNames: string[] = [],
   themeLatinPreloadPaths: string[] = [],
 ): string[] {
-  const fonts: string[] = [ABC_DIATYPE];
+  const fonts: string[] = [];
+  // Home LCP is the hero image — do not preload Diatype (still loads via @font-face).
+  if (pageType !== 'home') {
+    fonts.push(ABC_DIATYPE_LATIN);
+  }
   if (pageType === 'blog') {
     fonts.push(ABC_DIATYPE_MONO);
     if (SOURCE_SERIF_4_LATIN && !fonts.includes(SOURCE_SERIF_4_LATIN)) {
