@@ -73,3 +73,11 @@ Format:
 **Symptom:** n/a — file created during `.agents/skills/product-design/` setup
 **Fix applied:** canonical skill + surface references
 **Status:** resolved
+
+---
+
+## 2026-11-07 — Muted text on sidebar surfaces (theme audit gap)
+
+**Symptom:** Axe `color-contrast` flagged Gilt & Grain (2026-11-05) writing tabs and design-guide captions at 4.44:1 (`--color-muted` on `--color-sidebar-bg`) while build-time theme contrast passed.
+**Fix applied:** `CONTRAST_PAIRS` now includes muted-on-sidebar; `npm run build` auto-fixes affected theme JSON.
+**Status:** resolved
