@@ -4,16 +4,16 @@ import { fontPreloadFetchPriority, getCriticalFonts } from '../src/utils/font-pr
 describe('fontPreloadFetchPriority', () => {
   it('does not high-priority preload site UI fonts on home/index routes (hero image LCP)', () => {
     expect(
-      fontPreloadFetchPriority('home', '/fonts/ABCDiatypeVariable.woff2'),
+      fontPreloadFetchPriority('home', '/fonts/ABCDiatypeVariable-latin.woff2'),
     ).toBeUndefined();
   });
 
-  it('high-priority preloads ABC Diatype on article and about routes', () => {
+  it('high-priority preloads ABC Diatype latin subset on article and about routes', () => {
     expect(
-      fontPreloadFetchPriority('blog', '/fonts/ABCDiatypeVariable.woff2'),
+      fontPreloadFetchPriority('blog', '/fonts/ABCDiatypeVariable-latin.woff2'),
     ).toBe('high');
     expect(
-      fontPreloadFetchPriority('about', '/fonts/ABCDiatypeVariable.woff2'),
+      fontPreloadFetchPriority('about', '/fonts/ABCDiatypeVariable-latin.woff2'),
     ).toBe('high');
   });
 
@@ -30,5 +30,15 @@ describe('getCriticalFonts', () => {
     const blog = getCriticalFonts('blog');
     expect(home.some((f) => f.includes('Mono'))).toBe(false);
     expect(blog.some((f) => f.includes('Mono'))).toBe(true);
+  });
+
+  it('does not preload ABC Diatype on home (hero image LCP)', () => {
+    const home = getCriticalFonts('home');
+    expect(home.some((f) => f.includes('Diatype'))).toBe(false);
+  });
+
+  it('preloads latin Diatype subset on about and blog routes', () => {
+    expect(getCriticalFonts('about')).toContain('/fonts/ABCDiatypeVariable-latin.woff2');
+    expect(getCriticalFonts('blog')).toContain('/fonts/ABCDiatypeVariable-latin.woff2');
   });
 });
