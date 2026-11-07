@@ -364,6 +364,9 @@ export default function ThemesExplorer({ themes }: Props) {
         if (finalSpec) {
           setAiSpec(finalSpec);
         } else if (!latestSpec) {
+          if (!buffer.trim()) {
+            throw new Error('Theme Ask returned no content. Try a different question.');
+          }
           throw new Error('Failed to parse AI response');
         }
       } catch (err: unknown) {

@@ -156,6 +156,83 @@ describe('POST /api/theme-query (AI Gateway)', () => {
     const body = await response.json();
     expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
   });
+
+  it('returns JSON when the gateway stream emits an error part', async () => {
+    streamTextMock.mockReturnValue({
+      stream: new ReadableStream({
+        start(controller) {
+          controller.enqueue({
+            type: 'error',
+            error: new GatewayAuthenticationError({ statusCode: 401 }),
+          });
+          controller.close();
+        },
+      }),
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(503);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
+  });
+
+  it('returns JSON when onError fires on an empty gateway stream', async () => {
+    streamTextMock.mockImplementation((options: { onError?: (arg: { error: unknown }) => void }) => {
+      queueMicrotask(() => {
+        options.onError?.({
+          error: new GatewayAuthenticationError({ statusCode: 401 }),
+        });
+      });
+      return {
+        stream: new ReadableStream({
+          start(controller) {
+            controller.close();
+          },
+        }),
+      };
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(503);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
+  });
+
+  it('returns JSON when the gateway stream completes without text', async () => {
+    streamTextMock.mockReturnValue({
+      stream: new ReadableStream({
+        start(controller) {
+          controller.close();
+        },
+      }),
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(502);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_EMPTY_RESPONSE');
+  });
 });
 
 describe('POST /api/theme-query streaming', () => {
