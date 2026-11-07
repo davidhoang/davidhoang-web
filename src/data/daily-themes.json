@@ -1,6 +1,416 @@
 {
   "themes": [
     {
+      "name": "Slab & Canopy",
+      "description": "A Niemeyer-era information surface: deep interior shadow, terracotta structure, and a single wash of pool turquoise cutting through disciplined columns of text.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C2B1A",
+          "--color-bg": "#EDF2EC",
+          "--color-link": "#007569",
+          "--color-link-hover": "#00695C",
+          "--color-border": "#B5C4B1",
+          "--color-muted": "#5B6C59",
+          "--color-sidebar-bg": "#E0EAE0",
+          "--color-nav-bg": "#EDF2EC",
+          "--color-nav-text": "#1C2B1A",
+          "--color-card-bg": "#E6EDE5"
+        },
+        "dark": {
+          "--color-text": "#D8E8D4",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#4DB6AC",
+          "--color-link-hover": "#80CBC4",
+          "--color-border": "#1F3B34",
+          "--color-muted": "#729581",
+          "--color-sidebar-bg": "#0A1A1D",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#D8E8D4",
+          "--color-card-bg": "#112428"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "600",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#0D1F22",
+          "#00897B"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-11-07",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Slab & Canopy",
+              "subtitle": "November 7, 2026"
+            },
+            "children": [
+              "s-outer"
+            ]
+          },
+          "s-outer": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "badge-row",
+              "div1",
+              "s-mid",
+              "div2",
+              "palette",
+              "div3",
+              "s-bot",
+              "apply-btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Niemeyer poured concrete into type. A terracotta grid holds everything upright while one cool turquoise seam runs through the columns like water beneath a civic pavilion.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif heading",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "bracket links",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s-mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "s-type",
+              "s-previews"
+            ]
+          },
+          "s-type": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "heading-sample",
+              "body-sample",
+              "caption-sample"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Interior Shadow",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Disciplined columns of IBM Plex Sans hold the structure together beneath the canopy.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "caption-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Cormorant Garamond · IBM Plex Sans · 2px radius",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "s-previews": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "layout-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "s-previews-end": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C2B1A",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#EDF2EC",
+                  "label": "Background"
+                },
+                {
+                  "hex": "#007569",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#B5C4B1",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#5B6C59",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E6EDE5",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s-bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Complementary"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Image",
+                  "value": "Muted / Hover Colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--radius",
+                  "value": "2px"
+                },
+                {
+                  "name": "--link-style",
+                  "value": "bracket"
+                },
+                {
+                  "name": "--footer",
+                  "value": "minimal"
+                },
+                {
+                  "name": "--contrast",
+                  "value": "high"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Slab & Canopy",
+              "action": "apply-theme",
+              "date": "2026-11-07"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Wet Lacquer",
       "description": "Rain-slicked surfaces and gallery stillness — a cinematic evening where vivid images float on deep, polished warmth.",
       "colors": {
@@ -2056,389 +2466,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Set",
-      "description": "A late-evening editorial theme drawn from the intimacy of a jazz club — oxblood warmth, tarnished brass accents, and a paced typographic rhythm between dense heading stacks and airy body prose.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2A1F1A",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#B5451B",
-          "--color-link-hover": "#8B2E0F",
-          "--color-border": "#D4B896",
-          "--color-muted": "#7E6756",
-          "--color-sidebar-bg": "#F5E6D3",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#2A1F1A",
-          "--color-card-bg": "#F8EBD8"
-        },
-        "dark": {
-          "--color-text": "#EDE0CB",
-          "--color-bg": "#1C1410",
-          "--color-link": "#C9884A",
-          "--color-link-hover": "#DFA85C",
-          "--color-border": "#3D2E22",
-          "--color-muted": "#958275",
-          "--color-sidebar-bg": "#231812",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#EDE0CB",
-          "--color-card-bg": "#261C14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Spectral",
-          "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "6px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "6px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#C9884A",
-          "#1C1410"
-        ]
-      },
-      "font": {
-        "name": "Spectral",
-        "url": "https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Spectral', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-10-31",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Set",
-              "subtitle": "October 31, 2026 — Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "s1",
-              "palette",
-              "div2",
-              "s2",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "The room is low-lit. Brass glints off lacquered wood. Type stacks dense and slow, then opens into air — like a phrase held one beat too long, perfectly.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hs",
-              "meta"
-            ]
-          },
-          "hs": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "h1",
-              "hero",
-              "br"
-            ]
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Late Evening Editorial",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan Hero"
-            },
-            "children": []
-          },
-          "br": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "magazine",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Heading",
-                  "value": "Spectral"
-                },
-                {
-                  "label": "Body",
-                  "value": "Source Serif 4"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Radius",
-                  "value": "6px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "palette",
-              "tg"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2E9",
-                  "label": "Background"
-                },
-                {
-                  "hex": "#2A1F1A",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#B5451B",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#D4B896",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#C9884A",
-                  "label": "Brass"
-                },
-                {
-                  "hex": "#7E6756",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tg": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#FDF2E9"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#2A1F1A"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#B5451B"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#F8EBD8"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#7E6756"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "body-sample",
-              "shader"
-            ]
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Warmth is a design decision. So is silence between notes.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#C9884A",
-                "#1C1410",
-                "#FDF2E9"
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Velvet Set",
-              "action": "apply-theme",
-              "date": "2026-10-31"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-06"
+  "currentDate": "2026-11-07"
 }
