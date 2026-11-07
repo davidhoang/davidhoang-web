@@ -19,6 +19,7 @@ export const CONTRAST_PAIRS = [
   ['--color-link', '--color-bg', 4.5, 'link on background'],
   ['--color-muted', '--color-bg', 4.5, 'muted text on background'],
   ['--color-muted', '--color-card-bg', 4.5, 'muted text on card background'],
+  ['--color-muted', '--color-sidebar-bg', 4.5, 'muted text on sidebar background'],
   ['--color-text', '--color-card-bg', 4.5, 'text on card background'],
   ['--color-link', '--color-card-bg', 4.5, 'link on card background'],
   ['--color-nav-text', '--color-nav-bg', 4.5, 'nav text on nav background'],
