@@ -31,6 +31,7 @@ See `references/rules.md` for the full list. Non-negotiables:
 - Hover: color, shadow, transform — not padding/margin/size
 - Hero motion continuity: never remount media on hover; gate JS hover with `data-hover-motion`
 - Nav is framework-controlled — do not theme or unscope
+- User-facing copy is finished editorial prose — never process notes, build mechanics, or agent instructions (see `references/rules.md` § Before shipping UI)
 
 ## Component patterns
 
@@ -47,8 +48,9 @@ See `references/rules.md` for the full list. Non-negotiables:
 ## Review workflow
 
 1. Compare changes against `design.md` and `references/rules.md` (§ Layout invariants)
-2. Run `npm run audit:design:check` (same command CI runs on every PR)
-3. Optional: [Web Interface Guidelines](https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md)
+2. Read every new or edited user-facing string as a visitor would. It must be finished editorial copy — no process notes, build mechanics, or agent instructions
+3. Run `npm run audit:design:check` (same command CI runs on every PR)
+4. Optional: [Web Interface Guidelines](https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md)
 
 ## When agents get it wrong
 

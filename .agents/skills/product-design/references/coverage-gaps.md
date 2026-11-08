@@ -14,6 +14,14 @@ Format:
 
 ---
 
+## 2026-11-08 — Instruction residue in Featured media lede
+
+**Symptom:** Featured shipped a visitor-facing line under Media & publications: "Essays and appearances — titles and descriptions are pulled from each page when the build runs." That is a build note, not editorial copy. The product-design checklist covered tokens, layout, and motion, and never asked agents to read the words on the page.
+**Fix applied:** Concrete copy rule in `references/rules.md` § Before shipping UI and in `SKILL.md` (implementation checklist + review workflow). `design.md` unchanged — it states visual and layout contract rules, not editorial copy.
+**Status:** open
+
+---
+
 ## 2026-08-29 — CSS containment on filter wrapper / hero
 
 **Symptom:** PC-8’s suggested CSS (`contain: strict` + `will-change: filter` on `.content-filter-wrapper`; `content-visibility` on `.card-stack-item` / all `.card`) would clip homepage hero tuck, freeze page height, and skip LCP tiles.
