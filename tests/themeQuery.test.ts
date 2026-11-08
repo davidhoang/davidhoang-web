@@ -108,6 +108,43 @@ describe('themeQueryGatewayErrorResponse', () => {
   });
 });
 
+describe('POST /api/theme-query request validation', () => {
+  it.each([
+    ['empty body', ''],
+    ['invalid JSON', '{not-json'],
+  ] as const)('returns 400 for %s', async (_label, rawBody) => {
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: rawBody,
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(400);
+    const body = await response.json();
+    expect(body.error).toBe('Send a JSON request body.');
+  });
+
+  it.each([
+    ['missing query', {}],
+    ['empty query string', { query: '' }],
+    ['non-string query', { query: 12 }],
+  ] as const)('returns 400 for %s', async (_label, payload) => {
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(400);
+    const body = await response.json();
+    expect(body.error).toBe('Missing query parameter');
+  });
+});
+
 describe('POST /api/theme-query (AI Gateway)', () => {
   beforeEach(() => {
     vi.stubEnv('VERCEL', '1');

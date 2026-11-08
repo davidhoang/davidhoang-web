@@ -114,16 +114,30 @@ No children.
 - Do NOT add comments in the JSON
 - VARY the layout — make it feel curated and editorial, not just a list`;
 
+const jsonError = (error: string, status = 400) =>
+  new Response(JSON.stringify({ error }), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const body = await request.json();
-    const { query } = body;
+    let body: unknown;
+
+    try {
+      body = await request.json();
+    } catch {
+      return jsonError('Send a JSON request body.');
+    }
+
+    if (!body || typeof body !== 'object') {
+      return jsonError('Missing query parameter');
+    }
+
+    const { query } = body as Record<string, unknown>;
 
     if (!query || typeof query !== 'string') {
-      return new Response(JSON.stringify({ error: 'Missing query parameter' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return jsonError('Missing query parameter');
     }
 
     const anthropicApiKey =
