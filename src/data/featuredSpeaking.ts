@@ -53,6 +53,12 @@ export const featuredSpeaking: SpeakingYear[] = [
         href: 'https://www.youtube.com/watch?v=eKGcVzJV2MQ',
       },
       {
+        meta: 'October',
+        title:
+          'Team \'26 Europe: Building in Public: How Atlassian designs and ships in the AI era',
+        href: 'https://events.atlassian.com/teameurope/session/4405764/building-in-public-how-atlassian-designs-and-ships-in-the-ai-era',
+      },
+      {
         meta: 'May',
         title: 'Hatch Leadership Ateliers, Amsterdam',
         href: 'https://leadershipateliers.com/',
