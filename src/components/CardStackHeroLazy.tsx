@@ -20,6 +20,7 @@ const CardStackHeroSkeleton = ({ lcpImageSrc }: { lcpImageSrc?: string }) => (
   <>
     <div
       className="card-stack-hero-skeleton"
+      role="status"
       aria-busy="true"
       aria-label="Loading hero section"
     >
