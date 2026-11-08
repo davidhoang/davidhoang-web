@@ -14,7 +14,7 @@ const SPEAKING_MONTHS = [
 ] as const;
 
 /**
- * Speaking rows show the year on the section and the month in the margin.
+ * Speaking rows show the year as a heading and the month in the list item.
  * Day numbers in `meta` ("November 5", "September 14–16") are dropped.
  */
 export function speakingMonthLabel(meta: string): string {
@@ -23,7 +23,7 @@ export function speakingMonthLabel(meta: string): string {
 }
 
 export type SpeakingEntry = {
-  /** Month only, shown beside the year. Days are omitted. e.g. "May" */
+  /** Month only. Days are omitted. e.g. "May" */
   meta: string;
   title: string;
   href?: string;

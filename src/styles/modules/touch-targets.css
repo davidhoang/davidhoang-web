@@ -30,21 +30,14 @@
     padding-block: var(--spacing-sm);
   }
 
-  /* Featured — speaking entry links */
+  /* Featured — speaking entry links stay inline with the month */
   .featured-editorial .speaking-chronicle__title a.speaking-entry__link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding-block: calc(var(--spacing-xs) + 0.125rem);
+    display: inline;
+    padding-block: var(--spacing-sm);
   }
 
   .featured-editorial .speaking-chronicle__entry {
-    align-items: center;
-    padding-block: var(--spacing-sm);
-  }
-
-  .featured-editorial .speaking-chronicle__entry--linked {
-    padding-block: var(--spacing-sm);
+    padding-block: var(--spacing-xs);
   }
 
   /* Investing — company links in text lists */

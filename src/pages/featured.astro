@@ -35,18 +35,14 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
           featuredSpeaking.map((block) => (
             <section class="speaking-chronicle__year" aria-labelledby={`speaking-${block.year}`}>
               <h3 class="speaking-chronicle__year-label" id={`speaking-${block.year}`}>
-                <span class="speaking-chronicle__year-num">{block.year}</span>
+                {block.year}
               </h3>
-              <ul class="speaking-chronicle__list">
+              <ul class="speaking-chronicle__list" aria-labelledby={`speaking-${block.year}`}>
                 {block.entries.map((entry) => {
                   const month = speakingMonthLabel(entry.meta);
                   return (
-                  <li class={`speaking-chronicle__entry${entry.href ? ' speaking-chronicle__entry--linked' : ''}`}>
-                    {month ? (
-                      <span class="speaking-chronicle__when">{month}</span>
-                    ) : (
-                      <span class="speaking-chronicle__when speaking-chronicle__when--empty" aria-hidden="true" />
-                    )}
+                  <li class="speaking-chronicle__entry">
+                    {month ? <span class="speaking-chronicle__when">{month}</span> : null}
                     <span class="speaking-chronicle__title">
                       <SpeakingEntryTitle
                         client:visible
@@ -130,76 +126,55 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
   }
 
   .speaking-chronicle__year {
-    display: grid;
-    grid-template-columns: minmax(3.25rem, 4.25rem) minmax(0, 1fr);
-    gap: 0 clamp(1rem, 2.8vw, 1.5rem);
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 
   .speaking-chronicle__year-label {
     margin: 0;
-    position: sticky;
-    top: calc(var(--nav-height, 48px) + var(--nav-offset-top, 24px) + 1rem);
-  }
-
-  .speaking-chronicle__year-num {
-    display: block;
     font-family: var(--font-heading);
-    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+    font-size: var(--prose-h3-size);
     font-weight: var(--heading-weight);
-    line-height: 1;
-    letter-spacing: var(--letter-spacing-display);
+    line-height: var(--h3-line-height);
+    letter-spacing: var(--letter-spacing-heading-md);
     font-variant-numeric: tabular-nums;
-    color: color-mix(in srgb, var(--color-muted) 58%, var(--color-text));
-    transform: translateY(0.08em);
+    color: var(--color-text);
   }
 
   .speaking-chronicle__list {
-    list-style: none;
+    list-style: disc;
     margin: 0;
-    padding: 0;
+    padding: 0 0 0 1.25em;
+    font-family: var(--font-body);
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-text);
   }
 
-  .speaking-chronicle__entry {
-    display: grid;
-    grid-template-columns: minmax(4.75rem, 6.25rem) minmax(0, 1fr);
-    gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
-    padding: calc(var(--spacing-sm) + 0.22rem) 0;
-    align-items: baseline;
-  }
-
-  .speaking-chronicle__entry--linked {
-    position: relative;
-    margin-inline: calc(-1 * clamp(0.45rem, 1.4vw, 0.65rem));
-    padding-inline: clamp(0.45rem, 1.4vw, 0.65rem);
-    border-radius: var(--radius-sm);
-    transition:
-      background-color var(--duration-normal) var(--ease-standard),
-      transform var(--duration-slower) var(--ease-inertia);
-  }
-
-  .speaking-chronicle__entry--linked:hover {
-    background: color-mix(in srgb, var(--color-sidebar-bg) 55%, var(--color-bg));
-    transform: translateX(2px);
-  }
-
-  .speaking-chronicle__when {
-    font-size: var(--text-meta-size);
-    line-height: 1.35;
-    letter-spacing: var(--letter-spacing-caption);
-    font-variant-numeric: tabular-nums;
+  .speaking-chronicle__list ::marker {
     color: var(--color-muted);
   }
 
-  .speaking-chronicle__when--empty {
-    visibility: hidden;
+  .speaking-chronicle__entry {
+    margin: 0 0 var(--spacing-sm);
+    padding: 0;
   }
 
+  .speaking-chronicle__entry:last-child {
+    margin-bottom: 0;
+  }
+
+  .speaking-chronicle__when,
   .speaking-chronicle__title {
-    font-size: clamp(0.94rem, 1.6vw, 1rem);
-    line-height: 1.45;
-    letter-spacing: var(--letter-spacing-body);
-    color: var(--color-text);
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+
+  .speaking-chronicle__when::after {
+    content: '\00a0\2014\00a0';
   }
 
   .featured-editorial .speaking-chronicle__title a.speaking-entry__link {
@@ -237,71 +212,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     overflow: visible;
   }
 
-  @media (max-width: 767px) {
-    .speaking-chronicle__entry {
-      grid-template-columns: 1fr;
-      gap: calc(var(--spacing-xs) - 0.05rem);
-      padding-block: 0.85rem;
-      align-items: start;
-    }
-
-    .speaking-chronicle__when {
-      font-size: var(--text-xs-size);
-      line-height: 1.3;
-    }
-
-    .speaking-chronicle__when--empty {
-      display: none;
-    }
-
-    .speaking-chronicle__title {
-      font-size: var(--text-ui-size);
-      line-height: 1.5;
-    }
-
-    .speaking-chronicle__entry--linked {
-      padding-block: 0.95rem;
-    }
-
-    .featured-editorial .speaking-chronicle__title a.speaking-entry__link {
-      display: block;
-      padding-block: 0.125rem;
-    }
-
-    .speaking-chronicle__entry--linked:hover {
-      transform: none;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .speaking-chronicle__year {
-      grid-template-columns: 1fr;
-      gap: calc(var(--spacing-sm) + calc(var(--spacing-xs) - 0.2rem));
-    }
-
-    .speaking-chronicle__year-label {
-      position: static;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-    }
-
-    .speaking-chronicle__year-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--color-border);
-    }
-
-    .speaking-chronicle__year-num {
-      font-size: var(--prose-size);
-      transform: none;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .speaking-chronicle__entry--linked,
-    .speaking-chronicle__entry--linked:hover,
     .featured-editorial .speaking-chronicle__title a.speaking-entry__link--preview::after,
     .featured-editorial .speaking-chronicle__title a.speaking-entry__link--preview:hover::after {
       transform: none;
