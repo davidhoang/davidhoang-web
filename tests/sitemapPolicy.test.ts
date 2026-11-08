@@ -80,11 +80,14 @@ describe('built sitemap output (when dist/ exists)', () => {
     expect(partNames.length).toBeGreaterThan(0);
 
     const locs: string[] = [];
+  const partXmlChunks: string[] = [];
     for (const partUrl of partNames) {
       const partPath = join(distDir, partUrl.split('/').pop()!);
       const partXml = readFileSync(partPath, 'utf8');
+      partXmlChunks.push(partXml);
       locs.push(...[...partXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
     }
+    const combined = partXmlChunks.join('\n');
 
     expect(new Set(locs).size).toBe(locs.length);
     for (const loc of locs) {
@@ -92,6 +95,17 @@ describe('built sitemap output (when dist/ exists)', () => {
       expect(loc.includes('/api/')).toBe(false);
       expect(loc.includes('/default-layout')).toBe(false);
     }
+
+    const lastmods = [...combined.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);
+    expect(lastmods.length).toBeGreaterThan(0);
+
+    const writingPost = locs.find((loc) => loc.endsWith('/writing/optimizing-for-agents'));
+    expect(writingPost).toBeDefined();
+    const postBlock = combined.slice(
+      combined.indexOf(`<loc>${writingPost}</loc>`),
+      combined.indexOf('</url>', combined.indexOf(`<loc>${writingPost}</loc>`)) + 6,
+    );
+    expect(postBlock).toContain('<lastmod>');
   });
 
   it('does not advertise excluded prototype routes when dist is present', () => {

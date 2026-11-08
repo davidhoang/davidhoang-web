@@ -11,6 +11,7 @@ import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
 import { themeApplyMapPlugin } from './scripts/lib/theme-apply-map-plugin.mjs';
 import { isIndexedSitemapPage } from './src/data/searchIndexConfig.ts';
+import { resolveSitemapLastmod } from './src/utils/sitemapLastmod.ts';
 
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
@@ -142,6 +143,11 @@ export default defineConfig({
     react(),
     sitemap({
       filter: isIndexedSitemapPage,
+      serialize(item) {
+        const lastmod = resolveSitemapLastmod(item.url);
+        if (!lastmod) return item;
+        return { ...item, lastmod };
+      },
     }),
   ],
   vite: {
