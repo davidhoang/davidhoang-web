@@ -68,7 +68,7 @@
 
 [data-viewport-tier='mobile'] .prose-mobile h2,
 [data-viewport-tier='compact'] .prose-mobile h2 {
-  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-size: var(--h2-size-mobile);
   line-height: 1.2;
   letter-spacing: var(--letter-spacing-heading-lg);
   margin-top: 2em;
@@ -76,7 +76,7 @@
 
 [data-viewport-tier='mobile'] .prose-mobile h3,
 [data-viewport-tier='compact'] .prose-mobile h3 {
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-size: var(--h3-size-mobile);
   line-height: 1.25;
   letter-spacing: var(--letter-spacing-heading-md);
   margin-top: 1.75em;

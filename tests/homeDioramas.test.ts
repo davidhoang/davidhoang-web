@@ -23,6 +23,12 @@ describe('web-ready clay homes', () => {
       .find((directive: string[]) => directive[0] === 'script-src');
     expect(scriptSources).toContain("'wasm-unsafe-eval'");
     expect(scriptSources).not.toContain("'unsafe-eval'");
+
+    const connectSources = policy
+      .split(';')
+      .map((directive: string) => directive.trim().split(/\s+/))
+      .find((directive: string[]) => directive[0] === 'connect-src');
+    expect(connectSources).toContain('https://fonts.googleapis.com');
   });
   for (const name of ['greco-court', 'clocktower']) {
     it(`${name} stays self-contained, compressed and within the geometry budget`, () => {
@@ -55,6 +61,11 @@ describe('web-ready clay homes', () => {
     const palettePaths: string[] = commandPalettePages.map((page) => page.path);
     expect(palettePaths).not.toContain('/experiments/greco-diorama');
     expect(isExcludedFromSearchIndex('/experiments/greco-diorama')).toBe(true);
+    const pageSource = readFileSync(
+      new URL('../src/pages/experiments/greco-diorama.astro', import.meta.url),
+      'utf8',
+    );
+    expect(pageSource).toMatch(/robots="noindex,\s*follow"/);
   });
   it('retains Kai as a separate mesh with his vertex-painted tabby coat', () => {
     const { json } = readGlb('greco-court');

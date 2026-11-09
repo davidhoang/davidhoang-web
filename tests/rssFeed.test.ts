@@ -10,6 +10,10 @@ import {
   rssWritingItemPermalinks,
 } from '../src/utils/rssFeedItems';
 import {
+  absolutizeRssContentHtml,
+  renderRssMarkdownContent,
+} from '../src/utils/rssContentHtml';
+import {
   loadNoteEntriesFromDisk,
   loadWritingEntriesFromDisk,
 } from './helpers/contentEntriesFromDisk';
@@ -36,6 +40,25 @@ function parseRssItems(xml: string) {
     };
   });
 }
+
+describe('rssContentHtml', () => {
+  it('absolutizes root-relative src, href, poster, and srcset in feed HTML', () => {
+    const html =
+      '<p><a href="/writing/foo">x</a><img src="/images/a.webp" srcset="/images/a.webp 640w, /images/b.webp 1200w" poster="/images/p.webp" /></p>';
+    const out = absolutizeRssContentHtml(html, SITE);
+    expect(out).not.toMatch(/\b(src|href|poster)=["']\//);
+    expect(out).toContain(`${SITE}/images/a.webp`);
+    expect(out).toContain(`${SITE}/images/b.webp 1200w`);
+    expect(out).toContain(`${SITE}/writing/foo`);
+  });
+
+  it('renderRssMarkdownContent emits absolute image URLs for markdown posts', () => {
+    const body = '![Alt text](/images/blog/2024/img-2024-09-15-operator-mode.webp)';
+    const html = renderRssMarkdownContent(body, SITE);
+    expect(html).toContain(`${SITE}/images/blog/2024/img-2024-09-15-operator-mode.webp`);
+    expect(html).not.toMatch(/src=["']\//);
+  });
+});
 
 describe('rssFeedItems', () => {
   it('builds slash-less link paths and legacy slash guids', () => {
@@ -141,6 +164,8 @@ describe('RSS feed output', () => {
     expect(xml).toContain('href="/rss-styles.xsl"');
     const parsed = parseRssItems(xml);
     expect(parsed).toHaveLength(24);
+
+    expect(xml).not.toMatch(/content:encoded[^]*\bsrc=["']\//);
 
     for (const item of parsed) {
       expect(item.link).toMatch(new RegExp(`^${SITE.replace(/\./g, '\\.')}/writing/[^/]+$`));

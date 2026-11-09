@@ -13,13 +13,19 @@
 
    ============================================ */
 
+/* Latin subset — ~50% smaller than full variable WOFF2; see npm run subset-abcdiatype */
 @font-face {
   font-family: 'ABC Diatype';
-  src: url('/fonts/ABCDiatypeVariable.woff2') format('woff2');
+  src: url('/fonts/ABCDiatypeVariable-latin.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2190-2194, U+2197, U+21B5, U+2212, U+2248, U+2260, U+2264, U+2265, U+2318, U+2500, U+25CB, U+25CF, U+25D0, U+2728, U+FEFF, U+FFFD;
 }
+
+/* Full WOFF2 (public/fonts/ABCDiatypeVariable.woff2) is the subset source only —
+   expand scripts/subset-abcdiatype.mjs unicodes and re-run npm run subset-abcdiatype
+   if new characters are needed. */
 
 @font-face {
   font-family: 'ABC Diatype Mono';
@@ -202,7 +208,7 @@ blockquote p {
   margin: 0 0 calc(var(--spacing-md) - 0.15rem);
   color: var(--color-text);
   font-family: inherit;
-  font-size: 1.25rem;
+  font-size: var(--section-heading-size);
   line-height: 1.7;
   font-weight: 400;
   font-style: italic;
@@ -217,7 +223,7 @@ blockquote cite {
   display: block;
   margin-top: 1.25rem;
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: var(--text-meta-size);
   color: var(--color-muted);
   font-style: normal;
   font-weight: 600;
@@ -274,7 +280,7 @@ blockquote cite {
 .pull-quote-attribution {
   display: block;
   margin-top: 1.5rem;
-  font-size: 0.95rem;
+  font-size: var(--text-caption-size);
   color: var(--color-muted);
   font-weight: 400;
   letter-spacing: 0.02em;

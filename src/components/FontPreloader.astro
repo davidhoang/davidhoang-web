@@ -6,31 +6,27 @@
  * Improves LCP by preloading only the most critical fonts.
  */
 
-import { getCriticalFonts } from '../utils/font-preload';
+import { fontPreloadFetchPriority, getCriticalFonts } from '../utils/font-preload';
 
 interface Props {
   pageType?: 'home' | 'blog' | 'about';
-  priority?: boolean;
   /** Font family names from today's theme (heading + body) — used to preload
    * self-hosted latin subsets so theme typography paints without FOUT. */
   themeFontNames?: string[];
+  /** Latin woff2 paths for vendored daily-theme Google Fonts (see theme-daily-google-font-latin). */
+  themeLatinPreloadPaths?: string[];
 }
 
-const { pageType = 'home', priority = false, themeFontNames = [] } = Astro.props;
+const { pageType = 'home', themeFontNames = [], themeLatinPreloadPaths = [] } = Astro.props;
 
 // Get critical fonts for this page type
-const criticalFonts = getCriticalFonts(pageType, themeFontNames);
+const criticalFonts = getCriticalFonts(pageType, themeFontNames, themeLatinPreloadPaths);
 
-// Only the site UI face gets high priority. Theme fonts (Inter, etc.) preload
-// at default priority so they don't race the LCP image on home.
-const highPriorityFonts = ['ABCDiatypeVariable.woff2'];
 ---
 
 <!-- Critical font preloads optimized for LCP -->
-{criticalFonts.map((font, index) => {
-  const fileName = font.split('/').pop() || '';
-  const isHighPriority = highPriorityFonts.some(hpFont => fileName.includes(hpFont)) || (priority && index === 0);
-  const fetchPriority = isHighPriority ? 'high' : undefined;
+{criticalFonts.map((font) => {
+  const fetchPriority = fontPreloadFetchPriority(pageType, font);
   
   return (
     <link 

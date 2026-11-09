@@ -9,7 +9,9 @@ import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { remarkImagePath } from './src/plugins/remarkImagePath.mjs';
 import { syncPublicImages } from './scripts/lib/sync-public-images.mjs';
+import { themeApplyMapPlugin } from './scripts/lib/theme-apply-map-plugin.mjs';
 import { isIndexedSitemapPage } from './src/data/searchIndexConfig.ts';
+import { resolveSitemapLastmod } from './src/utils/sitemapLastmod.ts';
 
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
@@ -20,6 +22,8 @@ const MANUAL_CHUNKS = [
   ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx', 'src/components/diorama/DioramaScene.tsx']],
   ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
+  // Shared by hero card shaders + CardStackHeroLazy; must not live inside hero-components.
+  ['lcp-defer', ['src/utils/deferUntilAfterLcp.ts']],
   // Navigation imports this on every page; keep it out of hero-components or framer-motion loads site-wide.
   ['viewport-capabilities', ['src/utils/viewport-capabilities.ts', 'src/utils/breakpoints.ts']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
@@ -27,7 +31,7 @@ const MANUAL_CHUNKS = [
     'hero-components',
     [
       'src/components/CardStackHero.tsx',
-      'src/components/CardStackHeroLazy.tsx',
+      // CardStackHeroLazy stays out — island entry must not pull hero-components until after LCP.
       'src/components/hero/types.ts',
       'src/components/hero/CardBase.tsx',
       'src/components/hero/HeroTitle.tsx',
@@ -139,6 +143,11 @@ export default defineConfig({
     react(),
     sitemap({
       filter: isIndexedSitemapPage,
+      serialize(item) {
+        const lastmod = resolveSitemapLastmod(item.url);
+        if (!lastmod) return item;
+        return { ...item, lastmod };
+      },
     }),
   ],
   vite: {
@@ -146,6 +155,7 @@ export default defineConfig({
       tailwindcss(),
       serveRootMarkdownRoutesPlugin(),
       copyAssetsPlugin(),
+      themeApplyMapPlugin(),
       ...(process.env.ANALYZE ? [visualizer({
         filename: 'dist/bundle-stats.html',
         open: process.env.ANALYZE_OPEN === 'true',
@@ -198,9 +208,5 @@ export default defineConfig({
       include: ['react', 'react-dom'],
       exclude: ['@astrojs/react']
     },
-    // Enable tree shaking
-    esbuild: {
-      treeShaking: true
-    }
   },
 }); 

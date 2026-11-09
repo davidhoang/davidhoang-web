@@ -9,7 +9,7 @@ Site: https://www.davidhoang.com
 - **UI**: Astro components + React 19 (CareerOdyssey, CardStackHero, Framer Motion where needed)
 - **Styling**: CSS modules and global CSS with design tokens (CSS custom properties)
 - **Graphics**: Three.js / React Three Fiber; Paper Design Shaders for WebGL backgrounds
-- **Fonts**: Self-hosted (ABCDiatypeVariable, Inter, Cormorant Garamond, Space Grotesk) with font-preload system
+- **Fonts**: Self-hosted (ABCDiatypeVariable, Inter, Cormorant Garamond, Space Grotesk) with font-preload system; Google Fonts used by the daily-theme archive are vendored (`public/fonts/daily-theme/`, `npm run vendor-daily-theme-fonts` regenerates CSS after `daily-themes.json` font changes)
 - **Deployment**: Vercel (static + serverless functions)
 
 ## Key directories

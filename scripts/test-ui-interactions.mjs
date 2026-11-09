@@ -43,6 +43,14 @@ try {
   assert.ok(await visible('.cmd-palette-item') > 0);
   await page.keyboard.press('ArrowDown');
   assert.ok(await page.locator('#cmdPaletteInput').getAttribute('aria-activedescendant'));
+  const highlightedBg = await page
+    .locator('#cmdPaletteResults .cmd-palette-item.is-highlighted')
+    .evaluate((el) => getComputedStyle(el).backgroundColor);
+  assert.match(
+    highlightedBg,
+    /0\.(?:1[4-9]|[2-9]\d)|(?:^|\D)(?:1[4-9]|[2-9]\d)(?:\.\d+)?%\)/,
+    `keyboard highlight should be visibly stronger than resting rows (got ${highlightedBg})`,
+  );
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('#cmdPalette').evaluate((el) => el.closest('.site-nav')?.classList.contains('cmd-palette-active') ?? false), false);
   check('Search keyboard entry, results, navigation, and Escape');

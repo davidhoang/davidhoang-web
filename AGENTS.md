@@ -33,6 +33,7 @@ Cross-tool product design instructions follow the [Vercel agent design stack](ht
 - Smoke-check before UI work: `curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:4321/` (expect `200`).
 - Unit tests: `npm test`. Design lint before UI commits: commands below.
 - `ANTHROPIC_API_KEY` is only required for `npm run generate-theme`, not for normal local development. Optional `TYPESAFE_API_KEY` enables Jev taste ranking among safe candidates.
+- After changing Google Font families in `src/data/daily-themes.json`, run `npm run vendor-daily-theme-fonts` and commit the generated font files and CSS so themed pages stay off `fonts.googleapis.com`.
 
 Cloud agents **must** run design linters before committing UI changes:
 

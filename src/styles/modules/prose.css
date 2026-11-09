@@ -24,49 +24,25 @@
   line-height: var(--prose-line-height);
 }
 
-.note-content h2 {
-  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
-  line-height: 1.2;
-  letter-spacing: var(--letter-spacing-heading-lg);
-  margin-top: 2em;
-  margin-bottom: 0.5em;
-}
-
-.note-content h3 {
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
-  line-height: 1.25;
-  letter-spacing: var(--letter-spacing-heading-md);
-  margin-top: 1.75em;
-  margin-bottom: 0.4em;
-}
-
-.note-content h4 {
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
-  line-height: 1.3;
-  letter-spacing: 0;
-  margin-top: 1.5em;
-  margin-bottom: 0.4em;
-}
-
 /* Article heading hierarchy — scaled down from page-level display sizes */
-.prose-content h2 {
-  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+:is(.prose-content, .note-content) h2 {
+  font-size: var(--prose-h2-size);
   line-height: 1.2;
   letter-spacing: var(--letter-spacing-heading-lg);
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
 
-.prose-content h3 {
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
+:is(.prose-content, .note-content) h3 {
+  font-size: var(--prose-h3-size);
   line-height: 1.25;
   letter-spacing: var(--letter-spacing-heading-md);
   margin-top: 1.75em;
   margin-bottom: 0.4em;
 }
 
-.prose-content h4 {
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
+:is(.prose-content, .note-content) h4 {
+  font-size: var(--prose-h4-size);
   line-height: 1.3;
   letter-spacing: 0;
   margin-top: 1.5em;
@@ -74,7 +50,7 @@
 }
 
 .prose-content h5 {
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   font-weight: var(--heading-weight);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -127,7 +103,7 @@
   margin: 1.75em 0;
   overflow-x: auto;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   line-height: 1.7;
   tab-size: 2;
   -webkit-overflow-scrolling: touch;
@@ -155,7 +131,7 @@
   border-radius: var(--radius-md);
   padding: calc(var(--spacing-md) + var(--spacing-xs)) var(--spacing-lg);
   margin: 1.75em 0;
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   line-height: 1.7;
   max-width: 100%;
   overflow-x: auto;
@@ -295,7 +271,7 @@
 :is(.prose-content, .note-content) .x-post-card__author {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: var(--text-caption-size);
   font-style: normal;
   font-weight: 600;
   color: var(--color-text);
@@ -304,7 +280,7 @@
 
 :is(.prose-content, .note-content) .x-post-card__date {
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: var(--text-meta-size);
   font-weight: 500;
   color: var(--color-muted);
   text-decoration: none;

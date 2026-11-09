@@ -183,7 +183,7 @@
 
 .text-eyebrow {
   display: inline-block;
-  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-size: var(--text-eyebrow-size);
   font-weight: 600;
   letter-spacing: var(--text-eyebrow-tracking, 0.14em);
   text-transform: uppercase;
@@ -224,7 +224,7 @@
 }
 
 .text-meta {
-  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-size: var(--text-eyebrow-size);
   font-weight: 600;
   letter-spacing: var(--text-eyebrow-tracking, 0.14em);
   text-transform: uppercase;
@@ -233,7 +233,7 @@
 
 /* Subscribe keeps its page-specific class while sharing eyebrow tokens. */
 .subscribe-page__eyebrow {
-  font-size: var(--text-eyebrow-size, 0.6875rem);
+  font-size: var(--text-eyebrow-size);
   font-weight: 600;
   letter-spacing: var(--text-eyebrow-tracking, 0.14em);
   text-transform: uppercase;
@@ -281,7 +281,7 @@
 }
 
 .person-avatar-name {
-  font-size: 0.9rem;
+  font-size: var(--text-caption-size);
   font-weight: 500;
   color: var(--color-text);
   white-space: nowrap;

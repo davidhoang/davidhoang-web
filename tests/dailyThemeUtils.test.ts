@@ -6,6 +6,7 @@ import {
   buildThemeApply,
   clampMinContentPadding,
 } from '../src/utils/dailyThemeApply';
+import { buildThemeApply as buildThemeApplyMjs } from '../scripts/lib/daily-theme-apply.mjs';
 import { resolveDailyTheme } from '../src/utils/dailyThemes';
 import {
   createClaudeApiUnavailableError,
@@ -17,8 +18,9 @@ import {
 
 describe('resolveDailyTheme', () => {
   it('returns the theme for an exact date', () => {
-    const theme = resolveDailyTheme(dailyThemes.themes, '2026-10-23');
-    expect(theme?.date).toBe('2026-10-23');
+    const date = dailyThemes.currentDate;
+    const theme = resolveDailyTheme(dailyThemes.themes, date);
+    expect(theme?.date).toBe(date);
     expect(theme?.name).toBeTruthy();
   });
 
@@ -55,6 +57,12 @@ describe('buildThemeApply', () => {
     expect(clampMinContentPadding('0.5rem')).toBe('1rem');
     expect(clampMinContentPadding('8px')).toBe('1rem');
     expect(clampMinContentPadding('1.5rem')).toBe('1.5rem');
+  });
+
+  it('matches the build-time JS apply map generator', () => {
+    for (const theme of dailyThemes.themes) {
+      expect(buildThemeApplyMjs(theme)).toEqual(buildThemeApply(theme));
+    }
   });
 });
 
