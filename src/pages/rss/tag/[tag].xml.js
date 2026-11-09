@@ -1,11 +1,8 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import sanitizeHtml from 'sanitize-html';
-import MarkdownIt from 'markdown-it';
 import { rssEntriesForFeed } from '../../../utils/rssFeed';
+import { renderRssMarkdownContent } from '../../../utils/rssContentHtml';
 import { RSS_TRAILING_SLASH, rssWritingItemPermalinks } from '../../../utils/rssFeedItems';
-
-const md = new MarkdownIt();
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('writing');
@@ -33,9 +30,7 @@ export async function GET(context) {
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
-      content: sanitizeHtml(md.render(post.body), {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-      }),
+      content: renderRssMarkdownContent(post.body, context.site),
       categories: ['writing', ...(post.data.tags || [])],
     }))
     .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());

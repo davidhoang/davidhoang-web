@@ -59,7 +59,7 @@
 .co-year-marker {
   position: absolute;
   transform: translateX(-50%);
-  font-size: 0.65rem;
+  font-size: var(--text-eyebrow-size);
   font-weight: 600;
   font-family: var(--font-body);
   color: var(--color-muted);
@@ -151,7 +151,7 @@
 
 .co-node__label {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: var(--text-meta-size);
   font-weight: 600;
   line-height: 1.2;
   overflow: hidden;
@@ -162,7 +162,7 @@
 }
 
 .co-node__date {
-  font-size: 0.6rem;
+  font-size: var(--text-eyebrow-size);
   color: var(--color-muted);
   margin-top: auto;
 }
@@ -202,7 +202,7 @@
   align-items: center;
   gap: calc(var(--spacing-sm) + var(--spacing-xs));
   padding: var(--spacing-sm) calc(var(--spacing-md) + var(--spacing-xs));
-  font-size: 0.8rem;
+  font-size: var(--text-meta-size);
   font-weight: 600;
   color: var(--color-text);
   letter-spacing: 0.03em;
@@ -343,7 +343,7 @@
 }
 
 .node-card-title {
-  font-size: 1.4rem;
+  font-size: var(--lead-size);
   margin: 0 0 var(--spacing-sm) 0;
   color: var(--color-text);
   line-height: 1.25;
@@ -353,14 +353,14 @@
 }
 
 .node-card-date {
-  font-size: 0.85rem;
+  font-size: var(--text-meta-size);
   color: var(--color-muted);
   margin: 0 0 var(--spacing-md) 0;
   font-weight: 500;
 }
 
 .node-card-description {
-  font-size: 0.9rem;
+  font-size: var(--text-caption-size);
   line-height: 1.6;
   color: var(--color-text);
   margin: 0 0 var(--spacing-md) 0;
@@ -389,7 +389,7 @@
   color: var(--color-link);
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: var(--text-caption-size);
   transition: color var(--duration-fast) var(--ease-standard);
 }
 
@@ -409,7 +409,7 @@
 
 .node-card-worked-with-title {
   margin-top: 0;
-  font-size: 0.8rem;
+  font-size: var(--text-meta-size);
   font-weight: 700;
   color: var(--color-muted);
   text-transform: uppercase;
@@ -439,7 +439,7 @@
   display: flex;
   align-items: baseline;
   gap: var(--spacing-sm);
-  font-size: 0.85rem;
+  font-size: var(--text-meta-size);
   line-height: 1.5;
 }
 
@@ -469,7 +469,7 @@
   margin: 0;
   color: var(--color-link);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: var(--text-meta-size);
   font-weight: 500;
   cursor: pointer;
   transition: color var(--duration-fast) var(--ease-standard);
@@ -515,7 +515,7 @@
 }
 
 .person-avatar-name {
-  font-size: 0.9rem;
+  font-size: var(--text-caption-size);
   color: var(--color-text);
   white-space: nowrap;
   font-weight: 500;
@@ -534,7 +534,7 @@
 
   .timeline-content {
     padding: calc(var(--spacing-xs) + 0.15rem) 0.8rem;
-    font-size: 0.75rem;
+    font-size: var(--text-xs-size);
     gap: calc(var(--spacing-xs) + 0.15rem);
   }
 
@@ -543,7 +543,7 @@
   }
 
   .node-card-title {
-    font-size: 1.125rem;
+    font-size: var(--prose-size);
   }
 
   .node-card-image {

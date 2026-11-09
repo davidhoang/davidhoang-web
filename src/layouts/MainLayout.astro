@@ -9,15 +9,43 @@ import Analytics from '@vercel/analytics/astro';
 import { ClientRouter } from 'astro:transitions';
 import themesData from '../data/daily-themes.json';
 import { pageFade } from '../utils/pageTransitions';
-import { buildSiteGraphJsonLd, SITE_DESCRIPTION } from '../utils/structuredData';
+import {
+  absoluteUrl,
+  buildSiteGraphJsonLd,
+  DEFAULT_PAGE_ROBOTS,
+  SITE_DESCRIPTION,
+} from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
+import { openGraphTypeForPageKind, resolveLayoutPageKind } from '../utils/pageMeta';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
-// (see FONT_CSS_RAW). External Google Fonts CSS is skipped for these.
-const SELF_HOSTED_FONTS = new Set([
+// (see FONT_CSS_RAW). Vendored Google Fonts for the themes archive live in
+// dailyThemeGoogleFontCss (scripts/vendor-daily-theme-fonts.mjs).
+const SELF_HOSTED_LEGACY = new Set([
   'Inter', 'Space Grotesk', 'Cormorant Garamond', 'Source Serif 4',
 ]);
+
+// Load only the @font-face declarations needed by today's theme (not all 1,900 lines)
+// Vite ?raw imports give us CSS as strings at build time
+import cormorantGaramondCSS from '../styles/fonts/cormorant-garamond.css?raw';
+import interCSS from '../styles/fonts/inter.css?raw';
+import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
+import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
+import { dailyThemeGoogleFontCss } from '../styles/fonts/daily-theme-google-imports';
+import { buildThemeApply } from '../utils/dailyThemeApply';
+import { resolveDailyTheme } from '../utils/dailyThemes';
+import { themeFontStylesheetUrl } from '../utils/theme-font-stylesheet';
+import { latinWoff2ForThemeFont } from '../utils/theme-daily-google-preload';
+
+const FONT_CSS_RAW: Record<string, string> = {
+  'Cormorant Garamond': cormorantGaramondCSS,
+  'Inter': interCSS,
+  'Source Serif 4': sourceSerif4CSS,
+  'Space Grotesk': spaceGroteskCSS,
+};
+
+const GOOGLE_VENDORED_FOR_ARCHIVE = new Set(Object.keys(dailyThemeGoogleFontCss));
 
 // Get today's theme fonts for early preloading (reduces FOUT)
 const today = new Date().toISOString().split('T')[0];
@@ -26,31 +54,36 @@ const themeFonts = [todayTheme?.fonts?.heading, todayTheme?.fonts?.body]
   .filter((f: any) => f?.url)
   .filter((f: any, i: number, arr: any[]) => arr.findIndex((x: any) => x.url === f.url) === i);
 
-// Only fonts that aren't already self-hosted need external loading
-const externalThemeFonts = themeFonts.filter((f: any) => !SELF_HOSTED_FONTS.has(f.name));
-const needsGoogleFonts = externalThemeFonts.length > 0;
+// True only when today's theme still uses a Google Fonts URL we have not vendored yet
+const needsGoogleFonts = themeFonts.some(
+  (f: any) => !SELF_HOSTED_LEGACY.has(f.name) && !GOOGLE_VENDORED_FOR_ARCHIVE.has(f.name),
+);
 
-// Load only the @font-face declarations needed by today's theme (not all 1,900 lines)
-// Vite ?raw imports give us CSS as strings at build time
-import cormorantGaramondCSS from '../styles/fonts/cormorant-garamond.css?raw';
-import interCSS from '../styles/fonts/inter.css?raw';
-import sourceSerif4CSS from '../styles/fonts/source-serif-4.css?raw';
-import spaceGroteskCSS from '../styles/fonts/space-grotesk.css?raw';
-import { buildThemeApply } from '../utils/dailyThemeApply';
-import { resolveDailyTheme } from '../utils/dailyThemes';
-const FONT_CSS_RAW: Record<string, string> = {
-  'Cormorant Garamond': cormorantGaramondCSS,
-  'Inter': interCSS,
-  'Source Serif 4': sourceSerif4CSS,
-  'Space Grotesk': spaceGroteskCSS,
-};
 const neededFontFamilies = new Set<string>();
 if (todayTheme?.fonts?.heading?.name) neededFontFamilies.add(todayTheme.fonts.heading.name);
 if (todayTheme?.fonts?.body?.name) neededFontFamilies.add(todayTheme.fonts.body.name);
+
+const themeLatinPreloadPaths: string[] = [];
 let themeFontCSS = '';
 for (const name of neededFontFamilies) {
-  if (FONT_CSS_RAW[name]) themeFontCSS += FONT_CSS_RAW[name] + '\n';
+  if (GOOGLE_VENDORED_FOR_ARCHIVE.has(name)) {
+    const block = dailyThemeGoogleFontCss[name];
+    if (block) themeFontCSS += block + '\n';
+  } else if (FONT_CSS_RAW[name]) {
+    themeFontCSS += FONT_CSS_RAW[name] + '\n';
+  }
 }
+if (todayTheme?.fonts?.heading?.name && GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.fonts.heading.name)) {
+  themeLatinPreloadPaths.push(
+    ...latinWoff2ForThemeFont(todayTheme.fonts.heading.name, 'heading', todayTheme.typography),
+  );
+}
+if (todayTheme?.fonts?.body?.name && GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.fonts.body.name)) {
+  themeLatinPreloadPaths.push(
+    ...latinWoff2ForThemeFont(todayTheme.fonts.body.name, 'body', todayTheme.typography),
+  );
+}
+const uniqueThemeLatinPreloads = [...new Set(themeLatinPreloadPaths)];
 
 // --- SSR daily theme: bake today's theme into HTML to prevent CLS ---
 // Build CSS custom properties for today's theme (light mode default)
@@ -67,12 +100,9 @@ if (todayTheme) {
   Object.assign(ssrThemeAttrs, attrs);
 }
 
-// Map of every theme keyed by date — passed to the pre-paint script so it can swap
-// to the user's calendar selection before first paint (no flash of today's theme).
-const themesApplyMap: Record<string, ReturnType<typeof buildThemeApply>> = {};
-for (const t of (themesData as any).themes || []) {
-  themesApplyMap[t.date] = buildThemeApply(t);
-}
+// Full theme apply map is generated to /theme-apply-map.js (see theme-apply-map-plugin.mjs)
+// so HTML pages don't inline ~12KB+ of JSON. Cache-bust when themes archive changes.
+const themeApplyMapVersion = `${(themesData as any).currentDate || today}-${((themesData as any).themes || []).length}`;
 
 interface Props {
   title: string;
@@ -101,7 +131,7 @@ const {
   hideFooter = false,
   pageType,
   disableContentMoodFilter = false,
-  robots = 'index, follow',
+  robots = DEFAULT_PAGE_ROBOTS,
   containerClass = 'container',
 } = Astro.props;
 
@@ -116,22 +146,17 @@ const pageTitle = rawTitle.replace(/\s*[|\-–—]\s*David Hoang\s*$/i, '').trim
 // Append the brand unless the title already references the site name (e.g. home tagline).
 const fullTitle = /david hoang/i.test(pageTitle) ? pageTitle : `${pageTitle} — ${SITE_NAME}`;
 
-// Auto-detect page type from URL if not provided
-const detectedPageType = pageType || (() => {
-  const pathname = Astro.url.pathname;
-  if (pathname === '/' || pathname === '') return 'home';
-  if (pathname.includes('/writing/') || pathname.includes('/notes/')) return 'blog';
-  if (pathname.includes('/about')) return 'about';
-  return 'home';
-})();
+const detectedPageType = resolveLayoutPageKind(Astro.url.pathname, pageType);
+const openGraphType = openGraphTypeForPageKind(detectedPageType);
 
 // Get the canonical URL with fallback
 // Normalize: strip trailing slash (except for root "/") for consistent canonical URLs
 const rawPathname = Astro.url.pathname;
 const normalizedPathname = rawPathname === '/' ? '/' : rawPathname.replace(/\/+$/, '');
-const canonicalURL = Astro.site
-  ? new URL(normalizedPathname, Astro.site).href
-  : normalizedPathname;
+const canonicalURL = absoluteUrl(
+  normalizedPathname,
+  Astro.site ? Astro.site.toString() : undefined,
+);
 
 // Resolve the OG image. Pages that don't provide a bespoke image get an
 // on-brand generated card (page title + description) rather than the single
@@ -181,6 +206,7 @@ const ogVideoMeta = ogVideo
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="David Hoang — Writing (RSS)" href="/rss.xml" />
     <link rel="alternate" type="application/rss+xml" title="David Hoang — Notes (RSS)" href="/rss/notes.xml" />
     <link rel="canonical" href={canonicalURL} />
@@ -192,7 +218,7 @@ const ogVideoMeta = ogVideo
     <meta name="robots" content={robots} />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content={detectedPageType === 'blog' ? 'article' : 'website'} />
+    <meta property="og:type" content={openGraphType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -235,8 +261,8 @@ const ogVideoMeta = ogVideo
     <!-- Intelligent Font Preloading System -->
     <FontPreloader
       pageType={detectedPageType}
-      priority={detectedPageType === 'home'}
       themeFontNames={Array.from(neededFontFamilies)}
+      themeLatinPreloadPaths={uniqueThemeLatinPreloads}
     />
     
     <!-- Preconnect to Google Fonts only when today's theme needs external fonts -->
@@ -247,10 +273,23 @@ const ogVideoMeta = ogVideo
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     )}
 
-    <!-- Preload today's daily theme fonts to reduce FOUT (skip already self-hosted) -->
-    {externalThemeFonts.map((font: any) => (
-      <link rel="stylesheet" href={font.url} />
-    ))}
+    <!-- Theme Google Fonts: load only weights the layout uses (not full catalog ranges). -->
+    {todayTheme?.fonts?.heading &&
+      !SELF_HOSTED_LEGACY.has(todayTheme.fonts.heading.name) &&
+      !GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.fonts.heading.name) && (
+      <link
+        rel="stylesheet"
+        href={themeFontStylesheetUrl(todayTheme.fonts.heading, 'heading', todayTheme.typography)}
+      />
+    )}
+    {todayTheme?.fonts?.body &&
+      !SELF_HOSTED_LEGACY.has(todayTheme.fonts.body.name) &&
+      !GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.fonts.body.name) && (
+      <link
+        rel="stylesheet"
+        href={themeFontStylesheetUrl(todayTheme.fonts.body, 'body', todayTheme.typography)}
+      />
+    )}
 
     <!-- Browser theme color - blends browser UI with site -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -418,6 +457,9 @@ const ogVideoMeta = ogVideo
       }
     </style>
     
+    <!-- Blocking apply map: must run before the inline pre-paint script below. -->
+    <script is:inline src={`/theme-apply-map.js?v=${themeApplyMapVersion}`}></script>
+
     <!-- Apply theme and e-ink mode before paint to avoid flash.
          SSR bakes today's daily theme (light mode) into <html> style/attrs.
          This script handles: dark mode color swap, e-ink override, daily-off,
@@ -428,8 +470,8 @@ const ogVideoMeta = ogVideo
       ssrDarkColors: todayTheme?.colors?.dark || {},
       ssrThemeStyleKeys: ssrThemeStyle.map((s: string) => s.split(':')[0]),
       ssrDate: todayTheme?.date || today,
-      themesApplyMap,
     }}>
+      var themesApplyMap = (typeof window !== 'undefined' && window.__themesApplyMap) || {};
       // Apply user theme preferences (dark/e-ink/daily-off/calendar pick) to a given <html> root.
       // Used twice: against `document.documentElement` on initial load (pre-paint) and against
       // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).

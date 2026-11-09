@@ -6,6 +6,7 @@ import SubstackSignup from '../components/SubstackSignup.astro';
 import { AnimatedPhilosophyGrid, AnimatedPortfolioGrid } from '../components/AnimatedSections';
 import CardStackHeroLazy from '../components/CardStackHeroLazy';
 import { siteBioMetaThirdPerson } from '../data/siteCopy';
+import { getCollection } from 'astro:content';
 import { buildHomeHeroCards } from '../utils/jevHomeHero';
 import { HOME_OG_PREVIEW } from '../utils/ogVideo';
 import '../styles/pages/home.css';
@@ -40,7 +41,15 @@ async function optimizePortfolioImage(src: ImageMetadata) {
 // instead of double download). Card thumbnails render as CSS background-image,
 // so a single right-sized variant is what we want; no srcset needed.
 const dhWebOptimized = await getImage({ src: dhWebLightAsset, width: 480, format: 'webp' });
-const homeHeroPlan = await buildHomeHeroCards();
+const writingPosts = await getCollection('writing');
+const recentWritingTitles = (import.meta.env.PROD
+  ? writingPosts.filter((post) => !post.data.draft)
+  : writingPosts
+)
+  .sort((left, right) => right.data.pubDate.valueOf() - left.data.pubDate.valueOf())
+  .slice(0, 3)
+  .map((post) => post.data.title);
+const homeHeroPlan = await buildHomeHeroCards(undefined, { recentWritingTitles });
 const atlassianHero = await getImage({ src: imgAtlassian, width: 640, format: 'webp' });
 const heroCards = homeHeroPlan.cards.map(card => card.id === 'atlassian'
   ? { ...card, heroImage: atlassianHero.src }
@@ -77,7 +86,7 @@ const portfolioItems = [
   },
   {
     text: 'Apr 2023 · Advisor',
-    link: 'https://createwithplay.com',
+    link: 'https://play.design',
     linkText: 'Play',
     image: await optimizePortfolioImage(imgPlay),
     imageAlt: 'Play app interface and branding design',
@@ -104,7 +113,7 @@ const portfolioItems = [
       the island, but the "about" thumbnail uses background-image (invisible to
       the preload scanner). Current work is the first card on mobile. */}
   <link slot="head" rel="preload" as="image" href={dhWebOptimized.src} type="image/webp" fetchpriority="high" />
-  <link slot="head" rel="preload" as="image" href={atlassianHero.src} type="image/webp" />
+  <link slot="head" rel="preload" as="image" href={atlassianHero.src} type="image/webp" fetchpriority="high" />
   <!-- Card Stack Hero -->
   <section
     class="card-stack-section"
@@ -123,7 +132,6 @@ const portfolioItems = [
   <section class="portfolio-section home-content-start" aria-labelledby="highlights-heading">
     <div class="home-section-header">
       <h2 id="highlights-heading" class="home-section-heading text-heading">Selected work</h2>
-      <a href="/works" class="home-section-link">More work <span aria-hidden="true">↗</span></a>
     </div>
     <AnimatedPortfolioGrid items={portfolioItems} client:visible />
   </section>

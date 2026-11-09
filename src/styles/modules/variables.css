@@ -96,6 +96,13 @@
   --prose-size-mobile: 1.15rem;
   --prose-line-height: 1.75;
   --prose-measure: 44rem;
+  /* Article headings. Smaller than page --h2-size … --h4-size. */
+  --prose-h2-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  --prose-h3-size: clamp(1.15rem, 2vw, 1.35rem);
+  --prose-h4-size: clamp(1rem, 1.5vw, 1.125rem);
+  /* Phone heading overrides. Shared by the global mobile rules and .prose-mobile. */
+  --h2-size-mobile: clamp(1.5rem, 5vw, 2rem);
+  --h3-size-mobile: clamp(1.25rem, 4vw, 1.75rem);
   --lead-size: 1.35rem;
   --section-heading-size: 1.25rem;
   --letter-spacing-body: 0.005em;  /* Body text — canonical; --letter-spacing aliases this */
@@ -243,8 +250,12 @@
   --hero-card-dim-overlay: rgba(0, 0, 0, 0.35);
   --hero-card-dim-overlay-mobile: rgba(0, 0, 0, 0.4);
 
-  /* Eyebrow / meta typography */
-  --text-eyebrow-size: 0.6875rem;
+  /* Fixed UI chrome sizes. These do not follow --scale-ratio. */
+  --text-eyebrow-size: 0.6875rem; /* 11px */
+  --text-xs-size: 0.75rem;        /* 12px */
+  --text-meta-size: 0.8125rem;    /* 13px */
+  --text-caption-size: 0.875rem;  /* 14px */
+  --text-ui-size: 1rem;           /* 16px */
   --text-eyebrow-tracking: 0.14em;
 
   /* Spacing scale */

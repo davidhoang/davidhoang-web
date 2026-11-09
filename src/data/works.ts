@@ -133,7 +133,7 @@ export const works: WorkEntry[] = [
     title: 'Joined Play as Advisor',
     kind: 'event',
     when: '2023',
-    href: 'https://createwithplay.com',
+    href: 'https://play.design',
     external: true,
   },
 

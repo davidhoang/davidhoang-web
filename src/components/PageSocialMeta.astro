@@ -1,0 +1,45 @@
+---
+import { DEFAULT_PAGE_ROBOTS } from '../utils/structuredData';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl: string;
+  ogImageUrl: string;
+  /** Value for `<meta name="robots">` (e.g. `noindex, nofollow` for utility routes). */
+  robots?: string;
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImageUrl,
+  robots = DEFAULT_PAGE_ROBOTS,
+  ogType = 'website',
+} = Astro.props;
+---
+
+<link rel="canonical" href={canonicalUrl} />
+<meta name="robots" content={robots} />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content="davidhoang.com" />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@davidhoang" />
+<meta name="twitter:creator" content="@davidhoang" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={title} />
+{description && <meta name="twitter:description" content={description} />}
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content={title} />

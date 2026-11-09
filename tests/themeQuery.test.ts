@@ -1,5 +1,23 @@
+import { GatewayAuthenticationError } from '@ai-sdk/gateway';
+import { APICallError } from 'ai';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '../src/pages/api/theme-query';
+import {
+  resolveThemeQueryConfiguration,
+  themeQueryGatewayErrorResponse,
+} from '../src/utils/themeQueryAuth';
+
+const { streamTextMock } = vi.hoisted(() => ({
+  streamTextMock: vi.fn(),
+}));
+
+vi.mock('ai', async importOriginal => {
+  const actual = await importOriginal<typeof import('ai')>();
+  return {
+    ...actual,
+    streamText: streamTextMock,
+  };
+});
 
 const encoder = new TextEncoder();
 
@@ -36,11 +54,222 @@ async function queryChunks(chunks: Uint8Array[]) {
 
 beforeEach(() => {
   vi.stubEnv('ANTHROPIC_API_KEY', 'theme-query-test-key');
+  vi.stubEnv('VERCEL', '');
+  vi.stubEnv('VERCEL_OIDC_TOKEN', '');
+  vi.stubEnv('AI_GATEWAY_API_KEY', '');
 });
 
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+  streamTextMock.mockReset();
+});
+
+describe('resolveThemeQueryConfiguration', () => {
+  it('prefers AI Gateway on Vercel even when a direct Anthropic key exists', () => {
+    expect(
+      resolveThemeQueryConfiguration(
+        { VERCEL: '1', ANTHROPIC_API_KEY: 'direct-key' },
+        'direct-key',
+      ).mode,
+    ).toBe('gateway');
+  });
+
+  it('uses direct Anthropic when gateway credentials are absent', () => {
+    expect(resolveThemeQueryConfiguration({}, 'direct-key').mode).toBe('direct');
+    expect(resolveThemeQueryConfiguration({}, undefined).mode).toBe('missing');
+  });
+});
+
+describe('themeQueryGatewayErrorResponse', () => {
+  it('maps APICallError 401 to JSON 503', () => {
+    const res = themeQueryGatewayErrorResponse(
+      new APICallError({
+        message: 'unauthorized',
+        url: 'https://example.test',
+        requestBodyValues: {},
+        statusCode: 401,
+      }),
+    );
+    expect(res).not.toBeNull();
+    expect(res!.status).toBe(503);
+  });
+
+  it('maps GatewayAuthenticationError to JSON 503', () => {
+    const res = themeQueryGatewayErrorResponse(
+      new GatewayAuthenticationError({ statusCode: 401 }),
+    );
+    expect(res).not.toBeNull();
+    expect(res!.status).toBe(503);
+  });
+
+  it('returns null for unrelated errors', () => {
+    expect(themeQueryGatewayErrorResponse(new Error('nope'))).toBeNull();
+  });
+});
+
+describe('POST /api/theme-query request validation', () => {
+  it.each([
+    ['empty body', ''],
+    ['invalid JSON', '{not-json'],
+  ] as const)('returns 400 for %s', async (_label, rawBody) => {
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: rawBody,
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(400);
+    const body = await response.json();
+    expect(body.error).toBe('Send a JSON request body.');
+  });
+
+  it.each([
+    ['missing query', {}],
+    ['empty query string', { query: '' }],
+    ['non-string query', { query: 12 }],
+  ] as const)('returns 400 for %s', async (_label, payload) => {
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(400);
+    const body = await response.json();
+    expect(body.error).toBe('Missing query parameter');
+  });
+});
+
+describe('POST /api/theme-query (AI Gateway)', () => {
+  beforeEach(() => {
+    vi.stubEnv('VERCEL', '1');
+    streamTextMock.mockReturnValue({
+      stream: new ReadableStream({
+        start(controller) {
+          controller.enqueue({
+            type: 'text-delta',
+            id: '0',
+            text: '{"gateway":true}',
+          });
+          controller.close();
+        },
+      }),
+    });
+  });
+
+  it('returns encoded text from toTextStreamResponse (gateway path)', async () => {
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'serif themes' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Content-Type')).toContain('text/plain');
+    expect(await response.text()).toBe('{"gateway":true}');
+  });
+
+  it('returns JSON when streamText throws a gateway auth error', async () => {
+    streamTextMock.mockImplementation(() => {
+      throw new GatewayAuthenticationError({ statusCode: 401 });
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(503);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
+  });
+
+  it('returns JSON when the gateway stream emits an error part', async () => {
+    streamTextMock.mockReturnValue({
+      stream: new ReadableStream({
+        start(controller) {
+          controller.enqueue({
+            type: 'error',
+            error: new GatewayAuthenticationError({ statusCode: 401 }),
+          });
+          controller.close();
+        },
+      }),
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(503);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
+  });
+
+  it('returns JSON when onError fires on an empty gateway stream', async () => {
+    streamTextMock.mockImplementation((options: { onError?: (arg: { error: unknown }) => void }) => {
+      queueMicrotask(() => {
+        options.onError?.({
+          error: new GatewayAuthenticationError({ statusCode: 401 }),
+        });
+      });
+      return {
+        stream: new ReadableStream({
+          start(controller) {
+            controller.close();
+          },
+        }),
+      };
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(503);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_AUTH_FAILED');
+  });
+
+  it('returns JSON when the gateway stream completes without text', async () => {
+    streamTextMock.mockReturnValue({
+      stream: new ReadableStream({
+        start(controller) {
+          controller.close();
+        },
+      }),
+    });
+
+    const response = await POST({
+      request: new Request('https://example.test/api/theme-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'test' }),
+      }),
+    } as Parameters<typeof POST>[0]);
+
+    expect(response.status).toBe(502);
+    const body = await response.json();
+    expect(body.code).toBe('THEME_QUERY_EMPTY_RESPONSE');
+  });
 });
 
 describe('POST /api/theme-query streaming', () => {

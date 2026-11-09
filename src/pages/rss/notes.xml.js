@@ -1,11 +1,8 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import sanitizeHtml from 'sanitize-html';
-import MarkdownIt from 'markdown-it';
 import { rssEntriesForFeed } from '../../utils/rssFeed';
+import { renderRssMarkdownContent } from '../../utils/rssContentHtml';
 import { RSS_TRAILING_SLASH, rssNoteItemPermalinks } from '../../utils/rssFeedItems';
-
-const md = new MarkdownIt();
 
 export async function GET(context) {
   const allNotes = await getCollection('notes');
@@ -21,9 +18,7 @@ export async function GET(context) {
       title: note.data.title,
       pubDate: note.data.pubDate,
       description: note.data.description || `A note on ${note.data.title}`,
-      content: sanitizeHtml(md.render(note.body), {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-      }),
+      content: renderRssMarkdownContent(note.body, context.site),
       categories: ['notes', ...(note.data.tags || [])],
     })),
     customData: [

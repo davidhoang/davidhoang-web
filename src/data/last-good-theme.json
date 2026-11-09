@@ -1,35 +1,35 @@
 {
-  "cachedAt": "2026-10-24T06:21:13.172Z",
-  "sourceDate": "2026-10-24",
+  "cachedAt": "2026-11-09T06:19:42.785Z",
+  "sourceDate": "2026-11-09",
   "theme": {
-    "name": "Red Buoy",
-    "description": "A Helsinki harbour study in controlled tension: fogged linen and tin-blue breathing room punctuated by a single warehouse-red that cuts through the mist like a signal flare.",
+    "name": "Harbour Linen",
+    "description": "Bauhaus geometry meets Baltic stillness — a fogged linen field broken by one cold red signal and tall compressed grotesque type.",
     "colors": {
-      "colorScheme": "split-complementary",
+      "colorScheme": "complementary",
       "contrastMode": "high",
       "light": {
-        "--color-text": "#1C2226",
-        "--color-bg": "#EEF0F0",
-        "--color-link": "#CC2200",
-        "--color-link-hover": "#991800",
-        "--color-border": "#B8BEC4",
-        "--color-muted": "#636E77",
-        "--color-sidebar-bg": "#E4E8EA",
-        "--color-nav-bg": "#EEF0F0",
-        "--color-nav-text": "#1C2226",
-        "--color-card-bg": "#F5F6F6"
+        "--color-text": "#1C2228",
+        "--color-bg": "#EEE9E1",
+        "--color-link": "#C8001E",
+        "--color-link-hover": "#96001A",
+        "--color-border": "#B8B2A8",
+        "--color-muted": "#68645F",
+        "--color-sidebar-bg": "#E6E1D8",
+        "--color-nav-bg": "#EEE9E1",
+        "--color-nav-text": "#1C2228",
+        "--color-card-bg": "#E8E3DB"
       },
       "dark": {
-        "--color-text": "#DDE3E7",
-        "--color-bg": "#141A1E",
-        "--color-link": "#E8634F",
-        "--color-link-hover": "#FF5533",
-        "--color-border": "#2E3A42",
-        "--color-muted": "#889299",
-        "--color-sidebar-bg": "#1A2228",
-        "--color-nav-bg": "#141A1E",
-        "--color-nav-text": "#DDE3E7",
-        "--color-card-bg": "#1E272E"
+        "--color-text": "#DDD8D0",
+        "--color-bg": "#141A1F",
+        "--color-link": "#F05368",
+        "--color-link-hover": "#FF3344",
+        "--color-border": "#2E3540",
+        "--color-muted": "#868D98",
+        "--color-sidebar-bg": "#1A2029",
+        "--color-nav-bg": "#141A1F",
+        "--color-nav-text": "#DDD8D0",
+        "--color-card-bg": "#1C2330"
       }
     },
     "fonts": {
@@ -49,49 +49,49 @@
     "typography": {
       "headingWeight": "800",
       "bodyWeight": "400",
-      "bodyLineHeight": "1.8",
+      "bodyLineHeight": "1.75",
       "letterSpacing": "0.01em",
       "headingLetterSpacing": "-0.03em",
       "headingTransform": "uppercase",
-      "scaleRatio": "1.414",
+      "scaleRatio": "1.618",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "filled",
-      "shadow": "0 2px 8px rgba(0,0,0,0.08)",
-      "borderWidth": "0px",
-      "padding": "1.75rem"
+      "style": "flat",
+      "shadow": "none",
+      "borderWidth": "1px",
+      "padding": "1.25rem"
     },
     "layout": {
-      "borderRadius": "8px",
-      "containerMaxWidth": "1100px",
-      "sectionSpacing": "5rem",
-      "contentPadding": "1.75rem",
-      "gridStyle": "standard"
+      "borderRadius": "0px",
+      "containerMaxWidth": "1140px",
+      "sectionSpacing": "4rem",
+      "contentPadding": "1.5rem",
+      "gridStyle": "split"
     },
     "hero": {
-      "layout": "scattered"
+      "layout": "editorial"
     },
     "links": {
-      "style": "highlight"
+      "style": "bracket"
     },
     "background": {
       "texture": "none"
     },
     "images": {
-      "style": "duotone",
-      "hover": "glow",
-      "opacity": "0.92",
-      "borderRadius": "4px"
+      "style": "grayscale",
+      "hover": "colorize",
+      "opacity": "0.9",
+      "borderRadius": "0px"
     },
     "footer": {
-      "style": "marquee"
+      "style": "brutalist"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#EEF0F0",
-        "#CC2200"
+        "#EEE9E1",
+        "#1C2228"
       ]
     },
     "font": {
@@ -101,38 +101,35 @@
       "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     },
     "artDirection": {
-      "recipe": "playground",
-      "name": "Color Playground",
-      "dominantPrimitive": "surface"
+      "recipe": "poster",
+      "name": "Graphic Poster",
+      "dominantPrimitive": "type"
     },
-    "date": "2026-10-24",
+    "date": "2026-11-09",
     "showcase": {
       "root": "card",
       "elements": {
         "card": {
           "type": "ThemeCard",
           "props": {
-            "title": "Red Buoy",
-            "subtitle": "2026-10-24 — Helsinki Harbour Study"
+            "title": "Harbour Linen",
+            "subtitle": "2026-11-09 · Daily UI Theme"
           },
           "children": [
             "manifesto",
             "div1",
             "palette",
-            "s1",
-            "s2",
             "div2",
-            "meta",
+            "mid",
             "div3",
-            "s3",
-            "btn"
+            "bot"
           ]
         },
         "manifesto": {
           "type": "ThemeManifesto",
           "props": {
-            "text": "A single warehouse-red cuts through the fog. Everything else holds its breath.",
-            "emphasis": "bold"
+            "text": "Fog sits low on the water. One red signal cuts through. Everything else is compressed, still, and certain.",
+            "emphasis": "quiet"
           },
           "children": []
         },
@@ -148,107 +145,29 @@
           "props": {
             "colors": [
               {
-                "hex": "#EEF0F0",
-                "label": "Fog Linen"
+                "hex": "#EEE9E1",
+                "label": "Linen"
               },
               {
-                "hex": "#1C2226",
-                "label": "Harbour Dark"
+                "hex": "#1C2228",
+                "label": "Baltic"
               },
               {
-                "hex": "#CC2200",
-                "label": "Signal Red"
+                "hex": "#C8001E",
+                "label": "Signal"
               },
               {
-                "hex": "#B8BEC4",
-                "label": "Tin Blue"
+                "hex": "#B8B2A8",
+                "label": "Fog"
               },
               {
-                "hex": "#636E77",
-                "label": "Mist"
+                "hex": "#68645F",
+                "label": "Muted"
               },
               {
-                "hex": "#F5F6F6",
-                "label": "Card Frost"
+                "hex": "#E8E3DB",
+                "label": "Card"
               }
-            ]
-          },
-          "children": []
-        },
-        "s1": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "sm",
-            "align": "center"
-          },
-          "children": [
-            "h1",
-            "b1",
-            "b2",
-            "b3"
-          ]
-        },
-        "h1": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Red Buoy",
-            "variant": "heading",
-            "weight": "700"
-          },
-          "children": []
-        },
-        "b1": {
-          "type": "Badge",
-          "props": {
-            "text": "Syne",
-            "variant": "filled"
-          },
-          "children": []
-        },
-        "b2": {
-          "type": "Badge",
-          "props": {
-            "text": "high contrast",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "b3": {
-          "type": "Badge",
-          "props": {
-            "text": "split-comp",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "s2": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "md",
-            "align": "stretch"
-          },
-          "children": [
-            "hero",
-            "shader"
-          ]
-        },
-        "hero": {
-          "type": "HeroLayoutPreview",
-          "props": {
-            "layout": "scattered",
-            "label": "Scattered Hero"
-          },
-          "children": []
-        },
-        "shader": {
-          "type": "ShaderPreview",
-          "props": {
-            "type": "none",
-            "colors": [
-              "#EEF0F0",
-              "#CC2200"
             ]
           },
           "children": []
@@ -260,35 +179,109 @@
           },
           "children": []
         },
-        "meta": {
-          "type": "ThemeMeta",
+        "mid": {
+          "type": "Stack",
           "props": {
-            "items": [
-              {
-                "label": "Grid",
-                "value": "Standard"
-              },
-              {
-                "label": "Hero",
-                "value": "Scattered"
-              },
-              {
-                "label": "Links",
-                "value": "Highlight"
-              },
-              {
-                "label": "Cards",
-                "value": "Filled / r8px"
-              },
-              {
-                "label": "Body",
-                "value": "Lora (serif)"
-              },
-              {
-                "label": "Footer",
-                "value": "Marquee"
-              }
-            ]
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "stretch"
+          },
+          "children": [
+            "left",
+            "right"
+          ]
+        },
+        "left": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "start"
+          },
+          "children": [
+            "h1",
+            "h2",
+            "badges"
+          ]
+        },
+        "h1": {
+          "type": "TypeSample",
+          "props": {
+            "text": "HARBOUR LINEN",
+            "variant": "heading",
+            "weight": "800"
+          },
+          "children": []
+        },
+        "h2": {
+          "type": "TypeSample",
+          "props": {
+            "text": "Cold geometry, Baltic calm.",
+            "variant": "body"
+          },
+          "children": []
+        },
+        "badges": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "sm",
+            "align": "start"
+          },
+          "children": [
+            "b1",
+            "b2",
+            "b3"
+          ]
+        },
+        "b1": {
+          "type": "Badge",
+          "props": {
+            "text": "Syne / grotesque",
+            "variant": "outlined"
+          },
+          "children": []
+        },
+        "b2": {
+          "type": "Badge",
+          "props": {
+            "text": "flat card",
+            "variant": "filled"
+          },
+          "children": []
+        },
+        "b3": {
+          "type": "Badge",
+          "props": {
+            "text": "brutalist footer",
+            "variant": "outlined"
+          },
+          "children": []
+        },
+        "right": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "center"
+          },
+          "children": [
+            "hero",
+            "layout"
+          ]
+        },
+        "hero": {
+          "type": "HeroLayoutPreview",
+          "props": {
+            "layout": "editorial",
+            "label": "Editorial Hero"
+          },
+          "children": []
+        },
+        "layout": {
+          "type": "LayoutPreview",
+          "props": {
+            "style": "split"
           },
           "children": []
         },
@@ -299,41 +292,52 @@
           },
           "children": []
         },
-        "s3": {
+        "bot": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
-            "gap": "sm",
+            "gap": "md",
             "align": "center"
           },
           "children": [
-            "swatch-red",
-            "cap1"
+            "meta",
+            "cta"
           ]
         },
-        "swatch-red": {
-          "type": "ColorSwatch",
+        "meta": {
+          "type": "ThemeMeta",
           "props": {
-            "color": "#CC2200",
-            "label": "Signal Red"
+            "items": [
+              {
+                "label": "Shader",
+                "value": "None — raw linen"
+              },
+              {
+                "label": "Link style",
+                "value": "[bracket]"
+              },
+              {
+                "label": "Contrast",
+                "value": "High"
+              },
+              {
+                "label": "Radius",
+                "value": "0px — zero mercy"
+              },
+              {
+                "label": "Image",
+                "value": "Grayscale → colorize"
+              }
+            ]
           },
           "children": []
         },
-        "cap1": {
-          "type": "TypeSample",
-          "props": {
-            "text": "One flare. Enough.",
-            "variant": "caption",
-            "weight": "400"
-          },
-          "children": []
-        },
-        "btn": {
+        "cta": {
           "type": "ThemeActionButton",
           "props": {
-            "label": "Apply Red Buoy",
+            "label": "Apply Harbour Linen",
             "action": "apply-theme",
-            "date": "2026-10-24"
+            "date": "2026-11-09"
           },
           "children": []
         }

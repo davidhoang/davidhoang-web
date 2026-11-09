@@ -2,7 +2,12 @@
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
-<MainLayout title="404 — Page not found" description="The page you're looking for doesn't exist." hideFooter={true}>
+<MainLayout
+  title="404 — Page not found"
+  description="The page you're looking for doesn't exist."
+  hideFooter={true}
+  robots="noindex, follow"
+>
   <div class="not-found">
     <div class="error-code" aria-hidden="true">
       <span class="digit" style="--i:0">4</span>
@@ -98,7 +103,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       padding: var(--spacing-sm) calc(var(--spacing-md) + var(--spacing-xs));
       border: 1px solid var(--color-border);
       border-radius: var(--radius-full);
-      font-size: 0.9rem;
+      font-size: var(--text-caption-size);
       transition:
         background-color var(--duration-fast) var(--ease-standard),
         border-color var(--duration-fast) var(--ease-standard),
@@ -131,8 +136,10 @@ import MainLayout from '../layouts/MainLayout.astro';
       color: var(--color-muted);
       cursor: pointer;
       margin-top: var(--spacing-xl);
-      opacity: 0;
-      animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.65s forwards;
+      opacity: 1;
+      visibility: hidden;
+      transform: translateY(8px);
+      animation: cmdHintReveal var(--duration-slow) var(--ease-inertia) 0.65s forwards;
     }
 
     .cmd-hint:focus-visible {
@@ -164,6 +171,18 @@ import MainLayout from '../layouts/MainLayout.astro';
       }
     }
 
+    /* Motion-only entrance — muted text must stay at opacity 1 when visible (PCD-192 / WCAG AA). */
+    @keyframes cmdHintReveal {
+      from {
+        visibility: visible;
+        transform: translateY(8px);
+      }
+      to {
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .digit,
       h1,
@@ -172,6 +191,8 @@ import MainLayout from '../layouts/MainLayout.astro';
       .cmd-hint {
         animation: none;
         opacity: 1;
+        visibility: visible;
+        transform: none;
       }
       .digit {
         opacity: 0.12;
@@ -189,7 +210,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 
       .suggestions a {
         padding: calc(var(--spacing-xs) + 0.15rem) var(--spacing-md);
-        font-size: 0.85rem;
+        font-size: var(--text-meta-size);
       }
     }
   </style>

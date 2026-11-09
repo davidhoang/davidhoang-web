@@ -38,14 +38,44 @@ const faviconSvg = `<?xml version="1.0" encoding="UTF-8"?>
 
 const appleTouchPath = join(publicDir, 'apple-touch-icon.png');
 const faviconPath = join(publicDir, 'favicon.svg');
+const faviconIcoPath = join(publicDir, 'favicon.ico');
+
+/** Single PNG embedded in ICO (supported since Windows Vista). */
+function writePngAsIco(pngBuffer, outputPath) {
+  const imageCount = 1;
+  const headerSize = 6 + imageCount * 16;
+  const header = Buffer.alloc(headerSize);
+
+  header.writeUInt16LE(0, 0);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(imageCount, 4);
+
+  header[6] = FAVICON_SIZE >= 256 ? 0 : FAVICON_SIZE;
+  header[7] = FAVICON_SIZE >= 256 ? 0 : FAVICON_SIZE;
+  header[8] = 0;
+  header[9] = 0;
+  header.writeUInt16LE(1, 10);
+  header.writeUInt16LE(32, 12);
+  header.writeUInt32LE(pngBuffer.length, 14);
+  header.writeUInt32LE(headerSize, 18);
+
+  writeFileSync(outputPath, Buffer.concat([header, pngBuffer]));
+}
 
 await sharp(sourcePath)
   .resize(APPLE_TOUCH_SIZE, APPLE_TOUCH_SIZE, { fit: 'cover' })
   .png()
   .toFile(appleTouchPath);
 
+const faviconPng = await sharp(sourcePath)
+  .resize(FAVICON_SIZE, FAVICON_SIZE, { fit: 'cover' })
+  .png()
+  .toBuffer();
+
 writeFileSync(faviconPath, faviconSvg, 'utf8');
+writePngAsIco(faviconPng, faviconIcoPath);
 
 console.log(`Generated favicons from ${sourcePath}`);
 console.log(`  ${relative(rootDir, faviconPath)} -> ${sourcePublicUrl}`);
+console.log(`  ${relative(rootDir, faviconIcoPath)} (${FAVICON_SIZE}x${FAVICON_SIZE} PNG-in-ICO)`);
 console.log(`  ${relative(rootDir, appleTouchPath)} (${APPLE_TOUCH_SIZE}x${APPLE_TOUCH_SIZE})`);

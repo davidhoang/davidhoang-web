@@ -1,3 +1,4 @@
+import './zodClientConfig';
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import type { Spec } from '@json-render/react';
 import ThemeSpecRenderer, { type ThemeData } from './ThemeSpecRenderer';
@@ -197,12 +198,7 @@ export default function ThemesExplorer({ themes }: Props) {
   const [aiSpec, setAiSpec] = useState<Spec | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
-  const [activeDate, setActiveDate] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('daily-theme-date') || null;
-    }
-    return null;
-  });
+  const [activeDate, setActiveDate] = useState<string | null>(null);
   const [compareDates, setCompareDates] = useState<string[]>([]);
   const [highlightDate, setHighlightDate] = useState<string | null>(null);
   const [cardFeedback, setCardFeedback] = useState<Record<string, string>>({});
@@ -281,6 +277,10 @@ export default function ThemesExplorer({ themes }: Props) {
       window.setTimeout(() => setCompareShareCopied(false), 1800);
     }
   }, [compareDates]);
+
+  useEffect(() => {
+    setActiveDate(localStorage.getItem('daily-theme-date') || null);
+  }, []);
 
   useEffect(() => {
     const onApply = (event: Event) => {
@@ -365,6 +365,9 @@ export default function ThemesExplorer({ themes }: Props) {
         if (finalSpec) {
           setAiSpec(finalSpec);
         } else if (!latestSpec) {
+          if (!buffer.trim()) {
+            throw new Error('Theme Ask returned no content. Try a different question.');
+          }
           throw new Error('Failed to parse AI response');
         }
       } catch (err: unknown) {
@@ -476,7 +479,7 @@ export default function ThemesExplorer({ themes }: Props) {
       <h2 id="themes-archive-heading" className="sr-only">
         Theme archive
       </h2>
-      <div className="themes-explorer__grid" aria-labelledby="themes-archive-heading">
+      <div className="themes-explorer__grid" role="region" aria-labelledby="themes-archive-heading">
         {filtered.map((theme) => (
           <div
             key={theme.date}

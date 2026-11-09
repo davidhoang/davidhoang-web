@@ -3,7 +3,7 @@
  * legacy slash URL so existing subscribers do not see items as new.
  */
 
-function siteOrigin(site: string | URL): string {
+export function rssSiteOrigin(site: string | URL): string {
   const href = site instanceof URL ? site.href : site;
   return href.replace(/\/+$/, '');
 }
@@ -12,7 +12,7 @@ function siteOrigin(site: string | URL): string {
 export function rssLegacyGuidUrl(site: string | URL, pathname: string): string {
   const path = pathname.startsWith('/') ? pathname : `/${pathname}`;
   const normalized = path.replace(/\/+$/, '');
-  return `${siteOrigin(site)}${normalized}/`;
+  return `${rssSiteOrigin(site)}${normalized}/`;
 }
 
 export function rssWritingItemPermalinks(site: string | URL, id: string) {

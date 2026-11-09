@@ -116,7 +116,10 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
         <div class="writing-post__meta-info">
           <time datetime={isoDate}>{formatLongDate(publishDate)}</time>
           {readingTime && (
-            <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
+            <span>
+              <span class="sr-only">Estimated reading time: </span>
+              {readingTime}
+            </span>
           )}
         </div>
         <ShareControls url={canonicalUrl} title={title} description={pageDescription} />

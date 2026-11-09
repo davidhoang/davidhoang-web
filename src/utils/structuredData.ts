@@ -17,6 +17,9 @@ export const SITE_ALTERNATE_NAME = 'davidhoang.com';
 export const SITE_DESCRIPTION = 'The official website of David Hoang';
 export const SITE_LANGUAGE = 'en-US';
 
+/** Default `<meta name="robots">` for public indexable pages (matches MainLayout). */
+export const DEFAULT_PAGE_ROBOTS = 'index, follow';
+
 /** Stable portrait used on About — safe Person.image. */
 export const PERSON_IMAGE = `${CANONICAL_SITE}/images/img-david-sf.webp`;
 
@@ -39,6 +42,8 @@ export function absoluteUrl(pathOrUrl: string, site: string = CANONICAL_SITE): s
   const base = site.replace(/\/+$/, '');
   const path = pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`;
   const normalized = path.length > 1 ? path.replace(/\/+$/, '') : path;
+  // trailingSlash: 'never' — root canonical matches sitemap (no trailing slash).
+  if (normalized === '/') return base;
   return `${base}${normalized}`;
 }
 

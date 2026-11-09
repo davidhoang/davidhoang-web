@@ -13,6 +13,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
@@ -34,8 +35,22 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      - name: Cache Playwright Chromium
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install theme render browser
-        run: npx playwright install --with-deps chromium
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          if [ "${{ steps.playwright-cache.outputs.cache-hit }}" = "true" ]; then
+            timeout 15m npx playwright install chromium
+          else
+            timeout 30m npx playwright install --with-deps chromium
+          fi
 
       - name: Theme renderer integration test
         run: npm run test:theme-renderer
@@ -55,8 +70,11 @@ jobs:
 
       - name: UI interaction regression
         run: |
+          set -euo pipefail
           npm run dev -- --host 127.0.0.1 --port 4322 &
           dev_pid=$!
+          cleanup() { kill "$dev_pid" 2>/dev/null || true; }
+          trap cleanup EXIT
           ready=0
           for _ in $(seq 1 120); do
             if curl -sf http://127.0.0.1:4322/ -o /dev/null && curl -sf http://127.0.0.1:4322/notes -o /dev/null; then
@@ -66,18 +84,15 @@ jobs:
             sleep 1
           done
           if [ "$ready" -ne 1 ]; then
-            kill "$dev_pid" 2>/dev/null || true
             echo "Dev server did not become ready on :4322"
             exit 1
           fi
-          UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
-          test_status=$?
-          kill "$dev_pid" 2>/dev/null || true
-          exit "$test_status"
+          timeout 45m env UI_TEST_URL=http://127.0.0.1:4322 npm run test:ui
 
   design-strict-report:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4

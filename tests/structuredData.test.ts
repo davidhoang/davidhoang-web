@@ -19,6 +19,7 @@ import {
 
 describe('structuredData helpers', () => {
   it('absoluteUrl joins site + path without trailing slash', () => {
+    expect(absoluteUrl('/')).toBe('https://www.davidhoang.com');
     expect(absoluteUrl('/writing/hello/')).toBe('https://www.davidhoang.com/writing/hello');
     expect(absoluteUrl('https://example.com/x')).toBe('https://example.com/x');
   });
