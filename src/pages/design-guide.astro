@@ -29,9 +29,17 @@ const docsNav: { href: string; label: string; current?: boolean }[] = [
   { href: '/design-guide.md', label: 'Components' },
   { href: '/daily-themes', label: 'Themes' },
 ];
+
+const pageDescription =
+  'Visual reference for theme-responsive design primitives and CSS classes. Toggle the daily theme in the nav to see how components adapt.';
 ---
 
-<MainLayout title="Design Guide | David Hoang" disableContentMoodFilter={true} containerClass="container container-full">
+<MainLayout
+  title="Design Guide | David Hoang"
+  description={pageDescription}
+  disableContentMoodFilter={true}
+  containerClass="container container-full"
+>
   <div class="design-guide">
     <header class="guide-header">
       <nav class="guide-docs-nav" aria-label="Design system docs">
