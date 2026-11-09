@@ -221,47 +221,6 @@
   color: var(--color-text);
 }
 
-.footer-meta {
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
-  border-top: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
-}
-
-.footer-copyright {
-  margin: 0;
-  font-size: var(--text-caption-size);
-  font-family: var(--font-body);
-  line-height: 1.55;
-  color: var(--color-text);
-}
-
-.footer-quote {
-  display: block;
-  margin-top: 0.65rem;
-  font-style: italic;
-  color: var(--color-muted);
-  font-size: 0.92em;
-  max-width: 52ch;
-}
-
-.footer-quote cite {
-  font-style: normal;
-  font-variant: small-caps;
-  letter-spacing: 0.04em;
-}
-
-.footer-tools-footnote {
-  margin: var(--spacing-sm) 0 0;
-  font-size: var(--text-eyebrow-size);
-  line-height: 1.4;
-  color: var(--color-muted);
-  font-family: var(--font-body);
-}
-
-.footer-tools-footnote a {
-  color: var(--color-muted);
-}
-
 @media (hover: hover) {
   .site-footer a:hover,
   .site-footer a:visited:hover {
@@ -275,11 +234,6 @@
 
   .footer-logo:hover {
     color: var(--color-link);
-    transform: none;
-  }
-
-  .footer-tools-footnote a:hover {
-    color: var(--color-link-hover);
     transform: none;
   }
 }
@@ -297,10 +251,6 @@
 @media (min-width: 1920px) {
   .site-footer .container {
     max-width: 1920px;
-  }
-
-  .footer-tools-footnote {
-    font-size: var(--text-xs-size);
   }
 }
 
@@ -399,10 +349,6 @@
 
   .footer-col li {
     line-height: 1.5;
-  }
-
-  .footer-tools-footnote {
-    font-size: var(--text-meta-size);
   }
 
   .site-footer a,
