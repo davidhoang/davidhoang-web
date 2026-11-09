@@ -15,7 +15,7 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
     : `${role.label} — Investing (opens in new tab)`;
 
   return (
-    <motion.h1
+    <motion.h2
       className={`hero-title ${className || ''}`}
       initial={{ opacity: 0, y: 22 }}
       animate={{
@@ -41,6 +41,6 @@ export function HeroTitle({ hasSelection, className, isVisible = true }: HeroTit
         </a>
         .
       </span>
-    </motion.h1>
+    </motion.h2>
   );
 }
