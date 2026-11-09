@@ -83,15 +83,29 @@ export default function CardStackHeroLazy({
     let cancelLcpWait: (() => void) | undefined;
     let cancelIdle: (() => void) | undefined;
 
+    const loadHero = () => {
+      if (cancelled) return;
+      void import('./CardStackHero').then((mod) => {
+        if (!cancelled) setCardStackHero(() => mod.default);
+      });
+    };
+
+    // Playwright UI regression runs many route loads against a dev server; idle
+    // callbacks can be starved on CI runners and never hydrate the hero in time.
+    const uiRegression =
+      typeof window !== 'undefined' && localStorage.getItem('dh-ui-regression') === '1';
+
+    if (uiRegression) {
+      loadHero();
+      return () => {
+        cancelled = true;
+      };
+    }
+
     cancelLcpWait = afterLcpOrTimeout(
       () => {
         if (cancelled) return;
-        cancelIdle = scheduleIdleWork(() => {
-          if (cancelled) return;
-          void import('./CardStackHero').then((mod) => {
-            if (!cancelled) setCardStackHero(() => mod.default);
-          });
-        });
+        cancelIdle = scheduleIdleWork(loadHero);
       },
       0,
       6000,

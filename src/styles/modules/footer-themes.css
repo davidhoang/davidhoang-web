@@ -50,10 +50,7 @@
   color: var(--color-bg) !important;
 }
 
-[data-footer-style="brutalist"] .site-footer .footer-tagline,
-[data-footer-style="brutalist"] .site-footer .footer-copyright,
-[data-footer-style="brutalist"] .site-footer .footer-quote,
-[data-footer-style="brutalist"] .site-footer .footer-tools-footnote {
+[data-footer-style="brutalist"] .site-footer .footer-tagline {
   color: var(--color-bg);
 }
 
@@ -64,10 +61,6 @@
   font-size: var(--text-xs-size);
   border-bottom: 2px solid var(--color-bg);
   padding-bottom: 0.5rem;
-}
-
-[data-footer-style="brutalist"] .site-footer .footer-meta {
-  border-top-color: color-mix(in srgb, var(--color-bg) 35%, transparent);
 }
 
 /* Editorial - newspaper style */
@@ -123,14 +116,6 @@
 
 [data-footer-style="minimal"] .site-footer .footer-col li {
   margin: 0;
-}
-
-[data-footer-style="minimal"] .site-footer .footer-meta {
-  text-align: center;
-}
-
-[data-footer-style="minimal"] .site-footer .footer-quote {
-  margin-inline: auto;
 }
 
 /* Inverted - sidebar background */
