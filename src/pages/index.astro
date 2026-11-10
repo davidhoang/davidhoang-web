@@ -55,7 +55,9 @@ const heroCards = homeHeroPlan.cards.map(card => card.id === 'atlassian'
   ? { ...card, heroImage: atlassianHero.src }
   : card);
 
-// Page metadata
+// Visible hero headline hydrates with the card island, so the document h1
+// has to be in this server markup.
+const pageTitle = 'David Hoang — Designer, Investor & Builder';
 const pageDescription = siteBioMetaThirdPerson;
 
 // Philosophy items data
@@ -102,7 +104,7 @@ const portfolioItems = [
 ---
 
 <MainLayout
-  title="David Hoang — Designer, Investor & Builder"
+  title={pageTitle}
   description={pageDescription}
   pageType="home"
   ogImage={HOME_OG_PREVIEW.poster}
@@ -114,6 +116,7 @@ const portfolioItems = [
       the preload scanner). Current work is the first card on mobile. */}
   <link slot="head" rel="preload" as="image" href={dhWebOptimized.src} type="image/webp" fetchpriority="high" />
   <link slot="head" rel="preload" as="image" href={atlassianHero.src} type="image/webp" fetchpriority="high" />
+  <h1 class="sr-only">{pageTitle}</h1>
   <!-- Card Stack Hero -->
   <section
     class="card-stack-section"
