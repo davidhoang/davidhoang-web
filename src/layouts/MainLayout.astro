@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import DailyThemeToggle from '../components/DailyThemeToggle.astro';
-import ShaderBackground from '../components/ShaderBackground';
 import FontPreloader from '../components/FontPreloader.astro';
 import Analytics from '@vercel/analytics/astro';
 import { ClientRouter } from 'astro:transitions';
@@ -644,9 +643,7 @@ const ogVideoMeta = ogVideo
     <Navigation />
     <!-- Filter wrapper for mood/intensity effects -->
     <div class="content-filter-wrapper">
-      <div class="shader-background-shell" transition:persist="shader-background">
-        <ShaderBackground client:idle />
-      </div>
+      <div class="shader-background-shell" transition:persist="shader-background"></div>
       <div class="page-transition-shell" transition:animate={pageFade}>
         <main id="main-content" class={containerClass} tabindex="-1">
           <slot />
@@ -767,6 +764,10 @@ const ogVideoMeta = ogVideo
 
       // Init existing images
       initLazyImages();
+    </script>
+    <script>
+      import { initShaderBackgroundMounting } from '../utils/shaderBackgroundMount';
+      initShaderBackgroundMounting();
     </script>
     <script>
       if (import.meta.env.PROD) {
