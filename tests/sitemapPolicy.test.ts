@@ -23,6 +23,19 @@ function collectCandidateSitemapPaths(): string[] {
   return [...staticPaths, ...writing, ...notes];
 }
 
+describe('legacy sitemap.xml path', () => {
+  it('redirects /sitemap.xml to the Astro sitemap index in vercel.json', () => {
+    const vercel = JSON.parse(readFileSync(join(process.cwd(), 'vercel.json'), 'utf8'));
+    const redirect = vercel.redirects?.find(
+      (entry: { source?: string }) => entry.source === '/sitemap.xml',
+    );
+    expect(redirect).toMatchObject({
+      destination: '/sitemap-index.xml',
+      statusCode: 301,
+    });
+  });
+});
+
 describe('sitemap indexing policy', () => {
   it('uses the canonical www host for indexed URLs', () => {
     expect(absoluteUrl('/about')).toBe(`${CANONICAL}/about`);
