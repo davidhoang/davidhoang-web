@@ -8,6 +8,9 @@ const context = await browser.newContext({
   viewport: { width: 1440, height: 1000 },
   reducedMotion: 'reduce',
 });
+await context.addInitScript(() => {
+  localStorage.setItem('dh-ui-regression', '1');
+});
 const page = await context.newPage();
 const errors = [];
 page.on('pageerror', (error) => errors.push(error.message));

@@ -67,6 +67,7 @@ export async function renderThemeSet({ rootDir, entries, viewports = THEME_RENDE
     await page.addInitScript(() => {
       localStorage.setItem('daily-theme-mode', 'false');
       localStorage.setItem('e-ink-mode', 'false');
+      localStorage.setItem('dh-ui-regression', '1');
     });
     await page.goto(server.url, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('.card-stack-hero.card-stack-hero--layout-ready', {

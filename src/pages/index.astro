@@ -55,7 +55,8 @@ const heroCards = homeHeroPlan.cards.map(card => card.id === 'atlassian'
   ? { ...card, heroImage: atlassianHero.src }
   : card);
 
-// Page metadata
+// Visible hero headline hydrates with the card island, so the document h1
+// has to be in this server markup.
 const pageTitle = 'David Hoang — Designer, Investor & Builder';
 const pageDescription = siteBioMetaThirdPerson;
 
@@ -123,7 +124,7 @@ const portfolioItems = [
     data-hero-decision-source={homeHeroPlan.source}
   >
     <CardStackHeroLazy
-      client:idle
+      client:visible
       aboutThumbnailSrc={dhWebOptimized.src}
       cards={heroCards}
       lcpImageSrc={atlassianHero.src}

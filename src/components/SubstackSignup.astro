@@ -107,6 +107,9 @@ const showHeader = showTitle || Boolean(description?.trim());
     color: var(--color-text);
     letter-spacing: -0.04em;
     line-height: 0.95;
+    /* Brand lockup — ignore daily-theme headingTransform (uppercase + nowrap overflows on mobile). */
+    text-transform: none;
+    max-width: 100%;
   }
 
   .signup-title--brand {
@@ -378,7 +381,8 @@ const showHeader = showTitle || Boolean(description?.trim());
     }
 
     .signup-title--brand {
-      white-space: nowrap;
+      white-space: normal;
+      text-wrap: balance;
       font-size: clamp(1.2rem, 5.25vw + 0.65rem, 3.5rem);
     }
 
