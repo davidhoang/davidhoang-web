@@ -19,10 +19,9 @@
   background-size: 8px 8px;
 }
 
-.writing-cover-shader,
-.writing-cover-shader__layer {
-  position: absolute;
-  inset: 0;
+/* The shader draws on a transparent back, so drop the fallback dots under it */
+.writing-default-cover:has(canvas) {
+  background-image: none;
 }
 
 .index-card__media .writing-default-cover {

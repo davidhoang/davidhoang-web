@@ -1,19 +1,24 @@
 /**
- * Async boundary for TextureCard dithering shader.
+ * Async boundary for the Paper dithering shader (TextureCard, writing covers).
  */
 
 import { Dithering as DitheringRaw } from '@paper-design/shaders-react';
 
 const Dithering = DitheringRaw as any;
 
+export type DitheringOverrides = Record<string, string | number>;
+
 export type TextureCardDitheringLayerProps = {
   colors: { front: string; back: string };
-  reducedMotion: boolean;
+  speed: number;
+  /** Replaces the TextureCard defaults below (shape, sizing, colors, pixel budget) */
+  shader?: DitheringOverrides;
 };
 
 export default function TextureCardDitheringLayer({
   colors,
-  reducedMotion,
+  speed,
+  shader,
 }: TextureCardDitheringLayerProps) {
   return (
     <Dithering
@@ -24,8 +29,9 @@ export default function TextureCardDitheringLayer({
       type="4x4"
       size={2}
       scale={0.6}
-      speed={reducedMotion ? 0 : 0.85}
+      speed={speed}
       fit="cover"
+      {...shader}
     />
   );
 }
