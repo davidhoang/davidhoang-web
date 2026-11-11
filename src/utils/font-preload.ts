@@ -22,7 +22,6 @@ const SELF_HOSTED_LATIN: Record<string, string> = {
 /** Latin subset — ~50% smaller than full variable file; paired with unicode-range in fonts.css */
 const ABC_DIATYPE_LATIN = '/fonts/ABCDiatypeVariable-latin.woff2';
 const ABC_DIATYPE_MONO = '/fonts/ABCDiatypeMonoVariable.woff2';
-const SOURCE_SERIF_4_LATIN = SELF_HOSTED_LATIN['Source Serif 4'];
 
 const MAX_PRELOADS = 5;
 
@@ -50,9 +49,6 @@ export function getCriticalFonts(
   }
   if (pageType === 'blog') {
     fonts.push(ABC_DIATYPE_MONO);
-    if (SOURCE_SERIF_4_LATIN && !fonts.includes(SOURCE_SERIF_4_LATIN)) {
-      fonts.push(SOURCE_SERIF_4_LATIN);
-    }
   }
 
   for (const name of themeFontNames) {

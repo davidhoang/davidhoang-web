@@ -25,11 +25,17 @@ describe('fontPreloadFetchPriority', () => {
 });
 
 describe('getCriticalFonts', () => {
-  it('includes mono and serif on blog routes only', () => {
+  it('includes mono on blog routes only', () => {
     const home = getCriticalFonts('home');
     const blog = getCriticalFonts('blog');
     expect(home.some((f) => f.includes('Mono'))).toBe(false);
     expect(blog.some((f) => f.includes('Mono'))).toBe(true);
+  });
+
+  it('preloads Source Serif 4 only when today’s theme uses it (not on every writing route)', () => {
+    const serifLatin = '/fonts/vEFF2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4.woff2';
+    expect(getCriticalFonts('blog')).not.toContain(serifLatin);
+    expect(getCriticalFonts('blog', ['Source Serif 4'])).toContain(serifLatin);
   });
 
   it('does not preload ABC Diatype on home (hero image LCP)', () => {
