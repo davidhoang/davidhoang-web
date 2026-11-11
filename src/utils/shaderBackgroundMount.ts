@@ -24,33 +24,49 @@ function shellHasMount(): boolean {
 }
 
 let mountScheduled = false;
+let mountInFlight: Promise<void> | null = null;
 
 export async function mountShaderBackground(): Promise<void> {
   if (!shouldMountShaderBackground() || shellHasMount()) return;
+  if (mountInFlight) {
+    await mountInFlight;
+    return;
+  }
 
   const shell = document.querySelector('.shader-background-shell');
   if (!shell) return;
 
-  const [{ default: React }, { createRoot }, { default: ShaderBackground }] = await Promise.all([
-    import('react'),
-    import('react-dom/client'),
-    import('../components/ShaderBackground'),
-  ]);
+  mountInFlight = (async () => {
+    const [{ default: React }, { createRoot }, { default: ShaderBackground }] = await Promise.all([
+      import('react'),
+      import('react-dom/client'),
+      import('../components/ShaderBackground'),
+    ]);
 
-  const host = document.createElement('div');
-  host.setAttribute(MOUNTED_ATTR, '');
-  shell.appendChild(host);
-  createRoot(host).render(React.createElement(ShaderBackground));
+    if (!shouldMountShaderBackground() || shellHasMount()) return;
+
+    const host = document.createElement('div');
+    host.setAttribute(MOUNTED_ATTR, '');
+    shell.appendChild(host);
+    createRoot(host).render(React.createElement(ShaderBackground));
+  })();
+
+  try {
+    await mountInFlight;
+  } finally {
+    mountInFlight = null;
+  }
 }
 
 export function scheduleShaderBackgroundMount(): void {
   if (!shouldMountShaderBackground() || shellHasMount()) return;
-  if (mountScheduled) return;
+  if (mountScheduled || mountInFlight) return;
   mountScheduled = true;
 
   afterLcpOrTimeout(() => {
-    mountScheduled = false;
-    void mountShaderBackground();
+    void mountShaderBackground().finally(() => {
+      mountScheduled = false;
+    });
   });
 }
 
@@ -61,7 +77,7 @@ export function initShaderBackgroundMounting(): void {
     scheduleShaderBackgroundMount();
   });
   document.addEventListener('astro:page-load', () => {
-    mountScheduled = false;
+    if (!mountInFlight) mountScheduled = false;
     scheduleShaderBackgroundMount();
   });
 
