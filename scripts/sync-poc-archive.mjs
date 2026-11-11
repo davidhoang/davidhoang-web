@@ -41,6 +41,15 @@ export function buildArchivePageUrl(cursor) {
   return `${ARCHIVE_FIRST_PAGE}&cursor=${encodeURIComponent(cursor)}`;
 }
 
+/** Substack still returns legacy `cdn.substack.com` cover URLs that 502; `substackcdn.com` works. */
+export function normalizeCoverImageUrl(coverImage) {
+  if (!coverImage || typeof coverImage !== 'string') return coverImage;
+  if (!coverImage.includes('cdn.substack.com/image/fetch/')) return coverImage;
+  const encodedOrigin = coverImage.match(/\/(https%3A%2F%2F.+)$/);
+  if (!encodedOrigin) return coverImage;
+  return `https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/${encodedOrigin[1]}`;
+}
+
 /** @returns {Promise<PocIssue[]>} */
 async function fetchIssuesWithCovers() {
   /** @type {PocIssue[]} */
@@ -63,7 +72,7 @@ async function fetchIssuesWithCovers() {
         slug: String(post.slug),
         subtitle: post.subtitle ? String(post.subtitle).trim() : null,
         postDate: String(post.post_date ?? post.postDate ?? ''),
-        coverImage: String(post.cover_image),
+        coverImage: normalizeCoverImageUrl(String(post.cover_image)),
         url: post.canonical_url
           ? String(post.canonical_url)
           : `https://www.proofofconcept.pub/p/${post.slug}`,
