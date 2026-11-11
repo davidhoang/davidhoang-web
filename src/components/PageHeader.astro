@@ -11,7 +11,6 @@
  */
 
 import { Image } from 'astro:assets';
-import HeroImageShader from './HeroImageShader.tsx';
 import { resolveAssetImage } from '../utils/assetImages';
 
 interface Props {
@@ -69,12 +68,13 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
           height="1200"
         />
       )}
-      <HeroImageShader
-        client:idle
-        src={image}
-        alt={alt}
-        priority={priority}
-        withStaticHeroImage
+      <div
+        class="page-header__hero-shader-mount"
+        data-hero-shader-mount
+        data-hero-src={image}
+        data-hero-alt={alt}
+        data-hero-priority={priority ? '' : undefined}
+        aria-hidden="true"
       />
       <div class="page-header__copy">
         <h1 class="page-header__title">{title}</h1>
@@ -232,6 +232,13 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .page-header__hero-shader-mount {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
   }
 
   /* Static hero image - renders immediately via SSR, no JS needed */

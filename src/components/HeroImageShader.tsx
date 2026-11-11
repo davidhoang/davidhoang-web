@@ -8,6 +8,7 @@
 
 import { useEffect, useState, type ComponentType } from 'react';
 import type { HeroImageShaderOverlaysProps } from '../shaders/lazy/HeroImageShaderOverlays';
+import { heroShaderTypeNeedsOverlay } from '../utils/heroShaderOverlay';
 
 interface HeroImageShaderProps {
   src: string;
@@ -19,7 +20,7 @@ interface HeroImageShaderProps {
 
 function heroNeedsShaderOverlay(isDefaultTheme: boolean, currentShader: string) {
   if (isDefaultTheme) return false;
-  return currentShader === 'waves' || currentShader === 'paper' || currentShader === 'grain';
+  return heroShaderTypeNeedsOverlay(currentShader);
 }
 
 export default function HeroImageShader({
