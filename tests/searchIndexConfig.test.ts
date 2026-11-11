@@ -37,7 +37,7 @@ function astroFileToPath(relFromPages: string): string | null {
 }
 
 function collectionFromDynamicAstro(relFromPages: string): string | null {
-  const match = relFromPages.match(/^([^/]+)\/\[[^\]]+\]\.astro$/);
+  const match = relFromPages.match(/^([^/]+)\/(?:[^/[]+\/)*\[[^\]]+\]\.astro$/);
   return match?.[1] ?? null;
 }
 

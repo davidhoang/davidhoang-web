@@ -9,7 +9,8 @@ interface Props {
   date: Date;
   /** Override formatted date label */
   dateLabel?: string;
-  imageSrc: string;
+  /** Omit when the `media` slot supplies the cover instead */
+  imageSrc?: string;
   imageAlt?: string;
   primaryTag?: string;
   tags?: string[];
@@ -72,7 +73,11 @@ const titleTransitionName = writingTitleViewTransition ? writingTitleTransitionN
   data-description={filterSearchText && description ? description.toLowerCase() : undefined}
 >
   <div class="index-card__media img-frame">
-    <img src={imageSrc} alt={imageAlt} loading={loading} decoding="async" />
+    {imageSrc ? (
+      <img src={imageSrc} alt={imageAlt} loading={loading} decoding="async" />
+    ) : (
+      <slot name="media" />
+    )}
   </div>
   <div class="index-card__body">
     <div class="index-card__meta">

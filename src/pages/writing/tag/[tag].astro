@@ -1,0 +1,113 @@
+---
+import WritingLayout from '../../../layouts/WritingLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ContentIndexCard from '../../../components/ContentIndexCard.astro';
+import WritingDefaultCover from '../../../components/WritingDefaultCover.astro';
+import { getWritingPostThumbnail, hasWritingPostImage } from '../../../utils/writingPostImage';
+import { buildOgImageUrl } from '../../../utils/ogImage';
+import {
+  collectWritingTags,
+  filterWritingByTag,
+  formatWritingTagLabel,
+  writingTagPath,
+  type WritingTagCount,
+} from '../../../utils/writingTags';
+import '../../../styles/pages/writing-editorial.css';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('writing');
+  const posts = (import.meta.env.PROD ? allPosts.filter((post) => !post.data.draft) : allPosts).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+  const allTags = collectWritingTags(posts);
+
+  return allTags.map(({ tag }) => ({
+    params: { tag },
+    props: { tag, posts: filterWritingByTag(posts, tag), allTags },
+  }));
+}
+
+interface Props {
+  tag: string;
+  posts: CollectionEntry<'writing'>[];
+  allTags: WritingTagCount[];
+}
+
+const { tag, posts, allTags } = Astro.props;
+const label = formatWritingTagLabel(tag);
+const countLabel = `${posts.length} ${posts.length === 1 ? 'essay' : 'essays'}`;
+
+const pageTitle = `${label} | Writing | David Hoang`;
+const pageDescription = `Essays by David Hoang on ${label}.`;
+const ogImage = buildOgImageUrl({
+  title: label,
+  description: pageDescription,
+  type: 'writing',
+});
+
+const cards = posts.map((post) => {
+  const image = {
+    title: post.data.title,
+    description: post.data.description,
+    coverImage: post.data.coverImage,
+    ogImage: post.data.ogImage,
+    body: post.body,
+  };
+  return {
+    post,
+    hasImage: hasWritingPostImage(image),
+    thumbnail: getWritingPostThumbnail(image),
+  };
+});
+---
+
+<WritingLayout title={pageTitle} description={pageDescription} ogImage={ogImage}>
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/rss+xml"
+    title={`David Hoang — Writing — ${label}`}
+    href={`/rss/tag/${encodeURIComponent(tag)}.xml`}
+  />
+
+  <header class="writing-masthead writing-masthead--tag">
+    <a href="/writing" class="text-eyebrow text-eyebrow--link link-plain">Writing</a>
+    <h1 class="writing-masthead__title">{label}</h1>
+    <p class="writing-masthead__count">{countLabel}</p>
+  </header>
+
+  <section class="writing-grid writing-tag-grid index-card-grid" aria-label={`Essays on ${label}`}>
+    {cards.map(({ post, thumbnail, hasImage }) => (
+      <ContentIndexCard
+        href={`/writing/${post.id}`}
+        title={post.data.title}
+        description={post.data.description}
+        date={post.data.pubDate}
+        imageSrc={hasImage ? thumbnail : undefined}
+        heading="h2"
+        linkClass="link-plain"
+        writingTitleViewTransition
+      >
+        {!hasImage && <WritingDefaultCover slot="media" seed={post.id} />}
+      </ContentIndexCard>
+    ))}
+  </section>
+
+  <nav class="writing-tag-index" aria-labelledby="writing-tag-index-heading">
+    <h2 class="writing-tag-index__heading text-eyebrow" id="writing-tag-index-heading">All topics</h2>
+    <ul class="tag-list">
+      {allTags.map((item) => (
+        <li>
+          <a
+            class="tag-link link-plain"
+            href={writingTagPath(item.tag)}
+            aria-current={item.tag === tag ? 'page' : undefined}
+          >
+            {formatWritingTagLabel(item.tag)}
+            <span class="tag-link__count" aria-hidden="true">{item.count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</WritingLayout>

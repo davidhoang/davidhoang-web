@@ -1,0 +1,21 @@
+---
+/**
+ * Default cover for writing posts without a cover, OG, or in-body image.
+ * The parent sizes it (it fills its box by default); pass `class` to override.
+ */
+import WritingCoverShader from './WritingCoverShader';
+import '../styles/modules/writing-default-cover.css';
+
+interface Props {
+  /** Stable per-post seed (the post slug) so the art matches across pages */
+  seed: string;
+  animated?: boolean;
+  class?: string;
+}
+
+const { seed, animated = false, class: className } = Astro.props;
+---
+
+<div class:list={['writing-default-cover', className]} aria-hidden="true">
+  <WritingCoverShader client:visible seed={seed} animated={animated} />
+</div>

@@ -43,6 +43,11 @@ function buildWritingOgUrl(post: WritingPostImageInput): string {
   return `/api/og?${params.toString()}`;
 }
 
+/** True when the post supplies any image of its own; otherwise it gets the generated cover. */
+export function hasWritingPostImage(post: WritingPostImageInput): boolean {
+  return Boolean(post.coverImage || post.ogImage || extractFirstImageUrl(post.body));
+}
+
 /** Cover art for writing cards: explicit image, first in-body image, or generated OG. */
 export function getWritingPostThumbnail(post: WritingPostImageInput): string {
   if (post.coverImage) return post.coverImage;

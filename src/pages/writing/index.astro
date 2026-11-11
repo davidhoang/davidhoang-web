@@ -4,8 +4,13 @@ import { getCollection } from 'astro:content';
 import WritingGraph from '../../components/WritingGraph.astro';
 import { buildGraph } from '../../utils/writingGraph';
 import ContentIndexCard from '../../components/ContentIndexCard.astro';
+import WritingDefaultCover from '../../components/WritingDefaultCover.astro';
 import { formatListDate } from '../../utils/formatDate';
-import { getWritingPostThumbnail, getWritingPostHero } from '../../utils/writingPostImage';
+import {
+  getWritingPostThumbnail,
+  getWritingPostHero,
+  hasWritingPostImage,
+} from '../../utils/writingPostImage';
 import { buildOgImageUrl } from '../../utils/ogImage';
 import '../../styles/pages/writing-editorial.css';
 
@@ -17,26 +22,22 @@ const posts = (import.meta.env.PROD
 
 const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data, body: p.body })));
 
-const postsWithMeta = posts.map((post) => ({
-  post,
-  thumbnail: getWritingPostThumbnail({
+const postsWithMeta = posts.map((post) => {
+  const image = {
     title: post.data.title,
     description: post.data.description,
     coverImage: post.data.coverImage,
     ogImage: post.data.ogImage,
     body: post.body,
-  }),
-  hero: getWritingPostHero({
-    title: post.data.title,
-    description: post.data.description,
-    coverImage: post.data.coverImage,
-    ogImage: post.data.ogImage,
-    body: post.body,
-  }),
-  primaryTag: post.data.tags?.[0],
-}));
-
-const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
+  };
+  return {
+    post,
+    hasImage: hasWritingPostImage(image),
+    thumbnail: getWritingPostThumbnail(image),
+    hero: getWritingPostHero(image),
+    primaryTag: post.data.tags?.[0],
+  };
+});
 
 const featured = postsWithMeta[0];
 const feedPosts = postsWithMeta.slice(1);
@@ -53,11 +54,7 @@ const ogImage = buildOgImageUrl({
 <WritingLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
   <header class="writing-masthead">
     <h1 class="writing-masthead__title">Writing</h1>
-    <p class="writing-masthead__deck">
-      Long-form essays — not the shorter notes on <a href="/notes">Notes</a>.
-    </p>
     <div class="writing-masthead__actions">
-      <a href="/rss.xml" class="writing-masthead__rss">RSS feed</a>
       <div class="writing-view-tabs" role="tablist" aria-label="Writing view">
         <button
           type="button"
@@ -99,40 +96,25 @@ const ogImage = buildOgImageUrl({
     </div>
   </header>
 
-  {allTags.length > 0 && (
-    <div class="writing-toolbar" data-filterable>
-      <p class="writing-toolbar__label" id="writing-tag-label">Topics</p>
-      <div class="writing-filter-chips filter-pills" role="group" aria-labelledby="writing-tag-label">
-        <button type="button" class="filter-pill filter-pill--rounded is-active" data-tag="all" aria-pressed="true">All</button>
-        {allTags.map((tag) => (
-          <button type="button" class="filter-pill filter-pill--rounded" data-tag={tag} aria-pressed="false">
-            {tag}
-          </button>
-        ))}
-      </div>
-    </div>
-  )}
-
   <div data-view-panel="editorial" id="writing-panel-editorial" role="tabpanel" aria-labelledby="writing-tab-editorial" tabindex="0">
     {featured && (
       <section class="writing-spotlight" aria-label="Featured essay">
-        <a
-          href={`/writing/${featured.post.id}`}
-          class="writing-spotlight__link link-plain"
-          data-tags={(featured.post.data.tags || []).join(',')}
-          data-filter-item
-        >
+        <a href={`/writing/${featured.post.id}`} class="writing-spotlight__link link-plain">
           <div class="writing-spotlight__media">
-            <img
-              src={featured.hero}
-              alt=""
-              class="writing-spotlight__image"
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-              width="1600"
-              height="900"
-            />
+            {featured.hasImage ? (
+              <img
+                src={featured.hero}
+                alt=""
+                class="writing-spotlight__image"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                width="1600"
+                height="900"
+              />
+            ) : (
+              <WritingDefaultCover seed={featured.post.id} class="writing-spotlight__image" />
+            )}
           </div>
           <div class="writing-spotlight__body">
             {featured.primaryTag && <span class="writing-spotlight__tag">{featured.primaryTag}</span>}
@@ -154,19 +136,19 @@ const ogImage = buildOgImageUrl({
 
     {feedPosts.length > 0 && (
       <section class="writing-grid index-card-grid" aria-label="All essays">
-        {feedPosts.map(({ post, thumbnail, primaryTag }) => (
+        {feedPosts.map(({ post, thumbnail, hasImage, primaryTag }) => (
           <ContentIndexCard
             href={`/writing/${post.id}`}
             title={post.data.title}
             description={post.data.description}
             date={post.data.pubDate}
-            imageSrc={thumbnail}
+            imageSrc={hasImage ? thumbnail : undefined}
             primaryTag={primaryTag}
             linkClass="link-plain"
             writingTitleViewTransition
-            filterTags={(post.data.tags || []).join(',')}
-            filterItem
-          />
+          >
+            {!hasImage && <WritingDefaultCover slot="media" seed={post.id} />}
+          </ContentIndexCard>
         ))}
       </section>
     )}
@@ -175,23 +157,22 @@ const ogImage = buildOgImageUrl({
   <div data-view-panel="list" id="writing-panel-list" role="tabpanel" aria-labelledby="writing-tab-list" tabindex="0" hidden>
     <section class="writing-feed" aria-label="Essay list">
       <ul class="writing-feed__list">
-        {postsWithMeta.map(({ post, thumbnail }) => (
+        {postsWithMeta.map(({ post, thumbnail, hasImage }) => (
           <li>
-            <a
-              href={`/writing/${post.id}`}
-              class="writing-feed__item link-plain"
-              data-tags={(post.data.tags || []).join(',')}
-              data-filter-item
-            >
+            <a href={`/writing/${post.id}`} class="writing-feed__item link-plain">
               <div class="writing-feed__thumb">
-                <img
-                  src={thumbnail}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  width="600"
-                  height="600"
-                />
+                {hasImage ? (
+                  <img
+                    src={thumbnail}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width="600"
+                    height="600"
+                  />
+                ) : (
+                  <WritingDefaultCover seed={post.id} />
+                )}
               </div>
               <div class="writing-feed__content">
                 <h3 class="writing-feed__title">
@@ -216,70 +197,14 @@ const ogImage = buildOgImageUrl({
   <div data-view-panel="graph" id="writing-panel-graph" role="tabpanel" aria-labelledby="writing-tab-graph" tabindex="0" hidden>
     <WritingGraph graph={graph} />
   </div>
-
-  <p class="writing-feed__empty" id="writing-no-results" hidden>
-    No essays in this topic.
-  </p>
 </WritingLayout>
 
 <script>
-  function initWritingFilters() {
-    const toolbar = document.querySelector<HTMLElement>('.writing-toolbar');
-    if (!toolbar || toolbar.dataset.initialized === 'true') return;
-    const noResults = document.getElementById('writing-no-results');
-    const tagChips = Array.from(document.querySelectorAll<HTMLButtonElement>('.writing-filter-chips .filter-pill'));
-    const filterItems = Array.from(document.querySelectorAll<HTMLElement>('[data-filter-item]'));
-
-    if (!filterItems.length) return;
-
-    let activeTag = 'all';
-
-    function applyFilters() {
-      let visibleCount = 0;
-
-      filterItems.forEach((item) => {
-        const tags = (item.getAttribute('data-tags') || '').split(',').filter(Boolean);
-        const visible = activeTag === 'all' || tags.includes(activeTag);
-
-        item.hidden = !visible;
-        const listRow = item.closest('li');
-        if (listRow) listRow.hidden = !visible;
-        const spotlight = item.closest<HTMLElement>('.writing-spotlight');
-        if (spotlight) spotlight.hidden = !visible;
-
-        if (visible) visibleCount++;
-      });
-
-      if (noResults) {
-        const activePanel = document.querySelector<HTMLElement>('[data-view-panel]:not([hidden])');
-        const isFilterableView =
-          activePanel?.dataset.viewPanel === 'editorial' ||
-          activePanel?.dataset.viewPanel === 'list';
-        noResults.hidden = !isFilterableView || visibleCount > 0 || activeTag === 'all';
-      }
-    }
-
-    tagChips.forEach((chip) => {
-      chip.addEventListener('click', () => {
-        activeTag = chip.dataset.tag || 'all';
-        tagChips.forEach((c) => {
-          c.classList.toggle('is-active', c === chip);
-          c.setAttribute('aria-pressed', String(c === chip));
-        });
-        applyFilters();
-      });
-    });
-    toolbar.addEventListener('writing:view-change', applyFilters);
-    toolbar.dataset.initialized = 'true';
-  }
-
   function initWritingViewTabs() {
     const tablist = document.querySelector<HTMLElement>('.writing-view-tabs');
     if (!tablist || tablist.dataset.initialized === 'true') return;
     const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-tab]'));
     const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
-    const filterable = Array.from(document.querySelectorAll<HTMLElement>('[data-filterable]'));
-    const noResults = document.getElementById('writing-no-results');
     if (!tabs.length || !panels.length) return;
 
     function setView(view: string, push: boolean) {
@@ -296,13 +221,6 @@ const ogImage = buildOgImageUrl({
           p.querySelector('[data-writing-graph]')?.dispatchEvent(new CustomEvent('graph:show'));
         }
       });
-
-      const showFilters = view === 'editorial' || view === 'list';
-      filterable.forEach((el) => {
-        el.hidden = !showFilters;
-      });
-      if (!showFilters && noResults) noResults.hidden = true;
-      document.querySelector('.writing-toolbar')?.dispatchEvent(new CustomEvent('writing:view-change'));
 
       if (push) {
         const url = new URL(window.location.href);
@@ -339,10 +257,6 @@ const ogImage = buildOgImageUrl({
     tablist.dataset.initialized = 'true';
   }
 
-  initWritingFilters();
   initWritingViewTabs();
-  document.addEventListener('astro:page-load', () => {
-    initWritingFilters();
-    initWritingViewTabs();
-  });
+  document.addEventListener('astro:page-load', initWritingViewTabs);
 </script>

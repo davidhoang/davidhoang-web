@@ -1,4 +1,5 @@
 /* Writing post — full-width editorial article template */
+@import '../modules/tag-list.css';
 
 .writing-post {
   /* Three-column editorial: TOC | prose | meta sidebar */
@@ -26,6 +27,11 @@
   max-height: min(70vh, 720px);
   display: block;
   object-fit: cover;
+}
+
+/* Generated cover for posts with no image of their own */
+.writing-post__hero--generated .writing-default-cover {
+  height: clamp(14rem, 38vh, 26rem);
 }
 
 .writing-post__header {
@@ -91,27 +97,17 @@
 }
 
 .writing-post__tags {
-  list-style: none;
-  padding: var(--spacing-md) 0 0;
+  padding: var(--spacing-lg) 0 0;
   margin: calc(var(--spacing-xl) + var(--spacing-sm)) 0 0;
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: calc(var(--spacing-xs) + 0.15rem) calc(var(--spacing-md) - calc(var(--spacing-xs) - 0.1rem));
+  align-items: center;
+  gap: var(--spacing-sm) var(--spacing-md);
 }
 
-.writing-post__tag {
-  color: var(--color-muted);
-  position: relative;
-}
-
-.writing-post__tag:not(:last-child)::after {
-  content: '·';
-  position: absolute;
-  right: -0.55rem;
-  color: var(--color-border);
-  font-weight: 400;
+.writing-post__tags-heading {
+  margin: 0;
 }
 
 .writing-post__grid {
