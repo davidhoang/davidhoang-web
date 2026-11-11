@@ -36,7 +36,7 @@ const MANUAL_CHUNKS = [
       'src/components/hero/CardBase.tsx',
       'src/components/hero/HeroTitle.tsx',
       'src/components/hero/layouts/StackedFanLayout.tsx',
-      // HeroImageShader stays out — PageHeader mounts it site-wide and must not
+      // HeroImageShader stays out — heroImageShaderMount lazy-loads it and must not
       // pull CardStackHero / framer-motion onto every page.
     ],
   ],
