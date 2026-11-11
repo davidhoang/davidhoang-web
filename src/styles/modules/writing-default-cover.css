@@ -1,0 +1,41 @@
+/* Generated writing cover — CSS fallback under the Paper shader canvas */
+
+:where(.writing-default-cover) {
+  width: 100%;
+  height: 100%;
+}
+
+.writing-default-cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: color-mix(in srgb, var(--color-link) 6%, var(--color-bg));
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-link) 40%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 8px 8px;
+}
+
+/* The shader draws on a transparent back, so drop the fallback dots under it */
+.writing-default-cover:has(canvas) {
+  background-image: none;
+}
+
+.index-card__media .writing-default-cover {
+  transition: transform var(--duration-slower) var(--ease-inertia);
+}
+
+@media (hover: hover) {
+  .index-card:hover .index-card__media .writing-default-cover {
+    transform: scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-card__media .writing-default-cover {
+    transition: none;
+  }
+}

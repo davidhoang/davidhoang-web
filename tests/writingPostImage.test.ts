@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { getWritingPostThumbnail, getWritingPostHero } from '../src/utils/writingPostImage';
+import {
+  getWritingPostThumbnail,
+  getWritingPostHero,
+  hasWritingPostImage,
+} from '../src/utils/writingPostImage';
 
 const base = {
   title: 'Test post',
@@ -54,5 +58,19 @@ describe('getWritingPostHero', () => {
     expect(getWritingPostHero({ ...base, body: 'No images here.' })).toBe(
       '/api/og?title=Test+post&type=writing&description=A+short+description',
     );
+  });
+});
+
+describe('hasWritingPostImage', () => {
+  it('is true for a cover, an OG image, or an in-body image', () => {
+    expect(hasWritingPostImage({ ...base, coverImage: '/cover.webp' })).toBe(true);
+    expect(hasWritingPostImage({ ...base, ogImage: '/og.webp' })).toBe(true);
+    expect(hasWritingPostImage({ ...base, body: 'Intro\n\n![diagram](/inline.webp)' })).toBe(true);
+    expect(hasWritingPostImage({ ...base, body: '<img src="/inline.webp" alt="" />' })).toBe(true);
+  });
+
+  it('is false when the post has no image of its own', () => {
+    expect(hasWritingPostImage({ ...base })).toBe(false);
+    expect(hasWritingPostImage({ ...base, body: 'No images here.' })).toBe(false);
   });
 });

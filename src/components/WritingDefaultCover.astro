@@ -1,0 +1,34 @@
+---
+/**
+ * Default cover for writing posts without a cover, OG, or in-body image: a
+ * Paper dithering shader seeded by the post slug and tinted with the theme.
+ * The CSS background is the fallback for e-ink, no WebGL, and before hydration.
+ * The parent sizes it (it fills its box by default); pass `class` to override.
+ */
+import TextureCardShader from './TextureCardShader';
+import { getWritingCoverArt } from '../utils/writingCoverArt';
+import '../styles/modules/writing-default-cover.css';
+
+interface Props {
+  /** Stable per-post seed (the post slug) so the art matches across pages */
+  seed: string;
+  /** Slow drift for large heroes; index thumbnails stay still */
+  animated?: boolean;
+  class?: string;
+}
+
+const { seed, animated = false, class: className } = Astro.props;
+
+// Art is resolved at build time so the client ships no seeding code. The back
+// color is transparent: the tinted CSS background shows through the canvas.
+const shader = {
+  ...getWritingCoverArt(seed),
+  colorBack: '#00000000',
+  maxPixelCount: 960 * 720,
+  minPixelRatio: 1,
+};
+---
+
+<div class:list={['writing-default-cover', className]} aria-hidden="true">
+  <TextureCardShader client:visible shader={shader} speed={animated ? 0.16 : 0} />
+</div>

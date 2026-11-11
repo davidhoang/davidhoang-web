@@ -1,20 +1,45 @@
 /**
- * Paper Design dithering shader for TextureCard hover / focus surfaces.
+ * Paper Design dithering surface tinted with the active theme. TextureCard
+ * mounts it on hover / focus; generated writing covers mount it as an island.
  * @see https://shaders.paper.design/dithering
  */
 
-import { useEffect, useState, type ComponentType } from 'react';
-import type { TextureCardDitheringLayerProps } from '../shaders/lazy/TextureCardDitheringLayer';
+import { useEffect, useRef, useState, type ComponentType, type CSSProperties } from 'react';
+import type {
+  DitheringOverrides,
+  TextureCardDitheringLayerProps,
+} from '../shaders/lazy/TextureCardDitheringLayer';
 
-export default function TextureCardShader() {
-  const [mounted, setMounted] = useState(false);
+interface Props {
+  /** Dithering params that replace the TextureCard look */
+  shader?: DitheringOverrides;
+  /** Animation speed; reduced motion always renders a still frame */
+  speed?: number;
+}
+
+const FILL: CSSProperties = { position: 'absolute', inset: 0 };
+
+// Paper's dispose() drops the canvas but leaves the GL context for GC. Index
+// pages mount and unmount many surfaces while scrolling, so release each
+// context as its canvas unmounts to stay under the browser's live-context limit.
+// Keep this at module scope: React re-runs a ref whose identity changes.
+const releaseContextOnUnmount = (el: HTMLDivElement) => () => {
+  el.querySelector('canvas')?.getContext('webgl2')?.getExtension('WEBGL_lose_context')?.loseContext();
+};
+
+export default function TextureCardShader({ shader, speed = 0.85 }: Props) {
+  const hostRef = useRef<HTMLDivElement>(null);
+  const [nearViewport, setNearViewport] = useState(false);
   const [eInk, setEInk] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [colors, setColors] = useState({ front: '#00b3ff', back: '#000000' });
   const [Layer, setLayer] = useState<ComponentType<TextureCardDitheringLayerProps> | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const io = new IntersectionObserver(([entry]) => setNearViewport(entry.isIntersecting), {
+      rootMargin: '240px 0px',
+    });
+    io.observe(hostRef.current!);
 
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const syncMotion = () => setReducedMotion(mq.matches);
@@ -23,12 +48,11 @@ export default function TextureCardShader() {
 
     const syncTheme = () => {
       const root = document.documentElement;
+      const cs = getComputedStyle(root);
       setEInk(root.getAttribute('data-e-ink') === 'true');
-      const bg = getComputedStyle(root).getPropertyValue('--color-bg').trim();
-      const link = getComputedStyle(root).getPropertyValue('--color-link').trim();
       setColors({
-        back: bg || '#ffffff',
-        front: link || '#0066cc',
+        back: cs.getPropertyValue('--color-bg').trim() || '#ffffff',
+        front: cs.getPropertyValue('--color-link').trim() || '#0066cc',
       });
     };
 
@@ -40,12 +64,13 @@ export default function TextureCardShader() {
     });
 
     return () => {
+      io.disconnect();
       mq.removeEventListener('change', syncMotion);
       obs.disconnect();
     };
   }, []);
 
-  const shouldRender = mounted && !eInk;
+  const shouldRender = nearViewport && !eInk;
 
   useEffect(() => {
     if (!shouldRender) {
@@ -63,9 +88,13 @@ export default function TextureCardShader() {
     };
   }, [shouldRender]);
 
-  if (!shouldRender || !Layer) {
-    return null;
-  }
-
-  return <Layer colors={colors} reducedMotion={reducedMotion} />;
+  return (
+    <div ref={hostRef} style={FILL}>
+      {shouldRender && Layer && (
+        <div ref={releaseContextOnUnmount} style={FILL}>
+          <Layer colors={colors} speed={reducedMotion ? 0 : speed} shader={shader} />
+        </div>
+      )}
+    </div>
+  );
 }

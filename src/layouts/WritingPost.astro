@@ -7,6 +7,7 @@ import CommentsSection from '../components/CommentsSection.astro';
 import RelatedContentSection from '../components/RelatedContentSection.astro';
 import CompanionPrototype from '../components/CompanionPrototype.astro';
 import ShareControls from '../components/ShareControls.astro';
+import WritingDefaultCover from '../components/WritingDefaultCover.astro';
 import { formatLongDate } from '../utils/formatDate';
 import { resolveAssetImage } from '../utils/assetImages';
 import {
@@ -17,6 +18,7 @@ import {
   toIsoDate,
 } from '../utils/structuredData';
 import { resolveContentOgImage } from '../utils/ogImage';
+import { formatWritingTagLabel, writingTagPath } from '../utils/writingTags';
 import '../styles/pages/writing-post.css';
 
 const { data, relatedContent = [], headings = [], readingTime } = Astro.props;
@@ -38,6 +40,8 @@ const slug = Astro.url.pathname.split('/').filter(Boolean).pop();
 
 const coverImage = data.coverImage;
 const coverAsset = resolveAssetImage(coverImage);
+// The page passes the first in-body image as data.ogImage, so this is true only for image-free posts.
+const showDefaultCover = !coverImage && !data.ogImage;
 
 const pageDescription = description || 'An article by David Hoang on design, engineering, AI, and entrepreneurship.';
 const ogImage = resolveContentOgImage({
@@ -107,6 +111,11 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
         )}
       </div>
     )}
+    {showDefaultCover && (
+      <div class="writing-post__hero writing-post__hero--generated layout-breakout">
+        <WritingDefaultCover seed={slug ?? title} animated />
+      </div>
+    )}
 
     <header class="writing-post__header">
       <a href="/writing" class="text-eyebrow text-eyebrow--link link-plain">Writing</a>
@@ -134,11 +143,16 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
           <slot />
         </div>
         {tags && tags.length > 0 && (
-          <ul class="writing-post__tags" aria-label="Tags">
-            {tags.map((tag: string) => (
-              <li class="writing-post__tag text-eyebrow">{tag}</li>
-            ))}
-          </ul>
+          <nav class="writing-post__tags" aria-labelledby="writing-post-tags-heading">
+            <h2 class="writing-post__tags-heading text-eyebrow" id="writing-post-tags-heading">Topics</h2>
+            <ul class="tag-list">
+              {tags.map((tag: string) => (
+                <li>
+                  <a class="tag-link link-plain" href={writingTagPath(tag)}>{formatWritingTagLabel(tag)}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         )}
         <RelatedContentSection items={relatedContent} heading="Keep reading" />
         <CommentsSection />

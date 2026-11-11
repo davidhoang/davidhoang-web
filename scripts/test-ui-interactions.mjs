@@ -66,33 +66,27 @@ try {
   await page.keyboard.press('ArrowRight');
   assert.equal(await page.getByRole('tab', { name: 'List', exact: true }).getAttribute('aria-selected'), 'true');
   assert.equal(await visible('[data-view-panel]'), 1);
-  const featuredTags = (await page.locator('.writing-spotlight__link').getAttribute('data-tags')).split(',');
-  const writingChip = '.writing-filter-chips .filter-pill';
-  const nonFeaturedChip = await page.locator(writingChip).evaluateAll(
-    (els, tags) => els.find(el => el.dataset.tag !== 'all' && !tags.includes(el.dataset.tag))?.dataset.tag,
-    featuredTags,
-  );
-  assert.ok(nonFeaturedChip);
-  await page.locator('.writing-toolbar').getByRole('button', { name: nonFeaturedChip, exact: true }).click();
-  assert.equal(await page.locator(`${writingChip}[aria-pressed=true]`).count(), 1);
   assert.ok(await visible('.writing-feed__item') > 0);
-  assert.equal(await visible('.writing-feed__item[hidden]'), 0);
-  await page.getByRole('tab', { name: 'List', exact: true }).focus();
-  await page.keyboard.press('Home');
   assert.equal(await visible('.writing-spotlight'), 0);
-  assert.equal(await page.getByRole('tab', { name: 'Editorial' }).getAttribute('tabindex'), '0');
+  assert.equal(await page.locator('.writing-toolbar, .writing-filter-chips').count(), 0);
   await page.keyboard.press('End');
-  assert.equal(await visible('.writing-toolbar'), 0);
+  assert.equal(await page.getByRole('tab', { name: 'Graph', exact: true }).getAttribute('aria-selected'), 'true');
+  assert.equal(await visible('[data-view-panel]'), 1);
   await page.keyboard.press('Home');
-  assert.equal(await visible('.writing-toolbar'), 1);
-  check('Writing tabs, arrow/Home/End keys, semantic panels, filtering, and hidden spotlight');
+  assert.equal(await page.getByRole('tab', { name: 'Editorial' }).getAttribute('tabindex'), '0');
+  assert.equal(await visible('.writing-spotlight'), 1);
+  check('Writing tabs, arrow/Home/End keys, semantic panels, and spotlight hidden outside Editorial');
 
-  await page.locator(`${writingChip}[data-tag=all]`).click();
   await page.locator('.writing-spotlight__link').click();
   await page.waitForURL(/\/writing\/.+/);
   await page.waitForFunction(() => document.querySelector('.desktop-nav a[href="/writing"]')?.getAttribute('aria-current') === 'location');
   assert.equal(await visible('[data-share-native]'), 0);
   check('Persistent navigation updates on article routes; unsupported native sharing stays hidden');
+
+  const topicLinks = page.locator('.writing-post__tags .tag-link');
+  assert.ok(await topicLinks.count() > 0);
+  assert.match(await topicLinks.first().getAttribute('href'), /^\/writing\/tag\/.+/);
+  check('Article topics link to tag listing pages');
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator('#menuButton').click();
