@@ -1,5 +1,29 @@
+const SPEAKING_MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const;
+
+/**
+ * Speaking rows show the year on the section and the month in the margin.
+ * Day numbers in `meta` ("November 5", "September 14–16") are dropped.
+ */
+export function speakingMonthLabel(meta: string): string {
+  const month = meta.trim().split(/\s+/)[0] ?? '';
+  return (SPEAKING_MONTHS as readonly string[]).includes(month) ? month : '';
+}
+
 export type SpeakingEntry = {
-  /** Month / day fragment shown in the margin, e.g. "May" or "September 14–16" */
+  /** Month only, shown beside the year. Days are omitted. e.g. "May" */
   meta: string;
   title: string;
   href?: string;
@@ -16,6 +40,12 @@ export const featuredSpeaking: SpeakingYear[] = [
   {
     year: '2026',
     entries: [
+      {
+        meta: 'November',
+        title:
+          'UXDX San Francisco: When Everyone Can Build, What Happens to Product Teams?',
+        href: 'https://uxdx.com/session/when-everyone-can-build-what-happens-to-product-teams/',
+      },
       {
         meta: 'October',
         title:
@@ -142,16 +172,16 @@ export const featuredSpeaking: SpeakingYear[] = [
   {
     year: '2016',
     entries: [
-      { meta: 'September 29', title: 'VanCocoa' },
-      { meta: 'September 14–16', title: 'UX Cambridge' },
-      { meta: 'September 9–10', title: 'CocoaConf Washington DC' },
-      { meta: 'May 6–7', title: 'CocoaConf in Seattle, WA' },
+      { meta: 'September', title: 'VanCocoa' },
+      { meta: 'September', title: 'UX Cambridge' },
+      { meta: 'September', title: 'CocoaConf Washington DC' },
+      { meta: 'May', title: 'CocoaConf in Seattle, WA' },
       {
-        meta: 'April 14',
+        meta: 'April',
         title: 'Seattle Xcoders: Me too! Designers working in Xcode',
       },
       {
-        meta: 'April 6',
+        meta: 'April',
         title: 'Tradecraft: Fast With Intent — Learning Through Rapid Prototyping',
       },
     ],
@@ -159,13 +189,13 @@ export const featuredSpeaking: SpeakingYear[] = [
   {
     year: '2015',
     entries: [
-      { meta: 'July 15', title: 'Seattle Prototyping for Designers' },
+      { meta: 'July', title: 'Seattle Prototyping for Designers' },
       {
-        meta: 'May 8–9',
+        meta: 'May',
         title: 'CocoaConf 2015 in Portland, Oregon: Designing For WATCH',
       },
       {
-        meta: 'January 8',
+        meta: 'January',
         title:
           'Seattle Xcoders in Seattle, Washington: Designing for WATCH before it ships',
       },

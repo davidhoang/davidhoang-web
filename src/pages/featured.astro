@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader.astro';
 import EditorialMediaCard from '../components/EditorialMediaCard.astro';
 import SpeakingEntryTitle from '../components/SpeakingEntryTitle.tsx';
 import FeaturedSpeakingPreviewPanel from '../components/FeaturedSpeakingPreviewPanel.tsx';
-import { featuredSpeaking } from '../data/featuredSpeaking';
+import { featuredSpeaking, speakingMonthLabel } from '../data/featuredSpeaking';
 import { featuredMedia } from '../data/featuredMedia';
 import { resolveFeaturedMedia } from '../utils/featuredMedia';
 
@@ -26,13 +26,10 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     <div class="featured-editorial__speaking">
       <h2 class="featured-editorial__section-title">Speaking</h2>
       <div class="speaking-chronicle">
-        <div class="speaking-inquiry" role="region" aria-label="Speaking inquiries">
-          <p class="speaking-inquiry__label">Open for speaking</p>
-          <p class="speaking-inquiry__copy">
-            For inquiries, email{' '}
-            <a class="speaking-inquiry__link" href="mailto:david@davidhoang.com">david@davidhoang.com</a>.
-          </p>
-        </div>
+        <p class="speaking-inquiry">
+          For speaking inquiries, email{' '}
+          <a class="speaking-inquiry__link" href="mailto:david@davidhoang.com">david@davidhoang.com</a>.
+        </p>
 
         {
           featuredSpeaking.map((block) => (
@@ -41,10 +38,12 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
                 <span class="speaking-chronicle__year-num">{block.year}</span>
               </h3>
               <ul class="speaking-chronicle__list">
-                {block.entries.map((entry) => (
+                {block.entries.map((entry) => {
+                  const month = speakingMonthLabel(entry.meta);
+                  return (
                   <li class={`speaking-chronicle__entry${entry.href ? ' speaking-chronicle__entry--linked' : ''}`}>
-                    {entry.meta ? (
-                      <span class="speaking-chronicle__when">{entry.meta}</span>
+                    {month ? (
+                      <span class="speaking-chronicle__when">{month}</span>
                     ) : (
                       <span class="speaking-chronicle__when speaking-chronicle__when--empty" aria-hidden="true" />
                     )}
@@ -57,7 +56,8 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
                       />
                     </span>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </section>
           ))
@@ -67,9 +67,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
     <aside class="featured-editorial__media" aria-label="Media and publications">
       <h2 class="featured-editorial__section-title featured-editorial__section-title--media">Media &amp; publications</h2>
-      <p class="featured-editorial__lede featured-editorial__lede--compact">
-        Essays and appearances — titles and descriptions are pulled from each page when the build runs.
-      </p>
       <div class="media-stack">
         {mediaResolved.map((item) => <EditorialMediaCard {...item} />)}
       </div>
@@ -104,20 +101,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     margin-bottom: 1.25rem;
   }
 
-  .featured-editorial__lede {
-    margin: 0 0 calc(var(--spacing-lg) + var(--spacing-sm));
-    max-width: 42rem;
-    font-size: var(--text-ui-size);
-    line-height: 1.55;
-    color: var(--color-muted);
-    letter-spacing: var(--letter-spacing-body);
-  }
-
-  .featured-editorial__lede--compact {
-    margin-bottom: 1.25rem;
-    max-width: none;
-  }
-
   .speaking-chronicle {
     display: flex;
     flex-direction: column;
@@ -126,40 +109,24 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
 
   .speaking-inquiry {
     margin: 0;
-    padding: clamp(0.85rem, 2vw, 1rem) clamp(1rem, 2.4vw, 1.15rem);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--color-sidebar-bg) 42%, var(--color-bg));
-  }
-
-  .speaking-inquiry__label {
-    margin: 0 0 calc(var(--spacing-xs) + 0.1rem);
-    font-size: var(--text-eyebrow-size);
-    font-weight: 600;
-    letter-spacing: var(--text-eyebrow-tracking, 0.14em);
-    text-transform: uppercase;
-    color: var(--color-link);
-  }
-
-  .speaking-inquiry__copy {
-    margin: 0;
-    font-size: var(--text-ui-size);
+    font-size: clamp(0.94rem, 1.6vw, 1rem);
     line-height: 1.45;
     letter-spacing: var(--letter-spacing-body);
-    color: var(--color-text);
+    color: var(--color-muted);
   }
 
   .featured-editorial .speaking-inquiry__link {
-    color: var(--color-link);
+    color: var(--color-text);
     text-decoration: none;
-    font-weight: 600;
-    transition: color var(--duration-normal) var(--ease-standard);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-link) 35%, transparent);
+    transition:
+      color var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
   }
 
   .featured-editorial .speaking-inquiry__link:hover {
     color: var(--color-link-hover);
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
+    border-bottom-color: color-mix(in srgb, var(--color-link-hover) 55%, transparent);
   }
 
   .speaking-chronicle__year {
@@ -191,7 +158,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--color-border);
   }
 
   .speaking-chronicle__entry {
@@ -199,7 +165,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
     grid-template-columns: minmax(4.75rem, 6.25rem) minmax(0, 1fr);
     gap: 0.65rem clamp(0.85rem, 2vw, 1.25rem);
     padding: calc(var(--spacing-sm) + 0.22rem) 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
     align-items: baseline;
   }
 

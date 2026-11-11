@@ -34,6 +34,7 @@ These three rules regress often when agents touch nav, heroes, or global CSS. **
 - [ ] Astro for static UI; React only when client interactivity is required
 - [ ] Reuse primitives from `src/styles/global.css` and `src/styles/modules/` first
 - [ ] Secondary pages use `.content-page*` (`layout.css`) instead of one-off section CSS
+- [ ] User-facing text reads as finished editorial copy. Never ship process notes, build mechanics, or agent instructions. Strings such as "titles and descriptions are pulled from each page when the build runs", "TODO", and "placeholder" are instruction residue — remove them before shipping
 
 ## After UI changes
 
