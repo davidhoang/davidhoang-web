@@ -7,17 +7,6 @@
 
    ============================================ */
 
-.site-nav .noise-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  opacity: 1.0;
-  pointer-events: none;
-}
-
 /* Must beat .glass-border { position: relative } in shared-components.css */
 .site-nav.glass-border {
   position: fixed;
@@ -486,10 +475,6 @@ html[data-hybrid-pointer='true'] .site-nav:hover .rss-link:hover {
 
   .site-nav::after {
     display: none;
-  }
-
-  .noise-canvas {
-    border-radius: 0;
   }
 
   .particle-canvas {
