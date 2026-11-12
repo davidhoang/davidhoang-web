@@ -27,16 +27,8 @@
    expand scripts/subset-abcdiatype.mjs unicodes and re-run npm run subset-abcdiatype
    if new characters are needed. */
 
-/* Full mono file: fetched only for characters outside the latin subset below. */
-@font-face {
-  font-family: 'ABC Diatype Mono';
-  src: url('/fonts/ABCDiatypeMonoVariable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Latin subset, about 40% smaller. Declared last so it wins for the characters it covers. */
+/* Latin subset, about 40% smaller. Like the sans, the full WOFF2 is the subset source
+   only: a second catch-all face can make browsers download both files. */
 @font-face {
   font-family: 'ABC Diatype Mono';
   src: url('/fonts/ABCDiatypeMonoVariable-latin.woff2') format('woff2');
