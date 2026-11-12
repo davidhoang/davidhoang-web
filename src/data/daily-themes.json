@@ -1,6 +1,369 @@
 {
   "themes": [
     {
+      "name": "Fired & Traced",
+      "description": "A Swiss information grid warmed by the mineral palette of hand-glazed ceramic — cobalt, terracotta, and tin-white held in precise structural tension.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C1410",
+          "--color-bg": "#F5EFE6",
+          "--color-link": "#1B4F8A",
+          "--color-link-hover": "#C0401A",
+          "--color-border": "#B8A898",
+          "--color-muted": "#6E5F51",
+          "--color-sidebar-bg": "#EDE4D8",
+          "--color-nav-bg": "#F5EFE6",
+          "--color-nav-text": "#1C1410",
+          "--color-card-bg": "#EDE4D8"
+        },
+        "dark": {
+          "--color-text": "#EDE4D8",
+          "--color-bg": "#1A120C",
+          "--color-link": "#6BAED6",
+          "--color-link-hover": "#E06840",
+          "--color-border": "#3A2C22",
+          "--color-muted": "#908171",
+          "--color-sidebar-bg": "#231810",
+          "--color-nav-bg": "#1A120C",
+          "--color-nav-text": "#EDE4D8",
+          "--color-card-bg": "#231810"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Archivo Black",
+          "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
+          "category": "sans-serif",
+          "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EFE6",
+          "#1B4F8A"
+        ]
+      },
+      "font": {
+        "name": "Archivo Black",
+        "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
+        "category": "sans-serif",
+        "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-11-12",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fired & Traced",
+              "subtitle": "2026-11-12 — Swiss Grid × Ceramic Mineral"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid",
+              "div3",
+              "bot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Cobalt meets terracotta inside a Helvetica-ruled kiln. Precision is the glaze. Structure is the fire.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1C1410",
+                  "label": "Char"
+                },
+                {
+                  "hex": "#F5EFE6",
+                  "label": "Tin White"
+                },
+                {
+                  "hex": "#1B4F8A",
+                  "label": "Cobalt"
+                },
+                {
+                  "hex": "#C0401A",
+                  "label": "Terracotta"
+                },
+                {
+                  "hex": "#B8A898",
+                  "label": "Slip"
+                },
+                {
+                  "hex": "#EDE4D8",
+                  "label": "Bisque"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "hed",
+              "badges",
+              "tokens"
+            ]
+          },
+          "hed": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Grid-Fired Form",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "retro footer",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "radius",
+                  "value": "0px"
+                },
+                {
+                  "name": "grid",
+                  "value": "sidebar"
+                },
+                {
+                  "name": "links",
+                  "value": "[bracket]"
+                },
+                {
+                  "name": "texture",
+                  "value": "grid"
+                },
+                {
+                  "name": "contrast",
+                  "value": "high"
+                }
+              ]
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "hero",
+              "layout"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "layout": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "meta",
+              "apply"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "heading",
+                  "value": "Archivo Black"
+                },
+                {
+                  "label": "body",
+                  "value": "Source Serif 4"
+                },
+                {
+                  "label": "scheme",
+                  "value": "complementary"
+                },
+                {
+                  "label": "image",
+                  "value": "muted / hover colorize"
+                },
+                {
+                  "label": "shader",
+                  "value": "none"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Fired & Traced",
+              "action": "apply-theme",
+              "date": "2026-11-12"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Chromatic Scan",
       "description": "A metropolitan gallery filtered through Y2K optimism — acid aqua scanlines, high-gloss card surfaces, and cinematic image drama set against deep metropolitan night.",
       "colors": {
@@ -2228,336 +2591,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Gilt & Grain",
-      "description": "Art Deco glamour filtered through a print journalist's eye — geometric gold ornament pressed into warm newsprint, editorial hierarchy made ornate.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#1C1409",
-          "--color-bg": "#FDF2DC",
-          "--color-link": "#8A6508",
-          "--color-link-hover": "#8B6508",
-          "--color-border": "#D4AF6A",
-          "--color-muted": "#716349",
-          "--color-sidebar-bg": "#F5E8C4",
-          "--color-nav-bg": "#FDF2DC",
-          "--color-nav-text": "#1C1409",
-          "--color-card-bg": "#F9EDD0"
-        },
-        "dark": {
-          "--color-text": "#F0E0B4",
-          "--color-bg": "#1A1206",
-          "--color-link": "#D4A017",
-          "--color-link-hover": "#F0C040",
-          "--color-border": "#6B500F",
-          "--color-muted": "#928159",
-          "--color-sidebar-bg": "#221808",
-          "--color-nav-bg": "#1A1206",
-          "--color-nav-text": "#F0E0B4",
-          "--color-card-bg": "#201508"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1150px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FDF2DC",
-          "#D4A017"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-11-05",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Gilt & Grain",
-              "subtitle": "November 5, 2026 — Daily Theme"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "s1",
-              "s2",
-              "div2",
-              "s3",
-              "btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Gold leaf pressed into newsprint. Art Deco rigour meets the compositing room floor — ornament as information, hierarchy as spectacle.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FDF2DC",
-                  "label": "Newsprint"
-                },
-                {
-                  "hex": "#D4AF6A",
-                  "label": "Gilt Border"
-                },
-                {
-                  "hex": "#8A6508",
-                  "label": "Press Gold"
-                },
-                {
-                  "hex": "#F9EDD0",
-                  "label": "Card Stock"
-                },
-                {
-                  "hex": "#77684D",
-                  "label": "Ink Muted"
-                },
-                {
-                  "hex": "#1C1409",
-                  "label": "Masthead"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "hed",
-              "badges"
-            ]
-          },
-          "hed": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Gilt & Grain",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "meta"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Hero: Stacked Fan"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#FDF2DC"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#D4AF6A"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#8A6508"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--font-heading",
-                  "value": "Cormorant Garamond"
-                }
-              ]
-            },
-            "children": []
-          },
-          "btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Gilt & Grain",
-              "action": "apply-theme",
-              "date": "2026-11-05"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-11"
+  "currentDate": "2026-11-12"
 }
