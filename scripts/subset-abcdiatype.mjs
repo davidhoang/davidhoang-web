@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Regenerate the latin ABCDiatype variable WOFF2 subset used for @font-face and preload.
- * Full file remains for glyphs outside unicode-range (rare symbols, future content).
+ * Regenerate the latin ABCDiatype and ABCDiatype Mono variable WOFF2 subsets used for
+ * @font-face and preload. Full files remain for glyphs outside unicode-range (rare
+ * symbols, future content).
  *
  * Requires: pip install fonttools brotli (pyftsubset on PATH)
  *
@@ -13,8 +14,10 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = path.join(repoRoot, 'public/fonts/ABCDiatypeVariable.woff2');
-const output = path.join(repoRoot, 'public/fonts/ABCDiatypeVariable-latin.woff2');
+const FONTS = ['ABCDiatypeVariable', 'ABCDiatypeMonoVariable'].map((name) => ({
+  source: path.join(repoRoot, `public/fonts/${name}.woff2`),
+  output: path.join(repoRoot, `public/fonts/${name}-latin.woff2`),
+}));
 
 const UNICODES = [
   'U+0000-00FF',
@@ -48,29 +51,31 @@ const UNICODES = [
   'U+FFFD',
 ].join(',');
 
-if (!existsSync(source)) {
-  console.error('Missing source font:', source);
-  process.exit(1);
-}
-
 const pyftsubset = process.env.PYFTSUBSET || 'pyftsubset';
 
-execFileSync(
-  pyftsubset,
-  [
-    source,
-    `--output-file=${output}`,
-    '--flavor=woff2',
-    `--unicodes=${UNICODES}`,
-    '--layout-features=*',
-    '--glyph-names',
-    '--symbol-cmap',
-    '--legacy-cmap',
-    '--notdef-outline',
-    '--notdef-glyph',
-    '--recommended-glyphs',
-  ],
-  { stdio: 'inherit' },
-);
+for (const { source, output } of FONTS) {
+  if (!existsSync(source)) {
+    console.error('Missing source font:', source);
+    process.exit(1);
+  }
 
-console.log('Wrote', output);
+  execFileSync(
+    pyftsubset,
+    [
+      source,
+      `--output-file=${output}`,
+      '--flavor=woff2',
+      `--unicodes=${UNICODES}`,
+      '--layout-features=*',
+      '--glyph-names',
+      '--symbol-cmap',
+      '--legacy-cmap',
+      '--notdef-outline',
+      '--notdef-glyph',
+      '--recommended-glyphs',
+    ],
+    { stdio: 'inherit' },
+  );
+
+  console.log('Wrote', output);
+}
