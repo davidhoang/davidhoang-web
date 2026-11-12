@@ -10,18 +10,21 @@
  *   <PageHeader title="Notes" variant="text-only" subtitle="Welcome to my digital garden" />
  */
 
+import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import { resolveAssetImage } from '../utils/assetImages';
 
 interface Props {
   title: string;
-  image?: string;
+  /** A `/images/...` path, or an image imported from src/assets. */
+  image?: string | ImageMetadata;
   alt?: string;
   /** Mobile hero crop anchor (object-position). Desktop stays centered. */
   imagePositionMobile?: string;
   variant?: 'image' | 'text-only';
   subtitle?: string;
   class?: string;
+  /** The hero opens the page, so it loads eagerly unless a page opts out. */
   priority?: boolean;
 }
 
@@ -33,11 +36,14 @@ const {
   variant = 'image',
   subtitle,
   class: className = '',
-  priority = false
+  priority = true
 } = Astro.props;
 
 const isImageVariant = variant === 'image' && image;
-const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
+const imageSrc = typeof image === 'string' ? image : image?.src;
+const optimizedImage = isImageVariant
+  ? typeof image === 'string' ? resolveAssetImage(image) : image
+  : undefined;
 ---
 
 <header class:list={['page-header', { 'page-header--image': isImageVariant, 'page-header--text': !isImageVariant }, className]}>
@@ -53,16 +59,18 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
           alt={alt}
           class="page-header__image"
           loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority ? 'high' : undefined}
           decoding="async"
           widths={[600, 1200, 1800]}
           sizes="100vw"
         />
       ) : (
         <img
-          src={image}
+          src={imageSrc}
           alt={alt}
           class="page-header__image"
           loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority ? 'high' : undefined}
           decoding="async"
           width="1800"
           height="1200"
@@ -71,7 +79,7 @@ const optimizedImage = isImageVariant ? resolveAssetImage(image) : undefined;
       <div
         class="page-header__hero-shader-mount"
         data-hero-shader-mount
-        data-hero-src={image}
+        data-hero-src={imageSrc}
         data-hero-alt={alt}
         data-hero-priority={priority ? '' : undefined}
         aria-hidden="true"
