@@ -132,6 +132,29 @@ export function buildNotesGardenJsonLd(): JsonLd {
   };
 }
 
+export type WritingTagCollectionInput = {
+  name: string;
+  description: string;
+  canonicalUrl: string;
+};
+
+/** `/writing/tag/{tag}` topic hubs — child of the site Blog entity. */
+export function buildWritingTagCollectionPageJsonLd(input: WritingTagCollectionInput): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${input.canonicalUrl}#collection`,
+    url: input.canonicalUrl,
+    name: input.name,
+    description: input.description,
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(BLOG_ID),
+    author: idRef(PERSON_ID),
+    publisher: idRef(PERSON_ID),
+    mainEntityOfPage: webPageRef(input.canonicalUrl),
+  };
+}
+
 /** Site-wide @graph: Person + WebSite (+ Blog + Notes collection for stable linking). */
 export function buildSiteGraphJsonLd(options?: { description?: string }): JsonLd {
   return {

@@ -11,6 +11,7 @@ import {
   buildNowPageJsonLd,
   buildProfilePageJsonLd,
   buildSiteGraphJsonLd,
+  buildWritingTagCollectionPageJsonLd,
   NOW_LAST_UPDATED,
   SITE_LANGUAGE,
   toIsoDate,
@@ -171,6 +172,24 @@ describe('buildProfilePageJsonLd', () => {
   });
 });
 
+describe('buildWritingTagCollectionPageJsonLd', () => {
+  it('models topic hubs as CollectionPage children of the Writing blog', () => {
+    const json = buildWritingTagCollectionPageJsonLd({
+      name: 'Design',
+      description: 'Essays by David Hoang on Design.',
+      canonicalUrl: 'https://www.davidhoang.com/writing/tag/design',
+    });
+    expect(json['@type']).toBe('CollectionPage');
+    expect(json['@id']).toBe('https://www.davidhoang.com/writing/tag/design#collection');
+    expect(json.isPartOf).toEqual({ '@id': BLOG_ID });
+    expect(json.author).toEqual({ '@id': PERSON_ID });
+    expect(json.mainEntityOfPage).toEqual({
+      '@type': 'WebPage',
+      '@id': 'https://www.davidhoang.com/writing/tag/design',
+    });
+  });
+});
+
 describe('buildBreadcrumbListJsonLd', () => {
   it('numbers ListItem positions from 1', () => {
     const json = buildBreadcrumbListJsonLd([
@@ -203,6 +222,11 @@ describe('JSON-LD serializability', () => {
       }),
       buildNowPageJsonLd({ description: 'D', dateModified: NOW_LAST_UPDATED }),
       buildProfilePageJsonLd(),
+      buildWritingTagCollectionPageJsonLd({
+        name: 'Design',
+        description: 'Essays by David Hoang on Design.',
+        canonicalUrl: 'https://www.davidhoang.com/writing/tag/design',
+      }),
     ];
 
     for (const payload of payloads) {

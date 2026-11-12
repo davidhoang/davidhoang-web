@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   detectLayoutPageKind,
+  isWritingTagListingPath,
   openGraphTypeForPageKind,
   resolveLayoutPageKind,
+  resolveOpenGraphType,
 } from '../src/utils/pageMeta';
 
 describe('pageMeta', () => {
@@ -21,5 +23,14 @@ describe('pageMeta', () => {
   it('allows explicit pageType to override pathname detection', () => {
     expect(resolveLayoutPageKind('/writing', 'blog')).toBe('blog');
     expect(resolveLayoutPageKind('/about', 'about')).toBe('about');
+  });
+
+  it('treats /writing/tag/* as website Open Graph type even though path matches /writing/', () => {
+    expect(isWritingTagListingPath('/writing/tag/design')).toBe(true);
+    expect(isWritingTagListingPath('/writing/optimizing-for-agents')).toBe(false);
+    expect(detectLayoutPageKind('/writing/tag/design')).toBe('blog');
+    expect(resolveOpenGraphType('/writing/tag/design')).toBe('website');
+    expect(resolveOpenGraphType('/writing/tag/design', 'blog')).toBe('website');
+    expect(resolveOpenGraphType('/writing/optimizing-for-agents')).toBe('article');
   });
 });
