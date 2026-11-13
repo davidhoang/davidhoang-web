@@ -1,6 +1,405 @@
 {
   "themes": [
     {
+      "name": "Harvest Scriptorium",
+      "description": "A night-scholar's workroom: deep burgundy shelves, mustard candlelight, and the quiet energy of autumn ink on vellum.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1A0E",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#8B1A1A",
+          "--color-link-hover": "#C0392B",
+          "--color-border": "#D4A96A",
+          "--color-muted": "#7E6143",
+          "--color-sidebar-bg": "#F5E6D3",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2C1A0E",
+          "--color-card-bg": "#F8EAD8"
+        },
+        "dark": {
+          "--color-text": "#F0DFC0",
+          "--color-bg": "#1C1410",
+          "--color-link": "#D4A030",
+          "--color-link-hover": "#F0C050",
+          "--color-border": "#5A3A20",
+          "--color-muted": "#9C8061",
+          "--color-sidebar-bg": "#231810",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F0DFC0",
+          "--color-card-bg": "#261A12"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Vollkorn",
+          "url": "https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Vollkorn', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "1px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "0.92",
+        "borderRadius": "10px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#8B1A1A",
+          "#D4A030",
+          "#1C1410"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-11-13",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Harvest Scriptorium",
+              "subtitle": "November 13, 2026 · Night-Scholar Edition"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3",
+              "cta"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "The candle burns low. Ink dries on vellum. Burgundy shelves hold the season's last secrets — this is scholarship by candlelight, where every pixel smells faintly of autumn and old paper.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "ht",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Harvest Scriptorium",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "pal",
+              "hero",
+              "shader"
+            ]
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#2C1A0E",
+                  "label": "Inkwell"
+                },
+                {
+                  "hex": "#8B1A1A",
+                  "label": "Burgundy"
+                },
+                {
+                  "hex": "#D4A030",
+                  "label": "Candlelight"
+                },
+                {
+                  "hex": "#D4A96A",
+                  "label": "Vellum Edge"
+                },
+                {
+                  "hex": "#F8EAD8",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#7E6143",
+                  "label": "Worn Leather"
+                }
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "dot-grid",
+              "colors": [
+                "#8B1A1A",
+                "#D4A030",
+                "#1C1410"
+              ]
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "meta",
+              "grid",
+              "cap"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Fraunces (serif)"
+                },
+                {
+                  "label": "Body",
+                  "value": "Vollkorn (serif)"
+                },
+                {
+                  "label": "Card Style",
+                  "value": "Filled · r12px"
+                },
+                {
+                  "label": "Color Scheme",
+                  "value": "Split-Complementary"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dot Grid"
+                },
+                {
+                  "label": "Images",
+                  "value": "Duotone / Hover Glow"
+                }
+              ]
+            },
+            "children": []
+          },
+          "grid": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "standard"
+            },
+            "children": []
+          },
+          "cap": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Autumn ink on vellum — written by candlelight for the night-scholar in all of us.",
+              "variant": "caption",
+              "weight": "normal"
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "tok"
+            ]
+          },
+          "tok": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF2E9"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#2C1A0E"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#8B1A1A"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#D4A96A"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#F8EAD8"
+                }
+              ]
+            },
+            "children": []
+          },
+          "cta": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Harvest Scriptorium",
+              "action": "apply-theme",
+              "date": "2026-11-13"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Fired & Traced",
       "description": "A Swiss information grid warmed by the mineral palette of hand-glazed ceramic — cobalt, terracotta, and tin-white held in precise structural tension.",
       "colors": {
@@ -2234,364 +2633,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Wet Lacquer",
-      "description": "Rain-slicked surfaces and gallery stillness — a cinematic evening where vivid images float on deep, polished warmth.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1410",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#C2185B",
-          "--color-link-hover": "#880E4F",
-          "--color-border": "#E8C9A8",
-          "--color-muted": "#7F6449",
-          "--color-sidebar-bg": "#F7E6D4",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#1C1410",
-          "--color-card-bg": "#F9EAD8"
-        },
-        "dark": {
-          "--color-text": "#F2E0C8",
-          "--color-bg": "#1C1410",
-          "--color-link": "#F06292",
-          "--color-link-hover": "#F48FB1",
-          "--color-border": "#3D2518",
-          "--color-muted": "#9D816B",
-          "--color-sidebar-bg": "#231710",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F2E0C8",
-          "--color-card-bg": "#261A11"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Fraunces",
-          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-          "category": "serif",
-          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Instrument Sans",
-          "url": "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "20px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "lift",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "gradient"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#C2185B",
-          "#F06292",
-          "#FDF2E9"
-        ]
-      },
-      "font": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
-        "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-11-06",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Wet Lacquer",
-              "subtitle": "November 6, 2026"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s-top",
-              "div1",
-              "s-mid",
-              "div2",
-              "s-bot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Rain-slicked surfaces. Gallery stillness. Vivid images hover on deep polished warmth — a cinematic evening frozen mid-breath.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1410",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#C2185B",
-                  "label": "Lacquer"
-                },
-                {
-                  "hex": "#F06292",
-                  "label": "Blush"
-                },
-                {
-                  "hex": "#FDF2E9",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#E8C9A8",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#7F6449",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s-top": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "heading-sample",
-              "hero-prev"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Gallery Stillness",
-              "variant": "heading",
-              "weight": "700"
-            },
-            "children": []
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "s-badges"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Link",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Elevated · 20px"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "High"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s-badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Fraunces Serif",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Elevated Cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Vivid · Hover Lift",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "Gradient Footer",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s-bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "tokens",
-              "apply-btn"
-            ]
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#C2185B"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#FDF2E9"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#F9EAD8"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "20px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Wet Lacquer",
-              "action": "apply-theme",
-              "date": "2026-11-06"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-12"
+  "currentDate": "2026-11-13"
 }
