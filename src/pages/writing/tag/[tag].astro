@@ -4,6 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import ContentIndexCard from '../../../components/ContentIndexCard.astro';
 import WritingDefaultCover from '../../../components/WritingDefaultCover.astro';
 import { getWritingPostThumbnail, hasWritingPostImage } from '../../../utils/writingPostImage';
+import { optimizeWritingIndexImage } from '../../../utils/writingIndexImage';
 import { buildOgImageUrl } from '../../../utils/ogImage';
 import {
   collectWritingTags,
@@ -45,20 +46,24 @@ const ogImage = buildOgImageUrl({
   type: 'writing',
 });
 
-const cards = posts.map((post) => {
-  const image = {
-    title: post.data.title,
-    description: post.data.description,
-    coverImage: post.data.coverImage,
-    ogImage: post.data.ogImage,
-    body: post.body,
-  };
-  return {
-    post,
-    hasImage: hasWritingPostImage(image),
-    thumbnail: getWritingPostThumbnail(image),
-  };
-});
+const cards = await Promise.all(
+  posts.map(async (post) => {
+    const image = {
+      title: post.data.title,
+      description: post.data.description,
+      coverImage: post.data.coverImage,
+      ogImage: post.data.ogImage,
+      body: post.body,
+    };
+    const hasImage = hasWritingPostImage(image);
+    const thumbnailUrl = getWritingPostThumbnail(image);
+    return {
+      post,
+      hasImage,
+      thumbnail: hasImage ? await optimizeWritingIndexImage(thumbnailUrl, 'card') : undefined,
+    };
+  }),
+);
 ---
 
 <WritingLayout title={pageTitle} description={pageDescription} ogImage={ogImage}>
@@ -83,7 +88,11 @@ const cards = posts.map((post) => {
         title={post.data.title}
         description={post.data.description}
         date={post.data.pubDate}
-        imageSrc={hasImage ? thumbnail : undefined}
+        imageSrc={thumbnail?.src}
+        imageSrcSet={thumbnail?.srcSet}
+        imageSizes={thumbnail?.sizes}
+        imageWidth={thumbnail?.width}
+        imageHeight={thumbnail?.height}
         heading="h2"
         linkClass="link-plain"
         writingTitleViewTransition
