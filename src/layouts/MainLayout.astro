@@ -16,7 +16,7 @@ import {
 } from '../utils/structuredData';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
-import { openGraphTypeForPageKind, resolveLayoutPageKind } from '../utils/pageMeta';
+import { resolveLayoutPageKind, resolveOpenGraphType } from '../utils/pageMeta';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). Vendored Google Fonts for the themes archive live in
@@ -146,7 +146,7 @@ const pageTitle = rawTitle.replace(/\s*[|\-–—]\s*David Hoang\s*$/i, '').trim
 const fullTitle = /david hoang/i.test(pageTitle) ? pageTitle : `${pageTitle} — ${SITE_NAME}`;
 
 const detectedPageType = resolveLayoutPageKind(Astro.url.pathname, pageType);
-const openGraphType = openGraphTypeForPageKind(detectedPageType);
+const openGraphType = resolveOpenGraphType(Astro.url.pathname, pageType);
 
 // Get the canonical URL with fallback
 // Normalize: strip trailing slash (except for root "/") for consistent canonical URLs

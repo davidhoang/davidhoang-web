@@ -13,6 +13,12 @@ import {
   writingTagPath,
   type WritingTagCount,
 } from '../../../utils/writingTags';
+import {
+  absoluteUrl,
+  buildBreadcrumbListJsonLd,
+  buildWritingTagCollectionPageJsonLd,
+  CANONICAL_SITE,
+} from '../../../utils/structuredData';
 import '../../../styles/pages/writing-editorial.css';
 
 export async function getStaticPaths() {
@@ -40,6 +46,17 @@ const countLabel = `${posts.length} ${posts.length === 1 ? 'essay' : 'essays'}`;
 
 const pageTitle = `${label} | Writing | David Hoang`;
 const pageDescription = `Essays by David Hoang on ${label}.`;
+const canonicalUrl = absoluteUrl(writingTagPath(tag));
+const collectionJsonLd = buildWritingTagCollectionPageJsonLd({
+  name: label,
+  description: pageDescription,
+  canonicalUrl,
+});
+const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
+  { name: 'Home', item: CANONICAL_SITE },
+  { name: 'Writing', item: absoluteUrl('/writing') },
+  { name: label, item: canonicalUrl },
+]);
 const ogImage = buildOgImageUrl({
   title: label,
   description: pageDescription,
@@ -67,6 +84,8 @@ const cards = await Promise.all(
 ---
 
 <WritingLayout title={pageTitle} description={pageDescription} ogImage={ogImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(collectionJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <link
     slot="head"
     rel="alternate"

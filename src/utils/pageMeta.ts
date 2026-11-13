@@ -8,8 +8,21 @@ export function detectLayoutPageKind(pathname: string): LayoutPageKind {
   return 'home';
 }
 
+/** Topic listing hubs (`/writing/tag/{tag}`) are indexes, not articles. */
+export function isWritingTagListingPath(pathname: string): boolean {
+  return /^\/writing\/tag(?:\/|$)/.test(pathname);
+}
+
 export function openGraphTypeForPageKind(kind: LayoutPageKind): 'website' | 'article' {
   return kind === 'blog' ? 'article' : 'website';
+}
+
+export function resolveOpenGraphType(
+  pathname: string,
+  explicitPageType?: LayoutPageKind,
+): 'website' | 'article' {
+  if (isWritingTagListingPath(pathname)) return 'website';
+  return openGraphTypeForPageKind(resolveLayoutPageKind(pathname, explicitPageType));
 }
 
 export function resolveLayoutPageKind(
