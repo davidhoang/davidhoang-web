@@ -219,3 +219,16 @@ describe('RSS feed output', () => {
     expect(xsl).toContain('rss/channel');
   });
 });
+
+describe('legacy writing RSS path', () => {
+  it('redirects /rss to /rss.xml in vercel.json', () => {
+    const vercel = JSON.parse(readFileSync(join(process.cwd(), 'vercel.json'), 'utf8'));
+    const redirect = vercel.redirects?.find(
+      (entry: { source?: string }) => entry.source === '/rss',
+    );
+    expect(redirect).toMatchObject({
+      destination: '/rss.xml',
+      statusCode: 301,
+    });
+  });
+});
