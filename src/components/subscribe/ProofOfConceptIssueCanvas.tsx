@@ -33,6 +33,21 @@ function CanvasPlaceholder() {
   );
 }
 
+function IssueLinkList({ issues }: { issues: ProofOfConceptCanvasIssue[] }) {
+  return (
+    <ul className="poc-canvas-issue-links sr-only">
+      {issues.map((issue) => (
+        <li key={issue.id}>
+          <a href={issue.url} target="_blank" rel="noopener noreferrer">
+            {issue.title}
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function ProofOfConceptIssueCanvas({ issues }: Props) {
   const [gridReady, setGridReady] = useState(false);
 
@@ -67,11 +82,6 @@ export default function ProofOfConceptIssueCanvas({ issues }: Props) {
     [issues],
   );
 
-  // Infinite grid repeats every issue 9× for panning; defer until after hydration.
-  if (!gridReady) {
-    return <CanvasPlaceholder />;
-  }
-
   if (items.length === 0) {
     return (
       <p className="poc-canvas-empty">
@@ -80,17 +90,25 @@ export default function ProofOfConceptIssueCanvas({ issues }: Props) {
     );
   }
 
+  // Infinite grid repeats every issue 9× for panning; defer until after hydration.
   return (
-    <LiquidGlassInfiniteGrid
-      items={items}
-      columns={3}
-      gapVw={2}
-      cardWidthVw={22}
-      enableLiquidBlobs={!reducedMotion}
-      onItemClick={onItemClick}
-      className="poc-infinite-grid !min-h-0 !h-full !bg-[var(--color-bg)]"
-      cardClassName="poc-infinite-grid__card"
-      aria-label="Proof of Concept issues with cover art — drag or scroll to explore"
-    />
+    <div className="poc-canvas-shell relative h-full w-full">
+      {!gridReady ? (
+        <CanvasPlaceholder />
+      ) : (
+        <LiquidGlassInfiniteGrid
+          items={items}
+          columns={3}
+          gapVw={2}
+          cardWidthVw={22}
+          enableLiquidBlobs={!reducedMotion}
+          onItemClick={onItemClick}
+          className="poc-infinite-grid !min-h-0 !h-full !bg-[var(--color-bg)]"
+          cardClassName="poc-infinite-grid__card"
+          aria-label="Proof of Concept issues with cover art — drag or scroll to explore"
+        />
+      )}
+      <IssueLinkList issues={issues} />
+    </div>
   );
 }
