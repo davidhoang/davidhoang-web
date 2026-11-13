@@ -11,6 +11,7 @@ import {
   getWritingPostHero,
   hasWritingPostImage,
 } from '../../utils/writingPostImage';
+import { optimizeWritingIndexImage } from '../../utils/writingIndexImage';
 import { buildOgImageUrl } from '../../utils/ogImage';
 import '../../styles/pages/writing-editorial.css';
 
@@ -22,22 +23,28 @@ const posts = (import.meta.env.PROD
 
 const graph = buildGraph(posts.map((p) => ({ id: p.id, data: p.data, body: p.body })));
 
-const postsWithMeta = posts.map((post) => {
-  const image = {
-    title: post.data.title,
-    description: post.data.description,
-    coverImage: post.data.coverImage,
-    ogImage: post.data.ogImage,
-    body: post.body,
-  };
-  return {
-    post,
-    hasImage: hasWritingPostImage(image),
-    thumbnail: getWritingPostThumbnail(image),
-    hero: getWritingPostHero(image),
-    primaryTag: post.data.tags?.[0],
-  };
-});
+const postsWithMeta = await Promise.all(
+  posts.map(async (post) => {
+    const image = {
+      title: post.data.title,
+      description: post.data.description,
+      coverImage: post.data.coverImage,
+      ogImage: post.data.ogImage,
+      body: post.body,
+    };
+    const hasImage = hasWritingPostImage(image);
+    const thumbnailUrl = getWritingPostThumbnail(image);
+    const heroUrl = getWritingPostHero(image);
+    return {
+      post,
+      hasImage,
+      thumbnail: hasImage ? await optimizeWritingIndexImage(thumbnailUrl, 'card') : undefined,
+      listThumb: hasImage ? await optimizeWritingIndexImage(thumbnailUrl, 'list') : undefined,
+      hero: hasImage ? await optimizeWritingIndexImage(heroUrl, 'spotlight') : undefined,
+      primaryTag: post.data.tags?.[0],
+    };
+  }),
+);
 
 const featured = postsWithMeta[0];
 const feedPosts = postsWithMeta.slice(1);
@@ -101,16 +108,18 @@ const ogImage = buildOgImageUrl({
       <section class="writing-spotlight" aria-label="Featured essay">
         <a href={`/writing/${featured.post.id}`} class="writing-spotlight__link link-plain">
           <div class="writing-spotlight__media">
-            {featured.hasImage ? (
+            {featured.hero ? (
               <img
-                src={featured.hero}
+                src={featured.hero.src}
+                srcset={featured.hero.srcSet}
+                sizes={featured.hero.sizes}
                 alt=""
                 class="writing-spotlight__image"
                 loading="eager"
                 decoding="async"
                 fetchpriority="high"
-                width="1600"
-                height="900"
+                width={featured.hero.width}
+                height={featured.hero.height}
               />
             ) : (
               <WritingDefaultCover seed={featured.post.id} class="writing-spotlight__image" />
@@ -142,7 +151,11 @@ const ogImage = buildOgImageUrl({
             title={post.data.title}
             description={post.data.description}
             date={post.data.pubDate}
-            imageSrc={hasImage ? thumbnail : undefined}
+            imageSrc={thumbnail?.src}
+            imageSrcSet={thumbnail?.srcSet}
+            imageSizes={thumbnail?.sizes}
+            imageWidth={thumbnail?.width}
+            imageHeight={thumbnail?.height}
             primaryTag={primaryTag}
             linkClass="link-plain"
             writingTitleViewTransition
@@ -157,18 +170,20 @@ const ogImage = buildOgImageUrl({
   <div data-view-panel="list" id="writing-panel-list" role="tabpanel" aria-labelledby="writing-tab-list" tabindex="0" hidden>
     <section class="writing-feed" aria-label="Essay list">
       <ul class="writing-feed__list">
-        {postsWithMeta.map(({ post, thumbnail, hasImage }) => (
+        {postsWithMeta.map(({ post, listThumb }) => (
           <li>
             <a href={`/writing/${post.id}`} class="writing-feed__item link-plain">
               <div class="writing-feed__thumb">
-                {hasImage ? (
+                {listThumb ? (
                   <img
-                    src={thumbnail}
+                    src={listThumb.src}
+                    srcset={listThumb.srcSet}
+                    sizes={listThumb.sizes}
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    width="600"
-                    height="600"
+                    width={listThumb.width}
+                    height={listThumb.height}
                   />
                 ) : (
                   <WritingDefaultCover seed={post.id} />

@@ -11,6 +11,10 @@ interface Props {
   dateLabel?: string;
   /** Omit when the `media` slot supplies the cover instead */
   imageSrc?: string;
+  imageSrcSet?: string;
+  imageSizes?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   imageAlt?: string;
   primaryTag?: string;
   tags?: string[];
@@ -39,6 +43,10 @@ const {
   date,
   dateLabel,
   imageSrc,
+  imageSrcSet,
+  imageSizes,
+  imageWidth,
+  imageHeight,
   imageAlt = '',
   primaryTag,
   tags = [],
@@ -74,7 +82,16 @@ const titleTransitionName = writingTitleViewTransition ? writingTitleTransitionN
 >
   <div class="index-card__media img-frame">
     {imageSrc ? (
-      <img src={imageSrc} alt={imageAlt} loading={loading} decoding="async" />
+      <img
+        src={imageSrc}
+        srcset={imageSrcSet}
+        sizes={imageSizes}
+        width={imageWidth}
+        height={imageHeight}
+        alt={imageAlt}
+        loading={loading}
+        decoding="async"
+      />
     ) : (
       <slot name="media" />
     )}
