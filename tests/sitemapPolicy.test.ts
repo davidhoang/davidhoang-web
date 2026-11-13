@@ -36,6 +36,19 @@ describe('legacy sitemap.xml path', () => {
   });
 });
 
+describe('legacy speaking path', () => {
+  it('redirects /speaking to the Featured speaking chronicle in vercel.json', () => {
+    const vercel = JSON.parse(readFileSync(join(process.cwd(), 'vercel.json'), 'utf8'));
+    const redirect = vercel.redirects?.find(
+      (entry: { source?: string }) => entry.source === '/speaking',
+    );
+    expect(redirect).toMatchObject({
+      destination: '/featured',
+      statusCode: 301,
+    });
+  });
+});
+
 describe('sitemap indexing policy', () => {
   it('uses the canonical www host for indexed URLs', () => {
     expect(absoluteUrl('/about')).toBe(`${CANONICAL}/about`);
