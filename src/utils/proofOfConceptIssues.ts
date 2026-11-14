@@ -1,4 +1,5 @@
 import archiveJson from '../data/proof-of-concept-issues.json';
+import { resizeSubstackCdnCover } from './substackCoverImage';
 
 export type ProofOfConceptIssue = {
   id: number;
@@ -37,7 +38,7 @@ export function mapProofOfConceptIssuesForCanvas(
     id: issue.id,
     title: issue.title,
     subtitle: issue.subtitle,
-    coverImage: issue.coverImage,
+    coverImage: resizeSubstackCdnCover(issue.coverImage),
     url: issue.url,
   }));
 }
