@@ -1,6 +1,352 @@
 {
   "themes": [
     {
+      "name": "Wet Asphalt Folio",
+      "description": "A graphic poster built from the still geometry of rain-slicked streets — charcoal ground, one cold magenta slash, everything else held in disciplined quiet.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A1E",
+          "--color-bg": "#ECEDEF",
+          "--color-link": "#C4006A",
+          "--color-link-hover": "#8C004C",
+          "--color-border": "#B0B4BB",
+          "--color-muted": "#61646C",
+          "--color-sidebar-bg": "#E3E5E8",
+          "--color-nav-bg": "#ECEDEF",
+          "--color-nav-text": "#1A1A1E",
+          "--color-card-bg": "#E6E8EB"
+        },
+        "dark": {
+          "--color-text": "#E8E9EC",
+          "--color-bg": "#16181D",
+          "--color-link": "#F33E93",
+          "--color-link-hover": "#FF5AAD",
+          "--color-border": "#2E3038",
+          "--color-muted": "#868A92",
+          "--color-sidebar-bg": "#1C1E24",
+          "--color-nav-bg": "#16181D",
+          "--color-nav-text": "#E8E9EC",
+          "--color-card-bg": "#1E2027"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bebas Neue",
+          "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+          "category": "display",
+          "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "400",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1150px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "split"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#16181D",
+          "#C4006A"
+        ]
+      },
+      "font": {
+        "name": "Bebas Neue",
+        "url": "https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap",
+        "category": "display",
+        "stack": "'Bebas Neue', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-11-14",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Wet Asphalt Folio",
+              "subtitle": "2026-11-14 — Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "meta-hero",
+              "div2",
+              "pal",
+              "div3",
+              "type-row",
+              "shader-row",
+              "div4",
+              "foot"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Charcoal holds the frame. One cold magenta slash tears through. Everything else stays still — like pavement after rain, like a poster left on a wet wall.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta-hero": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "lg",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "hero"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                }
+              ]
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "pal": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A1A1E",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#ECEDEF",
+                  "label": "BG"
+                },
+                {
+                  "hex": "#C4006A",
+                  "label": "Magenta"
+                },
+                {
+                  "hex": "#8C004C",
+                  "label": "Deep Cut"
+                },
+                {
+                  "hex": "#B0B4BB",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#61646C",
+                  "label": "Muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "type-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2",
+              "badges"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "WET ASPHALT FOLIO",
+              "variant": "heading",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Disciplined quiet. High contrast. The slash is the signal.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Display / Bebas Neue",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "High Contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Outlined Cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "Duotone Images",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "shader-row": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#16181D",
+                "#C4006A"
+              ]
+            },
+            "children": []
+          },
+          "div4": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "foot": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Wet Asphalt Folio",
+              "action": "apply-theme",
+              "date": "2026-11-14"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Harvest Scriptorium",
       "description": "A night-scholar's workroom: deep burgundy shelves, mustard candlelight, and the quiet energy of autumn ink on vellum.",
       "colors": {
@@ -2223,417 +2569,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Slab & Canopy",
-      "description": "A Niemeyer-era information surface: deep interior shadow, terracotta structure, and a single wash of pool turquoise cutting through disciplined columns of text.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C2B1A",
-          "--color-bg": "#EDF2EC",
-          "--color-link": "#007569",
-          "--color-link-hover": "#00695C",
-          "--color-border": "#B5C4B1",
-          "--color-muted": "#5B6C59",
-          "--color-sidebar-bg": "#E0EAE0",
-          "--color-nav-bg": "#EDF2EC",
-          "--color-nav-text": "#1C2B1A",
-          "--color-card-bg": "#E6EDE5"
-        },
-        "dark": {
-          "--color-text": "#D8E8D4",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#4DB6AC",
-          "--color-link-hover": "#80CBC4",
-          "--color-border": "#1F3B34",
-          "--color-muted": "#729581",
-          "--color-sidebar-bg": "#0A1A1D",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#D8E8D4",
-          "--color-card-bg": "#112428"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.333",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "2px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "2px"
-      },
-      "footer": {
-        "style": "minimal"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#0D1F22",
-          "#00897B"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-11-07",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Slab & Canopy",
-              "subtitle": "November 7, 2026"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "badge-row",
-              "div1",
-              "s-mid",
-              "div2",
-              "palette",
-              "div3",
-              "s-bot",
-              "apply-btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Niemeyer poured concrete into type. A terracotta grid holds everything upright while one cool turquoise seam runs through the columns like water beneath a civic pavilion.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif heading",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined card",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "bracket links",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s-type",
-              "s-previews"
-            ]
-          },
-          "s-type": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "heading-sample",
-              "body-sample",
-              "caption-sample"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Interior Shadow",
-              "variant": "heading",
-              "weight": "600"
-            },
-            "children": []
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Disciplined columns of IBM Plex Sans hold the structure together beneath the canopy.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "caption-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Cormorant Garamond · IBM Plex Sans · 2px radius",
-              "variant": "caption"
-            },
-            "children": []
-          },
-          "s-previews": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            },
-            "children": []
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "s-previews-end": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C2B1A",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#EDF2EC",
-                  "label": "Background"
-                },
-                {
-                  "hex": "#007569",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#B5C4B1",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#5B6C59",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#E6EDE5",
-                  "label": "Card"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s-bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Rolodex"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Sidebar"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Complementary"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Image",
-                  "value": "Muted / Hover Colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--radius",
-                  "value": "2px"
-                },
-                {
-                  "name": "--link-style",
-                  "value": "bracket"
-                },
-                {
-                  "name": "--footer",
-                  "value": "minimal"
-                },
-                {
-                  "name": "--contrast",
-                  "value": "high"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Slab & Canopy",
-              "action": "apply-theme",
-              "date": "2026-11-07"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-13"
+  "currentDate": "2026-11-14"
 }
