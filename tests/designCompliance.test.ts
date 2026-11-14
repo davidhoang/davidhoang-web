@@ -166,6 +166,23 @@ describe('hero motion continuity contract', () => {
   });
 });
 
+describe('accessibility focus contract', () => {
+  it('shows a focus ring on keyboard-focused embed iframes (comments, video)', () => {
+    const content = readFileSync(
+      join(ROOT, 'src/styles/modules/accessibility-responsive.css'),
+      'utf-8',
+    );
+    expect(content).toMatch(/:where\([^)]*iframe[^)]*\):focus-visible/);
+  });
+
+  it('routes keyboard focus through a labeled target before the comments iframe', () => {
+    const content = readFileSync(join(ROOT, 'src/components/CommentsSection.astro'), 'utf-8');
+    expect(content).toContain('comments-section__iframe-target');
+    expect(content).toContain('iframe.tabIndex = -1');
+    expect(content).toMatch(/comments-section__iframe-target:focus-visible/);
+  });
+});
+
 describe('audit CLI flags', () => {
   it('supports --json output', () => {
     const out = execSync(`node ${script} --json`, { encoding: 'utf-8' });
