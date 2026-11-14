@@ -24,6 +24,7 @@ describe('proof of concept archive', () => {
       expect(Object.keys(issue).sort()).toEqual(
         ['coverImage', 'id', 'subtitle', 'title', 'url'].sort(),
       );
+      expect(issue.coverImage).toMatch(/substackcdn\.com\/image\/fetch\/w_600,c_limit,/);
     }
   });
 });
