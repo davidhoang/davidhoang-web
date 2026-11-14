@@ -137,6 +137,19 @@ describe('contentMarkdown', () => {
     expect(vercel).toContain('"destination": "/investing"');
   });
 
+  it('redirects short agent markdown paths /bio and /design to their .md endpoints', () => {
+    const vercel = JSON.parse(readFileSync(join(ROOT, 'vercel.json'), 'utf8'));
+    const redirects = vercel.redirects as Array<{
+      source: string;
+      destination: string;
+      statusCode: number;
+    }>;
+    const bio = redirects.find((r) => r.source === '/bio');
+    const design = redirects.find((r) => r.source === '/design');
+    expect(bio).toMatchObject({ destination: '/bio.md', statusCode: 301 });
+    expect(design).toMatchObject({ destination: '/design.md', statusCode: 301 });
+  });
+
   it('prerenders /bio.md from src/content/bio.md for agent-friendly About copy', () => {
     const endpoint = readFileSync(join(ROOT, 'src/pages/bio.md.ts'), 'utf8');
     const about = readFileSync(join(ROOT, 'src/pages/about.astro'), 'utf8');
