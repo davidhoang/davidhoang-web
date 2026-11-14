@@ -82,7 +82,9 @@ const headingId = 'comments-heading';
       section.dataset.commentsLoaded = 'false';
       const frame = section.querySelector('[data-comments-frame]');
       if (!frame) return;
-      frame.querySelectorAll('iframe[data-comments-iframe]').forEach((el) => el.remove());
+      frame.querySelectorAll('.comments-section__iframe-target, iframe[data-comments-iframe]').forEach((el) =>
+        el.remove(),
+      );
       setStatus(frame, 'Loading comments…', false);
     };
 
@@ -115,6 +117,21 @@ const headingId = 'comments-heading';
         'allow',
         'clipboard-write; identity-credentials-get'
       );
+      iframe.tabIndex = -1;
+
+      const iframeTarget = document.createElement('div');
+      iframeTarget.className = 'comments-section__iframe-target';
+      iframeTarget.tabIndex = 0;
+      iframeTarget.setAttribute('role', 'group');
+      iframeTarget.setAttribute(
+        'aria-label',
+        'Discussion comments. Press Enter to focus the discussion embed.',
+      );
+      iframeTarget.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        iframe.focus();
+      });
 
       let settled = false;
       const timeoutId = window.setTimeout(() => {
@@ -141,7 +158,8 @@ const headingId = 'comments-heading';
       iframe.addEventListener('load', onLoad, { once: true });
       iframe.addEventListener('error', onError, { once: true });
 
-      frame.appendChild(iframe);
+      iframeTarget.appendChild(iframe);
+      frame.appendChild(iframeTarget);
       section.dataset.commentsLoaded = 'pending';
 
       section._commentsCleanup = () => {
@@ -233,6 +251,16 @@ const headingId = 'comments-heading';
     min-height: 12rem;
     border-radius: var(--radius-md, 8px);
     overflow: clip;
+  }
+
+  .comments-section__iframe-target {
+    display: block;
+    border-radius: var(--radius-md, 8px);
+  }
+
+  .comments-section__iframe-target:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .comments-section__iframe {
