@@ -13,6 +13,13 @@ import {
 } from '../../utils/writingPostImage';
 import { optimizeWritingIndexImage } from '../../utils/writingIndexImage';
 import { buildOgImageUrl } from '../../utils/ogImage';
+import {
+  absoluteUrl,
+  BLOG_ID,
+  buildBreadcrumbListJsonLd,
+  buildCollectionHubPageJsonLd,
+  CANONICAL_SITE,
+} from '../../utils/structuredData';
 import '../../styles/pages/writing-editorial.css';
 
 const allPosts = await getCollection('writing');
@@ -56,9 +63,23 @@ const ogImage = buildOgImageUrl({
   description: pageDescription,
   type: 'writing',
 });
+
+const writingIndexUrl = absoluteUrl('/writing');
+const writingHubJsonLd = buildCollectionHubPageJsonLd({
+  name: 'Writing',
+  description: pageDescription,
+  canonicalUrl: writingIndexUrl,
+  collectionEntityId: BLOG_ID,
+});
+const writingBreadcrumbJsonLd = buildBreadcrumbListJsonLd([
+  { name: 'Home', item: CANONICAL_SITE },
+  { name: 'Writing', item: writingIndexUrl },
+]);
 ---
 
 <WritingLayout title="Writing | David Hoang" description={pageDescription} ogImage={ogImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(writingHubJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(writingBreadcrumbJsonLd)} />
   <header class="writing-masthead">
     <h1 class="writing-masthead__title">Writing</h1>
     <div class="writing-masthead__actions">

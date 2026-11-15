@@ -8,6 +8,13 @@ import { NOTE_STAGE_VALUES, resolveNoteStage } from '../../content/noteStages';
 import { noteStageInfo } from '../../utils/noteStageInfo';
 import '../../styles/modules/content-index.css';
 import { buildOgImageUrl } from '../../utils/ogImage';
+import {
+  absoluteUrl,
+  buildBreadcrumbListJsonLd,
+  buildCollectionHubPageJsonLd,
+  CANONICAL_SITE,
+  NOTES_ID,
+} from '../../utils/structuredData';
 
 const allNotes = await getCollection('notes');
 const notes = (import.meta.env.PROD
@@ -31,9 +38,23 @@ const pageOgImage = buildOgImageUrl({
 
 const notesPlaceholderSketch =
   '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
+
+const notesIndexUrl = absoluteUrl('/notes');
+const notesHubJsonLd = buildCollectionHubPageJsonLd({
+  name: 'Notes',
+  description: pageDescription,
+  canonicalUrl: notesIndexUrl,
+  collectionEntityId: NOTES_ID,
+});
+const notesBreadcrumbJsonLd = buildBreadcrumbListJsonLd([
+  { name: 'Home', item: CANONICAL_SITE },
+  { name: 'Notes', item: notesIndexUrl },
+]);
 ---
 
 <MainLayout title="Notes | David Hoang" description={pageDescription} ogImage={pageOgImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(notesHubJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(notesBreadcrumbJsonLd)} />
   <PageHeader
     title="Notes"
     image="/images/highlights/img-highlights-play.webp"
