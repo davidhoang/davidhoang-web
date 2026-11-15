@@ -91,7 +91,7 @@ function shadowLayers(value) {
 }
 
 function isNeutralShadowColor(layer) {
-  return /rgba?\(\s*0\s*,\s*0\s*,\s*0|black|transparent|--shadow|--color-shadow|--color-border|currentColor|color-mix\([^)]*(black|--color-text)/i.test(
+  return /rgba?\(\s*0\s*,\s*0\s*,\s*0|#0{3,4}\b|#0{6}(?:[0-9a-f]{2})?\b|black|transparent|--shadow|--color-shadow|--color-border|currentColor|color-mix\([^)]*(black|--color-text)/i.test(
     layer,
   );
 }
@@ -106,7 +106,11 @@ export function auditSlopCss(ctx, file, css, baseLine = 1, allLines = css.split(
     ctx.addViolation(file, line, rule, detail);
   };
 
-  for (const { selector, body, bodyLine } of cssBlocks(css, baseLine)) {
+  // Blank out comments (keeping newlines) so commented-out declarations are ignored
+  // and a leading comment can't swallow the next property. Suppressions read allLines.
+  const live = css.replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, ' '));
+
+  for (const { selector, body, bodyLine } of cssBlocks(live, baseLine)) {
     if (/^@(font-face|property)/.test(selector)) continue;
     const decls = declarations(body, bodyLine);
     const hasGradientBg = /gradient\(/.test(body);
@@ -162,11 +166,20 @@ export function auditSlopCss(ctx, file, css, baseLine = 1, allLines = css.split(
         for (const layer of shadowLayers(value)) {
           if (/^inset\b/.test(layer) || /^none$/.test(layer)) continue;
           const geometry = layer.replace(/#[0-9a-f]{3,8}\b/gi, '').replace(/[a-z-]+\([^()]*(\([^()]*\)[^()]*)*\)/gi, '');
-          const nums = [...geometry.matchAll(/(?<![\w-])(-?\d*\.?\d+)(px|rem|em)?(?![\w-])/g)].map((n) => Number(n[1]));
+          // Lengths normalized to px (1rem = 1em = 16px).
+          const nums = [...geometry.matchAll(/(?<![\w-])(-?\d*\.?\d+)(px|rem|em)?(?![\w-])/g)].map(
+            (n) => Number(n[1]) * (n[2] === 'rem' || n[2] === 'em' ? 16 : 1),
+          );
           if (nums.length < 3) continue;
-          const [x, y, blur] = nums;
-          // 1px zero-blur hairlines are an edge technique; ≥2px offset with no blur is a block shadow.
-          if (Math.max(Math.abs(x), Math.abs(y)) >= 2 && blur === 0 && nums.length === 3 && prop === 'box-shadow') {
+          const [x, y, blur, spread = 0] = nums;
+          // 1px zero-blur hairlines are an edge technique; ≥2px offset with no blur (and no spread) is a block shadow.
+          if (
+            prop === 'box-shadow' &&
+            Math.max(Math.abs(x), Math.abs(y)) >= 2 &&
+            blur === 0 &&
+            spread === 0 &&
+            nums.length <= 4
+          ) {
             add(line, 'slop-hard-offset-shadow', `Zero-blur block shadow "${layer}" — shadows need an offset and a soft blur`);
           }
           if (x === 0 && y === 0 && blur >= 4 && !isNeutralShadowColor(layer)) {
@@ -236,10 +249,10 @@ export function auditSlopMarkup(ctx, file, content) {
 }
 
 /**
- * Tailwind / inline-style class checks in TSX (gradient text, bounce).
+ * Tailwind / inline-style class checks (gradient text, bounce, AI palette).
  * @param {ReturnType<import('../shared.mjs').createContext>} ctx
  */
-export function auditSlopTsx(ctx, file, content) {
+function auditSlopClasses(ctx, file, content) {
   const lines = content.split('\n');
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -257,6 +270,14 @@ export function auditSlopTsx(ctx, file, content) {
       hit('slop-gradient-text', 'backgroundClip: text — gradient text');
     }
   }
+}
+
+/**
+ * Markup + utility-class checks for .astro and .tsx files.
+ * @param {ReturnType<import('../shared.mjs').createContext>} ctx
+ */
+export function auditSlopComponent(ctx, file, content) {
+  auditSlopClasses(ctx, file, content);
   auditSlopMarkup(ctx, file, content);
 }
 
@@ -264,6 +285,5 @@ export function auditSlopTsx(ctx, file, content) {
 export function auditSlopFile(ctx, file, content) {
   if (!ctx.shouldAuditFile(file)) return;
   if (file.endsWith('.css')) auditSlopCss(ctx, file, content);
-  else if (file.endsWith('.astro')) auditSlopMarkup(ctx, file, content);
-  else if (file.endsWith('.tsx')) auditSlopTsx(ctx, file, content);
+  else if (file.endsWith('.astro') || file.endsWith('.tsx')) auditSlopComponent(ctx, file, content);
 }

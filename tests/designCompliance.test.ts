@@ -212,6 +212,9 @@ describe('anti-slop rules (Impeccable craft floor)', async () => {
     ['slop-bounce-easing', '.b { transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1); }'],
     ['slop-bounce-easing', '.b { animation: bounce 1s infinite; }'],
     ['slop-hard-offset-shadow', '.c { box-shadow: 4px 4px 0 #000; }'],
+    ['slop-hard-offset-shadow', '.c { box-shadow: 4px 4px 0 0 black; }'],
+    ['slop-hard-offset-shadow', '.c { box-shadow: 0.25rem 0.25rem 0 black; }'],
+    ['slop-side-stripe', '.card { /* Reason: keep this card quiet. */ border-left: 4px solid red; }'],
     ['slop-glow-halo', '.d { box-shadow: 0 0 12px var(--color-accent); }'],
     ['slop-decorative-glass', '.hero-tile { backdrop-filter: blur(10px); }'],
     ['slop-ai-palette', '.e { background: linear-gradient(135deg, #667eea, #764ba2); }'],
@@ -229,6 +232,10 @@ describe('anti-slop rules (Impeccable craft floor)', async () => {
     ['soft shadow', '.i { box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.2); }'],
     ['nav blur', '.site-nav { backdrop-filter: blur(10px); }'],
     ['token easing', '.j { transition: transform 1s var(--ease-emphasized); }'],
+    ['commented-out stripe', '.card { /* border-left: 4px solid red; */ color: red; }'],
+    ['neutral #000 shadow', '.l { box-shadow: 0 0 12px #000; }'],
+    ['neutral #00000033 shadow', '.l { box-shadow: 0 0 12px #00000033; }'],
+    ['spread ring with zero blur', '.m { box-shadow: 4px 4px 0 2px red; }'],
     ['suppressed', '/* slop-ok: slop-side-stripe — print rule */\n.k { border-left: 4px solid red; }'],
   ])('allows %s', (_label, body) => {
     expect(css(body)).toEqual([]);
@@ -241,6 +248,17 @@ describe('anti-slop rules (Impeccable craft floor)', async () => {
       astro('<a href="/writing" class="text-eyebrow text-eyebrow--link">Writing</a>\n<h1>Title</h1>'),
     ).toEqual([]);
     expect(astro('<h2 class="text-eyebrow">Topics</h2>')).toEqual([]);
+  });
+
+  it.each([
+    ['slop-bounce-easing', 'class="animate-bounce"'],
+    ['slop-gradient-text', 'class="bg-clip-text bg-gradient-to-r"'],
+    ['slop-ai-palette', 'class="bg-gradient-to-r from-purple-500"'],
+  ])('flags %s utility classes in both Astro and TSX', (rule, attr) => {
+    expect(astro(`<span ${attr}>x</span>`)).toContain(rule);
+    expect(rulesFor('src/fixture.tsx', `<span ${attr.replace('class=', 'className=')}>x</span>`)).toContain(
+      rule,
+    );
   });
 
   it('flags pictographic emoji icons but not typographic arrows', () => {
