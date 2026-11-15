@@ -89,3 +89,11 @@ Format:
 **Symptom:** Axe `color-contrast` flagged Gilt & Grain (2026-11-05) writing tabs and design-guide captions at 4.44:1 (`--color-muted` on `--color-sidebar-bg`) while build-time theme contrast passed.
 **Fix applied:** `CONTRAST_PAIRS` now includes muted-on-sidebar; `npm run build` auto-fixes affected theme JSON.
 **Status:** resolved
+
+---
+
+## 2026-11-15 — AI-slop defaults (Impeccable audit)
+
+**Symptom:** An audit against the Impeccable craft floor found model-default patterns the linter didn't catch: a side-stripe border plus a duplicate eyebrow on `CompanionPrototype`, eyebrow kickers above headings (subscribe, thesis, experiments, Jev, Greco diorama), a glowing pulsing status dot in Career Odyssey, overshoot `--ease-spring` easing, and a "pressed 3D" block shadow with a tilt and colored glow on the subscribe button.
+**Fix applied:** Patterns removed. Added `rules/slop.mjs` (10 `slop-*` core rules, all CI-enforced), `references/anti-slop.md`, and fixture tests in `tests/designCompliance.test.ts`.
+**Status:** resolved

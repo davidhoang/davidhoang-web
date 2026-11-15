@@ -23,9 +23,8 @@ const pocCanvasIssues = mapProofOfConceptIssuesForCanvas(pocArchive);
   <div class="container container-narrow subscribe-page">
     <div class="subscribe-page__stack">
       <header class="subscribe-page__intro">
-        <p class="subscribe-page__eyebrow">Proof of Concept</p>
-        <h2 class="subscribe-page__title">Weekly notes on design, tech, and building</h2>
-        <p class="subscribe-page__lead">Free every Sunday.</p>
+        <h2 class="subscribe-page__title">Proof of Concept</h2>
+        <p class="subscribe-page__lead">Weekly notes on design, tech, and building. Free every Sunday.</p>
       </header>
       {pocArchive.count > 0 && (
         <section class="subscribe-poc-canvas" aria-labelledby="subscribe-poc-canvas-title">
@@ -62,14 +61,6 @@ const pocCanvasIssues = mapProofOfConceptIssuesForCanvas(pocArchive);
   }
   .subscribe-page__intro {
     padding-top: 0.25rem;
-  }
-  .subscribe-page__eyebrow {
-    margin: 0 0 var(--spacing-sm);
-    font-size: var(--text-xs-size);
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-muted);
   }
   .subscribe-page__title {
     margin: 0 0 var(--spacing-md);

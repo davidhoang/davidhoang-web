@@ -191,3 +191,97 @@ describe('audit CLI flags', () => {
     expect(parsed).toHaveProperty('exitCode', 0);
   });
 });
+
+describe('anti-slop rules (Impeccable craft floor)', async () => {
+  const { createContext } = await import('../scripts/design-audit/shared.mjs');
+  const { auditSlopFile } = await import('../scripts/design-audit/rules/slop.mjs');
+
+  function rulesFor(file: string, content: string) {
+    const ctx = createContext({});
+    auditSlopFile(ctx, join(ROOT, file), content);
+    return ctx.violations.map((v: { rule: string }) => v.rule);
+  }
+
+  const css = (body: string) => rulesFor('src/fixture.css', body);
+  const astro = (markup: string) => rulesFor('src/fixture.astro', markup);
+
+  it.each([
+    ['slop-gradient-text', '.a { background: linear-gradient(red, blue); background-clip: text; }'],
+    ['slop-side-stripe', '.card { border-left: 4px solid var(--color-accent); }'],
+    ['slop-side-stripe', '.pill { border-radius: 8px; border-left: 2px solid red; }'],
+    ['slop-bounce-easing', '.b { transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1); }'],
+    ['slop-bounce-easing', '.b { animation: bounce 1s infinite; }'],
+    ['slop-hard-offset-shadow', '.c { box-shadow: 4px 4px 0 #000; }'],
+    ['slop-hard-offset-shadow', '.c { box-shadow: 4px 4px 0 0 black; }'],
+    ['slop-hard-offset-shadow', '.c { box-shadow: 0.25rem 0.25rem 0 black; }'],
+    ['slop-side-stripe', '.card { /* Reason: keep this card quiet. */ border-left: 4px solid red; }'],
+    ['slop-glow-halo', '.d { box-shadow: 0 0 12px var(--color-accent); }'],
+    ['slop-glow-halo', '.d { box-shadow: 0 0 20px color-mix(in srgb, var(--color-link) 40%, transparent); }'],
+    ['slop-decorative-glass', '.hero-tile { backdrop-filter: blur(10px); }'],
+    ['slop-ai-palette', '.e { background: linear-gradient(135deg, #667eea, #764ba2); }'],
+    ['slop-extreme-tracking', '.f { letter-spacing: -0.06em; }'],
+  ])('flags %s', (rule, body) => {
+    expect(css(body)).toContain(rule);
+  });
+
+  it.each([
+    ['blockquote stripe', '.prose blockquote { border-left: 3px solid var(--color-link); }'],
+    ['transparent rail', '.toc-link { border-radius: 4px; border-left: 2px solid transparent; }'],
+    ['CSS chevron', '.x::after { border-right: 2px solid currentColor; transform: rotate(45deg); }'],
+    ['1px hairline shadow', '.g { box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text) 6%, transparent); }'],
+    ['focus ring spread', '.h { box-shadow: 0 0 0 3px var(--focus-ring-color); }'],
+    ['soft shadow', '.i { box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.2); }'],
+    ['nav blur', '.site-nav { backdrop-filter: blur(10px); }'],
+    ['token easing', '.j { transition: transform 1s var(--ease-emphasized); }'],
+    ['commented-out stripe', '.card { /* border-left: 4px solid red; */ color: red; }'],
+    ['neutral color-mix shadow', '.n { box-shadow: 0 0 12px color-mix(in srgb, black 30%, transparent); }'],
+    ['text-tint color-mix shadow', '.n { box-shadow: 0 0 8px color-mix(in srgb, var(--color-text) 10%, transparent); }'],
+    ['neutral #000 shadow', '.l { box-shadow: 0 0 12px #000; }'],
+    ['neutral #00000033 shadow', '.l { box-shadow: 0 0 12px #00000033; }'],
+    ['spread ring with zero blur', '.m { box-shadow: 4px 4px 0 2px red; }'],
+    ['suppressed', '/* slop-ok: slop-side-stripe — print rule */\n.k { border-left: 4px solid red; }'],
+  ])('allows %s', (_label, body) => {
+    expect(css(body)).toEqual([]);
+  });
+
+  it('flags a kicker above a heading but not a breadcrumb back-link', () => {
+    expect(astro('<p class="text-eyebrow">Label</p>\n<h1>Title</h1>')).toContain('slop-kicker');
+    expect(astro('<p class="page__eyebrow">Label</p><h2>Title</h2>')).toContain('slop-kicker');
+    expect(
+      astro('<a href="/writing" class="text-eyebrow text-eyebrow--link">Writing</a>\n<h1>Title</h1>'),
+    ).toEqual([]);
+    expect(astro('<h2 class="text-eyebrow">Topics</h2>')).toEqual([]);
+  });
+
+  it.each([
+    ['slop-bounce-easing', 'class="animate-bounce"'],
+    ['slop-gradient-text', 'class="bg-clip-text bg-gradient-to-r"'],
+    ['slop-ai-palette', 'class="bg-gradient-to-r from-purple-500"'],
+  ])('flags %s utility classes in both Astro and TSX', (rule, attr) => {
+    expect(astro(`<span ${attr}>x</span>`)).toContain(rule);
+    expect(rulesFor('src/fixture.tsx', `<span ${attr.replace('class=', 'className=')}>x</span>`)).toContain(
+      rule,
+    );
+  });
+
+  it('flags pictographic emoji icons but not typographic arrows', () => {
+    expect(astro('<span>✨ New</span>')).toContain('slop-emoji-icon');
+    expect(astro('<span aria-hidden="true">↗</span>')).toEqual([]);
+  });
+
+  it('checks scoped <style> blocks in Astro files', () => {
+    expect(astro('<div />\n<style>\n  .x { box-shadow: 0 6px 0 red; }\n</style>')).toContain(
+      'slop-hard-offset-shadow',
+    );
+  });
+
+  it('documents every slop rule in anti-slop.md', () => {
+    const doc = readFileSync(
+      join(ROOT, '.agents/skills/product-design/references/anti-slop.md'),
+      'utf-8',
+    );
+    const source = readFileSync(join(ROOT, 'scripts/design-audit/rules/slop.mjs'), 'utf-8');
+    const ids = new Set(source.match(/'slop-[a-z-]+'/g)?.map((s) => s.slice(1, -1)));
+    for (const id of ids) expect(doc).toContain(`\`${id}\``);
+  });
+});

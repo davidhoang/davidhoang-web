@@ -22,6 +22,7 @@ import {
 } from './rules/strict.mjs';
 import { auditHeroMotionContinuity } from './rules/motion-continuity.mjs';
 import { auditContainment } from './rules/containment.mjs';
+import { auditSlopFile } from './rules/slop.mjs';
 
 /**
  * Run design compliance audit.
@@ -45,6 +46,7 @@ export function runDesignAudit(options = {}) {
     auditNavCssFile(ctx, file);
     auditCardsInFile(ctx, file);
     auditMalformedSpacingTokens(ctx, file, content);
+    auditSlopFile(ctx, file, content);
     if (ctx.strict) {
       auditCssColors(ctx, file, content);
       auditCssHover(ctx, file);
@@ -61,6 +63,7 @@ export function runDesignAudit(options = {}) {
     auditCardsInFile(ctx, file);
     auditAstroColors(ctx, file, content);
     auditMalformedSpacingTokens(ctx, file, content);
+    auditSlopFile(ctx, file, content);
     if (ctx.strict) {
       auditAstroHover(ctx, file, content);
       auditAstroMotion(ctx, file, content);
@@ -74,6 +77,7 @@ export function runDesignAudit(options = {}) {
     auditCardsInFile(ctx, file);
     auditHeroLayoutOpacity(ctx, file);
     auditMalformedSpacingTokens(ctx, file, content);
+    auditSlopFile(ctx, file, content);
     if (ctx.strict) auditTsxMotion(ctx, file);
   }
 

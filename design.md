@@ -103,6 +103,10 @@ This file is the **design contract** for coding agents (Cursor, Claude Code, etc
 
 If you violate a rule repeatedly, a human should add a concrete example here rather than patching around it in code.
 
+### Anti-slop (design judgment)
+
+The site should never look assembled from model defaults. The following are banned in components and stylesheets and enforced by the `slop-*` rules in `npm run audit:design:check`: gradient text, colored side-stripe borders on cards and callouts, eyebrow kickers above headings, zero-offset colored glows, zero-blur block shadows, overshoot or bounce easing, decorative `backdrop-filter` glass on content surfaces, the indigo→violet SaaS gradient, tracking tighter than `-0.04em`, and emoji as icons. The full list, exemptions, and the `slop-ok` escape hatch are in `.agents/skills/product-design/references/anti-slop.md` (adapted from the [Impeccable](https://github.com/pbakaus/impeccable) craft floor).
+
 ---
 
 ## Overview
@@ -266,7 +270,6 @@ All transition timings and easings live in `src/styles/modules/variables.css`. N
 | `--ease-inertia-smooth` | `cubic-bezier(0.33, 1, 0.68, 1)` | Softer ease-out for larger motion |
 | `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | Material standard — UI state changes |
 | `--ease-emphasized` | `cubic-bezier(0.22, 1, 0.36, 1)` | Decelerated — entrance reveals |
-| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Slight overshoot — buttons, inputs |
 
 **Duration tokens** (use `var(--duration-*)`):
 

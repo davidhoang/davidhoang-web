@@ -18,7 +18,7 @@ Use `.content-page` (+ `__intro` / `__section` / `__list`) from `layout.css` for
 
 ## Motion tokens
 
-Durations: `--duration-fast` … `--duration-slowest`. Easings: `--ease-inertia`, `--ease-standard`, `--ease-emphasized`, `--ease-spring`.
+Durations: `--duration-fast` … `--duration-slowest`. Easings: `--ease-inertia`, `--ease-standard`, `--ease-emphasized`. No overshoot/bounce easing (see `references/anti-slop.md`).
 
 ## Theme data attributes on `<html>`
 
