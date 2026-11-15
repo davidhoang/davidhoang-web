@@ -62,6 +62,13 @@
   outline-offset: var(--focus-ring-offset);
 }
 .home-viewer__control[aria-pressed="true"] { color: var(--color-text); }
+.home-viewer__start {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  z-index: 2;
+}
+.home-viewer__start .btn { min-height: 44px; }
 .home-viewer__caption { padding-top: var(--spacing-sm); text-align: center; }
 .home-viewer__caption--overlay {
   position: absolute;

@@ -14,11 +14,18 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
 export default function HomeViewer({ kind, modelUrl, posterUrl, name }: Props) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  // On phones and with Save-Data on, the scene (three.js plus the model) loads
+  // only when asked for; the poster stands in until then.
+  const [requested, setRequested] = useState(true);
   const [ready, setReady] = useState(false);
   const [active, setActive] = useState(true);
   const [revision, setRevision] = useState(0);
   const [view, setView] = useState<HomeView>('home');
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    setRequested(!saveData && !window.matchMedia('(max-width: 767px)').matches);
+    setMounted(true);
+  }, []);
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
@@ -43,7 +50,10 @@ export default function HomeViewer({ kind, modelUrl, posterUrl, name }: Props) {
     <div className="home-viewer__stage" ref={stageRef}>
       <SceneBoundary fallback={fallback}>
         {!ready && <img className="home-viewer__poster loaded" src={posterUrl} alt={description} loading="lazy" decoding="async" />}
-        {mounted && <Suspense fallback={null}>
+        {mounted && !requested && <div className="home-viewer__start">
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setRequested(true)} aria-label={`Explore ${name} in 3D`}>Explore in 3D</button>
+        </div>}
+        {mounted && requested && <Suspense fallback={null}>
           <HomeScene
             kind={kind}
             modelUrl={modelUrl}
