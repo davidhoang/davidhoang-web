@@ -10,6 +10,10 @@ const LEGACY_REDIRECTS = [
   { source: '/resume', destination: '/cv' },
   { source: '/writing/tag', destination: '/writing' },
   { source: '/writing/tags', destination: '/writing' },
+  {
+    source: '/writing/optimizing-a-personal-website-for-ai-agents',
+    destination: '/writing/optimizing-for-agents',
+  },
 ] as const;
 
 describe('legacy guessable URL paths (vercel.json)', () => {
