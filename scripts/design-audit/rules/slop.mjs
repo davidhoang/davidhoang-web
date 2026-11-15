@@ -90,10 +90,21 @@ function shadowLayers(value) {
   return layers;
 }
 
+const NEUTRAL_COLOR =
+  /^(transparent|black|currentcolor|#0{3,4}|#0{6}(?:[0-9a-f]{2})?|rgba?\(\s*0\s*,\s*0\s*,\s*0\b[^)]*\)|var\(--(shadow|color-shadow|color-border|color-text)[\w-]*[^)]*\))$/i;
+
+/**
+ * Is the shadow's color neutral (a depth tint) rather than a hue (a glow)?
+ * `color-mix(in srgb, X N%, transparent)` is judged by X, not by the `transparent` stop.
+ */
 function isNeutralShadowColor(layer) {
-  return /rgba?\(\s*0\s*,\s*0\s*,\s*0|#0{3,4}\b|#0{6}(?:[0-9a-f]{2})?\b|black|transparent|--shadow|--color-shadow|--color-border|currentColor|color-mix\([^)]*(black|--color-text)/i.test(
-    layer,
-  );
+  const mix = /color-mix\(\s*in\s+[\w-]+\s*,\s*(.+?)\s*(?:\d+(?:\.\d+)?%)?\s*,\s*(.+?)\s*(?:\d+(?:\.\d+)?%)?\s*\)\s*$/i.exec(layer);
+  if (mix) {
+    const colors = [mix[1], mix[2]].map((c) => c.trim()).filter((c) => !/^transparent$/i.test(c));
+    return colors.every((c) => NEUTRAL_COLOR.test(c));
+  }
+  const color = layer.replace(/^(inset\s+)?(-?\d*\.?\d+(px|rem|em)?\s+){2,4}/i, '').trim();
+  return color === '' || NEUTRAL_COLOR.test(color);
 }
 
 /**
