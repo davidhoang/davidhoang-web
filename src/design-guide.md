@@ -465,7 +465,6 @@ Use duration and easing tokens from `src/styles/modules/variables.css` — never
 | `--ease-inertia`, `--ease-inertia-smooth` | Default / soft ease-out |
 | `--ease-standard` | UI state changes |
 | `--ease-emphasized` | Entrance reveals |
-| `--ease-spring` | Slight overshoot |
 
 React motion uses `src/utils/motion.ts`: `motionPresets.reveal` for short section entries,
 `motionPresets.interaction` for settling, and `motionPresets.press` for immediate feedback.

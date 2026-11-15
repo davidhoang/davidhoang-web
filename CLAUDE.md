@@ -31,7 +31,7 @@ Site: https://www.davidhoang.com
 - `npm run budget` — Check built JS against bundle budgets (run after `npm run build`; CI runs both)
 - `npm run test:ui` — Playwright UI regression (dev server or `UI_TEST_URL` must be running; `npx playwright install chromium` if needed)
 - `npm run generate-theme` — Generate daily theme (`ANTHROPIC_API_KEY`; optional `TYPESAFE_API_KEY` for Jev)
-- `npm run audit:design:check` — Core design lint (CI)
+- `npm run audit:design:check` — Core design lint (CI), including `slop-*` anti-AI-slop rules (see `.agents/skills/product-design/references/anti-slop.md`)
 - `npm run audit:ui:changed -- --check --strict` — Core + strict on changed UI files (cloud agents before push)
 
 ## Content conventions
@@ -60,3 +60,4 @@ Site: https://www.davidhoang.com
 - Prefer minimal changes; don't over-engineer
 - Use existing patterns — check similar components before creating new ones
 - Keep Astro components for static content, React for interactive features only
+- No AI-slop design defaults (gradient text, side-stripe cards, eyebrow kickers above headings, glows, block shadows, bounce easing, decorative glass, emoji icons) — see `.agents/skills/product-design/references/anti-slop.md`

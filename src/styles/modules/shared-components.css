@@ -17,7 +17,7 @@
      .glass-border-button Sidebar/nav CTA button surface
 
    Typography family:
-     .text-eyebrow        Uppercase micro-label (kickers, section labels)
+     .text-eyebrow        Uppercase micro-label for small section headings; never a kicker above a heading (slop-kicker)
      .text-meta           Uppercase dateline / metadata
 
    Layout family (see layout.css):
@@ -229,15 +229,6 @@
   letter-spacing: var(--text-eyebrow-tracking, 0.14em);
   text-transform: uppercase;
   color: var(--color-muted);
-}
-
-/* Subscribe keeps its page-specific class while sharing eyebrow tokens. */
-.subscribe-page__eyebrow {
-  font-size: var(--text-eyebrow-size);
-  font-weight: 600;
-  letter-spacing: var(--text-eyebrow-tracking, 0.14em);
-  text-transform: uppercase;
-  color: var(--color-link);
 }
 
 /* --------------------------------------------

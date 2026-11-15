@@ -15,7 +15,6 @@ const href = `/prototypes/${slug}`;
 ---
 
 <aside class="companion-prototype" aria-label="Interactive companion">
-  <p class="companion-prototype__eyebrow">Interactive companion</p>
   <h2 class="companion-prototype__title">{title}</h2>
   <p class="companion-prototype__desc">{description}</p>
   <a class="companion-prototype__link" href={href}>
@@ -29,18 +28,10 @@ const href = `/prototypes/${slug}`;
     margin: var(--spacing-xl) 0 calc(var(--spacing-xl) + var(--spacing-sm));
     padding: calc(var(--spacing-md) + var(--spacing-xs)) 1.35rem;
     border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-accent, var(--color-text));
     border-radius: var(--radius-md, 8px);
     background: var(--color-sidebar-bg, var(--color-bg));
   }
 
-  .companion-prototype__eyebrow {
-    margin: 0 0 var(--spacing-sm);
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
 
   .companion-prototype__title {
     margin: 0 0 var(--spacing-sm);

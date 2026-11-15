@@ -21,6 +21,7 @@ Cross-tool entry point. Scoped context: `AGENTS.md` in this folder.
    - Cards / surfaces → `references/surfaces-cards.md`
    - Tokens / classes → `references/components.md`
    - Hard rules → `references/rules.md`
+   - AI-slop bans (gradient text, side stripes, kickers, glow, bounce) → `references/anti-slop.md`
 
 ## Implementation checklist
 
@@ -28,6 +29,7 @@ See `references/rules.md` for the full list. Non-negotiables:
 
 - Tokens only (`var(--color-*)`, `var(--spacing-*)`, `var(--duration-*)`, `var(--ease-*)`)
 - Opaque cards — never glass
+- No AI-slop defaults: gradient text, side-stripe cards, eyebrow kickers above headings, glow halos, block shadows, overshoot easing, emoji icons (`references/anti-slop.md`, enforced as `slop-*` rules)
 - Hover: color, shadow, transform — not padding/margin/size
 - Hero motion continuity: never remount media on hover; gate JS hover with `data-hover-motion`
 - Nav is framework-controlled — do not theme or unscope

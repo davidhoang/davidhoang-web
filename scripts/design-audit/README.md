@@ -31,6 +31,23 @@ Machine-checkable enforcement of `design.md` and `.agents/skills/product-design/
 | `containment-no-hero-*` | design.md § CSS containment | No `content-visibility` or `contain:paint\|size\|strict` on hero/nav |
 | `ci-design-audit` | agent stack | Skill/CI/docs reference audit commands |
 
+### Core anti-slop (always enforced) — `rules/slop.mjs`
+
+Mechanical subset of the Impeccable craft floor. Rationale and exemptions: `.agents/skills/product-design/references/anti-slop.md`. Suppress a single line with a `slop-ok: <rule-id> — reason` comment.
+
+| Rule ID | Checks |
+|---------|--------|
+| `slop-gradient-text` | `background-clip: text` + gradient; Tailwind `bg-clip-text bg-gradient-*` |
+| `slop-side-stripe` | Colored `border-left/right` ≥3px (≥2px with radius); blockquotes, transparent rails, rotated chevrons exempt |
+| `slop-bounce-easing` | Overshoot `cubic-bezier`, bounce/elastic keyframes, `animate-bounce` |
+| `slop-hard-offset-shadow` | Zero-blur box-shadow with ≥2px offset |
+| `slop-glow-halo` | Zero-offset colored shadow with ≥4px blur |
+| `slop-decorative-glass` | `backdrop-filter: blur` outside nav/overlay/modal/menu/palette chrome |
+| `slop-ai-palette` | Indigo/violet/fuchsia gradient stops |
+| `slop-extreme-tracking` | `letter-spacing` < `-0.04em` |
+| `slop-kicker` | Eyebrow/kicker/overline element immediately before `<h1-6>` (`--link` breadcrumbs exempt) |
+| `slop-emoji-icon` | Pictographic emoji in `.astro` / `.tsx` markup |
+
 ### Strict (report-only full scan; optional on changed files)
 
 | Rule ID | Checks |
@@ -88,5 +105,6 @@ scripts/
       cards.mjs
       colors.mjs
       motion-continuity.mjs
+      slop.mjs                  # Impeccable anti-slop bans
       strict.mjs
 ```

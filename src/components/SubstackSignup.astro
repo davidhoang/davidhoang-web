@@ -174,7 +174,7 @@ const showHeader = showTitle || Boolean(description?.trim());
     letter-spacing: -0.02em;
     background: transparent;
     color: var(--color-text);
-    transition: transform var(--duration-slower) var(--ease-spring);
+    transition: transform var(--duration-slower) var(--ease-emphasized);
     box-sizing: border-box;
   }
 
@@ -243,49 +243,45 @@ const showHeader = showTitle || Boolean(description?.trim());
     cursor: pointer;
     white-space: nowrap;
     transition:
-      transform var(--duration-normal) var(--ease-spring),
+      transform var(--duration-normal) var(--ease-emphasized),
       box-shadow var(--duration-normal) var(--ease-standard),
       background var(--duration-normal) var(--ease-standard);
     flex-shrink: 0;
-    box-shadow: 0 4px 0 color-mix(in srgb, var(--color-text) 18%, transparent);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text) 14%, transparent);
   }
 
   .subscribe-button-icon {
     display: flex;
-    transition: transform var(--duration-slower) var(--ease-spring);
+    transition: transform var(--duration-slower) var(--ease-emphasized);
   }
 
   @media (hover: hover) {
     .subscribe-button:hover {
       background: var(--color-link-hover);
-      transform: translateY(-3px) rotate(-1deg);
-      box-shadow:
-        0 8px 24px color-mix(in srgb, var(--color-link) 35%, transparent),
-        0 6px 0 color-mix(in srgb, var(--color-text) 12%, transparent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--color-text) 28%, transparent);
     }
   }
 
   @media (hover: hover) {
     .subscribe-button:hover .subscribe-button-icon {
-      transform: translate(3px, -3px) rotate(12deg);
+      transform: translate(2px, -2px);
     }
   }
 
   [data-theme='dark'] .subscribe-button {
-    box-shadow: 0 4px 0 color-mix(in srgb, var(--color-bg) 25%, transparent);
+    box-shadow: 0 1px 2px color-mix(in srgb, black 40%, transparent);
   }
 
   @media (hover: hover) {
     [data-theme='dark'] .subscribe-button:hover {
-      box-shadow:
-        0 8px 28px color-mix(in srgb, var(--color-link) 45%, transparent),
-        0 6px 0 color-mix(in srgb, var(--color-bg) 18%, transparent);
+      box-shadow: 0 8px 20px -6px color-mix(in srgb, black 55%, transparent);
     }
   }
 
   .subscribe-button:active {
-    transform: translateY(0) rotate(0);
-    box-shadow: 0 2px 0 color-mix(in srgb, var(--color-text) 15%, transparent);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text) 14%, transparent);
   }
 
   .subscribe-button:active .subscribe-button-icon {

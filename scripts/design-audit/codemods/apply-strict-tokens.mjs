@@ -65,7 +65,6 @@ const MOTION_REPLACEMENTS = [
   ['cubic-bezier(0.25, 0.46, 0.45, 0.94)', 'var(--ease-inertia)'],
   ['cubic-bezier(0.4, 0, 0.2, 1)', 'var(--ease-standard)'],
   ['cubic-bezier(0.22, 1, 0.36, 1)', 'var(--ease-emphasized)'],
-  ['cubic-bezier(0.34, 1.56, 0.64, 1)', 'var(--ease-spring)'],
   ['ease-in-out', 'var(--ease-standard)'],
   ['ease-out', 'var(--ease-inertia)'],
 ];
