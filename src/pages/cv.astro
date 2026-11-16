@@ -7,6 +7,24 @@ const pageDescription =
 
 const cvExternalLinkLabel = (company: string) =>
   accessibleNameWithVisibleLabel('[↗]', `${company} website (opens in new tab)`);
+
+const cvSocialLinks = [
+  {
+    href: 'https://www.linkedin.com/in/dhoang2/',
+    label: 'LinkedIn',
+    ariaLabel: 'David Hoang on LinkedIn (opens in new tab)',
+  },
+  {
+    href: 'https://twitter.com/davidhoang',
+    label: 'Twitter',
+    ariaLabel: 'David Hoang on Twitter (opens in new tab)',
+  },
+  {
+    href: 'https://www.proofofconcept.pub',
+    label: 'Newsletter',
+    ariaLabel: 'Proof of Concept newsletter (opens in new tab)',
+  },
+] as const;
 ---
 
 <MainLayout title="CV" description={pageDescription} hideFooter={true}>
@@ -83,9 +101,18 @@ const cvExternalLinkLabel = (company: string) =>
     </div>
 
     <div class="cv-links">
-      <a href="https://www.linkedin.com/in/dhoang2/" target="_blank">LinkedIn</a>
-      <a href="https://twitter.com/davidhoang" target="_blank">Twitter</a>
-      <a href="https://www.proofofconcept.pub" target="_blank">Newsletter</a>
+      {
+        cvSocialLinks.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={accessibleNameWithVisibleLabel(link.label, link.ariaLabel)}
+          >
+            {link.label}
+          </a>
+        ))
+      }
       <a href="mailto:hello@davidhoang.com">Email</a>
     </div>
   </div>
