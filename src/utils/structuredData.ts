@@ -289,6 +289,34 @@ export function buildProfilePageJsonLd(input?: {
   return jsonLd;
 }
 
+/**
+ * ProfilePage for /cv — primary subject is the Person (résumé surface).
+ */
+export function buildCvPageJsonLd(input?: {
+  canonicalUrl?: string;
+  dateModified?: Date | string;
+}): JsonLd {
+  const canonicalUrl = input?.canonicalUrl ?? `${CANONICAL_SITE}/cv`;
+
+  const jsonLd: JsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': `${canonicalUrl}#profilepage`,
+    url: canonicalUrl,
+    name: 'CV',
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(WEBSITE_ID),
+    mainEntity: idRef(PERSON_ID),
+    about: idRef(PERSON_ID),
+  };
+
+  if (input?.dateModified != null) {
+    jsonLd.dateModified = toIsoDate(input.dateModified);
+  }
+
+  return jsonLd;
+}
+
 export type BreadcrumbItem = {
   name: string;
   item: string;

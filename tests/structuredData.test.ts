@@ -9,6 +9,7 @@ import {
   buildBreadcrumbListJsonLd,
   buildNoteCreativeWorkJsonLd,
   buildNowPageJsonLd,
+  buildCvPageJsonLd,
   buildProfilePageJsonLd,
   buildSiteGraphJsonLd,
   buildWritingTagCollectionPageJsonLd,
@@ -172,6 +173,20 @@ describe('buildProfilePageJsonLd', () => {
   });
 });
 
+describe('buildCvPageJsonLd', () => {
+  it('marks the cv page as a ProfilePage whose subject is the Person', () => {
+    const json = buildCvPageJsonLd();
+    expect(json['@type']).toBe('ProfilePage');
+    expect(json['@id']).toBe('https://www.davidhoang.com/cv#profilepage');
+    expect(json.url).toBe('https://www.davidhoang.com/cv');
+    expect(json.name).toBe('CV');
+    expect(json.inLanguage).toBe(SITE_LANGUAGE);
+    expect(json.isPartOf).toEqual({ '@id': WEBSITE_ID });
+    expect(json.mainEntity).toEqual({ '@id': PERSON_ID });
+    expect(json.about).toEqual({ '@id': PERSON_ID });
+  });
+});
+
 describe('buildWritingTagCollectionPageJsonLd', () => {
   it('models topic hubs as CollectionPage children of the Writing blog', () => {
     const json = buildWritingTagCollectionPageJsonLd({
@@ -222,6 +237,7 @@ describe('JSON-LD serializability', () => {
       }),
       buildNowPageJsonLd({ description: 'D', dateModified: NOW_LAST_UPDATED }),
       buildProfilePageJsonLd(),
+      buildCvPageJsonLd(),
       buildWritingTagCollectionPageJsonLd({
         name: 'Design',
         description: 'Essays by David Hoang on Design.',
