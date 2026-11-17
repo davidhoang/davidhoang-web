@@ -36,7 +36,10 @@ const nowJsonLd = buildNowPageJsonLd({
     <div class="container-narrow">
       <p class="content-page__meta">
         Last updated: <time datetime={NOW_LAST_UPDATED}>{NOW_LAST_UPDATED_LABEL}</time>. Learn more about{' '}
-        <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">Now pages</a>.
+        <a href="https://nownownow.com/" target="_blank" rel="noopener noreferrer">
+          Now pages
+          <span class="sr-only"> (opens in a new tab)</span>
+        </a>.
       </p>
     </div>
 
@@ -108,7 +111,10 @@ const nowJsonLd = buildNowPageJsonLd({
         <ul class="content-page__list content-page__list--bullets" role="list">
           <li>
             Publishing weekly on
-            <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">Proof of Concept</a>
+            <a href="https://www.proofofconcept.pub/" target="_blank" rel="noopener noreferrer">
+              Proof of Concept
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
           </li>
           <li>
             <a href="/investing">Angel investing</a> in design, AI, and creative tools
