@@ -74,6 +74,7 @@ export default function SpeakingEntryTitle({ title, href, detailKey }: Props) {
         aria-describedby={hasPreview ? 'featured-speaking-preview' : undefined}
       >
         {title}
+        <span className="sr-only"> (opens in a new tab)</span>
       </a>
     );
   }

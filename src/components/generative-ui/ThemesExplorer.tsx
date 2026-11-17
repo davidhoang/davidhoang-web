@@ -513,6 +513,7 @@ export default function ThemesExplorer({ themes }: Props) {
         {themesWithShowcase.length} themes · Compare up to two · Share links copy a permalink · Showcases rendered with{' '}
         <a href="https://github.com/vercel-labs/json-render" target="_blank" rel="noopener noreferrer">
           json-render
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
       </p>
     </div>

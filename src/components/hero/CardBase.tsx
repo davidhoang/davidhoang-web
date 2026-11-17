@@ -216,6 +216,9 @@ export function CardBaseContent({
                     >
                       {card.linkText || 'Learn more'}
                       <LinkChevron />
+                      {card.link.startsWith('http') ? (
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      ) : null}
                     </a>
                   </div>
                 )}
@@ -270,6 +273,9 @@ export function CardBaseContent({
                 >
                   {card.linkText || 'Learn more'}
                   <LinkChevron />
+                  {card.link.startsWith('http') ? (
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  ) : null}
                 </a>
               )}
             </div>

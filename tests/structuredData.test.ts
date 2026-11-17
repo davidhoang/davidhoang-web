@@ -7,6 +7,7 @@ import {
   absoluteUrl,
   buildBlogPostingJsonLd,
   buildBreadcrumbListJsonLd,
+  buildCollectionHubPageJsonLd,
   buildNoteCreativeWorkJsonLd,
   buildNowPageJsonLd,
   buildProfilePageJsonLd,
@@ -172,6 +173,28 @@ describe('buildProfilePageJsonLd', () => {
   });
 });
 
+describe('buildCollectionHubPageJsonLd', () => {
+  it('links collection index URLs to stable Blog / Notes entities', () => {
+    const writing = buildCollectionHubPageJsonLd({
+      name: 'Writing',
+      description: 'Essays on design, engineering, AI, and entrepreneurship.',
+      canonicalUrl: 'https://www.davidhoang.com/writing',
+      collectionEntityId: BLOG_ID,
+    });
+    expect(writing['@type']).toBe('WebPage');
+    expect(writing['@id']).toBe('https://www.davidhoang.com/writing#webpage');
+    expect(writing.mainEntity).toEqual({ '@id': BLOG_ID });
+
+    const notes = buildCollectionHubPageJsonLd({
+      name: 'Notes',
+      description: 'Digital garden notes.',
+      canonicalUrl: 'https://www.davidhoang.com/notes',
+      collectionEntityId: NOTES_ID,
+    });
+    expect(notes.mainEntity).toEqual({ '@id': NOTES_ID });
+  });
+});
+
 describe('buildWritingTagCollectionPageJsonLd', () => {
   it('models topic hubs as CollectionPage children of the Writing blog', () => {
     const json = buildWritingTagCollectionPageJsonLd({
@@ -226,6 +249,12 @@ describe('JSON-LD serializability', () => {
         name: 'Design',
         description: 'Essays by David Hoang on Design.',
         canonicalUrl: 'https://www.davidhoang.com/writing/tag/design',
+      }),
+      buildCollectionHubPageJsonLd({
+        name: 'Writing',
+        description: 'Essays.',
+        canonicalUrl: 'https://www.davidhoang.com/writing',
+        collectionEntityId: BLOG_ID,
       }),
     ];
 

@@ -8,7 +8,32 @@
  * /fonts/daily-theme/ via `themeLatinPreloadPaths`).
  */
 
-type PageType = 'home' | 'blog' | 'about';
+export type PageType = 'home' | 'blog' | 'about';
+
+/** First family name in a CSS font stack (e.g. `'Karla', sans-serif` → Karla). */
+export function primaryFamilyFromFontStack(stack?: string): string | undefined {
+  if (!stack) return undefined;
+  const trimmed = stack.trim();
+  const quoted = trimmed.match(/^['"]([^'"]+)['"]/);
+  if (quoted) return quoted[1];
+  const bare = trimmed.match(/^([^,]+)/);
+  return bare?.[1]?.trim();
+}
+
+/**
+ * Font family forced via Font Loading API for the critical-fonts-loaded class.
+ * On home, themed pages use the daily body face — not ABC Diatype — so we avoid
+ * an extra ~150KiB latin variable download competing with hero LCP.
+ */
+export function resolveCriticalUIFontFamily(
+  pageType: PageType,
+  themeBodyStack?: string,
+): string {
+  if (pageType !== 'home') return 'ABC Diatype';
+  const primary = primaryFamilyFromFontStack(themeBodyStack);
+  if (!primary || primary === 'ABC Diatype') return 'ABC Diatype';
+  return primary;
+}
 
 // Latin subset .woff2 paths for fonts we self-host via /styles/fonts/*.css.
 // Keep aligned with FONT_CSS_RAW in MainLayout.astro.

@@ -213,6 +213,7 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
               target="_blank"
             >
               Watch video on YouTube →
+              <span class="sr-only"> (opens in a new tab)</span>
             </a>
           </>
         )}
@@ -254,6 +255,9 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
             <li>
               <a href={item.url} {...linkAttrs(item.url)}>
                 {item.title}
+                {/^https?:\/\//i.test(item.url) ? (
+                  <span class="sr-only"> (opens in a new tab)</span>
+                ) : null}
               </a>
             </li>
           ))}

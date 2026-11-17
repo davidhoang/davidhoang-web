@@ -114,7 +114,7 @@ const sections: UsesSection[] = [
   <div class="content-page content-page--compact-top uses-page container-narrow">
     <section class="content-page__intro">
       <p>
-        Inspired by the <a href="https://uses.tech" target="_blank" rel="noopener noreferrer">uses.tech</a>{' '}
+        Inspired by the <a href="https://uses.tech" target="_blank" rel="noopener noreferrer">uses.tech<span class="sr-only"> (opens in a new tab)</span></a>{' '}
         convention — a living list, not an affiliate page. For curated recommendations with more context, see{' '}
         <a href="/design-resources">Design Resources</a>.
       </p>
@@ -131,6 +131,7 @@ const sections: UsesSection[] = [
                 {item.href ? (
                   <a href={item.href} target="_blank" rel="noopener noreferrer">
                     {item.name}
+                    <span class="sr-only"> (opens in a new tab)</span>
                   </a>
                 ) : (
                   <span class="uses-page__plain">{item.name}</span>

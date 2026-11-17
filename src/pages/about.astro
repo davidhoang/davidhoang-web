@@ -29,15 +29,18 @@ function markdownToHtml(markdown: string): string {
   // Add target="_blank" for external URLs
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, text, url) => {
     const isExternal = url.startsWith('http://') || url.startsWith('https://');
-    const targetAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-    const newTabHint = isExternal ? '<span class="sr-only"> (opens in a new tab)</span>' : '';
+    const target = isExternal ? ' target="_blank"' : '';
+    const rel = isExternal ? ' rel="noopener noreferrer"' : '';
+    const newTabHint = isExternal
+      ? '<span class="sr-only"> (opens in a new tab)</span>'
+      : '';
     // Escape URL and text to prevent XSS
-    return `<a href="${escapeHtml(url)}"${targetAttrs}>${escapeHtml(text)}${newTabHint}</a>`;
+    return `<a href="${escapeHtml(url)}"${target}${rel}>${escapeHtml(text)}${newTabHint}</a>`;
   });
-  
+
   // Split into paragraphs (double newline or single newline followed by content)
   const paragraphs = html.split(/\n\n+/).filter(p => p.trim());
-  
+
   // Wrap each paragraph in <p> tags
   return paragraphs.map(p => `<p>${p.trim()}</p>`).join('\n');
 }
