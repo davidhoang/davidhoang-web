@@ -1,6 +1,373 @@
 {
   "themes": [
     {
+      "name": "Tin Shore",
+      "description": "A Baltic harbour index — fogged linen ground, cold grotesk structure, one unmistakable red accent cutting through disciplined mist.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C2328",
+          "--color-bg": "#EEF0EC",
+          "--color-link": "#C41230",
+          "--color-link-hover": "#8F0D22",
+          "--color-border": "#9DAAB0",
+          "--color-muted": "#56666D",
+          "--color-sidebar-bg": "#e6e8e4",
+          "--color-nav-bg": "#EEF0EC",
+          "--color-nav-text": "#1C2328",
+          "--color-card-bg": "#eaece8"
+        },
+        "dark": {
+          "--color-text": "#DCE3E0",
+          "--color-bg": "#131A1D",
+          "--color-link": "#E65871",
+          "--color-link-hover": "#FF4D68",
+          "--color-border": "#2E3D44",
+          "--color-muted": "#7A8B92",
+          "--color-sidebar-bg": "#0F1619",
+          "--color-nav-bg": "#131A1D",
+          "--color-nav-text": "#DCE3E0",
+          "--color-card-bg": "#192025"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Syne",
+          "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+          "category": "sans-serif",
+          "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "Inter",
+          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.04em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "minimal"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEF0EC",
+          "#9DAAB0"
+        ]
+      },
+      "font": {
+        "name": "Syne",
+        "url": "https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap",
+        "category": "sans-serif",
+        "stack": "'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-11-17",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Tin Shore",
+              "subtitle": "2026-11-17 · Baltic Harbour Index"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid-stack",
+              "div3",
+              "bot-stack"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Fog doesn't obscure — it disciplines. One red cuts the mist like a buoy light. Everything else holds the line.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EEF0EC",
+                  "label": "Ground"
+                },
+                {
+                  "hex": "#1C2328",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#C41230",
+                  "label": "Signal"
+                },
+                {
+                  "hex": "#9DAAB0",
+                  "label": "Mist"
+                },
+                {
+                  "hex": "#56666D",
+                  "label": "Harbour"
+                },
+                {
+                  "hex": "#eaece8",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "mid-stack": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "ht",
+              "meta",
+              "badge-row"
+            ]
+          },
+          "ht": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Tin Shore",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Links",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px · Flat"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Images",
+                  "value": "Grayscale → Colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Grotesk",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "High Contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Complementary",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "hero-prev",
+              "shader-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "shader-prev": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EEF0EC",
+                "#9DAAB0"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "bot-stack": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "tokens",
+              "apply-btn"
+            ]
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#C41230"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#EEF0EC"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#56666D"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#9DAAB0"
+                }
+              ]
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Tin Shore",
+              "action": "apply-theme",
+              "date": "2026-11-17"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Velvet Measure",
       "description": "A gallery composition drawn from jazz club geometry — warm tarnished surfaces, cinematic image presence, and a typographic rhythm that swings between condensed authority and open serif grace.",
       "colors": {
@@ -2201,357 +2568,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Proof Sheet",
-      "description": "A morning editorial laid out like a contact sheet — serene type hierarchy, faded-film color, and material density that makes every card feel like it was just peeled from a lightbox.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C2416",
-          "--color-bg": "#F7F2E8",
-          "--color-link": "#B14043",
-          "--color-link-hover": "#9B2D30",
-          "--color-border": "#D9CEBB",
-          "--color-muted": "#716656",
-          "--color-sidebar-bg": "#EDE7D9",
-          "--color-nav-bg": "#F7F2E8",
-          "--color-nav-text": "#2C2416",
-          "--color-card-bg": "#EDEAE0"
-        },
-        "dark": {
-          "--color-text": "#EAE2D3",
-          "--color-bg": "#1C1710",
-          "--color-link": "#E0706E",
-          "--color-link-hover": "#F0A09E",
-          "--color-border": "#3A3025",
-          "--color-muted": "#948A7D",
-          "--color-sidebar-bg": "#231E16",
-          "--color-nav-bg": "#1C1710",
-          "--color-nav-text": "#EAE2D3",
-          "--color-card-bg": "#252018"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "DM Sans",
-          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "1px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1140px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F7F2E8",
-          "#EDE7D9"
-        ]
-      },
-      "font": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-11-10",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Proof Sheet",
-              "subtitle": "November 10, 2026"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "h1",
-              "badge-row",
-              "palette",
-              "s2",
-              "meta",
-              "shader",
-              "tokens",
-              "divider",
-              "action"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Every card peeled from the lightbox. Type set in the dark room. Colour fixed in faded silver — the morning's contact sheet, still wet.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "h1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Proof Sheet",
-              "variant": "heading",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "elevated",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "grain",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F7F2E8",
-                  "label": "bg"
-                },
-                {
-                  "hex": "#EDEAE0",
-                  "label": "card"
-                },
-                {
-                  "hex": "#EDE7D9",
-                  "label": "sidebar"
-                },
-                {
-                  "hex": "#D9CEBB",
-                  "label": "border"
-                },
-                {
-                  "hex": "#716656",
-                  "label": "muted"
-                },
-                {
-                  "hex": "#B14043",
-                  "label": "link"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "hero",
-              "layout"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Hero: stacked-fan"
-            },
-            "children": []
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Heading",
-                  "value": "Newsreader (serif)"
-                },
-                {
-                  "label": "Body",
-                  "value": "DM Sans (sans-serif)"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Links",
-                  "value": "Animated underline"
-                },
-                {
-                  "label": "Image style",
-                  "value": "Muted / hover colorize"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "grain",
-              "colors": [
-                "#F7F2E8",
-                "#EDE7D9"
-              ]
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-text",
-                  "value": "#2C2416"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#B14043"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#EDEAE0"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--color-scheme",
-                  "value": "analogous"
-                }
-              ]
-            },
-            "children": []
-          },
-          "divider": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "action": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Proof Sheet",
-              "action": "apply-theme",
-              "date": "2026-11-10"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-16"
+  "currentDate": "2026-11-17"
 }
