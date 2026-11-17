@@ -18,6 +18,7 @@ import { serializeDocumentTitle } from '../utils/documentTitle';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
 import { resolveLayoutPageKind, resolveOpenGraphType } from '../utils/pageMeta';
+import { resolveCriticalUIFontFamily } from '../utils/font-preload';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). Vendored Google Fonts for the themes archive live in
@@ -148,6 +149,10 @@ const fullTitle = /david hoang/i.test(pageTitle) ? pageTitle : `${pageTitle} —
 
 const detectedPageType = resolveLayoutPageKind(Astro.url.pathname, pageType);
 const openGraphType = resolveOpenGraphType(Astro.url.pathname, pageType);
+const criticalUiFontFamily = resolveCriticalUIFontFamily(
+  detectedPageType,
+  todayTheme?.fonts?.body?.stack,
+);
 
 // Get the canonical URL with fallback
 // Normalize: strip trailing slash (except for root "/") for consistent canonical URLs
@@ -179,7 +184,13 @@ const ogVideoMeta = ogVideo
 ---
 
 <!DOCTYPE html>
-<html lang="en" style={ssrThemeStyle.join(';')} {...ssrThemeAttrs}>
+<html
+  lang="en"
+  style={ssrThemeStyle.join(';')}
+  data-page-type={detectedPageType}
+  data-critical-ui-font={criticalUiFontFamily}
+  {...ssrThemeAttrs}
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -475,6 +486,26 @@ const ogVideoMeta = ogVideo
       // Apply user theme preferences (dark/e-ink/daily-off/calendar pick) to a given <html> root.
       // Used twice: against `document.documentElement` on initial load (pre-paint) and against
       // `event.newDocument.documentElement` during astro:before-swap (pre-paint of the next nav).
+      function primaryFamilyFromStack(stack) {
+        if (!stack) return 'ABC Diatype';
+        var trimmed = stack.trim();
+        var quoted = trimmed.match(/^['"]([^'"]+)['"]/);
+        if (quoted) return quoted[1];
+        var bare = trimmed.match(/^([^,]+)/);
+        var name = bare ? bare[1].trim() : 'ABC Diatype';
+        return name || 'ABC Diatype';
+      }
+
+      function syncCriticalUiFontAttr(root, dailyOff) {
+        if (root.getAttribute('data-page-type') !== 'home') return;
+        if (dailyOff || root.getAttribute('data-e-ink') === 'true') {
+          root.setAttribute('data-critical-ui-font', 'ABC Diatype');
+          return;
+        }
+        var primary = root.style.getPropertyValue('--font-primary');
+        root.setAttribute('data-critical-ui-font', primaryFamilyFromStack(primary));
+      }
+
       function applyThemePreferencesToRoot(root, ssrDateOfRoot) {
         try {
           var url = new URL(window.location.href);
@@ -531,6 +562,8 @@ const ogVideoMeta = ogVideo
             root.style.setProperty(k, ssrDarkColors[k]);
           });
         }
+
+        syncCriticalUiFontAttr(root, dailyOff);
       }
 
       (function(){
@@ -579,9 +612,9 @@ const ogVideoMeta = ogVideo
           all: false
         };
         
-        // Site UI font only — theme fonts (e.g. Inter) load via FontPreloader
-        // when today's theme actually uses them, so we don't force-fetch Inter.
-        var criticalFontName = 'ABC Diatype';
+        // Site UI font on home follows today's theme body face (see data-critical-ui-font).
+        var criticalFontName =
+          document.documentElement.getAttribute('data-critical-ui-font') || 'ABC Diatype';
         
         function updateFontLoadingState() {
           if (!fontState.critical) {

@@ -49,7 +49,9 @@ const criticalFonts = getCriticalFonts(pageType, themeFontNames, themeLatinPrelo
         if ('fonts' in document) {
           // Only poke the site UI face — theme fonts load when CSS needs them.
           document.fonts.ready.then(() => {
-            document.fonts.check('1rem ABC Diatype');
+            var uiFont =
+              document.documentElement.getAttribute('data-critical-ui-font') || 'ABC Diatype';
+            document.fonts.check('1rem ' + uiFont);
             document.documentElement.classList.add('fonts-loaded');
           });
         }
