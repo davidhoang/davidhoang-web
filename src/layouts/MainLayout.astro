@@ -14,6 +14,7 @@ import {
   DEFAULT_PAGE_ROBOTS,
   SITE_DESCRIPTION,
 } from '../utils/structuredData';
+import { serializeDocumentTitle } from '../utils/documentTitle';
 import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
 import { resolveLayoutPageKind, resolveOpenGraphType } from '../utils/pageMeta';
@@ -211,7 +212,7 @@ const ogVideoMeta = ogVideo
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Primary Meta Tags -->
-    <title>{fullTitle}</title>
+    <title set:html={serializeDocumentTitle(fullTitle)} />
     <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
