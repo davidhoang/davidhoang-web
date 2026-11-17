@@ -4,46 +4,13 @@ import PageHeader from '../components/PageHeader.astro';
 import bioContent from '../content/bio.md?raw';
 import { siteBioMetaFirstPerson } from '../data/siteCopy';
 import { buildProfilePageJsonLd } from '../utils/structuredData';
+import { markdownToHtml } from '../utils/aboutBioMarkdown';
 
 const profilePageJsonLd = buildProfilePageJsonLd();
 
 // Page metadata
 const pageDescription = siteBioMetaFirstPerson;
 const ogImage = "/images/img-david-sf.webp";
-
-// HTML escape helper to prevent XSS
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-// Simple markdown to HTML converter (handles links and paragraphs)
-function markdownToHtml(markdown: string): string {
-  let html = markdown.trim();
-
-  // Convert markdown links [text](url) to HTML links
-  // Add target="_blank" for external URLs
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, text, url) => {
-    const isExternal = url.startsWith('http://') || url.startsWith('https://');
-    const target = isExternal ? ' target="_blank"' : '';
-    const rel = isExternal ? ' rel="noopener noreferrer"' : '';
-    const newTabHint = isExternal
-      ? '<span class="sr-only"> (opens in a new tab)</span>'
-      : '';
-    // Escape URL and text to prevent XSS
-    return `<a href="${escapeHtml(url)}"${target}${rel}>${escapeHtml(text)}${newTabHint}</a>`;
-  });
-
-  // Split into paragraphs (double newline or single newline followed by content)
-  const paragraphs = html.split(/\n\n+/).filter(p => p.trim());
-
-  // Wrap each paragraph in <p> tags
-  return paragraphs.map(p => `<p>${p.trim()}</p>`).join('\n');
-}
 
 // Parse bio markdown file
 function parseBioMarkdown() {
