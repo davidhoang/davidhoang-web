@@ -1,5 +1,6 @@
 ---
 import ContentsNav from './ContentsNav.astro';
+import { accessibleNameWithVisibleLabel } from '../utils/accessibleName';
 
 interface Heading {
   depth: number;
@@ -107,7 +108,10 @@ const stickySlotClass = [
                   target="_blank"
                   rel="noopener noreferrer"
                   class="sidebar-button glass-border-button"
-                  aria-label="Subscribe to Proof of Concept newsletter"
+                  aria-label={accessibleNameWithVisibleLabel(
+                    'Subscribe →',
+                    'Proof of Concept newsletter (opens in new tab)',
+                  )}
                 >
                   Subscribe →
                 </a>
@@ -116,10 +120,10 @@ const stickySlotClass = [
               <div class="sidebar-section">
                 <h2>Elsewhere</h2>
                 <ul class="social-links" role="list" aria-label="Social media and other links">
-                  <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-                  <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                  <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                  <li><a href="/rss.xml" target="_blank" aria-label="Writing RSS feed">Writing RSS</a></li>
+                  <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter<span class="sr-only"> (opens in a new tab)</span></a></li>
+                  <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+                  <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+                  <li><a href="/rss.xml" target="_blank" aria-label="Writing RSS feed (opens in new tab)">Writing RSS</a></li>
                 </ul>
               </div>
             </>
@@ -153,7 +157,10 @@ const stickySlotClass = [
                 target="_blank"
                 rel="noopener noreferrer"
                 class="sidebar-button glass-border-button"
-                aria-label="Subscribe to Proof of Concept newsletter"
+                aria-label={accessibleNameWithVisibleLabel(
+                  'Subscribe →',
+                  'Proof of Concept newsletter (opens in new tab)',
+                )}
               >
                 Subscribe →
               </a>
@@ -162,10 +169,10 @@ const stickySlotClass = [
             <div class="sidebar-section">
               <h2>Elsewhere</h2>
               <ul class="social-links" role="list" aria-label="Social media and other links">
-                <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-                <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="/rss.xml" target="_blank" aria-label="Writing RSS feed">Writing RSS</a></li>
+                <li><a href="https://twitter.com/davidhoang" target="_blank" rel="noopener noreferrer">Twitter<span class="sr-only"> (opens in a new tab)</span></a></li>
+                <li><a href="https://github.com/davidhoang" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+                <li><a href="https://linkedin.com/in/dhoang2" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+                <li><a href="/rss.xml" target="_blank" aria-label="Writing RSS feed (opens in new tab)">Writing RSS</a></li>
               </ul>
             </div>
           </>

@@ -61,7 +61,7 @@ export const PersonAvatar: React.FC<PersonAvatarProps> = ({
         target="_blank"
         rel="noopener noreferrer"
         className={`person-avatar-link ${className}`}
-        aria-label={`Visit ${person.name}'s website`}
+        aria-label={`Visit ${person.name}'s website (opens in new tab)`}
         style={avatarStyle}
       >
         {avatarContent}

@@ -98,6 +98,7 @@ export const NodeDetailModal: React.FC<NodeDetailModalProps> = ({
               className="node-card-link"
             >
               Learn more →
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           )}
 

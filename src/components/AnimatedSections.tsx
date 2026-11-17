@@ -142,6 +142,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
           {item.text.length > 0 ? ' ' : null}
           <a href={item.link} target="_blank" rel="noopener noreferrer">
             {item.linkText}
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </p>
       </div>
