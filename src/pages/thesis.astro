@@ -110,6 +110,7 @@ const sections = thesisSections.map((section) => ({
                   >
                     {item.title}
                     {item.external ? <span class="thesis-reading__ext" aria-hidden="true"> ↗</span> : null}
+                    {item.external ? <span class="sr-only"> (opens in a new tab)</span> : null}
                   </a>
                   <span class="content-page__list-note">{item.note}</span>
                 </li>
@@ -135,6 +136,7 @@ const sections = thesisSections.map((section) => ({
           <a href="https://www.proofofconcept.pub" target="_blank" rel="noopener noreferrer">
             Proof of Concept
             <span class="thesis-reading__ext" aria-hidden="true"> ↗</span>
+            <span class="sr-only"> (opens in a new tab)</span>
           </a>
           <span class="content-page__list-note">Weekly writing where many of these ideas first shipped</span>
         </li>

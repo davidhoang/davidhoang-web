@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { fontPreloadFetchPriority, getCriticalFonts } from '../src/utils/font-preload';
+import {
+  fontPreloadFetchPriority,
+  getCriticalFonts,
+  resolveCriticalUIFontFamily,
+} from '../src/utils/font-preload';
 
 describe('fontPreloadFetchPriority', () => {
   it('does not high-priority preload site UI fonts on home/index routes (hero image LCP)', () => {
@@ -21,6 +25,23 @@ describe('fontPreloadFetchPriority', () => {
     expect(
       fontPreloadFetchPriority('blog', '/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2'),
     ).toBeUndefined();
+  });
+});
+
+describe('resolveCriticalUIFontFamily', () => {
+  it('keeps ABC Diatype on non-home routes', () => {
+    expect(resolveCriticalUIFontFamily('blog')).toBe('ABC Diatype');
+    expect(resolveCriticalUIFontFamily('about')).toBe('ABC Diatype');
+  });
+
+  it('uses the themed body face on home when it is not Diatype', () => {
+    expect(
+      resolveCriticalUIFontFamily('home', "'Karla', -apple-system, sans-serif"),
+    ).toBe('Karla');
+  });
+
+  it('falls back to ABC Diatype on home without theme stack', () => {
+    expect(resolveCriticalUIFontFamily('home')).toBe('ABC Diatype');
   });
 });
 

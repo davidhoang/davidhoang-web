@@ -35,6 +35,7 @@ const pageDescription =
               <h2 class="project-card__title">
                 <a href={project.href} target="_blank" rel="noopener noreferrer">
                   {project.title}
+                  <span class="sr-only"> (opens in a new tab)</span>
                 </a>
               </h2>
               <p class="project-card__summary">{project.summary}</p>
@@ -47,6 +48,7 @@ const pageDescription =
                 >
                   {project.hrefLabel}
                   <span aria-hidden="true">↗</span>
+                  <span class="sr-only"> (opens in a new tab)</span>
                 </a>
                 {project.links?.map((link) => (
                   <a
@@ -56,6 +58,7 @@ const pageDescription =
                     rel="noopener noreferrer"
                   >
                     {link.label}
+                    <span class="sr-only"> (opens in a new tab)</span>
                   </a>
                 ))}
               </p>

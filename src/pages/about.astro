@@ -30,8 +30,12 @@ function markdownToHtml(markdown: string): string {
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, text, url) => {
     const isExternal = url.startsWith('http://') || url.startsWith('https://');
     const target = isExternal ? ' target="_blank"' : '';
+    const rel = isExternal ? ' rel="noopener noreferrer"' : '';
+    const newTabHint = isExternal
+      ? '<span class="sr-only"> (opens in a new tab)</span>'
+      : '';
     // Escape URL and text to prevent XSS
-    return `<a href="${escapeHtml(url)}"${target}>${escapeHtml(text)}</a>`;
+    return `<a href="${escapeHtml(url)}"${target}${rel}>${escapeHtml(text)}${newTabHint}</a>`;
   });
   
   // Split into paragraphs (double newline or single newline followed by content)
