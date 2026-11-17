@@ -132,6 +132,31 @@ export function buildNotesGardenJsonLd(): JsonLd {
   };
 }
 
+export type CollectionHubPageInput = {
+  name: string;
+  description: string;
+  canonicalUrl: string;
+  /** Stable collection @id from the site graph (e.g. BLOG_ID, NOTES_ID). */
+  collectionEntityId: string;
+};
+
+/** Index pages for /writing and /notes — link the URL to the Blog/Notes entities in @graph. */
+export function buildCollectionHubPageJsonLd(input: CollectionHubPageInput): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${input.canonicalUrl}#webpage`,
+    url: input.canonicalUrl,
+    name: input.name,
+    description: input.description,
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(WEBSITE_ID),
+    author: idRef(PERSON_ID),
+    mainEntity: idRef(input.collectionEntityId),
+    mainEntityOfPage: webPageRef(input.canonicalUrl),
+  };
+}
+
 export type WritingTagCollectionInput = {
   name: string;
   description: string;
