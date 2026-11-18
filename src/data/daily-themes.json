@@ -1,6 +1,357 @@
 {
   "themes": [
     {
+      "name": "Spill & Sprawl",
+      "description": "A sun-drenched backyard tableau where faded magenta and lawn green collide on cream — energetic scattered cards breathing in generous open air.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2A1A0E",
+          "--color-bg": "#FEF3E2",
+          "--color-link": "#C4175A",
+          "--color-link-hover": "#8B0E3D",
+          "--color-border": "#E8C99A",
+          "--color-muted": "#7F6345",
+          "--color-sidebar-bg": "#FDE8C8",
+          "--color-nav-bg": "#FEF3E2",
+          "--color-nav-text": "#2A1A0E",
+          "--color-card-bg": "#FFF8EE"
+        },
+        "dark": {
+          "--color-text": "#F5E8D0",
+          "--color-bg": "#1C1410",
+          "--color-link": "#F0527A",
+          "--color-link-hover": "#FF85A1",
+          "--color-border": "#4A3020",
+          "--color-muted": "#A3815E",
+          "--color-sidebar-bg": "#251A12",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F5E8D0",
+          "--color-card-bg": "#261C14"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bricolage Grotesque",
+          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+          "category": "display",
+          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Figtree",
+          "url": "https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FEF3E2",
+          "#C4175A"
+        ]
+      },
+      "font": {
+        "name": "Bricolage Grotesque",
+        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+        "category": "display",
+        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-11-18",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Spill & Sprawl",
+              "subtitle": "November 18, 2026"
+            },
+            "children": [
+              "s-outer"
+            ]
+          },
+          "s-outer": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "badge-row",
+              "palette",
+              "div1",
+              "s-mid",
+              "div2",
+              "s-bot",
+              "apply-btn"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Cards tossed across a cream afternoon. Magenta bleeds into lawn green — loud, loose, and gloriously uncontained.",
+              "emphasis": "bold"
+            }
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            }
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "split-complementary",
+              "variant": "outlined"
+            }
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "scattered hero",
+              "variant": "filled"
+            }
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            }
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FEF3E2",
+                  "label": "Cream"
+                },
+                {
+                  "hex": "#C4175A",
+                  "label": "Magenta"
+                },
+                {
+                  "hex": "#2A1A0E",
+                  "label": "Espresso"
+                },
+                {
+                  "hex": "#E8C99A",
+                  "label": "Border"
+                },
+                {
+                  "hex": "#7F6345",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#FFF8EE",
+                  "label": "Card"
+                }
+              ]
+            }
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            }
+          },
+          "s-mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "s-type",
+              "hero-prev"
+            ]
+          },
+          "s-type": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "t1",
+              "t2"
+            ]
+          },
+          "t1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Spill & Sprawl",
+              "variant": "heading",
+              "weight": "800"
+            }
+          },
+          "t2": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Sun-drenched and sprawling across a cream afternoon.",
+              "variant": "body"
+            }
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Cards"
+            }
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            }
+          },
+          "s-bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Heading",
+                  "value": "Bricolage Grotesque"
+                },
+                {
+                  "label": "Body",
+                  "value": "Figtree"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Links",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Radius",
+                  "value": "12px"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Retro"
+                }
+              ]
+            }
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#C4175A"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#FEF3E2"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#2A1A0E"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#FFF8EE"
+                }
+              ]
+            }
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Spill & Sprawl",
+              "action": "apply-theme",
+              "date": "2026-11-18"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "Tin Shore",
       "description": "A Baltic harbour index — fogged linen ground, cold grotesk structure, one unmistakable red accent cutting through disciplined mist.",
       "colors": {
@@ -2187,388 +2538,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Chromatic Scan",
-      "description": "A metropolitan gallery filtered through Y2K optimism — acid aqua scanlines, high-gloss card surfaces, and cinematic image drama set against deep metropolitan night.",
-      "colors": {
-        "colorScheme": "triadic",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#0D1B2A",
-          "--color-bg": "#EBF5FB",
-          "--color-link": "#006D91",
-          "--color-link-hover": "#FF1493",
-          "--color-border": "#B8D9EF",
-          "--color-muted": "#4E697C",
-          "--color-sidebar-bg": "#DCF0FA",
-          "--color-nav-bg": "#EBF5FB",
-          "--color-nav-text": "#0D1B2A",
-          "--color-card-bg": "#D6ECF8"
-        },
-        "dark": {
-          "--color-text": "#D6F4FF",
-          "--color-bg": "#0A1628",
-          "--color-link": "#00D4AA",
-          "--color-link-hover": "#FF1493",
-          "--color-border": "#1A3A5C",
-          "--color-muted": "#6C93AC",
-          "--color-sidebar-bg": "#0D1F38",
-          "--color-nav-bg": "#0A1628",
-          "--color-nav-text": "#D6F4FF",
-          "--color-card-bg": "#0F2440"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Unbounded",
-          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "display",
-          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Manrope",
-          "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "20px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "glow",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#00D4AA",
-          "#0A1628",
-          "#FF1493"
-        ]
-      },
-      "font": {
-        "name": "Unbounded",
-        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
-        "category": "display",
-        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-11-11",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Chromatic Scan",
-              "subtitle": "2026 · 11 · 11"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "badge-row",
-              "div1",
-              "s-mid",
-              "div2",
-              "s-bottom",
-              "div3",
-              "meta",
-              "action"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "The gallery never closed. Acid aqua bleeds through the scanlines at midnight — every card surface catching the city's reflection like a wet chrome mirror.",
-              "emphasis": "bold"
-            }
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Y2K",
-              "variant": "outlined"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "triadic",
-              "variant": "outlined"
-            }
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            }
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s-left",
-              "s-right"
-            ]
-          },
-          "s-left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "heading-sample",
-              "body-sample",
-              "caption-sample"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "CHROMATIC SCAN",
-              "variant": "heading",
-              "weight": "900"
-            }
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Metropolitan night distilled into vivid surface tension.",
-              "variant": "body"
-            }
-          },
-          "caption-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Unbounded · Manrope · filled cards · r20",
-              "variant": "caption"
-            }
-          },
-          "s-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            }
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "asymmetric"
-            }
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "s-bottom": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "stretch"
-            },
-            "children": [
-              "palette",
-              "tokens"
-            ]
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#00D4AA",
-                  "label": "Acid Aqua"
-                },
-                {
-                  "hex": "#FF1493",
-                  "label": "Deep Pink"
-                },
-                {
-                  "hex": "#0D1B2A",
-                  "label": "Metro Night"
-                },
-                {
-                  "hex": "#006D91",
-                  "label": "Link Steel"
-                },
-                {
-                  "hex": "#EBF5FB",
-                  "label": "Scan White"
-                },
-                {
-                  "hex": "#D6ECF8",
-                  "label": "Card Gloss"
-                }
-              ]
-            }
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--border-radius",
-                  "value": "20px"
-                },
-                {
-                  "name": "--link-style",
-                  "value": "color-only"
-                },
-                {
-                  "name": "--image-style",
-                  "value": "vivid / hover glow"
-                },
-                {
-                  "name": "--footer",
-                  "value": "boxed"
-                }
-              ]
-            }
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "dotted"
-            }
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Filled · Glossy"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "High"
-                }
-              ]
-            }
-          },
-          "action": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Chromatic Scan",
-              "action": "apply-theme",
-              "date": "2026-11-11"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-17"
+  "currentDate": "2026-11-18"
 }
