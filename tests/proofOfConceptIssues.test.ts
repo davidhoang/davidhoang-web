@@ -27,4 +27,19 @@ describe('proof of concept archive', () => {
       expect(issue.coverImage).toMatch(/substackcdn\.com\/image\/fetch\/w_600,c_limit,/);
     }
   });
+
+  it('rewrites dead pbs.substack.com Twitter embed covers to post_preview art', () => {
+    const archive = getProofOfConceptIssuesArchive();
+    const dead = archive.issues.find((issue) => issue.slug === 'can-projects-recharge-you-an-approach');
+    expect(dead).toBeDefined();
+    const [canvasIssue] = mapProofOfConceptIssuesForCanvas({
+      ...archive,
+      count: 1,
+      issues: [dead!],
+    });
+    expect(canvasIssue.coverImage).toContain(
+      encodeURIComponent('https://www.proofofconcept.pub/api/v1/post_preview/26776496/twitter.jpg'),
+    );
+    expect(canvasIssue.coverImage).not.toContain('pbs.substack.com');
+  });
 });

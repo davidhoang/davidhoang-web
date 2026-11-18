@@ -31,6 +31,21 @@ export type ProofOfConceptCanvasIssue = {
   url: string;
 };
 
+/** Legacy PoC covers that pointed at Twitter via pbs.substack.com now 404 on substackcdn. */
+function resolvePoCCanvasCover(issue: ProofOfConceptIssue): string {
+  const cover = issue.coverImage;
+  const usesDeadTwitterEmbed =
+    cover.includes('pbs.substack.com/media') || cover.includes('%2Fpbs.substack.com%2Fmedia%2F');
+
+  if (usesDeadTwitterEmbed) {
+    const preview = `https://www.proofofconcept.pub/api/v1/post_preview/${issue.id}/twitter.jpg`;
+    const cdn = `https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/${encodeURIComponent(preview)}`;
+    return resizeSubstackCdnCover(cdn);
+  }
+
+  return resizeSubstackCdnCover(cover);
+}
+
 export function mapProofOfConceptIssuesForCanvas(
   archive: ProofOfConceptIssuesFile,
 ): ProofOfConceptCanvasIssue[] {
@@ -38,7 +53,7 @@ export function mapProofOfConceptIssuesForCanvas(
     id: issue.id,
     title: issue.title,
     subtitle: issue.subtitle,
-    coverImage: resizeSubstackCdnCover(issue.coverImage),
+    coverImage: resolvePoCCanvasCover(issue),
     url: issue.url,
   }));
 }
