@@ -9,13 +9,13 @@ Designer, investor, builder. VP of Design, Rovo & AI and Ecosystem at [Atlassian
 
 ## TLDR;
 
-I'm a designer, investor, and builder. VP and Head of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com). Previously at [Replit](https://replit.com), [Webflow](https://webflow.com), and [One Medical](https://onemedical.com).
+I'm a designer, investor, and builder. VP and Head of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com). Previously at [Replit](https://replit.com), [Webflow](https://webflow.com), and [One Medical](https://www.onemedical.com/).
 
 I invest in early-stage startups and write a weekly newsletter called [Proof of Concept](https://www.proofofconcept.pub) about software, design, and entrepreneurship.
 
 ## Speaker bio
 
-I'm a designer, investor, and builder. VP of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com), building AI experiences that will use Jira for me so I never have to. Prior, I was VP of Marketing and Design at [Replit](https://replit.com), where I led rebranding, launched developer events, and pushed forward AI-native product work. First Head of Design at [Webflow](https://webflow.com). Led product design at [One Medical](https://onemedical.com) through virtual care and its IPO.
+I'm a designer, investor, and builder. VP of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com), building AI experiences that will use Jira for me so I never have to. Prior, I was VP of Marketing and Design at [Replit](https://replit.com), where I led rebranding, launched developer events, and pushed forward AI-native product work. First Head of Design at [Webflow](https://webflow.com). Led product design at [One Medical](https://www.onemedical.com/) through virtual care and its IPO.
 
 I invest in and advise early-stage startups, especially creative tools that empower people to express on the internet. I've invested in over 30 early-stage companies: [Sunflower](https://sunflower.me/), [Daydream](https://www.withdaydream.com/), OZU, [Galileo (acquired)](https://stitch.withgoogle.com/), [Flint](https://www.tryflint.com/), and [Paper](https://paper.design/), to name a few. I also write a weekly newsletter called [Proof of Concept](https://www.proofofconcept.pub), where I explore ideas around software, design, and entrepreneurship.
 
@@ -23,7 +23,7 @@ I invest in and advise early-stage startups, especially creative tools that empo
 
 I'm a designer, investor, and builder. My career has been an [odyssey](/career-odyssey)—20 years in and still learning. I studied Drawing and Painting, then interface design for the iPhone instead of an MFA.
 
-I've built and scaled design teams at early-stage startups and high-growth companies. Today: VP of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com). Before that: VP of Marketing and Design at [Replit](https://replit.com), first Head of Design at [Webflow](https://webflow.com), and product design at [One Medical](https://onemedical.com) through its IPO.
+I've built and scaled design teams at early-stage startups and high-growth companies. Today: VP of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com). Before that: VP of Marketing and Design at [Replit](https://replit.com), first Head of Design at [Webflow](https://webflow.com), and product design at [One Medical](https://www.onemedical.com/) through its IPO.
 
 I invest in and advise early-stage startups, especially creative tools. I've invested in over 30 companies, including [Sunflower](https://sunflower.me/), [Daydream](https://www.withdaydream.com/), OZU, [Galileo (acquired)](https://stitch.withgoogle.com/), [Flint](https://www.tryflint.com/), and [Paper](https://paper.design/). I write [Proof of Concept](https://www.proofofconcept.pub) weekly on software, design, and entrepreneurship.
 
@@ -33,7 +33,7 @@ See what I'm up to [now](/now).
 
 I'm a designer, investor, and builder. My career has been an [odyssey](/career-odyssey)—20 years in and still learning. I studied Drawing and Painting, then interface design for the iPhone instead of an MFA.
 
-I've built and scaled design teams at early-stage startups and high-growth companies. Today: VP of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com). Before that: VP of Marketing and Design at [Replit](https://replit.com), first Head of Design at [Webflow](https://webflow.com), and product design at [One Medical](https://onemedical.com) through its IPO.
+I've built and scaled design teams at early-stage startups and high-growth companies. Today: VP of Design, Rovo & AI and Ecosystem at [Atlassian](https://atlassian.com). Before that: VP of Marketing and Design at [Replit](https://replit.com), first Head of Design at [Webflow](https://webflow.com), and product design at [One Medical](https://www.onemedical.com/) through its IPO.
 
 I invest in and advise early-stage startups, especially creative tools. I've invested in over 30 companies, including [Sunflower](https://sunflower.me/), [Daydream](https://www.withdaydream.com/), OZU, [Galileo (acquired)](https://stitch.withgoogle.com/), [Flint](https://www.tryflint.com/), and [Paper](https://paper.design/). I write [Proof of Concept](https://www.proofofconcept.pub) weekly — a place to reflect on how technology and design are changing.
 
