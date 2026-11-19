@@ -86,6 +86,19 @@ if (todayTheme?.fonts?.body?.name && GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.
 }
 const uniqueThemeLatinPreloads = [...new Set(themeLatinPreloadPaths)];
 
+/** Non-vendored theme fonts still use Google CSS; load without blocking first paint (FOUT handled via swap + system stack). */
+function themeFontStylesheetLinks(
+  font: { name: string; url?: string } | undefined,
+  role: 'heading' | 'body',
+): { href: string } | null {
+  if (!font || SELF_HOSTED_LEGACY.has(font.name) || GOOGLE_VENDORED_FOR_ARCHIVE.has(font.name)) {
+    return null;
+  }
+  const href = themeFontStylesheetUrl(font, role, todayTheme?.typography);
+  if (!href) return null;
+  return { href };
+}
+
 // --- SSR daily theme: bake today's theme into HTML to prevent CLS ---
 // Build CSS custom properties for today's theme (light mode default)
 const ssrThemeStyle: string[] = [];
@@ -285,22 +298,26 @@ const ogVideoMeta = ogVideo
     )}
 
     <!-- Theme Google Fonts: load only weights the layout uses (not full catalog ranges). -->
-    {todayTheme?.fonts?.heading &&
-      !SELF_HOSTED_LEGACY.has(todayTheme.fonts.heading.name) &&
-      !GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.fonts.heading.name) && (
-      <link
-        rel="stylesheet"
-        href={themeFontStylesheetUrl(todayTheme.fonts.heading, 'heading', todayTheme.typography)}
-      />
-    )}
-    {todayTheme?.fonts?.body &&
-      !SELF_HOSTED_LEGACY.has(todayTheme.fonts.body.name) &&
-      !GOOGLE_VENDORED_FOR_ARCHIVE.has(todayTheme.fonts.body.name) && (
-      <link
-        rel="stylesheet"
-        href={themeFontStylesheetUrl(todayTheme.fonts.body, 'body', todayTheme.typography)}
-      />
-    )}
+    {(() => {
+      const heading = themeFontStylesheetLinks(todayTheme?.fonts?.heading, 'heading');
+      const body = themeFontStylesheetLinks(todayTheme?.fonts?.body, 'body');
+      return (
+        <>
+          {heading && (
+            <>
+              <link rel="stylesheet" href={heading.href} media="print" onload={'this.media="all"'} />
+              <noscript><link rel="stylesheet" href={heading.href} /></noscript>
+            </>
+          )}
+          {body && (
+            <>
+              <link rel="stylesheet" href={body.href} media="print" onload={'this.media="all"'} />
+              <noscript><link rel="stylesheet" href={body.href} /></noscript>
+            </>
+          )}
+        </>
+      );
+    })()}
 
     <!-- Browser theme color - blends browser UI with site -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
