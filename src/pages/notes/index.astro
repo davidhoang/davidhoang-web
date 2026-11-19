@@ -8,6 +8,7 @@ import { NOTE_STAGE_VALUES, resolveNoteStage } from '../../content/noteStages';
 import { noteStageInfo } from '../../utils/noteStageInfo';
 import '../../styles/modules/content-index.css';
 import { buildOgImageUrl } from '../../utils/ogImage';
+import { optimizeWritingIndexImage } from '../../utils/writingIndexImage';
 import {
   absoluteUrl,
   buildBreadcrumbListJsonLd,
@@ -28,6 +29,18 @@ const notes = (import.meta.env.PROD
 
 const allTags = [...new Set(notes.flatMap((note) => note.data.tags || []))].sort();
 
+const notesPlaceholderSketch =
+  '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
+
+const notesWithCovers = await Promise.all(
+  notes.map(async (note, index) => {
+    const cover = note.data.coverImage || notesPlaceholderSketch;
+    const variant = index === 0 ? 'spotlight' : 'card';
+    const optimized = await optimizeWritingIndexImage(cover, variant);
+    return { note, optimized };
+  }),
+);
+
 const pageDescription =
   'Digital garden notes — shorter, evolving ideas alongside long-form writing.';
 const pageOgImage = buildOgImageUrl({
@@ -35,9 +48,6 @@ const pageOgImage = buildOgImageUrl({
   description: pageDescription,
   type: 'notes',
 });
-
-const notesPlaceholderSketch =
-  '/images/blog/2022/img-2022-10-16-artifacts-one-medical.webp';
 
 const notesIndexUrl = absoluteUrl('/notes');
 const notesHubJsonLd = buildCollectionHubPageJsonLd({
@@ -116,11 +126,10 @@ const notesBreadcrumbJsonLd = buildBreadcrumbListJsonLd([
     {notes.length === 0 ? (
       <p class="empty-state">No notes yet. Check back soon!</p>
     ) : (
-      notes.map((note, index) => {
+      notesWithCovers.map(({ note, optimized }, index) => {
         const stageKey = resolveNoteStage(note.data.stage);
         const stage = noteStageInfo[stageKey];
         const tags = note.data.tags || [];
-        const cover = note.data.coverImage || notesPlaceholderSketch;
         const isSpotlight = index === 0;
         const sortDate = note.data.updatedDate || note.data.pubDate;
         const primaryTag = tags[0];
@@ -131,7 +140,11 @@ const notesBreadcrumbJsonLd = buildBreadcrumbListJsonLd([
             title={note.data.title}
             description={note.data.description}
             date={sortDate}
-            imageSrc={cover}
+            imageSrc={optimized.src}
+            imageSrcSet={optimized.srcSet}
+            imageSizes={optimized.sizes}
+            imageWidth={optimized.width}
+            imageHeight={optimized.height}
             imageAlt={note.data.coverImage ? `Cover image for ${note.data.title}` : ''}
             primaryTag={primaryTag}
             tags={tags}
