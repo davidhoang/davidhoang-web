@@ -1,9 +1,21 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import { accessibleNameWithVisibleLabel } from '../utils/accessibleName';
+import {
+  absoluteUrl,
+  buildBreadcrumbListJsonLd,
+  buildCvPageJsonLd,
+  CANONICAL_SITE,
+} from '../utils/structuredData';
 
 const pageDescription =
   'CV for David Hoang, Designer, Investor, Builder — roles at Atlassian, Replit, Webflow, and One Medical, with LinkedIn, Twitter, newsletter, and email.';
+
+const cvPageJsonLd = buildCvPageJsonLd();
+const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
+  { name: 'Home', item: CANONICAL_SITE },
+  { name: 'CV', item: absoluteUrl('/cv') },
+]);
 
 const cvExternalLinkLabel = (company: string) =>
   accessibleNameWithVisibleLabel('[↗]', `${company} website (opens in new tab)`);
@@ -28,6 +40,8 @@ const cvSocialLinks = [
 ---
 
 <MainLayout title="CV" description={pageDescription} hideFooter={true}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(cvPageJsonLd)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <div class="cv-container">
     <h1 class="cv-name">David Hoang</h1>
     <p class="cv-title">Designer, Investor, Builder</p>
