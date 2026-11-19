@@ -1,6 +1,363 @@
 {
   "themes": [
     {
+      "name": "Gilt Frequency",
+      "description": "Art Deco glamour filtered through a late-night CRT glow — geometric gold type cutting across deep lacquered surfaces with the precision of a Chrysler Building spire.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A0A2E",
+          "--color-bg": "#F5EDD6",
+          "--color-link": "#7C5B07",
+          "--color-link-hover": "#8B6508",
+          "--color-border": "#1A0A2E",
+          "--color-muted": "#6B5A3E",
+          "--color-sidebar-bg": "#EDE0C4",
+          "--color-nav-bg": "#F5EDD6",
+          "--color-nav-text": "#1A0A2E",
+          "--color-card-bg": "#EDE0C4"
+        },
+        "dark": {
+          "--color-text": "#F0D060",
+          "--color-bg": "#120820",
+          "--color-link": "#F0D060",
+          "--color-link-hover": "#FFE87A",
+          "--color-border": "#F0D060",
+          "--color-muted": "#918159",
+          "--color-sidebar-bg": "#1A0F2E",
+          "--color-nav-bg": "#120820",
+          "--color-nav-text": "#F0D060",
+          "--color-card-bg": "#1A0F2E"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bodoni Moda",
+          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+          "category": "serif",
+          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "900",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.02em",
+        "headingLetterSpacing": "0.06em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "2",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "split"
+      },
+      "hero": {
+        "layout": "editorial"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "brutalist"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#120820",
+          "#F0D060"
+        ]
+      },
+      "font": {
+        "name": "Bodoni Moda",
+        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
+        "category": "serif",
+        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "poster",
+        "name": "Graphic Poster",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-11-19",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Gilt Frequency",
+              "subtitle": "2026-11-19 · Art Deco × CRT Glamour"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "s1",
+              "s2",
+              "div2",
+              "meta",
+              "div3",
+              "s3",
+              "apply"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Geometric gold cuts across lacquered dark like a Chrysler spire splitting midnight static. High contrast. Zero apology.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#1A0A2E",
+                  "label": "Lacquer"
+                },
+                {
+                  "hex": "#F5EDD6",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#7C5B07",
+                  "label": "Guild"
+                },
+                {
+                  "hex": "#F0D060",
+                  "label": "Gilt"
+                },
+                {
+                  "hex": "#EDE0C4",
+                  "label": "Card BG"
+                },
+                {
+                  "hex": "#6B5A3E",
+                  "label": "Muted"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "ty1",
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "ty1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "GILT FREQUENCY",
+              "variant": "heading",
+              "weight": "bold"
+            },
+            "children": []
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "editorial",
+              "label": "Editorial Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#120820",
+                "#F0D060"
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Split"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Editorial"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Border Radius",
+                  "value": "0px"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Brutalist"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "tk",
+              "lp"
+            ]
+          },
+          "tk": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-text",
+                  "value": "#1A0A2E"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EDD6"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#7C5B07"
+                },
+                {
+                  "name": "heading-font",
+                  "value": "Bodoni Moda"
+                },
+                {
+                  "name": "body-font",
+                  "value": "IBM Plex Sans"
+                }
+              ]
+            },
+            "children": []
+          },
+          "lp": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "split"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Gilt Frequency",
+              "action": "apply-theme",
+              "date": "2026-11-19"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Spill & Sprawl",
       "description": "A sun-drenched backyard tableau where faded magenta and lawn green collide on cream — energetic scattered cards breathing in generous open air.",
       "colors": {
@@ -2175,370 +2532,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Fired & Traced",
-      "description": "A Swiss information grid warmed by the mineral palette of hand-glazed ceramic — cobalt, terracotta, and tin-white held in precise structural tension.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1410",
-          "--color-bg": "#F5EFE6",
-          "--color-link": "#1B4F8A",
-          "--color-link-hover": "#C0401A",
-          "--color-border": "#B8A898",
-          "--color-muted": "#6E5F51",
-          "--color-sidebar-bg": "#EDE4D8",
-          "--color-nav-bg": "#F5EFE6",
-          "--color-nav-text": "#1C1410",
-          "--color-card-bg": "#EDE4D8"
-        },
-        "dark": {
-          "--color-text": "#EDE4D8",
-          "--color-bg": "#1A120C",
-          "--color-link": "#6BAED6",
-          "--color-link-hover": "#E06840",
-          "--color-border": "#3A2C22",
-          "--color-muted": "#908171",
-          "--color-sidebar-bg": "#231810",
-          "--color-nav-bg": "#1A120C",
-          "--color-nav-text": "#EDE4D8",
-          "--color-card-bg": "#231810"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Archivo Black",
-          "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
-          "category": "sans-serif",
-          "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Source Serif 4",
-          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.65",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.2",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.25rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "3rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "sidebar"
-      },
-      "hero": {
-        "layout": "rolodex"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EFE6",
-          "#1B4F8A"
-        ]
-      },
-      "font": {
-        "name": "Archivo Black",
-        "url": "https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap",
-        "category": "sans-serif",
-        "stack": "'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "index",
-        "name": "System Index",
-        "dominantPrimitive": "grid"
-      },
-      "date": "2026-11-12",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Fired & Traced",
-              "subtitle": "2026-11-12 — Swiss Grid × Ceramic Mineral"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "div2",
-              "mid",
-              "div3",
-              "bot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Cobalt meets terracotta inside a Helvetica-ruled kiln. Precision is the glaze. Structure is the fire.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1410",
-                  "label": "Char"
-                },
-                {
-                  "hex": "#F5EFE6",
-                  "label": "Tin White"
-                },
-                {
-                  "hex": "#1B4F8A",
-                  "label": "Cobalt"
-                },
-                {
-                  "hex": "#C0401A",
-                  "label": "Terracotta"
-                },
-                {
-                  "hex": "#B8A898",
-                  "label": "Slip"
-                },
-                {
-                  "hex": "#EDE4D8",
-                  "label": "Bisque"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "left",
-              "right"
-            ]
-          },
-          "left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "hed",
-              "badges",
-              "tokens"
-            ]
-          },
-          "hed": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Grid-Fired Form",
-              "variant": "heading",
-              "weight": "900"
-            },
-            "children": []
-          },
-          "badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "sans-serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined card",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "retro footer",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "radius",
-                  "value": "0px"
-                },
-                {
-                  "name": "grid",
-                  "value": "sidebar"
-                },
-                {
-                  "name": "links",
-                  "value": "[bracket]"
-                },
-                {
-                  "name": "texture",
-                  "value": "grid"
-                },
-                {
-                  "name": "contrast",
-                  "value": "high"
-                }
-              ]
-            },
-            "children": []
-          },
-          "right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "hero",
-              "layout"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "rolodex",
-              "label": "Rolodex Hero"
-            },
-            "children": []
-          },
-          "layout": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "sidebar"
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "meta",
-              "apply"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "heading",
-                  "value": "Archivo Black"
-                },
-                {
-                  "label": "body",
-                  "value": "Source Serif 4"
-                },
-                {
-                  "label": "scheme",
-                  "value": "complementary"
-                },
-                {
-                  "label": "image",
-                  "value": "muted / hover colorize"
-                },
-                {
-                  "label": "shader",
-                  "value": "none"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Fired & Traced",
-              "action": "apply-theme",
-              "date": "2026-11-12"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-18"
+  "currentDate": "2026-11-19"
 }
