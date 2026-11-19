@@ -38,9 +38,8 @@ function resolvePoCCanvasCover(issue: ProofOfConceptIssue): string {
     cover.includes('pbs.substack.com/media') || cover.includes('%2Fpbs.substack.com%2Fmedia%2F');
 
   if (usesDeadTwitterEmbed) {
-    const preview = `https://www.proofofconcept.pub/api/v1/post_preview/${issue.id}/twitter.jpg`;
-    const cdn = `https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/${encodeURIComponent(preview)}`;
-    return resizeSubstackCdnCover(cdn);
+    // Substack CDN cannot proxy arbitrary origins (post_preview 404s when wrapped). Serve directly.
+    return `https://www.proofofconcept.pub/api/v1/post_preview/${issue.id}/twitter.jpg`;
   }
 
   return resizeSubstackCdnCover(cover);

@@ -24,7 +24,9 @@ describe('proof of concept archive', () => {
       expect(Object.keys(issue).sort()).toEqual(
         ['coverImage', 'id', 'subtitle', 'title', 'url'].sort(),
       );
-      expect(issue.coverImage).toMatch(/substackcdn\.com\/image\/fetch\/w_600,c_limit,/);
+      expect(issue.coverImage).toMatch(
+        /^(https:\/\/substackcdn\.com\/image\/fetch\/w_600,c_limit,|https:\/\/www\.proofofconcept\.pub\/api\/v1\/post_preview\/\d+\/twitter\.jpg)/,
+      );
     }
   });
 
@@ -37,9 +39,10 @@ describe('proof of concept archive', () => {
       count: 1,
       issues: [dead!],
     });
-    expect(canvasIssue.coverImage).toContain(
-      encodeURIComponent('https://www.proofofconcept.pub/api/v1/post_preview/26776496/twitter.jpg'),
+    expect(canvasIssue.coverImage).toBe(
+      'https://www.proofofconcept.pub/api/v1/post_preview/26776496/twitter.jpg',
     );
     expect(canvasIssue.coverImage).not.toContain('pbs.substack.com');
+    expect(canvasIssue.coverImage).not.toContain('substackcdn.com');
   });
 });
