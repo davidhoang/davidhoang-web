@@ -822,8 +822,9 @@ const ogVideoMeta = ogVideo
     </script>
     <script>
       if (import.meta.env.PROD) {
-        const { injectSpeedInsights } = await import('@vercel/speed-insights');
-        injectSpeedInsights();
+        void import('@vercel/speed-insights')
+          .then(({ injectSpeedInsights }) => injectSpeedInsights())
+          .catch(() => {});
       }
     </script>
     <!--

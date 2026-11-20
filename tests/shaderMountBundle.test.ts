@@ -22,6 +22,12 @@ function clientAstroDir(): string | null {
  * (Vite preload helper used to live in career-components).
  */
 describe('shader-mount bundle (poteto-mode perf)', () => {
+  it('does not top-level await Speed Insights in MainLayout', () => {
+    const mainLayout = readFileSync(join(process.cwd(), 'src/layouts/MainLayout.astro'), 'utf8');
+    expect(mainLayout).not.toMatch(/await\s+import\(['"]@vercel\/speed-insights['"]\)/);
+    expect(mainLayout).toMatch(/void\s+import\(['"]@vercel\/speed-insights['"]\)/);
+  });
+
   it('defines shader-mount manual chunk ahead of utils', () => {
     const config = readFileSync(join(process.cwd(), 'astro.config.mjs'), 'utf8');
     expect(config).toMatch(/['"]shader-mount['"]/);
