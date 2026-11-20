@@ -24,6 +24,7 @@ const MANUAL_CHUNKS = [
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
   // Shared by hero card shaders + CardStackHeroLazy; must not live inside hero-components.
   ['lcp-defer', ['src/utils/deferUntilAfterLcp.ts']],
+  ['esm-import', ['src/utils/esmImport.ts']],
   // Navigation imports this on every page; keep it out of hero-components or framer-motion loads site-wide.
   ['viewport-capabilities', ['src/utils/viewport-capabilities.ts', 'src/utils/breakpoints.ts']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
@@ -47,6 +48,19 @@ const MANUAL_CHUNKS = [
       'src/components/HeroImageShader.tsx',
     ],
   ],
+  // Lazy shader mounts on every layout — keep out of utils/career-components graph so
+  // no-shader pages never static-import react-vendor (via shared Vite preload helper).
+  ['shader-bootstrap', ['src/utils/shaderBootstrap.ts', 'src/utils/heroShaderOverlay.ts']],
+  [
+    'shader-mount',
+    [
+      'src/utils/shader-mount-entry.ts',
+      'src/utils/shaderBackgroundMount.ts',
+      'src/utils/heroImageShaderMount.ts',
+    ],
+  ],
+  ['speed-insights-boot', ['src/scripts/speed-insights-boot.ts']],
+  ['agent-experience', ['src/scripts/agent-experience.ts', 'src/utils/agentExperienceMetrics.ts']],
   ['utils', ['src/utils/', 'src/plugins/']],
 ];
 

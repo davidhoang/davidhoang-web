@@ -19,6 +19,7 @@ import { buildOgImageUrl } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
 import { resolveLayoutPageKind, resolveOpenGraphType } from '../utils/pageMeta';
 import { resolveCriticalUIFontFamily } from '../utils/font-preload';
+import speedInsightsBoot from '../scripts/speed-insights-boot.ts?url';
 
 // Fonts already self-hosted in /public/fonts/ with an inlined @font-face below
 // (see FONT_CSS_RAW). Vendored Google Fonts for the themes archive live in
@@ -817,15 +818,13 @@ const ogVideoMeta = ogVideo
       initLazyImages();
     </script>
     <script>
-      import { initShaderBackgroundMounting } from '../utils/shaderBackgroundMount';
-      import { initHeroImageShaderMounting } from '../utils/heroImageShaderMount';
-      initShaderBackgroundMounting();
-      initHeroImageShaderMounting();
+      import { initShaderMountsWhenNeeded } from '../utils/shaderBootstrap';
+      initShaderMountsWhenNeeded();
     </script>
-    <script>
+    <script define:vars={{ speedInsightsBoot }}>
+      import { importEsm } from '../utils/esmImport';
       if (import.meta.env.PROD) {
-        const { injectSpeedInsights } = await import('@vercel/speed-insights');
-        injectSpeedInsights();
+        void importEsm(speedInsightsBoot);
       }
     </script>
     <!--
