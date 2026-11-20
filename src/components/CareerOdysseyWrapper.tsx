@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
+import { loadCareerCanvas } from './careerOdysseyLazy';
 
-// Lazy load the CareerCanvas component
-const CareerCanvas = lazy(() => import('./career-odyssey/CareerCanvas'));
+const CareerCanvas = lazy(loadCareerCanvas);
 
 interface CareerOdysseyWrapperProps {
   careerData: any;

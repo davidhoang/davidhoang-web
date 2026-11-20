@@ -1,6 +1,6 @@
-import { heroShaderTypeNeedsOverlay } from './heroShaderOverlay';
-import { importEsm } from './esmImport';
-import shaderMountEntryUrl from './shader-mount-entry.ts?url';
+function heroShaderTypeNeedsOverlay(shaderType: string | null | undefined): boolean {
+  return shaderType === 'waves' || shaderType === 'paper' || shaderType === 'grain';
+}
 
 function shaderTypeNeedsBackground(shaderType: string | null | undefined): boolean {
   return Boolean(shaderType && shaderType !== 'none');
@@ -17,14 +17,21 @@ function shouldLoadShaderMountBundle(): boolean {
 }
 
 let listenBound = false;
+let shaderMountInit: Promise<void> | null = null;
 
 async function loadShaderMountModules(): Promise<void> {
-  const {
-    initShaderBackgroundMounting,
-    initHeroImageShaderMounting,
-  } = await importEsm<typeof import('./shader-mount-entry')>(shaderMountEntryUrl);
-  initShaderBackgroundMounting();
-  initHeroImageShaderMounting();
+  if (shaderMountInit) return shaderMountInit;
+
+  shaderMountInit = (async () => {
+    const {
+      initShaderBackgroundMounting,
+      initHeroImageShaderMounting,
+    } = await import('./shader-mount-entry');
+    initShaderBackgroundMounting();
+    initHeroImageShaderMounting();
+  })();
+
+  return shaderMountInit;
 }
 
 export function initShaderMountsWhenNeeded(): void {

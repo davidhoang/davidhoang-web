@@ -19,7 +19,8 @@ describe('CareerOdyssey bundle (PC-26)', () => {
       'utf8',
     );
 
-    expect(source).toMatch(/lazy\(\(\)\s*=>\s*import\('\.\/career-odyssey\/CareerCanvas'\)/);
+    expect(source).toMatch(/lazy\(loadCareerCanvas\)/);
+    expect(source).toMatch(/careerOdysseyLazy/);
     expect(source).toMatch(/Suspense/);
   });
 });

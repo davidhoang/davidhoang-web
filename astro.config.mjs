@@ -16,6 +16,8 @@ import { resolveSitemapLastmod } from './src/utils/sitemapLastmod.ts';
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
   ['react-vendor', ['node_modules/react/', 'node_modules/react-dom/', 'node_modules/scheduler/']],
+  // Host Vite's shared dynamic-import helper (must precede career-components in the graph).
+  ['import-preload', ['src/components/careerOdysseyLazy.ts']],
   // Reached only through dynamic imports, from the /now homes island and the
   // /experiments/greco-diorama island. Scene modules belong here too: left in a
   // page chunk they would statically link this bundle and defeat the boundary.
@@ -24,7 +26,6 @@ const MANUAL_CHUNKS = [
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
   // Shared by hero card shaders + CardStackHeroLazy; must not live inside hero-components.
   ['lcp-defer', ['src/utils/deferUntilAfterLcp.ts']],
-  ['esm-import', ['src/utils/esmImport.ts']],
   // Navigation imports this on every page; keep it out of hero-components or framer-motion loads site-wide.
   ['viewport-capabilities', ['src/utils/viewport-capabilities.ts', 'src/utils/breakpoints.ts']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
@@ -50,7 +51,7 @@ const MANUAL_CHUNKS = [
   ],
   // Lazy shader mounts on every layout — keep out of utils/career-components graph so
   // no-shader pages never static-import react-vendor (via shared Vite preload helper).
-  ['shader-bootstrap', ['src/utils/shaderBootstrap.ts', 'src/utils/heroShaderOverlay.ts']],
+  ['shader-bootstrap', ['src/utils/shaderBootstrap.ts']],
   [
     'shader-mount',
     [
@@ -59,7 +60,6 @@ const MANUAL_CHUNKS = [
       'src/utils/heroImageShaderMount.ts',
     ],
   ],
-  ['speed-insights-boot', ['src/scripts/speed-insights-boot.ts']],
   ['agent-experience', ['src/scripts/agent-experience.ts', 'src/utils/agentExperienceMetrics.ts']],
   ['utils', ['src/utils/', 'src/plugins/']],
 ];
@@ -188,6 +188,8 @@ export default defineConfig({
       ],
     },
     build: {
+      // Avoid hosting the shared dynamic-import helper in career-components (react-vendor).
+      modulePreload: false,
       // Enable minification with terser for better compression
       minify: 'terser',
       terserOptions: {

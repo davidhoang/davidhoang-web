@@ -115,9 +115,6 @@ const logoAccessibleName = accessibleNameWithVisibleLabel('DH', 'David Hoang hom
 <script>
   import { initMobileMenu } from '../scripts/nav-mobile-menu';
   import { initScrollDetection } from '../scripts/nav-scroll';
-  import navParticlesUrl from '../scripts/nav-particles.ts?url';
-  import navSentientUrl from '../scripts/nav-sentient.ts?url';
-  import { importEsm } from '../utils/esmImport';
   import { shouldEnableSentientNav, syncHybridPointerAttribute } from '../utils/viewport-capabilities';
 
   let isInitialized = false;
@@ -130,13 +127,13 @@ const logoAccessibleName = accessibleNameWithVisibleLabel('DH', 'David Hoang hom
     if (reduceMotion || window.innerWidth <= 767) return;
 
     if (shouldEnableSentientNav()) {
-      const { initSentientNav } = await importEsm<typeof import('../scripts/nav-sentient')>(navSentientUrl);
+      const { initSentientNav } = await import('../scripts/nav-sentient');
       if (generation !== navFxGeneration) return;
       const sentientCleanup = initSentientNav();
       if (sentientCleanup) cleanups.push(sentientCleanup);
     }
 
-    const { initParticleTrail } = await importEsm<typeof import('../scripts/nav-particles')>(navParticlesUrl);
+    const { initParticleTrail } = await import('../scripts/nav-particles');
     if (generation !== navFxGeneration) return;
     const particleCleanup = initParticleTrail();
     if (particleCleanup) cleanups.push(particleCleanup);

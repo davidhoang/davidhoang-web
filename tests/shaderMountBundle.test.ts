@@ -2,6 +2,21 @@ import { describe, expect, it } from 'vitest';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+const assertBuild = process.env.ASSERT_BUILD_OUTPUT === '1';
+
+function clientAstroDir(): string | null {
+  const astroDir = join(process.cwd(), 'dist/client/_astro');
+  if (!existsSync(astroDir)) {
+    if (assertBuild) {
+      throw new Error(
+        `Expected production build at ${astroDir}. Run npm run build or set ASSERT_BUILD_OUTPUT only in post-build CI.`,
+      );
+    }
+    return null;
+  }
+  return astroDir;
+}
+
 /**
  * When data-shader is "none", shader mounts must not static-import react-vendor
  * (Vite preload helper used to live in career-components).
@@ -17,8 +32,8 @@ describe('shader-mount bundle (poteto-mode perf)', () => {
   });
 
   it('layout shader init script does not static-import react-vendor on notes', () => {
-    const astroDir = join(process.cwd(), 'dist/client/_astro');
-    if (!existsSync(astroDir)) return;
+    const astroDir = clientAstroDir();
+    if (!astroDir) return;
 
     const layoutShader = readdirSync(astroDir).find(
       (name) =>
@@ -42,8 +57,8 @@ describe('shader-mount bundle (poteto-mode perf)', () => {
   });
 
   it('keeps Navigation nav-FX script off career-components preload', () => {
-    const astroDir = join(process.cwd(), 'dist/client/_astro');
-    if (!existsSync(astroDir)) return;
+    const astroDir = clientAstroDir();
+    if (!astroDir) return;
 
     const navChunk = readdirSync(astroDir).find(
       (name) => name.startsWith('Navigation.astro_astro_type_script_index_0_lang.') && name.endsWith('.js'),
