@@ -16,16 +16,14 @@ import { resolveSitemapLastmod } from './src/utils/sitemapLastmod.ts';
 const MANUAL_CHUNKS = [
   // Vendor packages first — keep them free of app-component cycles.
   ['react-vendor', ['node_modules/react/', 'node_modules/react-dom/', 'node_modules/scheduler/']],
-  // Host Vite's shared dynamic-import helper (must precede career-components in the graph).
-  ['import-preload', ['src/components/careerOdysseyLazy.ts']],
+  // careerOdysseyLazy anchors Vite's shared import() helper off career-components; keep chunk early.
+  ['lcp-defer', ['src/utils/deferUntilAfterLcp.ts', 'src/components/careerOdysseyLazy.ts']],
   // Reached only through dynamic imports, from the /now homes island and the
   // /experiments/greco-diorama island. Scene modules belong here too: left in a
   // page chunk they would statically link this bundle and defeat the boundary.
   ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx', 'src/components/diorama/DioramaScene.tsx']],
   ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
-  // Shared by hero card shaders + CardStackHeroLazy; must not live inside hero-components.
-  ['lcp-defer', ['src/utils/deferUntilAfterLcp.ts']],
   // Navigation imports this on every page; keep it out of hero-components or framer-motion loads site-wide.
   ['viewport-capabilities', ['src/utils/viewport-capabilities.ts', 'src/utils/breakpoints.ts']],
   ['career-components', ['src/components/CareerOdysseyWrapper.tsx']],
@@ -188,8 +186,6 @@ export default defineConfig({
       ],
     },
     build: {
-      // Avoid hosting the shared dynamic-import helper in career-components (react-vendor).
-      modulePreload: false,
       // Enable minification with terser for better compression
       minify: 'terser',
       terserOptions: {
