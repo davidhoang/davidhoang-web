@@ -51,7 +51,9 @@ export default function HomeViewer({ kind, modelUrl, posterUrl, name }: Props) {
       <SceneBoundary fallback={fallback}>
         {!ready && <img className="home-viewer__poster loaded" src={posterUrl} alt={description} loading="lazy" decoding="async" />}
         {mounted && !requested && <div className="home-viewer__start">
-          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setRequested(true)} aria-label={`Explore ${name} in 3D`}>Explore in 3D</button>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setRequested(true)}>
+            Explore {name} in 3D
+          </button>
         </div>}
         {mounted && requested && <Suspense fallback={null}>
           <HomeScene
