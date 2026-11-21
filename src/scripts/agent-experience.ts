@@ -6,7 +6,6 @@
 import { track } from '@vercel/analytics';
 import {
   type AgentEventPayload,
-  type SearchTrigger,
   buildAiReferralEvent,
   classifyAiReferralOrigin,
   isSafeAgentEventPayload,
@@ -75,9 +74,4 @@ export function initAgentExperience(): void {
     analyticsBeforeSend;
 
   reportAiReferralOnce();
-}
-
-/** Map palette open context to a coarse trigger label (no free text). */
-export function inferSearchTrigger(fromKeyboard: boolean): SearchTrigger {
-  return fromKeyboard ? 'keyboard' : 'click';
 }

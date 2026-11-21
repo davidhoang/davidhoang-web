@@ -1,11 +1,8 @@
 /**
- * Preference Tracker
- *
- * Tracks user theme selections and computes aggregated preferences
- * for use in future theme generation.
+ * Preference Tracker — records daily theme picks in localStorage for on-device aggregates.
  */
 
-export interface ThemeSelection {
+interface ThemeSelection {
   date: string;
   themeName: string;
   timestamp: number;
@@ -22,7 +19,7 @@ export interface ThemeSelection {
   footerStyle: string;
 }
 
-export interface AggregatedPreferences {
+interface AggregatedPreferences {
   // Font preferences (-1 to 1 scale: avoid to prefer)
   fontPreferences: {
     serif: number;
@@ -48,7 +45,7 @@ export interface AggregatedPreferences {
   };
 }
 
-export interface UserPreferences {
+interface UserPreferences {
   selections: ThemeSelection[];
   aggregated: AggregatedPreferences;
   lastUpdated: number;
@@ -90,7 +87,7 @@ function parseBorderRadius(radius: string): number {
 /**
  * Get current preferences from localStorage
  */
-export function getPreferences(): UserPreferences {
+function getPreferences(): UserPreferences {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -185,7 +182,7 @@ export function trackThemeSelection(theme: any): void {
 /**
  * Compute aggregated preferences from selection history
  */
-export function computeAggregates(
+function computeAggregates(
   selections: ThemeSelection[]
 ): AggregatedPreferences {
   const aggregated: AggregatedPreferences = {
@@ -286,71 +283,4 @@ export function computeAggregates(
     radiusValues.reduce((a, b) => a + b, 0) / radiusValues.length;
 
   return aggregated;
-}
-
-/**
- * Get a summary suitable for theme generation prompts
- */
-export function getPreferenceSummary(): string {
-  const prefs = getPreferences();
-
-  if (prefs.selections.length < 3) {
-    return ''; // Not enough data yet
-  }
-
-  const hints: string[] = [];
-  const agg = prefs.aggregated;
-
-  // Font preferences
-  const fontEntries = Object.entries(agg.fontPreferences) as [string, number][];
-  const preferredFont = fontEntries.reduce((a, b) =>
-    b[1] > a[1] ? b : a
-  )[0];
-  if (agg.fontPreferences[preferredFont as keyof typeof agg.fontPreferences] > 0.3) {
-    hints.push(`User tends to prefer ${preferredFont} fonts`);
-  }
-
-  // Color temperature
-  if (agg.colorTemperature > 0.3) {
-    hints.push('User gravitates toward warm color temperatures');
-  } else if (agg.colorTemperature < -0.3) {
-    hints.push('User gravitates toward cool color temperatures');
-  }
-
-  // Top style preferences
-  const topCardStyle = Object.entries(agg.stylePreferences.cardStyles).reduce(
-    (a, b) => (b[1] > a[1] ? b : a),
-    ['', 0]
-  );
-  if (topCardStyle[1] > 0.4) {
-    hints.push(`User often selects "${topCardStyle[0]}" card styles`);
-  }
-
-  const topNavStyle = Object.entries(agg.stylePreferences.navStyles).reduce(
-    (a, b) => (b[1] > a[1] ? b : a),
-    ['', 0]
-  );
-  if (topNavStyle[1] > 0.4) {
-    hints.push(`User prefers "${topNavStyle[0]}" navigation`);
-  }
-
-  // Border radius
-  if (agg.layoutPreferences.borderRadius > 0.7) {
-    hints.push('User likes rounded corners');
-  } else if (agg.layoutPreferences.borderRadius < 0.3) {
-    hints.push('User prefers sharp/angular layouts');
-  }
-
-  if (hints.length === 0) {
-    return '';
-  }
-
-  return `## USER PREFERENCE HINTS (weight these lightly)\n${hints.map((h) => `- ${h}`).join('\n')}`;
-}
-
-/**
- * Clear all preferences (for testing/reset)
- */
-export function clearPreferences(): void {
-  localStorage.removeItem(STORAGE_KEY);
 }

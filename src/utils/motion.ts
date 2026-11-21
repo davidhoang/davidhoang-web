@@ -1,7 +1,7 @@
 import type { Transition } from 'framer-motion';
 
 /** JS counterparts to variables.css: seconds, with the same named easing curves. */
-export const motionTiming = {
+const motionTiming = {
   fast: 0.15,
   normal: 0.2,
   slow: 0.3,

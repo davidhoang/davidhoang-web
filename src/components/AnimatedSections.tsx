@@ -182,36 +182,3 @@ export function AnimatedPortfolioGrid({
   );
 }
 
-export function AnimatedSection({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const { ref, isInView } = useSharedInView({ once: true, margin: '-24px' });
-  const prefersReducedMotion = useReducedMotion();
-
-  return (
-    <MotionConfig reducedMotion="user">
-    <motion.div
-      ref={ref}
-      className={['animated-section', className].filter(Boolean).join(' ')}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-      animate={isInView ? { opacity: 1, y: 0 } : prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
-      transition={
-        prefersReducedMotion
-          ? { duration: 0 }
-          : {
-              ...motionPresets.reveal,
-              delay: Math.min(delay, 0.18),
-            }
-      }
-    >
-      {children}
-    </motion.div>
-    </MotionConfig>
-  );
-}
