@@ -817,15 +817,14 @@ const ogVideoMeta = ogVideo
       initLazyImages();
     </script>
     <script>
-      import { initShaderBackgroundMounting } from '../utils/shaderBackgroundMount';
-      import { initHeroImageShaderMounting } from '../utils/heroImageShaderMount';
-      initShaderBackgroundMounting();
-      initHeroImageShaderMounting();
+      import { initShaderMountsWhenNeeded } from '../utils/shaderBootstrap';
+      initShaderMountsWhenNeeded();
     </script>
     <script>
       if (import.meta.env.PROD) {
-        const { injectSpeedInsights } = await import('@vercel/speed-insights');
-        injectSpeedInsights();
+        void import('@vercel/speed-insights')
+          .then(({ injectSpeedInsights }) => injectSpeedInsights())
+          .catch(() => {});
       }
     </script>
     <!--

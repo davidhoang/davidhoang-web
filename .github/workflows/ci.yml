@@ -68,6 +68,9 @@ jobs:
       - name: Bundle budget
         run: npm run budget
 
+      - name: Post-build bundle assertions
+        run: ASSERT_BUILD_OUTPUT=1 npx vitest run tests/shaderMountBundle.test.ts
+
       - name: UI interaction regression
         run: |
           set -euo pipefail
