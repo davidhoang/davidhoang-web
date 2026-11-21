@@ -41,3 +41,9 @@ export function collectWritingTags(entries: readonly TaggedEntry[]): WritingTagC
 export function filterWritingByTag<T extends TaggedEntry>(entries: readonly T[], tag: string): T[] {
   return entries.filter((entry) => (entry.data.tags || []).includes(tag));
 }
+
+/** Meta description for `/writing/tag/{tag}` — include essay count for SERP/snippet depth. */
+export function buildWritingTagPageDescription(label: string, essayCount: number): string {
+  const countLabel = `${essayCount} ${essayCount === 1 ? 'essay' : 'essays'}`;
+  return `Essays by David Hoang on ${label} — ${countLabel} in the Writing archive.`;
+}

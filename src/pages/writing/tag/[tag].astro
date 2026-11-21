@@ -9,6 +9,7 @@ import { buildOgImageUrl } from '../../../utils/ogImage';
 import {
   collectWritingTags,
   filterWritingByTag,
+  buildWritingTagPageDescription,
   formatWritingTagLabel,
   writingTagPath,
   type WritingTagCount,
@@ -45,7 +46,7 @@ const label = formatWritingTagLabel(tag);
 const countLabel = `${posts.length} ${posts.length === 1 ? 'essay' : 'essays'}`;
 
 const pageTitle = `${label} | Writing | David Hoang`;
-const pageDescription = `Essays by David Hoang on ${label}.`;
+const pageDescription = buildWritingTagPageDescription(label, posts.length);
 const canonicalUrl = absoluteUrl(writingTagPath(tag));
 const collectionJsonLd = buildWritingTagCollectionPageJsonLd({
   name: label,
