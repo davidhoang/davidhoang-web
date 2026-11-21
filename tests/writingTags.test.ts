@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildWritingTagPageDescription,
   collectWritingTags,
   filterWritingByTag,
   formatWritingTagLabel,
@@ -46,6 +47,18 @@ describe('collectWritingTags', () => {
 
   it('returns nothing when no post is tagged', () => {
     expect(collectWritingTags([{ data: {} }])).toEqual([]);
+  });
+});
+
+describe('buildWritingTagPageDescription', () => {
+  it('includes the label and essay count for SERP snippets', () => {
+    expect(buildWritingTagPageDescription('Agents', 2)).toBe(
+      'Essays by David Hoang on Agents — 2 essays in the Writing archive.',
+    );
+    expect(buildWritingTagPageDescription('Design', 1)).toBe(
+      'Essays by David Hoang on Design — 1 essay in the Writing archive.',
+    );
+    expect(buildWritingTagPageDescription('Agents', 2).length).toBeGreaterThanOrEqual(50);
   });
 });
 
