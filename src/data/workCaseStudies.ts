@@ -163,14 +163,4 @@ export const workCaseStudies: WorkCaseStudy[] = [
   },
 ];
 
-const bySlug = new Map(workCaseStudies.map((study) => [study.slug, study]));
-
 export const workCaseStudySlugs = new Set(workCaseStudies.map((study) => study.slug));
-
-export function getWorkCaseStudy(slug: string): WorkCaseStudy | undefined {
-  return bySlug.get(slug);
-}
-
-export function workCaseStudyPath(slug: string): string {
-  return `/works/${slug}`;
-}
