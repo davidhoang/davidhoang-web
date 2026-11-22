@@ -1,155 +1,185 @@
 {
-  "cachedAt": "2026-11-21T06:14:23.090Z",
-  "sourceDate": "2026-11-21",
+  "cachedAt": "2026-11-22T06:14:31.468Z",
+  "sourceDate": "2026-11-22",
   "theme": {
-    "name": "Quarry & Aureole",
-    "description": "Raw structural weight meets a single blade of soft morning radiance — Swiss grid precision anchoring an ethereal image-first composition.",
+    "name": "Wet Pavement Grid",
+    "description": "Memphis geometry filtered through rain-soaked city reflection — clashing primaries on a cool-tinted ground, sharp ruled lines, and dense typographic structure that hums with morning voltage.",
     "colors": {
-      "colorScheme": "analogous",
-      "contrastMode": "standard",
+      "colorScheme": "complementary",
+      "contrastMode": "high",
       "light": {
-        "--color-text": "#2C2420",
-        "--color-bg": "#F5F0EA",
-        "--color-link": "#836008",
-        "--color-link-hover": "#8B6508",
-        "--color-border": "#D8CFBF",
-        "--color-muted": "#716659",
-        "--color-sidebar-bg": "#EDE7DE",
-        "--color-nav-bg": "#F5F0EA",
-        "--color-nav-text": "#2C2420",
-        "--color-card-bg": "#EDE7DE"
+        "--color-text": "#1A1A2C",
+        "--color-bg": "#EBF5FB",
+        "--color-link": "#CF006E",
+        "--color-link-hover": "#B3005E",
+        "--color-border": "#1A1A2C",
+        "--color-muted": "#566578",
+        "--color-sidebar-bg": "#D6EAF8",
+        "--color-nav-bg": "#EBF5FB",
+        "--color-nav-text": "#1A1A2C",
+        "--color-card-bg": "#F4FAFF"
       },
       "dark": {
-        "--color-text": "#E8E0D4",
-        "--color-bg": "#1C1710",
-        "--color-link": "#D4A843",
-        "--color-link-hover": "#F0C860",
-        "--color-border": "#3A3025",
-        "--color-muted": "#948A7D",
-        "--color-sidebar-bg": "#231E16",
-        "--color-nav-bg": "#1C1710",
-        "--color-nav-text": "#E8E0D4",
-        "--color-card-bg": "#261F16"
+        "--color-text": "#E8F4FD",
+        "--color-bg": "#0A1628",
+        "--color-link": "#FF2D9B",
+        "--color-link-hover": "#FF69C0",
+        "--color-border": "#FF2D9B",
+        "--color-muted": "#7191AE",
+        "--color-sidebar-bg": "#0D1F36",
+        "--color-nav-bg": "#0A1628",
+        "--color-nav-text": "#E8F4FD",
+        "--color-card-bg": "#0F2340"
       }
     },
     "fonts": {
       "heading": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       },
       "body": {
-        "name": "Inter",
-        "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-        "category": "sans-serif",
-        "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "name": "IBM Plex Mono",
+        "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+        "category": "monospace",
+        "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
       }
     },
     "typography": {
       "headingWeight": "700",
       "bodyWeight": "400",
-      "bodyLineHeight": "1.7",
+      "bodyLineHeight": "1.6",
       "letterSpacing": "0.01em",
-      "headingLetterSpacing": "-0.03em",
-      "headingTransform": "none",
-      "scaleRatio": "1.618",
+      "headingLetterSpacing": "-0.02em",
+      "headingTransform": "uppercase",
+      "scaleRatio": "1.333",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "filled",
-      "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-      "borderWidth": "0px",
-      "padding": "1.5rem"
+      "style": "outlined",
+      "shadow": "none",
+      "borderWidth": "2px",
+      "padding": "1.25rem"
     },
     "layout": {
-      "borderRadius": "16px",
-      "containerMaxWidth": "1200px",
-      "sectionSpacing": "5rem",
+      "borderRadius": "0px",
+      "containerMaxWidth": "1100px",
+      "sectionSpacing": "3rem",
       "contentPadding": "1.5rem",
-      "gridStyle": "asymmetric"
+      "gridStyle": "sidebar"
     },
     "hero": {
-      "layout": "cinematic"
+      "layout": "rolodex"
     },
     "links": {
-      "style": "color-only"
+      "style": "bracket"
     },
     "background": {
-      "texture": "none"
+      "texture": "grid"
     },
     "images": {
-      "style": "vivid",
-      "hover": "zoom",
-      "opacity": "1",
-      "borderRadius": "16px"
+      "style": "grayscale",
+      "hover": "colorize",
+      "opacity": "0.9",
+      "borderRadius": "0px"
     },
     "footer": {
-      "style": "boxed"
+      "style": "retro"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#F5F0EA",
-        "#D4A843"
+        "#EBF5FB",
+        "#D6EAF8"
       ]
     },
     "font": {
-      "name": "Cormorant Garamond",
-      "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-      "category": "serif",
-      "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      "name": "Space Grotesk",
+      "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "category": "sans-serif",
+      "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     },
     "artDirection": {
-      "recipe": "gallery",
-      "name": "Immersive Gallery",
-      "dominantPrimitive": "image"
+      "recipe": "index",
+      "name": "System Index",
+      "dominantPrimitive": "grid"
     },
-    "date": "2026-11-21",
+    "date": "2026-11-22",
     "showcase": {
       "root": "card",
       "elements": {
         "card": {
           "type": "ThemeCard",
           "props": {
-            "title": "Quarry & Aureole",
-            "subtitle": "November 21, 2026"
-          },
-          "children": [
-            "s-main"
-          ]
-        },
-        "s-main": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "md",
-            "align": "stretch"
+            "title": "Wet Pavement Grid",
+            "subtitle": "2026-11-22 — Daily UI Theme"
           },
           "children": [
             "manifesto",
-            "s-badges",
-            "hero-prev",
-            "palette",
-            "s-mid",
-            "divider",
-            "s-foot"
+            "div1",
+            "s1",
+            "div2",
+            "s2",
+            "div3",
+            "s3"
           ]
         },
         "manifesto": {
           "type": "ThemeManifesto",
           "props": {
-            "text": "Raw stone. One blade of gold light. The grid holds everything — until the image breaks free.",
+            "text": "Memphis geometry. Rain-soaked asphalt. Primary colors bleeding into cold morning light — structured, loud, and humming with voltage.",
             "emphasis": "bold"
           },
           "children": []
         },
-        "s-badges": {
+        "div1": {
+          "type": "Divider",
+          "props": {
+            "style": "solid"
+          },
+          "children": []
+        },
+        "s1": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "stretch"
+          },
+          "children": [
+            "left-col",
+            "right-col"
+          ]
+        },
+        "left-col": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "start"
+          },
+          "children": [
+            "heading",
+            "badge-row",
+            "palette"
+          ]
+        },
+        "heading": {
+          "type": "TypeSample",
+          "props": {
+            "text": "WET PAVEMENT GRID",
+            "variant": "heading",
+            "weight": "700"
+          },
+          "children": []
+        },
+        "badge-row": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
             "gap": "sm",
-            "align": "center"
+            "align": "start"
           },
           "children": [
             "b1",
@@ -160,32 +190,24 @@
         "b1": {
           "type": "Badge",
           "props": {
-            "text": "serif / sans",
-            "variant": "filled"
+            "text": "sans-serif",
+            "variant": "outlined"
           },
           "children": []
         },
         "b2": {
           "type": "Badge",
           "props": {
-            "text": "editorial",
-            "variant": "outlined"
+            "text": "outlined cards",
+            "variant": "filled"
           },
           "children": []
         },
         "b3": {
           "type": "Badge",
           "props": {
-            "text": "image-first",
-            "variant": "outlined"
-          },
-          "children": []
-        },
-        "hero-prev": {
-          "type": "HeroLayoutPreview",
-          "props": {
-            "layout": "cinematic",
-            "label": "Cinematic hero — full-bleed, asymmetric anchor"
+            "text": "high contrast",
+            "variant": "filled"
           },
           "children": []
         },
@@ -194,34 +216,68 @@
           "props": {
             "colors": [
               {
-                "hex": "#F5F0EA",
-                "label": "Parchment"
+                "hex": "#EBF5FB",
+                "label": "BG"
               },
               {
-                "hex": "#EDE7DE",
-                "label": "Quarry Dust"
+                "hex": "#1A1A2C",
+                "label": "Text"
               },
               {
-                "hex": "#D8CFBF",
-                "label": "Stone Veil"
+                "hex": "#CF006E",
+                "label": "Link"
               },
               {
-                "hex": "#D4A843",
-                "label": "Aureole"
+                "hex": "#D6EAF8",
+                "label": "Sidebar"
               },
               {
-                "hex": "#836008",
-                "label": "Burnished"
+                "hex": "#566578",
+                "label": "Muted"
               },
               {
-                "hex": "#2C2420",
-                "label": "Foundry"
+                "hex": "#F4FAFF",
+                "label": "Card"
               }
             ]
           },
           "children": []
         },
-        "s-mid": {
+        "right-col": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "stretch"
+          },
+          "children": [
+            "hero-prev",
+            "layout-prev"
+          ]
+        },
+        "hero-prev": {
+          "type": "HeroLayoutPreview",
+          "props": {
+            "layout": "rolodex",
+            "label": "Rolodex Hero"
+          },
+          "children": []
+        },
+        "layout-prev": {
+          "type": "LayoutPreview",
+          "props": {
+            "style": "sidebar"
+          },
+          "children": []
+        },
+        "div2": {
+          "type": "Divider",
+          "props": {
+            "style": "dashed"
+          },
+          "children": []
+        },
+        "s2": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
@@ -229,79 +285,78 @@
             "align": "start"
           },
           "children": [
-            "s-type",
-            "meta"
+            "meta",
+            "tokens"
           ]
-        },
-        "s-type": {
-          "type": "Stack",
-          "props": {
-            "direction": "vertical",
-            "gap": "sm",
-            "align": "start"
-          },
-          "children": [
-            "t-head",
-            "t-body"
-          ]
-        },
-        "t-head": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Stone holds the light it never shows.",
-            "variant": "heading",
-            "weight": "600"
-          },
-          "children": []
-        },
-        "t-body": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Swiss grid precision. A single aureole at dawn. Structure and softness, unresolved.",
-            "variant": "body"
-          },
-          "children": []
         },
         "meta": {
           "type": "ThemeMeta",
           "props": {
             "items": [
               {
-                "label": "Grid",
-                "value": "Asymmetric"
-              },
-              {
                 "label": "Hero",
-                "value": "Cinematic"
+                "value": "Rolodex"
               },
               {
-                "label": "Scheme",
-                "value": "Analogous"
-              },
-              {
-                "label": "Cards",
-                "value": "Filled / r16"
-              },
-              {
-                "label": "Links",
-                "value": "Color-only"
+                "label": "Grid",
+                "value": "Sidebar"
               },
               {
                 "label": "Shader",
                 "value": "None"
+              },
+              {
+                "label": "Link style",
+                "value": "[bracket]"
+              },
+              {
+                "label": "Radius",
+                "value": "0px — sharp"
+              },
+              {
+                "label": "Texture",
+                "value": "Grid"
               }
             ]
           },
           "children": []
         },
-        "divider": {
-          "type": "Divider",
+        "tokens": {
+          "type": "TokenGrid",
           "props": {
-            "style": "dashed"
+            "tokens": [
+              {
+                "name": "--font-heading",
+                "value": "Space Grotesk"
+              },
+              {
+                "name": "--font-body",
+                "value": "IBM Plex Mono"
+              },
+              {
+                "name": "--color-link",
+                "value": "#CF006E"
+              },
+              {
+                "name": "--color-border",
+                "value": "#1A1A2C"
+              },
+              {
+                "name": "--image-style",
+                "value": "grayscale/colorize"
+              }
+            ]
           },
           "children": []
         },
-        "s-foot": {
+        "div3": {
+          "type": "Divider",
+          "props": {
+            "style": "solid"
+          },
+          "children": []
+        },
+        "s3": {
           "type": "Stack",
           "props": {
             "direction": "horizontal",
@@ -309,40 +364,25 @@
             "align": "center"
           },
           "children": [
-            "tokens",
+            "caption",
             "apply-btn"
           ]
         },
-        "tokens": {
-          "type": "TokenGrid",
+        "caption": {
+          "type": "TypeSample",
           "props": {
-            "tokens": [
-              {
-                "name": "--color-bg",
-                "value": "#F5F0EA"
-              },
-              {
-                "name": "--color-link",
-                "value": "#836008"
-              },
-              {
-                "name": "--color-border",
-                "value": "#D8CFBF"
-              },
-              {
-                "name": "--border-radius",
-                "value": "16px"
-              }
-            ]
+            "text": "[ complementary · retro footer · grayscale→color imagery ]",
+            "variant": "caption",
+            "weight": "400"
           },
           "children": []
         },
         "apply-btn": {
           "type": "ThemeActionButton",
           "props": {
-            "label": "Apply Quarry & Aureole",
+            "label": "Apply Theme",
             "action": "apply-theme",
-            "date": "2026-11-21"
+            "date": "2026-11-22"
           },
           "children": []
         }

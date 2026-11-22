@@ -1,6 +1,394 @@
 {
   "themes": [
     {
+      "name": "Wet Pavement Grid",
+      "description": "Memphis geometry filtered through rain-soaked city reflection — clashing primaries on a cool-tinted ground, sharp ruled lines, and dense typographic structure that hums with morning voltage.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A1A2C",
+          "--color-bg": "#EBF5FB",
+          "--color-link": "#CF006E",
+          "--color-link-hover": "#B3005E",
+          "--color-border": "#1A1A2C",
+          "--color-muted": "#566578",
+          "--color-sidebar-bg": "#D6EAF8",
+          "--color-nav-bg": "#EBF5FB",
+          "--color-nav-text": "#1A1A2C",
+          "--color-card-bg": "#F4FAFF"
+        },
+        "dark": {
+          "--color-text": "#E8F4FD",
+          "--color-bg": "#0A1628",
+          "--color-link": "#FF2D9B",
+          "--color-link-hover": "#FF69C0",
+          "--color-border": "#FF2D9B",
+          "--color-muted": "#7191AE",
+          "--color-sidebar-bg": "#0D1F36",
+          "--color-nav-bg": "#0A1628",
+          "--color-nav-text": "#E8F4FD",
+          "--color-card-bg": "#0F2340"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Space Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "body": {
+          "name": "IBM Plex Mono",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap",
+          "category": "monospace",
+          "stack": "'IBM Plex Mono', 'SF Mono', Monaco, 'Courier New', monospace"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.6",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "uppercase",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "0px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "grayscale",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "0px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EBF5FB",
+          "#D6EAF8"
+        ]
+      },
+      "font": {
+        "name": "Space Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+        "category": "sans-serif",
+        "stack": "'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-11-22",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Wet Pavement Grid",
+              "subtitle": "2026-11-22 — Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "s1",
+              "div2",
+              "s2",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Memphis geometry. Rain-soaked asphalt. Primary colors bleeding into cold morning light — structured, loud, and humming with voltage.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "heading",
+              "badge-row",
+              "palette"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "WET PAVEMENT GRID",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "sans-serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined cards",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EBF5FB",
+                  "label": "BG"
+                },
+                {
+                  "hex": "#1A1A2C",
+                  "label": "Text"
+                },
+                {
+                  "hex": "#CF006E",
+                  "label": "Link"
+                },
+                {
+                  "hex": "#D6EAF8",
+                  "label": "Sidebar"
+                },
+                {
+                  "hex": "#566578",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#F4FAFF",
+                  "label": "Card"
+                }
+              ]
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "layout-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Link style",
+                  "value": "[bracket]"
+                },
+                {
+                  "label": "Radius",
+                  "value": "0px — sharp"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--font-heading",
+                  "value": "Space Grotesk"
+                },
+                {
+                  "name": "--font-body",
+                  "value": "IBM Plex Mono"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#CF006E"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#1A1A2C"
+                },
+                {
+                  "name": "--image-style",
+                  "value": "grayscale/colorize"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "caption",
+              "apply-btn"
+            ]
+          },
+          "caption": {
+            "type": "TypeSample",
+            "props": {
+              "text": "[ complementary · retro footer · grayscale→color imagery ]",
+              "variant": "caption",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "apply-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Theme",
+              "action": "apply-theme",
+              "date": "2026-11-22"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Quarry & Aureole",
       "description": "Raw structural weight meets a single blade of soft morning radiance — Swiss grid precision anchoring an ethereal image-first composition.",
       "colors": {
@@ -2106,380 +2494,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Eave & Meridian",
-      "description": "A Brazilian modernist terrace at first light — wide overhangs, rosewood type, and a palette of canopy green and terracotta held in cool interior shadow.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "low",
-        "light": {
-          "--color-text": "#2C3A2E",
-          "--color-bg": "#EDF3EE",
-          "--color-link": "#9F522B",
-          "--color-link-hover": "#8A3E18",
-          "--color-border": "#C8D4C9",
-          "--color-muted": "#5C6D5D",
-          "--color-sidebar-bg": "#E4EDE5",
-          "--color-nav-bg": "#EDF3EE",
-          "--color-nav-text": "#2C3A2E",
-          "--color-card-bg": "#E6EDEA"
-        },
-        "dark": {
-          "--color-text": "#D8E5D9",
-          "--color-bg": "#0D1F22",
-          "--color-link": "#D4845A",
-          "--color-link-hover": "#E8A07A",
-          "--color-border": "#1E3335",
-          "--color-muted": "#7A947C",
-          "--color-sidebar-bg": "#0F2326",
-          "--color-nav-bg": "#0D1F22",
-          "--color-nav-text": "#D8E5D9",
-          "--color-card-bg": "#112528"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Karla",
-          "url": "https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap",
-          "category": "sans-serif",
-          "stack": "'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "flat",
-        "shadow": "none",
-        "borderWidth": "1px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1150px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#EDF3EE",
-          "#C8D4C9"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-11-15",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Eave & Meridian",
-              "subtitle": "November 15, 2026"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "badge-row",
-              "div1",
-              "s-mid",
-              "div2",
-              "s-bottom",
-              "apply-btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "A Brazilian modernist terrace at first light — wide overhangs casting cool interior shadow over rosewood type, canopy green and terracotta breathing together in the quiet before noon.",
-              "emphasis": "quiet"
-            }
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "flat card",
-              "variant": "outlined"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "low contrast",
-              "variant": "filled"
-            }
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "split-complementary",
-              "variant": "outlined"
-            }
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "s-left",
-              "s-right"
-            ]
-          },
-          "s-left": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "heading-sample",
-              "body-sample",
-              "palette"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Wide Overhangs, First Light",
-              "variant": "heading",
-              "weight": "400"
-            }
-          },
-          "body-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Rosewood links animate beneath Karla's quiet geometry, grounded against canopy shadow.",
-              "variant": "body"
-            }
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#EDF3EE",
-                  "label": "Bg"
-                },
-                {
-                  "hex": "#2C3A2E",
-                  "label": "Text"
-                },
-                {
-                  "hex": "#9F522B",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#5C6D5D",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#C8D4C9",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#E6EDEA",
-                  "label": "Card"
-                }
-              ]
-            }
-          },
-          "s-right": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero-prev",
-              "layout-prev"
-            ]
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan Hero"
-            }
-          },
-          "layout-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            }
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-bottom": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "lg",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                },
-                {
-                  "label": "Image",
-                  "value": "Muted / Hover Colorize"
-                }
-              ]
-            }
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#9F522B"
-                },
-                {
-                  "name": "--color-muted",
-                  "value": "#5C6D5D"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--font-heading",
-                  "value": "Cormorant Garamond"
-                },
-                {
-                  "name": "--font-body",
-                  "value": "Karla"
-                }
-              ]
-            }
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Eave & Meridian",
-              "action": "apply-theme",
-              "date": "2026-11-15"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-21"
+  "currentDate": "2026-11-22"
 }
