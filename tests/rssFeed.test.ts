@@ -220,14 +220,25 @@ describe('RSS feed output', () => {
   });
 });
 
-describe('legacy writing RSS path', () => {
-  it('redirects /rss to /rss.xml in vercel.json', () => {
-    const vercel = JSON.parse(readFileSync(join(process.cwd(), 'vercel.json'), 'utf8'));
+describe('legacy RSS path aliases (vercel.json)', () => {
+  const vercel = JSON.parse(readFileSync(join(process.cwd(), 'vercel.json'), 'utf8'));
+
+  it('redirects /rss to /rss.xml', () => {
     const redirect = vercel.redirects?.find(
       (entry: { source?: string }) => entry.source === '/rss',
     );
     expect(redirect).toMatchObject({
       destination: '/rss.xml',
+      statusCode: 301,
+    });
+  });
+
+  it('redirects /rss/notes to /rss/notes.xml', () => {
+    const redirect = vercel.redirects?.find(
+      (entry: { source?: string }) => entry.source === '/rss/notes',
+    );
+    expect(redirect).toMatchObject({
+      destination: '/rss/notes.xml',
       statusCode: 301,
     });
   });
