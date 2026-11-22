@@ -19,20 +19,24 @@ import imgPlay from '../assets/images/highlights/img-highlights-play.webp';
 import imgPoc from '../assets/images/highlights/img-highlights-proof-of-concept.webp';
 
 const PORTFOLIO_SIZES = '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 600px';
+const PORTFOLIO_MAX_WIDTH = 600;
 
 async function optimizePortfolioImage(src: ImageMetadata) {
+  const aspect = src.height / src.width;
+  const displayWidth = Math.min(src.width, PORTFOLIO_MAX_WIDTH);
   const result = await getImage({
     src,
     widths: [400, 800, 1200],
     sizes: PORTFOLIO_SIZES,
     format: 'webp',
+    width: displayWidth,
   });
   return {
     src: result.src,
     srcSet: result.srcSet.attribute,
     sizes: PORTFOLIO_SIZES,
-    width: src.width,
-    height: src.height,
+    width: displayWidth,
+    height: Math.round(displayWidth * aspect),
   };
 }
 
