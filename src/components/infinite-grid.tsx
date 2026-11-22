@@ -113,11 +113,11 @@ export const LiquidGlassCard = forwardRef<HTMLDivElement, LiquidGlassCardProps>(
             </div>
 
             <div className="flex flex-col items-center w-full text-center pointer-events-none">
-              <p className="font-mono text-[13px] leading-[1.2em] font-medium uppercase tracking-tight text-neutral-950">
+              <p className="font-mono text-[13px] leading-[1.2em] font-medium uppercase tracking-tight text-[var(--color-text)]">
                 {item.title}
               </p>
               {item.subtitle && (
-                <p className="font-mono text-[13px] leading-[1.2em] font-normal uppercase mt-0.5 text-neutral-400">
+                <p className="font-mono text-[13px] leading-[1.2em] font-normal uppercase mt-0.5 text-[var(--color-muted)]">
                   {item.subtitle}
                 </p>
               )}
