@@ -3,8 +3,11 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const LEGACY_REDIRECTS = [
+  { source: '/rss/notes', destination: '/rss/notes.xml' },
   { source: '/feed', destination: '/rss.xml' },
+  { source: '/feed.xml', destination: '/rss.xml' },
   { source: '/atom.xml', destination: '/rss.xml' },
+  { source: '/notes.xml', destination: '/rss/notes.xml' },
   { source: '/blog', destination: '/writing' },
   { source: '/newsletter', destination: '/subscribe' },
   { source: '/resume', destination: '/cv' },
