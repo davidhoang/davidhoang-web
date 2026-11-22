@@ -40,7 +40,7 @@ Generalists are people who love variety, connecting the dots, and are curious. I
 
 ## Generalists spark alchemy
 
-In the article "Generalists CEOs Not Specialists Spur Innovation," there is a great excerpt on how generalists spark innovation:
+In the article "Generalist CEOs Not Specialists Spur Innovation," there is a great excerpt on how generalists spark innovation:
 
 "Under generalist CEOs, companies tend to engage in more 'exploitative' innovation, which involves improving or refining something that already exists, and also more 'exploratory' innovation — that is, engaging in a risky search for radical and transformative innovation. However, the difference between specialist CEOs and generalists is especially pronounced in exploratory innovation."
 
