@@ -44,6 +44,20 @@ export function buildArchivePageUrl(cursor) {
 const SUBSTACK_CDN_FETCH = 'substackcdn.com/image/fetch/';
 const CANVAS_COVER_MAX_WIDTH = 600;
 
+function usesDeadTwitterEmbedCover(coverImage) {
+  return (
+    coverImage.includes('pbs.substack.com/media') ||
+    coverImage.includes('%2Fpbs.substack.com%2Fmedia%2F')
+  );
+}
+
+/** Substack posts that used Twitter embed art via pbs.substack.com 404 on substackcdn. */
+export function resolveDeadTwitterEmbedCover(issueId, coverImage) {
+  if (!coverImage || typeof coverImage !== 'string') return coverImage;
+  if (!usesDeadTwitterEmbedCover(coverImage)) return coverImage;
+  return `https://www.proofofconcept.pub/api/v1/post_preview/${issueId}/twitter.jpg`;
+}
+
 /** Substack still returns legacy `cdn.substack.com` cover URLs that 502; `substackcdn.com` works. */
 export function normalizeCoverImageUrl(coverImage) {
   if (!coverImage || typeof coverImage !== 'string') return coverImage;
@@ -105,7 +119,10 @@ async function fetchIssuesWithCovers() {
         slug: String(post.slug),
         subtitle: post.subtitle ? String(post.subtitle).trim() : null,
         postDate: String(post.post_date ?? post.postDate ?? ''),
-        coverImage: normalizeCoverImageUrl(String(post.cover_image)),
+        coverImage: resolveDeadTwitterEmbedCover(
+          post.id,
+          normalizeCoverImageUrl(String(post.cover_image)),
+        ),
         url: post.canonical_url
           ? String(post.canonical_url)
           : `https://www.proofofconcept.pub/p/${post.slug}`,
