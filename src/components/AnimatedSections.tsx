@@ -1,5 +1,5 @@
 import { motion, MotionConfig } from 'framer-motion';
-import { type ReactNode, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useReducedMotionPreference as useReducedMotion } from '../hooks/useReducedMotionPreference';
 import { useSharedInView } from '../hooks/useSharedInView';
 
