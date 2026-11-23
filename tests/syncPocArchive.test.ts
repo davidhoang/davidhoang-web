@@ -36,7 +36,7 @@ describe('sync-poc-archive Substack API shape', () => {
   it('rewrites dead pbs.substack.com Twitter embed covers to post_preview art', () => {
     const dead =
       'https://substackcdn.com/image/fetch/$s_!Nrxo!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fpbs.substack.com%2Fmedia%2FEpetRQpWMAEh6LX.jpg';
-  expect(resolveDeadTwitterEmbedCover(26776496, dead)).toBe(
+    expect(resolveDeadTwitterEmbedCover(26776496, dead)).toBe(
       'https://www.proofofconcept.pub/api/v1/post_preview/26776496/twitter.jpg',
     );
     expect(resolveDeadTwitterEmbedCover(1, 'https://substackcdn.com/image/fetch/x.jpeg')).toBe(
