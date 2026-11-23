@@ -1,6 +1,378 @@
 {
   "themes": [
     {
+      "name": "Slab & Canopy",
+      "description": "A Niemeyer terrace frozen at peak afternoon — broad geometric shadow, equatorial color, and sculptural type with nowhere to hide.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1C2B1A",
+          "--color-bg": "#EDF4ED",
+          "--color-link": "#BA4219",
+          "--color-link-hover": "#A03410",
+          "--color-border": "#B8CCBA",
+          "--color-muted": "#556E56",
+          "--color-sidebar-bg": "#E2EDE2",
+          "--color-nav-bg": "#EDF4ED",
+          "--color-nav-text": "#1C2B1A",
+          "--color-card-bg": "#F5FAF5"
+        },
+        "dark": {
+          "--color-text": "#E8F2E0",
+          "--color-bg": "#0D1F22",
+          "--color-link": "#E8795A",
+          "--color-link-hover": "#F49A7E",
+          "--color-border": "#1E3A2F",
+          "--color-muted": "#6DA87A",
+          "--color-sidebar-bg": "#111d1f",
+          "--color-nav-bg": "#0D1F22",
+          "--color-nav-text": "#E8F2E0",
+          "--color-card-bg": "#132528"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Unbounded",
+          "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "display",
+          "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Lora",
+          "url": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Lora', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "filled",
+        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
+        "borderWidth": "0px",
+        "padding": "1.75rem"
+      },
+      "layout": {
+        "borderRadius": "12px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "duotone",
+        "hover": "glow",
+        "opacity": "1",
+        "borderRadius": "12px"
+      },
+      "footer": {
+        "style": "boxed"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EDF4ED",
+          "#C4451A"
+        ]
+      },
+      "font": {
+        "name": "Unbounded",
+        "url": "https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+        "category": "display",
+        "stack": "'Unbounded', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-11-23",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Slab & Canopy",
+              "subtitle": "2026-11-23 · Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "div2",
+              "mid-stack",
+              "div3",
+              "bot-stack"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A Niemeyer terrace frozen at peak afternoon — broad geometric shadow, equatorial color, and sculptural type with nowhere to hide.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EDF4ED",
+                  "label": "Canopy"
+                },
+                {
+                  "hex": "#1C2B1A",
+                  "label": "Slab"
+                },
+                {
+                  "hex": "#BA4219",
+                  "label": "Equator"
+                },
+                {
+                  "hex": "#556E56",
+                  "label": "Shadow"
+                },
+                {
+                  "hex": "#B8CCBA",
+                  "label": "Haze"
+                },
+                {
+                  "hex": "#F5FAF5",
+                  "label": "Poured"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "mid-stack": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left-col",
+              "right-col"
+            ]
+          },
+          "left-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "ts1",
+              "badge-row"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Broad Light. No Retreat.",
+              "variant": "heading",
+              "weight": "900"
+            },
+            "children": []
+          },
+          "ts1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Form follows the sun on a Niemeyer terrace — Lora grounds the body while Unbounded carves the sky.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display · unbounded",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "split-complementary",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "right-col": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "shader-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "shader-prev": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "none",
+              "colors": [
+                "#EDF4ED",
+                "#C4451A"
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "bot-stack": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "meta",
+              "tokens",
+              "action-btn"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Cards",
+                  "value": "Filled · 12px"
+                },
+                {
+                  "label": "Links",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Boxed"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#BA4219"
+                },
+                {
+                  "name": "--color-muted",
+                  "value": "#556E56"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#B8CCBA"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "12px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "action-btn": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Slab & Canopy",
+              "action": "apply-theme",
+              "date": "2026-11-23"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Wet Pavement Grid",
       "description": "Memphis geometry filtered through rain-soaked city reflection — clashing primaries on a cool-tinted ground, sharp ruled lines, and dense typographic structure that hums with morning voltage.",
       "colors": {
@@ -2154,347 +2526,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Velvet Measure",
-      "description": "A gallery composition drawn from jazz club geometry — warm tarnished surfaces, cinematic image presence, and a typographic rhythm that swings between condensed authority and open serif grace.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1C1208",
-          "--color-bg": "#FDF2E9",
-          "--color-link": "#8A6508",
-          "--color-link-hover": "#8B6508",
-          "--color-border": "#D4B896",
-          "--color-muted": "#786349",
-          "--color-sidebar-bg": "#F7E8D6",
-          "--color-nav-bg": "#FDF2E9",
-          "--color-nav-text": "#1C1208",
-          "--color-card-bg": "#F9EBD8"
-        },
-        "dark": {
-          "--color-text": "#F0E6D0",
-          "--color-bg": "#1A0F0A",
-          "--color-link": "#C9A227",
-          "--color-link-hover": "#E8BC3A",
-          "--color-border": "#3D2B1A",
-          "--color-muted": "#94816B",
-          "--color-sidebar-bg": "#1F1309",
-          "--color-nav-bg": "#1A0F0A",
-          "--color-nav-text": "#F0E6D0",
-          "--color-card-bg": "#231409"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Oswald",
-          "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        },
-        "body": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "0.04em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "2rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "6rem",
-        "contentPadding": "2rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "gradient"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "lift",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FDF2E9",
-          "#D4B896"
-        ]
-      },
-      "font": {
-        "name": "Oswald",
-        "url": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap",
-        "category": "sans-serif",
-        "stack": "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-11-16",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Velvet Measure",
-              "subtitle": "November 16, 2026"
-            },
-            "children": [
-              "s-main"
-            ]
-          },
-          "s-main": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s-mid",
-              "div1",
-              "s-bottom",
-              "apply-btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Where the brass is tarnished and the lights are low — geometry swings between condensed authority and open serif grace.",
-              "emphasis": "bold"
-            }
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1C1208",
-                  "label": "Ink"
-                },
-                {
-                  "hex": "#FDF2E9",
-                  "label": "Cream"
-                },
-                {
-                  "hex": "#F9EBD8",
-                  "label": "Card"
-                },
-                {
-                  "hex": "#D4B896",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#8A6508",
-                  "label": "Link"
-                },
-                {
-                  "hex": "#786349",
-                  "label": "Muted"
-                }
-              ]
-            }
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "s-type",
-              "hero-prev"
-            ]
-          },
-          "s-type": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t-head",
-              "t-body",
-              "s-badges"
-            ]
-          },
-          "t-head": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Velvet Measure",
-              "variant": "heading",
-              "weight": "700"
-            }
-          },
-          "t-body": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Jazz club geometry — warm, cinematic, alive.",
-              "variant": "body"
-            }
-          },
-          "s-badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "b-sans",
-              "b-serif",
-              "b-mood"
-            ]
-          },
-          "b-sans": {
-            "type": "Badge",
-            "props": {
-              "text": "Oswald",
-              "variant": "filled"
-            }
-          },
-          "b-serif": {
-            "type": "Badge",
-            "props": {
-              "text": "Newsreader",
-              "variant": "outlined"
-            }
-          },
-          "b-mood": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            }
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic Hero"
-            }
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-bottom": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Card",
-                  "value": "Elevated · 16px"
-                },
-                {
-                  "label": "Contrast",
-                  "value": "High"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Gradient"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Boxed"
-                }
-              ]
-            }
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#FDF2E9"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#1C1208"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#8A6508"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#D4B896"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#F9EBD8"
-                }
-              ]
-            }
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Velvet Measure",
-              "action": "apply-theme",
-              "date": "2026-11-16"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-22"
+  "currentDate": "2026-11-23"
 }
