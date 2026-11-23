@@ -3,6 +3,7 @@ import {
   buildArchivePageUrl,
   normalizeCoverImageUrl,
   parseArchivePage,
+  resolveDeadTwitterEmbedCover,
   resizeSubstackCdnCoverForArchive,
 } from '../scripts/sync-poc-archive.mjs';
 
@@ -30,6 +31,17 @@ describe('sync-poc-archive Substack API shape', () => {
       'https://substackcdn.com/image/fetch/w_600,c_limit,$s_!BKdm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fx.jpeg',
     );
     expect(resizeSubstackCdnCoverForArchive('https://example.test/x')).toBe('https://example.test/x');
+  });
+
+  it('rewrites dead pbs.substack.com Twitter embed covers to post_preview art', () => {
+    const dead =
+      'https://substackcdn.com/image/fetch/$s_!Nrxo!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fpbs.substack.com%2Fmedia%2FEpetRQpWMAEh6LX.jpg';
+  expect(resolveDeadTwitterEmbedCover(26776496, dead)).toBe(
+      'https://www.proofofconcept.pub/api/v1/post_preview/26776496/twitter.jpg',
+    );
+    expect(resolveDeadTwitterEmbedCover(1, 'https://substackcdn.com/image/fetch/x.jpeg')).toBe(
+      'https://substackcdn.com/image/fetch/x.jpeg',
+    );
   });
 
   it('builds the first and subsequent page URLs', () => {
