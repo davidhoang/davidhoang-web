@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import MarkdownIt from 'markdown-it';
 import sanitizeHtml from 'sanitize-html';
@@ -29,6 +30,7 @@ import {
   toIsoDate,
 } from '../../utils/structuredData';
 import { resolveContentOgImage } from '../../utils/ogImage';
+import { resolveAssetImage } from '../../utils/assetImages';
 
 const overviewMd = new MarkdownIt({ html: false, linkify: true, breaks: true });
 
@@ -93,6 +95,7 @@ const ogVideo = overviewYoutubeId
   ? youtubeOpenGraphEmbedUrl(overviewYoutubeId)
   : undefined;
 const coverImage = note.data.coverImage;
+const coverAsset = resolveAssetImage(coverImage);
 
 const ogImage = resolveContentOgImage({
   title: note.data.title,
@@ -146,14 +149,27 @@ const breadcrumbJsonLd = buildBreadcrumbListJsonLd([
   />
   {coverImage && (
     <div class="note-hero">
-      <img
-        src={coverImage}
-        alt={note.data.title}
-        loading="eager"
-        decoding="async"
-        width="1200"
-        height="630"
-      />
+      {coverAsset ? (
+        <Image
+          src={coverAsset}
+          alt={note.data.title}
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          widths={[640, 960, 1280, 1920]}
+          sizes="100vw"
+        />
+      ) : (
+        <img
+          src={coverImage}
+          alt={note.data.title}
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          width="1200"
+          height="630"
+        />
+      )}
     </div>
   )}
   <article class:list={['note-article', { 'note-article--with-hero': !!coverImage }]}>
