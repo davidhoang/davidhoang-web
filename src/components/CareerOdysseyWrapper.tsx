@@ -64,7 +64,7 @@ const CareerOdysseyFallback = () => (
   </div>
 );
 
-export const CareerOdysseyWrapper: React.FC<CareerOdysseyWrapperProps> = ({ careerData }) => {
+const CareerOdysseyWrapper: React.FC<CareerOdysseyWrapperProps> = ({ careerData }) => {
   return (
     <ErrorBoundary fallback={<CareerOdysseyFallback />}>
       <Suspense fallback={<CareerOdysseyLoading />}>
