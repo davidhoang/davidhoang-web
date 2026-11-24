@@ -389,6 +389,14 @@ const hasThemes = themes.length > 0;
     if (toggleBtn.dataset.initialized === 'true') return;
     toggleBtn.dataset.initialized = 'true';
 
+    // Pointer opens the panel; keyboard users get Enter/Space (no click handler — avoids double-toggle with pointerdown).
+    toggleBtn.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      e.stopPropagation();
+      setCalendarOpen(!calendar.classList.contains('open'));
+    });
+
     // Close button
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
