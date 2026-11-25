@@ -32,7 +32,7 @@ const MOOD_KEYWORDS = {
   vintage: ['Abril Fatface', 'Playfair', 'Old Standard', 'Cinzel', 'Cardo', 'Vollkorn', 'Sorts Mill', 'Fanwood', 'Goudy'],
   humanist: ['Gill Sans', 'Optima', 'Verdana', 'Frutiger', 'Myriad', 'Open Sans', 'Lato', 'Source Sans', 'Cabin', 'Nunito Sans'],
   grotesk: ['Helvetica', 'Arial', 'Akzidenz', 'Space Grotesk', 'Bricolage', 'Darker Grotesque', 'Hanken Grotesk', 'Switzer', 'General Sans', 'Satoshi'],
-  experimental: ['Unbounded', 'Syne', 'Cabinet Grotesk', 'Instrument', 'Chillax', 'Satoshi', 'Neue Montreal', 'PP Mori', 'Basement Grotesque'],
+  experimental: ['Unbounded', 'Syne', 'Instrument', 'Chillax', 'Satoshi', 'Neue Montreal', 'PP Mori', 'Basement Grotesque'],
   monospace: ['JetBrains Mono', 'Fira Code', 'Source Code Pro', 'IBM Plex Mono', 'Space Mono', 'Inconsolata', 'Roboto Mono', 'Ubuntu Mono', 'Anonymous Pro', 'Courier Prime'],
   handwritten: ['Caveat', 'Kalam', 'Patrick Hand', 'Indie Flower', 'Shadows Into Light', 'Dancing Script', 'Pacifico', 'Sacramento', 'Great Vibes', 'Allura'],
   condensed: ['Oswald', 'Barlow Condensed', 'Roboto Condensed', 'Open Sans Condensed', 'PT Sans Narrow', 'Pathway Gothic One', 'Encode Sans Condensed', 'Saira Condensed'],
@@ -59,7 +59,6 @@ const CURATED_HEADING_FONTS = [
   { name: 'Syne', category: 'sans-serif', moods: ['experimental', 'tech', 'grotesk'], weight: '400;500;600;700;800', variable: true },
   { name: 'Space Grotesk', category: 'sans-serif', moods: ['tech', 'grotesk', 'experimental'], weight: '300;400;500;600;700', variable: true },
   { name: 'Bricolage Grotesque', category: 'display', moods: ['experimental', 'grotesk', 'playful'], weight: '300;400;500;600;700;800', variable: true },
-  { name: 'Cabinet Grotesk', category: 'display', moods: ['experimental', 'grotesk'], weight: '400;500;700;800;900', variable: true },
 
   // Brutalist & Bold
   { name: 'Bebas Neue', category: 'display', moods: ['brutalist', 'condensed'], weight: '400', variable: false },
