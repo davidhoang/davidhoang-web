@@ -6,24 +6,34 @@
  * 3:1 for large text and UI components).
  */
 
+/** @typedef {'foreground' | 'background'} ContrastAdjustTarget */
 /** @typedef {{ mode: string, pair: string, foreground: string, background: string, ratio: number, target: number }} ContrastFailure */
 /** @typedef {{ mode: string, pair: string, original: string, fixed: string, originalRatio: string, fixedRatio: string, target: number }} ContrastFix */
 
 /**
  * Pairs checked for WCAG AA body-text contrast (4.5:1).
  * Exported so evals and audits stay in sync with the generator gate.
- * @type {ReadonlyArray<[string, string, number, string]>}
+ * Optional fifth entry adjusts the background token (e.g. primary buttons use page bg as label color).
+ * @type {ReadonlyArray<[string, string, number, string, ContrastAdjustTarget?]>}
  */
 export const CONTRAST_PAIRS = [
   ['--color-text', '--color-bg', 4.5, 'body text on background'],
   ['--color-link', '--color-bg', 4.5, 'link on background'],
+  ['--color-link-hover', '--color-bg', 4.5, 'link hover on background'],
   ['--color-muted', '--color-bg', 4.5, 'muted text on background'],
   ['--color-muted', '--color-card-bg', 4.5, 'muted text on card background'],
   ['--color-muted', '--color-sidebar-bg', 4.5, 'muted text on sidebar background'],
   ['--color-text', '--color-card-bg', 4.5, 'text on card background'],
+  ['--color-text', '--color-sidebar-bg', 4.5, 'text on sidebar background'],
   ['--color-link', '--color-card-bg', 4.5, 'link on card background'],
+  ['--color-link-hover', '--color-card-bg', 4.5, 'link hover on card background'],
   ['--color-nav-text', '--color-nav-bg', 4.5, 'nav text on nav background'],
+  ['--color-bg', '--color-link', 4.5, 'button label on link (primary)', 'background'],
+  ['--color-bg', '--color-link-hover', 4.5, 'button label on link hover', 'background'],
 ];
+
+/** Last-resort foreground when lightness nudges cannot reach the target ratio. */
+const EXTREME_FG_CANDIDATES = ['#000000', '#FFFFFF'];
 
 /**
  * Parse a hex color string to RGB values
@@ -143,6 +153,36 @@ function adjustColorForContrast(fgHex, bgHex, targetRatio) {
 }
 
 /**
+ * Pick black or white — whichever meets the target against the background.
+ * @param {string} bgHex
+ * @param {number} targetRatio
+ * @returns {string | null}
+ */
+function extremeContrastForeground(bgHex, targetRatio) {
+  for (const candidate of EXTREME_FG_CANDIDATES) {
+    if (contrastRatio(candidate, bgHex) >= targetRatio) {
+      return candidate;
+    }
+  }
+  return null;
+}
+
+/**
+ * Nudge a foreground toward WCAG AA; fall back to black/white when hue steps stall.
+ * @param {string} fgHex
+ * @param {string} bgHex
+ * @param {number} targetRatio
+ */
+function resolveForegroundContrast(fgHex, bgHex, targetRatio) {
+  const adjusted = adjustColorForContrast(fgHex, bgHex, targetRatio);
+  if (contrastRatio(adjusted, bgHex) >= targetRatio) {
+    return adjusted;
+  }
+  const extreme = extremeContrastForeground(bgHex, targetRatio);
+  return extreme ?? adjusted;
+}
+
+/**
  * Non-mutating audit of one color mode.
  * @returns {ContrastFailure[]}
  */
@@ -183,29 +223,63 @@ function validateMode(colors, modeName) {
 
   const fixed = { ...colors };
 
-  for (const [fgVar, bgVar, minRatio, label] of CONTRAST_PAIRS) {
+  for (const entry of CONTRAST_PAIRS) {
+    const [fgVar, bgVar, minRatio, label, adjustTarget = 'foreground'] = entry;
     const fg = fixed[fgVar];
     const bgColor = fixed[bgVar];
     if (!fg || !bgColor) continue;
 
     const ratio = contrastRatio(fg, bgColor);
     if (ratio < minRatio) {
-      const newFg = adjustColorForContrast(fg, bgColor, minRatio);
-      const newRatio = contrastRatio(newFg, bgColor);
+      const adjustBackground = adjustTarget === 'background';
+      const original = adjustBackground ? bgColor : fg;
+      const resolved = adjustBackground
+        ? resolveForegroundContrast(bgColor, fg, minRatio)
+        : resolveForegroundContrast(fg, bgColor, minRatio);
+      const newRatio = contrastRatio(
+        adjustBackground ? fg : resolved,
+        adjustBackground ? resolved : bgColor,
+      );
       fixes.push({
         mode: modeName,
         pair: label,
-        original: fg,
-        fixed: newFg,
+        original,
+        fixed: resolved,
         originalRatio: ratio.toFixed(2),
         fixedRatio: newRatio.toFixed(2),
         target: minRatio,
       });
-      fixed[fgVar] = newFg;
+      if (adjustBackground) {
+        fixed[bgVar] = resolved;
+      } else {
+        fixed[fgVar] = resolved;
+      }
     }
   }
 
   return { colors: fixed, fixes };
+}
+
+/**
+ * Fix contrast on color maps before applying tokens in layouts or the theme explorer.
+ * Does not mutate the source theme object.
+ *
+ * @param {Record<string, string>} lightColors
+ * @param {Record<string, string>} darkColors
+ * @returns {{ light: Record<string, string>, dark: Record<string, string> }}
+ */
+export function guardThemeColorModes(lightColors, darkColors) {
+  const themeData = {
+    colors: {
+      light: { ...lightColors },
+      dark: { ...darkColors },
+    },
+  };
+  validateThemeContrast(themeData);
+  return {
+    light: themeData.colors.light,
+    dark: themeData.colors.dark,
+  };
 }
 
 /**
