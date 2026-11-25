@@ -71,7 +71,7 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
         {mediaResolved.map((item) => <EditorialMediaCard {...item} />)}
       </div>
     </aside>
-    <FeaturedSpeakingPreviewPanel client:load />
+    <FeaturedSpeakingPreviewPanel client:idle />
   </div>
 </MainLayout>
 

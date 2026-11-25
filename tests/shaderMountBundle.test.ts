@@ -73,4 +73,23 @@ describe('shader-mount bundle (poteto-mode perf)', () => {
     const source = readFileSync(join(astroDir, navChunk!), 'utf8');
     expect(source).not.toMatch(/from"\.\/career-components/);
   });
+
+  it('defers FeaturedSpeakingPreviewPanel hydration on /featured (not client:load)', () => {
+    const featured = readFileSync(join(process.cwd(), 'src/pages/featured.astro'), 'utf8');
+    expect(featured).not.toMatch(/FeaturedSpeakingPreviewPanel client:load/);
+    expect(featured).toMatch(/FeaturedSpeakingPreviewPanel client:idle/);
+  });
+
+  it('built /featured has no client:load islands', () => {
+    const featuredHtml = join(process.cwd(), 'dist/client/featured/index.html');
+    if (!existsSync(featuredHtml)) {
+      if (assertBuild) {
+        throw new Error(`Expected ${featuredHtml}. Run npm run build first.`);
+      }
+      return;
+    }
+    const html = readFileSync(featuredHtml, 'utf8');
+    expect(html).not.toMatch(/client="load"/);
+    expect(html).toMatch(/FeaturedSpeakingPreviewPanel[^>]*client="idle"/);
+  });
 });
