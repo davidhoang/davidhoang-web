@@ -1,6 +1,332 @@
 {
   "themes": [
     {
+      "name": "Harbour Proof",
+      "description": "A Baltic editorial stillness — fogged linen pages, ice-cold type hierarchy, and one precise signal red anchoring the silence.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "low",
+        "light": {
+          "--color-text": "#1E2328",
+          "--color-bg": "#EEF0EC",
+          "--color-link": "#C0392B",
+          "--color-link-hover": "#96281B",
+          "--color-border": "#C8CCCA",
+          "--color-muted": "#62686A",
+          "--color-sidebar-bg": "#E6E9E6",
+          "--color-nav-bg": "#EEF0EC",
+          "--color-nav-text": "#1E2328",
+          "--color-card-bg": "#E9EBE8"
+        },
+        "dark": {
+          "--color-text": "#D8DDD9",
+          "--color-bg": "#181C1A",
+          "--color-link": "#E36357",
+          "--color-link-hover": "#FF6B5A",
+          "--color-border": "#2E3430",
+          "--color-muted": "#868F8B",
+          "--color-sidebar-bg": "#1E2320",
+          "--color-nav-bg": "#181C1A",
+          "--color-nav-text": "#D8DDD9",
+          "--color-card-bg": "#1E2320"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cabinet Grotesk",
+          "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+          "category": "display",
+          "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Literata",
+          "url": "https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300..700&display=swap",
+          "category": "serif",
+          "stack": "'Literata', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.75",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.414",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "flat",
+        "shadow": "none",
+        "borderWidth": "1px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "4px",
+        "containerMaxWidth": "1140px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.75rem",
+        "gridStyle": "magazine"
+      },
+      "hero": {
+        "layout": "stacked-fan"
+      },
+      "links": {
+        "style": "animated-underline"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "4px"
+      },
+      "footer": {
+        "style": "editorial"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#EEF0EC",
+          "#C0392B"
+        ]
+      },
+      "font": {
+        "name": "Cabinet Grotesk",
+        "url": "https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400..900&display=swap",
+        "category": "display",
+        "stack": "'Cabinet Grotesk', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "journal",
+        "name": "Editorial Journal",
+        "dominantPrimitive": "type"
+      },
+      "date": "2026-11-25",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Harbour Proof",
+              "subtitle": "2026-11-25 — Baltic Editorial"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "s1",
+              "s2",
+              "div2",
+              "meta",
+              "div3",
+              "s3"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Fogged linen. Ice-cold hierarchy. One red flare cutting through harbour silence.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#EEF0EC",
+                  "label": "Linen"
+                },
+                {
+                  "hex": "#1E2328",
+                  "label": "Ink"
+                },
+                {
+                  "hex": "#C0392B",
+                  "label": "Signal"
+                },
+                {
+                  "hex": "#62686A",
+                  "label": "Muted"
+                },
+                {
+                  "hex": "#E9EBE8",
+                  "label": "Card"
+                },
+                {
+                  "hex": "#C8CCCA",
+                  "label": "Border"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "heading",
+              "hero"
+            ]
+          },
+          "heading": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Harbour Proof",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "stacked-fan",
+              "label": "Hero"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display grotesk",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "serif body",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "flat card",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "magazine grid",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Grid",
+                  "value": "Magazine"
+                },
+                {
+                  "label": "Hero",
+                  "value": "Stacked Fan"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Links",
+                  "value": "Animated Underline"
+                },
+                {
+                  "label": "Scheme",
+                  "value": "Split-Complementary"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "Low"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "caption",
+              "apply"
+            ]
+          },
+          "caption": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Still water. Sharp type. One red anchor.",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "apply": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Theme",
+              "action": "apply-theme",
+              "date": "2026-11-25"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Last Set Standing",
       "description": "Dense typographic rhythm against oxblood and tarnished brass — a poster pulled off a smoky wall at closing time.",
       "colors": {
@@ -2182,358 +2508,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Spill & Sprawl",
-      "description": "A sun-drenched backyard tableau where faded magenta and lawn green collide on cream — energetic scattered cards breathing in generous open air.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#2A1A0E",
-          "--color-bg": "#FEF3E2",
-          "--color-link": "#C4175A",
-          "--color-link-hover": "#8B0E3D",
-          "--color-border": "#E8C99A",
-          "--color-muted": "#7F6345",
-          "--color-sidebar-bg": "#FDE8C8",
-          "--color-nav-bg": "#FEF3E2",
-          "--color-nav-text": "#2A1A0E",
-          "--color-card-bg": "#FFF8EE"
-        },
-        "dark": {
-          "--color-text": "#F5E8D0",
-          "--color-bg": "#1C1410",
-          "--color-link": "#F0527A",
-          "--color-link-hover": "#FF85A1",
-          "--color-border": "#4A3020",
-          "--color-muted": "#A3815E",
-          "--color-sidebar-bg": "#251A12",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#F5E8D0",
-          "--color-card-bg": "#261C14"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bricolage Grotesque",
-          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
-          "category": "display",
-          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
-        },
-        "body": {
-          "name": "Figtree",
-          "url": "https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "800",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.75",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "12px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.75rem",
-        "gridStyle": "standard"
-      },
-      "hero": {
-        "layout": "scattered"
-      },
-      "links": {
-        "style": "highlight"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "zoom",
-        "opacity": "1",
-        "borderRadius": "8px"
-      },
-      "footer": {
-        "style": "retro"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#FEF3E2",
-          "#C4175A"
-        ]
-      },
-      "font": {
-        "name": "Bricolage Grotesque",
-        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
-        "category": "display",
-        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
-      },
-      "artDirection": {
-        "recipe": "playground",
-        "name": "Color Playground",
-        "dominantPrimitive": "surface"
-      },
-      "date": "2026-11-18",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Spill & Sprawl",
-              "subtitle": "November 18, 2026"
-            },
-            "children": [
-              "s-outer"
-            ]
-          },
-          "s-outer": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "badge-row",
-              "palette",
-              "div1",
-              "s-mid",
-              "div2",
-              "s-bot",
-              "apply-btn"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Cards tossed across a cream afternoon. Magenta bleeds into lawn green — loud, loose, and gloriously uncontained.",
-              "emphasis": "bold"
-            }
-          },
-          "badge-row": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "b4"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "display",
-              "variant": "filled"
-            }
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "split-complementary",
-              "variant": "outlined"
-            }
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "scattered hero",
-              "variant": "filled"
-            }
-          },
-          "b4": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "outlined"
-            }
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#FEF3E2",
-                  "label": "Cream"
-                },
-                {
-                  "hex": "#C4175A",
-                  "label": "Magenta"
-                },
-                {
-                  "hex": "#2A1A0E",
-                  "label": "Espresso"
-                },
-                {
-                  "hex": "#E8C99A",
-                  "label": "Border"
-                },
-                {
-                  "hex": "#7F6345",
-                  "label": "Muted"
-                },
-                {
-                  "hex": "#FFF8EE",
-                  "label": "Card"
-                }
-              ]
-            }
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            }
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "s-type",
-              "hero-prev"
-            ]
-          },
-          "s-type": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t1",
-              "t2"
-            ]
-          },
-          "t1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Spill & Sprawl",
-              "variant": "heading",
-              "weight": "800"
-            }
-          },
-          "t2": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Sun-drenched and sprawling across a cream afternoon.",
-              "variant": "body"
-            }
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "scattered",
-              "label": "Scattered Cards"
-            }
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            }
-          },
-          "s-bot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "tokens"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Heading",
-                  "value": "Bricolage Grotesque"
-                },
-                {
-                  "label": "Body",
-                  "value": "Figtree"
-                },
-                {
-                  "label": "Grid",
-                  "value": "Standard"
-                },
-                {
-                  "label": "Links",
-                  "value": "Highlight"
-                },
-                {
-                  "label": "Radius",
-                  "value": "12px"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Retro"
-                }
-              ]
-            }
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-link",
-                  "value": "#C4175A"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#FEF3E2"
-                },
-                {
-                  "name": "--color-text",
-                  "value": "#2A1A0E"
-                },
-                {
-                  "name": "--color-card-bg",
-                  "value": "#FFF8EE"
-                }
-              ]
-            }
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Spill & Sprawl",
-              "action": "apply-theme",
-              "date": "2026-11-18"
-            }
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-24"
+  "currentDate": "2026-11-25"
 }
