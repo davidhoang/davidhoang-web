@@ -1,3 +1,5 @@
+import { guardThemeColorModes } from './contrast.mjs';
+
 /** @typedef {{ styles: Record<string, string>, lightColors: Record<string, string>, darkColors: Record<string, string>, attrs: Record<string, string> }} ThemeApplyResult */
 
 /** @param {unknown} obj @param {string} path */
@@ -54,10 +56,13 @@ const THEME_ATTRS = [
 export function buildThemeApply(theme) {
   /** @type {Record<string, string>} */
   const styles = {};
-  const lightColors =
+  const rawLight =
     /** @type {{ light?: Record<string, string> }} */ (theme?.colors)?.light || {};
-  const darkColors =
+  const rawDark =
     /** @type {{ dark?: Record<string, string> }} */ (theme?.colors)?.dark || {};
+  const guarded = guardThemeColorModes(rawLight, rawDark);
+  const lightColors = guarded.light;
+  const darkColors = guarded.dark;
 
   for (const [path, prop] of THEME_PROPS) {
     const val = getNestedValue(theme, path);

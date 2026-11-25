@@ -1,3 +1,4 @@
+import { guardThemeColorModes } from '../../scripts/lib/contrast.mjs';
 import { getNestedValue } from './themePath';
 
 export function clampMinContentPadding(raw: string | null) {
@@ -49,10 +50,13 @@ export type ThemeApplyResult = {
 /** Build the styles + attrs needed to apply a theme without re-running heavy logic. */
 export function buildThemeApply(theme: Record<string, unknown> | null | undefined): ThemeApplyResult {
   const styles: Record<string, string> = {};
-  const lightColors: Record<string, string> =
+  const rawLight: Record<string, string> =
     (theme?.colors as { light?: Record<string, string> } | undefined)?.light || {};
-  const darkColors: Record<string, string> =
+  const rawDark: Record<string, string> =
     (theme?.colors as { dark?: Record<string, string> } | undefined)?.dark || {};
+  const guarded = guardThemeColorModes(rawLight, rawDark);
+  const lightColors = guarded.light;
+  const darkColors = guarded.dark;
 
   for (const [path, prop] of THEME_PROPS) {
     const val = getNestedValue(theme, path);

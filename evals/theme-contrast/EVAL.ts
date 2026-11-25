@@ -23,11 +23,16 @@ test('contrast pair registry covers body/link/muted/nav on key surfaces', () => 
   expect(labels).toEqual(expect.arrayContaining([
     'body text on background',
     'link on background',
+    'link hover on background',
     'muted text on background',
     'muted text on card background',
     'text on card background',
+    'text on sidebar background',
     'link on card background',
+    'link hover on card background',
     'nav text on nav background',
+    'button label on link (primary)',
+    'button label on link hover',
   ]));
   expect(CONTRAST_PAIRS.every(([, , target]) => Number(target) >= 4.5)).toBe(true);
 });

@@ -4,6 +4,7 @@ import {
   validateThemeContrast,
   auditThemeContrast,
   enforceThemeContrast,
+  guardThemeColorModes,
   CONTRAST_PAIRS,
 } from '../scripts/lib/contrast.mjs';
 
@@ -175,5 +176,48 @@ describe('auditThemeContrast / enforceThemeContrast', () => {
     for (const [, , target] of CONTRAST_PAIRS) {
       expect(target).toBeGreaterThanOrEqual(4.5);
     }
+  });
+
+  it('does not rewrite page background when fixing button and link contrast', () => {
+    const theme = {
+      colors: {
+        light: {
+          '--color-bg': '#FFFFFF',
+          '--color-card-bg': '#FFFFFF',
+          '--color-nav-bg': '#FFFFFF',
+          '--color-sidebar-bg': '#FFFFFF',
+          '--color-text': '#222222',
+          '--color-link': '#88AADD',
+          '--color-link-hover': '#88AADD',
+          '--color-muted': '#555555',
+          '--color-nav-text': '#222222',
+        },
+      },
+    };
+    enforceThemeContrast(theme);
+    expect(theme.colors.light['--color-bg']).toBe('#FFFFFF');
+    expect(contrastRatio(theme.colors.light['--color-bg'], theme.colors.light['--color-link'])).toBeGreaterThanOrEqual(
+      4.5,
+    );
+    expect(auditThemeContrast(theme)).toEqual([]);
+  });
+
+  it('guards apply-time color maps without mutating inputs', () => {
+    const light = {
+      '--color-bg': '#FFFFFF',
+      '--color-card-bg': '#FFFFFF',
+      '--color-nav-bg': '#FFFFFF',
+      '--color-sidebar-bg': '#FFFFFF',
+      '--color-text': '#222222',
+      '--color-link': '#0066CC',
+      '--color-link-hover': '#DDDDDD',
+      '--color-muted': '#555555',
+      '--color-nav-text': '#222222',
+    };
+    const dark = { ...light };
+    const before = structuredClone(light);
+    const guarded = guardThemeColorModes(light, dark);
+    expect(light).toEqual(before);
+    expect(contrastRatio(guarded.light['--color-link-hover'], guarded.light['--color-bg'])).toBeGreaterThanOrEqual(4.5);
   });
 });
