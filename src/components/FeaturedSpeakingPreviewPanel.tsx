@@ -6,6 +6,7 @@ import {
   subscribeFeaturedSpeakingPreview,
   getFeaturedSpeakingPreview,
 } from '../stores/featuredSpeakingPreview';
+import { bindFeaturedSpeakingPreview } from '../utils/featuredSpeakingPreviewBindings';
 import '../styles/featured-speaking-preview.css';
 
 const HIDE_DELAY_MS = 140;
@@ -48,6 +49,11 @@ export default function FeaturedSpeakingPreviewPanel() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const bindings = bindFeaturedSpeakingPreview();
+    return () => bindings?.disconnect();
   }, []);
 
   useLayoutEffect(() => {
