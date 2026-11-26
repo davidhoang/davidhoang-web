@@ -1,6 +1,370 @@
 {
   "themes": [
     {
+      "name": "Overexposed Vellichor",
+      "description": "Late-night gallery stillness filtered through faded instant film — bleached surfaces, deep shadow pools, and a single magenta pulse holding everything together.",
+      "colors": {
+        "colorScheme": "analogous",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#1A0F0A",
+          "--color-bg": "#F5EFE6",
+          "--color-link": "#C2185B",
+          "--color-link-hover": "#880E4F",
+          "--color-border": "#D4C5B5",
+          "--color-muted": "#716456",
+          "--color-sidebar-bg": "#EDE4D8",
+          "--color-nav-bg": "#F5EFE6",
+          "--color-nav-text": "#1A0F0A",
+          "--color-card-bg": "#EDE4D8"
+        },
+        "dark": {
+          "--color-text": "#F0E8DC",
+          "--color-bg": "#1C1410",
+          "--color-link": "#F06292",
+          "--color-link-hover": "#F48FB1",
+          "--color-border": "#3D2E24",
+          "--color-muted": "#948378",
+          "--color-sidebar-bg": "#251A14",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F0E8DC",
+          "--color-card-bg": "#251A14"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Fraunces",
+          "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+          "category": "serif",
+          "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "IBM Plex Sans",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+          "category": "sans-serif",
+          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "800",
+        "bodyWeight": "300",
+        "bodyLineHeight": "1.7",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.04em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "elevated",
+        "shadow": "0 24px 48px rgba(0,0,0,0.2)",
+        "borderWidth": "0px",
+        "padding": "2rem"
+      },
+      "layout": {
+        "borderRadius": "20px",
+        "containerMaxWidth": "1200px",
+        "sectionSpacing": "5rem",
+        "contentPadding": "2rem",
+        "gridStyle": "asymmetric"
+      },
+      "hero": {
+        "layout": "cinematic"
+      },
+      "links": {
+        "style": "color-only"
+      },
+      "background": {
+        "texture": "none"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "lift",
+        "opacity": "1",
+        "borderRadius": "16px"
+      },
+      "footer": {
+        "style": "gradient"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EFE6",
+          "#C2185B"
+        ]
+      },
+      "font": {
+        "name": "Fraunces",
+        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "category": "serif",
+        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "gallery",
+        "name": "Immersive Gallery",
+        "dominantPrimitive": "image"
+      },
+      "date": "2026-11-26",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Overexposed Vellichor",
+              "subtitle": "2026-11-26 · Daily UI Theme"
+            },
+            "children": [
+              "manifesto",
+              "div1",
+              "palette",
+              "s1",
+              "s2",
+              "div2",
+              "meta",
+              "div3",
+              "tokens",
+              "badge-row",
+              "cta"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "A gallery closes at midnight. The overheads cut out. One magenta exit sign bleeds across bleached walls — and you remember everything you forgot to feel.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "div1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EFE6",
+                  "label": "Bleach"
+                },
+                {
+                  "hex": "#EDE4D8",
+                  "label": "Faded Film"
+                },
+                {
+                  "hex": "#D4C5B5",
+                  "label": "Silver Grain"
+                },
+                {
+                  "hex": "#716456",
+                  "label": "Shadow Pool"
+                },
+                {
+                  "hex": "#C2185B",
+                  "label": "Magenta Pulse"
+                },
+                {
+                  "hex": "#1A0F0A",
+                  "label": "Deep Dark"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "heading-sample",
+              "hero-preview"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Still Life, Overexposed",
+              "variant": "heading",
+              "weight": "700"
+            },
+            "children": []
+          },
+          "hero-preview": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "cinematic",
+              "label": "Cinematic Hero"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "body-sample",
+              "layout-preview"
+            ]
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "The instant photograph knows something the eye refuses — that light always costs something.",
+              "variant": "body",
+              "weight": "400"
+            },
+            "children": []
+          },
+          "layout-preview": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "asymmetric"
+            },
+            "children": []
+          },
+          "div2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Cinematic"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Asymmetric"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Link Style",
+                  "value": "Color-only · #C2185B"
+                },
+                {
+                  "label": "Contrast",
+                  "value": "High"
+                },
+                {
+                  "label": "Footer",
+                  "value": "Gradient"
+                }
+              ]
+            },
+            "children": []
+          },
+          "div3": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-link",
+                  "value": "#C2185B"
+                },
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EFE6"
+                },
+                {
+                  "name": "--color-card-bg",
+                  "value": "#EDE4D8"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "20px"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "Fraunces"
+                }
+              ]
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "Serif Heading",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "Elevated Cards",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "Analogous",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "Late-Night Editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "cta": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Overexposed Vellichor",
+              "action": "apply-theme",
+              "date": "2026-11-26"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Harbour Proof",
       "description": "A Baltic editorial stillness — fogged linen pages, ice-cold type hierarchy, and one precise signal red anchoring the silence.",
       "colors": {
@@ -2151,364 +2515,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Gilt Frequency",
-      "description": "Art Deco glamour filtered through a late-night CRT glow — geometric gold type cutting across deep lacquered surfaces with the precision of a Chrysler Building spire.",
-      "colors": {
-        "colorScheme": "complementary",
-        "contrastMode": "high",
-        "light": {
-          "--color-text": "#1A0A2E",
-          "--color-bg": "#F5EDD6",
-          "--color-link": "#7C5B07",
-          "--color-link-hover": "#7D5B07",
-          "--color-border": "#1A0A2E",
-          "--color-muted": "#6B5A3E",
-          "--color-sidebar-bg": "#EDE0C4",
-          "--color-nav-bg": "#F5EDD6",
-          "--color-nav-text": "#1A0A2E",
-          "--color-card-bg": "#EDE0C4"
-        },
-        "dark": {
-          "--color-text": "#F0D060",
-          "--color-bg": "#120820",
-          "--color-link": "#F0D060",
-          "--color-link-hover": "#FFE87A",
-          "--color-border": "#F0D060",
-          "--color-muted": "#918159",
-          "--color-sidebar-bg": "#1A0F2E",
-          "--color-nav-bg": "#120820",
-          "--color-nav-text": "#F0D060",
-          "--color-card-bg": "#1A0F2E"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Bodoni Moda",
-          "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-          "category": "serif",
-          "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "IBM Plex Sans",
-          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
-          "category": "sans-serif",
-          "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "900",
-        "bodyWeight": "300",
-        "bodyLineHeight": "1.6",
-        "letterSpacing": "0.02em",
-        "headingLetterSpacing": "0.06em",
-        "headingTransform": "uppercase",
-        "scaleRatio": "2",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "outlined",
-        "shadow": "none",
-        "borderWidth": "2px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "0px",
-        "containerMaxWidth": "1100px",
-        "sectionSpacing": "4rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "split"
-      },
-      "hero": {
-        "layout": "editorial"
-      },
-      "links": {
-        "style": "bracket"
-      },
-      "background": {
-        "texture": "grid"
-      },
-      "images": {
-        "style": "duotone",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "0px"
-      },
-      "footer": {
-        "style": "brutalist"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#120820",
-          "#F0D060"
-        ]
-      },
-      "font": {
-        "name": "Bodoni Moda",
-        "url": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap",
-        "category": "serif",
-        "stack": "'Bodoni Moda', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "poster",
-        "name": "Graphic Poster",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-11-19",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Gilt Frequency",
-              "subtitle": "2026-11-19 · Art Deco × CRT Glamour"
-            },
-            "children": [
-              "manifesto",
-              "div1",
-              "palette",
-              "s1",
-              "s2",
-              "div2",
-              "meta",
-              "div3",
-              "s3",
-              "apply"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Geometric gold cuts across lacquered dark like a Chrysler spire splitting midnight static. High contrast. Zero apology.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#1A0A2E",
-                  "label": "Lacquer"
-                },
-                {
-                  "hex": "#F5EDD6",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#7C5B07",
-                  "label": "Guild"
-                },
-                {
-                  "hex": "#F0D060",
-                  "label": "Gilt"
-                },
-                {
-                  "hex": "#EDE0C4",
-                  "label": "Card BG"
-                },
-                {
-                  "hex": "#6B5A3E",
-                  "label": "Muted"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "ty1",
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "ty1": {
-            "type": "TypeSample",
-            "props": {
-              "text": "GILT FREQUENCY",
-              "variant": "heading",
-              "weight": "bold"
-            },
-            "children": []
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "outlined cards",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "high contrast",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "hero",
-              "shader"
-            ]
-          },
-          "hero": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "editorial",
-              "label": "Editorial Hero"
-            },
-            "children": []
-          },
-          "shader": {
-            "type": "ShaderPreview",
-            "props": {
-              "type": "none",
-              "colors": [
-                "#120820",
-                "#F0D060"
-              ]
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Split"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Editorial"
-                },
-                {
-                  "label": "Link Style",
-                  "value": "[bracket]"
-                },
-                {
-                  "label": "Border Radius",
-                  "value": "0px"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grid"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Brutalist"
-                }
-              ]
-            },
-            "children": []
-          },
-          "div3": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "tk",
-              "lp"
-            ]
-          },
-          "tk": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-text",
-                  "value": "#1A0A2E"
-                },
-                {
-                  "name": "--color-bg",
-                  "value": "#F5EDD6"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#7C5B07"
-                },
-                {
-                  "name": "heading-font",
-                  "value": "Bodoni Moda"
-                },
-                {
-                  "name": "body-font",
-                  "value": "IBM Plex Sans"
-                }
-              ]
-            },
-            "children": []
-          },
-          "lp": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "split"
-            },
-            "children": []
-          },
-          "apply": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Gilt Frequency",
-              "action": "apply-theme",
-              "date": "2026-11-19"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-25"
+  "currentDate": "2026-11-26"
 }
