@@ -104,6 +104,7 @@ export function bindFeaturedSpeakingPreview(root: ParentNode = document): Bindin
     disconnect: () => {
       cancelHide();
       stopTracking();
+      setFeaturedSpeakingPreview(null);
       chronicle.removeEventListener('mouseover', onMouseOver);
       chronicle.removeEventListener('mouseout', onMouseOut);
       chronicle.removeEventListener('focusin', onFocusIn);
