@@ -10,6 +10,7 @@ import {
   buildCollectionHubPageJsonLd,
   buildNoteCreativeWorkJsonLd,
   buildNowPageJsonLd,
+  buildWebPageJsonLd,
   buildCvPageJsonLd,
   buildProfilePageJsonLd,
   buildSiteGraphJsonLd,
@@ -138,6 +139,27 @@ describe('buildNoteCreativeWorkJsonLd', () => {
     });
     expect(json.keywords).toBeUndefined();
     expect(json.image).toBeUndefined();
+  });
+});
+
+describe('buildWebPageJsonLd', () => {
+  it('links static hub URLs into the WebSite graph', () => {
+    const json = buildWebPageJsonLd({
+      name: 'Featured',
+      description: 'Talks and media.',
+      canonicalUrl: 'https://www.davidhoang.com/featured',
+    });
+    expect(json['@type']).toBe('WebPage');
+    expect(json['@id']).toBe('https://www.davidhoang.com/featured#webpage');
+    expect(json.inLanguage).toBe(SITE_LANGUAGE);
+    expect(json.isPartOf).toEqual({ '@id': WEBSITE_ID });
+    expect(json.author).toEqual({ '@id': PERSON_ID });
+    expect(json.dateModified).toBeUndefined();
+    expect(json.mainEntity).toBeUndefined();
+    expect(json.mainEntityOfPage).toEqual({
+      '@type': 'WebPage',
+      '@id': 'https://www.davidhoang.com/featured',
+    });
   });
 });
 

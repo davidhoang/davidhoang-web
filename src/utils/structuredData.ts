@@ -360,6 +360,42 @@ export function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]): JsonLd {
   };
 }
 
+export type WebPageJsonLdInput = {
+  name: string;
+  description: string;
+  canonicalUrl: string;
+  /** Day-level last update when the page shows one (e.g. /now). */
+  dateModified?: Date | string;
+  /** Stable @id for mainEntity when the page is primarily about a graph node (e.g. Person on /now). */
+  mainEntityId?: string;
+};
+
+/** Standalone marketing / utility pages linked into the site WebSite graph. */
+export function buildWebPageJsonLd(input: WebPageJsonLdInput): JsonLd {
+  const jsonLd: JsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${input.canonicalUrl}#webpage`,
+    url: input.canonicalUrl,
+    name: input.name,
+    description: input.description,
+    inLanguage: SITE_LANGUAGE,
+    isPartOf: idRef(WEBSITE_ID),
+    author: idRef(PERSON_ID),
+    mainEntityOfPage: webPageRef(input.canonicalUrl),
+  };
+
+  if (input.dateModified != null) {
+    jsonLd.dateModified = toIsoDateOnly(input.dateModified);
+  }
+
+  if (input.mainEntityId) {
+    jsonLd.mainEntity = idRef(input.mainEntityId);
+  }
+
+  return jsonLd;
+}
+
 export type NowPageInput = {
   title?: string;
   description: string;
@@ -371,22 +407,14 @@ export type NowPageInput = {
 /** /now freshness: WebPage with dateModified aligned to visible "Last updated". */
 export function buildNowPageJsonLd(input: NowPageInput): JsonLd {
   const canonicalUrl = input.canonicalUrl ?? `${CANONICAL_SITE}/now`;
-  const modified = toIsoDateOnly(input.dateModified);
 
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${canonicalUrl}#webpage`,
-    url: canonicalUrl,
+  return buildWebPageJsonLd({
     name: input.title ?? 'Now',
     description: input.description,
-    dateModified: modified,
-    inLanguage: SITE_LANGUAGE,
-    isPartOf: idRef(WEBSITE_ID),
-    author: idRef(PERSON_ID),
-    mainEntity: idRef(PERSON_ID),
-    mainEntityOfPage: webPageRef(canonicalUrl),
-  };
+    canonicalUrl,
+    dateModified: input.dateModified,
+    mainEntityId: PERSON_ID,
+  });
 }
 
 /** Shared /now last-updated day — keep visible copy and JSON-LD in sync. */
