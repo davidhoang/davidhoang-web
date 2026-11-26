@@ -5,7 +5,10 @@ import { describe, expect, it } from 'vitest';
 const LEGACY_REDIRECTS = [
   { source: '/rss/notes', destination: '/rss/notes.xml' },
   { source: '/rss/writing', destination: '/rss/writing.xml' },
-  { source: '/rss/tag/:tag', destination: '/rss/tag/:tag.xml' },
+  {
+    source: '/rss/tag/:tag((?!.*\\.xml$)[^/]+)',
+    destination: '/rss/tag/:tag.xml',
+  },
   { source: '/feed', destination: '/rss.xml' },
   { source: '/feed.xml', destination: '/rss.xml' },
   { source: '/atom.xml', destination: '/rss.xml' },
