@@ -1,0 +1,30 @@
+---
+import { getFeaturedSpeakingDetail } from '../data/featuredSpeakingDetails';
+
+interface Props {
+  title: string;
+  href?: string;
+  detailKey?: string;
+}
+
+const { title, href, detailKey } = Astro.props;
+const hasPreview = Boolean(detailKey && getFeaturedSpeakingDetail(detailKey));
+---
+
+{
+  href ? (
+    <a
+      class:list={['speaking-entry__link', { 'speaking-entry__link--preview': hasPreview }]}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-detail-key={hasPreview ? detailKey : undefined}
+      aria-describedby={hasPreview ? 'featured-speaking-preview' : undefined}
+    >
+      {title}
+      <span class="sr-only"> (opens in a new tab)</span>
+    </a>
+  ) : (
+    title
+  )
+}

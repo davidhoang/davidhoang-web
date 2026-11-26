@@ -2,7 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import EditorialMediaCard from '../components/EditorialMediaCard.astro';
-import SpeakingEntryTitle from '../components/SpeakingEntryTitle.tsx';
+import SpeakingEntryTitle from '../components/SpeakingEntryTitle.astro';
 import FeaturedSpeakingPreviewPanel from '../components/FeaturedSpeakingPreviewPanel.tsx';
 import { featuredSpeaking, speakingMonthLabel } from '../data/featuredSpeaking';
 import { featuredMedia } from '../data/featuredMedia';
@@ -49,7 +49,6 @@ const mediaResolved = await resolveFeaturedMedia(featuredMedia);
                     )}
                     <span class="speaking-chronicle__title">
                       <SpeakingEntryTitle
-                        client:visible
                         title={entry.title}
                         href={entry.href}
                         detailKey={entry.detailKey}
