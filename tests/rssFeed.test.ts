@@ -242,4 +242,24 @@ describe('legacy RSS path aliases (vercel.json)', () => {
       statusCode: 301,
     });
   });
+
+  it('redirects /rss/writing to /rss/writing.xml', () => {
+    const redirect = vercel.redirects?.find(
+      (entry: { source?: string }) => entry.source === '/rss/writing',
+    );
+    expect(redirect).toMatchObject({
+      destination: '/rss/writing.xml',
+      statusCode: 301,
+    });
+  });
+
+  it('redirects /rss/tag/:tag to /rss/tag/:tag.xml', () => {
+    const redirect = vercel.redirects?.find(
+      (entry: { source?: string }) => entry.source === '/rss/tag/:tag',
+    );
+    expect(redirect).toMatchObject({
+      destination: '/rss/tag/:tag.xml',
+      statusCode: 301,
+    });
+  });
 });
