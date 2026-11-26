@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { match } from 'path-to-regexp';
 import { getRssString } from '@astrojs/rss';
 import { rssEntriesForFeed } from '../src/utils/rssFeed';
 import {
@@ -253,13 +254,45 @@ describe('legacy RSS path aliases (vercel.json)', () => {
     });
   });
 
-  it('redirects /rss/tag/:tag to /rss/tag/:tag.xml', () => {
-    const redirect = vercel.redirects?.find(
-      (entry: { source?: string }) => entry.source === '/rss/tag/:tag',
-    );
-    expect(redirect).toMatchObject({
+  const tagFeedRedirect = () =>
+    vercel.redirects?.find(
+      (entry: { source?: string; destination?: string }) =>
+        entry.destination === '/rss/tag/:tag.xml',
+    ) as { source: string; destination: string; statusCode: number };
+
+  it('redirects tag alias without .xml to canonical feed', () => {
+    expect(tagFeedRedirect()).toMatchObject({
       destination: '/rss/tag/:tag.xml',
       statusCode: 301,
     });
+    expect(tagFeedRedirect().source).toContain(':tag');
+    expect(tagFeedRedirect().source).not.toBe('/rss/tag/:tag');
+  });
+
+  it('vercel path-to-regexp: /rss/tag/design → redirect; /rss/tag/design.xml → no match', () => {
+    const { source, destination } = tagFeedRedirect();
+    const matchPath = match(source);
+    const bare = matchPath('/rss/tag/design');
+    expect(bare).toBeTruthy();
+    expect((bare as { params: { tag: string } }).params.tag).toBe('design');
+    expect(matchPath('/rss/tag/design.xml')).toBe(false);
+
+    const resolvedDestination = destination.replace(':tag', 'design');
+    expect(resolvedDestination).toBe('/rss/tag/design.xml');
+  });
+
+  it('no vercel.json redirect matches canonical tag feed URLs ending in .xml', () => {
+    const paths = ['/rss/tag/design.xml', '/rss/tag/ai.xml'];
+    for (const pathname of paths) {
+      const hits = (vercel.redirects as Array<{ source?: string }>).filter((entry) => {
+        if (!entry.source) return false;
+        try {
+          return Boolean(match(entry.source)(pathname));
+        } catch {
+          return false;
+        }
+      });
+      expect(hits).toEqual([]);
+    }
   });
 });
