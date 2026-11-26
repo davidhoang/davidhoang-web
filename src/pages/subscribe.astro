@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import SubstackSignup from '../components/SubstackSignup.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { absoluteUrl, buildWebPageJsonLd } from '../utils/structuredData';
 import ProofOfConceptIssueCanvas from '../components/subscribe/ProofOfConceptIssueCanvas';
 import {
   getProofOfConceptIssuesArchive,
@@ -10,11 +11,19 @@ import {
 
 const pageDescription =
   'Proof of Concept — weekly newsletter on design, technology, and entrepreneurship. Free every Sunday.';
+const ogImage = '/images/header-images/img-header-subscribe.webp';
+const subscribeCanonicalUrl = absoluteUrl('/subscribe');
+const subscribePageJsonLd = buildWebPageJsonLd({
+  name: 'Subscribe',
+  description: pageDescription,
+  canonicalUrl: subscribeCanonicalUrl,
+});
 const pocArchive = getProofOfConceptIssuesArchive();
 const pocCanvasIssues = mapProofOfConceptIssuesForCanvas(pocArchive);
 ---
 
-<MainLayout title="Subscribe" description={pageDescription}>
+<MainLayout title="Subscribe" description={pageDescription} ogImage={ogImage}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(subscribePageJsonLd)} />
   <PageHeader
     title="Subscribe"
     image="/images/header-images/img-header-subscribe.webp"
