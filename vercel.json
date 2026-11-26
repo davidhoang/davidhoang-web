@@ -7,6 +7,8 @@
     { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "statusCode": 301 },
     { "source": "/rss", "destination": "/rss.xml", "statusCode": 301 },
     { "source": "/rss/notes", "destination": "/rss/notes.xml", "statusCode": 301 },
+    { "source": "/rss/writing", "destination": "/rss/writing.xml", "statusCode": 301 },
+    { "source": "/rss/tag/:tag", "destination": "/rss/tag/:tag.xml", "statusCode": 301 },
     { "source": "/feed", "destination": "/rss.xml", "statusCode": 301 },
     { "source": "/feed.xml", "destination": "/rss.xml", "statusCode": 301 },
     { "source": "/atom.xml", "destination": "/rss.xml", "statusCode": 301 },
