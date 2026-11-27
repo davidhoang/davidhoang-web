@@ -1,6 +1,396 @@
 {
   "themes": [
     {
+      "name": "Foxed Pages",
+      "description": "A scholarly dawn index rendered in autumn library tones — burgundy rulings, mustard marginalia, and the quiet authority of aged leather bindings.",
+      "colors": {
+        "colorScheme": "complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1A0E",
+          "--color-bg": "#FDF2E9",
+          "--color-link": "#8B1A1A",
+          "--color-link-hover": "#C0392B",
+          "--color-border": "#C4956A",
+          "--color-muted": "#7E6143",
+          "--color-sidebar-bg": "#F5E6D3",
+          "--color-nav-bg": "#FDF2E9",
+          "--color-nav-text": "#2C1A0E",
+          "--color-card-bg": "#F9EAD8"
+        },
+        "dark": {
+          "--color-text": "#F0DFC0",
+          "--color-bg": "#1C1410",
+          "--color-link": "#D4875A",
+          "--color-link-hover": "#E8A87C",
+          "--color-border": "#5A3A22",
+          "--color-muted": "#A18569",
+          "--color-sidebar-bg": "#231811",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F0DFC0",
+          "--color-card-bg": "#261D15"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Cormorant Garamond",
+          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+        },
+        "body": {
+          "name": "Work Sans",
+          "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
+          "category": "sans-serif",
+          "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "0.03em",
+        "headingTransform": "none",
+        "scaleRatio": "1.333",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.25rem"
+      },
+      "layout": {
+        "borderRadius": "2px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "3rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "sidebar"
+      },
+      "hero": {
+        "layout": "rolodex"
+      },
+      "links": {
+        "style": "bracket"
+      },
+      "background": {
+        "texture": "grid"
+      },
+      "images": {
+        "style": "muted",
+        "hover": "colorize",
+        "opacity": "0.9",
+        "borderRadius": "2px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#FDF2E9",
+          "#C4956A",
+          "#8B1A1A"
+        ]
+      },
+      "font": {
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
+        "category": "serif",
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
+      },
+      "artDirection": {
+        "recipe": "index",
+        "name": "System Index",
+        "dominantPrimitive": "grid"
+      },
+      "date": "2026-11-27",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Foxed Pages",
+              "subtitle": "November 27, 2026"
+            },
+            "children": [
+              "s-main"
+            ]
+          },
+          "s-main": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "manifesto",
+              "badge-row",
+              "palette",
+              "s-mid",
+              "divider1",
+              "s-bot",
+              "action"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "The margins are where the real thinking happens. Autumn light through library glass, rulings in burgundy, notes in mustard — a day that smells of old paper and quiet authority.",
+              "emphasis": "quiet"
+            },
+            "children": []
+          },
+          "badge-row": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "center"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "serif",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "editorial",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "high contrast",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b4": {
+            "type": "Badge",
+            "props": {
+              "text": "retro footer",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#FDF2E9",
+                  "label": "Vellum"
+                },
+                {
+                  "hex": "#2C1A0E",
+                  "label": "Inkwell"
+                },
+                {
+                  "hex": "#8B1A1A",
+                  "label": "Ruling"
+                },
+                {
+                  "hex": "#C4956A",
+                  "label": "Leather"
+                },
+                {
+                  "hex": "#C0392B",
+                  "label": "Foxing"
+                },
+                {
+                  "hex": "#7E6143",
+                  "label": "Marginalia"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s-mid": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "s-left",
+              "s-right"
+            ]
+          },
+          "s-left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "heading-sample",
+              "body-sample",
+              "caption-sample"
+            ]
+          },
+          "heading-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "A Scholarly Dawn Index",
+              "variant": "heading",
+              "weight": "600"
+            },
+            "children": []
+          },
+          "body-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Aged leather bindings carry the quiet authority of a hundred annotated winters.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "caption-sample": {
+            "type": "TypeSample",
+            "props": {
+              "text": "§ bracket links · outlined cards · 2px radius · grid texture",
+              "variant": "caption"
+            },
+            "children": []
+          },
+          "s-right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "stretch"
+            },
+            "children": [
+              "hero-prev",
+              "layout-prev"
+            ]
+          },
+          "hero-prev": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "rolodex",
+              "label": "Rolodex Hero"
+            },
+            "children": []
+          },
+          "layout-prev": {
+            "type": "LayoutPreview",
+            "props": {
+              "style": "sidebar"
+            },
+            "children": []
+          },
+          "divider1": {
+            "type": "Divider",
+            "props": {
+              "style": "dashed"
+            },
+            "children": []
+          },
+          "s-bot": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "start"
+            },
+            "children": [
+              "meta",
+              "tokens"
+            ]
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Rolodex"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Sidebar"
+                },
+                {
+                  "label": "Link style",
+                  "value": "Bracket"
+                },
+                {
+                  "label": "Card style",
+                  "value": "Outlined"
+                },
+                {
+                  "label": "Shader",
+                  "value": "None"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Grid"
+                }
+              ]
+            },
+            "children": []
+          },
+          "tokens": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#FDF2E9"
+                },
+                {
+                  "name": "--color-text",
+                  "value": "#2C1A0E"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#8B1A1A"
+                },
+                {
+                  "name": "--color-border",
+                  "value": "#C4956A"
+                },
+                {
+                  "name": "--border-radius",
+                  "value": "2px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "action": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Foxed Pages",
+              "action": "apply-theme",
+              "date": "2026-11-27"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Overexposed Vellichor",
       "description": "Late-night gallery stillness filtered through faded instant film — bleached surfaces, deep shadow pools, and a single magenta pulse holding everything together.",
       "colors": {
@@ -2171,351 +2561,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Fired & Resting",
-      "description": "A late-night riad courtyard rendered as editorial print — mineral blues and baked terracotta held in generous white, pattern dissolved into measured rhythm.",
-      "colors": {
-        "colorScheme": "split-complementary",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C1F14",
-          "--color-bg": "#F5EFE6",
-          "--color-link": "#7B3D2E",
-          "--color-link-hover": "#A84C38",
-          "--color-border": "#D4C4B0",
-          "--color-muted": "#716456",
-          "--color-sidebar-bg": "#EDE4D8",
-          "--color-nav-bg": "#F5EFE6",
-          "--color-nav-text": "#2C1F14",
-          "--color-card-bg": "#F0E8DC"
-        },
-        "dark": {
-          "--color-text": "#EDE4D8",
-          "--color-bg": "#1C1410",
-          "--color-link": "#C4785A",
-          "--color-link-hover": "#E09070",
-          "--color-border": "#3A2C22",
-          "--color-muted": "#948378",
-          "--color-sidebar-bg": "#231A14",
-          "--color-nav-bg": "#1C1410",
-          "--color-nav-text": "#EDE4D8",
-          "--color-card-bg": "#261D16"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Newsreader",
-          "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-          "category": "serif",
-          "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Crimson Text",
-          "url": "https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Crimson Text', Georgia, 'Times New Roman', serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "600",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.85",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.02em",
-        "headingTransform": "none",
-        "scaleRatio": "1.414",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "elevated",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.75rem"
-      },
-      "layout": {
-        "borderRadius": "4px",
-        "containerMaxWidth": "1150px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "2rem",
-        "gridStyle": "magazine"
-      },
-      "hero": {
-        "layout": "stacked-fan"
-      },
-      "links": {
-        "style": "animated-underline"
-      },
-      "background": {
-        "texture": "grain"
-      },
-      "images": {
-        "style": "muted",
-        "hover": "colorize",
-        "opacity": "0.9",
-        "borderRadius": "4px"
-      },
-      "footer": {
-        "style": "editorial"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5EFE6",
-          "#7B3D2E"
-        ]
-      },
-      "font": {
-        "name": "Newsreader",
-        "url": "https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap",
-        "category": "serif",
-        "stack": "'Newsreader', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "journal",
-        "name": "Editorial Journal",
-        "dominantPrimitive": "type"
-      },
-      "date": "2026-11-20",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Fired & Resting",
-              "subtitle": "November 20, 2026"
-            },
-            "children": [
-              "s1"
-            ]
-          },
-          "s1": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "palette",
-              "s2",
-              "div1",
-              "s3",
-              "div2",
-              "s4",
-              "cta"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Riad at two in the morning. Mineral blue climbing terracotta. The pattern knows when to stop.",
-              "emphasis": "quiet"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5EFE6",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#2C1F14",
-                  "label": "Ember"
-                },
-                {
-                  "hex": "#7B3D2E",
-                  "label": "Terracotta"
-                },
-                {
-                  "hex": "#A84C38",
-                  "label": "Fired"
-                },
-                {
-                  "hex": "#D4C4B0",
-                  "label": "Mineral"
-                },
-                {
-                  "hex": "#716456",
-                  "label": "Dust"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s2": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "heading-sample",
-              "hero-prev"
-            ]
-          },
-          "heading-sample": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Late Warmth, Measured",
-              "variant": "heading",
-              "weight": "400"
-            },
-            "children": []
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "stacked-fan",
-              "label": "Stacked Fan"
-            },
-            "children": []
-          },
-          "div1": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s3": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "meta",
-              "grid-prev"
-            ]
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Magazine"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Stacked Fan"
-                },
-                {
-                  "label": "Link",
-                  "value": "Animated Underline"
-                },
-                {
-                  "label": "Texture",
-                  "value": "Grain"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Split-Complementary"
-                },
-                {
-                  "label": "Footer",
-                  "value": "Editorial"
-                }
-              ]
-            },
-            "children": []
-          },
-          "grid-prev": {
-            "type": "LayoutPreview",
-            "props": {
-              "style": "magazine"
-            },
-            "children": []
-          },
-          "div2": {
-            "type": "Divider",
-            "props": {
-              "style": "solid"
-            },
-            "children": []
-          },
-          "s4": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3",
-              "tokens"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "Serif",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "Elevated Cards",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "Editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--radius",
-                  "value": "4px"
-                },
-                {
-                  "name": "--heading",
-                  "value": "Newsreader"
-                },
-                {
-                  "name": "--body",
-                  "value": "Crimson Text"
-                },
-                {
-                  "name": "--img",
-                  "value": "muted/colorize"
-                }
-              ]
-            },
-            "children": []
-          },
-          "cta": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Fired & Resting",
-              "action": "apply-theme",
-              "date": "2026-11-20"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-26"
+  "currentDate": "2026-11-27"
 }

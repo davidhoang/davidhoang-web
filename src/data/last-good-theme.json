@@ -1,309 +1,147 @@
 {
-  "cachedAt": "2026-11-26T06:15:53.032Z",
-  "sourceDate": "2026-11-26",
+  "cachedAt": "2026-11-27T06:15:28.639Z",
+  "sourceDate": "2026-11-27",
   "theme": {
-    "name": "Overexposed Vellichor",
-    "description": "Late-night gallery stillness filtered through faded instant film — bleached surfaces, deep shadow pools, and a single magenta pulse holding everything together.",
+    "name": "Foxed Pages",
+    "description": "A scholarly dawn index rendered in autumn library tones — burgundy rulings, mustard marginalia, and the quiet authority of aged leather bindings.",
     "colors": {
-      "colorScheme": "analogous",
+      "colorScheme": "complementary",
       "contrastMode": "high",
       "light": {
-        "--color-text": "#1A0F0A",
-        "--color-bg": "#F5EFE6",
-        "--color-link": "#C2185B",
-        "--color-link-hover": "#880E4F",
-        "--color-border": "#D4C5B5",
-        "--color-muted": "#716456",
-        "--color-sidebar-bg": "#EDE4D8",
-        "--color-nav-bg": "#F5EFE6",
-        "--color-nav-text": "#1A0F0A",
-        "--color-card-bg": "#EDE4D8"
+        "--color-text": "#2C1A0E",
+        "--color-bg": "#FDF2E9",
+        "--color-link": "#8B1A1A",
+        "--color-link-hover": "#C0392B",
+        "--color-border": "#C4956A",
+        "--color-muted": "#7E6143",
+        "--color-sidebar-bg": "#F5E6D3",
+        "--color-nav-bg": "#FDF2E9",
+        "--color-nav-text": "#2C1A0E",
+        "--color-card-bg": "#F9EAD8"
       },
       "dark": {
-        "--color-text": "#F0E8DC",
+        "--color-text": "#F0DFC0",
         "--color-bg": "#1C1410",
-        "--color-link": "#F06292",
-        "--color-link-hover": "#F48FB1",
-        "--color-border": "#3D2E24",
-        "--color-muted": "#948378",
-        "--color-sidebar-bg": "#251A14",
+        "--color-link": "#D4875A",
+        "--color-link-hover": "#E8A87C",
+        "--color-border": "#5A3A22",
+        "--color-muted": "#A18569",
+        "--color-sidebar-bg": "#231811",
         "--color-nav-bg": "#1C1410",
-        "--color-nav-text": "#F0E8DC",
-        "--color-card-bg": "#251A14"
+        "--color-nav-text": "#F0DFC0",
+        "--color-card-bg": "#261D15"
       }
     },
     "fonts": {
       "heading": {
-        "name": "Fraunces",
-        "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+        "name": "Cormorant Garamond",
+        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
         "category": "serif",
-        "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
       },
       "body": {
-        "name": "IBM Plex Sans",
-        "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap",
+        "name": "Work Sans",
+        "url": "https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap",
         "category": "sans-serif",
-        "stack": "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        "stack": "'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
       }
     },
     "typography": {
-      "headingWeight": "800",
-      "bodyWeight": "300",
-      "bodyLineHeight": "1.7",
+      "headingWeight": "700",
+      "bodyWeight": "400",
+      "bodyLineHeight": "1.65",
       "letterSpacing": "0.01em",
-      "headingLetterSpacing": "-0.04em",
+      "headingLetterSpacing": "0.03em",
       "headingTransform": "none",
-      "scaleRatio": "1.618",
+      "scaleRatio": "1.333",
       "fontVariationSettings": "normal"
     },
     "cards": {
-      "style": "elevated",
-      "shadow": "0 24px 48px rgba(0,0,0,0.2)",
-      "borderWidth": "0px",
-      "padding": "2rem"
+      "style": "outlined",
+      "shadow": "none",
+      "borderWidth": "2px",
+      "padding": "1.25rem"
     },
     "layout": {
-      "borderRadius": "20px",
-      "containerMaxWidth": "1200px",
-      "sectionSpacing": "5rem",
-      "contentPadding": "2rem",
-      "gridStyle": "asymmetric"
+      "borderRadius": "2px",
+      "containerMaxWidth": "1100px",
+      "sectionSpacing": "3rem",
+      "contentPadding": "1.5rem",
+      "gridStyle": "sidebar"
     },
     "hero": {
-      "layout": "cinematic"
+      "layout": "rolodex"
     },
     "links": {
-      "style": "color-only"
+      "style": "bracket"
     },
     "background": {
-      "texture": "none"
+      "texture": "grid"
     },
     "images": {
-      "style": "vivid",
-      "hover": "lift",
-      "opacity": "1",
-      "borderRadius": "16px"
+      "style": "muted",
+      "hover": "colorize",
+      "opacity": "0.9",
+      "borderRadius": "2px"
     },
     "footer": {
-      "style": "gradient"
+      "style": "retro"
     },
     "shader": {
       "type": "none",
       "colors": [
-        "#F5EFE6",
-        "#C2185B"
+        "#FDF2E9",
+        "#C4956A",
+        "#8B1A1A"
       ]
     },
     "font": {
-      "name": "Fraunces",
-      "url": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&display=swap",
+      "name": "Cormorant Garamond",
+      "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
       "category": "serif",
-      "stack": "'Fraunces', Georgia, 'Times New Roman', serif"
+      "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
     },
     "artDirection": {
-      "recipe": "gallery",
-      "name": "Immersive Gallery",
-      "dominantPrimitive": "image"
+      "recipe": "index",
+      "name": "System Index",
+      "dominantPrimitive": "grid"
     },
-    "date": "2026-11-26",
+    "date": "2026-11-27",
     "showcase": {
       "root": "card",
       "elements": {
         "card": {
           "type": "ThemeCard",
           "props": {
-            "title": "Overexposed Vellichor",
-            "subtitle": "2026-11-26 · Daily UI Theme"
+            "title": "Foxed Pages",
+            "subtitle": "November 27, 2026"
+          },
+          "children": [
+            "s-main"
+          ]
+        },
+        "s-main": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "md",
+            "align": "stretch"
           },
           "children": [
             "manifesto",
-            "div1",
-            "palette",
-            "s1",
-            "s2",
-            "div2",
-            "meta",
-            "div3",
-            "tokens",
             "badge-row",
-            "cta"
+            "palette",
+            "s-mid",
+            "divider1",
+            "s-bot",
+            "action"
           ]
         },
         "manifesto": {
           "type": "ThemeManifesto",
           "props": {
-            "text": "A gallery closes at midnight. The overheads cut out. One magenta exit sign bleeds across bleached walls — and you remember everything you forgot to feel.",
-            "emphasis": "bold"
-          },
-          "children": []
-        },
-        "div1": {
-          "type": "Divider",
-          "props": {
-            "style": "dashed"
-          },
-          "children": []
-        },
-        "palette": {
-          "type": "ColorPalette",
-          "props": {
-            "colors": [
-              {
-                "hex": "#F5EFE6",
-                "label": "Bleach"
-              },
-              {
-                "hex": "#EDE4D8",
-                "label": "Faded Film"
-              },
-              {
-                "hex": "#D4C5B5",
-                "label": "Silver Grain"
-              },
-              {
-                "hex": "#716456",
-                "label": "Shadow Pool"
-              },
-              {
-                "hex": "#C2185B",
-                "label": "Magenta Pulse"
-              },
-              {
-                "hex": "#1A0F0A",
-                "label": "Deep Dark"
-              }
-            ]
-          },
-          "children": []
-        },
-        "s1": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "md",
-            "align": "center"
-          },
-          "children": [
-            "heading-sample",
-            "hero-preview"
-          ]
-        },
-        "heading-sample": {
-          "type": "TypeSample",
-          "props": {
-            "text": "Still Life, Overexposed",
-            "variant": "heading",
-            "weight": "700"
-          },
-          "children": []
-        },
-        "hero-preview": {
-          "type": "HeroLayoutPreview",
-          "props": {
-            "layout": "cinematic",
-            "label": "Cinematic Hero"
-          },
-          "children": []
-        },
-        "s2": {
-          "type": "Stack",
-          "props": {
-            "direction": "horizontal",
-            "gap": "sm",
-            "align": "center"
-          },
-          "children": [
-            "body-sample",
-            "layout-preview"
-          ]
-        },
-        "body-sample": {
-          "type": "TypeSample",
-          "props": {
-            "text": "The instant photograph knows something the eye refuses — that light always costs something.",
-            "variant": "body",
-            "weight": "400"
-          },
-          "children": []
-        },
-        "layout-preview": {
-          "type": "LayoutPreview",
-          "props": {
-            "style": "asymmetric"
-          },
-          "children": []
-        },
-        "div2": {
-          "type": "Divider",
-          "props": {
-            "style": "solid"
-          },
-          "children": []
-        },
-        "meta": {
-          "type": "ThemeMeta",
-          "props": {
-            "items": [
-              {
-                "label": "Hero",
-                "value": "Cinematic"
-              },
-              {
-                "label": "Grid",
-                "value": "Asymmetric"
-              },
-              {
-                "label": "Shader",
-                "value": "None"
-              },
-              {
-                "label": "Link Style",
-                "value": "Color-only · #C2185B"
-              },
-              {
-                "label": "Contrast",
-                "value": "High"
-              },
-              {
-                "label": "Footer",
-                "value": "Gradient"
-              }
-            ]
-          },
-          "children": []
-        },
-        "div3": {
-          "type": "Divider",
-          "props": {
-            "style": "dotted"
-          },
-          "children": []
-        },
-        "tokens": {
-          "type": "TokenGrid",
-          "props": {
-            "tokens": [
-              {
-                "name": "--color-link",
-                "value": "#C2185B"
-              },
-              {
-                "name": "--color-bg",
-                "value": "#F5EFE6"
-              },
-              {
-                "name": "--color-card-bg",
-                "value": "#EDE4D8"
-              },
-              {
-                "name": "--border-radius",
-                "value": "20px"
-              },
-              {
-                "name": "--font-heading",
-                "value": "Fraunces"
-              }
-            ]
+            "text": "The margins are where the real thinking happens. Autumn light through library glass, rulings in burgundy, notes in mustard — a day that smells of old paper and quiet authority.",
+            "emphasis": "quiet"
           },
           "children": []
         },
@@ -324,23 +162,23 @@
         "b1": {
           "type": "Badge",
           "props": {
-            "text": "Serif Heading",
-            "variant": "filled"
+            "text": "serif",
+            "variant": "outlined"
           },
           "children": []
         },
         "b2": {
           "type": "Badge",
           "props": {
-            "text": "Elevated Cards",
-            "variant": "outlined"
+            "text": "editorial",
+            "variant": "filled"
           },
           "children": []
         },
         "b3": {
           "type": "Badge",
           "props": {
-            "text": "Analogous",
+            "text": "high contrast",
             "variant": "outlined"
           },
           "children": []
@@ -348,17 +186,205 @@
         "b4": {
           "type": "Badge",
           "props": {
-            "text": "Late-Night Editorial",
-            "variant": "filled"
+            "text": "retro footer",
+            "variant": "outlined"
           },
           "children": []
         },
-        "cta": {
+        "palette": {
+          "type": "ColorPalette",
+          "props": {
+            "colors": [
+              {
+                "hex": "#FDF2E9",
+                "label": "Vellum"
+              },
+              {
+                "hex": "#2C1A0E",
+                "label": "Inkwell"
+              },
+              {
+                "hex": "#8B1A1A",
+                "label": "Ruling"
+              },
+              {
+                "hex": "#C4956A",
+                "label": "Leather"
+              },
+              {
+                "hex": "#C0392B",
+                "label": "Foxing"
+              },
+              {
+                "hex": "#7E6143",
+                "label": "Marginalia"
+              }
+            ]
+          },
+          "children": []
+        },
+        "s-mid": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "start"
+          },
+          "children": [
+            "s-left",
+            "s-right"
+          ]
+        },
+        "s-left": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "stretch"
+          },
+          "children": [
+            "heading-sample",
+            "body-sample",
+            "caption-sample"
+          ]
+        },
+        "heading-sample": {
+          "type": "TypeSample",
+          "props": {
+            "text": "A Scholarly Dawn Index",
+            "variant": "heading",
+            "weight": "600"
+          },
+          "children": []
+        },
+        "body-sample": {
+          "type": "TypeSample",
+          "props": {
+            "text": "Aged leather bindings carry the quiet authority of a hundred annotated winters.",
+            "variant": "body"
+          },
+          "children": []
+        },
+        "caption-sample": {
+          "type": "TypeSample",
+          "props": {
+            "text": "§ bracket links · outlined cards · 2px radius · grid texture",
+            "variant": "caption"
+          },
+          "children": []
+        },
+        "s-right": {
+          "type": "Stack",
+          "props": {
+            "direction": "vertical",
+            "gap": "sm",
+            "align": "stretch"
+          },
+          "children": [
+            "hero-prev",
+            "layout-prev"
+          ]
+        },
+        "hero-prev": {
+          "type": "HeroLayoutPreview",
+          "props": {
+            "layout": "rolodex",
+            "label": "Rolodex Hero"
+          },
+          "children": []
+        },
+        "layout-prev": {
+          "type": "LayoutPreview",
+          "props": {
+            "style": "sidebar"
+          },
+          "children": []
+        },
+        "divider1": {
+          "type": "Divider",
+          "props": {
+            "style": "dashed"
+          },
+          "children": []
+        },
+        "s-bot": {
+          "type": "Stack",
+          "props": {
+            "direction": "horizontal",
+            "gap": "md",
+            "align": "start"
+          },
+          "children": [
+            "meta",
+            "tokens"
+          ]
+        },
+        "meta": {
+          "type": "ThemeMeta",
+          "props": {
+            "items": [
+              {
+                "label": "Hero",
+                "value": "Rolodex"
+              },
+              {
+                "label": "Grid",
+                "value": "Sidebar"
+              },
+              {
+                "label": "Link style",
+                "value": "Bracket"
+              },
+              {
+                "label": "Card style",
+                "value": "Outlined"
+              },
+              {
+                "label": "Shader",
+                "value": "None"
+              },
+              {
+                "label": "Texture",
+                "value": "Grid"
+              }
+            ]
+          },
+          "children": []
+        },
+        "tokens": {
+          "type": "TokenGrid",
+          "props": {
+            "tokens": [
+              {
+                "name": "--color-bg",
+                "value": "#FDF2E9"
+              },
+              {
+                "name": "--color-text",
+                "value": "#2C1A0E"
+              },
+              {
+                "name": "--color-link",
+                "value": "#8B1A1A"
+              },
+              {
+                "name": "--color-border",
+                "value": "#C4956A"
+              },
+              {
+                "name": "--border-radius",
+                "value": "2px"
+              }
+            ]
+          },
+          "children": []
+        },
+        "action": {
           "type": "ThemeActionButton",
           "props": {
-            "label": "Apply Overexposed Vellichor",
+            "label": "Apply Foxed Pages",
             "action": "apply-theme",
-            "date": "2026-11-26"
+            "date": "2026-11-27"
           },
           "children": []
         }
