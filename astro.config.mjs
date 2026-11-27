@@ -22,6 +22,20 @@ const MANUAL_CHUNKS = [
   // /experiments/greco-diorama island. Scene modules belong here too: left in a
   // page chunk they would statically link this bundle and defeat the boundary.
   ['homes-3d', ['node_modules/three/', 'node_modules/three-stdlib/', 'node_modules/@react-three/', 'src/components/homes/HomeScene.tsx', 'src/components/diorama/DioramaScene.tsx']],
+  // json-render + Zod for /daily-themes only — ThemesExplorerMount must stay out of this graph.
+  [
+    'themes-explorer',
+    [
+      'node_modules/@json-render/',
+      'node_modules/zod/',
+      'src/components/generative-ui/ThemesExplorer.tsx',
+      'src/components/generative-ui/ThemeSpecRenderer.tsx',
+      'src/components/generative-ui/catalog.ts',
+      'src/components/generative-ui/registry.tsx',
+      'src/components/generative-ui/themeExplorer.ts',
+      'src/components/generative-ui/zodClientConfig.ts',
+    ],
+  ],
   ['framer-motion', ['node_modules/framer-motion/', 'node_modules/motion-dom/', 'node_modules/motion-utils/']],
   ['paper-shaders', ['node_modules/@paper-design/shaders-react/', 'node_modules/@paper-design/shaders/']],
   // Navigation imports this on every page; keep it out of hero-components or framer-motion loads site-wide.

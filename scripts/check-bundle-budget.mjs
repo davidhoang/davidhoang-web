@@ -11,10 +11,11 @@ const budgets = {
   maxTotalJsGzipKiB: 260,
 };
 
-// This optional renderer is lazy-imported by the /now homes island near the
-// viewport. Keep its allowance separate so the existing site's budget stays 260 KiB.
+// These optional bundles are reached only through dynamic imports from dedicated
+// island facades. Keep allowances separate so the core site budget stays 260 KiB.
 const optionalChunkBudgets = {
   'homes-3d': { rawKiB: 1050, gzipKiB: 280 },
+  'themes-explorer': { rawKiB: 220, gzipKiB: 55 },
 };
 function optionalBudget(file) {
   const name = basename(file);
@@ -74,23 +75,28 @@ const jsAssets = files.map((file) => {
   };
 }).sort((a, b) => b.gzipBytes - a.gzipBytes);
 
-const totalJsGzipBytes = jsAssets.filter(asset => !optionalBudget(asset.file)).reduce((sum, asset) => sum + asset.gzipBytes, 0);
-const optionalJsGzipBytes = jsAssets.filter(asset => optionalBudget(asset.file)).reduce((sum, asset) => sum + asset.gzipBytes, 0);
+const totalJsGzipBytes = jsAssets.filter((asset) => !optionalBudget(asset.file)).reduce((sum, asset) => sum + asset.gzipBytes, 0);
+const optional3dGzipBytes = jsAssets
+  .filter((asset) => basename(asset.file).startsWith('homes-3d.'))
+  .reduce((sum, asset) => sum + asset.gzipBytes, 0);
+const optionalThemesGzipBytes = jsAssets
+  .filter((asset) => basename(asset.file).startsWith('themes-explorer.'))
+  .reduce((sum, asset) => sum + asset.gzipBytes, 0);
 const failures = [];
 
 // A static vendor → 3D import defeats the island's lazy boundary even when its
 // file-size allowance passes. Only the dynamically imported scene facades may
 // statically reference the optional renderer; every island must reach them
 // through import(), so no page chunk pulls the renderer into its entry graph.
-const sceneFacades = ['HomeScene', 'DioramaScene'];
-const static3dImport = new RegExp(
-  `\\b(?:import|export)\\s*(?:[^;'"()]*?from\\s*)?["'][^"']*(?:homes-3d|${sceneFacades.join('|')})\\.[^"']+["']`,
+const optionalFacades = ['HomeScene', 'DioramaScene', 'ThemesExplorer', 'ThemesExplorerMount'];
+const staticOptionalImport = new RegExp(
+  `\\b(?:import|export)\\s*(?:[^;'"()]*?from\\s*)?["'][^"']*(?:homes-3d|themes-explorer|${optionalFacades.filter((n) => n !== 'ThemesExplorerMount').join('|')})\\.[^"']+["']`,
 );
-const isSceneFacade = (file) => sceneFacades.some((name) => basename(file).startsWith(`${name}.`));
+const isOptionalFacade = (file) => optionalFacades.some((name) => basename(file).startsWith(`${name}.`));
 for (const asset of jsAssets) {
-  if (optionalBudget(asset.file) || isSceneFacade(asset.file)) continue;
-  if (static3dImport.test(readFileSync(asset.file, 'utf8'))) {
-    failures.push(`${relative('.', asset.file)} statically imports the optional 3D renderer`);
+  if (optionalBudget(asset.file) || isOptionalFacade(asset.file)) continue;
+  if (staticOptionalImport.test(readFileSync(asset.file, 'utf8'))) {
+    failures.push(`${relative('.', asset.file)} statically imports an optional lazy bundle`);
   }
 }
 
@@ -126,8 +132,10 @@ if (totalJsGzipBytes > budgets.maxTotalJsGzipKiB * KIB) {
 
 console.log('Bundle budget');
 console.log(`Core JS gzip: ${formatKiB(totalJsGzipBytes)} / ${budgets.maxTotalJsGzipKiB} KiB`);
-console.log(`Optional /now 3D gzip: ${formatKiB(optionalJsGzipBytes)} / 280 KiB`);
-if (optionalJsGzipBytes > 280 * KIB) failures.push('Optional /now 3D total exceeds 280 KiB gzip');
+console.log(`Optional /now 3D gzip: ${formatKiB(optional3dGzipBytes)} / 280 KiB`);
+console.log(`Optional /daily-themes gzip: ${formatKiB(optionalThemesGzipBytes)} / 55 KiB`);
+if (optional3dGzipBytes > 280 * KIB) failures.push('Optional /now 3D total exceeds 280 KiB gzip');
+if (optionalThemesGzipBytes > 55 * KIB) failures.push('Optional /daily-themes total exceeds 55 KiB gzip');
 console.log('Largest JS assets:');
 for (const asset of jsAssets.slice(0, 8)) {
   const named = namedChunkKey(asset.file);
