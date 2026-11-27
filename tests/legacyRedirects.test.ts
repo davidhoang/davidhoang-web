@@ -16,6 +16,7 @@ const LEGACY_REDIRECTS = [
   { source: '/blog', destination: '/writing' },
   { source: '/newsletter', destination: '/subscribe' },
   { source: '/resume', destination: '/cv' },
+  { source: '/odyssey', destination: '/career-odyssey' },
   { source: '/writing/tag', destination: '/writing' },
   { source: '/writing/tags', destination: '/writing' },
   {
