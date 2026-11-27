@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import ThemesExplorer from '../components/generative-ui/ThemesExplorer.tsx';
+import ThemesExplorerMount from '../components/generative-ui/ThemesExplorerMount.tsx';
 import dailyThemes from '../data/daily-themes.json';
 import '../styles/modules/themes-explorer.css';
 
@@ -15,5 +15,5 @@ const pageDescription =
     variant="text-only"
     subtitle="AI-generated themes rendered with json-render"
   />
-  <ThemesExplorer client:visible themes={dailyThemes.themes as any} />
+  <ThemesExplorerMount client:visible themes={dailyThemes.themes as any} />
 </MainLayout>
