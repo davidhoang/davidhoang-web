@@ -15,7 +15,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       <span class="digit" style="--i:2">4</span>
     </div>
     <h1 class="text-heading">Page not found</h1>
-    <p class="message text-muted">The page you're looking for doesn't exist or has been moved.</p>
+    <p class="message">The page you're looking for doesn't exist or has been moved.</p>
     <nav class="suggestions" aria-label="Suggested pages">
       <a href="/notes">Notes</a>
       <a href="/works">Works</a>
@@ -83,8 +83,10 @@ import MainLayout from '../layouts/MainLayout.astro';
       margin: 0 0 var(--spacing-xl);
       max-width: 36ch;
       line-height: 1.5;
-      opacity: 0;
-      animation: fadeUp var(--duration-slow) var(--ease-inertia) 0.45s forwards;
+      color: var(--color-muted);
+      opacity: 1;
+      visibility: hidden;
+      animation: messageReveal var(--duration-slow) var(--ease-inertia) 0.45s forwards;
     }
 
     .suggestions {
@@ -171,6 +173,18 @@ import MainLayout from '../layouts/MainLayout.astro';
       }
     }
 
+    /* Motion-only entrance — muted copy stays at opacity 1 for WCAG contrast (PCD-192). */
+    @keyframes messageReveal {
+      from {
+        visibility: visible;
+        transform: translateY(8px);
+      }
+      to {
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+
     /* Motion-only entrance — muted text must stay at opacity 1 when visible (PCD-192 / WCAG AA). */
     @keyframes cmdHintReveal {
       from {
@@ -193,6 +207,9 @@ import MainLayout from '../layouts/MainLayout.astro';
         opacity: 1;
         visibility: visible;
         transform: none;
+      }
+      .message {
+        color: var(--color-muted);
       }
       .digit {
         opacity: 0.12;
