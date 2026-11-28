@@ -17,6 +17,16 @@ const LEGACY_REDIRECTS = [
   { source: '/newsletter', destination: '/subscribe' },
   { source: '/resume', destination: '/cv' },
   { source: '/odyssey', destination: '/career-odyssey' },
+  { source: '/home', destination: '/' },
+  { source: '/portfolio', destination: '/works' },
+  {
+    source: '/writing/mvc-is-decoupling',
+    destination: '/notes/mvc-is-decoupling',
+  },
+  {
+    source: '/writing/dynamic-interfaces',
+    destination: '/notes/dynamic-interfaces',
+  },
   { source: '/writing/tag', destination: '/writing' },
   { source: '/writing/tags', destination: '/writing' },
   {
