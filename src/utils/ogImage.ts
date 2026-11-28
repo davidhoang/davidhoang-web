@@ -6,7 +6,33 @@
  * the single static site portrait.
  */
 
+import { resolveAssetImage } from './assetImages';
+
 export type OgCardType = 'writing' | 'notes' | 'page';
+
+/** Default dimensions for `/api/og` generated cards. */
+export const OG_GENERATED_IMAGE_SIZE = { width: 1200, height: 630 } as const;
+
+/**
+ * Read pixel dimensions for a static `/images/...` OG asset from the Astro image catalog.
+ * Generated `/api/og` cards and unknown paths fall back to undefined (caller uses 1200×630).
+ */
+export function resolveStaticOgImageSize(
+  imagePath: string | undefined | null,
+): { width: number; height: number } | undefined {
+  if (!imagePath || imagePath.includes('/api/og')) return undefined;
+  let pathname = imagePath;
+  if (/^https?:\/\//i.test(imagePath)) {
+    try {
+      pathname = new URL(imagePath).pathname;
+    } catch {
+      return undefined;
+    }
+  }
+  const meta = resolveAssetImage(pathname.startsWith('/') ? pathname : `/${pathname}`);
+  if (!meta?.width || !meta?.height) return undefined;
+  return { width: meta.width, height: meta.height };
+}
 
 /** Stock assets reused across unrelated pages — not page-specific for social cards. */
 export const SHARED_GENERIC_OG_IMAGES = new Set([

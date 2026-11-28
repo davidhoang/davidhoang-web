@@ -2,9 +2,11 @@ import { describe, expect, it } from 'vitest';
 import {
   buildOgImageUrl,
   isSharedGenericOgImage,
+  OG_GENERATED_IMAGE_SIZE,
   resolveContentOgImage,
   resolveOgBadge,
   resolveOgTitleFontSize,
+  resolveStaticOgImageSize,
 } from '../src/utils/ogImage';
 
 describe('resolveOgBadge', () => {
@@ -89,5 +91,16 @@ describe('resolveContentOgImage', () => {
     });
     expect(url).toContain('/api/og');
     expect(url).toContain('title=One+Medical');
+  });
+});
+
+describe('resolveStaticOgImageSize', () => {
+  it('returns undefined for generated OG cards', () => {
+    expect(resolveStaticOgImageSize('/api/og?title=Test')).toBeUndefined();
+    expect(resolveStaticOgImageSize(undefined)).toBeUndefined();
+  });
+
+  it('exports the generated card default size', () => {
+    expect(OG_GENERATED_IMAGE_SIZE).toEqual({ width: 1200, height: 630 });
   });
 });
