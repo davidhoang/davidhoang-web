@@ -15,7 +15,7 @@ import {
   SITE_DESCRIPTION,
 } from '../utils/structuredData';
 import { serializeDocumentTitle } from '../utils/documentTitle';
-import { buildOgImageUrl } from '../utils/ogImage';
+import { buildOgImageUrl, OG_GENERATED_IMAGE_SIZE, resolveStaticOgImageSize } from '../utils/ogImage';
 import { resolveOpenGraphVideo } from '../utils/ogVideo';
 import { resolveLayoutPageKind, resolveOpenGraphType } from '../utils/pageMeta';
 import { resolveCriticalUIFontFamily } from '../utils/font-preload';
@@ -198,10 +198,9 @@ const ogVideoMeta = ogVideo
   ? resolveOpenGraphVideo(ogVideo, siteUrl, ogVideoSize)
   : undefined;
 
-const OG_IMAGE_DEFAULT_WIDTH = 1200;
-const OG_IMAGE_DEFAULT_HEIGHT = 630;
-const ogImageWidth = ogImageSize?.width ?? OG_IMAGE_DEFAULT_WIDTH;
-const ogImageHeight = ogImageSize?.height ?? OG_IMAGE_DEFAULT_HEIGHT;
+const staticOgDimensions = ogImageSize ?? resolveStaticOgImageSize(resolvedOgImage);
+const ogImageWidth = staticOgDimensions?.width ?? OG_GENERATED_IMAGE_SIZE.width;
+const ogImageHeight = staticOgDimensions?.height ?? OG_GENERATED_IMAGE_SIZE.height;
 ---
 
 <!DOCTYPE html>
