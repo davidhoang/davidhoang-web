@@ -1,6 +1,375 @@
 {
   "themes": [
     {
+      "name": "Fired & Flooded",
+      "description": "Morning light on wet zellige — terracotta geometry, mineral blue, and bone-white surfaces arranged with the irregular confidence of hand-cut tile.",
+      "colors": {
+        "colorScheme": "split-complementary",
+        "contrastMode": "high",
+        "light": {
+          "--color-text": "#2C1A0E",
+          "--color-bg": "#F5EFE6",
+          "--color-link": "#1B5E8A",
+          "--color-link-hover": "#B63E19",
+          "--color-border": "#C8A882",
+          "--color-muted": "#7E6046",
+          "--color-sidebar-bg": "#EDE4D8",
+          "--color-nav-bg": "#F5EFE6",
+          "--color-nav-text": "#2C1A0E",
+          "--color-card-bg": "#EDE4D8"
+        },
+        "dark": {
+          "--color-text": "#F0E8DC",
+          "--color-bg": "#1C1410",
+          "--color-link": "#5BAAD4",
+          "--color-link-hover": "#E8622A",
+          "--color-border": "#4A3322",
+          "--color-muted": "#988070",
+          "--color-sidebar-bg": "#251A13",
+          "--color-nav-bg": "#1C1410",
+          "--color-nav-text": "#F0E8DC",
+          "--color-card-bg": "#251A13"
+        }
+      },
+      "fonts": {
+        "heading": {
+          "name": "Bricolage Grotesque",
+          "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+          "category": "display",
+          "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+        },
+        "body": {
+          "name": "Source Serif 4",
+          "url": "https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;500;600;700&display=swap",
+          "category": "serif",
+          "stack": "'Source Serif 4', Georgia, 'Times New Roman', serif"
+        }
+      },
+      "typography": {
+        "headingWeight": "700",
+        "bodyWeight": "400",
+        "bodyLineHeight": "1.65",
+        "letterSpacing": "0.01em",
+        "headingLetterSpacing": "-0.02em",
+        "headingTransform": "none",
+        "scaleRatio": "1.618",
+        "fontVariationSettings": "normal"
+      },
+      "cards": {
+        "style": "outlined",
+        "shadow": "none",
+        "borderWidth": "2px",
+        "padding": "1.5rem"
+      },
+      "layout": {
+        "borderRadius": "8px",
+        "containerMaxWidth": "1100px",
+        "sectionSpacing": "4rem",
+        "contentPadding": "1.5rem",
+        "gridStyle": "standard"
+      },
+      "hero": {
+        "layout": "scattered"
+      },
+      "links": {
+        "style": "highlight"
+      },
+      "background": {
+        "texture": "dots"
+      },
+      "images": {
+        "style": "vivid",
+        "hover": "zoom",
+        "opacity": "1",
+        "borderRadius": "8px"
+      },
+      "footer": {
+        "style": "retro"
+      },
+      "shader": {
+        "type": "none",
+        "colors": [
+          "#F5EFE6",
+          "#1B5E8A"
+        ]
+      },
+      "font": {
+        "name": "Bricolage Grotesque",
+        "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap",
+        "category": "display",
+        "stack": "'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif"
+      },
+      "artDirection": {
+        "recipe": "playground",
+        "name": "Color Playground",
+        "dominantPrimitive": "surface"
+      },
+      "date": "2026-11-28",
+      "showcase": {
+        "root": "card",
+        "elements": {
+          "card": {
+            "type": "ThemeCard",
+            "props": {
+              "title": "Fired & Flooded",
+              "subtitle": "Nov 28, 2026 — Split-Complementary · High Contrast"
+            },
+            "children": [
+              "manifesto",
+              "d1",
+              "s1",
+              "s2",
+              "d2",
+              "s3",
+              "action"
+            ]
+          },
+          "manifesto": {
+            "type": "ThemeManifesto",
+            "props": {
+              "text": "Morning light on wet zellige. Terracotta geometry meets mineral blue — the irregular confidence of hand-cut tile, translated into every outlined card and retro footer.",
+              "emphasis": "bold"
+            },
+            "children": []
+          },
+          "d1": {
+            "type": "Divider",
+            "props": {
+              "style": "dotted"
+            },
+            "children": []
+          },
+          "s1": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "left",
+              "right"
+            ]
+          },
+          "left": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "h1",
+              "br",
+              "badges"
+            ]
+          },
+          "h1": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Zellige Hour",
+              "variant": "heading",
+              "weight": "800"
+            },
+            "children": []
+          },
+          "br": {
+            "type": "TypeSample",
+            "props": {
+              "text": "Hand-cut surfaces, mineral clarity, terracotta warmth bleeding into bone-white silence.",
+              "variant": "body"
+            },
+            "children": []
+          },
+          "badges": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "sm",
+              "align": "start"
+            },
+            "children": [
+              "b1",
+              "b2",
+              "b3"
+            ]
+          },
+          "b1": {
+            "type": "Badge",
+            "props": {
+              "text": "display",
+              "variant": "filled"
+            },
+            "children": []
+          },
+          "b2": {
+            "type": "Badge",
+            "props": {
+              "text": "outlined",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "b3": {
+            "type": "Badge",
+            "props": {
+              "text": "retro footer",
+              "variant": "outlined"
+            },
+            "children": []
+          },
+          "right": {
+            "type": "Stack",
+            "props": {
+              "direction": "vertical",
+              "gap": "md",
+              "align": "stretch"
+            },
+            "children": [
+              "hero",
+              "shader"
+            ]
+          },
+          "hero": {
+            "type": "HeroLayoutPreview",
+            "props": {
+              "layout": "scattered",
+              "label": "Scattered Hero"
+            },
+            "children": []
+          },
+          "shader": {
+            "type": "ShaderPreview",
+            "props": {
+              "type": "dot-grid",
+              "colors": [
+                "#F5EFE6",
+                "#1B5E8A",
+                "#C8A882"
+              ]
+            },
+            "children": []
+          },
+          "d2": {
+            "type": "Divider",
+            "props": {
+              "style": "solid"
+            },
+            "children": []
+          },
+          "s2": {
+            "type": "Stack",
+            "props": {
+              "direction": "horizontal",
+              "gap": "md",
+              "align": "center"
+            },
+            "children": [
+              "palette",
+              "meta"
+            ]
+          },
+          "palette": {
+            "type": "ColorPalette",
+            "props": {
+              "colors": [
+                {
+                  "hex": "#F5EFE6",
+                  "label": "Bone"
+                },
+                {
+                  "hex": "#EDE4D8",
+                  "label": "Parchment"
+                },
+                {
+                  "hex": "#C8A882",
+                  "label": "Sand"
+                },
+                {
+                  "hex": "#B63E19",
+                  "label": "Terracotta"
+                },
+                {
+                  "hex": "#1B5E8A",
+                  "label": "Mineral"
+                },
+                {
+                  "hex": "#2C1A0E",
+                  "label": "Espresso"
+                }
+              ]
+            },
+            "children": []
+          },
+          "meta": {
+            "type": "ThemeMeta",
+            "props": {
+              "items": [
+                {
+                  "label": "Hero",
+                  "value": "Scattered"
+                },
+                {
+                  "label": "Grid",
+                  "value": "Standard"
+                },
+                {
+                  "label": "Texture",
+                  "value": "Dot Grid"
+                },
+                {
+                  "label": "Links",
+                  "value": "Highlight"
+                },
+                {
+                  "label": "Radius",
+                  "value": "8px"
+                }
+              ]
+            },
+            "children": []
+          },
+          "s3": {
+            "type": "TokenGrid",
+            "props": {
+              "tokens": [
+                {
+                  "name": "--color-bg",
+                  "value": "#F5EFE6"
+                },
+                {
+                  "name": "--color-link",
+                  "value": "#1B5E8A"
+                },
+                {
+                  "name": "--color-link-hover",
+                  "value": "#B63E19"
+                },
+                {
+                  "name": "--font-heading",
+                  "value": "Bricolage Grotesque"
+                },
+                {
+                  "name": "--font-body",
+                  "value": "Source Serif 4"
+                }
+              ]
+            },
+            "children": []
+          },
+          "action": {
+            "type": "ThemeActionButton",
+            "props": {
+              "label": "Apply Fired & Flooded",
+              "action": "apply-theme",
+              "date": "2026-11-28"
+            },
+            "children": []
+          }
+        }
+      }
+    },
+    {
       "name": "Foxed Pages",
       "description": "A scholarly dawn index rendered in autumn library tones — burgundy rulings, mustard marginalia, and the quiet authority of aged leather bindings.",
       "colors": {
@@ -2213,355 +2582,7 @@
           }
         }
       }
-    },
-    {
-      "name": "Quarry & Aureole",
-      "description": "Raw structural weight meets a single blade of soft morning radiance — Swiss grid precision anchoring an ethereal image-first composition.",
-      "colors": {
-        "colorScheme": "analogous",
-        "contrastMode": "standard",
-        "light": {
-          "--color-text": "#2C2420",
-          "--color-bg": "#F5F0EA",
-          "--color-link": "#836008",
-          "--color-link-hover": "#846008",
-          "--color-border": "#D8CFBF",
-          "--color-muted": "#716659",
-          "--color-sidebar-bg": "#EDE7DE",
-          "--color-nav-bg": "#F5F0EA",
-          "--color-nav-text": "#2C2420",
-          "--color-card-bg": "#EDE7DE"
-        },
-        "dark": {
-          "--color-text": "#E8E0D4",
-          "--color-bg": "#1C1710",
-          "--color-link": "#D4A843",
-          "--color-link-hover": "#F0C860",
-          "--color-border": "#3A3025",
-          "--color-muted": "#948A7D",
-          "--color-sidebar-bg": "#231E16",
-          "--color-nav-bg": "#1C1710",
-          "--color-nav-text": "#E8E0D4",
-          "--color-card-bg": "#261F16"
-        }
-      },
-      "fonts": {
-        "heading": {
-          "name": "Cormorant Garamond",
-          "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-          "category": "serif",
-          "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-        },
-        "body": {
-          "name": "Inter",
-          "url": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap",
-          "category": "sans-serif",
-          "stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-        }
-      },
-      "typography": {
-        "headingWeight": "700",
-        "bodyWeight": "400",
-        "bodyLineHeight": "1.7",
-        "letterSpacing": "0.01em",
-        "headingLetterSpacing": "-0.03em",
-        "headingTransform": "none",
-        "scaleRatio": "1.618",
-        "fontVariationSettings": "normal"
-      },
-      "cards": {
-        "style": "filled",
-        "shadow": "0 8px 32px rgba(0,0,0,0.12)",
-        "borderWidth": "0px",
-        "padding": "1.5rem"
-      },
-      "layout": {
-        "borderRadius": "16px",
-        "containerMaxWidth": "1200px",
-        "sectionSpacing": "5rem",
-        "contentPadding": "1.5rem",
-        "gridStyle": "asymmetric"
-      },
-      "hero": {
-        "layout": "cinematic"
-      },
-      "links": {
-        "style": "color-only"
-      },
-      "background": {
-        "texture": "none"
-      },
-      "images": {
-        "style": "vivid",
-        "hover": "zoom",
-        "opacity": "1",
-        "borderRadius": "16px"
-      },
-      "footer": {
-        "style": "boxed"
-      },
-      "shader": {
-        "type": "none",
-        "colors": [
-          "#F5F0EA",
-          "#D4A843"
-        ]
-      },
-      "font": {
-        "name": "Cormorant Garamond",
-        "url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap",
-        "category": "serif",
-        "stack": "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-      },
-      "artDirection": {
-        "recipe": "gallery",
-        "name": "Immersive Gallery",
-        "dominantPrimitive": "image"
-      },
-      "date": "2026-11-21",
-      "showcase": {
-        "root": "card",
-        "elements": {
-          "card": {
-            "type": "ThemeCard",
-            "props": {
-              "title": "Quarry & Aureole",
-              "subtitle": "November 21, 2026"
-            },
-            "children": [
-              "s-main"
-            ]
-          },
-          "s-main": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "md",
-              "align": "stretch"
-            },
-            "children": [
-              "manifesto",
-              "s-badges",
-              "hero-prev",
-              "palette",
-              "s-mid",
-              "divider",
-              "s-foot"
-            ]
-          },
-          "manifesto": {
-            "type": "ThemeManifesto",
-            "props": {
-              "text": "Raw stone. One blade of gold light. The grid holds everything — until the image breaks free.",
-              "emphasis": "bold"
-            },
-            "children": []
-          },
-          "s-badges": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "sm",
-              "align": "center"
-            },
-            "children": [
-              "b1",
-              "b2",
-              "b3"
-            ]
-          },
-          "b1": {
-            "type": "Badge",
-            "props": {
-              "text": "serif / sans",
-              "variant": "filled"
-            },
-            "children": []
-          },
-          "b2": {
-            "type": "Badge",
-            "props": {
-              "text": "editorial",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "b3": {
-            "type": "Badge",
-            "props": {
-              "text": "image-first",
-              "variant": "outlined"
-            },
-            "children": []
-          },
-          "hero-prev": {
-            "type": "HeroLayoutPreview",
-            "props": {
-              "layout": "cinematic",
-              "label": "Cinematic hero — full-bleed, asymmetric anchor"
-            },
-            "children": []
-          },
-          "palette": {
-            "type": "ColorPalette",
-            "props": {
-              "colors": [
-                {
-                  "hex": "#F5F0EA",
-                  "label": "Parchment"
-                },
-                {
-                  "hex": "#EDE7DE",
-                  "label": "Quarry Dust"
-                },
-                {
-                  "hex": "#D8CFBF",
-                  "label": "Stone Veil"
-                },
-                {
-                  "hex": "#D4A843",
-                  "label": "Aureole"
-                },
-                {
-                  "hex": "#836008",
-                  "label": "Burnished"
-                },
-                {
-                  "hex": "#2C2420",
-                  "label": "Foundry"
-                }
-              ]
-            },
-            "children": []
-          },
-          "s-mid": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "start"
-            },
-            "children": [
-              "s-type",
-              "meta"
-            ]
-          },
-          "s-type": {
-            "type": "Stack",
-            "props": {
-              "direction": "vertical",
-              "gap": "sm",
-              "align": "start"
-            },
-            "children": [
-              "t-head",
-              "t-body"
-            ]
-          },
-          "t-head": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Stone holds the light it never shows.",
-              "variant": "heading",
-              "weight": "600"
-            },
-            "children": []
-          },
-          "t-body": {
-            "type": "TypeSample",
-            "props": {
-              "text": "Swiss grid precision. A single aureole at dawn. Structure and softness, unresolved.",
-              "variant": "body"
-            },
-            "children": []
-          },
-          "meta": {
-            "type": "ThemeMeta",
-            "props": {
-              "items": [
-                {
-                  "label": "Grid",
-                  "value": "Asymmetric"
-                },
-                {
-                  "label": "Hero",
-                  "value": "Cinematic"
-                },
-                {
-                  "label": "Scheme",
-                  "value": "Analogous"
-                },
-                {
-                  "label": "Cards",
-                  "value": "Filled / r16"
-                },
-                {
-                  "label": "Links",
-                  "value": "Color-only"
-                },
-                {
-                  "label": "Shader",
-                  "value": "None"
-                }
-              ]
-            },
-            "children": []
-          },
-          "divider": {
-            "type": "Divider",
-            "props": {
-              "style": "dashed"
-            },
-            "children": []
-          },
-          "s-foot": {
-            "type": "Stack",
-            "props": {
-              "direction": "horizontal",
-              "gap": "md",
-              "align": "center"
-            },
-            "children": [
-              "tokens",
-              "apply-btn"
-            ]
-          },
-          "tokens": {
-            "type": "TokenGrid",
-            "props": {
-              "tokens": [
-                {
-                  "name": "--color-bg",
-                  "value": "#F5F0EA"
-                },
-                {
-                  "name": "--color-link",
-                  "value": "#836008"
-                },
-                {
-                  "name": "--color-border",
-                  "value": "#D8CFBF"
-                },
-                {
-                  "name": "--border-radius",
-                  "value": "16px"
-                }
-              ]
-            },
-            "children": []
-          },
-          "apply-btn": {
-            "type": "ThemeActionButton",
-            "props": {
-              "label": "Apply Quarry & Aureole",
-              "action": "apply-theme",
-              "date": "2026-11-21"
-            },
-            "children": []
-          }
-        }
-      }
     }
   ],
-  "currentDate": "2026-11-27"
+  "currentDate": "2026-11-28"
 }
