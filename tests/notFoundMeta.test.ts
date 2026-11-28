@@ -16,6 +16,13 @@ describe('404 page SEO', () => {
     expect(source).toMatch(/\.cmd-hint[\s\S]*?opacity:\s*1/);
   });
 
+  it('reveals the 404 message with transform-only motion so muted copy keeps full contrast', () => {
+    const source = readSource(join(process.cwd(), 'src/pages/404.astro'), 'utf8');
+    expect(source).toMatch(/@keyframes messageReveal/);
+    expect(source).toMatch(/\.message \{[\s\S]*?animation:\s*messageReveal/);
+    expect(source).toMatch(/\.message \{[\s\S]*?opacity:\s*1/);
+  });
+
   it('emits noindex in built HTML when dist/ exists', () => {
     const htmlPath = join(process.cwd(), 'dist/client/404.html');
     if (!existsSync(htmlPath)) {
