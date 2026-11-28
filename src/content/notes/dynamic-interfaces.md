@@ -28,8 +28,6 @@ links:
     url: "https://www.youtube.com/watch?v=c4VjKcW8980"
   - title: "What is AI's UI? (Hanselminutes with David Hoang)"
     url: "https://www.hanselminutes.com/924/what-is-ais-ui-with-david-hoang"
-  - title: "The growing importance of design in the age of AI (Figma)"
-    url: "https://www.figma.com/blog/the-growing-importance-of-design-in-the-age-of-ai/"
   - title: "Human Interface Guidelines — Liquid Glass (Apple)"
     url: "https://developer.apple.com/design/human-interface-guidelines"
 ---
